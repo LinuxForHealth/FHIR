@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Goal.start[x]",
       "expansion": {
-        "identifier": "urn:uuid:51375ec6-27e0-4e06-ad75-df2540cb5764",
-        "timestamp": "2019-11-01T09:35:20+11:00",
+        "identifier": "urn:uuid:61117ffb-4c0b-4274-b8c4-1f81a3cfe0d3",
+        "timestamp": "2022-04-23T22:29:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -32,8 +32,8 @@
       "status": "active",
       "description": "Type options for Goal.target.detail[x]",
       "expansion": {
-        "identifier": "urn:uuid:af4ec017-fb9d-4280-ac38-2b46779b53ba",
-        "timestamp": "2019-11-01T09:35:20+11:00",
+        "identifier": "urn:uuid:ecb7fe36-1f2c-4fec-ba68-f0d644467836",
+        "timestamp": "2022-04-23T22:29:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -80,8 +80,8 @@
       "status": "active",
       "description": "Type options for Goal.target.due[x]",
       "expansion": {
-        "identifier": "urn:uuid:ff739da7-ae5f-475f-ae40-11f214da0bc3",
-        "timestamp": "2019-11-01T09:35:20+11:00",
+        "identifier": "urn:uuid:22cdced0-5d97-4c71-aef2-d87423850dab",
+        "timestamp": "2022-04-23T22:29:28+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -102,9 +102,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Patient Care)",
   "item": [
     {
@@ -115,6 +116,7 @@
       "repeats": true,
       "item": [
         {
+          "linkId": "Goal-display",
           "text": "Goal can be achieving a particular change or merely maintaining a current state or even slowing a decline.",
           "type": "display"
         },
@@ -133,6 +135,7 @@
               }
             }
           ],
+          "linkId": "Goal-flyover",
           "text": "Describes the intended objective(s) for a patient, group or organization care, for example, weight loss, restoring an activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.",
           "type": "display"
         },
@@ -167,6 +170,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -207,6 +211,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -243,6 +248,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -286,6 +292,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -326,6 +333,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -353,6 +361,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -380,6 +389,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -407,6 +417,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -440,6 +451,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.identifier-flyover",
               "text": "Business identifiers assigned to this goal by the performer or other systems which remain constant as the resource is updated and propagates from server to server. This is a business identifier, not a resource identifier (see [discussion](resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
               "type": "display"
             },
@@ -501,6 +513,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.lifecycleStatus-flyover",
               "text": "The state of the goal throughout its lifecycle. This element is labeled as a modifier because the lifecycleStatus contains codes that mark the resource as not currently valid.",
               "type": "display"
             },
@@ -545,13 +558,14 @@
                   }
                 }
               ],
+              "linkId": "Goal.achievementStatus-flyover",
               "text": "Describes the progression, or lack thereof, towards the goal against the target.",
               "type": "display"
             },
             {
               "linkId": "Goal.achievementStatus.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -592,13 +606,14 @@
                   }
                 }
               ],
+              "linkId": "Goal.category-flyover",
               "text": "Indicates a category the goal falls within.",
               "type": "display"
             },
             {
               "linkId": "Goal.category.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -643,13 +658,14 @@
                   }
                 }
               ],
+              "linkId": "Goal.priority-flyover",
               "text": "Identifies the mutually agreed level of importance associated with reaching/sustaining the goal. Extensions are available to track priorities as established by each participant (i.e. Priority from the patient\u0027s perspective, different practitioners\u0027 perspectives, family member\u0027s perspectives)\r\rThe ordinal extension on Coding can be used to convey a numerically comparable ranking to priority.  (Keep in mind that different coding systems may use a \"low value\u003dimportant\".",
               "type": "display"
             },
             {
               "linkId": "Goal.priority.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -698,13 +714,14 @@
                   }
                 }
               ],
+              "linkId": "Goal.description-flyover",
               "text": "Human-readable and/or coded description of a specific desired objective of care, such as \"control blood pressure\" or \"negotiate an obstacle course\" or \"dance with child at wedding\". If no code is available, use CodeableConcept.text.",
               "type": "display"
             },
             {
               "linkId": "Goal.description.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -752,6 +769,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.subject-flyover",
               "text": "Identifies the patient, group or organization for whom the goal is being established.",
               "type": "display"
             },
@@ -802,6 +820,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.start[x]-flyover",
               "text": "The date or event after which the goal should begin being pursued.",
               "type": "display"
             },
@@ -844,7 +863,7 @@
                     {
                       "linkId": "Goal.start[x]._null.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -869,6 +888,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Goal.target-display",
               "text": "When multiple targets are present for a single goal instance, all targets must be met for the overall goal to be met.",
               "type": "display"
             },
@@ -887,6 +907,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.target-flyover",
               "text": "Indicates what should be done by when.",
               "type": "display"
             },
@@ -921,6 +942,7 @@
                       }
                     }
                   ],
+                  "linkId": "Goal.target.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -955,6 +977,7 @@
                       }
                     }
                   ],
+                  "linkId": "Goal.target.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -982,6 +1005,7 @@
                       }
                     }
                   ],
+                  "linkId": "Goal.target.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1019,13 +1043,14 @@
                       }
                     }
                   ],
+                  "linkId": "Goal.target.measure-flyover",
                   "text": "The parameter whose value is being tracked, e.g. body weight, blood pressure, or hemoglobin A1c level.",
                   "type": "display"
                 },
                 {
                   "linkId": "Goal.target.measure.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1066,6 +1091,7 @@
                       }
                     }
                   ],
+                  "linkId": "Goal.target.detail[x]-flyover",
                   "text": "The target value of the focus to be achieved to signify the fulfillment of the goal, e.g. 150 pounds, 7.0%. Either the high or low or both values of the range can be specified. When a low value is missing, it indicates that the goal is achieved at any focus value at or below the high value. Similarly, if the high value is missing, it indicates that the goal is achieved at any focus value at or above the low value. A CodeableConcept with just a text would be used instead of a string if the field was usually coded, or if the type associated with the Goal.target.measure defines a coded value.",
                   "type": "display"
                 },
@@ -1170,7 +1196,7 @@
                         {
                           "linkId": "Goal.target.detail[x]._null.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "choice",
                           "required": false,
                           "repeats": false
                         },
@@ -1302,6 +1328,7 @@
                       }
                     }
                   ],
+                  "linkId": "Goal.target.due[x]-flyover",
                   "text": "Indicates either the date or the duration after start by which the goal should be met.",
                   "type": "display"
                 },
@@ -1415,6 +1442,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.statusDate-flyover",
               "text": "Identifies when the current status.  I.e. When initially created, when achieved, when cancelled, etc. To see the date for past statuses, query history.",
               "type": "display"
             },
@@ -1458,6 +1486,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.statusReason-flyover",
               "text": "Captures the reason for the current status. This will typically be captured for statuses such as rejected, on-hold or cancelled, but could be present for others.",
               "type": "display"
             },
@@ -1501,6 +1530,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.expressedBy-flyover",
               "text": "Indicates whose goal this is - patient goal, practitioner goal, etc. This is the individual responsible for establishing the goal, not necessarily who recorded it.  (For that, use the Provenance resource.).",
               "type": "display"
             },
@@ -1550,6 +1580,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.addresses-flyover",
               "text": "The identified conditions and other health record elements that are intended to be addressed by the goal.",
               "type": "display"
             },
@@ -1600,6 +1631,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.note-flyover",
               "text": "Any comments related to the goal. May be used for progress notes, concerns or other related information that doesn\u0027t actually describe the goal itself.",
               "type": "display"
             }
@@ -1633,13 +1665,14 @@
                   }
                 }
               ],
+              "linkId": "Goal.outcomeCode-flyover",
               "text": "Identifies the change (or lack of change) at the point when the status of the goal is assessed. Note that this should not duplicate the goal status.",
               "type": "display"
             },
             {
               "linkId": "Goal.outcomeCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -1679,6 +1712,7 @@
                   }
                 }
               ],
+              "linkId": "Goal.outcomeReference-flyover",
               "text": "Details of what\u0027s changed (or not changed). The goal outcome is independent of the outcome of the related activities.  For example, if the Goal is to achieve a target body weight of 150 lb and a care plan activity is defined to diet, then the care plan’s activity outcome could be calories consumed whereas goal outcome is an observation for the actual body weight measured.",
               "type": "display"
             },

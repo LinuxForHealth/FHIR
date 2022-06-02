@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -42,7 +42,7 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.MessageHeaderResponseRequest;
 import com.ibm.fhir.model.type.code.MessageSignificanceCategory;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -62,7 +62,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/MessageDefinition"
 )
 @Constraint(
@@ -101,7 +101,7 @@ public class MessageDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -148,7 +148,7 @@ public class MessageDefinition extends DomainResource {
         bindingName = "MessageSignificanceCategory",
         strength = BindingStrength.Value.REQUIRED,
         description = "The impact of the content of a message.",
-        valueSet = "http://hl7.org/fhir/ValueSet/message-significance-category|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/message-significance-category|4.3.0-cibuild"
     )
     private final MessageSignificanceCategory category;
     @Summary
@@ -156,8 +156,8 @@ public class MessageDefinition extends DomainResource {
     @Binding(
         bindingName = "messageheader-response-request",
         strength = BindingStrength.Value.REQUIRED,
-        description = "HL7-defined table of codes which identify conditions under which acknowledgments are required to be returned in response to a message.",
-        valueSet = "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.0.1"
+        description = "This enables the capability currently available through MSH-16 (Application Level acknowledgement) in HL7 Version 2 to declare at a message definition level whether a response is required or only upon error or success, or never.",
+        valueSet = "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.3.0-cibuild"
     )
     private final MessageHeaderResponseRequest responseRequired;
     private final List<AllowedResponse> allowedResponse;
@@ -1610,10 +1610,10 @@ public class MessageDefinition extends DomainResource {
             bindingName = "ResourceType",
             strength = BindingStrength.Value.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
         )
         @Required
-        private final ResourceType code;
+        private final ResourceTypeCode code;
         private final Canonical profile;
         @Summary
         @Required
@@ -1632,9 +1632,9 @@ public class MessageDefinition extends DomainResource {
          * The kind of resource that must be the focus for this message.
          * 
          * @return
-         *     An immutable object of type {@link ResourceType} that is non-null.
+         *     An immutable object of type {@link ResourceTypeCode} that is non-null.
          */
-        public ResourceType getCode() {
+        public ResourceTypeCode getCode() {
             return code;
         }
 
@@ -1745,7 +1745,7 @@ public class MessageDefinition extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private ResourceType code;
+            private ResourceTypeCode code;
             private Canonical profile;
             private UnsignedInt min;
             private String max;
@@ -1876,7 +1876,7 @@ public class MessageDefinition extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder code(ResourceType code) {
+            public Builder code(ResourceTypeCode code) {
                 this.code = code;
                 return this;
             }

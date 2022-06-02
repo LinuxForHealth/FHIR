@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -51,6 +50,8 @@ import com.ibm.fhir.bucket.scanner.ImmediateLocalFileReader;
 import com.ibm.fhir.bucket.scanner.LocalFileReader;
 import com.ibm.fhir.bucket.scanner.LocalFileScanner;
 import com.ibm.fhir.bucket.scanner.ResourceHandler;
+import com.ibm.fhir.core.FHIRVersionParam;
+import com.ibm.fhir.core.util.ResourceTypeHelper;
 import com.ibm.fhir.core.util.handler.HostnameHandler;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
@@ -83,7 +84,6 @@ import com.ibm.fhir.database.utils.version.CreateControl;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 import com.ibm.fhir.task.core.service.TaskService;
@@ -852,9 +852,7 @@ public class Main {
         // populate the RESOURCE_TYPES table
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                Set<String> resourceTypes = Arrays.stream(FHIRResourceType.Value.values())
-                        .map(FHIRResourceType.Value::value)
-                        .collect(Collectors.toSet());
+                Set<String> resourceTypes = ResourceTypeHelper.getR4bResourceTypesFor(FHIRVersionParam.VERSION_43);
 
                 if (adapter.getTranslator().isFamilyPostgreSQL()) {
                     // Postgres doesn't support batched merges, so we go with a simpler UPSERT

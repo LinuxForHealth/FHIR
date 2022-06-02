@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -100,7 +100,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Binding can only be present for coded elements, string, and uri",
-    expression = "binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri')).exists()",
+    expression = "binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri') or (code = 'Duration')).exists()",
     source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
@@ -108,7 +108,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "ElementDefinition.binding",
     description = "ValueSet SHALL start with http:// or https:// or urn:",
-    expression = "valueSet.exists() implies (valueSet.startsWith('http:') or valueSet.startsWith('https') or valueSet.startsWith('urn:'))",
+    expression = "valueSet.exists() implies (valueSet.startsWith('http:') or valueSet.startsWith('https') or valueSet.startsWith('urn:') or valueSet.startsWith('#'))",
     source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
@@ -139,7 +139,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     id = "eld-16",
     level = "Rule",
     location = "(base)",
-    description = "sliceName must be composed of proper tokens separated by \"/\"",
+    description = "sliceName must be composed of proper tokens separated by\"/\"",
     expression = "sliceName.empty() or sliceName.matches('^[a-zA-Z0-9\\/\\-_\\[\\]\\@]+$')",
     source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
@@ -148,7 +148,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "ElementDefinition.type",
     description = "targetProfile is only allowed if the type is Reference or canonical",
-    expression = "(code='Reference' or code = 'canonical') or targetProfile.empty()",
+    expression = "(code='Reference' or code = 'canonical' or code = 'CodeableReference') or targetProfile.empty()",
     source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
@@ -164,7 +164,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Element names cannot include some special characters",
-    expression = "path.matches('[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*')",
+    expression = "path.matches('^[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*$')",
     source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
@@ -172,7 +172,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Element names should be simple alphanumerics with a max of 64 characters, or code generation tools may be broken",
-    expression = "path.matches('[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*')",
+    expression = "path.matches('^[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*$')",
     source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
@@ -195,8 +195,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     id = "elementDefinition-23",
     level = "Warning",
     location = "type.code",
-    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/defined-types",
-    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/defined-types', 'extensible')",
+    description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/fhir-element-types",
+    expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/fhir-element-types', 'extensible')",
     source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition",
     generated = true
 )
@@ -209,8 +209,7 @@ public class ElementDefinition extends BackboneElement {
     @com.ibm.fhir.model.annotation.Binding(
         bindingName = "PropertyRepresentation",
         strength = BindingStrength.Value.REQUIRED,
-        description = "How a property is represented when serialized.",
-        valueSet = "http://hl7.org/fhir/ValueSet/property-representation|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/property-representation|4.3.0-cibuild"
     )
     private final List<PropertyRepresentation> representation;
     @Summary
@@ -223,7 +222,6 @@ public class ElementDefinition extends BackboneElement {
     @com.ibm.fhir.model.annotation.Binding(
         bindingName = "ElementDefinitionCode",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes that indicate the meaning of a data element.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
     )
     private final List<Coding> code;
@@ -2735,8 +2733,7 @@ public class ElementDefinition extends BackboneElement {
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "SlicingRules",
             strength = BindingStrength.Value.REQUIRED,
-            description = "How slices are interpreted when evaluating an instance.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-cibuild"
         )
         @Required
         private final SlicingRules rules;
@@ -3156,8 +3153,7 @@ public class ElementDefinition extends BackboneElement {
             @com.ibm.fhir.model.annotation.Binding(
                 bindingName = "DiscriminatorType",
                 strength = BindingStrength.Value.REQUIRED,
-                description = "How an element value is interpreted when discrimination is evaluated.",
-                valueSet = "http://hl7.org/fhir/ValueSet/discriminator-type|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-cibuild"
             )
             @Required
             private final DiscriminatorType type;
@@ -3847,8 +3843,7 @@ public class ElementDefinition extends BackboneElement {
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "FHIRDefinedTypeExt",
             strength = BindingStrength.Value.EXTENSIBLE,
-            description = "Either a resource or a data type, including logical model types.",
-            valueSet = "http://hl7.org/fhir/ValueSet/defined-types"
+            valueSet = "http://hl7.org/fhir/ValueSet/fhir-element-types"
         )
         @Required
         private final Uri code;
@@ -3860,16 +3855,14 @@ public class ElementDefinition extends BackboneElement {
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "AggregationMode",
             strength = BindingStrength.Value.REQUIRED,
-            description = "How resource references can be aggregated.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-cibuild"
         )
         private final List<AggregationMode> aggregation;
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "ReferenceVersionRules",
             strength = BindingStrength.Value.REQUIRED,
-            description = "Whether a reference needs to be version specific or version independent, or whether either can be used.",
-            valueSet = "http://hl7.org/fhir/ValueSet/reference-version-rules|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-cibuild"
         )
         private final ReferenceVersionRules versioning;
 
@@ -4845,8 +4838,7 @@ public class ElementDefinition extends BackboneElement {
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "ConstraintSeverity",
             strength = BindingStrength.Value.REQUIRED,
-            description = "SHALL applications comply with this constraint?",
-            valueSet = "http://hl7.org/fhir/ValueSet/constraint-severity|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-cibuild"
         )
         @Required
         private final ConstraintSeverity severity;
@@ -5376,8 +5368,7 @@ public class ElementDefinition extends BackboneElement {
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "BindingStrength",
             strength = BindingStrength.Value.REQUIRED,
-            description = "Indication of the degree of conformance expectations associated with a binding.",
-            valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-cibuild"
         )
         @Required
         private final BindingStrength strength;
@@ -5722,8 +5713,8 @@ public class ElementDefinition extends BackboneElement {
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "MimeType",
             strength = BindingStrength.Value.REQUIRED,
-            description = "The mime type of an attachment. Any valid mime type is allowed.",
-            valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
+            description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
+            valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
         )
         private final Code language;
         @Summary

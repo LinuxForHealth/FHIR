@@ -1,0 +1,126 @@
+{
+    "resourceType": "ValueSet",
+    "id": "encounter-special-courtesy",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/encounter-special-courtesy",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.252"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "SpecialCourtesy",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set defines a set of codes that can be used to indicate special courtesies provided to the patient.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-EncounterSpecialCourtesy",
+                "concept": [
+                    {
+                        "code": "EXT"
+                    },
+                    {
+                        "code": "NRM"
+                    },
+                    {
+                        "code": "PRF"
+                    },
+                    {
+                        "code": "STF"
+                    },
+                    {
+                        "code": "VIP"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                "concept": [
+                    {
+                        "code": "UNK"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:41193429-4ca0-4373-b951-bac6c095e672",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 6,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v3-EncounterSpecialCourtesy|2.1.0"
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor|2.1.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-EncounterSpecialCourtesy",
+                "code": "EXT",
+                "display": "extended courtesy"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-EncounterSpecialCourtesy",
+                "code": "NRM",
+                "display": "normal courtesy"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-EncounterSpecialCourtesy",
+                "code": "PRF",
+                "display": "professional courtesy"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-EncounterSpecialCourtesy",
+                "code": "STF",
+                "display": "staff"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-EncounterSpecialCourtesy",
+                "code": "VIP",
+                "display": "very important person"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                "code": "UNK",
+                "display": "unknown"
+            }
+        ]
+    }
+}

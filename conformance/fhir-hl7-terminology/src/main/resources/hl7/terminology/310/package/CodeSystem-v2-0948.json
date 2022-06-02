@@ -1,0 +1,207 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0948",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0948",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.448"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "V2CSRelationshipType",
+    "title": "v2CS-relationshipType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts that identify the type of relationship identified by Relationship Instance Identifier (REL-3) that is established between the Source Information Instance (REL-4)  and the Target Information Instance (REL-5).",
+    "purpose": "Underlying Master Code System for V2 table 0948 (Relationship Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0948",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6760",
+            "code": "CAUS",
+            "display": "Causes/caused",
+            "definition": "Source universal service identifier causes/caused the outcome(s) on the target",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Example: a procedure caused  complication(s)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6761",
+            "code": "COMP",
+            "display": "Component of",
+            "definition": "Target universal service identifier is a component of source universal identifier",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Example: one care plan activity (target) is a component of another care plan activity (source)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6762",
+            "code": "CONCR",
+            "display": "Concurrently",
+            "definition": "Source and target universal service identifier should start concurrently",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Example: two care plan activities should start concurrently"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6763",
+            "code": "EVID",
+            "display": "Evidence",
+            "definition": "Source universal service identifier provides evidence for target universal service identifier",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Example: observation result provides evidence for certain care plan activity or treatment action"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6764",
+            "code": "INTF",
+            "display": "Interferes / interfered",
+            "definition": "Source universal service identifier interferes / interfered with fulfilment of target universal service identifier",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Example: patient financial or physical constraints interferes / interfered with fulfilment of goal"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6765",
+            "code": "LIMIT",
+            "display": "Limits/limited",
+            "definition": "Source universal service identifier limits/limited the fulfillment of target universal service identifier",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Example: patient condition limits the extend that planned treatment can be implemented"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6766",
+            "code": "SUCCD",
+            "display": "Succeeds",
+            "definition": "Target universal service identifier should succeed (starts after end of) source universal service identifier",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Example: one care plan activity (target) should start after completion of another (source)"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6767",
+            "code": "SVTGT",
+            "display": "Service target",
+            "definition": "Target universal service identifier is the object of the service identified by the source universal service identifier",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Example: An order requests clarification or interpretation of a previous clinical laboratory test result"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6768",
+            "code": "TRIG",
+            "display": "Triggers/triggered",
+            "definition": "Source universal service identifier triggers action of target universal service identifier",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Example: a bleeding complication triggers the review and change in anti-coagulant dosage"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        }
+    ]
+}

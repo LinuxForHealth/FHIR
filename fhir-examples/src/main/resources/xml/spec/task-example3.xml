@@ -8,7 +8,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: example3</p><p><b>status</b>: draft</p><p><b>intent</b>: order</p><p><b>code</b>: Refill Request <span>(Details )</span></p><p><b>focus</b>: <a>MedicationRequest/medrx002</a></p><p><b>for</b>: <a>Patient/f001</a></p><p><b>authoredOn</b>: 10/03/2016 10:39:32 PM</p><p><b>lastModified</b>: 10/03/2016 10:39:32 PM</p><p><b>requester</b>: <a>Patient/example</a></p><p><b>owner</b>: <a>Practitioner/example</a></p></div></text><status value="draft"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "example3" </p></div><p><b>status</b>: draft</p><p><b>intent</b>: order</p><p><b>code</b>: Refill Request <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ()</span></p><p><b>focus</b>: <a href="medicationrequest-medrx002.html">MedicationRequest/medrx002</a></p><p><b>for</b>: <a href="patient-f001.html">Patient/f001</a> "Pieter VAN DE HEUVEL"</p><p><b>authoredOn</b>: 2016-03-10T22:39:32-04:00</p><p><b>lastModified</b>: 2016-03-10T22:39:32-04:00</p><p><b>requester</b>: <a href="patient-example.html">Patient/example</a> "Peter CHALMERS"</p><p><b>owner</b>: <a href="practitioner-example.html">Practitioner/example</a> "Adam CAREFUL"</p></div></text><status value="draft"/>
   <intent value="order"/>
   <code>
     <text value="Refill Request"/>

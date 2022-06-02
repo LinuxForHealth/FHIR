@@ -1,0 +1,82 @@
+{
+    "resourceType": "ValueSet",
+    "id": "medication-admin-category",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "phx"
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/medication-admin-category",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.347"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "MedicationAdministration Category Codes",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "MedicationAdministration Category Codes",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-category"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:b82fd268-f840-430c-9e4f-f866957bec3a",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/medication-admin-category|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-category",
+                "code": "inpatient",
+                "display": "Inpatient"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-category",
+                "code": "outpatient",
+                "display": "Outpatient"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-category",
+                "code": "community",
+                "display": "Community"
+            }
+        ]
+    }
+}

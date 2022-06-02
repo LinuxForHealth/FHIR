@@ -59,6 +59,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REF
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RETIRED;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
@@ -76,10 +77,13 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -94,6 +98,7 @@ import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.common.DropTable;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
 import com.ibm.fhir.database.utils.model.BaseObject;
+import com.ibm.fhir.database.utils.model.CharColumn;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ColumnDefBuilder;
 import com.ibm.fhir.database.utils.model.FunctionDef;
@@ -113,7 +118,6 @@ import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.database.utils.model.With;
 import com.ibm.fhir.database.utils.postgres.PostgresFillfactorSettingDAO;
 import com.ibm.fhir.database.utils.postgres.PostgresVacuumSettingDAO;
-import com.ibm.fhir.model.util.ModelSupport;
 
 /**
  * Encapsulates the generation of the FHIR schema artifacts
@@ -131,9 +135,7 @@ public class FhirSchemaGenerator {
     private final SchemaType schemaType;
 
     // No abstract types
-    private static final Set<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
-            .map(t -> ModelSupport.getTypeName(t).toUpperCase())
-            .collect(Collectors.toSet());
+    private static final Set<String> ALL_RESOURCE_TYPES = getAllResourceTypes();
 
     private static final String ADD_CODE_SYSTEM = "ADD_CODE_SYSTEM";
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
@@ -1205,6 +1207,7 @@ public class FhirSchemaGenerator {
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(    RESOURCE_TYPE_ID,      false)
                 .addVarcharColumn(   RESOURCE_TYPE,  64, false)
+                .addCharColumn(            RETIRED,   1, false, "'N'")
                 .addUniqueIndex(IDX + "unq_resource_types_rt", RESOURCE_TYPE)
                 .addPrimaryKey(RESOURCE_TYPES + "_PK", RESOURCE_TYPE_ID)
                 .setTablespace(fhirTablespace)
@@ -1213,7 +1216,12 @@ public class FhirSchemaGenerator {
                 .setDistributionType(DistributionType.REFERENCE) // V0027 supporting for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
-                    // Intentionally a NOP
+
+                    if (priorVersion < FhirSchemaVersion.V0025.vid()) {
+                        CharColumn retired = new CharColumn(RETIRED, 1, false, "'N'");
+                        statements.add(new AddColumn(schemaName, RESOURCE_TYPES, retired));
+                    }
+
                     return statements;
                 })
                 .build(model);
@@ -1242,7 +1250,7 @@ public class FhirSchemaGenerator {
         for (String resourceType: this.resourceTypes) {
 
             resourceType = resourceType.toUpperCase().trim();
-            if (!ALL_RESOURCE_TYPES.contains(resourceType.toUpperCase())) {
+            if (!ALL_RESOURCE_TYPES.contains(resourceType)) {
                 logger.warning("Passed resource type '" + resourceType + "' does not match any known FHIR resource types; creating anyway");
             }
 
@@ -1609,5 +1617,29 @@ public class FhirSchemaGenerator {
                 With.with("autovacuum_vacuum_cost_limit", "2000"),   // V0019
                 With.with(FhirSchemaConstants.PG_FILLFACTOR_PROP, Integer.toString(FhirSchemaConstants.PG_FILLFACTOR_VALUE)) // V0020
                 );
+    }
+
+    /**
+     * Private helper for reading the list of resource types from a properties file.
+     * Use this instead of ModelSupport.getResourceTypes because this will get us the historical
+     * resource types as well as those in our model; ensuring newly deployed schemas match migrated ones.
+     */
+    private static Set<String> getAllResourceTypes() {
+        try (InputStream fis =
+                FhirSchemaGenerator.class.getResourceAsStream("/resource_types.properties")) {
+            Properties props = new Properties();
+            props.load(fis);
+
+            // Remove the abstract resource types
+            props.remove("Resource");
+            props.remove("DomainResource");
+
+            return props.keySet().stream()
+                .map(p -> ((String) p).toUpperCase())
+                .collect(Collectors.toSet());
+        } catch (IOException e) {
+            // Wrap and Send downstream
+            throw new IllegalStateException(e);
+        }
     }
 }

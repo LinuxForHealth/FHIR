@@ -707,8 +707,7 @@ With the `includeResourceTypes`property set as in the preceding example, the FHI
 The IBM FHIR Server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This can be used to enforce application-specific business rules associated with resources. Interceptor methods are called immediately before or after each persistence operation.
 
 ### 4.3.1 FHIRPersistenceInterceptor interface
-A persistence interceptor implementation must implement the `com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
-interface.
+A persistence interceptor implementation must implement the `com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor` interface.
 
 Each interceptor method receives a parameter of type `FHIRPersistenceEvent`, which contains context information related to the request being processed at the time that the interceptor method is invoked. It includes the FHIR resource, security information, request URI information, and the collection of HTTP headers associated with the request.
 
@@ -726,7 +725,7 @@ To implement a persistence interceptor, complete the following steps:
 1.  Develop a Java class which implements the `FHIRPersistenceInterceptor` interface.
 2.  Store the fully-qualified classname of your interceptor implementation class in a file called :
 
-      `META-INF/services/com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
+      `META-INF/services/com.ibm.fhir.server.spi.interceptor.FHIRPersistenceInterceptor`
 
     Here's an example of the file contents:
 
@@ -2087,6 +2086,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/ifNoneMatchReturnsNotModified`|boolean|When `If-None-Match: *` is specified for PUT requests, overrides the standard return status "412 Precondition Failed" to be "304 Not Modified". Useful in transaction bundles for clients not wanting the bundle to fail when a conflict is found.|
 |`fhirServer/core/capabilitiesUrl`|string|The URL that is embedded in the default Capabilities statement|
 |`fhirServer/core/externalBaseUrl`|string|The base URL that is embedded in the Search bundle response, as of version 4.9.0. Note that the base URL must not include a path segment that matches any FHIR resource type name (case-sensitive). For example, "https://example.com" or "https://example.com/my/patient/api" are fine, but "https://example.com/my/Patient/api" is not.|
+|`fhirServer/core/defaultFhirVersion`|string|The implicit value to use for the MIME-type fhirVersion parameter on incoming Accept and Content-Type headers when the client has not passed an explicit value.|
+|`fhirServer/core/useImplicitTypeScopingForWholeSystemInteractions`|boolean|Whether to apply implicit resource type scoping for whole-system search and whole-system history interactions where no `_type` values were passed. Only set to false if you are certain that there are no instances of unsupported resource types in the database.|
 |`fhirServer/validation/failFast`|boolean|Indicates whether validation should fail fast on create and update interactions|
 |`fhirServer/term/capabilitiesUrl`|string|The URL that is embedded in the Terminology Capabilities statement using `mode=terminology`|
 |`fhirServer/term/disableCaching`|boolean|Indicates whether caching is disabled for the FHIR terminology module, this includes caching in `CodeSystemSupport`, `ValueSetSupport`, `GraphTermServiceProvider`, and `RemoteTermServiceProvider`|
@@ -2271,6 +2272,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/capabilitiesUrl`|null|
 |`fhirServer/core/externalBaseUrl`|null|
 |`fhirServer/core/ifNoneMatchReturnsNotModified`|false|
+|`fhirServer/core/defaultFhirVersion`|4.0|
+|`fhirServer/core/useImplicitTypeScopingForWholeSystemInteractions`|true|
 |`fhirServer/validation/failFast`|false|
 |`fhirServer/term/capabilitiesUrl`|null|
 |`fhirServer/term/cachingDisabled`|false|
@@ -2426,6 +2429,8 @@ Cases where that behavior is not supported are marked below with an `N` in the `
 |`fhirServer/core/maxPageIncludeCount`|Y|Y|Y|
 |`fhirServer/core/capabilitiesUrl`|Y|Y|Y|
 |`fhirServer/core/externalBaseUrl`|Y|Y|Y|
+|`fhirServer/core/defaultFhirVersion`|Y|Y|Y|
+|`fhirServer/core/useImplicitTypeScopingForWholeSystemInteractions`|Y|Y|Y|
 |`fhirServer/validation/failFast`|Y|Y|Y|
 |`fhirServer/term/cachingDisabled`|N|N||
 |`fhirServer/term/graphTermServiceProviders/enabled`|N|N||
@@ -2764,7 +2769,7 @@ IBM FHIR Server Supports the following custom HTTP Headers:
 |`X-FHIR-TENANT-ID`|Specifies which tenant config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/tenantIdHeaderName`.|
 |`X-FHIR-DSID`|Specifies which datastore config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/dataSourceIdHeaderName`.|
 |`X-FHIR-FORWARDED-URL`|The original (user-facing) request URL; used for constructing absolute URLs within the server response. Only enabled when explicitly configured in the default fhir-server-config.json. If either the config property or the header itself is missing, the server will use the actual request URL. The header name can be overridden via config property `fhirServer/core/originalRequestUriHeaderName`. Note that `fhirServer/core/externalBaseUrl` overrides the `X-FHIR-FORWARDED-URL` and is used to construct the absolute URL. Also note that the base URL's value must not include a path segment that matches any FHIR resource type name (case-sensitive). For example, "https://example.com" or "https://example.com/my/patient/api" are fine, but "https://example.com/my/Patient/api" is not.|
-|`X-FHIR-UPDATE-IF-MODIFIED`|When set to true, for update and patch requests, the server will perform a resource comparison and only perform the update if the contents of the resource have changed. For all other values, the update will be executed as normal.|
+|`X-FHIR-FORCE-UPDATE`|By default, when the server receives an update request, it performs a resource comparison and only performs the update if the contents of the resource have changed. Set this header to true to skip that check and perform a normal update (i.e. create a new version for this resource id).|
 
 # 6 Related topics
 For more information about topics related to configuring a FHIR server, see the following documentation:

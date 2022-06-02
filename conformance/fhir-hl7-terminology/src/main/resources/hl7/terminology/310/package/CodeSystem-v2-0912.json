@@ -1,0 +1,897 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0912",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0912",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.420"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "Participation",
+    "title": "participation",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts that represent functional involvement of a caregiver or member of a care team with an activity being transmitted (e.g., Case Manager, Evaluator, Transcriber, Nurse Care Practitioner, Midwife, Physician Assistant, etc.).  Used in HL7 Version 2.x messaging in the PRT segment.",
+    "purpose": "Underlying Master Code System for V2 table 0912 (Participation)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0912",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6567",
+            "code": "AAP",
+            "display": "Alert Acknowledging Provider",
+            "definition": "Alert Acknowledging Provider",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6568",
+            "code": "AC",
+            "display": "Administration Cosigner",
+            "definition": "Person that cosigned the prescription",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6569",
+            "code": "AD",
+            "display": "Admitting Provider",
+            "definition": "Admitting Provider",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the PV1 segment, when more information about PV1-17 Admitting doctor is desired."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "PV1-17 Admitting doctor"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6570",
+            "code": "AHP",
+            "display": "Authorized Performing Health Professional",
+            "definition": "The specific Health Professional who has been approved to perform the ordered services for the patient.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the AUT segment, which represents an authorization or a pre-authorization for a referred procedure or requested service by the payor covering the patient's health care.  This code is used when the authorization is for a person."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6571",
+            "code": "AI",
+            "display": "Assistant/Alternate Interpreter",
+            "definition": "Assistant/Alternate Interpreter",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6572",
+            "code": "AP",
+            "display": "Administering Provider",
+            "definition": "Administering Provider",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the RXA segment, when more information about RXA-10 Administering Provider is desired."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "RXA-10 Administering Provider"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6573",
+            "code": "APO",
+            "display": "Authorized Performing Provider Organization",
+            "definition": "The Provider Organization that has been approved to perform the sanctioned procedures to which the patient was referred to.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the AUT segment, which represents an authorization or a pre-authorization for a referred procedure or requested service by the payor covering the patient's health care.  This code is used when the authorization is for an organization."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6574",
+            "code": "ARI",
+            "display": "Assistant Result Interpreter",
+            "definition": "Assistant Result Interpreter",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the OBR segment, where OBR-33 Assistant Result Interpreter has been marked for backwards compatibility only."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6575",
+            "code": "AT",
+            "display": "Attending Provider",
+            "definition": "Attending Provider",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the PV1 segment, when more information about \r\n PV1-7 Attending doctor is desired."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "PV1-7 Attending doctor"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6576",
+            "code": "AUT",
+            "display": "Author/Event Initiator",
+            "definition": "Identifies the entity responsible for initiating the event",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the ORC segment, where ORC-19 Action By has been marked for backwards compatibility only."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces ORC-19 Action By"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6577",
+            "code": "CLPO",
+            "display": "Collecting Provider Organization",
+            "definition": "The organization that is responsible for collecting the specimen.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the OBR segment, where OBR-10 Collector Identifier, when intended to convey the organization information, has been marked for backwards compatibility only."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6578",
+            "code": "CP",
+            "display": "Consulting Provider",
+            "definition": "Consulting Provider",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6579",
+            "code": "DIE",
+            "display": "De-Identification Entity",
+            "definition": "Organization, person or device that has the authority to remove a specimen identifier.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6580",
+            "code": "DP",
+            "display": "Dispensing Provider",
+            "definition": "Dispensing Provider",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the RXD segment, where RXD-10 Dispensing Provider has been marked for backwards compatibility only."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "RXD-10 Dispensing Provider"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6581",
+            "code": "EARI",
+            "display": "Expected Assistant Result Interpreter",
+            "definition": "The Assistant Result Interpreter who is expected to interpret the result (in the future).",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This will support filtering orders into the correct work queue of the Assistant Result Interpreter."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6582",
+            "code": "ED",
+            "display": "Entering Device",
+            "definition": "Identifies the device that was used to enter the order into the system.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the ORC segment, where ORC-18 Entering Device has been marked for backwards compatibility only."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6583",
+            "code": "EO",
+            "display": "Entering Organization",
+            "definition": "Identifies the organization that entered the order into the system.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the ORC segment, where ORC-17 Entering Organization has been marked for backwards compatibility only."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6584",
+            "code": "EP",
+            "display": "Entering Person",
+            "definition": "Identifies the person that entered the order into the system",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces ORC-10 Entered By"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces ORC-10 Entered By"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6585",
+            "code": "EPRI",
+            "display": "Expected Principal Result Interpreter",
+            "definition": "The Principal Result Interpreter who is expected to interpret the result (in the future).",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This will support filtering orders into the correct work queue of the Principal Result Interpreter."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6586",
+            "code": "EQUIP",
+            "display": "Equipment",
+            "definition": "Equipment",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the OBX segment, where OBX-18 Equipment Instance Identifier has been marked for backwards compatibility only."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6587",
+            "code": "FHCP",
+            "display": "Family Health Care Professional",
+            "definition": "Family Health Care Professional",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6588",
+            "code": "FL",
+            "display": "From Location",
+            "definition": "Describes the location (coordinates) of the specimen/container in the previous holder / storage equipment before the move or the geographical location from which the specimen/container was moved.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6589",
+            "code": "MDIR",
+            "display": "Medical Director",
+            "definition": "Medical Director",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "OBX-25 Performing Organization Medical Director"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6590",
+            "code": "OF",
+            "display": "Ordering Facility",
+            "definition": "The facility from where the order was placed",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the ORC segment, where ORC-21 Ordering Facility Name, ORC-22 Ordering Facility Address and ORC-23 Ordering Facility Phone Number have been marked for backwards compatibility only."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6591",
+            "code": "OP",
+            "display": "Ordering Provider",
+            "definition": "Ordering Provider",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with either the ORC segment, where ORC-12 Ordering Provider, OBR-16 Ordering Provider, ORC-24 Ordering Provider Address have been marked for backwards compatibility only, or the OBR segment, where OBR-16 Ordering Provider has been marked for backwards compatibility only; the RXO segment, when more information about RXO-14 Ordering Provider's DEA Number is desired; the RXE segment, where RXE-13 Ordering Provider's DEA Number has been marked for backwards compatibility only."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "ORC-12 Ordering Provider, OBR-16 Ordering Provider, RXO-14 Ordering Provider's DEA Number, RXE-13 Ordering Provider's DEA Number, ORC-24 Ordering Provider Address"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6592",
+            "code": "OPO",
+            "display": "Ordering Provider Organization",
+            "definition": "The organization the ordering provider is associated with.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This code is broader than Referring Provider Organization (RPO); it can be used for inter and intra-organizational orders."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6593",
+            "code": "OS",
+            "display": "Outside Site(s) Where Observation May Be Performed",
+            "definition": "Outside Site(s) Where Observation May Be Performed",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the OM1 segment, where OM1-27 Outside Site(s) Where Observation May Be Performed has been deprecated."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replacing  OM1-27 Outside Site(s) Where Observation May Be Performed"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6594",
+            "code": "PB",
+            "display": "Packed by",
+            "definition": "Packed by",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6595",
+            "code": "PH",
+            "display": "Pharmacist",
+            "definition": "Identifies the person taking responsibility for the prescription dispense",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the RXE segment, where RXE-14 Pharmacist/Treatment Supplier's Verifier ID has been marked for backwards compatibility only."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces RXE-14 Pharmacist/Treatment Supplier's Verifier ID"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6596",
+            "code": "PI",
+            "display": "Primary Interpreter",
+            "definition": "Primary Interpreter",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6597",
+            "code": "PO",
+            "display": "Performing Organization",
+            "definition": "Performing Organization",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6598",
+            "code": "POMD",
+            "display": "Performing Organization Medical Director",
+            "definition": "Performing Organization Medical Director",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the OBX segment, where OBX-25 Performing Organization Medical Director has been marked for backwards compatibility only"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6599",
+            "code": "PP",
+            "display": "Primary Care Provider",
+            "definition": "Primary Care Provider",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6600",
+            "code": "PPH",
+            "display": "Patient Preferred Pharmacy",
+            "definition": "Pharmacy the patient would prefer to use for any future medication orders.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "When a patient registers, this allows a system to indicate the default pharmacy to which the provider should send prescribed medication orders."
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Most likely to be used in ADT messages for outpatient care."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6601",
+            "code": "PRI",
+            "display": "Principal Result Interpreter",
+            "definition": "Identifies the person responsible for interpreting the results of the study/test",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the OBR segment, where OBR-32 Principal Result Interpreter has been marked for backwards compatibility only."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6602",
+            "code": "RCT",
+            "display": "Results Copies To",
+            "definition": "Results Copies To",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6603",
+            "code": "RHP",
+            "display": "Referring Health Professional",
+            "definition": "The Health Professional who refers the patient.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6604",
+            "code": "RIE",
+            "display": "Re-Identification Entity",
+            "definition": "Organization, person or device that has the authority to assign a specimen identifier.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6605",
+            "code": "RO",
+            "display": "Responsible Observer",
+            "definition": "Responsible Observer",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the OBX segment, where OBX-16 Responsible Observer has been marked for backwards compatibility only"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "OBX-16 Responsible Observer"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6606",
+            "code": "RP",
+            "display": "Referring Provider",
+            "definition": "Referring Provider",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the PV1 segment, when more information about PV1-8 Referring doctor is desired."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "PV1-8 Referring doctor"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6607",
+            "code": "RPO",
+            "display": "Referring Provider Organization",
+            "definition": "The Provider Organization that refers the patient.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6608",
+            "code": "RT",
+            "display": "Referred to Provider",
+            "definition": "Referred to Provider",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6609",
+            "code": "SB",
+            "display": "Send by",
+            "definition": "Send by",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6610",
+            "code": "SC",
+            "display": "Specimen Collector",
+            "definition": "The person that collected the specimen.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the OBR segment, where OBR-10 Collector Identifier, when intended to convey person information, has been marked for backwards compatibility only"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "OBR-10 Collector Identifier"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6611",
+            "code": "TL",
+            "display": "To Location",
+            "definition": "Describes the location (coordinates) of the specimen/container in the previous holder / storage equipment after the move or the geographical location to which the specimen/container was moved.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        },
+        {
+            "id": "6612",
+            "code": "TN",
+            "display": "Technician",
+            "definition": "Technician",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the OBR segment, where OBR-34 Technician has been marked for backwards compatibility only"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6613",
+            "code": "TR",
+            "display": "Transcriptionist",
+            "definition": "Transcriptionist",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the OBR segment, where OBR-35 Transcriptionist has been marked for backwards compatibility only"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6614",
+            "code": "VP",
+            "display": "Verifier (Verifying Person)",
+            "definition": "Identifies the person verifying the dispense / a step in the dispense process / verifying the treatment corresponds to the order",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "This role is used in the PRT associated with the ORC segment, where Replaces ORC-11 Verified By has been marked for backwards compatibility only"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces ORC-11 Verified By"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6615",
+            "code": "VPS",
+            "display": "Verifying Pharmaceutical Supplier   (not sure how to dissect Pharmacist/Treatment Supplier's Verifier ID)",
+            "definition": "Verifying Pharmaceutical Supplier   (not sure how to dissect Pharmacist/Treatment Supplier's Verifier ID)",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "RXE-14 Pharmacist/Treatment Supplier's Verifier ID"
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Use of this code is deprecated; depending on the role of the person use either PH or VP."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "6616",
+            "code": "VTS",
+            "display": "Verifying Treatment Supplier   (not sure how to dissect Pharmacist/Treatment Supplier's Verifier ID)",
+            "definition": "Verifying Treatment Supplier   (not sure how to dissect Pharmacist/Treatment Supplier's Verifier ID)",
+            "property": [
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "RXE-14 Pharmacist/Treatment Supplier's Verifier ID"
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Use of this code is deprecated; depending on the role of the person use either PH or VP."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "D"
+                }
+            ]
+        },
+        {
+            "id": "6617",
+            "code": "WAY",
+            "display": "Waypoint",
+            "definition": "Waypoint",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6618",
+            "code": "WAYR",
+            "display": "Waypoint Recipient",
+            "definition": "Waypoint Recipient",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

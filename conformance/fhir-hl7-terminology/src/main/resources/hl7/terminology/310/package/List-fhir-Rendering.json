@@ -1,0 +1,2723 @@
+{
+    "resourceType": "List",
+    "id": "fhir-Rendering",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "status": "current",
+    "mode": "working",
+    "title": "FHIR Rendering Manifest",
+    "code": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                "code": "UTGCTGManifest"
+            }
+        ]
+    },
+    "orderedBy": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                "code": "alphabetic"
+            }
+        ]
+    },
+    "entry": [
+        {
+            "item": {
+                "reference": "CodeSystem/adjudication-error",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/data-absent-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/diagnosis-role",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/forms-codes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/fundsreserve",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/payeetype",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/special-values",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/synthesis-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/study-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/statistic-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/attribute-estimate-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/certainty-rating",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/certainty-subcomponent-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/certainty-subcomponent-rating",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/common-tags",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/usage-context-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/dose-rate-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/definition-status",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/flag-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/allergyintolerance-verification",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/allergyintolerance-clinical",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/basic-resource-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/condition-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/condition-clinical",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/condition-ver-status",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/communication-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/communication-not-done-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/communication-topic",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/restful-security-service",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/message-transport",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/device-status-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/variant-state",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/chromosome-human",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/copy-number-event",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/encounter-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/participant-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/encounter-special-arrangements",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/diet",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/admit-source",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/discharge-disposition",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/encounter-subject-status",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/history-absent-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/goal-priority",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/goal-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/goal-achievement",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/immunization-subpotent-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/immunization-program-eligibility",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/immunization-funding-source",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/immunization-origin",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/immunization-evaluation-dose-status",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/immunization-evaluation-dose-status-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/immunization-recommendation-status",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/guide-parameter-code",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/list-example-use-codes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/list-empty-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/list-order",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/location-physical-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/reason-medication-given",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/medication-admin-location",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/med-admin-perform-function",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/medicationdispense-performer-function",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/medicationrequest-admin-location",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/medicationrequest-status-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/medicationrequest-course-of-therapy",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/medicationrequest-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/medication-usage-admin-location",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/message-reasons-encounter",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/nutrition-intake-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/entformula-additive",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/referencerange-meaning",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/observation-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/observation-statistics",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/operation-outcome",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/organization-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/contactentity-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/provenance-participant-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/practitioner-role",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/risk-probability",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/audit-event-outcome",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/audit-entity-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/object-role",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/audit-event-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/security-source-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/substance-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/appointment-cancellation-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/endpoint-payload-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/endpoint-connection-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/subscription-channel-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/subscription-tag",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/subscription-error",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/service-referral-method",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/service-provision-conditions",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/service-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/service-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/program",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/subscriber-relationship",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/coverage-class",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/coverage-selfpay",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/coverage-copay-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-coverage-financial-exception",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/missingtoothreason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/modifiers",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-tooth",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-USCLS",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/FDI-surface",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/processpriority",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/claim-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-serviceplace",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-claimsubtype",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-relatedclaimrelationship",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-providerqualification",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-programcode",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/claim-exception",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/claiminformationcategory",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-payee-resource-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/claimcareteamrole",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-diagnosisrelatedgroup",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-diagnosistype",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-revenue-center",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-diagnosis-on-admission",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-procedure-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/financialtaskcode",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/financialtaskinputtype",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/adjudication",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/adjudication-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/payment-adjustment-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-benefitcategory",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/benefit-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/benefit-network",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/benefit-unit",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/benefit-term",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/resource-type-link",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-paymenttype",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/coverageeligibilityresponse-ex-auth-support",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/payment-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/paymentstatus",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/ex-visionprescriptionproduct",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/episodeofcare-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/definition-use",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/supply-kind",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/supplyrequest-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/supply-item-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/testscript-operation-codes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/testscript-profile-origin-types",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/testscript-profile-destination-types",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/contract-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/contractsubtypecodes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/contracttermtypecodes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/contracttermsubtypecodes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/contractsignertypecodes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/contractaction",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/contractactorrole",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/contract-content-derivative",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/contract-data-meaning",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/consentcategorycodes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/consentaction",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/consentscope",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/consentpolicycodes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/consentverification",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/library-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/measure-population",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/measure-scoring",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/measure-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/measure-data-usage",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/composite-measure-scoring",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/measure-improvement-notation",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/activity-definition-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/definition-topic",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/plan-definition-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/action-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/research-study-phase",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/research-study-objective-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/research-study-reason-stopped",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/research-study-prim-purp-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/research-subject-state-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/research-subject-state",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/research-subject-milestone",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/state-change-reason",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/adverse-event-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/adverse-event-seriousness",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/adverse-event-causality-assess",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/adverse-event-causality-method",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/adverse-event-severity",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/chargeitem-billingcodes",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/container-cap",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/handling-condition",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/rejection-criteria",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/insurance-plan-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/applicability",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/need",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/validation-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/validation-process",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/failure-action",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/primary-source-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/validation-status",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/can-push-updates",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/push-type-available",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/verificationresult-communication-method",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/medicationknowledge-status",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/medicationknowledge-characteristic",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/medicationknowledge-package-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/parameter-group",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/characteristic-method",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/variable-role",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/directness",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/extra-security-role-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/dicom-audit-lifecycle",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/iso-21089-lifecycle",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/media-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/smart-capabilities",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/name-assembly-order",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/evidence-quality",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/recommendation-strength",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/goal-relationship-type",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/goal-acceptance-status",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/conformance-expectation",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/question-max-occurs",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/choice-list-orientation",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/questionnaire-usage-mode",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/allerg-intol-substance-exp-risk",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/reaction-event-certainty",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/hl7-work-group",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/standards-status",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/resource-security-category",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/expansion-parameter-source",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/expansion-processing-rule",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/implantStatus",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/codesystem-altcode-kind",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/condition-state",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/catalogType",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/composition-altcode-kind",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/match-grade",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/subscription-status-at-event",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/action-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/action-participant-role",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/activity-definition-category",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/adjudication-error",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/adjudication-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/adjudication",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/adverse-event-category",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/adverse-event-causality-assess",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/adverse-event-causality-method",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/adverse-event-seriousness",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/adverse-event-severity",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/allerg-intol-substance-exp-risk",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/allergyintolerance-clinical",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/allergyintolerance-verification",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/appointment-cancellation-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/attribute-estimate-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/audit-event-outcome",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/audit-source-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/basic-resource-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/benefit-network",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/benefit-term",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/benefit-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/benefit-unit",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/catalogType",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/certainty-rating",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/certainty-subcomponent-rating",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/certainty-subcomponent-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/characteristic-method",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/chargeitem-billingcodes",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/choice-list-orientation",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/chromosome-human",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/claim-careteamrole",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/claim-exception",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/claim-informationcategory",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/claim-modifiers",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/claim-subtype",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/claim-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/codesystem-altcode-kind",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/common-tags",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/communication-category",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/communication-not-done-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/communication-topic",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/composite-measure-scoring",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/composition-altcode-kind",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/condition-category",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/condition-clinical",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/condition-state",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/condition-ver-status",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/conformance-expectation",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/consent-action",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/consent-policy",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/consent-scope",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/consent-verification",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/contactentity-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/container-cap",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/contract-action",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/contract-actorrole",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/contract-content-derivative",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/contract-data-meaning",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/contract-signer-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/contract-subtype",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/contract-term-subtype",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/contract-term-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/contract-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/copy-number-event",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/coverage-class",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/coverage-copay-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/coverage-financial-exception",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/coverage-selfpay",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/coverageeligibilityresponse-ex-auth-support",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/definition-status",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/definition-topic",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/definition-use",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/device-status-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/diagnosis-role",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/directness",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/dose-rate-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/encounter-admit-source",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/encounter-diet",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/encounter-discharge-disposition",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/encounter-special-arrangements",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/encounter-subject-status",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/encounter-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/endpoint-connection-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/entformula-additive",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/episodeofcare-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/evidence-quality",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/ex-benefitcategory",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/ex-diagnosis-on-admission",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/ex-diagnosisrelatedgroup",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/ex-diagnosistype",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/ex-payee-resource-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/device-kind",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/ex-paymenttype",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/ex-procedure-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/ex-program-code",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/ex-revenue-center",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/expansion-parameter-source",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/expansion-processing-rule",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/financial-taskcode",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/financial-taskinputtype",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/flag-category",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/forms",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/fundsreserve",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/goal-acceptance-status",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/goal-achievement",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/goal-category",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/goal-priority",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/goal-relationship-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/guide-parameter-code",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/handling-condition",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/history-absent-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/hl7-work-group",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/immunization-evaluation-dose-status-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/immunization-evaluation-dose-status",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/immunization-funding-source",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/immunization-program-eligibility",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/immunization-recommendation-status",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/immunization-subpotent-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/implantStatus",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/insuranceplan-applicability",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/insuranceplan-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/library-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/list-empty-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/list-example-codes",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/list-order",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/location-physical-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/match-grade",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/measure-data-usage",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/measure-improvement-notation",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/measure-population",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/measure-scoring",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/measure-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/med-admin-perform-function",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/medicationdispense-performer-function",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/medicationknowledge-characteristic",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/medicationknowledge-package-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/medicationknowledge-status",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/medicationrequest-category",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/medicationrequest-course-of-therapy",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/medicationrequest-status-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/message-reason-encounter",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/missing-tooth-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/nutrition-intake-category",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/object-role",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/observation-category",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/observation-statistics",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/organization-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/parameter-group",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/payeetype",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/payment-adjustment-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/payment-status",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/payment-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/plan-definition-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/process-priority",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/program",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/provenance-agent-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/provider-qualification",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/question-max-occurs",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/questionnaire-usage-mode",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/reaction-event-certainty",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/reason-medication-given-codes",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/recommendation-strength",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/referencerange-meaning",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/rejection-criteria",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/related-claim-relationship",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/research-study-objective-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/research-study-phase",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/research-study-prim-purp-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/research-study-reason-stopped",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/research-subject-milestone",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/research-subject-state-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/research-subject-state",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/resource-security-category",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/resource-type-link",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/risk-probability",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/service-category",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/service-place",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/service-provision-conditions",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/service-referral-method",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/service-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/service-uscls",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/smart-capabilities",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/special-values",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/standards-status",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/state-change-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/statistic-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/study-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/subscriber-relationship",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/subscription-channel-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/subscription-error",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/subscription-status-at-event",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/subscription-tag",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/substance-category",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/supplydelivery-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/supplyrequest-kind",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/supplyrequest-reason",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/surface",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/synthesis-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/testscript-operation-codes",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/testscript-profile-destination-types",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/testscript-profile-origin-types",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/tooth",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/usage-context-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/variable-role",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/variant-state",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/verificationresult-can-push-updates",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/verificationresult-communication-method",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/verificationresult-failure-action",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/verificationresult-need",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/verificationresult-primary-source-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/verificationresult-push-type-available",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/verificationresult-validation-process",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/verificationresult-validation-status",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/verificationresult-validation-type",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/vision-product",
+                "type": "ValueSet"
+            }
+        }
+    ]
+}

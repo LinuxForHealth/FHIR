@@ -1,0 +1,261 @@
+{
+    "resourceType": "ValueSet",
+    "id": "procedure-followup",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pc"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/procedure-followup",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.429"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ProcedureFollowUpCodes(SNOMEDCT)",
+    "title": "Procedure Follow up Codes (SNOMED CT)",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Procedure follow up codes: A selection of SNOMED CT codes relevant to procedure follow up.",
+    "copyright": "This resource includes content from SNOMED Clinical Terms® (SNOMED CT®) which is copyright of the International Health Terminology Standards Development Organisation (IHTSDO). Implementers of these specifications must have the appropriate SNOMED CT Affiliate license - for more information contact http://www.snomed.org/snomed-ct/get-snomed-ct or info@snomed.org",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "18949003"
+                    },
+                    {
+                        "code": "30549001"
+                    },
+                    {
+                        "code": "241031001"
+                    },
+                    {
+                        "code": "35963001"
+                    },
+                    {
+                        "code": "225164002"
+                    },
+                    {
+                        "code": "447346005"
+                    },
+                    {
+                        "code": "229506003"
+                    },
+                    {
+                        "code": "274441001"
+                    },
+                    {
+                        "code": "394725008"
+                    },
+                    {
+                        "code": "359825008"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:791f8ebf-7add-45b5-aa1d-6fb24d9c1932",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 10,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "18949003",
+                "display": "Change of dressing",
+                "designation": [
+                    {
+                        "value": "Change of dressing"
+                    },
+                    {
+                        "value": "Reapplying a fresh dressing"
+                    },
+                    {
+                        "value": "Renewing dressing"
+                    },
+                    {
+                        "value": "Redressing wound"
+                    },
+                    {
+                        "value": "Repeating dressing"
+                    },
+                    {
+                        "value": "Change of dressing (procedure)"
+                    },
+                    {
+                        "value": "Dressing change"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "30549001",
+                "display": "Removal of suture",
+                "designation": [
+                    {
+                        "value": "Removal of suture"
+                    },
+                    {
+                        "value": "Removal of suture (procedure)"
+                    },
+                    {
+                        "value": "ROS - removal of suture"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "241031001",
+                "display": "Removal of drain",
+                "designation": [
+                    {
+                        "value": "Removal of drain"
+                    },
+                    {
+                        "value": "Removal of drain (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "35963001",
+                "display": "Removal of staples",
+                "designation": [
+                    {
+                        "value": "Removal of staples"
+                    },
+                    {
+                        "value": "Removal of staples (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "225164002",
+                "display": "Removal of ligature",
+                "designation": [
+                    {
+                        "value": "Removal of ligature"
+                    },
+                    {
+                        "value": "Removal of ligature (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "447346005",
+                "display": "Cardiopulmonary exercise test (procedure)",
+                "designation": [
+                    {
+                        "value": "Cardiopulmonary exercise test (procedure)"
+                    },
+                    {
+                        "value": "Cardiopulmonary exercise test"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "229506003",
+                "display": "Scar tissue massage",
+                "designation": [
+                    {
+                        "value": "Scar tissue massage"
+                    },
+                    {
+                        "value": "Scar tissue massage (regime/therapy)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "274441001",
+                "display": "Suction drainage",
+                "designation": [
+                    {
+                        "value": "Suction drainage"
+                    },
+                    {
+                        "value": "Suction drainage (procedure)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "394725008",
+                "display": "Diabetes medication review (procedure)",
+                "designation": [
+                    {
+                        "value": "Diabetes medication review (procedure)"
+                    },
+                    {
+                        "value": "Diabetes medication review"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "359825008",
+                "display": "Cytopathology, review of bronchioalveolar lavage specimen",
+                "designation": [
+                    {
+                        "value": "Cytopathology, review of bronchioalveolar lavage specimen"
+                    },
+                    {
+                        "value": "Cytopathology, review of bronchioalveolar lavage specimen (procedure)"
+                    }
+                ]
+            }
+        ]
+    }
+}

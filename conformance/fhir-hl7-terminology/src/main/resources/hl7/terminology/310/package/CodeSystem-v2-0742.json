@@ -1,0 +1,147 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0742",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0742",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.395"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "DrgStatusFinancialCalculation",
+    "title": "drgStatusFinancialCalculation",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying the status of the diagnosis related group (DRG) calculation regarding the financial aspects.  US Realm. Used in HL7 Version 2.x messaging in the DRG segment.",
+    "purpose": "Underlying Master Code System for V2 table 0742 (DRG Status Financial Calculation)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0742",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6443",
+            "code": "00",
+            "display": "Effective weight calculated",
+            "definition": "Effective weight calculated",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6444",
+            "code": "01",
+            "display": "Hospital specific contract",
+            "definition": "Hospital specific contract",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6445",
+            "code": "03",
+            "display": "Eeffective weight for transfer/referral calculated",
+            "definition": "Eeffective weight for transfer/referral calculated",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6446",
+            "code": "04",
+            "display": "Referral from other hospital based on a cooperation (no DRG reimbursement)",
+            "definition": "Referral from other hospital based on a cooperation (no DRG reimbursement)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6447",
+            "code": "05",
+            "display": "Invalid length of stay",
+            "definition": "Invalid length of stay",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6448",
+            "code": "10",
+            "display": "No information/entry in cost data for this DRG",
+            "definition": "No information/entry in cost data for this DRG",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6449",
+            "code": "11",
+            "display": "No relative weight found for department (type)",
+            "definition": "No relative weight found for department (type)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -52,7 +52,7 @@ public class Flag extends DomainResource {
         bindingName = "FlagStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether this flag is active and needs to be displayed to a user, or whether it is no longer needed or was entered in error.",
-        valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.3.0-cibuild"
     )
     @Required
     private final FlagStatus status;

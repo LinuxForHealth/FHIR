@@ -1,0 +1,74 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "research-subject-milestone",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00"
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/research-subject-milestone",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "ResearchSubjectMilestone",
+    "title": "ResearchSubjectMilestone",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-04-09T21:10:28+00:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Indicates the progression of a study subject through the study milestones.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/research-subject-milestone",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "SignedUp",
+            "display": "Signed up",
+            "definition": "A person has expressed an interest in being in a study but has not yet been through any assessment or consent processes."
+        },
+        {
+            "code": "Screened",
+            "display": "Screened",
+            "definition": "A potential subject has been screened for suitability."
+        },
+        {
+            "code": "Randomized",
+            "display": "Randomized",
+            "definition": "A subject has been allocated to an arm of the study."
+        }
+    ]
+}

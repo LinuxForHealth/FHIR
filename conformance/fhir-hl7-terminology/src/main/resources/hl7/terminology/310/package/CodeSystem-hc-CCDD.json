@@ -1,0 +1,39 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "hc-CCDD",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/hc-CCDD",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.2.20.6.1"
+        }
+    ],
+    "version": "1.0.0",
+    "name": "CCDD",
+    "title": "Canadian Clinical Drug Data Set",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-04-14T00:00:00-00:00",
+    "publisher": "Canada Health Infoway",
+    "contact": [
+        {
+            "name": "Health Canada; Health Products and Food Branch; Daniel Buijs",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://tgateway.infoway-inforoute.ca/ccdd.html"
+                },
+                {
+                    "system": "email",
+                    "value": "clinicaldrug@infoway-inforoute.ca"
+                }
+            ]
+        }
+    ],
+    "description": "The Canadian Clinical Drug Data Set provides codes for identification and a consistent approach to naming of medications and some medical devices in Canada. It has been designed and developed to reflect current clinical practice and safety advice and is freely available for use in digital health solutions and design applications.\r\n\r\nCCDD is available in English and Canadian French.\r\n\r\nTo request content changes, send an email to clinicaldrug@infoway-inforoute.ca",
+    "content": "not-present"
+}

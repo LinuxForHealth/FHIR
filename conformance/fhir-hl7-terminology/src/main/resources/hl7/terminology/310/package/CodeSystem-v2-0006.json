@@ -1,0 +1,1453 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0006",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0006",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.8"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "Religion2",
+    "title": "religion2",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying a person's religion.    Used in HL7 Version 2.x messaging in the PID segment.",
+    "purpose": "Underlying Master Code System for V2 table 0006 (Religion)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0006",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "527",
+            "code": "A",
+            "display": "Atheist",
+            "definition": "Atheist",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Atheist"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "528",
+            "code": "B",
+            "display": "Baptist",
+            "definition": "Baptist",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Baptist"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "529",
+            "code": "C",
+            "display": "Catholic",
+            "definition": "Catholic",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Katholik"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "530",
+            "code": "E",
+            "display": "Episcopalian",
+            "definition": "Episcopalian",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Episkopale"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "531",
+            "code": "J",
+            "display": "Judaism",
+            "definition": "Judaism",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Jude"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "532",
+            "code": "L",
+            "display": "Lutheran",
+            "definition": "Lutheran",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Lutheraner"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "533",
+            "code": "M",
+            "display": "Church of Latter Day Saints (Mormon)",
+            "definition": "Church of Latter Day Saints (Mormon)",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Mormone"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "534",
+            "code": "N",
+            "display": "Hindu",
+            "definition": "Hindu",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Hinduist"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "535",
+            "code": "P",
+            "display": "Protestant",
+            "definition": "Protestant",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Protestant"
+                }
+            ],
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "536",
+            "code": "AGN",
+            "display": "Agnostic",
+            "definition": "Agnostic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "537",
+            "code": "ATH",
+            "display": "Atheist",
+            "definition": "Atheist",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Atheist"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "538",
+            "code": "BAH",
+            "display": "Baha'i",
+            "definition": "Baha'i",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "539",
+            "code": "BRE",
+            "display": "Brethren",
+            "definition": "Brethren",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "540",
+            "code": "BUD",
+            "display": "Buddhist",
+            "definition": "Buddhist",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Buddhist"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "541",
+            "code": "BMA",
+            "display": "Buddhist: Mahayana",
+            "definition": "Buddhist: Mahayana",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "542",
+            "code": "BTH",
+            "display": "Buddhist: Theravada",
+            "definition": "Buddhist: Theravada",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "543",
+            "code": "BTA",
+            "display": "Buddhist: Tantrayana",
+            "definition": "Buddhist: Tantrayana",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "544",
+            "code": "BOT",
+            "display": "Buddhist: Other",
+            "definition": "Buddhist: Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "545",
+            "code": "CFR",
+            "display": "Chinese Folk Religionist",
+            "definition": "Chinese Folk Religionist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "546",
+            "code": "CHR",
+            "display": "Christian",
+            "definition": "Christian",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "547",
+            "code": "ABC",
+            "display": "Christian: American Baptist Church",
+            "definition": "Christian: American Baptist Church",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "548",
+            "code": "AMT",
+            "display": "Christian: African Methodist Episcopal",
+            "definition": "Christian: African Methodist Episcopal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "549",
+            "code": "AME",
+            "display": "Christian: African Methodist Episcopal Zion",
+            "definition": "Christian: African Methodist Episcopal Zion",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "550",
+            "code": "ANG",
+            "display": "Christian: Anglican",
+            "definition": "Christian: Anglican",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "551",
+            "code": "AOG",
+            "display": "Christian: Assembly of God",
+            "definition": "Christian: Assembly of God",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "552",
+            "code": "BAP",
+            "display": "Christian: Baptist",
+            "definition": "Christian: Baptist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "553",
+            "code": "CRR",
+            "display": "Christian: Christian Reformed",
+            "definition": "Christian: Christian Reformed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "554",
+            "code": "CHS",
+            "display": "Christian: Christian Science",
+            "definition": "Christian: Christian Science",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "555",
+            "code": "CMA",
+            "display": "Christian: Christian Missionary Alliance",
+            "definition": "Christian: Christian Missionary Alliance",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "556",
+            "code": "COC",
+            "display": "Christian: Church of Christ",
+            "definition": "Christian: Church of Christ",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "557",
+            "code": "COG",
+            "display": "Christian: Church of God",
+            "definition": "Christian: Church of God",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "558",
+            "code": "COI",
+            "display": "Christian: Church of God in Christ",
+            "definition": "Christian: Church of God in Christ",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "559",
+            "code": "COM",
+            "display": "Christian: Community",
+            "definition": "Christian: Community",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "560",
+            "code": "COL",
+            "display": "Christian: Congregational",
+            "definition": "Christian: Congregational",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "561",
+            "code": "EOT",
+            "display": "Christian: Eastern Orthodox",
+            "definition": "Christian: Eastern Orthodox",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "562",
+            "code": "EVC",
+            "display": "Christian: Evangelical Church",
+            "definition": "Christian: Evangelical Church",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "evangelisch"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "563",
+            "code": "EPI",
+            "display": "Christian: Episcopalian",
+            "definition": "Christian: Episcopalian",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "564",
+            "code": "FWB",
+            "display": "Christian: Free Will Baptist",
+            "definition": "Christian: Free Will Baptist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "565",
+            "code": "FRQ",
+            "display": "Christian: Friends",
+            "definition": "Christian: Friends",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "566",
+            "code": "FUL",
+            "display": "Christian: Full Gospel",
+            "definition": "Christian: Full Gospel",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "567",
+            "code": "GRE",
+            "display": "Christian: Greek Orthodox",
+            "definition": "Christian: Greek Orthodox",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "568",
+            "code": "JWN",
+            "display": "Christian: Jehovah's Witness",
+            "definition": "Christian: Jehovah's Witness",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "569",
+            "code": "MOM",
+            "display": "Christian: Latter-day Saints",
+            "definition": "Christian: Latter-day Saints",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "570",
+            "code": "LUT",
+            "display": "Christian: Lutheran",
+            "definition": "Christian: Lutheran",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "571",
+            "code": "LMS",
+            "display": "Christian: Lutheran Missouri Synod",
+            "definition": "Christian: Lutheran Missouri Synod",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "572",
+            "code": "MEN",
+            "display": "Christian: Mennonite",
+            "definition": "Christian: Mennonite",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "573",
+            "code": "MET",
+            "display": "Christian: Methodist",
+            "definition": "Christian: Methodist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "574",
+            "code": "NAZ",
+            "display": "Christian: Church of the Nazarene",
+            "definition": "Christian: Church of the Nazarene",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "575",
+            "code": "ORT",
+            "display": "Christian: Orthodox",
+            "definition": "Christian: Orthodox",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "576",
+            "code": "PEN",
+            "display": "Christian: Pentecostal",
+            "definition": "Christian: Pentecostal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "577",
+            "code": "COP",
+            "display": "Christian: Other Pentecostal",
+            "definition": "Christian: Other Pentecostal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "578",
+            "code": "PRE",
+            "display": "Christian: Presbyterian",
+            "definition": "Christian: Presbyterian",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "579",
+            "code": "PRO",
+            "display": "Christian: Protestant",
+            "definition": "Christian: Protestant",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Protestant"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "580",
+            "code": "PRC",
+            "display": "Christian: Other Protestant",
+            "definition": "Christian: Other Protestant",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "581",
+            "code": "QUA",
+            "display": "Christian: Friends",
+            "definition": "Christian: Friends",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "582",
+            "code": "REC",
+            "display": "Christian: Reformed Church",
+            "definition": "Christian: Reformed Church",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "583",
+            "code": "REO",
+            "display": "Christian: Reorganized Church of Jesus Christ-LDS",
+            "definition": "Christian: Reorganized Church of Jesus Christ-LDS",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "584",
+            "code": "CAT",
+            "display": "Christian: Roman Catholic",
+            "definition": "Christian: Roman Catholic",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "römisch-katholisch"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "585",
+            "code": "SAA",
+            "display": "Christian: Salvation Army",
+            "definition": "Christian: Salvation Army",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "586",
+            "code": "SEV",
+            "display": "Christian: Seventh Day Adventist",
+            "definition": "Christian: Seventh Day Adventist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "587",
+            "code": "SOU",
+            "display": "Christian: Southern Baptist",
+            "definition": "Christian: Southern Baptist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "588",
+            "code": "UCC",
+            "display": "Christian: United Church of Christ",
+            "definition": "Christian: United Church of Christ",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "589",
+            "code": "UMD",
+            "display": "Christian: United Methodist",
+            "definition": "Christian: United Methodist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "590",
+            "code": "UNI",
+            "display": "Christian: Unitarian",
+            "definition": "Christian: Unitarian",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "591",
+            "code": "UNU",
+            "display": "Christian: Unitarian Universalist",
+            "definition": "Christian: Unitarian Universalist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "592",
+            "code": "WES",
+            "display": "Christian: Wesleyan",
+            "definition": "Christian: Wesleyan",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "593",
+            "code": "WMC",
+            "display": "Christian: Wesleyan Methodist",
+            "definition": "Christian: Wesleyan Methodist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "594",
+            "code": "COT",
+            "display": "Christian: Other",
+            "definition": "Christian: Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "595",
+            "code": "CNF",
+            "display": "Confucian",
+            "definition": "Confucian",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "596",
+            "code": "DOC",
+            "display": "Disciples of Christ",
+            "definition": "Disciples of Christ",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "597",
+            "code": "ERL",
+            "display": "Ethnic Religionist",
+            "definition": "Ethnic Religionist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "598",
+            "code": "HIN",
+            "display": "Hindu",
+            "definition": "Hindu",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Hindu"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "599",
+            "code": "HSH",
+            "display": "Hindu: Shaivites",
+            "definition": "Hindu: Shaivites",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "600",
+            "code": "HVA",
+            "display": "Hindu: Vaishnavites",
+            "definition": "Hindu: Vaishnavites",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "601",
+            "code": "HOT",
+            "display": "Hindu: Other",
+            "definition": "Hindu: Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "602",
+            "code": "JAI",
+            "display": "Jain",
+            "definition": "Jain",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "603",
+            "code": "JEW",
+            "display": "Jewish",
+            "definition": "Jewish",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "jüdisch"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "604",
+            "code": "JCO",
+            "display": "Jewish: Conservative",
+            "definition": "Jewish: Conservative",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "605",
+            "code": "JOR",
+            "display": "Jewish: Orthodox",
+            "definition": "Jewish: Orthodox",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "606",
+            "code": "JRC",
+            "display": "Jewish: Reconstructionist",
+            "definition": "Jewish: Reconstructionist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "607",
+            "code": "JRF",
+            "display": "Jewish: Reform",
+            "definition": "Jewish: Reform",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "608",
+            "code": "JRN",
+            "display": "Jewish: Renewal",
+            "definition": "Jewish: Renewal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "609",
+            "code": "JOT",
+            "display": "Jewish: Other",
+            "definition": "Jewish: Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "610",
+            "code": "MOS",
+            "display": "Muslim",
+            "definition": "Muslim",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Muslim"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "611",
+            "code": "MSH",
+            "display": "Muslim: Shiite",
+            "definition": "Muslim: Shiite",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "612",
+            "code": "MSU",
+            "display": "Muslim: Sunni",
+            "definition": "Muslim: Sunni",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "613",
+            "code": "MOT",
+            "display": "Muslim: Other",
+            "definition": "Muslim: Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "614",
+            "code": "NAM",
+            "display": "Native American",
+            "definition": "Native American",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "615",
+            "code": "NRL",
+            "display": "New Religionist",
+            "definition": "New Religionist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "616",
+            "code": "NOE",
+            "display": "Nonreligious",
+            "definition": "Nonreligious",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "nicht-religiös"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "617",
+            "code": "SHN",
+            "display": "Shintoist",
+            "definition": "Shintoist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "618",
+            "code": "SIK",
+            "display": "Sikh",
+            "definition": "Sikh",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Sikh"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "619",
+            "code": "SPI",
+            "display": "Spiritist",
+            "definition": "Spiritist",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "620",
+            "code": "OTH",
+            "display": "Other",
+            "definition": "Other",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "andere"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "621",
+            "code": "VAR",
+            "display": "Unknown",
+            "definition": "Unknown",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "unbekannt"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

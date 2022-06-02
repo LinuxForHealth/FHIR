@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -90,7 +90,7 @@ public class Goal extends DomainResource {
         bindingName = "GoalLifecycleStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
-        valueSet = "http://hl7.org/fhir/ValueSet/goal-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/goal-status|4.3.0-cibuild"
     )
     @Required
     private final GoalLifecycleStatus lifecycleStatus;

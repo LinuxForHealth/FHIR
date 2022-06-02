@@ -58,8 +58,8 @@
     }
   ],
   "purpose": "Optional response message that may provide additional information on the outcome of the patient link operation.",
-  "copyright": "� HL7.org 2011+",
-  "base": "MessageDefinition/example",
+  "copyright": "HL7.org 2011+",
+  "base": "http://hl7.org/fhir/MessageDefinition/example",
   "eventCoding": {
     "system": "http://example.org/fhir/message-events",
     "code": "admin-notify"
@@ -68,7 +68,7 @@
   "focus": [
     {
       "code": "Patient",
-      "profile": "StructureDefinition/example",
+      "profile": "http://hl7.org/fhir/StructureDefinition/example",
       "min": 2,
       "max": "2"
     }

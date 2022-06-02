@@ -56,7 +56,7 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
  * 2. HealthPlan (Match) checks the incoming Parameters validates against the profile.
  * 3. HealthPlan (Match) executes a local Search to find the Coverage
  * 4. HealhPlan (Match) (optionally) augments the Coverage details on the local system with a LINK.
- * 
+ *
  * @implNote the following search parameters are needed.
  * Patient = identifier (USUAL, OFFICIAL), telecom, name, address, address-city, address-state, address-postalcode, address-country, gender, birthdate (uses eq), language
  * Coverage = patient, subscriber, payor, subscriber-id, identifier, beneficiary
@@ -157,8 +157,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Search Parameters used to find the member in 'Patient' " + patientCompiler.getSearchParameters());
             }
-            Bundle patientBundle = resourceHelper()
-                    .doSearch("Patient", null, null, patientCompiler.getSearchParameters(), requestUri, null);
+            Bundle patientBundle = resourceHelper().doSearch("Patient", null, null, patientCompiler.getSearchParameters(), requestUri);
             int size = patientBundle.getEntry().size();
             if (size == 0) {
                 returnNoMatchException();
@@ -182,7 +181,7 @@ public class DefaultMemberMatchStrategy extends AbstractMemberMatch {
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Search Parameters used to find the member's Coverage " + coverageCompiler.getSearchParameters());
             }
-            Bundle coverageBundle = resourceHelper().doSearch("Coverage", null, null, coverageCompiler.getSearchParameters(), requestUri, null);
+            Bundle coverageBundle = resourceHelper().doSearch("Coverage", null, null, coverageCompiler.getSearchParameters(), requestUri);
 
             if (coverageBundle.getEntry().isEmpty()) {
                 // This may warrant a separate exception in custom implementations.

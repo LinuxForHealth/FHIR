@@ -1,0 +1,97 @@
+{
+    "resourceType": "ValueSet",
+    "id": "detectedissue-severity",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/detectedissue-severity",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.206"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "DetectedIssueSeverity",
+    "title": "DetectedIssueSeverity",
+    "status": "draft",
+    "experimental": true,
+    "date": "2021-01-17T07:06:13+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Indicates the potential degree of impact of the identified issue on the patient.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/detectedissue-severity"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:4100829f-4a62-4b8d-a69d-f3a243d77927",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/detectedissue-severity|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/detectedissue-severity",
+                "code": "high",
+                "display": "High"
+            },
+            {
+                "system": "http://hl7.org/fhir/detectedissue-severity",
+                "code": "moderate",
+                "display": "Moderate"
+            },
+            {
+                "system": "http://hl7.org/fhir/detectedissue-severity",
+                "code": "low",
+                "display": "Low"
+            }
+        ]
+    }
+}

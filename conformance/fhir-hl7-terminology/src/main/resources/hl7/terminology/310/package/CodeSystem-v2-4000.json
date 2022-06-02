@@ -1,0 +1,93 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-4000",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-4000",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.436"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "NameAddressRepresentation",
+    "title": "name-addressRepresentation",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined cdoe system of concepts that provide an indication of the kind of representation provided by a name or address, but does not necessarily specify the character sets used for the data.  It is used to provides hints for a receiver, so it can make choices regarding what it has been sent and what it is capable of displaying.",
+    "purpose": "Underlying Master Code System for V2 table 4000 (Name/address representation)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-4000",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6795",
+            "code": "I",
+            "display": "Ideographic (i.e., Kanji)",
+            "definition": "Ideographic (i.e., Kanji)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6796",
+            "code": "A",
+            "display": "Alphabetic (i.e., Default or some single-byte)",
+            "definition": "Alphabetic (i.e., Default or some single-byte)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6797",
+            "code": "P",
+            "display": "Phonetic (i.e., ASCII, Katakana, Hiragana, etc.)",
+            "definition": "Phonetic (i.e., ASCII, Katakana, Hiragana, etc.)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

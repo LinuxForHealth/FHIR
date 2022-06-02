@@ -54,6 +54,7 @@ import com.ibm.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.CodeableReference;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Uri;
@@ -188,7 +189,7 @@ public final class FHIRPathUtil {
     }
 
     public static boolean isCodedElement(Element element) {
-        return element.is(Code.class) || element.is(Coding.class) || element.is(CodeableConcept.class);
+        return element.is(Code.class) || element.is(Coding.class) || element.is(CodeableConcept.class) || element.is(CodeableReference.class);
     }
 
     public static boolean isStringElementNode(Collection<FHIRPathNode> nodes) {

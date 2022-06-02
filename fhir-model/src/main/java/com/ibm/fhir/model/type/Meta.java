@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -48,7 +48,6 @@ public class Meta extends Element {
     @Binding(
         bindingName = "SecurityLabels",
         strength = BindingStrength.Value.EXTENSIBLE,
-        description = "Security Labels from the Healthcare Privacy and Security Classification System.",
         valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
     )
     private final List<Coding> security;
@@ -56,7 +55,6 @@ public class Meta extends Element {
     @Binding(
         bindingName = "Tags",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes that represent various types of tags, commonly workflow-related; e.g. \"Needs review by Dr. Jones\".",
         valueSet = "http://hl7.org/fhir/ValueSet/common-tags"
     )
     private final List<Coding> tag;

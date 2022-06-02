@@ -96,13 +96,15 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the endpoint to the resource registry.
         addToResourceRegistry("Endpoint", endpointId);
-        
+
         // Next, call the 'read' API to retrieve the new Endpoint and verify it.
         response = target.path("Endpoint/" + endpointId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         // Call the 'update' API.
-        endpoint = response.readEntity(Endpoint.class);
+        endpoint = response.readEntity(Endpoint.class).toBuilder()
+                .language(Code.of("en"))
+                .build();
         entity = Entity.entity(endpoint, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Endpoint/" + endpointId).request().put(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -135,7 +137,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the organization to the resource registry.
         addToResourceRegistry("Organization", organization1Id);
-        
+
         // Next, call the 'read' API to retrieve the new organization and verify it.
         response = target.path("Organization/" + organization1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -162,7 +164,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the organization to the resource registry.
         addToResourceRegistry("Organization", organization2Id);
-        
+
         // Next, call the 'read' API to retrieve the new organization and verify it.
         response = target.path("Organization/" + organization2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -205,7 +207,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the patient to the resource registry.
         addToResourceRegistry("Patient", patient1Id);
-        
+
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patient1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -242,7 +244,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the patient to the resource registry.
         addToResourceRegistry("Patient", patient2Id);
-        
+
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patient2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -273,7 +275,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the procedure to the resource registry.
         addToResourceRegistry("Procedure", procedure1Id);
-        
+
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -306,7 +308,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the procedure to the resource registry.
         addToResourceRegistry("Procedure", procedure2Id);
-        
+
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -337,7 +339,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the encounter to the resource registry.
         addToResourceRegistry("Encounter", encounter1Id);
-        
+
         // Next, call the 'read' API to retrieve the new encounter and verify it.
         response = target.path("Encounter/" + encounter1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -368,7 +370,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the encounter to the resource registry.
         addToResourceRegistry("Encounter", encounter2Id);
-        
+
         // Next, call the 'read' API to retrieve the new encounter and verify it.
         response = target.path("Encounter/" + encounter2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -394,7 +396,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the location to the resource registry.
         addToResourceRegistry("Location", locationId);
-        
+
         // Next, call the 'read' API to retrieve the new Location and verify it.
         response   = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -419,7 +421,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the practitionerRole to the resource registry.
         addToResourceRegistry("PractitionerRole", practitionerRoleId);
-        
+
         // Next, call the 'read' API to retrieve the new PractitionerRole and verify it.
         response   = target.path("PractitionerRole/" + practitionerRoleId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -447,7 +449,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the library to the resource registry.
         addToResourceRegistry("Library", libraryId);
-        
+
         // Next, call the 'read' API to retrieve the new library and verify it.
         response = target.path("Library/" + libraryId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -476,7 +478,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the measure to the resource registry.
         addToResourceRegistry("Measure", measureId);
-        
+
         // Next, call the 'read' API to retrieve the new measure and verify it.
         response = target.path("Measure/" + measureId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -503,7 +505,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the carePlan to the resource registry.
         addToResourceRegistry("CarePlan", carePlanId);
-        
+
         // Next, call the 'read' API to retrieve the new carePlan and verify it.
         response = target.path("CarePlan/" + carePlanId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -530,7 +532,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
 
         // Add the measureReport to the resource registry.
         addToResourceRegistry("MeasureReport", measureReportId);
-        
+
         // Next, call the 'read' API to retrieve the new measureReport and verify it.
         response = target.path("MeasureReport/" + measureReportId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -906,7 +908,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Response response =
                 target.path("Patient")
                 .queryParam("_tag", tag)
-                .queryParam("_has:Procedure:subject:_has:Encounter:reason-reference:service-provider.endpoint.name", tag)
+                .queryParam("_has:Procedure:subject:_has:Encounter:reason-reference:service-provider.endpoint.name:exact", tag)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());

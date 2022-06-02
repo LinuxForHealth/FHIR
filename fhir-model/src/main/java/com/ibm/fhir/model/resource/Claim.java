@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -86,7 +86,7 @@ public class Claim extends DomainResource {
         bindingName = "ClaimStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
     )
     @Required
     private final ClaimStatus status;
@@ -111,7 +111,7 @@ public class Claim extends DomainResource {
         bindingName = "Use",
         strength = BindingStrength.Value.REQUIRED,
         description = "The purpose of the Claim: predetermination, preauthorization, claim.",
-        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.3.0-cibuild"
     )
     @Required
     private final Use use;

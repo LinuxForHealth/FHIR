@@ -1,0 +1,153 @@
+{
+  "resourceType": "Evidence",
+  "id": "example-stroke-alteplase-fatalICH",
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \u003cp\u003e\n        \u0026quot;Risk of fatal ICH with alteplase for stroke\u0026quot; is a univariate risk estimate.\n      \u003c/p\u003e\n\t\u003c/div\u003e"
+  },
+  "url": "http://hl7.org/fhir/Evidence/example-stroke-alteplase-fatalICH",
+  "title": "Risk of fatal ICH with alteplase for stroke",
+  "status": "draft",
+  "useContext": [
+    {
+      "code": {
+        "system": "http://terminology.hl7.org/CodeSystem/usage-context-type",
+        "code": "focus"
+      },
+      "valueCodeableConcept": {
+        "text": "Stroke"
+      }
+    },
+    {
+      "code": {
+        "system": "http://snomed.info/sct",
+        "code": "1386000",
+        "display": "Intracranial hemorrhage"
+      },
+      "valueRange": {
+        "low": {
+          "value": 0,
+          "unit": "d"
+        },
+        "high": {
+          "value": 7,
+          "unit": "d"
+        }
+      }
+    }
+  ],
+  "relatedArtifact": [
+    {
+      "type": "citation",
+      "label": "Emberson 2014",
+      "display": "Effect of treatment delay, age, and stroke severity on the effects of intravenous thrombolysis with alteplase for acute ischaemic stroke: a meta-analysis of individual patient data from randomised trials.",
+      "citation": "Emberson J, Lees KR, Lyden P, Blackwell L, Albers G, Bluhmki E, et al;Stroke Thrombolysis Trialists\u0027 Collaborative Group. Effect of treatment delay, age, and stroke severity on the effects of intravenous thrombolysis with alteplase for acute ischaemic stroke: a meta-analysis of individual patient data from randomised trials. Lancet 2014 Nov 29;384(9958):1929-35 PMID 25106063",
+      "url": "https://doi.org/10.1016/S0140-6736(14)60584-5"
+    }
+  ],
+  "description": "2.7% incidence of fatal intracranial hemorrhage within 7 days with alteplase in patients with acute ischemic stroke",
+  "variableDefinition": [
+    {
+      "variableRole": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/variable-role",
+            "code": "population",
+            "display": "population"
+          }
+        ]
+      },
+      "observed": {
+        "reference": "Group/AcuteIschemicStroke",
+        "type": "Group",
+        "display": "adults with acute ischemic stroke"
+      },
+      "intended": {
+        "reference": "Group/AcuteIschemicStroke",
+        "type": "Group",
+        "display": "adults with acute ischemic stroke"
+      }
+    },
+    {
+      "variableRole": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/variable-role",
+            "code": "population",
+            "display": "population"
+          }
+        ]
+      },
+      "observed": {
+        "reference": "Group/Emberson-2014-IPD-MA-Alteplase-Cohort",
+        "type": "Group",
+        "display": "Emberson 2014 IPD-MA Alteplase Cohort"
+      },
+      "intended": {
+        "reference": "Group/AcuteIschemicStrokeTreatedWithAlteplase",
+        "type": "Group",
+        "display": "adults with acute ischemic stroke treated with alteplase"
+      }
+    },
+    {
+      "variableRole": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/variable-role",
+            "code": "measuredVariable",
+            "display": "measured variable"
+          }
+        ]
+      },
+      "observed": {
+        "reference": "EvidenceVariable/example-fatal-ICH-in-7-days",
+        "type": "EvidenceVariable",
+        "display": "fatal ICH"
+      },
+      "intended": {
+        "reference": "EvidenceVariable/example-fatal-ICH-in-7-days",
+        "type": "EvidenceVariable",
+        "display": "fatal ICH"
+      }
+    }
+  ],
+  "synthesisType": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/synthesis-type",
+        "code": "IPD-MA",
+        "display": "individual patient data meta-analysis"
+      }
+    ]
+  },
+  "studyType": {
+    "coding": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/study-type",
+        "code": "RCT",
+        "display": "randomized trial"
+      }
+    ]
+  },
+  "statistic": [
+    {
+      "statisticType": {
+        "coding": [
+          {
+            "system": "http://terminology.hl7.org/CodeSystem/statistic-type",
+            "code": "C44256",
+            "display": "Proportion"
+          }
+        ]
+      },
+      "quantity": {
+        "value": 0.026835741669
+      },
+      "numberOfEvents": 91,
+      "sampleSize": {
+        "numberOfStudies": 9,
+        "numberOfParticipants": 3391
+      }
+    }
+  ]
+}

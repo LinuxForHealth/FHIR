@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRParameters.Modifier;
 import com.ibm.fhir.client.FHIRParameters.ValuePrefix;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.core.ResourceType;
 
 /**
  * Tests related to the FHIRParameters class.

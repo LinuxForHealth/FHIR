@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="CapabilityStatement-versions"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Discover what versions a server supports</h2>
-      <p>OPERATION: Discover what versions a server supports</p>
+      <h2>Versions</h2>
+      <p>OPERATION: Versions</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/CapabilityStatement-versions</pre>
       <div>
@@ -80,11 +80,13 @@
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/CapabilityStatement-versions"/>
-  <version value="4.0.1"/>
-  <name value="Discover what versions a server supports"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="Versions"/>
+  <title value="Discover what versions a server supports"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -97,6 +99,7 @@
     </telecom>
   </contact>
   <description value="Using the [FHIR Version Mime Type Parameter](http.html#version-parameter), a server can support [multiple versions on the same end-point](versioning.html#mt-version). The only way for client to find out what versions a server supports in this fashion is the $versions operation. The client invokes the operation with no parameters. and the server returns the list of supported versions, along with the default version it will use if no fhirVersion parameter is present"/>
+  <affectsState value="false"/>
   <code value="versions"/>
   <resource value="CapabilityStatement"/>
   <system value="true"/>

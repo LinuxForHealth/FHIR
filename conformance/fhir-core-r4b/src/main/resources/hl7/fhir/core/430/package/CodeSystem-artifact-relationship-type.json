@@ -1,0 +1,182 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "artifact-relationship-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/artifact-relationship-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ArtifactRelationshipType",
+    "title": "ArtifactRelationshipType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-03-11T10:55:11.085+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Artifact Relationship Type",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/artifact-relationship-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "replaces",
+            "display": "Replaces",
+            "definition": "Replaces"
+        },
+        {
+            "code": "amends",
+            "display": "Amends",
+            "definition": "Amends"
+        },
+        {
+            "code": "appends",
+            "display": "Appends",
+            "definition": "Appends"
+        },
+        {
+            "code": "transforms",
+            "display": "Transforms",
+            "definition": "Transforms"
+        },
+        {
+            "code": "replaced-with",
+            "display": "Replaced with",
+            "definition": "Replaced with"
+        },
+        {
+            "code": "amended-with",
+            "display": "Amended with",
+            "definition": "Amended with"
+        },
+        {
+            "code": "appended-with",
+            "display": "Appended with",
+            "definition": "Appended with"
+        },
+        {
+            "code": "transformed-with",
+            "display": "Transformed with",
+            "definition": "Transformed with"
+        },
+        {
+            "code": "derived-from",
+            "display": "Derived from",
+            "definition": "Derived from"
+        },
+        {
+            "code": "transformed-into",
+            "display": "Transformed into",
+            "definition": "Transformed into"
+        },
+        {
+            "code": "composed-of",
+            "display": "Composed of",
+            "definition": "Composed of"
+        },
+        {
+            "code": "part-of",
+            "display": "Part of",
+            "definition": "Part of"
+        },
+        {
+            "code": "supports",
+            "display": "Supports",
+            "definition": "Supports"
+        },
+        {
+            "code": "supported-with",
+            "display": "Supported with",
+            "definition": "Supported with"
+        },
+        {
+            "code": "depends-on",
+            "display": "Depends on",
+            "definition": "Depends on"
+        },
+        {
+            "code": "similar-to",
+            "display": "Similar to",
+            "definition": "Similar to"
+        },
+        {
+            "code": "cites",
+            "display": "Cites",
+            "definition": "Cites"
+        },
+        {
+            "code": "cited-by",
+            "display": "Cited by",
+            "definition": "Cited by"
+        },
+        {
+            "code": "retracts",
+            "display": "Retracts",
+            "definition": "Retracts"
+        },
+        {
+            "code": "retracted-by",
+            "display": "Retracted by",
+            "definition": "Retracted by"
+        },
+        {
+            "code": "comments-on",
+            "display": "Comments On",
+            "definition": "Comments On"
+        },
+        {
+            "code": "comment-in",
+            "display": "Comment In",
+            "definition": "Comment In"
+        },
+        {
+            "code": "corrects",
+            "display": "Corrects",
+            "definition": "Corrects"
+        },
+        {
+            "code": "correction-in",
+            "display": "Correction In",
+            "definition": "Correction In"
+        }
+    ]
+}

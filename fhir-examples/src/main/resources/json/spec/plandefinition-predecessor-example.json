@@ -15,6 +15,7 @@
   "version": "1.0.0",
   "title": "Example Zika Virus Intervention",
   "status": "active",
+  "experimental": true,
   "date": "2016-11-14",
   "description": "Zika Virus Management intervention describing the CDC Guidelines for Zika Virus Reporting and Management.",
   "topic": [
@@ -25,15 +26,18 @@
   "relatedArtifact": [
     {
       "type": "derived-from",
-      "url": "https://www.cdc.gov/mmwr/volumes/65/wr/mm6539e1.htm?s_cid\u003dmm6539e1_w"
+      "url": "https://www.cdc.gov/mmwr/volumes/65/wr/mm6539e1.htm?s_cid\u003dmm6539e1_w",
+      "document": {
+        "url": "https://www.cdc.gov/mmwr/volumes/65/wr/mm6539e1.htm?s_cid\u003dmm6539e1_w"
+      }
     },
     {
       "type": "successor",
-      "resource": "PlanDefinition/zika-virus-intervention"
+      "resource": "http://example.org/fhir/PlanDefinition/zika-virus-intervention"
     }
   ],
   "library": [
-    "Library/zika-virus-intervention-logic"
+    "http://example.org/fhir/Library/zika-virus-intervention-logic"
   ],
   "action": [
     {
@@ -64,7 +68,7 @@
               }
             }
           ],
-          "definitionCanonical": "ActivityDefinition/administer-zika-virus-exposure-assessment"
+          "definitionCanonical": "http://example.org/fhir/ActivityDefinition/administer-zika-virus-exposure-assessment"
         },
         {
           "condition": [
@@ -76,7 +80,7 @@
               }
             }
           ],
-          "definitionCanonical": "ActivityDefinition/order-serum-urine-rrt-pcr-test"
+          "definitionCanonical": "http://example.org/fhir/ActivityDefinition/order-serum-urine-rrt-pcr-test"
         },
         {
           "condition": [
@@ -88,7 +92,7 @@
               }
             }
           ],
-          "definitionCanonical": "ActivityDefinition/order-serum-zika-dengue-virus-igm"
+          "definitionCanonical": "http://example.org/fhir/ActivityDefinition/order-serum-zika-dengue-virus-igm"
         },
         {
           "condition": [
@@ -100,7 +104,7 @@
               }
             }
           ],
-          "definitionCanonical": "ActivityDefinition/consider-igm-antibody-testing"
+          "definitionCanonical": "http://example.org/fhir/ActivityDefinition/consider-igm-antibody-testing"
         },
         {
           "condition": [
@@ -114,10 +118,10 @@
           ],
           "action": [
             {
-              "definitionCanonical": "ActivityDefinition/provide-mosquito-prevention-advice"
+              "definitionCanonical": "http://example.org/fhir/ActivityDefinition/provide-mosquito-prevention-advice"
             },
             {
-              "definitionCanonical": "ActivityDefinition/provide-contraception-advice"
+              "definitionCanonical": "http://example.org/fhir/ActivityDefinition/provide-contraception-advice"
             }
           ]
         }

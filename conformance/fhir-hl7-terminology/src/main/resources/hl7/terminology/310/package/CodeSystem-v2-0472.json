@@ -1,0 +1,135 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0472",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0472",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.300"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "TqConjunctionId",
+    "title": "tqConjunctionId",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying that a second timing specification is to follow using the repeat delimiter.  Used in HL7 Version 2.x messaging in the TQ1 segment.",
+    "purpose": "Underlying Master Code System for V2 table 0472 (TQ Conjunction ID)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0472",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "4869",
+            "code": "S",
+            "display": "Synchronous",
+            "definition": "Synchronous",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Do the next specification after this one (unless otherwise constrained by the following fields: TQ1-7-start date/time and TQ1-8-end date/time). An \"S\" specification implies that the second timing sequence follows the first, e.g., when a service request is written to measure blood pressure Q15 minutes for the 1st hour, then every 2 hours for the next day."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Do the next specification after this one (unless otherwise constrained by the following fields: TQ1-7-start date/time and TQ1-8-end date/time). An \"S\" specification implies that the second timing sequence follows the first, e.g., when a service request is written to measure blood pressure Q15 minutes for the 1st hour, then every 2 hours for the next day."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4870",
+            "code": "A",
+            "display": "Asynchronous",
+            "definition": "Asynchronous",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Do the next specification in parallel with this one (unless otherwise constrained by the following fields: TQ1-7-start date/time and TQ1-8-end date/time).  The conjunction of \"A\" specifies two parallel instructions, as are sometimes used in medication, e.g., prednisone given at 1 tab on Monday, Wednesday, Friday, and at 1/2 tab on Tuesday, Thursday, Saturday, Sunday."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Do the next specification in parallel with this one (unless otherwise constrained by the following fields: TQ1-7-start date/time and TQ1-8-end date/time).  The conjunction of \"A\" specifies two parallel instructions, as are sometimes used in medication, e.g., prednisone given at 1 tab on Monday, Wednesday, Friday, and at 1/2 tab on Tuesday, Thursday, Saturday, Sunday."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4871",
+            "code": "C",
+            "display": "Actuation Time",
+            "definition": "Actuation Time",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "It will be followed by a completion time for the service.  This code allows one to distinguish between the time and priority at which a service should be actuated (e.g., blood should be drawn) and the time and priority at which a service should be completed (e.g., results should be reported)."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "It will be followed by a completion time for the service.  This code allows one to distinguish between the time and priority at which a service should be actuated (e.g., blood should be drawn) and the time and priority at which a service should be completed (e.g., results should be reported)."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

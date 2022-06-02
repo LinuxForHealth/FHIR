@@ -29,6 +29,7 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.search.util.SearchHelper;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 
 /**
  * A base search test with utilities for other search tests
@@ -41,6 +42,10 @@ public abstract class BaseSearchTest {
     public static final boolean DEBUG = false;
 
     protected static SearchHelper searchHelper;
+    {
+        FHIRConfiguration.setConfigHome("target/test-classes");
+        searchHelper = new SearchHelper();
+    }
 
     @BeforeClass
     public void configureLogging() throws Exception {
@@ -64,12 +69,6 @@ public abstract class BaseSearchTest {
         if (DEBUG) {
             System.out.println("End of Test -> " + method.getName());
         }
-    }
-
-    @BeforeClass
-    public void setup() {
-        FHIRConfiguration.setConfigHome("target/test-classes");
-        searchHelper = new SearchHelper();
     }
 
     @AfterMethod

@@ -1,0 +1,72 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "medicinal-product-type",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/medicinal-product-type defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eMedicinalProduct\u003ca name\u003d\"medicinal-product-type-MedicinalProduct\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedicinal Product\u003c/td\u003e\u003ctd\u003eA standard medicinal product.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eInvestigationalProduct\u003ca name\u003d\"medicinal-product-type-InvestigationalProduct\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInvestigational Medicinal Product\u003c/td\u003e\u003ctd\u003eAn investigational medicinal product.\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/medicinal-product-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1548"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "MedicinalProductType",
+  "title": "MedicinalProductType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Overall defining type of this Medicinal Product.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "MedicinalProduct",
+      "display": "Medicinal Product",
+      "definition": "A standard medicinal product."
+    },
+    {
+      "code": "InvestigationalProduct",
+      "display": "Investigational Medicinal Product",
+      "definition": "An investigational medicinal product."
+    }
+  ]
+}

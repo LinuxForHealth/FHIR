@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,11 +35,6 @@ public interface FHIRPersistenceContext {
     FHIRSearchContext getSearchContext();
 
     /**
-     * Indicates whether the persistence layer should include "deleted" resources in the operation response.
-     */
-    boolean includeDeleted();
-    
-    /**
      * Get the encoded ifNoneMatch value which is interpreted as follows:
      * <pre>
      *    null: create-on-update proceeds as normal
@@ -48,9 +43,9 @@ public interface FHIRPersistenceContext {
      * @return the value from the If-None-Match header in the PUT request
      */
     Integer getIfNoneMatch();
-    
+
     /**
-     * Get the payload persistence response 
+     * Get the payload persistence response
      * @return
      */
     PayloadPersistenceResponse getOffloadResponse();

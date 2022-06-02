@@ -7,7 +7,142 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: citalopramPrescription</p><p><b>contained</b>: , </p><p><b>url</b>: <b>http://motivemi.com/artifacts/ActivityDefinition/citalopramPrescription</b></p><p><b>identifier</b>: citalopramPrescription (OFFICIAL)</p><p><b>version</b>: 1.0.0</p><p><b>name</b>: CitalopramPrescription</p><p><b>title</b>: Citalopram Prescription</p><p><b>status</b>: active</p><p><b>experimental</b>: true</p><p><b>date</b>: 15/08/2015</p><p><b>publisher</b>: Motive Medical Intelligence</p><p><b>contact</b>: </p><p><b>description</b>: Citalopram 20 mg tablet 1 tablet oral 1 time daily now (30 table; 3 refills</p><p><b>useContext</b>: , , , , , , </p><p><b>jurisdiction</b>: United States of America <span>(Details : {urn:iso:std:iso:3166 code 'US' = 'United States of America)</span></p><p><b>purpose</b>: Defines a guideline supported prescription for the treatment of depressive disorders</p><p><b>usage</b>: This activity definition is used as part of various suicide risk order sets</p><p><b>copyright</b>: © Copyright 2016 Motive Medical Intelligence. All rights reserved.</p><p><b>approvalDate</b>: 12/03/2016</p><p><b>lastReviewDate</b>: 15/08/2016</p><p><b>effectivePeriod</b>: 01/01/2016 --&gt; 31/12/2017</p><p><b>topic</b>: Mental Health Treatment <span>(Details )</span></p><p><b>author</b>: </p><p><b>relatedArtifact</b>: , </p><p><b>kind</b>: MedicationRequest</p><p><b>product</b>: id: citalopramMedication; citalopram <span>(Details : {RxNorm code '200371' = 'citalopram 20 MG Oral Tablet)</span>; Tablet dose form <span>(Details : {SNOMED CT code '385055001' = 'Tablet', given as 'Tablet dose form'})</span></p><p><b>dosage</b>: </p><blockquote><p><b>dynamicValue</b></p><p><b>path</b>: dispenseRequest.numberOfRepeatsAllowed</p><p><b>expression</b>: </p></blockquote><blockquote><p><b>dynamicValue</b></p><p><b>path</b>: dispenseRequest.quantity</p><p><b>expression</b>: </p></blockquote></div></text><contained>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        <b>Generated Narrative</b>
+      </p>
+      <div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%">
+        <p style="margin-bottom: 0px">Resource "citalopramPrescription" </p>
+      </div>
+      <p>
+        <b>url</b>: 
+        <code>http://motivemi.com/artifacts/ActivityDefinition/citalopramPrescription</code>
+      </p>
+      <p>
+        <b>identifier</b>: id: citalopramPrescription (OFFICIAL)
+      </p>
+      <p>
+        <b>version</b>: 1.0.0
+      </p>
+      <p>
+        <b>name</b>: CitalopramPrescription
+      </p>
+      <p>
+        <b>title</b>: Citalopram Prescription
+      </p>
+      <p>
+        <b>status</b>: active
+      </p>
+      <p>
+        <b>experimental</b>: true
+      </p>
+      <p>
+        <b>date</b>: 2015-08-15
+      </p>
+      <p>
+        <b>publisher</b>: Motive Medical Intelligence
+      </p>
+      <p>
+        <b>contact</b>: ph: 415-362-4007(WORK),
+        <a href="mailto:info@motivemi.com">info@motivemi.com</a>
+      </p>
+      <p>
+        <b>description</b>: Citalopram 20 mg tablet 1 tablet oral 1 time daily now (30 table; 3 refills
+      </p>
+      <p>
+        <b>jurisdiction</b>: United States of America 
+        <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (unknown#US)</span>
+      </p>
+      <p>
+        <b>purpose</b>: Defines a guideline supported prescription for the treatment of depressive disorders
+      </p>
+      <p>
+        <b>usage</b>: This activity definition is used as part of various suicide risk order sets
+      </p>
+      <p>
+        <b>copyright</b>: © Copyright 2016 Motive Medical Intelligence. All rights reserved.
+      </p>
+      <p>
+        <b>approvalDate</b>: 2016-03-12
+      </p>
+      <p>
+        <b>lastReviewDate</b>: 2016-08-15
+      </p>
+      <p>
+        <b>effectivePeriod</b>: 2016-01-01 --&gt; 2017-12-31
+      </p>
+      <p>
+        <b>topic</b>: Mental Health Treatment 
+        <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ()</span>
+      </p>
+      <p>
+        <b>author</b>: Motive Medical Intelligence: ph: 415-362-4007(WORK),
+        <a href="mailto:info@motivemi.com">info@motivemi.com</a>
+      </p>
+      <p>
+        <b>kind</b>: MedicationRequest
+      </p>
+      <p>
+        <b>product</b>: 
+        <a name="citalopramMedication"> </a>
+      </p>
+      <blockquote>
+        <div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%">
+          <p style="margin-bottom: 0px">Resource "citalopramMedication" </p>
+        </div>
+        <p>
+          <b>code</b>: citalopram 
+          <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (
+            <a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-rxNorm.html">RxNorm</a>#200371)
+          </span>
+        </p>
+        <p>
+          <b>form</b>: Tablet dose form 
+          <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (
+            <a href="https://browser.ihtsdotools.org/">SNOMED CT</a>#385055001)
+          </span>
+        </p>
+        <h3>Ingredients</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Item[x]</b>
+            </td>
+            <td>
+              <b>Strength</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>
+              <a href="#citalopramSubstance">#citalopramSubstance</a>
+            </td>
+            <td>20 mg/1 {tbl}</td>
+          </tr>
+        </table>
+      </blockquote>
+      <blockquote>
+        <p>
+          <b>dynamicValue</b>
+        </p>
+        <p>
+          <b>path</b>: dispenseRequest.numberOfRepeatsAllowed
+        </p>
+      </blockquote>
+      <blockquote>
+        <p>
+          <b>dynamicValue</b>
+        </p>
+        <p>
+          <b>path</b>: dispenseRequest.quantity
+        </p>
+      </blockquote>
+    </div>
+  </text>
+  <contained>
     <Medication>
       <id value="citalopramMedication"/>
       <code>
@@ -17,29 +152,29 @@
         </coding>
         <text value="citalopram"/>
       </code>
-        <form>
-          <coding>
-            <system value="http://snomed.info/sct"/>
-            <code value="385055001"/>
-            <display value="Tablet dose form"/>
-          </coding>
-          <text value="Tablet dose form"/>
-        </form>
-        <ingredient>
-          <itemReference>
-            <reference value="#citalopramSubstance"/>
-          </itemReference>
-          <strength>
-            <numerator>
-              <value value="20"/>
-              <unit value="mg"/>
-            </numerator>
-            <denominator>
-              <value value="1"/>
-              <unit value="{tbl}"/>
-            </denominator>
-          </strength>
-        </ingredient>
+      <form>
+        <coding>
+          <system value="http://snomed.info/sct"/>
+          <code value="385055001"/>
+          <display value="Tablet dose form"/>
+        </coding>
+        <text value="Tablet dose form"/>
+      </form>
+      <ingredient>
+        <itemReference>
+          <reference value="#citalopramSubstance"/>
+        </itemReference>
+        <strength>
+          <numerator>
+            <value value="20"/>
+            <unit value="mg"/>
+          </numerator>
+          <denominator>
+            <value value="1"/>
+            <unit value="{tbl}"/>
+          </denominator>
+        </strength>
+      </ingredient>
     </Medication>
   </contained>
   <contained>
@@ -63,8 +198,8 @@
   <version value="1.0.0"/>
   <name value="CitalopramPrescription"/>
   <title value="Citalopram Prescription"/>
-	<status value="active"/>
-	<experimental value="true"/>
+  <status value="active"/>
+  <experimental value="true"/>
   <date value="2015-08-15"/>
   <publisher value="Motive Medical Intelligence"/>
   <contact>
@@ -192,73 +327,76 @@
   <author>
     <name value="Motive Medical Intelligence"/>
     <telecom>
-	  <system value="phone"/>
-	  <value value="415-362-4007"/>
-	  <use value="work"/>
+      <system value="phone"/>
+      <value value="415-362-4007"/>
+      <use value="work"/>
     </telecom>
     <telecom>
-  	  <system value="email"/>
-	  <value value="info@motivemi.com"/>
-	  <use value="work"/>
+      <system value="email"/>
+      <value value="info@motivemi.com"/>
+      <use value="work"/>
     </telecom>
   </author>
-    <relatedArtifact>
-      <type value="citation"/>
-      <display value="Practice Guideline for the Treatment of Patients with Major Depressive Disorder"/>
+  <relatedArtifact>
+    <type value="citation"/>
+    <display value="Practice Guideline for the Treatment of Patients with Major Depressive Disorder"/>
+    <url value="http://psychiatryonline.org/pb/assets/raw/sitewide/practice_guidelines/guidelines/mdd.pdf"/>
+    <document>
       <url value="http://psychiatryonline.org/pb/assets/raw/sitewide/practice_guidelines/guidelines/mdd.pdf"/>
-	</relatedArtifact>
-	<relatedArtifact>
-      <type value="composed-of"/>
-      <resource value="#citalopramMedication"/>
-	</relatedArtifact>
-	<kind value="MedicationRequest"/>
-	<productReference>
-		<reference value="#citalopramMedication"/>
-	</productReference>
-	<dosage>
-		<text value="1 tablet oral 1 time daily"/>
-		<timing>
-			<repeat>
-				<frequency value="1"/>
-				<period value="1"/>
-				<periodUnit value="d"/>
-			</repeat>
-		</timing>
-		<route>
-			<coding>
-				<code value="26643006"/>
-				<display value="Oral route (qualifier value)"/>
-			</coding>
-			<text value="Oral route (qualifier value)"/>
-		</route>
-	  <doseAndRate>
-	    <type>
-	      <coding>
-	        <system value="http://terminology.hl7.org/CodeSystem/dose-rate-type"/>
-	        <code value="ordered"/>
-	        <display value="Ordered"/>
-	      </coding>
-	    </type>
-	    <doseQuantity>
-	      <value value="1"/>
-	      <unit value="{tbl}"/>
-	    </doseQuantity>
-	  </doseAndRate>
-	</dosage>
-	<dynamicValue>
-		<path value="dispenseRequest.numberOfRepeatsAllowed"/>
-		<expression>
-			<description value="dispenseRequest.numberOfRepeatsAllowed is three (3)"/>
-			<language value="text/cql"/>
-			<expression value="3"/>
-		</expression>
-	</dynamicValue>
-	<dynamicValue>
-		<path value="dispenseRequest.quantity"/>
-		<expression>
-			<description value="dispenseRequest.quantity is thirty (30) tablets"/>
-			<language value="text/cql"/>
-			<expression value="30 '{tbl}'"/>
-		</expression>
-	</dynamicValue>
+    </document>
+  </relatedArtifact>
+  <relatedArtifact>
+    <type value="composed-of"/>
+    <resource value="#citalopramMedication"/>
+  </relatedArtifact>
+  <kind value="MedicationRequest"/>
+  <productReference>
+    <reference value="#citalopramMedication"/>
+  </productReference>
+  <dosage>
+    <text value="1 tablet oral 1 time daily"/>
+    <timing>
+      <repeat>
+        <frequency value="1"/>
+        <period value="1"/>
+        <periodUnit value="d"/>
+      </repeat>
+    </timing>
+    <route>
+      <coding>
+        <code value="26643006"/>
+        <display value="Oral route (qualifier value)"/>
+      </coding>
+      <text value="Oral route (qualifier value)"/>
+    </route>
+    <doseAndRate>
+      <type>
+        <coding>
+          <system value="http://terminology.hl7.org/CodeSystem/dose-rate-type"/>
+          <code value="ordered"/>
+          <display value="Ordered"/>
+        </coding>
+      </type>
+      <doseQuantity>
+        <value value="1"/>
+        <unit value="{tbl}"/>
+      </doseQuantity>
+    </doseAndRate>
+  </dosage>
+  <dynamicValue>
+    <path value="dispenseRequest.numberOfRepeatsAllowed"/>
+    <expression>
+      <description value="dispenseRequest.numberOfRepeatsAllowed is three (3)"/>
+      <language value="text/cql"/>
+      <expression value="3"/>
+    </expression>
+  </dynamicValue>
+  <dynamicValue>
+    <path value="dispenseRequest.quantity"/>
+    <expression>
+      <description value="dispenseRequest.quantity is thirty (30) tablets"/>
+      <language value="text/cql"/>
+      <expression value="30 '{tbl}'"/>
+    </expression>
+  </dynamicValue>
 </ActivityDefinition>

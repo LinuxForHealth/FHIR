@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,7 +34,7 @@ import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.CompartmentType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -53,7 +53,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/CompartmentDefinition"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -71,7 +71,7 @@ public class CompartmentDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -92,7 +92,7 @@ public class CompartmentDefinition extends DomainResource {
         bindingName = "CompartmentType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Which type a compartment definition describes.",
-        valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0-cibuild"
     )
     @Required
     private final CompartmentType code;
@@ -1080,10 +1080,10 @@ public class CompartmentDefinition extends DomainResource {
             bindingName = "ResourceType",
             strength = BindingStrength.Value.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
         )
         @Required
-        private final ResourceType code;
+        private final ResourceTypeCode code;
         @Summary
         private final List<String> param;
         private final String documentation;
@@ -1099,9 +1099,9 @@ public class CompartmentDefinition extends DomainResource {
          * The name of a resource supported by the server.
          * 
          * @return
-         *     An immutable object of type {@link ResourceType} that is non-null.
+         *     An immutable object of type {@link ResourceTypeCode} that is non-null.
          */
-        public ResourceType getCode() {
+        public ResourceTypeCode getCode() {
             return code;
         }
 
@@ -1197,7 +1197,7 @@ public class CompartmentDefinition extends DomainResource {
         }
 
         public static class Builder extends BackboneElement.Builder {
-            private ResourceType code;
+            private ResourceTypeCode code;
             private List<String> param = new ArrayList<>();
             private String documentation;
 
@@ -1327,7 +1327,7 @@ public class CompartmentDefinition extends DomainResource {
              * @return
              *     A reference to this Builder instance
              */
-            public Builder code(ResourceType code) {
+            public Builder code(ResourceTypeCode code) {
                 this.code = code;
                 return this;
             }

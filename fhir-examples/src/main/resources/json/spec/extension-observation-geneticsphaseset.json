@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/observation-geneticsPhaseSet",
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "PhaseSet",
   "status": "draft",
+  "experimental": false,
   "date": "2016-03-14",
   "publisher": "Health Level Seven International (Clinical Genomics)",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "Phase set information.",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -68,9 +69,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
@@ -335,7 +336,7 @@
         "id": "Extension.extension:Id.value[x]",
         "path": "Extension.extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {
@@ -372,7 +373,7 @@
         "path": "Extension.extension",
         "sliceName": "MolecularSequence",
         "short": "Phase set sequence",
-        "definition": "MolecularSequence pointed to phase set (from: https://www.hl7.org/fhir/STU3/extension-observation-geneticssequence.html).",
+        "definition": "The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. MolecularSequence pointed to phase set (from: https://www.hl7.org/fhir/STU3/extension-observation-geneticssequence.html).",
         "min": 1,
         "max": "*",
         "base": {
@@ -524,7 +525,7 @@
         "id": "Extension.extension:MolecularSequence.value[x]",
         "path": "Extension.extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {
@@ -600,7 +601,7 @@
         "id": "Extension.value[x]",
         "path": "Extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 0,
         "max": "0",
         "base": {
@@ -835,7 +836,7 @@
         "path": "Extension.extension",
         "sliceName": "MolecularSequence",
         "short": "Phase set sequence",
-        "definition": "MolecularSequence pointed to phase set (from: https://www.hl7.org/fhir/STU3/extension-observation-geneticssequence.html).",
+        "definition": "The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. MolecularSequence pointed to phase set (from: https://www.hl7.org/fhir/STU3/extension-observation-geneticssequence.html).",
         "min": 1,
         "max": "*",
         "type": [

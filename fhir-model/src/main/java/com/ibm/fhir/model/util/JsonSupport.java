@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.fhir.model.resource.Resource;
+
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
@@ -30,19 +35,14 @@ import jakarta.json.JsonReaderFactory;
 import jakarta.json.JsonString;
 import jakarta.json.JsonValue;
 
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.generator.FHIRGenerator;
-import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
-import com.ibm.fhir.model.resource.Resource;
-
 public final class JsonSupport {
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
-    
+
     private static final Map<Class<?>, Set<String>> ELEMENT_NAME_MAP = buildElementNameMap(false);
     private static final Map<Class<?>, Set<String>> REQUIRED_ELEMENT_NAME_MAP = buildElementNameMap(true);
     private static final Map<Class<?>, Set<String>> SUMMARY_ELEMENT_NAME_MAP = buildSummaryElementNameMap();
     private static final Map<Class<?>, Set<String>> SUMMARY_DATA_ELEMENT_NAME_MAP = new LinkedHashMap<>();
-    
+
     private JsonSupport() { }
 
     /**
@@ -81,8 +81,8 @@ public final class JsonSupport {
         }
         return Collections.unmodifiableMap(elementNameMap);
     }
-    
-    
+
+
     private static Map<Class<?>, Set<String>> buildSummaryElementNameMap() {
         Map<Class<?>, Set<String>> summaryElementNameMap = new LinkedHashMap<>();
         for (Class<?> modelClass : ModelSupport.getModelClasses()) {
@@ -104,11 +104,11 @@ public final class JsonSupport {
     public static Set<String> getElementNames(Class<?> type) {
         return ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet());
     }
-    
+
     public static Set<String> getSummaryElementNames(Class<?> type) {
         return Collections.unmodifiableSet(SUMMARY_ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet()));
     }
-    
+
     public static Set<String> getSummaryDataElementNames(Class<?> type) {
         if (SUMMARY_DATA_ELEMENT_NAME_MAP.get(type) != null) {
             return Collections.unmodifiableSet(SUMMARY_DATA_ELEMENT_NAME_MAP.get(type));
@@ -119,15 +119,15 @@ public final class JsonSupport {
             return summaryData;
         }
     }
-    
+
     public static Set<String> getRequiredElementNames(Class<?> type) {
         return REQUIRED_ELEMENT_NAME_MAP.getOrDefault(type, Collections.emptySet());
     }
-    
+
     public static JsonArray getJsonArray(JsonObject jsonObject, String key) {
         return getJsonArray(jsonObject, key, false);
     }
-    
+
     public static JsonArray getJsonArray(JsonObject jsonObject, String key, boolean primitive) {
         JsonArray jsonArray = getJsonValue(jsonObject, key, JsonArray.class);
         if (primitive) {
@@ -151,23 +151,23 @@ public final class JsonSupport {
         }
         return null;
     }
-    
+
     public static <T extends JsonValue> T getJsonValue(JsonObject jsonObject, String key, Class<T> expectedType) {
         JsonValue jsonValue = jsonObject.get(key);
         if (jsonValue != null && !expectedType.isInstance(jsonValue)) {
-            throw new IllegalArgumentException("Expected: " + expectedType.getSimpleName() + " but found: " + jsonValue.getValueType() 
+            throw new IllegalArgumentException("Expected: " + expectedType.getSimpleName() + " but found: " + jsonValue.getValueType()
                                                 + " for element: " + key);
         }
         return expectedType.cast(jsonValue);
     }
-    
+
     // TODO: replace this method with a class that converts Resource to JsonObject directly
     public static JsonObject toJsonObject(Resource resource) throws FHIRGeneratorException {
         StringWriter writer = new StringWriter();
         FHIRGenerator.generator(Format.JSON).generate(resource, writer);
         return JSON_READER_FACTORY.createReader(new StringReader(writer.toString())).readObject();
     }
-    
+
     public static Reader nonClosingReader(Reader reader) {
         return new FilterReader(reader) {
             @Override
@@ -176,7 +176,7 @@ public final class JsonSupport {
             }
         };
     }
-    
+
     public static InputStream nonClosingInputStream(InputStream in) {
         return new FilterInputStream(in) {
             @Override
@@ -185,7 +185,7 @@ public final class JsonSupport {
             }
         };
     }
-    
+
     public static Writer nonClosingWriter(Writer writer) {
         return new FilterWriter(writer) {
             @Override
@@ -194,7 +194,7 @@ public final class JsonSupport {
             }
         };
     }
-    
+
     public static OutputStream nonClosingOutputStream(OutputStream out) {
         return new FilterOutputStream(out) {
             @Override
@@ -203,7 +203,7 @@ public final class JsonSupport {
             }
         };
     }
-    
+
     public static void checkForUnrecognizedElements(Class<?> type, JsonObject jsonObject) {
         Set<java.lang.String> elementNames = JsonSupport.getElementNames(type);
         for (java.lang.String key : jsonObject.keySet()) {

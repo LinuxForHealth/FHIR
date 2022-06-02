@@ -21,6 +21,7 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.HistorySortOrder;
@@ -31,8 +32,6 @@ import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 
 /**
@@ -72,7 +71,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
-        throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+            throws FHIRPersistenceException {
 
         if (resourceType == Patient.class) {
             return new SingleResourceResult.Builder<T>()
@@ -104,7 +103,11 @@ public class MockPersistenceImpl implements FHIRPersistence {
                         .resource((T)encounter_not_in_patient_compartment)
                         .build();
             } else {
-                throw new FHIRPersistenceResourceNotFoundException("Not found");
+                return new SingleResourceResult.Builder<T>()
+                        .success(false)
+                        .interactionStatus(InteractionStatus.READ)
+                        .outcome(FHIRUtil.buildOperationOutcome("Resource '" + resourceType + "/" + logicalId + "' not found.", null, null))
+                        .build();
             }
         }
 
@@ -113,7 +116,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
 
     @Override
     public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
-        throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+            throws FHIRPersistenceException {
 
         if (resourceType == Patient.class) {
             return new SingleResourceResult.Builder<T>()

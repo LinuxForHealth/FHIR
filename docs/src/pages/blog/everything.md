@@ -1,25 +1,27 @@
 ---
 layout: post
 title:  Introducing the IBM FHIR Server - $everything operation
-description: Introducing the IBM FHIR Server - $everything operation 
+description: Introducing the IBM FHIR Server - $everything operation
 date:   2021-04-21
 ---
 
-# Introducing the IBM FHIR Server - $everything operation
-In [IBM FHIR Server 4.7.0](https://github.com/IBM/FHIR/releases/tag/4.7.0), the IBM FHIR Server team turned on the `Patient/$everything` operation. We have this feature thanks to external contributor and an IBMer, [Luis García](https://github.com/luisgarcc) who implemented  the operation [#1044](https://github.com/IBM/FHIR/issues/1044). 
+By Paul Bastide    |    Published April 4, 2021
+
+# The $everything operation
+In [IBM FHIR Server 4.7.0](https://github.com/IBM/FHIR/releases/tag/4.7.0), the IBM FHIR Server team turned on the `Patient/$everything` operation. We have this feature thanks to external contributor and an IBMer, [Luis García](https://github.com/luisgarcc) who implemented the operation in [#1044](https://github.com/IBM/FHIR/issues/1044).
 
 So what do you get with `Patient/$everything`? Well, following the HL7 FHIR R4 [specification](http://hl7.org/fhir/patient-operation-everything.html), you get an operation that returns a "searchset" bundle with the information related to a patient in the context it is invoked. In the IBM FHIR Server's case, the server returns whatever resources are related to the Patient - e.g. practitioners, medications, locations, organizations etc.  You also get support for `Patient/[id]/$everything` where the `[ID]` is the logical id specific to a patient.
 
 Let's build a request and see it in action:
 
-We need to know about the parameters of the `$everything` operation. 
+We need to know about the parameters of the `$everything` operation.
 
 | Name | Type | Description |
 |---|---|---|
 | `start` | date | The date range relates to care dates, not record currency dates - e.g. all records relating to care provided in a certain date range. If no start date is provided, all records prior to the end date are in scope. |
 | `end` | date | The date range relates to care dates, not record currency dates - e.g. all records relating to care provided in a certain date range. If no end date is provided, all records subsequent to the start date are in scope. |
 | `_since` | date | Resources updated after this period will be included in the response. The intent of this parameter is to allow a client to request only records that have changed since the last request, based on either the return header time, or or (for asynchronous use), the transaction time|
-| `_type` | code | One or more parameters, each containing one or more comma-delimited FHIR resource types to include in the return resources. In the absence of any specified types, the server returns all resource types | 
+| `_type` | code | One or more parameters, each containing one or more comma-delimited FHIR resource types to include in the return resources. In the absence of any specified types, the server returns all resource types |
 | `return` | Bundle | The bundle is "searchset" |
 
 Note, currently the implementation ignores the `_count` parameter.
@@ -126,23 +128,23 @@ curl -k --location --request GET 'https://localhost:9443/fhir-server/api/v4/Pati
 }
 ```
 
-You'll see further down CareTeam and CarePlan resources... 
+You'll see further down CareTeam and CarePlan resources...
 
 7. This is where we can have a bit of fun...  download the [fhir-path-cli](https://github.com/IBM/FHIR/releases/download/4.7.0/fhir-path-4.7.0-cli.jar)
 
-``` sh 
+``` sh
 curl -L https://github.com/IBM/FHIR/releases/download/4.7.0/fhir-path-4.7.0-cli.jar -o fhir-path-4.7.0-cli.jar
 ```
 
-8. Let's run the fhir-path-4.7.0-cli.jar and test a FHIRPath. 
+8. Let's run the fhir-path-4.7.0-cli.jar and test a FHIRPath.
 
 *Command Line*
 
 ```
-java -jar fhir-path-4.7.0-cli.jar --path 'entry.fullUrl' --file care.json 
+java -jar fhir-path-4.7.0-cli.jar --path 'entry.fullUrl' --file care.json
 ```
 
-*Output* 
+*Output*
 
 ```
 https://localhost:9443/fhir-server/api/v4/Patient/178f4a3f869-6abfe1e6-3a4a-4c9a-81a8-fb8c6263e003

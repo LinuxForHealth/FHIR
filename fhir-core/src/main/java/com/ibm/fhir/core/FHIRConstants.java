@@ -35,7 +35,7 @@ public class FHIRConstants {
 
     public static final String ELEMENTS = "_elements";
 
-    public static final String UPDATE_IF_MODIFIED_HEADER = "X-FHIR-UPDATE-IF-MODIFIED";
+    public static final String FORCE_UPDATE_HEADER = "X-FHIR-FORCE-UPDATE";
 
     public static final String EXT_BASE = "http://ibm.com/fhir/extension/";
     public static final String TAG_BASE = "http://ibm.com/fhir/tag/";

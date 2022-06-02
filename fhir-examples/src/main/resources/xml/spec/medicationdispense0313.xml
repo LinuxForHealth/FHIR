@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: meddisp0313</p><p><b>contained</b>: </p><p><b>status</b>: stopped</p><p><b>medication</b>: Potassium Chloride 20mEq in 1L Normal Saline. Generated Summary: id: med0317; Injection Solution (qualifier value) <span>(Details : {SNOMED CT code '385219001' = 'Injection solution', given as 'Injection Solution (qualifier value)'})</span></p><p><b>subject</b>: <a>Donald Duck</a></p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Practitioner/f006</a></td></tr></table><p><b>authorizingPrescription</b>: <a>MedicationRequest/medrx0322</a></p><p><b>type</b>: First Fill <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActCode code 'FF' = 'First Fill', given as 'First Fill'})</span></p><p><b>quantity</b>: 1000 ml<span> (Details: UCUM code ml = 'ml')</span></p><p><b>daysSupply</b>: 1 Day<span> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 28/04/2016 7:13:00 AM</p><p><b>whenHandedOver</b>: 28/04/2016 7:13:00 AM</p><p><b>dosageInstruction</b>: </p></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "meddisp0313" </p></div><p><b>status</b>: stopped</p><p><b>medication</b>: <a name="med0317"> </a></p><blockquote><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "med0317" </p></div><p><b>form</b>: Injection Solution (qualifier value) <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://browser.ihtsdotools.org/">SNOMED CT</a>#385219001)</span></p><blockquote><p><b>ingredient</b></p><p><b>item</b>: Potassium Chloride <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-rxNorm.html">RxNorm</a>#204520)</span></p><p><b>strength</b>: 2 meq<span style="background: LightGoldenRodYellow"> (Details: UCUM code meq = 'meq')</span>/1 mL<span style="background: LightGoldenRodYellow"> (Details: UCUM code mL = 'mL')</span></p></blockquote><blockquote><p><b>ingredient</b></p><p><b>item</b>: Sodium Chloride 0.9% injectable solution <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-rxNorm.html">RxNorm</a>#313002)</span></p><p><b>strength</b>: 0.9 g<span style="background: LightGoldenRodYellow"> (Details: UCUM code g = 'g')</span>/100 mL<span style="background: LightGoldenRodYellow"> (Details: UCUM code mL = 'mL')</span></p></blockquote></blockquote><p><b>subject</b>: <a href="patient-pat1.html">Patient/pat1: Donald Duck</a> "Duck DONALD"</p><h3>Performers</h3><table class="grid"><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a href="practitioner-f006.html">Practitioner/f006</a> "Rob VAN DEN BERK"</td></tr></table><p><b>authorizingPrescription</b>: <a href="medicationrequest-medrx0322.html">MedicationRequest/medrx0322</a></p><p><b>type</b>: First Fill <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ActCode.html">ActCode</a>#FF)</span></p><p><b>quantity</b>: 1000 ml<span style="background: LightGoldenRodYellow"> (Details: UCUM code ml = 'ml')</span></p><p><b>daysSupply</b>: 1 Day<span style="background: LightGoldenRodYellow"> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 2016-04-28T07:13:00+05:00</p><p><b>whenHandedOver</b>: 2016-04-28T07:13:00+05:00</p></div></text><contained>
         <Medication>
             <id value="med0317"/>
                 <form>
@@ -30,7 +30,7 @@
                         <numerator>
                             <value value="2"/>
                             <system value="http://unitsofmeasure.org"/>
-                            <code value="mEq"/>
+                            <code value="meq"/>
                         </numerator>
                         <denominator>
                             <value value="1"/>
@@ -130,7 +130,7 @@
                 <value value="20"/>
                 <unit value="mEq"/>
                 <system value="http://unitsofmeasure.org"/>
-                <code value="mEq"/>
+                <code value="meq"/>
             </doseQuantity>
             <rateRatio>
                 <numerator>

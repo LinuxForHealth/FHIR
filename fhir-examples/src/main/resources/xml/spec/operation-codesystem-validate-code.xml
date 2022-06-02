@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="CodeSystem-validate-code"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Code System based Validation</h2>
-      <p>OPERATION: Code System based Validation</p>
+      <h2>ValidateCode</h2>
+      <p>OPERATION: ValidateCode</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/CodeSystem-validate-code</pre>
       <div>
@@ -49,7 +49,7 @@
           <td/>
           <td>
             <div>
-              <p>CodeSystem URL. The server must know the code system (e.g. it is defined explicitly in the server&#39;scode systems, or it is known implicitly by the server</p>
+              <p>CodeSystem URL. The server must know the code system (e.g. it is defined explicitly in the server'scode systems, or it is known implicitly by the server</p>
 
             </div>
           </td>
@@ -169,9 +169,9 @@
           <td/>
           <td>
             <div>
-              <p>If this parameter has a value of true, the client is stating that the validation is being performed in a context where a concept designated as &#39;abstract&#39; is appropriate/allowed to be used, and the server should regard abstract codes as valid. If this parameter is false, abstract codes are not considered to be valid.</p>
+              <p>If this parameter has a value of true, the client is stating that the validation is being performed in a context where a concept designated as 'abstract' is appropriate/allowed to be used, and the server should regard abstract codes as valid. If this parameter is false, abstract codes are not considered to be valid.</p>
 
-              <p>Note that. &#39;abstract&#39; is a property defined by many HL7 code systems that indicates that the concept is a logical grouping concept that is not intended to be used asa &#39;concrete&#39; concept to in an actual patient/care/process record. This language is borrowed from Object Orienated theory where &#39;asbtract&#39; objects are never instantiated. However in the general record and terminology eco-system, there are many contexts where it is appropraite to use these codes e.g. as decision making criterion, or when editing value sets themselves. This parameter allows a client to indicate to the server that it is working in such a context.</p>
+              <p>Note that. 'abstract' is a property defined by many HL7 code systems that indicates that the concept is a logical grouping concept that is not intended to be used asa 'concrete' concept to in an actual patient/care/process record. This language is borrowed from Object Orienated theory where 'asbtract' objects are never instantiated. However in the general record and terminology eco-system, there are many contexts where it is appropraite to use these codes e.g. as decision making criterion, or when editing value sets themselves. This parameter allows a client to indicate to the server that it is working in such a context.</p>
 
             </div>
           </td>
@@ -246,15 +246,14 @@
   <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
     <valueCode value="normative"/>
   </extension>
-  <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version">
-    <valueCode value="4.0.1"/>
-  </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/CodeSystem-validate-code"/>
-  <version value="4.0.1"/>
-  <name value="Code System based Validation"/>
-  <status value="draft"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="ValidateCode"/>
+  <title value="Code System based Validation"/>
+  <status value="active"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -267,6 +266,7 @@
     </telecom>
   </contact>
   <description value="Validate that a coded value is in the code system. If the operation is not called at the instance level, one of the parameters &quot;url&quot; or &quot;codeSystem&quot; must be provided. The operation returns a result (true / false), an error message, and the recommended display for the code.&#xA;&#xA;When invoking this operation, a client SHALL provide one (and only one) of the parameters (code+system, coding, or codeableConcept). Other parameters (including version and display) are optional"/>
+  <affectsState value="false"/>
   <code value="validate-code"/>
   <resource value="CodeSystem"/>
   <system value="false"/>
@@ -277,7 +277,7 @@
     <use value="in"/>
     <min value="0"/>
     <max value="1"/>
-    <documentation value="CodeSystem URL. The server must know the code system (e.g. it is defined explicitly in the server&#39;scode systems, or it is known implicitly by the server"/>
+    <documentation value="CodeSystem URL. The server must know the code system (e.g. it is defined explicitly in the server'scode systems, or it is known implicitly by the server"/>
     <type value="uri"/>
   </parameter>
   <parameter>
@@ -341,7 +341,7 @@
     <use value="in"/>
     <min value="0"/>
     <max value="1"/>
-    <documentation value="If this parameter has a value of true, the client is stating that the validation is being performed in a context where a concept designated as &#39;abstract&#39; is appropriate/allowed to be used, and the server should regard abstract codes as valid. If this parameter is false, abstract codes are not considered to be valid.&#xA;&#xA;Note that. &#39;abstract&#39; is a property defined by many HL7 code systems that indicates that the concept is a logical grouping concept that is not intended to be used asa &#39;concrete&#39; concept to in an actual patient/care/process record. This language is borrowed from Object Orienated theory where &#39;asbtract&#39; objects are never instantiated. However in the general record and terminology eco-system, there are many contexts where it is appropraite to use these codes e.g. as decision making criterion, or when editing value sets themselves. This parameter allows a client to indicate to the server that it is working in such a context."/>
+    <documentation value="If this parameter has a value of true, the client is stating that the validation is being performed in a context where a concept designated as 'abstract' is appropriate/allowed to be used, and the server should regard abstract codes as valid. If this parameter is false, abstract codes are not considered to be valid.&#xA;&#xA;Note that. 'abstract' is a property defined by many HL7 code systems that indicates that the concept is a logical grouping concept that is not intended to be used asa 'concrete' concept to in an actual patient/care/process record. This language is borrowed from Object Orienated theory where 'asbtract' objects are never instantiated. However in the general record and terminology eco-system, there are many contexts where it is appropraite to use these codes e.g. as decision making criterion, or when editing value sets themselves. This parameter allows a client to indicate to the server that it is working in such a context."/>
     <type value="boolean"/>
   </parameter>
   <parameter>

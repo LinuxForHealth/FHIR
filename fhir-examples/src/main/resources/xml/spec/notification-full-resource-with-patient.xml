@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?><Bundle xmlns="http://hl7.org/fhir">
+  <id value="fdd78223-f79f-43b4-8979-ad49d4ac248c"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <type value="history"/>
+  <timestamp value="2020-04-17T10:24:13.1882432-05:00"/>
+  <entry>
+    <fullUrl value="urn:uuid:641244a4-7c34-44e9-8df3-0a04c6ba5fa7"/>
+    <resource>
+      <SubscriptionStatus>
+        <id value="641244a4-7c34-44e9-8df3-0a04c6ba5fa7"/>
+        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "641244a4-7c34-44e9-8df3-0a04c6ba5fa7" </p></div><p><b>status</b>: active</p><p><b>type</b>: event-notification</p><p><b>eventsSinceSubscriptionStart</b>: 2</p><h3>NotificationEvents</h3><table class="grid"><tr><td>-</td><td><b>EventNumber</b></td><td><b>Focus</b></td><td><b>AdditionalContext</b></td></tr><tr><td>*</td><td>2</td><td><a href="todo.html">http://example.org/FHIR/R4B/Encounter/2</a></td><td><a href="todo.html">http://example.org/FHIR/R4B/Patient/ABC</a></td></tr></table><p><b>subscription</b>: <a href="todo.html">http://example.org/FHIR/R4B/Subscription/123</a></p><p><b>topic</b>: <a href="http://example.org/FHIR/R4B/SubscriptionTopic/admission">http://example.org/FHIR/R4B/SubscriptionTopic/admission</a></p></div></text><status value="active"/>
+        <type value="event-notification"/>
+        <eventsSinceSubscriptionStart value="2"/>
+        <notificationEvent>
+          <eventNumber value="2"/>
+          <focus>
+            <reference value="http://example.org/FHIR/R4B/Encounter/2"/>
+          </focus>
+          <additionalContext>
+            <reference value="http://example.org/FHIR/R4B/Patient/ABC"/>
+          </additionalContext>
+        </notificationEvent>
+        <subscription>
+          <reference value="http://example.org/FHIR/R4B/Subscription/123"/>
+        </subscription>
+        <topic value="http://example.org/FHIR/R4B/SubscriptionTopic/admission"/>
+      </SubscriptionStatus>
+    </resource>
+    <request>
+      <method value="GET"/>
+      <url value="Subscription/123/$status"/>
+    </request>
+    <response>
+      <status value="200"/>
+    </response>
+  </entry>
+  <entry>
+    <fullUrl value="https://example.org/FHIR/R4/Encounter/2"/>
+    <resource>
+      <Encounter>
+        <id value="2"/>
+        <meta>
+          <versionId value="1"/>
+          <lastUpdated value="2019-08-07T10:49:22Z"/>
+        </meta>
+        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "2" Version "1" Updated "2019-08-07T10:49:22Z" </p></div><p><b>status</b>: in-progress</p><p><b>class</b>: virtual (Details: http://terminology.hl7.org/CodeSystem/v3-ActCode code VR = 'virtual', stated as 'virtual')</p><p><b>subject</b>: <a href="todo.html">Patient/123</a></p></div></text><status value="in-progress"/>
+        <class>
+          <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
+          <code value="VR"/>
+          <display value="virtual"/>
+        </class>
+        <subject>
+          <reference value="Patient/123"/>
+        </subject>
+      </Encounter>
+    </resource>
+    <request>
+      <method value="PUT"/>
+      <url value="Encounter/2"/>
+    </request>
+    <response>
+      <status value="201"/>
+    </response>
+  </entry>
+  <entry>
+    <fullUrl value="https://example.org/FHIR/R4/Patient/ABC"/>
+    <resource>
+      <Patient>
+        <id value="ABC"/>
+        <meta>
+          <versionId value="1"/>
+          <lastUpdated value="2019-08-07T10:49:22Z"/>
+        </meta>
+        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Patient Example (OFFICIAL)</b> (no stated gender), DoB Unknown</p></div></text><name>
+          <use value="official"/>
+          <family value="Example"/>
+          <given value="Patient"/>
+        </name>
+      </Patient>
+    </resource>
+    <request>
+      <method value="GET"/>
+      <url value="Patient/ABC"/>
+    </request>
+    <response>
+      <status value="200"/>
+    </response>
+  </entry>
+</Bundle>

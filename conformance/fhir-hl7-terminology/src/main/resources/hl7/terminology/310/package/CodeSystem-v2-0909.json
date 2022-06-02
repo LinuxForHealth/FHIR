@@ -1,0 +1,195 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0909",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0909",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.419"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "PatientResultsReleaseCategorizationScheme",
+    "title": "patientResultsReleaseCategorizationScheme",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying the scheme for the patient results release categorization.  Used in HL7 Version 2.x messaging in the OBX segment.",
+    "purpose": "Underlying Master Code System for V2 table 0909 (Patient Results Release Categorization Scheme)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0909",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6559",
+            "code": "STBD",
+            "display": "Share To Be Determined -<p>Category to be determined",
+            "definition": "Share To Be Determined -<p>Category to be determined",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "NA"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "NA"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6560",
+            "code": "SIMM",
+            "display": "Share Immediately -<p>Share result with patient immediately",
+            "definition": "Share Immediately -<p>Share result with patient immediately",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Immediate"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Immediate"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6561",
+            "code": "SWNL",
+            "display": "Share Within Normal Limits -<p>Share result in reference/therapeutic range with patient immediately<p>Share result out of reference/therapeutic ranges with patient after 1 or more business day as agreed to by the systems in play.",
+            "definition": "Share Within Normal Limits -<p>Share result in reference/therapeutic range with patient immediately<p>Share result out of reference/therapeutic ranges with patient after 1 or more business day as agreed to by the systems in play.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "immediate<p>1 day"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "immediate<p>1 day"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6562",
+            "code": "SID",
+            "display": "Share In1 Day -<p>Share result regardless of reference/therapeutic range after 1 or more business day as agreed to by the systems in play.",
+            "definition": "Share In1 Day -<p>Share result regardless of reference/therapeutic range after 1 or more business day as agreed to by the systems in play.",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "1 day"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "1 day"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6563",
+            "code": "SIDC",
+            "display": "Share in 1 Day Conditionally -<p>Share result in reference ranges/therapeutic with patient after 1 or more business day as agreed to by the systems in play.<p>Withhold result out of reference/therapeutic range until physician release",
+            "definition": "Share in 1 Day Conditionally -<p>Share result in reference ranges/therapeutic with patient after 1 or more business day as agreed to by the systems in play.<p>Withhold result out of reference/therapeutic range until physician release",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "1 day<p>Withhold"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "1 day<p>Withhold"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6564",
+            "code": "SWTH",
+            "display": "Share Withhold -<p>Withhold result regardless of reference/therapeutic ranges",
+            "definition": "Share Withhold -<p>Withhold result regardless of reference/therapeutic ranges",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Withhold"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Withhold"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,112 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "therapy-relationship-type",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/therapy-relationship-type defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003econtraindicated-only-with\u003ca name\u003d\"therapy-relationship-type-contraindicated-only-with\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOnly contraindicated if the other therapy is given\u003c/td\u003e\u003ctd\u003eOnly contraindicated if the other therapy is given\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003econtraindicated-except-with\u003ca name\u003d\"therapy-relationship-type-contraindicated-except-with\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eContraindicated unless the other therapy is given\u003c/td\u003e\u003ctd\u003eContraindicated unless the other therapy is given\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eindicated-only-with\u003ca name\u003d\"therapy-relationship-type-indicated-only-with\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIndicated only when the other therapy is given (co-occurrent)\u003c/td\u003e\u003ctd\u003eIndicated only when the other therapy is given (co-occurrent)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eindicated-except-with\u003ca name\u003d\"therapy-relationship-type-indicated-except-with\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIndicated except when the other therapy is given\u003c/td\u003e\u003ctd\u003eIndicated except when the other therapy is given\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eindicated-only-before\u003ca name\u003d\"therapy-relationship-type-indicated-only-before\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIndicated only if the other therapy is planned to be given afterwards (prep)\u003c/td\u003e\u003ctd\u003eIndicated only if the other therapy is planned to be given afterwards (prep)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eindicated-only-before\u003ca name\u003d\"therapy-relationship-type-indicated-only-before\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIndicated only if the other therapy was given before (follow-up)\u003c/td\u003e\u003ctd\u003eIndicated only if the other therapy was given before (follow-up)\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ereplace-other-therapy\u003ca name\u003d\"therapy-relationship-type-replace-other-therapy\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIndicated to replace the other therapy\u003c/td\u003e\u003ctd\u003eIndicated to replace the other therapy\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ereplace-other-therapy-contraindicated\u003ca name\u003d\"therapy-relationship-type-replace-other-therapy-contraindicated\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIndicated to replace the other contraindicated therapy\u003c/td\u003e\u003ctd\u003eIndicated to replace the other contraindicated therapy.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ereplace-other-therapy-not-tolerated\u003ca name\u003d\"therapy-relationship-type-replace-other-therapy-not-tolerated\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIndicated to replace the other therapy not well tolerated by patient\u003c/td\u003e\u003ctd\u003eIndicated to replace the other therapy not well tolerated by patient\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ereplace-other-therapy-not-effective\u003ca name\u003d\"therapy-relationship-type-replace-other-therapy-not-effective\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIndicated to replace the other therapy not effective on patient\u003c/td\u003e\u003ctd\u003eIndicated to replace the other therapy not effective on patient\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/therapy-relationship-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1560"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "TherapyRelationshipType",
+  "title": "TherapyRelationshipType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-08-15T16:55:11+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Classification of relationship between a therapy and a contraindication or an indication.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/therapy-relationship-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "contraindicated-only-with",
+      "display": "Only contraindicated if the other therapy is given",
+      "definition": "Only contraindicated if the other therapy is given"
+    },
+    {
+      "code": "contraindicated-except-with",
+      "display": "Contraindicated unless the other therapy is given",
+      "definition": "Contraindicated unless the other therapy is given"
+    },
+    {
+      "code": "indicated-only-with",
+      "display": "Indicated only when the other therapy is given (co-occurrent)",
+      "definition": "Indicated only when the other therapy is given (co-occurrent)"
+    },
+    {
+      "code": "indicated-except-with",
+      "display": "Indicated except when the other therapy is given",
+      "definition": "Indicated except when the other therapy is given"
+    },
+    {
+      "code": "indicated-only-before",
+      "display": "Indicated only if the other therapy is planned to be given afterwards (prep)",
+      "definition": "Indicated only if the other therapy is planned to be given afterwards (prep)"
+    },
+    {
+      "code": "indicated-only-before",
+      "display": "Indicated only if the other therapy was given before (follow-up)",
+      "definition": "Indicated only if the other therapy was given before (follow-up)"
+    },
+    {
+      "code": "replace-other-therapy",
+      "display": "Indicated to replace the other therapy",
+      "definition": "Indicated to replace the other therapy"
+    },
+    {
+      "code": "replace-other-therapy-contraindicated",
+      "display": "Indicated to replace the other contraindicated therapy",
+      "definition": "Indicated to replace the other contraindicated therapy."
+    },
+    {
+      "code": "replace-other-therapy-not-tolerated",
+      "display": "Indicated to replace the other therapy not well tolerated by patient",
+      "definition": "Indicated to replace the other therapy not well tolerated by patient"
+    },
+    {
+      "code": "replace-other-therapy-not-effective",
+      "display": "Indicated to replace the other therapy not effective on patient",
+      "definition": "Indicated to replace the other therapy not effective on patient"
+    }
+  ]
+}

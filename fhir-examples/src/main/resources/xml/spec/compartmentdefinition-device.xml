@@ -3,7 +3,7 @@
 <CompartmentDefinition xmlns="http://hl7.org/fhir">
   <id value="device"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
       <p>
 The following resources may be in this compartment:
@@ -265,6 +265,10 @@ The following resources are never in this compartment:
         </li>
  
         <li>
+          <a href="administrableproductdefinition.html">AdministrableProductDefinition</a>
+        </li>
+ 
+        <li>
           <a href="adverseevent.html">AdverseEvent</a>
         </li>
  
@@ -313,11 +317,19 @@ The following resources are never in this compartment:
         </li>
  
         <li>
+          <a href="citation.html">Citation</a>
+        </li>
+ 
+        <li>
           <a href="claimresponse.html">ClaimResponse</a>
         </li>
  
         <li>
           <a href="clinicalimpression.html">ClinicalImpression</a>
+        </li>
+ 
+        <li>
+          <a href="clinicalusedefinition.html">ClinicalUseDefinition</a>
         </li>
  
         <li>
@@ -369,10 +381,6 @@ The following resources are never in this compartment:
         </li>
  
         <li>
-          <a href="effectevidencesynthesis.html">EffectEvidenceSynthesis</a>
-        </li>
- 
-        <li>
           <a href="encounter.html">Encounter</a>
         </li>
  
@@ -398,6 +406,10 @@ The following resources are never in this compartment:
  
         <li>
           <a href="evidence.html">Evidence</a>
+        </li>
+ 
+        <li>
+          <a href="evidencereport.html">EvidenceReport</a>
         </li>
  
         <li>
@@ -449,6 +461,10 @@ The following resources are never in this compartment:
         </li>
  
         <li>
+          <a href="ingredient.html">Ingredient</a>
+        </li>
+ 
+        <li>
           <a href="insuranceplan.html">InsurancePlan</a>
         </li>
  
@@ -462,6 +478,10 @@ The following resources are never in this compartment:
  
         <li>
           <a href="location.html">Location</a>
+        </li>
+ 
+        <li>
+          <a href="manufactureditemdefinition.html">ManufacturedItemDefinition</a>
         </li>
  
         <li>
@@ -493,43 +513,7 @@ The following resources are never in this compartment:
         </li>
  
         <li>
-          <a href="medicinalproduct.html">MedicinalProduct</a>
-        </li>
- 
-        <li>
-          <a href="medicinalproductauthorization.html">MedicinalProductAuthorization</a>
-        </li>
- 
-        <li>
-          <a href="medicinalproductcontraindication.html">MedicinalProductContraindication</a>
-        </li>
- 
-        <li>
-          <a href="medicinalproductindication.html">MedicinalProductIndication</a>
-        </li>
- 
-        <li>
-          <a href="medicinalproductingredient.html">MedicinalProductIngredient</a>
-        </li>
- 
-        <li>
-          <a href="medicinalproductinteraction.html">MedicinalProductInteraction</a>
-        </li>
- 
-        <li>
-          <a href="medicinalproductmanufactured.html">MedicinalProductManufactured</a>
-        </li>
- 
-        <li>
-          <a href="medicinalproductpackaged.html">MedicinalProductPackaged</a>
-        </li>
- 
-        <li>
-          <a href="medicinalproductpharmaceutical.html">MedicinalProductPharmaceutical</a>
-        </li>
- 
-        <li>
-          <a href="medicinalproductundesirableeffect.html">MedicinalProductUndesirableEffect</a>
+          <a href="medicinalproductdefinition.html">MedicinalProductDefinition</a>
         </li>
  
         <li>
@@ -546,6 +530,10 @@ The following resources are never in this compartment:
  
         <li>
           <a href="nutritionorder.html">NutritionOrder</a>
+        </li>
+ 
+        <li>
+          <a href="nutritionproduct.html">NutritionProduct</a>
         </li>
  
         <li>
@@ -566,6 +554,10 @@ The following resources are never in this compartment:
  
         <li>
           <a href="organizationaffiliation.html">OrganizationAffiliation</a>
+        </li>
+ 
+        <li>
+          <a href="packagedproductdefinition.html">PackagedProductDefinition</a>
         </li>
  
         <li>
@@ -605,6 +597,10 @@ The following resources are never in this compartment:
         </li>
  
         <li>
+          <a href="regulatedauthorization.html">RegulatedAuthorization</a>
+        </li>
+ 
+        <li>
           <a href="relatedperson.html">RelatedPerson</a>
         </li>
  
@@ -622,10 +618,6 @@ The following resources are never in this compartment:
  
         <li>
           <a href="researchsubject.html">ResearchSubject</a>
-        </li>
- 
-        <li>
-          <a href="riskevidencesynthesis.html">RiskEvidenceSynthesis</a>
         </li>
  
         <li>
@@ -653,31 +645,19 @@ The following resources are never in this compartment:
         </li>
  
         <li>
+          <a href="subscriptionstatus.html">SubscriptionStatus</a>
+        </li>
+ 
+        <li>
+          <a href="subscriptiontopic.html">SubscriptionTopic</a>
+        </li>
+ 
+        <li>
           <a href="substance.html">Substance</a>
         </li>
  
         <li>
-          <a href="substancenucleicacid.html">SubstanceNucleicAcid</a>
-        </li>
- 
-        <li>
-          <a href="substancepolymer.html">SubstancePolymer</a>
-        </li>
- 
-        <li>
-          <a href="substanceprotein.html">SubstanceProtein</a>
-        </li>
- 
-        <li>
-          <a href="substancereferenceinformation.html">SubstanceReferenceInformation</a>
-        </li>
- 
-        <li>
-          <a href="substancesourcematerial.html">SubstanceSourceMaterial</a>
-        </li>
- 
-        <li>
-          <a href="substancespecification.html">SubstanceSpecification</a>
+          <a href="substancedefinition.html">SubstanceDefinition</a>
         </li>
  
         <li>
@@ -716,11 +696,11 @@ The following resources are never in this compartment:
     </div>
   </text>
   <url value="http://hl7.org/fhir/CompartmentDefinition/device"/>
-  <version value="4.0.1"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Base FHIR compartment definition for Device"/>
   <status value="draft"/>
   <experimental value="true"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="FHIR Project Team"/>
   <contact>
     <telecom>
@@ -737,6 +717,9 @@ The following resources are never in this compartment:
   </resource>
   <resource>
     <code value="ActivityDefinition"/>
+  </resource>
+  <resource>
+    <code value="AdministrableProductDefinition"/>
   </resource>
   <resource>
     <code value="AdverseEvent"/>
@@ -792,6 +775,9 @@ The following resources are never in this compartment:
     <code value="ChargeItemDefinition"/>
   </resource>
   <resource>
+    <code value="Citation"/>
+  </resource>
+  <resource>
     <code value="Claim"/>
     <param value="procedure-udi"/>
     <param value="item-udi"/>
@@ -803,6 +789,9 @@ The following resources are never in this compartment:
   </resource>
   <resource>
     <code value="ClinicalImpression"/>
+  </resource>
+  <resource>
+    <code value="ClinicalUseDefinition"/>
   </resource>
   <resource>
     <code value="CodeSystem"/>
@@ -884,9 +873,6 @@ The following resources are never in this compartment:
     <param value="author"/>
   </resource>
   <resource>
-    <code value="EffectEvidenceSynthesis"/>
-  </resource>
-  <resource>
     <code value="Encounter"/>
   </resource>
   <resource>
@@ -906,6 +892,9 @@ The following resources are never in this compartment:
   </resource>
   <resource>
     <code value="Evidence"/>
+  </resource>
+  <resource>
+    <code value="EvidenceReport"/>
   </resource>
   <resource>
     <code value="EvidenceVariable"/>
@@ -959,6 +948,9 @@ The following resources are never in this compartment:
     <code value="ImplementationGuide"/>
   </resource>
   <resource>
+    <code value="Ingredient"/>
+  </resource>
+  <resource>
     <code value="InsurancePlan"/>
   </resource>
   <resource>
@@ -978,6 +970,9 @@ The following resources are never in this compartment:
   </resource>
   <resource>
     <code value="Location"/>
+  </resource>
+  <resource>
+    <code value="ManufacturedItemDefinition"/>
   </resource>
   <resource>
     <code value="Measure"/>
@@ -1009,34 +1004,7 @@ The following resources are never in this compartment:
     <code value="MedicationStatement"/>
   </resource>
   <resource>
-    <code value="MedicinalProduct"/>
-  </resource>
-  <resource>
-    <code value="MedicinalProductAuthorization"/>
-  </resource>
-  <resource>
-    <code value="MedicinalProductContraindication"/>
-  </resource>
-  <resource>
-    <code value="MedicinalProductIndication"/>
-  </resource>
-  <resource>
-    <code value="MedicinalProductIngredient"/>
-  </resource>
-  <resource>
-    <code value="MedicinalProductInteraction"/>
-  </resource>
-  <resource>
-    <code value="MedicinalProductManufactured"/>
-  </resource>
-  <resource>
-    <code value="MedicinalProductPackaged"/>
-  </resource>
-  <resource>
-    <code value="MedicinalProductPharmaceutical"/>
-  </resource>
-  <resource>
-    <code value="MedicinalProductUndesirableEffect"/>
+    <code value="MedicinalProductDefinition"/>
   </resource>
   <resource>
     <code value="MessageDefinition"/>
@@ -1053,6 +1021,9 @@ The following resources are never in this compartment:
   </resource>
   <resource>
     <code value="NutritionOrder"/>
+  </resource>
+  <resource>
+    <code value="NutritionProduct"/>
   </resource>
   <resource>
     <code value="Observation"/>
@@ -1073,6 +1044,9 @@ The following resources are never in this compartment:
   </resource>
   <resource>
     <code value="OrganizationAffiliation"/>
+  </resource>
+  <resource>
+    <code value="PackagedProductDefinition"/>
   </resource>
   <resource>
     <code value="Patient"/>
@@ -1110,6 +1084,9 @@ The following resources are never in this compartment:
     <param value="author"/>
   </resource>
   <resource>
+    <code value="RegulatedAuthorization"/>
+  </resource>
+  <resource>
     <code value="RelatedPerson"/>
   </resource>
   <resource>
@@ -1131,9 +1108,6 @@ The following resources are never in this compartment:
   <resource>
     <code value="RiskAssessment"/>
     <param value="performer"/>
-  </resource>
-  <resource>
-    <code value="RiskEvidenceSynthesis"/>
   </resource>
   <resource>
     <code value="Schedule"/>
@@ -1167,25 +1141,16 @@ The following resources are never in this compartment:
     <code value="Subscription"/>
   </resource>
   <resource>
+    <code value="SubscriptionStatus"/>
+  </resource>
+  <resource>
+    <code value="SubscriptionTopic"/>
+  </resource>
+  <resource>
     <code value="Substance"/>
   </resource>
   <resource>
-    <code value="SubstanceNucleicAcid"/>
-  </resource>
-  <resource>
-    <code value="SubstancePolymer"/>
-  </resource>
-  <resource>
-    <code value="SubstanceProtein"/>
-  </resource>
-  <resource>
-    <code value="SubstanceReferenceInformation"/>
-  </resource>
-  <resource>
-    <code value="SubstanceSourceMaterial"/>
-  </resource>
-  <resource>
-    <code value="SubstanceSpecification"/>
+    <code value="SubstanceDefinition"/>
   </resource>
   <resource>
     <code value="SupplyDelivery"/>

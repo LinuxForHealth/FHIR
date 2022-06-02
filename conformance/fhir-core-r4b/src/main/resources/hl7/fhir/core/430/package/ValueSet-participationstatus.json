@@ -1,0 +1,102 @@
+{
+    "resourceType": "ValueSet",
+    "id": "participationstatus",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/participationstatus",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.486"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ParticipationStatus",
+    "title": "ParticipationStatus",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-17T07:06:13+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The Participation status of an appointment.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/participationstatus"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:e838faf5-6fb9-41c3-abe3-b54d305d944e",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/participationstatus|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/participationstatus",
+                "code": "accepted",
+                "display": "Accepted"
+            },
+            {
+                "system": "http://hl7.org/fhir/participationstatus",
+                "code": "declined",
+                "display": "Declined"
+            },
+            {
+                "system": "http://hl7.org/fhir/participationstatus",
+                "code": "tentative",
+                "display": "Tentative"
+            },
+            {
+                "system": "http://hl7.org/fhir/participationstatus",
+                "code": "needs-action",
+                "display": "Needs Action"
+            }
+        ]
+    }
+}

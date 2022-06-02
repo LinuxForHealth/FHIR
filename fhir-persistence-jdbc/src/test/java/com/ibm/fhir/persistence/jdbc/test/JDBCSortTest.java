@@ -1,14 +1,17 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.test;
 
+import com.ibm.fhir.config.FHIRConfigProvider;
+import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.test.util.PersistenceTestSupport;
 import com.ibm.fhir.persistence.test.common.AbstractSortTest;
+import com.ibm.fhir.search.util.SearchHelper;
 
 
 public class JDBCSortTest extends AbstractSortTest {
@@ -22,8 +25,8 @@ public class JDBCSortTest extends AbstractSortTest {
     }
 
     @Override
-    public FHIRPersistence getPersistenceImpl() throws Exception {
-        return testSupport.getPersistenceImpl();
+    public FHIRPersistence getPersistenceImpl(FHIRConfigProvider configProvider, SearchHelper searchHelper) throws Exception {
+        return testSupport.getPersistenceImpl(configProvider, searchHelper);
     }
 
     @Override

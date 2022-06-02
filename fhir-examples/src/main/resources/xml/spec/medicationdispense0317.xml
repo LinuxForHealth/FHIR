@@ -7,7 +7,7 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: meddisp0317</p><p><b>contained</b>: </p><p><b>status</b>: stopped</p><p><b>medication</b>: Brentixumab Vedotin (Adcetris). Generated Summary: id: med0306; Adcetris (Brentuximab Vedotin 50mg/10.5ml) <span>(Details : {http://hl7.org/fhir/sid/ndc code '51144-050-01' = 'n/a', given as 'Adcetris (Brentuximab Vedotin 50mg/10.5ml)'})</span>; Lyophilized powder for injectable solution (qualifier value)  <span>(Details : {SNOMED CT code '421637006' = 'Lyophilised powder for injectable solution', given as 'Lyophilized powder for injectable solution (qualifier value) '})</span></p><p><b>subject</b>: <a>Donald Duck </a></p><h3>Performers</h3><table><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a>Practitioner/f006</a></td></tr></table><p><b>authorizingPrescription</b>: <a>MedicationRequest/medrx0316</a></p><p><b>type</b>: Trial Fill <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActCode code 'TF' = 'Trial Fill', given as 'Trial Fill'})</span></p><p><b>quantity</b>: 3 415818005<span> (Details: SNOMED CT code 415818005 = '415818005')</span></p><p><b>daysSupply</b>: 1 Day<span> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 25/06/2015 7:13:00 AM</p><p><b>whenHandedOver</b>: 26/06/2015 7:13:00 AM</p><p><b>dosageInstruction</b>: </p></div></text><contained>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "meddisp0317" </p></div><p><b>status</b>: stopped</p><p><b>medication</b>: <a name="med0306"> </a></p><blockquote><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "med0306" </p></div><p><b>code</b>: Adcetris (Brentuximab Vedotin 50mg/10.5ml) <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ndc.html">National drug codes</a>#51144-050-01)</span></p><p><b>manufacturer</b>: <a href="organization-mmanu.html">Organization/mmanu</a> "Acme Corporation"</p><p><b>form</b>: Lyophilized powder for injectable solution (qualifier value) <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://browser.ihtsdotools.org/">SNOMED CT</a>#421637006)</span></p></blockquote><p><b>subject</b>: <a href="patient-pat1.html">Patient/pat1: Donald Duck</a> "Duck DONALD"</p><h3>Performers</h3><table class="grid"><tr><td>-</td><td><b>Actor</b></td></tr><tr><td>*</td><td><a href="practitioner-f006.html">Practitioner/f006</a> "Rob VAN DEN BERK"</td></tr></table><p><b>authorizingPrescription</b>: <a href="medicationrequest-medrx0316.html">MedicationRequest/medrx0316</a></p><p><b>type</b>: Trial Fill <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ActCode.html">ActCode</a>#TF)</span></p><p><b>quantity</b>: 3(unit 415818005 from http://snomed.info/sct)<span style="background: LightGoldenRodYellow"> (Details: SNOMED CT code 415818005 = '415818005')</span></p><p><b>daysSupply</b>: 1 Day<span style="background: LightGoldenRodYellow"> (Details: UCUM code d = 'd')</span></p><p><b>whenPrepared</b>: 2015-06-25T07:13:00+05:00</p><p><b>whenHandedOver</b>: 2015-06-26T07:13:00+05:00</p></div></text><contained>
         <Medication>
             <id value="med0306"/>
             <code>
@@ -24,7 +24,7 @@
                     <coding>
                         <system value="http://snomed.info/sct"/>
                         <code value="421637006"/>
-                        <display value="Lyophilized powder for injectable solution (qualifier value) "/>
+                        <display value="Lyophilized powder for injectable solution (qualifier value)"/>
                     </coding>
                 </form>            
         </Medication>
@@ -37,7 +37,7 @@
     </medicationReference>
     <subject>
         <reference value="Patient/pat1"/>
-        <display value="Donald Duck "/> 
+        <display value="Donald Duck"/> 
     </subject>
     <performer>
         <actor>

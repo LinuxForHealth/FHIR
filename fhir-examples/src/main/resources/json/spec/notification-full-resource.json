@@ -1,0 +1,81 @@
+{
+  "resourceType": "Bundle",
+  "id": "00b99077-2bda-436e-98cc-a4f65d6c2fe0",
+  "type": "history",
+  "timestamp": "2020-04-17T10:24:13.1882432-05:00",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:d195d9b8-6f78-4d71-9d22-3c1a923bfea5",
+      "resource": {
+        "resourceType": "SubscriptionStatus",
+        "id": "d195d9b8-6f78-4d71-9d22-3c1a923bfea5",
+        "text": {
+          "status": "generated",
+          "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv style\u003d\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"\u003e\u003cp style\u003d\"margin-bottom: 0px\"\u003eResource \u0026quot;d195d9b8-6f78-4d71-9d22-3c1a923bfea5\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: active\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: event-notification\u003c/p\u003e\u003cp\u003e\u003cb\u003eeventsSinceSubscriptionStart\u003c/b\u003e: 2\u003c/p\u003e\u003ch3\u003eNotificationEvents\u003c/h3\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd\u003e-\u003c/td\u003e\u003ctd\u003e\u003cb\u003eEventNumber\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eFocus\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e*\u003c/td\u003e\u003ctd\u003e2\u003c/td\u003e\u003ctd\u003e\u003ca href\u003d\"todo.html\"\u003ehttp://example.org/FHIR/R4B/Encounter/2\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003cp\u003e\u003cb\u003esubscription\u003c/b\u003e: \u003ca href\u003d\"todo.html\"\u003ehttp://example.org/FHIR/R4B/Subscription/123\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003etopic\u003c/b\u003e: \u003ca href\u003d\"http://example.org/FHIR/R4B/SubscriptionTopic/admission\"\u003ehttp://example.org/FHIR/R4B/SubscriptionTopic/admission\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
+        },
+        "status": "active",
+        "type": "event-notification",
+        "eventsSinceSubscriptionStart": "2",
+        "notificationEvent": [
+          {
+            "eventNumber": "2",
+            "focus": {
+              "reference": "http://example.org/FHIR/R4B/Encounter/2"
+            }
+          }
+        ],
+        "subscription": {
+          "reference": "http://example.org/FHIR/R4B/Subscription/123"
+        },
+        "topic": "http://example.org/FHIR/R4B/SubscriptionTopic/admission"
+      },
+      "request": {
+        "method": "GET",
+        "url": "Subscription/123/$status"
+      },
+      "response": {
+        "status": "200"
+      }
+    },
+    {
+      "fullUrl": "https://example.org/FHIR/R4/Encounter/2",
+      "resource": {
+        "resourceType": "Encounter",
+        "id": "2",
+        "meta": {
+          "versionId": "1",
+          "lastUpdated": "2019-08-07T10:49:22Z"
+        },
+        "text": {
+          "status": "generated",
+          "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv style\u003d\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"\u003e\u003cp style\u003d\"margin-bottom: 0px\"\u003eResource \u0026quot;2\u0026quot; Version \u0026quot;1\u0026quot; Updated \u0026quot;2019-08-07T10:49:22Z\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: in-progress\u003c/p\u003e\u003cp\u003e\u003cb\u003eclass\u003c/b\u003e: virtual (Details: http://terminology.hl7.org/CodeSystem/v3-ActCode code VR \u003d \u0027virtual\u0027, stated as \u0027virtual\u0027)\u003c/p\u003e\u003cp\u003e\u003cb\u003esubject\u003c/b\u003e: \u003ca href\u003d\"todo.html\"\u003ePatient/123\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
+        },
+        "status": "in-progress",
+        "class": {
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+          "code": "VR",
+          "display": "virtual"
+        },
+        "subject": {
+          "reference": "Patient/123"
+        }
+      },
+      "request": {
+        "method": "PUT",
+        "url": "Encounter/2"
+      },
+      "response": {
+        "status": "201"
+      }
+    }
+  ],
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

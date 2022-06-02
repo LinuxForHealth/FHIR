@@ -1,0 +1,126 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "medicinal-product-name-part-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/medicinal-product-name-part-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1575"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ProductNamePartType",
+    "title": "ProductNamePartType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-05T10:01:24+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Type of part of a name for a Medicinal Product.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/medicinal-product-name-part-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "FullName",
+            "display": "Full name"
+        },
+        {
+            "code": "InventedNamePart",
+            "display": "Invented name part"
+        },
+        {
+            "code": "ScientificNamePart",
+            "display": "Scientific name part"
+        },
+        {
+            "code": "StrengthPart",
+            "display": "Strength part"
+        },
+        {
+            "code": "DoseFormPart",
+            "display": "Pharmaceutical dose form part"
+        },
+        {
+            "code": "FormulationPart",
+            "display": "Formulation part"
+        },
+        {
+            "code": "IntendedUsePart",
+            "display": "Intended use part"
+        },
+        {
+            "code": "PopulationPart",
+            "display": "Target population part"
+        },
+        {
+            "code": "ContainerPart",
+            "display": "Container or pack part"
+        },
+        {
+            "code": "DevicePart",
+            "display": "Device part"
+        },
+        {
+            "code": "TrademarkOrCompanyPart",
+            "display": "Trademark or company name part"
+        },
+        {
+            "code": "TimeOrPeriodPart",
+            "display": "Time/Period part"
+        },
+        {
+            "code": "FlavorPart",
+            "display": "Flavor part"
+        },
+        {
+            "code": "DelimiterPart",
+            "display": "Delimiter part"
+        },
+        {
+            "code": "LegacyNamePart",
+            "display": "Legacy name"
+        },
+        {
+            "code": "SpeciesNamePart",
+            "display": "Target species name part"
+        }
+    ]
+}

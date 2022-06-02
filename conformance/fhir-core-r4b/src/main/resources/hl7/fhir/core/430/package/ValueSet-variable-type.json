@@ -1,0 +1,97 @@
+{
+    "resourceType": "ValueSet",
+    "id": "variable-type",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/variable-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1343"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "VariableType",
+    "title": "VariableType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2021-01-17T07:06:13+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/variable-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:d72447f2-872a-40fc-90be-479bbe1fff17",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/variable-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/variable-type",
+                "code": "dichotomous",
+                "display": "Dichotomous"
+            },
+            {
+                "system": "http://hl7.org/fhir/variable-type",
+                "code": "continuous",
+                "display": "Continuous"
+            },
+            {
+                "system": "http://hl7.org/fhir/variable-type",
+                "code": "descriptive",
+                "display": "Descriptive"
+            }
+        ]
+    }
+}

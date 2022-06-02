@@ -1,0 +1,117 @@
+{
+    "resourceType": "ValueSet",
+    "id": "synthesis-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/synthesis-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1347"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "SynthesisType",
+    "title": "SynthesisType",
+    "status": "draft",
+    "experimental": true,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Types of combining results from a body of evidence (eg. summary data meta-analysis).",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/synthesis-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:56651f69-5057-44fd-93c9-ed8446289aee",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 7,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/synthesis-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/synthesis-type",
+                "code": "std-MA",
+                "display": "summary data meta-analysis"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/synthesis-type",
+                "code": "IPD-MA",
+                "display": "individual patient data meta-analysis"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/synthesis-type",
+                "code": "indirect-NMA",
+                "display": "indirect network meta-analysis"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/synthesis-type",
+                "code": "combined-NMA",
+                "display": "combined direct plus indirect network meta-analysis"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/synthesis-type",
+                "code": "range",
+                "display": "range of results"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/synthesis-type",
+                "code": "classification",
+                "display": "classifcation of results"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/synthesis-type",
+                "code": "NotApplicable",
+                "display": "not applicable"
+            }
+        ]
+    }
+}

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -59,7 +59,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         bindingName = "BiologicallyDerivedProductCategory",
         strength = BindingStrength.Value.REQUIRED,
         description = "Biologically Derived Product Category.",
-        valueSet = "http://hl7.org/fhir/ValueSet/product-category|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/product-category|4.3.0-cibuild"
     )
     private final BiologicallyDerivedProductCategory productCategory;
     @Binding(
@@ -72,7 +72,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         bindingName = "BiologicallyDerivedProductStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Biologically Derived Product Status.",
-        valueSet = "http://hl7.org/fhir/ValueSet/product-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/product-status|4.3.0-cibuild"
     )
     private final BiologicallyDerivedProductStatus status;
     @ReferenceTarget({ "ServiceRequest" })
@@ -1952,7 +1952,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
             bindingName = "BiologicallyDerivedProductStorageScale",
             strength = BindingStrength.Value.REQUIRED,
             description = "BiologicallyDerived Product Storage Scale.",
-            valueSet = "http://hl7.org/fhir/ValueSet/product-storage-scale|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/product-storage-scale|4.3.0-cibuild"
         )
         private final BiologicallyDerivedProductStorageScale scale;
         private final Period duration;

@@ -1,0 +1,29 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "icd10CM",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/sid/icd-10-cm",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.90"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Icd10CM",
+    "title": "International Classification of Diseases, 10th Revision, Clinical Modification (ICD-10-CM)",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "National Center for Health Statistics/Centers for Disease Control and Prevention"
+        }
+    ],
+    "description": "The International Classification of Diseases, 10th Revision, Clinical Modification (ICD-10-CM), describes the classification of morbidity and mortality information for statistical purposes and for the indexing of healthcare records by diseases. The ICD-10-CM codes can be used as the value of the Act.cd attribute.",
+    "content": "not-present"
+}

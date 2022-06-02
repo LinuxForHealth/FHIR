@@ -6,9 +6,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Clinical Quality Information)",
   "item": [
     {
@@ -33,6 +34,7 @@
               }
             }
           ],
+          "linkId": "MeasureReport-flyover",
           "text": "The MeasureReport resource contains the results of the calculation of a measure; and optionally a reference to the resources involved in that calculation.",
           "type": "display"
         },
@@ -67,6 +69,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -107,6 +110,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -143,6 +147,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -186,6 +191,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -226,6 +232,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -253,6 +260,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -280,6 +288,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -307,6 +316,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -340,6 +350,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.identifier-flyover",
               "text": "A formal identifier that is used to identify this MeasureReport when it is represented in other formats or referenced in a specification, model, design or an instance. Typically, this is used for identifiers that can go in an HL7 V3 II data type - e.g. to identify this {{title}} outside of FHIR, where the logical URL is not possible to use.",
               "type": "display"
             },
@@ -401,6 +412,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.status-flyover",
               "text": "The MeasureReport status. No data will be available until the MeasureReport status is complete. This element is labeled as a modifier because the status contains codes that mark the resource as not currently valid.",
               "type": "display"
             },
@@ -448,6 +460,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.type-flyover",
               "text": "The type of measure report. This may be an individual report, which provides the score for the measure for an individual member of the population; a subject-listing, which returns the list of members that meet the various criteria in the measure; a summary report, which returns a population count for each of the criteria in the measure; or a data-collection, which enables the MeasureReport to be used to exchange the data-of-interest for a quality measure. Data-collection reports are used only to communicate data-of-interest for a measure. They do not necessarily include all the data for a particular subject or population, but they may.",
               "type": "display"
             },
@@ -495,6 +508,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.measure-flyover",
               "text": "A reference to the Measure that was calculated to produce this report.",
               "type": "display"
             },
@@ -538,6 +552,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.subject-flyover",
               "text": "Optional subject identifying the individual or individuals the report is for.",
               "type": "display"
             },
@@ -591,6 +606,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.date-flyover",
               "text": "The date this measure report was generated.",
               "type": "display"
             },
@@ -634,6 +650,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.reporter-flyover",
               "text": "The individual, location, or organization that is reporting the data.",
               "type": "display"
             },
@@ -692,6 +709,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.period-flyover",
               "text": "The reporting period for which the report was calculated.",
               "type": "display"
             },
@@ -743,6 +761,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.improvementNotation-flyover",
               "text": "Whether improvement in the measure is noted by an increase or decrease in the measure score. This element is typically defined by the measure, but reproduced here to ensure the measure score can be interpreted. The element is labeled as a modifier because it changes the interpretation of the reported measure score.",
               "type": "display"
             },
@@ -784,6 +803,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.group-flyover",
               "text": "The results of the calculation, one for each population group in the measure.",
               "type": "display"
             },
@@ -818,6 +838,7 @@
                       }
                     }
                   ],
+                  "linkId": "MeasureReport.group.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -852,6 +873,7 @@
                       }
                     }
                   ],
+                  "linkId": "MeasureReport.group.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -879,6 +901,7 @@
                       }
                     }
                   ],
+                  "linkId": "MeasureReport.group.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -916,13 +939,14 @@
                       }
                     }
                   ],
+                  "linkId": "MeasureReport.group.code-flyover",
                   "text": "The meaning of the population group as defined in the measure definition.",
                   "type": "display"
                 },
                 {
                   "linkId": "MeasureReport.group.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -957,6 +981,7 @@
                       }
                     }
                   ],
+                  "linkId": "MeasureReport.group.population-flyover",
                   "text": "The populations that make up the population group, one for each type of population appropriate for the measure.",
                   "type": "display"
                 },
@@ -991,6 +1016,7 @@
                           }
                         }
                       ],
+                      "linkId": "MeasureReport.group.population.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1025,6 +1051,7 @@
                           }
                         }
                       ],
+                      "linkId": "MeasureReport.group.population.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1052,6 +1079,7 @@
                           }
                         }
                       ],
+                      "linkId": "MeasureReport.group.population.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1089,13 +1117,14 @@
                           }
                         }
                       ],
+                      "linkId": "MeasureReport.group.population.code-flyover",
                       "text": "The type of the population.",
                       "type": "display"
                     },
                     {
                       "linkId": "MeasureReport.group.population.code.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -1139,6 +1168,7 @@
                           }
                         }
                       ],
+                      "linkId": "MeasureReport.group.population.count-flyover",
                       "text": "The number of members of the population.",
                       "type": "display"
                     },
@@ -1182,6 +1212,7 @@
                           }
                         }
                       ],
+                      "linkId": "MeasureReport.group.population.subjectResults-flyover",
                       "text": "This element refers to a List of subject level MeasureReport resources, one for each subject in this population.",
                       "type": "display"
                     },
@@ -1238,6 +1269,7 @@
                       }
                     }
                   ],
+                  "linkId": "MeasureReport.group.measureScore-flyover",
                   "text": "The measure score for this population group, calculated as appropriate for the measure type and scoring method, and based on the contents of the populations defined in the group.",
                   "type": "display"
                 },
@@ -1300,6 +1332,7 @@
                       }
                     }
                   ],
+                  "linkId": "MeasureReport.group.stratifier-flyover",
                   "text": "When a measure includes multiple stratifiers, there will be a stratifier group for each stratifier defined by the measure.",
                   "type": "display"
                 },
@@ -1334,6 +1367,7 @@
                           }
                         }
                       ],
+                      "linkId": "MeasureReport.group.stratifier.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1368,6 +1402,7 @@
                           }
                         }
                       ],
+                      "linkId": "MeasureReport.group.stratifier.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1395,6 +1430,7 @@
                           }
                         }
                       ],
+                      "linkId": "MeasureReport.group.stratifier.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1428,13 +1464,14 @@
                           }
                         }
                       ],
+                      "linkId": "MeasureReport.group.stratifier.code-flyover",
                       "text": "The meaning of this stratifier, as defined in the measure definition.",
                       "type": "display"
                     },
                     {
                       "linkId": "MeasureReport.group.stratifier.code.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -1469,6 +1506,7 @@
                           }
                         }
                       ],
+                      "linkId": "MeasureReport.group.stratifier.stratum-flyover",
                       "text": "This element contains the results for a single stratum within the stratifier. For example, when stratifying on administrative gender, there will be four strata, one for each possible gender value.",
                       "type": "display"
                     },
@@ -1503,6 +1541,7 @@
                               }
                             }
                           ],
+                          "linkId": "MeasureReport.group.stratifier.stratum.id-flyover",
                           "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                           "type": "display"
                         },
@@ -1537,6 +1576,7 @@
                               }
                             }
                           ],
+                          "linkId": "MeasureReport.group.stratifier.stratum.extension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -1564,6 +1604,7 @@
                               }
                             }
                           ],
+                          "linkId": "MeasureReport.group.stratifier.stratum.modifierExtension-flyover",
                           "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                           "type": "display"
                         }
@@ -1601,13 +1642,14 @@
                               }
                             }
                           ],
+                          "linkId": "MeasureReport.group.stratifier.stratum.value-flyover",
                           "text": "The value for this stratum, expressed as a CodeableConcept. When defining stratifiers on complex values, the value must be rendered such that the value for each stratum within the stratifier is unique.",
                           "type": "display"
                         },
                         {
                           "linkId": "MeasureReport.group.stratifier.stratum.value.coding",
                           "text": "code:",
-                          "type": "open-choice",
+                          "type": "choice",
                           "required": false,
                           "repeats": false
                         },
@@ -1642,6 +1684,7 @@
                               }
                             }
                           ],
+                          "linkId": "MeasureReport.group.stratifier.stratum.component-flyover",
                           "text": "A stratifier component value.",
                           "type": "display"
                         },
@@ -1676,6 +1719,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "MeasureReport.group.stratifier.stratum.component.id-flyover",
                               "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                               "type": "display"
                             },
@@ -1710,6 +1754,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "MeasureReport.group.stratifier.stratum.component.extension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -1737,6 +1782,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "MeasureReport.group.stratifier.stratum.component.modifierExtension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -1778,13 +1824,14 @@
                                   }
                                 }
                               ],
+                              "linkId": "MeasureReport.group.stratifier.stratum.component.code-flyover",
                               "text": "The code for the stratum component value.",
                               "type": "display"
                             },
                             {
                               "linkId": "MeasureReport.group.stratifier.stratum.component.code.coding",
                               "text": "code:",
-                              "type": "open-choice",
+                              "type": "choice",
                               "required": false,
                               "repeats": false
                             },
@@ -1833,13 +1880,14 @@
                                   }
                                 }
                               ],
+                              "linkId": "MeasureReport.group.stratifier.stratum.component.value-flyover",
                               "text": "The stratum component value.",
                               "type": "display"
                             },
                             {
                               "linkId": "MeasureReport.group.stratifier.stratum.component.value.coding",
                               "text": "code:",
-                              "type": "open-choice",
+                              "type": "choice",
                               "required": false,
                               "repeats": false
                             },
@@ -1876,6 +1924,7 @@
                               }
                             }
                           ],
+                          "linkId": "MeasureReport.group.stratifier.stratum.population-flyover",
                           "text": "The populations that make up the stratum, one for each type of population appropriate to the measure.",
                           "type": "display"
                         },
@@ -1910,6 +1959,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "MeasureReport.group.stratifier.stratum.population.id-flyover",
                               "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                               "type": "display"
                             },
@@ -1944,6 +1994,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "MeasureReport.group.stratifier.stratum.population.extension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -1971,6 +2022,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "MeasureReport.group.stratifier.stratum.population.modifierExtension-flyover",
                               "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                               "type": "display"
                             }
@@ -2008,13 +2060,14 @@
                                   }
                                 }
                               ],
+                              "linkId": "MeasureReport.group.stratifier.stratum.population.code-flyover",
                               "text": "The type of the population.",
                               "type": "display"
                             },
                             {
                               "linkId": "MeasureReport.group.stratifier.stratum.population.code.coding",
                               "text": "code:",
-                              "type": "open-choice",
+                              "type": "choice",
                               "required": false,
                               "repeats": false
                             },
@@ -2058,6 +2111,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "MeasureReport.group.stratifier.stratum.population.count-flyover",
                               "text": "The number of members of the population in this stratum.",
                               "type": "display"
                             },
@@ -2101,6 +2155,7 @@
                                   }
                                 }
                               ],
+                              "linkId": "MeasureReport.group.stratifier.stratum.population.subjectResults-flyover",
                               "text": "This element refers to a List of subject level MeasureReport resources, one for each subject in this population in this stratum.",
                               "type": "display"
                             },
@@ -2157,6 +2212,7 @@
                               }
                             }
                           ],
+                          "linkId": "MeasureReport.group.stratifier.stratum.measureScore-flyover",
                           "text": "The measure score for this stratum, calculated as appropriate for the measure type and scoring method, and based on only the members of this stratum.",
                           "type": "display"
                         },
@@ -2230,6 +2286,7 @@
                   }
                 }
               ],
+              "linkId": "MeasureReport.evaluatedResource-flyover",
               "text": "A reference to a Bundle containing the Resources that were used in the calculation of this measure.",
               "type": "display"
             },

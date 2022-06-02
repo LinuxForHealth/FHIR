@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,12 +16,14 @@ import java.util.stream.Collectors;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Quantity;
+import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -575,8 +577,13 @@ public class MemberOfFunctionTest {
     public void testMemberOfFunction49() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
-            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+        com.ibm.fhir.model.type.String unknownString = com.ibm.fhir.model.type.String.builder()
+            .extension(Extension.builder()
+                .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
+                .value(Code.of("unknown"))
+                .build())
+            .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(unknownString, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -585,7 +592,14 @@ public class MemberOfFunctionTest {
     public void testMemberOfFunction50() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.builder().value("x").extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
+        com.ibm.fhir.model.type.String unknownStringWithVal = com.ibm.fhir.model.type.String.builder()
+                .value("x")
+                .extension(Extension.builder()
+                    .url("http://hl7.org/fhir/StructureDefinition/data-absent-reason")
+                    .value(Code.of("unknown"))
+                    .build())
+                .build();
+        Collection<FHIRPathNode> result = evaluator.evaluate(unknownStringWithVal,
             "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
@@ -644,6 +658,36 @@ public class MemberOfFunctionTest {
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
+
+    @Test
+    public void testMemberOfFunction55() throws Exception {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+
+        // we use condition because its a resource that has a repeating
+        // CodeableConcept element with no required binding: Condition.category
+        Condition condition = Condition.builder()
+            .subject(Reference.builder()
+                .reference("Patient/test")
+                .build())
+            .category(CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .code(Code.of("unknown"))
+                    .build())
+                .build())
+            .category(CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                    .version("1.0.0")
+                    .code(Code.of("a"))
+                    .build())
+                .build())
+            .build();
+
+        Collection<FHIRPathNode> result = evaluator.evaluate(condition, "Condition.category.where(memberOf('http://ibm.com/fhir/ValueSet/vs1')).exists()");
+
+        Assert.assertEquals(result, SINGLETON_TRUE);
+    }
+
 
     private Collection<FHIRPathNode> getChildren(FHIRPathNode node, String name) {
         return node.children().stream()

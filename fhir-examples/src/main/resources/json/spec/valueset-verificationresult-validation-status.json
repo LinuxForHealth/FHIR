@@ -2,14 +2,14 @@
   "resourceType": "ValueSet",
   "id": "verificationresult-validation-status",
   "meta": {
-    "lastUpdated": "2019-11-01T09:29:23.356+11:00",
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
   },
   "text": {
     "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003eValidation-status\u003c/h2\u003e\u003cdiv\u003e\u003cp\u003eStatus of the validation of the target against the primary source\u003c/p\u003e\n\u003c/div\u003e\u003cp\u003eThis value set includes codes from the following code systems:\u003c/p\u003e\u003cul\u003e\u003cli\u003eInclude all codes defined in \u003ca href\u003d\"codesystem-verificationresult-validation-status.html\"\u003e\u003ccode\u003ehttp://terminology.hl7.org/CodeSystem/validation-status\u003c/code\u003e\u003c/a\u003e\u003c/li\u003e\u003c/ul\u003e\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cul\u003e\u003cli\u003eInclude all codes defined in \u003ca href\u003d\"http://terminology.hl7.org/3.1.0/CodeSystem-validation-status.html\"\u003e\u003ccode\u003ehttp://terminology.hl7.org/CodeSystem/validation-status\u003c/code\u003e\u003c/a\u003e\u003c/li\u003e\u003c/ul\u003e\u003c/div\u003e"
   },
   "extension": [
     {
@@ -24,9 +24,8 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.894"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "validation-status",
-  "title": "Validation-status",
   "status": "draft",
   "experimental": false,
   "date": "2018-06-05T14:06:02+00:00",

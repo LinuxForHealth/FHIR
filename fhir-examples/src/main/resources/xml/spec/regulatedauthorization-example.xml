@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><RegulatedAuthorization xmlns="http://hl7.org/fhir">
+  <id value="example"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "example" </p></div><p><b>identifier</b>: id: EU/1/11/999/001</p><p><b>region</b>: EU <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (country#EU)</span></p><p><b>status</b>: active <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (authorisationstatus#active)</span></p><p><b>statusDate</b>: 2015-01-14</p><p><b>validityPeriod</b>: 2014-09-03 --&gt; 2020-05-20</p><p><b>holder</b>: <a href="todo.html">Organization/example</a></p><p><b>regulator</b>: <a href="todo.html">Organization/example</a></p><blockquote><p><b>case</b></p><p><b>identifier</b>: id: EMEA/H/C/009999/IA/0099/G</p><p><b>type</b>: VariationTypeIA <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (marketingAuthorisationProcedureType#VariationTypeIA)</span></p><p><b>date</b>: 2014-09-02 --&gt; 2015-08-21</p><h3>Applications</h3><table class="grid"><tr><td>-</td><td><b>Identifier</b></td><td><b>Type</b></td><td><b>Date[x]</b></td></tr><tr><td>*</td><td>id: IA38G</td><td>GroupTypeIAVariationNotification <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (marketingAuthorisationApplicationType#GroupTypeIAVariationNotification)</span></td><td>2015-08-01</td></tr><tr><td>*</td><td>id: IA38F</td><td>GroupTypeIAVariationNotification <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (marketingAuthorisationApplicationType#GroupTypeIAVariationNotification)</span></td><td>2014-09-01</td></tr></table></blockquote></div></text><identifier>
+    <system value="http://ema.europa.eu/example/marketingAuthorisationNumber"/>
+    <value value="EU/1/11/999/001"/>
+  </identifier>
+  <region>
+    <coding>
+      <system value="http://ema.europa.eu/example/country"/>
+      <code value="EU"/>
+    </coding>
+  </region>
+  <status>
+    <coding>
+      <system value="http://ema.europa.eu/example/authorisationstatus"/>
+      <code value="active"/>
+    </coding>
+  </status>
+  <statusDate value="2015-01-14"/>
+  <validityPeriod>
+    <start value="2014-09-03"/>
+    <end value="2020-05-20"/>
+  </validityPeriod>
+  <!--  dataExclusivityPeriod>
+    <start value="2010-08-15"/>
+    <end value="2020-08-15"/>
+  </dataExclusivityPeriod>
+  <dateOfFirstAuthorization value="2010-08-15"/>
+  <internationalBirthDate value="2010-08-15"/  -->
+  <holder>
+    <reference value="Organization/example"/>
+  </holder>
+  <regulator>
+    <reference value="Organization/example"/>
+  </regulator>
+  <case>
+    <identifier>
+      <system value="http://ema.europa.eu/example/procedureidentifier-number"/>
+      <value value="EMEA/H/C/009999/IA/0099/G"/>
+    </identifier>
+    <type>
+      <coding>
+        <system value="http://ema.europa.eu/example/marketingAuthorisationProcedureType"/>
+        <code value="VariationTypeIA"/>
+      </coding>
+    </type>
+    <datePeriod>
+      <start value="2014-09-02"/>
+      <end value="2015-08-21"/>
+    </datePeriod>
+    <application>
+      <identifier>
+        <system value="http://ema.europa.eu/example/applicationidentifier-number"/>
+        <value value="IA38G"/>
+      </identifier>
+      <type>
+        <coding>
+          <system value="http://ema.europa.eu/example/marketingAuthorisationApplicationType"/>
+          <code value="GroupTypeIAVariationNotification"/>
+        </coding>
+      </type>
+      <dateDateTime value="2015-08-01"/>
+    </application>
+    <application>
+      <identifier>
+        <system value="http://ema.europa.eu/example/applicationidentifier-number"/>
+        <value value="IA38F"/>
+      </identifier>
+      <type>
+        <coding>
+          <system value="http://ema.europa.eu/example/marketingAuthorisationApplicationType"/>
+          <code value="GroupTypeIAVariationNotification"/>
+        </coding>
+      </type>
+      <dateDateTime value="2014-09-01"/>
+    </application>
+  </case>
+</RegulatedAuthorization>

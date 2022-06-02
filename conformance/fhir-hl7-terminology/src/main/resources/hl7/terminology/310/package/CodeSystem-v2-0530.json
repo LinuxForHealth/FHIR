@@ -1,0 +1,163 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0530",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0530",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.346"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "OrganizationAgencyDepartment",
+    "title": "organization-Agency-Department",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to specify the agency or department that assigned the identifier in component 1.  Used in the Performing Person Time Stamp (PPN), Extended Composite ID Number and Name for Persons (XCN) and Extended Composite ID with Check Digit (CX) segments in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0530 (Organization, Agency, Department)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0530",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "5632",
+            "code": "AE",
+            "display": "American Express",
+            "definition": "American Express",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5633",
+            "code": "DEA",
+            "display": "Drug Enforcement Agency",
+            "definition": "Drug Enforcement Agency",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The US Drug Enforcement Administration does not solely assign DEA numbers in the United States. Hospitals have the authority to issue DEA numbers to their medical residents. These DEA numbers are based upon the hospital’s DEA number, but the authority rests with the hospital on the assignment to the residents. Thus, DEA as an Assigning Authority is necessary in addition to DEA as an Identifier Type."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The US Drug Enforcement Administration does not solely assign DEA numbers in the United States. Hospitals have the authority to issue DEA numbers to their medical residents. These DEA numbers are based upon the hospital’s DEA number, but the authority rests with the hospital on the assignment to the residents. Thus, DEA as an Assigning Authority is necessary in addition to DEA as an Identifier Type."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5634",
+            "code": "DOD",
+            "display": "Department of Defense",
+            "definition": "Department of Defense",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "In some countries e.g., the US, more than one department may issue a military identifier. Hence, US is not sufficient as the Assigning Authority."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "In some countries e.g., the US, more than one department may issue a military identifier. Hence, US is not sufficient as the Assigning Authority."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5635",
+            "code": "MC",
+            "display": "Master Card",
+            "definition": "Master Card",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5636",
+            "code": "VA",
+            "display": "Veterans Affairs",
+            "definition": "Veterans Affairs",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5637",
+            "code": "VI",
+            "display": "Visa",
+            "definition": "Visa",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

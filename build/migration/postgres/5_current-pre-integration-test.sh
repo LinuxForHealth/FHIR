@@ -25,8 +25,8 @@ config(){
     # Setup the Configurations for Migration
     echo "Copying fhir configuration files..."
     mkdir -p ${DIST}/config
-    cp -pr ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/config $DIST
-    cp -pr ${WORKSPACE}/fhir/fhir-server/liberty-config-tenants/config/* $DIST/config
+    cp -r ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/config $DIST
+    cp -r ${WORKSPACE}/fhir/fhir-server-webapp/src/test/liberty/config/config/* $DIST/config
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
@@ -39,7 +39,7 @@ config(){
     echo "Copying over the overrides for the datasource"
     mkdir -p ${DIST}/overrides
     cp ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
-    cp -p ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    cp ${WORKSPACE}/fhir/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml ${DIST}/overrides
     if [ -d ${WORKSPACE}/fhir/operation/fhir-operation-term-cache/target ]
     then
         find ${WORKSPACE}/fhir/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
@@ -57,7 +57,7 @@ config(){
 
 # bringup
 bringup(){
-    # In order not to hit this after packaging everything up,w e want to run this before we start up the db.
+    # In order not to hit this after packaging everything up, we want to run this before we start up the db.
     # waiting for server to start....2021-07-16 20:42:03.136 UTC [9] FATAL:  data directory "/db/data" has invalid permissions
     # 2021-07-16 20:42:03.136 UTC [9] DETAIL:  Permissions should be u=rwx (0700) or u=rwx,g=rx (0750).
     sudo chown -R 70:70 ${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/db

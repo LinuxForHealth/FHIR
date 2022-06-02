@@ -1,0 +1,86 @@
+{
+    "resourceType": "ValueSet",
+    "id": "immunization-funding-source",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pher"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/immunization-funding-source",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.293"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ImmunizationFundingSource",
+    "title": "Immunization Funding Source",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/pher/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "The value set to instantiate this attribute should be drawn from a terminologically robust code system that consists of or contains concepts to support describing the source of the vaccine administered. This value set is provided as a suggestive example.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:d8f559fe-c4e5-41db-893f-80e42a8487f1",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/immunization-funding-source|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "private",
+                "display": "Private"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/immunization-funding-source",
+                "code": "public",
+                "display": "Public"
+            }
+        ]
+    }
+}

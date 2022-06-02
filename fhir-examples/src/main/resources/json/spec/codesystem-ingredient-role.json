@@ -1,0 +1,98 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "ingredient-role",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/ingredient-role defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072072\u003ca name\u003d\"ingredient-role-100000072072\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eActive\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072073\u003ca name\u003d\"ingredient-role-100000072073\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAdjuvant\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000072082\u003ca name\u003d\"ingredient-role-100000072082\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eExcipient\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136065\u003ca name\u003d\"ingredient-role-100000136065\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStarting material for excipient\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136066\u003ca name\u003d\"ingredient-role-100000136066\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSolvent / Diluent\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136178\u003ca name\u003d\"ingredient-role-100000136178\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRaw materials used in the manufacture of the product\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136179\u003ca name\u003d\"ingredient-role-100000136179\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eStarting material for active substance\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000136561\u003ca name\u003d\"ingredient-role-100000136561\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOverage\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003427\u003ca name\u003d\"ingredient-role-200000003427\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ebioenhancer\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/ingredient-role",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1595"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "IngredientRole",
+  "title": "IngredientRole",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "A classification of the ingredient identifying its purpose within the product, e.g. active, inactive.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/ingredient-role",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "100000072072",
+      "display": "Active"
+    },
+    {
+      "code": "100000072073",
+      "display": "Adjuvant"
+    },
+    {
+      "code": "100000072082",
+      "display": "Excipient"
+    },
+    {
+      "code": "100000136065",
+      "display": "Starting material for excipient"
+    },
+    {
+      "code": "100000136066",
+      "display": "Solvent / Diluent"
+    },
+    {
+      "code": "100000136178",
+      "display": "Raw materials used in the manufacture of the product"
+    },
+    {
+      "code": "100000136179",
+      "display": "Starting material for active substance"
+    },
+    {
+      "code": "100000136561",
+      "display": "Overage"
+    },
+    {
+      "code": "200000003427",
+      "display": "bioenhancer"
+    }
+  ]
+}

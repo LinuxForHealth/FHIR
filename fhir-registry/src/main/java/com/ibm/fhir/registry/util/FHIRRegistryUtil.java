@@ -6,10 +6,7 @@
 
 package com.ibm.fhir.registry.util;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -28,7 +25,6 @@ import com.ibm.fhir.model.resource.ChargeItemDefinition;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CompartmentDefinition;
 import com.ibm.fhir.model.resource.ConceptMap;
-import com.ibm.fhir.model.resource.EffectEvidenceSynthesis;
 import com.ibm.fhir.model.resource.EventDefinition;
 import com.ibm.fhir.model.resource.Evidence;
 import com.ibm.fhir.model.resource.EvidenceVariable;
@@ -45,7 +41,6 @@ import com.ibm.fhir.model.resource.Questionnaire;
 import com.ibm.fhir.model.resource.ResearchDefinition;
 import com.ibm.fhir.model.resource.ResearchElementDefinition;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.RiskEvidenceSynthesis;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.resource.StructureMap;
@@ -67,7 +62,6 @@ public final class FHIRRegistryUtil {
         CodeSystem.class,
         CompartmentDefinition.class,
         ConceptMap.class,
-        EffectEvidenceSynthesis.class,
         EventDefinition.class,
         Evidence.class,
         EvidenceVariable.class,
@@ -83,12 +77,12 @@ public final class FHIRRegistryUtil {
         Questionnaire.class,
         ResearchDefinition.class,
         ResearchElementDefinition.class,
-        RiskEvidenceSynthesis.class,
         SearchParameter.class,
         StructureDefinition.class,
         StructureMap.class,
         TerminologyCapabilities.class,
         TestScript.class,
+        // TODO: check for R4B resources to add
         ValueSet.class));
 
     private FHIRRegistryUtil() { }
@@ -136,8 +130,12 @@ public final class FHIRRegistryUtil {
     }
 
     public static Resource loadResource(String path) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(path), StandardCharsets.UTF_8))) {
-            return FHIRParser.parser(Format.JSON).parse(reader);
+        try (InputStream in = FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(path)) {
+            if (in == null) {
+                log.log(Level.WARNING, "Resource at '" + path + "' was not found");
+                return null;
+            }
+            return FHIRParser.parser(Format.JSON).parse(in);
         } catch (Exception e) {
             log.log(Level.WARNING, "Unable to load resource: " + path, e);
         }
@@ -160,15 +158,19 @@ public final class FHIRRegistryUtil {
         return Collections.unmodifiableList(resources);
     }
 
-    public static List<Entry> readIndex(String indexPath) {
+    public static Set<Entry> readIndex(String indexPath) {
         log.info("Loading index: " + indexPath);
         try (InputStream in = FHIRRegistryUtil.class.getClassLoader().getResourceAsStream(indexPath)) {
+            if (in == null) {
+                log.log(Level.WARNING, "Index '" + indexPath + "' was not found");
+                return Collections.emptySet();
+            }
             Index index = new Index();
             index.load(in);
             return index.getEntries();
         } catch (Exception e) {
             log.log(Level.WARNING, "Unexpected error while loading index '" + indexPath + "'", e);
         }
-        return Collections.emptyList();
+        return Collections.emptySet();
     }
 }

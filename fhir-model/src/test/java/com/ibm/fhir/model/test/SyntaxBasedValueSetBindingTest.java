@@ -17,13 +17,10 @@ import com.ibm.fhir.examples.ExamplesUtil;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Account;
-import com.ibm.fhir.model.resource.EffectEvidenceSynthesis;
 import com.ibm.fhir.model.resource.Practitioner;
-import com.ibm.fhir.model.resource.EffectEvidenceSynthesis.EffectEstimate;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
-import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.util.ValidationSupport;
 
@@ -60,56 +57,6 @@ public class SyntaxBasedValueSetBindingTest {
 
 	// Currently no resource types have a Coding with a maxValueSet binding to a syntax-based value set. If that changes, add tests here.
 
-    @Test
-    public void testRequiredBindingCodeableConceptValid1() throws Exception {
-        try (Reader reader = ExamplesUtil.resourceReader("json/ibm/minimal/EffectEvidenceSynthesis-1.json")) {
-            EffectEvidenceSynthesis effectEvidenceSynthesis = FHIRParser.parser(Format.JSON).parse(reader);
-            
-            effectEvidenceSynthesis.toBuilder().effectEstimate(EffectEstimate.builder().unitOfMeasure(CodeableConcept.builder().coding(
-                    Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("mg/dL")).build()).build()).build()).build();
-        }
-    }
-    
-    @Test
-    public void testRequiredBindingCodeableConceptValid2() throws Exception {
-        try (Reader reader = ExamplesUtil.resourceReader("json/ibm/minimal/EffectEvidenceSynthesis-1.json")) {
-            EffectEvidenceSynthesis effectEvidenceSynthesis = FHIRParser.parser(Format.JSON).parse(reader);
-            
-            effectEvidenceSynthesis.toBuilder().effectEstimate(EffectEstimate.builder().unitOfMeasure(CodeableConcept.builder().coding(
-                    Coding.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build()).build()).build()).build();
-        }
-    }
-    
-    @Test
-    public void testRequiredBindingCodeableConceptNotValid1() throws Exception {
-        try (Reader reader = ExamplesUtil.resourceReader("json/ibm/minimal/EffectEvidenceSynthesis-1.json")) {
-            EffectEvidenceSynthesis effectEvidenceSynthesis = FHIRParser.parser(Format.JSON).parse(reader);
-
-            try {
-                effectEvidenceSynthesis.toBuilder().effectEstimate(EffectEstimate.builder().unitOfMeasure(CodeableConcept.builder().coding(
-                    Coding.builder().system(Uri.of("invalidSystem")).code(Code.of("mg/dL")).build(),
-                    Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of("invalid ucum code")).build()).build()).build()).build();
-                fail();
-            } catch (IllegalStateException e) {
-            }
-        }
-    }
-
-    @Test
-    public void testRequiredBindingCodeableConceptNotValid2() throws Exception {
-        try (Reader reader = ExamplesUtil.resourceReader("json/ibm/minimal/EffectEvidenceSynthesis-1.json")) {
-            EffectEvidenceSynthesis effectEvidenceSynthesis = FHIRParser.parser(Format.JSON).parse(reader);
-
-            try {
-                effectEvidenceSynthesis.toBuilder().effectEstimate(EffectEstimate.builder().unitOfMeasure(CodeableConcept.builder().coding(
-                    Coding.builder().build()).build()).build()).build();
-                fail();
-            } catch (IllegalStateException e) {
-            }
-        }
-    }
-
-    
 	@Test
     public void testMaxValueSetCodeableConceptValid() throws Exception {
         try (Reader reader = ExamplesUtil.resourceReader("json/ibm/minimal/Practitioner-1.json")) {

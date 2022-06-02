@@ -1,0 +1,59 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "document-reference-status",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "sd"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/document-reference-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.8"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "DocumentReferenceStatus",
+    "title": "DocumentReferenceStatus",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "description": "The status of the document reference.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/document-reference-status",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "current",
+            "display": "Current",
+            "definition": "This is the current reference for this document."
+        },
+        {
+            "code": "superseded",
+            "display": "Superseded",
+            "definition": "This reference has been superseded by another reference."
+        },
+        {
+            "code": "entered-in-error",
+            "display": "Entered in Error",
+            "definition": "This reference was created in error."
+        }
+    ]
+}

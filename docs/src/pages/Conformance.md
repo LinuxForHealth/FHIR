@@ -29,10 +29,10 @@ The IBM FHIR Server supports headers to modify the behavior of interactions acco
 
 | Interaction    | Path         | Verb          | Header                    | Description |
 | -------------- | ------------ | ------------- | ------------------------- | ----------- |
-| update         | /[type]/[id] | PUT           | If-None-Match             | Custom support for conditional create-on-update |
-| update         | /[type]/[id] | PUT           | X-FHIR-UPDATE-IF-MODIFIED | Custom support for conditional update           |
-| _any_          | _any_        | _any_         | X-FHIR-TENANT-ID          | Custom support for multi-tenancy                |
-| _any_          | _any_        | _any_         | X-FHIR-DSID               | Custom support for multiple datasources         |
+| update         | /[type]/[id] | PUT           | If-None-Match             | Custom support for conditional create-on-update   |
+| update         | /[type]/[id] | PUT           | X-FHIR-FORCE-UPDATE       | Overrides server optimization for "no-op" updates |
+| _any_          | _any_        | _any_         | X-FHIR-TENANT-ID          | Custom support for multi-tenancy                  |
+| _any_          | _any_        | _any_         | X-FHIR-DSID               | Custom support for multiple datasources           |
 
 
 In addition to the content negotiation headers required in the FHIR specification, the IBM FHIR Server supports two client preferences via the `Prefer` header:
@@ -52,15 +52,13 @@ In `lenient` mode, the client must [check the self uri](https://www.hl7.org/fhir
 
 Note: In addition to controlling whether or not the server returns an error for unexpected search parameters, the handling preference is also used to control whether or not the server will return an error for unexpected elements in the JSON representation of a Resource as defined at https://www.hl7.org/fhir/json.html.
 
-The IBM FHIR Server supports a custom header, `X-FHIR-UPDATE-IF-MODIFIED`, for clients to opt in to a specific update optimization. See Section 5.2. Conditional Update of the [Performance Guide](guides/FHIRPerformanceGuide) for more information.
+The IBM FHIR Server supports conditional create-on-update using the `If-None-Match` header. This IBM FHIR Server-specific feature allows clients to use a `PUT` (update) interaction which behaves as follows:
 
-The IBM FHIR Server also supports conditional create-on-update using the `If-None-Match` header. This IBM FHIR Server-specific feature allows clients to use a `PUT` (update) interaction which behaves as follows:
+    1. If the resource does not yet exist, create the resource and return `201 Created`;
+    2. If the resource does exist, do nothing and return `412 Precondition Failed` (default behavior);
+    3. If the resource does exist and the fhir-server-config element `fhirServer/core/ifNoneMatchReturnsNotModified` is set to `true`, do nothing and return `304 Not Modified`.
 
-    1. `If-None-Match: "*"`: If the resource does not yet exist, create the resource and return `201 Created`;
-    2. `If-None-Match: "*"`: If the resource does exist, do nothing and return `412 Precondition Failed` (default behavior);
-    3. `If-None-Match: "*"`: If the resource does exist and the fhir-server-config element `fhirServer/core/ifNoneMatchReturnsNotModified` is set to `true`, do nothing and return `304 Not Modified`.
-
-The only supported value for If-None-Match conditional create-on-update is `"*"`. This feature can also be used for `PUT` requests in transaction or batch bundles by specifying the `ifNoneMatch` field similarly in the request element:
+The only supported value for the If-None-Match header for update interactions is `"*"`. This feature can also be used for `PUT` requests in transaction or batch bundles by specifying the `ifNoneMatch` field similarly in the request element:
 ```
 {
     "resourceType" : "Bundle",
@@ -85,7 +83,6 @@ The only supported value for If-None-Match conditional create-on-update is `"*"`
     }
     ]
 }
-
 ```
 
 If a match is found and the fhir-server-config element `fhirServer/core/ifNoneMatchReturnsNotModified` is not configured or is set to `false`, the condition is treated as an error which will cause transaction bundles to fail, returning a status of `400` (Bad Request). For batch bundles, the entry response status will be `412` (Precondition Failed).
@@ -108,6 +105,8 @@ If a match is found and the fhir-server-config element `fhirServer/core/ifNoneMa
   ]
 }
 ```
+
+The server also implements an optimization for updates that do not change the resource contents. See Section 5.2. Conditional Update of the [Performance Guide](guides/FHIRPerformanceGuide#52-conditional-update) for more information.
 
 Finally, the IBM FHIR Server supports multi-tenancy through custom headers as defined at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy. By default, the server will look for a tenantId in a `X-FHIR-TENANT-ID` header and a datastoreId in the `X-FHIR-DSID` header, and use `default` for either one if the headers are not present.
 

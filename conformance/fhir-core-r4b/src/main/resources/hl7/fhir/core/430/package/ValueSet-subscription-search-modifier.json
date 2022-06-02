@@ -1,0 +1,151 @@
+{
+    "resourceType": "ValueSet",
+    "id": "subscription-search-modifier",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/subscription-search-modifier",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1525"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "SubscriptionSearchModifier",
+    "title": "Subscription Search Modifier",
+    "status": "active",
+    "experimental": true,
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "FHIR search modifiers allowed for use in Subscriptions and SubscriptionTopics.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:cd324cb8-2cf5-41cb-962e-1ce95e308d99",
+        "timestamp": "2022-04-23T22:23:08Z",
+        "total": 15,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "=",
+                "display": "="
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "eq",
+                "display": "Equal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "ne",
+                "display": "Not Equal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "gt",
+                "display": "Greater Than"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "lt",
+                "display": "Less Than"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "ge",
+                "display": "Greater Than or Equal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "le",
+                "display": "Less Than or Equal"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "sa",
+                "display": "Starts After"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "eb",
+                "display": "Ends Before"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "ap",
+                "display": "Approximately"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "above",
+                "display": "Above"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "below",
+                "display": "Below"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "in",
+                "display": "In"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "not-in",
+                "display": "Not In"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-search-modifier",
+                "code": "of-type",
+                "display": "Of Type"
+            }
+        ]
+    }
+}

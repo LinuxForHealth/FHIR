@@ -5,10 +5,8 @@
  */
 package com.ibm.fhir.config;
 
-import static com.ibm.fhir.core.ResourceTypeName.DOMAIN_RESOURCE;
-import static com.ibm.fhir.core.ResourceTypeName.RESOURCE;
+import static com.ibm.fhir.core.ResourceType.RESOURCE;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -17,10 +15,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
-import com.ibm.fhir.core.ResourceTypeName;
+import com.ibm.fhir.core.FHIRVersionParam;
+import com.ibm.fhir.core.util.ResourceTypeHelper;
+
 
 /**
  * An abstraction for the ibm-fhir-server fhirServer/resources property group
@@ -28,18 +27,24 @@ import com.ibm.fhir.core.ResourceTypeName;
 public class ResourcesConfigAdapter {
     public static final Logger log = Logger.getLogger(ResourcesConfigAdapter.class.getName());
 
-    public static final Set<String> ALL_CONCRETE_TYPES = Arrays.stream(ResourceTypeName.values())
-        .filter(v -> v != ResourceTypeName.RESOURCE && v != ResourceTypeName.DOMAIN_RESOURCE)
-        .map(v -> v.value())
-        .collect(Collectors.toSet());
-
+    // all resource types applicable for the fhirVersion
+    private final Set<String> applicableTypes;
+    // all resource types supported by the passed config
     private final Set<String> supportedTypes;
     private final Map<Interaction, Set<String>> typesByInteraction = new HashMap<>();
     private boolean isWholeSystemSearchSupported = true;
     private boolean isWholeSystemHistorySupported = true;
 
-    public ResourcesConfigAdapter(PropertyGroup resourcesConfig) {
-        supportedTypes = computeSupportedResourceTypes(resourcesConfig);
+    /**
+     * Public constructor
+     *
+     * @param resourcesConfig a PropertyGroup instance for the fhirServer/resources property group
+     * @param fhirVersion a FHIRVersionParam with the fhirVersion to use for computing the applicable resource types
+     * @throws Exception
+     */
+    public ResourcesConfigAdapter(PropertyGroup resourcesConfig, FHIRVersionParam fhirVersion) {
+        applicableTypes = ResourceTypeHelper.getCompatibleResourceTypes(fhirVersion, FHIRVersionParam.VERSION_43);
+        supportedTypes = computeSupportedResourceTypes(applicableTypes, resourcesConfig, fhirVersion);
 
         if (resourcesConfig == null) {
             for (Interaction interaction : Interaction.values()) {
@@ -79,7 +84,7 @@ public class ResourcesConfigAdapter {
      */
     public boolean isSearchRestricted() {
         Set<String> searchableResourceTypes = typesByInteraction.get(Interaction.SEARCH);
-        return searchableResourceTypes == null || searchableResourceTypes.size() < ALL_CONCRETE_TYPES.size();
+        return searchableResourceTypes == null || searchableResourceTypes.size() < applicableTypes.size();
     }
 
     /**
@@ -87,11 +92,11 @@ public class ResourcesConfigAdapter {
      */
     public boolean isHistoryRestricted() {
         Set<String> resourceTypesSupportingHistory = typesByInteraction.get(Interaction.HISTORY);
-        return resourceTypesSupportingHistory == null || resourceTypesSupportingHistory.size() < ALL_CONCRETE_TYPES.size();
+        return resourceTypesSupportingHistory == null || resourceTypesSupportingHistory.size() < applicableTypes.size();
     }
 
     /**
-     * @return an immutable, non-null set of concrete supported resource types
+     * @return an immutable, non-null set of supported resource types for the given fhirVersion
      * @throws Exception
      */
     public Set<String> getSupportedResourceTypes() {
@@ -100,6 +105,7 @@ public class ResourcesConfigAdapter {
 
     /**
      * @return an immutable, non-null set of concrete resource types that are configured for the given interaction
+     *     and fhirVersion
      */
     public Set<String> getSupportedResourceTypes(Interaction interaction) {
         Set<String> result = typesByInteraction.get(interaction);
@@ -110,32 +116,34 @@ public class ResourcesConfigAdapter {
     }
 
     /**
-     * Construct the list of concrete supported resource types from the passed configuration
+     * Construct the list of supported resource types from the passed configuration and fhirVersion
      *
      * @param resourcesConfig
+     * @param fhirVersion
      * @return
      */
-    private Set<String> computeSupportedResourceTypes(PropertyGroup resourcesConfig) {
-        if (resourcesConfig == null || resourcesConfig.getBooleanProperty("open", true)) {
-            return ALL_CONCRETE_TYPES;
-        }
+    private Set<String> computeSupportedResourceTypes(Set<String> applicableTypes, PropertyGroup resourcesConfig, FHIRVersionParam fhirVersion) {
+        Set<String> result;
+        if (resourcesConfig == null || resourcesConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
+            result = applicableTypes;
+        } else {
+            result = new LinkedHashSet<String>();
+            for (PropertyEntry rsrcsEntry : resourcesConfig.getProperties()) {
+                String name = rsrcsEntry.getName();
 
-        Set<String> result = new LinkedHashSet<String>();
-        for (PropertyEntry rsrcsEntry : resourcesConfig.getProperties()) {
-            String name = rsrcsEntry.getName();
+                // Ensure we skip over the special property "open"
+                // and skip the abstract types Resource and DomainResource
+                if (FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(name) ||
+                        ResourceTypeHelper.getAbstractResourceTypeNames().contains(name)) {
+                    continue;
+                }
 
-            // Ensure we skip over the special property "open"
-            // and skip the abstract types Resource and DomainResource
-            if (FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(name) ||
-                    RESOURCE.value().equals(name) ||
-                    DOMAIN_RESOURCE.value().equals(name)) {
-                continue;
-            }
-
-            if (ALL_CONCRETE_TYPES.contains(name)) {
-                result.add(name);
-            } else if (log.isLoggable(Level.FINE)) {
-                log.fine("Configured resource type '" + name + "' is not valid.");
+                if (applicableTypes.contains(name)) {
+                    result.add(name);
+                } else if (log.isLoggable(Level.FINE)) {
+                    log.fine("Configured resource type '" + name + "' is not valid "
+                            + "or not applicable for fhirVersion " + fhirVersion.value());
+                }
             }
         }
 

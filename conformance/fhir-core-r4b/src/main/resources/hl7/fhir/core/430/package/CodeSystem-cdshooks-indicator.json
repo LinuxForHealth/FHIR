@@ -1,0 +1,60 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "cdshooks-indicator",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "vocab"
+        }
+    ],
+    "url": "http://cds-hooks.hl7.org/CodeSystem/indicator",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1066"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "Indicator",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set captures the set of indicator codes defined by the CDS Hooks specification.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/cdshooks-indicator",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "info",
+            "display": "The response is informational"
+        },
+        {
+            "code": "warning",
+            "display": "The response is a warning"
+        },
+        {
+            "code": "critical",
+            "display": "The response is critical and indicates the workflow should not be allowed to proceed"
+        }
+    ]
+}

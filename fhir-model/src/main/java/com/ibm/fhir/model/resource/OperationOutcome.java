@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -444,7 +444,7 @@ public class OperationOutcome extends DomainResource {
             bindingName = "IssueSeverity",
             strength = BindingStrength.Value.REQUIRED,
             description = "How the issue affects the success of the action.",
-            valueSet = "http://hl7.org/fhir/ValueSet/issue-severity|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/issue-severity|4.3.0-cibuild"
         )
         @Required
         private final IssueSeverity severity;
@@ -453,7 +453,7 @@ public class OperationOutcome extends DomainResource {
             bindingName = "IssueType",
             strength = BindingStrength.Value.REQUIRED,
             description = "A code that describes the type of issue.",
-            valueSet = "http://hl7.org/fhir/ValueSet/issue-type|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/issue-type|4.3.0-cibuild"
         )
         @Required
         private final IssueType code;

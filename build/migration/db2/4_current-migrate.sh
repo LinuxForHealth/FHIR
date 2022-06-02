@@ -46,14 +46,18 @@ java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-sche
     --db-type db2 --prop db.host=localhost --prop db.port=50000 --prop db.database=fhirdb \
     --prop user=db2inst1 --prop password=change-password \
     --update-schema --grant-to fhirserver
+# This additional allocate-tenant step is required for migrating db2 instances to version 5.0 because
+# we need to add new values to the resource_types table and that only happens during --allocate-tenant
+# because it is partitioned by mt_id like the other fhirdata tables
+java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
+    --db-type db2 --prop db.host=localhost --prop db.port=50000 --prop db.database=fhirdb \
+    --prop user=db2inst1 --prop password=change-password \
+    --allocate-tenant default
 
 echo ">>> Set up the derby databases for multidatastore scenarios"
 DB_LOC="${WORKSPACE}/fhir/build/migration/db2/workarea/volumes/dist/derby"
 rm -rf ${WORKSPACE}/fhir/build/migration/db2/workarea/volumes/dist/derby
 mkdir -p ${DB_LOC}
-java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
-    --db-type derby --prop db.database=${DB_LOC}/fhirDB --prop db.create=Y \
-    --update-schema
 java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
     --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
     --prop resourceTypes=${TENANT1_PROFILE_RESOURCE_TYPES} \

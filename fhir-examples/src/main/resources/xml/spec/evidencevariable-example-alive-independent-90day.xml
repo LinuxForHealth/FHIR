@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><EvidenceVariable xmlns="http://hl7.org/fhir">
+  <id value="example-alive-independent-90day"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        "Alive and not functionally dependent at 90 days" is an outcome used in expressing what an Evidence is about.
+      </p>
+	</div>
+  </text>
+  <title value="Alive and not functionally dependent at 90 days"/>
+  <status value="draft"/>
+  <useContext>
+    <code>
+      <system value="http://terminology.hl7.org/CodeSystem/usage-context-type"/>
+      <code value="focus"/>
+    </code>
+    <valueCodeableConcept>
+      <text value="Stroke"/>
+    </valueCodeableConcept>
+  </useContext>
+  <actual value="false"/>
+  <characteristicCombination value="intersection"/>
+  <characteristic>
+    <description value="not functionally dependent at 90 days"/>
+    <definitionCodeableConcept>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="718705001"/>
+        <display value="Functionally dependent (finding)"/>
+      </coding>
+    </definitionCodeableConcept>
+    <exclude value="true"/>
+    <timeFromStart>
+      <quantity>
+        <value value="90"/>
+        <unit value="day"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="d"/>
+      </quantity>
+    </timeFromStart>
+  </characteristic>
+  <characteristic>
+    <description value="alive at 90 days"/>
+    <definitionCodeableConcept>
+      <coding>
+        <system value="http://snomed.info/sct"/>
+        <code value="419099009"/>
+        <display value="Dead (finding)"/>
+      </coding>
+    </definitionCodeableConcept>
+    <exclude value="true"/>
+    <timeFromStart>
+      <quantity>
+        <value value="90"/>
+        <unit value="day"/>
+        <system value="http://unitsofmeasure.org"/>
+        <code value="d"/>
+      </quantity>
+    </timeFromStart>
+  </characteristic>
+  <handling value="dichotomous"/>
+</EvidenceVariable>

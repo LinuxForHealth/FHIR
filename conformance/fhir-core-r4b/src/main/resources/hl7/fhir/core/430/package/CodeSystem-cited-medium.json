@@ -1,0 +1,92 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "cited-medium",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/cited-medium",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1489"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CitedMedium",
+    "title": "CitedMedium",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "NLM codes Internet or Print.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/cited-medium",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "internet",
+            "display": "Internet",
+            "definition": "Online publication in a periodic release. Used to match NLM JournalIssue CitedMedium code for online version."
+        },
+        {
+            "code": "print",
+            "display": "Print",
+            "definition": "Print publication in a periodic release. Used to match NLM JournalIssue CitedMedium code for print version."
+        },
+        {
+            "code": "offline-digital-storage",
+            "display": "Offline Digital Storage",
+            "definition": "Publication in a physical device for electronic data storage, organized in issues for periodic release."
+        },
+        {
+            "code": "internet-without-issue",
+            "display": "Internet without issue",
+            "definition": "Online publication without any periodic release. Used for article specific publication date which could be the same as or different from journal issue publication date."
+        },
+        {
+            "code": "print-without-issue",
+            "display": "Print without issue",
+            "definition": "Print publication without any periodic release."
+        },
+        {
+            "code": "offline-digital-storage-without-issue",
+            "display": "Offline Digital Storage without issue",
+            "definition": "Publication in a physical device for electronic data storage, without any periodic release."
+        }
+    ]
+}

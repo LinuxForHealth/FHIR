@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><MeasureReport xmlns="http://hl7.org/fhir">
+  <id value="general-example-of-report"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "general-example-of-report" </p></div><p><b>status</b>: complete</p><p><b>type</b>: individual</p><p><b>measure</b>: <a href="http://ohie.org/Measure/hiv-indicators">http://ohie.org/Measure/hiv-indicators</a></p><p><b>subject</b>: <a name="patient-new"> </a></p><blockquote><p><b>Duck Donald (OFFICIAL)</b> male, DoB: 1976-05-17</p></blockquote><p><b>period</b>: 2018-01-01 --&gt; 2018-12-31</p><blockquote><p><b>group</b></p><p><b>code</b>: QRPH_ADX_ART5_N <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ([not stated]#QRPH_ADX_ART5_N)</span></p><p><b>measureScore</b>: 1</p><blockquote><p><b>stratifier</b></p><p><b>code</b>: AGE_GROUP:SEX <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ([not stated]#AGE_GROUP:SEX)</span></p><blockquote><p><b>stratum</b></p><p><b>value</b>: P0Y--P20Y:F <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ([not stated]#P0Y--P20Y:F)</span></p><p><b>measureScore</b>: 0</p></blockquote><blockquote><p><b>stratum</b></p><p><b>value</b>: P0Y--P20Y:M <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ([not stated]#P0Y--P20Y:M)</span></p><p><b>measureScore</b>: 0</p></blockquote><blockquote><p><b>stratum</b></p><p><b>value</b>: P20Y--P40Y:F <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ([not stated]#P20Y--P40Y:F)</span></p><p><b>measureScore</b>: 0</p></blockquote><blockquote><p><b>stratum</b></p><p><b>value</b>: P20Y--P40Y:M <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ([not stated]#P20Y--P40Y:M)</span></p><p><b>measureScore</b>: 0</p></blockquote><blockquote><p><b>stratum</b></p><p><b>value</b>: P40Y--P65Y:F <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ([not stated]#P40Y--P65Y:F)</span></p><p><b>measureScore</b>: 0</p></blockquote><blockquote><p><b>stratum</b></p><p><b>value</b>: P40Y--P65Y:M <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ([not stated]#P40Y--P65Y:M)</span></p><p><b>measureScore</b>: 1</p></blockquote></blockquote></blockquote></div></text><contained>
+  <Patient>
+    <id value="patient-new"/>
+    <name>
+      <use value="official"/>
+      <family value="Donald"/>
+      <given value="Duck"/>
+    </name>
+    <gender value="male"/>
+    <birthDate value="1976-05-17"/>
+    <address>
+      <use value="home"/>
+      <line value="1234 Main Street"/>
+      <city value="DC"/>
+      <postalCode value="20001"/>
+      <country value="USA"/>
+    </address>
+  </Patient>
+</contained>
+  <status value="complete"/>
+  <type value="individual"/>
+  <measure value="http://ohie.org/Measure/hiv-indicators"/>
+  <subject>
+    <reference value="#patient-new"/>
+  </subject>
+  <period>
+    <start value="2018-01-01"/>
+    <end value="2018-12-31"/>
+  </period>
+  <group>
+    <code><coding><code value="QRPH_ADX_ART5_N"/></coding></code>
+    <measureScore><value value="1"/></measureScore>
+    <stratifier>
+      <code><coding><code value="AGE_GROUP:SEX"/></coding></code>
+      <stratum>
+        <value><coding><code value="P0Y--P20Y:F"/></coding></value>
+        <measureScore><value value="0"/></measureScore>
+      </stratum>
+      <stratum>
+        <value><coding><code value="P0Y--P20Y:M"/></coding></value>
+        <measureScore><value value="0"/></measureScore>
+      </stratum>
+      <stratum>
+        <value><coding><code value="P20Y--P40Y:F"/></coding></value>
+        <measureScore><value value="0"/></measureScore>
+      </stratum>
+      <stratum>
+        <value><coding><code value="P20Y--P40Y:M"/></coding></value>
+        <measureScore><value value="0"/></measureScore>
+      </stratum>
+      <stratum>
+        <value><coding><code value="P40Y--P65Y:F"/></coding></value>
+        <measureScore><value value="0"/></measureScore>
+      </stratum>
+      <stratum>
+        <value><coding><code value="P40Y--P65Y:M"/></coding></value>
+        <measureScore><value value="1"/></measureScore>
+      </stratum>
+    </stratifier>
+  </group>
+</MeasureReport>

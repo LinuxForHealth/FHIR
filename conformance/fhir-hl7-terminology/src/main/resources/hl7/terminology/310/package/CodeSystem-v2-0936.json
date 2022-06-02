@@ -1,0 +1,121 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0936",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0936",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.439"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ObservationType",
+    "title": "observationType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying types of observations to enable systems to distinguish between observations sent along with an order, versus observations sent as the result to an order. Used in HL7 Version 2.x messaging in the OBX segment.",
+    "purpose": "Underlying Master Code System for V2 table 0936 (Observation Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0936",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6705",
+            "code": "QST",
+            "display": "Question",
+            "definition": "Question",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Limited to expected responses to questions by the filler"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Limited to expected responses to questions by the filler"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6706",
+            "code": "RSLT",
+            "display": "Result",
+            "definition": "Result",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6707",
+            "code": "SCI",
+            "display": "Supporting Clinical Information",
+            "definition": "Supporting Clinical Information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Placer observations not explicitly requested by the filler to provide context or supporting information"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Placer observations not explicitly requested by the filler to provide context or supporting information"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

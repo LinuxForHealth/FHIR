@@ -452,15 +452,15 @@ public class FHIRRestBundleHelper {
         } else if (pathTokens.length == 1) {
             // This is a 'search' request.
             if ("_search".equals(pathTokens[0])) {
-                result = new FHIRRestInteractionSearch(entryIndex, requestDescription, requestURL, "Resource", null, null, queryParams, absoluteUri, null, true);
+                result = new FHIRRestInteractionSearch(entryIndex, requestDescription, requestURL, "Resource", null, null, queryParams, absoluteUri, true);
             } else {
                 checkResourceType(pathTokens[0]);
-                result = new FHIRRestInteractionSearch(entryIndex, requestDescription, requestURL, pathTokens[0], null, null, queryParams, absoluteUri, null, true);
+                result = new FHIRRestInteractionSearch(entryIndex, requestDescription, requestURL, pathTokens[0], null, null, queryParams, absoluteUri, true);
             }
         } else if (pathTokens.length == 2) {
             // This is a 'read' request.
             checkResourceType(pathTokens[0]);
-            result = new FHIRRestInteractionRead(entryIndex, requestDescription, requestURL, pathTokens[0], pathTokens[1], true, false, null, null, true);
+            result = new FHIRRestInteractionRead(entryIndex, requestDescription, requestURL, pathTokens[0], pathTokens[1], true, null, true);
         } else if (pathTokens.length == 3) {
             if ("_history".equals(pathTokens[2])) {
                 // This is a 'history' request.
@@ -469,7 +469,7 @@ public class FHIRRestBundleHelper {
             } else {
                 // This is a compartment based search
                 checkResourceType(pathTokens[2]);
-                result = new FHIRRestInteractionSearch(entryIndex, requestDescription, requestURL, pathTokens[2], pathTokens[0], pathTokens[1], queryParams, absoluteUri, null, true);
+                result = new FHIRRestInteractionSearch(entryIndex, requestDescription, requestURL, pathTokens[2], pathTokens[0], pathTokens[1], queryParams, absoluteUri, true);
             }
         } else if (pathTokens.length == 4 && pathTokens[2].equals("_history")) {
             // This is a 'vread' request.
@@ -546,7 +546,7 @@ public class FHIRRestBundleHelper {
         } else if (pathTokens.length == 2 && "_search".equals(pathTokens[1])) {
             // This is a 'search' request.
             checkResourceType(pathTokens[0]);
-            result = new FHIRRestInteractionSearch(entryIndex, requestDescription, requestURL, pathTokens[0], null, null, queryParams, absoluteUri, null, true);
+            result = new FHIRRestInteractionSearch(entryIndex, requestDescription, requestURL, pathTokens[0], null, null, queryParams, absoluteUri, true);
         } else if (pathTokens.length == 1) {
             // This is a 'create' request.
             checkResourceType(pathTokens[0]);

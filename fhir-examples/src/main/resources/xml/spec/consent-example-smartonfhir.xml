@@ -7,14 +7,14 @@
       <display value="test health data"/>
     </security>
   </meta>
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: consent-example-smartonfhir</p><p><b>status</b>: active</p><p><b>scope</b>: Privacy Consent <span>(Details : {http://terminology.hl7.org/CodeSystem/consentscope code 'patient-privacy' = 'Privacy Consent)</span></p><p><b>category</b>: Patient Consent <span>(Details : {LOINC code '59284-0' = 'Patient Consent)</span></p><p><b>patient</b>: <a>Patient/xcda</a></p><p><b>dateTime</b>: 23/06/2016 5:02:33 PM</p><p><b>performer</b>: <a>RelatedPerson/peter</a></p><p><b>organization</b>: <a>Organization/f001</a></p><p><b>policyRule</b>: opt-in <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActCode code 'OPTIN' = 'opt-in)</span></p><blockquote><p><b>provision</b></p><p><b>period</b>: 23/06/2016 5:02:33 PM --&gt; 23/06/2016 5:32:33 PM</p><h3>Provisions</h3><table><tr><td>-</td></tr><tr><td>*</td></tr></table></blockquote></div></text><status value="active"/>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "consent-example-smartonfhir" </p></div><p><b>status</b>: active</p><p><b>scope</b>: Privacy Consent <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="codesystem-consent-scope.html">Consent Scope Codes</a>#patient-privacy)</span></p><p><b>category</b>: Patient Consent <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="https://loinc.org/">LOINC</a>#59284-0)</span></p><p><b>patient</b>: <a href="patient-xcda.html">Patient/xcda</a> "Henry LEVIN"</p><p><b>dateTime</b>: 2016-06-23T17:02:33+10:00</p><p><b>performer</b>: <a href="relatedperson-peter.html">RelatedPerson/peter</a> "Peter CHALMERS"</p><p><b>organization</b>: <a href="organization-f001.html">Organization/f001</a> "Burgers University Medical Center"</p><p><b>policyRule</b>: opt-in <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ActCode.html">ActCode</a>#OPTIN)</span></p><blockquote><p><b>provision</b></p><p><b>period</b>: 2016-06-23T17:02:33+10:00 --&gt; 2016-06-23T17:32:33+10:00</p><h3>Provisions</h3><table class="grid"><tr><td>-</td><td><b>Type</b></td><td><b>Action</b></td><td><b>Class</b></td></tr><tr><td>*</td><td>permit</td><td>Access <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (<a href="codesystem-consent-action.html">Consent Action Codes</a>#access)</span></td><td>MedicationRequest (Details: http://hl7.org/fhir/resource-types code MedicationRequest = 'MedicationRequest', stated as 'null')</td></tr></table></blockquote></div></text><status value="active"/>
   <scope>
     <coding>
       <system value="http://terminology.hl7.org/CodeSystem/consentscope"/>
       <code value="patient-privacy"/>
     </coding>
-    </scope>
-      <category>
+  </scope>
+  <category>
     <coding>
       <system value="http://loinc.org"/>
       <code value="59284-0"/>

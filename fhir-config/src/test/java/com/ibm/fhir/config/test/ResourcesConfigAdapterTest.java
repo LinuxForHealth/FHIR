@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.Interaction;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.ResourcesConfigAdapter;
+import com.ibm.fhir.core.FHIRVersionParam;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
@@ -24,16 +25,31 @@ public class ResourcesConfigAdapterTest {
     public void testGetSupportedResourceTypes() throws Exception {
         JsonObject json = Json.createObjectBuilder().build();
         PropertyGroup pg = new PropertyGroup(json);
-        ResourcesConfigAdapter resourcesConfigAdapter = new ResourcesConfigAdapter(pg);
+        ResourcesConfigAdapter resourcesConfigAdapter = new ResourcesConfigAdapter(pg, FHIRVersionParam.VERSION_40);
 
         Set<String> supportedResourceTypes = resourcesConfigAdapter.getSupportedResourceTypes();
-        assertEquals(supportedResourceTypes.size(), 146);
+        assertEquals(supportedResourceTypes.size(), 126);
 
         System.out.println(supportedResourceTypes);
 
         for (Interaction interaction : Interaction.values()) {
             supportedResourceTypes = resourcesConfigAdapter.getSupportedResourceTypes(interaction);
-            assertEquals(supportedResourceTypes.size(), 146);
+            assertEquals(supportedResourceTypes.size(), 126);
+        }
+    }
+
+    @Test
+    public void testGetSupportedResourceTypes_r4b() throws Exception {
+        JsonObject json = Json.createObjectBuilder().build();
+        PropertyGroup pg = new PropertyGroup(json);
+        ResourcesConfigAdapter resourcesConfigAdapter = new ResourcesConfigAdapter(pg, FHIRVersionParam.VERSION_43);
+
+        Set<String> supportedResourceTypes = resourcesConfigAdapter.getSupportedResourceTypes();
+        assertEquals(supportedResourceTypes.size(), 141);
+
+        for (Interaction interaction : Interaction.values()) {
+            supportedResourceTypes = resourcesConfigAdapter.getSupportedResourceTypes(interaction);
+            assertEquals(supportedResourceTypes.size(), 141);
         }
     }
 }

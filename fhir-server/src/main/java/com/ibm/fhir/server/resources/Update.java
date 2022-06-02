@@ -35,7 +35,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
+import com.ibm.fhir.server.exception.FHIRResourceNotFoundException;
 import com.ibm.fhir.server.spi.operation.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.server.util.RestAuditLogger;
@@ -60,7 +60,7 @@ public class Update extends FHIRResource {
     @Path("{type}/{id}")
     public Response update(@PathParam("type") String type, @PathParam("id") String id, Resource resource,
             @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch,
-            @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean onlyIfModified,
+            @HeaderParam(FHIRConstants.FORCE_UPDATE_HEADER) boolean forceUpdate,
             @HeaderParam(HttpHeaders.IF_NONE_MATCH) String ifNoneMatchHdr) {
         log.entering(this.getClass().getName(), "update(String,String,Resource)");
         Date startTime = new Date();
@@ -72,8 +72,8 @@ public class Update extends FHIRResource {
             checkType(type);
             Integer ifNoneMatch = encodeIfNoneMatch(ifNoneMatchHdr);
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
-            ior = helper.doUpdate(type, id, resource, ifMatch, null, onlyIfModified, ifNoneMatch);
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
+            ior = helper.doUpdate(type, id, resource, ifMatch, null, !forceUpdate, ifNoneMatch);
 
             ResponseBuilder response = Response.ok()
                     .location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -96,7 +96,7 @@ public class Update extends FHIRResource {
                 response = addHeaders(response, ior.getLocationURI());
             }
             return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
+        } catch (FHIRResourceNotFoundException e) {
             // By default, NOT_FOUND is mapped to HTTP 404, so explicitly set it to HTTP 405
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
@@ -126,8 +126,9 @@ public class Update extends FHIRResource {
 
     @PUT
     @Path("{type}")
-    public Response conditionalUpdate(@PathParam("type") String type, Resource resource, @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch,
-            @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean onlyIfModified) {
+    public Response conditionalUpdate(@PathParam("type") String type, Resource resource,
+            @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch,
+            @HeaderParam(FHIRConstants.FORCE_UPDATE_HEADER) boolean forceUpdate) {
         log.entering(this.getClass().getName(), "conditionalUpdate(String,Resource)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -144,8 +145,8 @@ public class Update extends FHIRResource {
                 throw buildRestException(msg, IssueType.INVALID);
             }
 
-            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper());
-            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, onlyIfModified, IF_NONE_MATCH_NULL);
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl(), getSearchHelper(), getFhirVersion());
+            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, !forceUpdate, IF_NONE_MATCH_NULL);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(buildAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -161,7 +162,7 @@ public class Update extends FHIRResource {
             response = addETagAndLastModifiedHeaders(response, updatedResource);
 
             return response.build();
-        } catch (FHIRPersistenceResourceNotFoundException e) {
+        } catch (FHIRResourceNotFoundException e) {
             status = Status.METHOD_NOT_ALLOWED;
             return exceptionResponse(e, status);
         } catch (FHIROperationException e) {

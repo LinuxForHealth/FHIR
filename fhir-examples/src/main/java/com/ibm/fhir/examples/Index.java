@@ -17,17 +17,13 @@ public enum Index {
     ALL("/spec-json.txt",
         "/ibm-json.txt",
         "/spec-xml.txt",
-        "/ibm-xml.txt",
-        "/profiles-pdex-formulary-json.txt",
-        "/profiles-pdex-plan-net-json.txt"),
+        "/ibm-xml.txt"),
 
     /**
      * All JSON examples
      */
     ALL_JSON("/spec-json.txt",
-        "/ibm-json.txt",
-        "/profiles-pdex-formulary-json.txt",
-        "/profiles-pdex-plan-net-json.txt"),
+        "/ibm-json.txt"),
 
     /**
      * Small mix of spec and IBM examples used for unit tests to keep build times short

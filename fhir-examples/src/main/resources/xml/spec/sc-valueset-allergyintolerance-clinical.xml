@@ -3,14 +3,14 @@
 <ConceptMap xmlns="http://hl7.org/fhir">
   <id value="sc-allergyintolerance-clinical"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
       <h2>AllergyIntoleranceClinicalStatusCodesCanonicalMap (http://hl7.org/fhir/ConceptMap/sc-allergyintolerance-clinical)</h2>
       <p>Mapping from 
         <a href="valueset-allergyintolerance-clinical.html">http://hl7.org/fhir/ValueSet/allergyintolerance-clinical</a> to 
         <a href="valueset-resource-status.html">http://hl7.org/fhir/ValueSet/resource-status</a>
       </p>
-      <p>DRAFT. Published on 01/11/2019 9:29:23 AM by FHIR Project team (
+      <p>DRAFT. Published on ?ngen-10? by FHIR Project team (
         <a href="http://hl7.org/fhir">http://hl7.org/fhir</a>). 
       </p>
       <div>
@@ -24,36 +24,48 @@
             <b>Source Code</b>
           </td>
           <td>
-            <b>Equivalence</b>
+            <b>Relationship</b>
           </td>
           <td>
             <b>Destination Code</b>
           </td>
         </tr>
         <tr>
+          <td colspan="3">Mapping from 
+            <a href="codesystem-allergyintolerance-clinical.html">AllergyIntolerance Clinical Status Codes</a> to 
+            <a href="codesystem-resource-status.html">Canonical Status Codes for FHIR Resources</a>
+          </td>
+        </tr>
+        <tr>
           <td>active</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>active</td>
         </tr>
         <tr>
           <td>inactive</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>inactive</td>
         </tr>
         <tr>
           <td>resolved</td>
-          <td>equivalent</td>
+          <td>
+            <a href="codesystem-concept-map-equivalence.html#equivalent">is equivalent to</a>
+          </td>
           <td>resolved</td>
         </tr>
       </table>
     </div>
   </text>
   <url value="http://hl7.org/fhir/ConceptMap/sc-allergyintolerance-clinical"/>
-  <version value="4.0.1"/>
+  <version value="4.3.0-cibuild"/>
   <name value="AllergyIntoleranceClinicalStatusCodesCanonicalMap"/>
   <title value="Canonical Mapping for &quot;AllergyIntolerance Clinical Status Codes&quot;"/>
   <status value="draft"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
   <publisher value="FHIR Project team"/>
   <contact>
     <telecom>

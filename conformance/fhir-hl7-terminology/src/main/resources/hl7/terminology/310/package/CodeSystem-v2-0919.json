@@ -1,0 +1,127 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0919",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0919",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.425"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ExclusiveTest",
+    "title": "exclusiveTest",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts that define if a test should be a specific event with no other tests to be performed with this test, or not, or other special circumstances.  Used in HL7 Version 2.x messaging in Master Files (OM1 segment) to characterize observations in a master of such orderables.",
+    "purpose": "Underlying Master Code System for V2 table 0919 (Exclusive Test)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0919",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6633",
+            "code": "Y",
+            "display": "This test should be exclusive",
+            "definition": "This test should be exclusive",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6634",
+            "code": "N",
+            "display": "This test can be included with any number of other tests",
+            "definition": "This test can be included with any number of other tests",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Default -.will be assumed when this field is empty"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Default -.will be assumed when this field is empty"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6635",
+            "code": "D",
+            "display": "In some cases, this test should be only exclusively with like tests (examples are cyto or pathology)",
+            "definition": "In some cases, this test should be only exclusively with like tests (examples are cyto or pathology)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "When  D is specified for this field, using field OM1-49 determines how tests must be grouped together.  Tests within the same Diagnostic Service Sector may be on the same requisition, and therefore in the same message"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "When  D is specified for this field, using field OM1-49 determines how tests must be grouped together.  Tests within the same Diagnostic Service Sector may be on the same requisition, and therefore in the same message"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

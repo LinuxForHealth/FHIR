@@ -10,26 +10,179 @@
       <display value="test health data"/>
     </security>
   </meta>
-
-  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative with Details</b></p><p><b>id</b>: C-2121</p><p><b>meta</b>: </p><p><b>status</b>: executed</p><p><b>contentDerivative</b>: Content Registration <span>(Details : {http://terminology.hl7.org/CodeSystem/contract-content-derivative code 'registration' = 'Content Registration)</span></p><p><b>issued</b>: 01/11/2013 9:18:27 PM</p><p><b>applies</b>: 01/11/2013 9:18:27 PM --&gt; (ongoing)</p><p><b>subject</b>: <a>Patient/f201</a></p><p><b>type</b>: Opt-in consent directive <span>(Details : {http://mdhhs.org/fhir/consentdirective-type code 'OPTIN' = 'OPTIN)</span></p><p><b>subType</b>: Health Care Directive <span>(Details : {http://terminology.hl7.org/CodeSystem/consentcategorycodes code 'hcd' = 'Health Care Directive)</span></p><blockquote><p><b>term</b></p><h3>Offers</h3><table><tr><td>-</td><td><b>Type</b></td><td><b>Decision</b></td><td><b>Text</b></td></tr><tr><td>*</td><td>Statutory <span>(Details : {http://terminology.hl7.org/CodeSystem/contracttermtypecodes code 'statutory' = 'Statutory)</span></td><td>opt-in <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActCode code 'OPTIN' = 'opt-in)</span></td><td>Can't refuse</td></tr></table><h3>Assets</h3><table><tr><td>-</td><td><b>Period</b></td></tr><tr><td>*</td><td>01/11/2013 9:18:27 PM --&gt; 01/11/2019 9:18:27 PM</td></tr></table><blockquote><p><b>action</b></p><p><b>type</b>: Action A <span>(Details : {http://terminology.hl7.org/CodeSystem/contractaction code 'action-a' = 'Action A)</span></p><blockquote><p><b>subject</b></p><p><b>reference</b>: <a>VA Ann Arbor Healthcare System</a></p><p><b>role</b>: Recipient of restricted health information <span>(Details : {http://mdhhs.org/fhir/consent-actor-type code 'IR' = 'IR', given as 'Recipient'})</span></p></blockquote><blockquote><p><b>subject</b></p><p><b>reference</b>: <a>Community Mental Health Clinic</a></p><p><b>role</b>: Sender of restricted health information <span>(Details : {http://mdhhs.org/fhir/consent-actor-type code 'IS' = 'IS', given as 'Sender'})</span></p></blockquote><p><b>intent</b>: health program reporting <span>(Details : {http://terminology.hl7.org/CodeSystem/v3-ActReason code 'HPRGRP' = 'health program reporting)</span></p><p><b>status</b>: Sample <span>(Details )</span></p></blockquote></blockquote><h3>Signers</h3><table><tr><td>-</td><td><b>Type</b></td><td><b>Party</b></td><td><b>Signature</b></td></tr><tr><td>*</td><td>SELF (Details: http://mdhhs.org/fhir/consent-signer-type code SELF = 'SELF', stated as 'null')</td><td><a>Alice Recruit</a></td><td/></tr></table><h3>Legals</h3><table><tr><td>-</td><td><b>Content[x]</b></td></tr><tr><td>*</td><td/></tr></table></div></text><status value="executed"/>
-
+  <text>
+    <status value="generated"/>
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      <p>
+        <b>Generated Narrative</b>
+      </p>
+      <div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%">
+        <p style="margin-bottom: 0px">Resource "C-2121" Version "1" Updated "2016-07-19T18:18:42.108-04:00" </p>
+      </div>
+      <p>
+        <b>status</b>: executed
+      </p>
+      <p>
+        <b>contentDerivative</b>: Content Registration 
+        <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (
+          <a href="http://terminology.hl7.org/3.1.0/CodeSystem-contract-content-derivative.html">Contract Content Derivation Codes</a>#registration)
+        </span>
+      </p>
+      <p>
+        <b>issued</b>: 2013-11-01T21:18:27-04:00
+      </p>
+      <p>
+        <b>applies</b>: 2013-11-01T21:18:27-04:00 --&gt; (ongoing)
+      </p>
+      <p>
+        <b>subject</b>: 
+        <a href="patient-f201.html">Patient/f201</a> "Roel"
+      </p>
+      <p>
+        <b>type</b>: Opt-in consent directive 
+        <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (consentdirective-type#OPTIN)</span>
+      </p>
+      <p>
+        <b>subType</b>: Health Care Directive 
+        <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (
+          <a href="codesystem-consent-category.html">Consent Category Codes</a>#hcd)
+        </span>
+      </p>
+      <blockquote>
+        <p>
+          <b>term</b>
+        </p>
+        <h3>Offers</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Type</b>
+            </td>
+            <td>
+              <b>Decision</b>
+            </td>
+            <td>
+              <b>Text</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>Statutory 
+              <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (
+                <a href="http://terminology.hl7.org/3.1.0/CodeSystem-contracttermtypecodes.html">Contract Term Type Codes</a>#statutory)
+              </span>
+            </td>
+            <td>opt-in 
+              <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (
+                <a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ActCode.html">ActCode</a>#OPTIN)
+              </span>
+            </td>
+            <td>Can't refuse</td>
+          </tr>
+        </table>
+        <h3>Assets</h3>
+        <table class="grid">
+          <tr>
+            <td>-</td>
+            <td>
+              <b>Period</b>
+            </td>
+          </tr>
+          <tr>
+            <td>*</td>
+            <td>2013-11-01T21:18:27-04:00 --&gt; 2019-11-01T21:18:27-04:00</td>
+          </tr>
+        </table>
+        <blockquote>
+          <p>
+            <b>action</b>
+          </p>
+          <p>
+            <b>type</b>: Action A 
+            <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (
+              <a href="http://terminology.hl7.org/3.1.0/CodeSystem-contractaction.html">Contract Action Codes</a>#action-a)
+            </span>
+          </p>
+          <blockquote>
+            <p>
+              <b>subject</b>
+            </p>
+            <p>
+              <b>reference</b>: 
+              <a href="organization-f001.html">Organization/f001: VA Ann Arbor Healthcare System</a> "Burgers University Medical Center"
+            </p>
+            <p>
+              <b>role</b>: Recipient of restricted health information 
+              <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (consent-actor-type#IR "Recipient")</span>
+            </p>
+          </blockquote>
+          <blockquote>
+            <p>
+              <b>subject</b>
+            </p>
+            <p>
+              <b>reference</b>: 
+              <a href="organization-2.html">Organization/2: Community Mental Health Clinic</a> "XYZ Insurance"
+            </p>
+            <p>
+              <b>role</b>: Sender of restricted health information 
+              <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (consent-actor-type#IS "Sender")</span>
+            </p>
+          </blockquote>
+          <p>
+            <b>intent</b>: health program reporting 
+            <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> (
+              <a href="http://terminology.hl7.org/3.1.0/CodeSystem-v3-ActReason.html">ActReason</a>#HPRGRP)
+            </span>
+          </p>
+          <p>
+            <b>status</b>: Sample 
+            <span style="background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki"> ()</span>
+          </p>
+        </blockquote>
+      </blockquote>
+      <blockquote>
+        <p>
+          <b>signer</b>
+        </p>
+        <p>
+          <b>type</b>: SELF (Details: http://mdhhs.org/fhir/consent-signer-type code SELF = 'SELF', stated as 'null')
+        </p>
+        <p>
+          <b>party</b>: 
+          <a href="patient-f201.html">Patient/f201: Alice Recruit</a> "Roel"
+        </p>
+      </blockquote>
+      <h3>Legals</h3>
+      <table class="grid">
+        <tr>
+          <td>-</td>
+          <td>
+            <b>Content[x]</b>
+          </td>
+        </tr>
+        <tr>
+          <td>*</td>
+          <td/>
+        </tr>
+      </table>
+    </div>
+  </text>
+  <status value="executed"/>
   <contentDerivative>
     <coding>
       <system value="http://terminology.hl7.org/CodeSystem/contract-content-derivative"/>
       <code value="registration"/>
     </coding>
   </contentDerivative>
-
   <issued value="2013-11-01T21:18:27-04:00"/>
-
   <applies>
     <start value="2013-11-01T21:18:27-04:00"/>
   </applies>
-
   <subject>
     <reference value="Patient/f201"/>
   </subject>
-
   <type>
     <coding>
       <system value="http://mdhhs.org/fhir/consentdirective-type"/>
@@ -41,13 +194,8 @@
     <coding>
       <system value="http://terminology.hl7.org/CodeSystem/consentcategorycodes"/>
       <code value="hcd"/>
-<!--        <code value="MDHHS-5515"/>
-      <display
-        value="Michigan MDHHS-5515 Consent to Share Behavioral Health Information for Care Coordination Purposes"
-      />   -->
     </coding>
   </subType>
-
   <term>
     <offer>
       <type>
@@ -64,60 +212,12 @@
       </decision>
       <text value="Can't refuse"/>
     </offer>
-    
     <asset>
       <period>
         <start value="2013-11-01T21:18:27-04:00"/>
         <end value="2019-11-01T21:18:27-04:00"/>
       </period>
-      <!--  
-      <securityLabel>
-        <system value="http://terminology.hl7.org/CodeSystem/v3-Confidentiality"/>
-        <code value="R"/>
-        <display value="Restricted"/>
-      </securityLabel>
-      <securityLabel>
-        <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
-        <code value="ETH"/>
-        <display value="substance abuse information sensitivity"/>
-      </securityLabel>
-      <securityLabel>
-        <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
-        <code value="42CFRPart2"/>
-      </securityLabel>
-      <securityLabel>
-        <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
-        <code value="TREAT"/>
-        <display value="treatment"/>
-      </securityLabel>
-      <securityLabel>
-        <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
-        <code value="HPAYMT"/>
-        <display value="healthcare payment"/>
-      </securityLabel>
-      <securityLabel>
-        <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
-        <code value="HOPERAT"/>
-        <display value="healthcare operations"/>
-      </securityLabel>
-      <securityLabel>
-        <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
-        <code value="PERSISTLABEL"/>
-        <display value="persist security label"/>
-      </securityLabel>
-      <securityLabel>
-        <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
-        <code value="PRIVMARK"/>
-        <display value="privacy mark"/>
-      </securityLabel>
-      <securityLabel>
-        <system value="http://terminology.hl7.org/CodeSystem/v3-ActCode"/>
-        <code value="NORDSCLCD"/>
-        <display value="no redisclosure without consent directive"/>
-      </securityLabel>
-      -->
     </asset>
-
     <action>
       <type>
         <coding>
@@ -163,10 +263,7 @@
         <text value="Sample"/>
       </status>
     </action>
-    
-
   </term>
-
   <signer>
     <type>
       <system value="http://mdhhs.org/fhir/consent-signer-type"/>
@@ -182,12 +279,11 @@
         <code value="1.2.840.10065.1.12.1.1"/>
       </type>
       <when value="2017-02-08T10:57:34+01:00"/>
-	  <who>
+      <who>
         <reference value="Patient/f201"/>
-	  </who>
+      </who>
     </signature>
   </signer>
-
   <legal>
     <contentAttachment>
       <contentType value="application/pdf"/>

@@ -1,0 +1,87 @@
+{
+    "resourceType": "ValueSet",
+    "id": "ex-paymenttype",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/ex-paymenttype",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.616"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ExamplePaymentTypeCodes",
+    "title": "Example Payment Type Codes",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "Financial Management",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes example Payment Type codes.",
+    "copyright": "This is an example set.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-paymenttype"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:c969eb3a-463a-42c6-af32-b971277856b5",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/ex-paymenttype|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-paymenttype",
+                "code": "complete",
+                "display": "Complete"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/ex-paymenttype",
+                "code": "partial",
+                "display": "Partial"
+            }
+        ]
+    }
+}

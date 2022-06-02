@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +22,8 @@ import java.util.StringJoiner;
 import javax.annotation.Generated;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+
+import com.ibm.fhir.core.ResourceType;
 
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.*;
@@ -97,6 +99,8 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseAccount(elementName, reader, elementIndex);
         case "ActivityDefinition":
             return parseActivityDefinition(elementName, reader, elementIndex);
+        case "AdministrableProductDefinition":
+            return parseAdministrableProductDefinition(elementName, reader, elementIndex);
         case "AdverseEvent":
             return parseAdverseEvent(elementName, reader, elementIndex);
         case "AllergyIntolerance":
@@ -129,12 +133,16 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseChargeItem(elementName, reader, elementIndex);
         case "ChargeItemDefinition":
             return parseChargeItemDefinition(elementName, reader, elementIndex);
+        case "Citation":
+            return parseCitation(elementName, reader, elementIndex);
         case "Claim":
             return parseClaim(elementName, reader, elementIndex);
         case "ClaimResponse":
             return parseClaimResponse(elementName, reader, elementIndex);
         case "ClinicalImpression":
             return parseClinicalImpression(elementName, reader, elementIndex);
+        case "ClinicalUseDefinition":
+            return parseClinicalUseDefinition(elementName, reader, elementIndex);
         case "CodeSystem":
             return parseCodeSystem(elementName, reader, elementIndex);
         case "Communication":
@@ -177,8 +185,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseDocumentManifest(elementName, reader, elementIndex);
         case "DocumentReference":
             return parseDocumentReference(elementName, reader, elementIndex);
-        case "EffectEvidenceSynthesis":
-            return parseEffectEvidenceSynthesis(elementName, reader, elementIndex);
         case "Encounter":
             return parseEncounter(elementName, reader, elementIndex);
         case "Endpoint":
@@ -193,6 +199,8 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseEventDefinition(elementName, reader, elementIndex);
         case "Evidence":
             return parseEvidence(elementName, reader, elementIndex);
+        case "EvidenceReport":
+            return parseEvidenceReport(elementName, reader, elementIndex);
         case "EvidenceVariable":
             return parseEvidenceVariable(elementName, reader, elementIndex);
         case "ExampleScenario":
@@ -223,6 +231,8 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseImmunizationRecommendation(elementName, reader, elementIndex);
         case "ImplementationGuide":
             return parseImplementationGuide(elementName, reader, elementIndex);
+        case "Ingredient":
+            return parseIngredient(elementName, reader, elementIndex);
         case "InsurancePlan":
             return parseInsurancePlan(elementName, reader, elementIndex);
         case "Invoice":
@@ -235,6 +245,8 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseList(elementName, reader, elementIndex);
         case "Location":
             return parseLocation(elementName, reader, elementIndex);
+        case "ManufacturedItemDefinition":
+            return parseManufacturedItemDefinition(elementName, reader, elementIndex);
         case "Measure":
             return parseMeasure(elementName, reader, elementIndex);
         case "MeasureReport":
@@ -253,26 +265,8 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseMedicationRequest(elementName, reader, elementIndex);
         case "MedicationStatement":
             return parseMedicationStatement(elementName, reader, elementIndex);
-        case "MedicinalProduct":
-            return parseMedicinalProduct(elementName, reader, elementIndex);
-        case "MedicinalProductAuthorization":
-            return parseMedicinalProductAuthorization(elementName, reader, elementIndex);
-        case "MedicinalProductContraindication":
-            return parseMedicinalProductContraindication(elementName, reader, elementIndex);
-        case "MedicinalProductIndication":
-            return parseMedicinalProductIndication(elementName, reader, elementIndex);
-        case "MedicinalProductIngredient":
-            return parseMedicinalProductIngredient(elementName, reader, elementIndex);
-        case "MedicinalProductInteraction":
-            return parseMedicinalProductInteraction(elementName, reader, elementIndex);
-        case "MedicinalProductManufactured":
-            return parseMedicinalProductManufactured(elementName, reader, elementIndex);
-        case "MedicinalProductPackaged":
-            return parseMedicinalProductPackaged(elementName, reader, elementIndex);
-        case "MedicinalProductPharmaceutical":
-            return parseMedicinalProductPharmaceutical(elementName, reader, elementIndex);
-        case "MedicinalProductUndesirableEffect":
-            return parseMedicinalProductUndesirableEffect(elementName, reader, elementIndex);
+        case "MedicinalProductDefinition":
+            return parseMedicinalProductDefinition(elementName, reader, elementIndex);
         case "MessageDefinition":
             return parseMessageDefinition(elementName, reader, elementIndex);
         case "MessageHeader":
@@ -283,6 +277,8 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseNamingSystem(elementName, reader, elementIndex);
         case "NutritionOrder":
             return parseNutritionOrder(elementName, reader, elementIndex);
+        case "NutritionProduct":
+            return parseNutritionProduct(elementName, reader, elementIndex);
         case "Observation":
             return parseObservation(elementName, reader, elementIndex);
         case "ObservationDefinition":
@@ -295,6 +291,8 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseOrganization(elementName, reader, elementIndex);
         case "OrganizationAffiliation":
             return parseOrganizationAffiliation(elementName, reader, elementIndex);
+        case "PackagedProductDefinition":
+            return parsePackagedProductDefinition(elementName, reader, elementIndex);
         case "Parameters":
             return parseParameters(elementName, reader, elementIndex);
         case "Patient":
@@ -319,6 +317,8 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseQuestionnaire(elementName, reader, elementIndex);
         case "QuestionnaireResponse":
             return parseQuestionnaireResponse(elementName, reader, elementIndex);
+        case "RegulatedAuthorization":
+            return parseRegulatedAuthorization(elementName, reader, elementIndex);
         case "RelatedPerson":
             return parseRelatedPerson(elementName, reader, elementIndex);
         case "RequestGroup":
@@ -333,8 +333,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseResearchSubject(elementName, reader, elementIndex);
         case "RiskAssessment":
             return parseRiskAssessment(elementName, reader, elementIndex);
-        case "RiskEvidenceSynthesis":
-            return parseRiskEvidenceSynthesis(elementName, reader, elementIndex);
         case "Schedule":
             return parseSchedule(elementName, reader, elementIndex);
         case "SearchParameter":
@@ -353,20 +351,14 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             return parseStructureMap(elementName, reader, elementIndex);
         case "Subscription":
             return parseSubscription(elementName, reader, elementIndex);
+        case "SubscriptionStatus":
+            return parseSubscriptionStatus(elementName, reader, elementIndex);
+        case "SubscriptionTopic":
+            return parseSubscriptionTopic(elementName, reader, elementIndex);
         case "Substance":
             return parseSubstance(elementName, reader, elementIndex);
-        case "SubstanceNucleicAcid":
-            return parseSubstanceNucleicAcid(elementName, reader, elementIndex);
-        case "SubstancePolymer":
-            return parseSubstancePolymer(elementName, reader, elementIndex);
-        case "SubstanceProtein":
-            return parseSubstanceProtein(elementName, reader, elementIndex);
-        case "SubstanceReferenceInformation":
-            return parseSubstanceReferenceInformation(elementName, reader, elementIndex);
-        case "SubstanceSourceMaterial":
-            return parseSubstanceSourceMaterial(elementName, reader, elementIndex);
-        case "SubstanceSpecification":
-            return parseSubstanceSpecification(elementName, reader, elementIndex);
+        case "SubstanceDefinition":
+            return parseSubstanceDefinition(elementName, reader, elementIndex);
         case "SupplyDelivery":
             return parseSupplyDelivery(elementName, reader, elementIndex);
         case "SupplyRequest":
@@ -689,6 +681,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "subjectReference":
                     position = checkElementOrder("subject[x]", 16, position, false);
                     builder.subject(parseReference("subjectReference", reader, -1));
+                    break;
+                case "subjectCanonical":
+                    position = checkElementOrder("subject[x]", 16, position, false);
+                    builder.subject((Canonical) parseUri(Canonical.builder(), "subjectCanonical", reader, -1));
                     break;
                 case "date":
                     position = checkElementOrder("date", 17, position, false);
@@ -1045,6 +1041,362 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "period":
                     position = checkElementOrder("period", 10, position, false);
                     builder.period(parsePeriod("period", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private AdministrableProductDefinition parseAdministrableProductDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        AdministrableProductDefinition.Builder builder = AdministrableProductDefinition.builder();
+        builder.setValidating(validating);
+        int position = -1;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, formOfElementIndex = 0, producedFromElementIndex = 0, ingredientElementIndex = 0, propertyElementIndex = 0, routeOfAdministrationElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "id":
+                    position = checkElementOrder("id", 0, position, false);
+                    builder.id(parseJavaString("id", reader, -1));
+                    break;
+                case "meta":
+                    position = checkElementOrder("meta", 1, position, false);
+                    builder.meta(parseMeta("meta", reader, -1));
+                    break;
+                case "implicitRules":
+                    position = checkElementOrder("implicitRules", 2, position, false);
+                    builder.implicitRules(parseUri("implicitRules", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "contained":
+                    position = checkElementOrder("contained", 5, position, true);
+                    builder.contained(parseResource("contained", reader, containedElementIndex++));
+                    break;
+                case "extension":
+                    position = checkElementOrder("extension", 6, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 7, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 8, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 9, position, false);
+                    builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", reader, -1));
+                    break;
+                case "formOf":
+                    position = checkElementOrder("formOf", 10, position, true);
+                    builder.formOf(parseReference("formOf", reader, formOfElementIndex++));
+                    break;
+                case "administrableDoseForm":
+                    position = checkElementOrder("administrableDoseForm", 11, position, false);
+                    builder.administrableDoseForm(parseCodeableConcept("administrableDoseForm", reader, -1));
+                    break;
+                case "unitOfPresentation":
+                    position = checkElementOrder("unitOfPresentation", 12, position, false);
+                    builder.unitOfPresentation(parseCodeableConcept("unitOfPresentation", reader, -1));
+                    break;
+                case "producedFrom":
+                    position = checkElementOrder("producedFrom", 13, position, true);
+                    builder.producedFrom(parseReference("producedFrom", reader, producedFromElementIndex++));
+                    break;
+                case "ingredient":
+                    position = checkElementOrder("ingredient", 14, position, true);
+                    builder.ingredient(parseCodeableConcept("ingredient", reader, ingredientElementIndex++));
+                    break;
+                case "device":
+                    position = checkElementOrder("device", 15, position, false);
+                    builder.device(parseReference("device", reader, -1));
+                    break;
+                case "property":
+                    position = checkElementOrder("property", 16, position, true);
+                    builder.property(parseAdministrableProductDefinitionProperty("property", reader, propertyElementIndex++));
+                    break;
+                case "routeOfAdministration":
+                    position = checkElementOrder("routeOfAdministration", 17, position, true);
+                    builder.routeOfAdministration(parseAdministrableProductDefinitionRouteOfAdministration("routeOfAdministration", reader, routeOfAdministrationElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private AdministrableProductDefinition.Property parseAdministrableProductDefinitionProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        AdministrableProductDefinition.Property.Builder builder = AdministrableProductDefinition.Property.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "valueCodeableConcept":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseCodeableConcept("valueCodeableConcept", reader, -1));
+                    break;
+                case "valueQuantity":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseQuantity("valueQuantity", reader, -1));
+                    break;
+                case "valueDate":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseDate("valueDate", reader, -1));
+                    break;
+                case "valueBoolean":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseBoolean("valueBoolean", reader, -1));
+                    break;
+                case "valueAttachment":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseAttachment("valueAttachment", reader, -1));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 4, position, false);
+                    builder.status(parseCodeableConcept("status", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private AdministrableProductDefinition.RouteOfAdministration parseAdministrableProductDefinitionRouteOfAdministration(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        AdministrableProductDefinition.RouteOfAdministration.Builder builder = AdministrableProductDefinition.RouteOfAdministration.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, targetSpeciesElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "code":
+                    position = checkElementOrder("code", 2, position, false);
+                    builder.code(parseCodeableConcept("code", reader, -1));
+                    break;
+                case "firstDose":
+                    position = checkElementOrder("firstDose", 3, position, false);
+                    builder.firstDose(parseQuantity("firstDose", reader, -1));
+                    break;
+                case "maxSingleDose":
+                    position = checkElementOrder("maxSingleDose", 4, position, false);
+                    builder.maxSingleDose(parseQuantity("maxSingleDose", reader, -1));
+                    break;
+                case "maxDosePerDay":
+                    position = checkElementOrder("maxDosePerDay", 5, position, false);
+                    builder.maxDosePerDay(parseQuantity("maxDosePerDay", reader, -1));
+                    break;
+                case "maxDosePerTreatmentPeriod":
+                    position = checkElementOrder("maxDosePerTreatmentPeriod", 6, position, false);
+                    builder.maxDosePerTreatmentPeriod(parseRatio("maxDosePerTreatmentPeriod", reader, -1));
+                    break;
+                case "maxTreatmentPeriod":
+                    position = checkElementOrder("maxTreatmentPeriod", 7, position, false);
+                    builder.maxTreatmentPeriod((Duration) parseQuantity(Duration.builder(), "maxTreatmentPeriod", reader, -1));
+                    break;
+                case "targetSpecies":
+                    position = checkElementOrder("targetSpecies", 8, position, true);
+                    builder.targetSpecies(parseAdministrableProductDefinitionRouteOfAdministrationTargetSpecies("targetSpecies", reader, targetSpeciesElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private AdministrableProductDefinition.RouteOfAdministration.TargetSpecies parseAdministrableProductDefinitionRouteOfAdministrationTargetSpecies(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.Builder builder = AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, withdrawalPeriodElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "code":
+                    position = checkElementOrder("code", 2, position, false);
+                    builder.code(parseCodeableConcept("code", reader, -1));
+                    break;
+                case "withdrawalPeriod":
+                    position = checkElementOrder("withdrawalPeriod", 3, position, true);
+                    builder.withdrawalPeriod(parseAdministrableProductDefinitionRouteOfAdministrationTargetSpeciesWithdrawalPeriod("withdrawalPeriod", reader, withdrawalPeriodElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.WithdrawalPeriod parseAdministrableProductDefinitionRouteOfAdministrationTargetSpeciesWithdrawalPeriod(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.Builder builder = AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "tissue":
+                    position = checkElementOrder("tissue", 2, position, false);
+                    builder.tissue(parseCodeableConcept("tissue", reader, -1));
+                    break;
+                case "value":
+                    position = checkElementOrder("value", 3, position, false);
+                    builder.value(parseQuantity("value", reader, -1));
+                    break;
+                case "supportingInformation":
+                    position = checkElementOrder("supportingInformation", 4, position, false);
+                    builder.supportingInformation(parseString("supportingInformation", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -4071,7 +4423,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "type":
                     position = checkElementOrder("type", 2, position, false);
-                    builder.type((ResourceType) parseString(ResourceType.builder(), "type", reader, -1));
+                    builder.type((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "type", reader, -1));
                     break;
                 case "profile":
                     position = checkElementOrder("profile", 3, position, false);
@@ -5660,6 +6012,1634 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "amount":
                     position = checkElementOrder("amount", 5, position, false);
                     builder.amount(parseMoney("amount", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation parseCitation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.Builder builder = Citation.builder();
+        builder.setValidating(validating);
+        int position = -1;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, summaryElementIndex = 0, classificationElementIndex = 0, noteElementIndex = 0, currentStateElementIndex = 0, statusDateElementIndex = 0, relatesToElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "id":
+                    position = checkElementOrder("id", 0, position, false);
+                    builder.id(parseJavaString("id", reader, -1));
+                    break;
+                case "meta":
+                    position = checkElementOrder("meta", 1, position, false);
+                    builder.meta(parseMeta("meta", reader, -1));
+                    break;
+                case "implicitRules":
+                    position = checkElementOrder("implicitRules", 2, position, false);
+                    builder.implicitRules(parseUri("implicitRules", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "contained":
+                    position = checkElementOrder("contained", 5, position, true);
+                    builder.contained(parseResource("contained", reader, containedElementIndex++));
+                    break;
+                case "extension":
+                    position = checkElementOrder("extension", 6, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 7, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "url":
+                    position = checkElementOrder("url", 8, position, false);
+                    builder.url(parseUri("url", reader, -1));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 9, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "version":
+                    position = checkElementOrder("version", 10, position, false);
+                    builder.version(parseString("version", reader, -1));
+                    break;
+                case "name":
+                    position = checkElementOrder("name", 11, position, false);
+                    builder.name(parseString("name", reader, -1));
+                    break;
+                case "title":
+                    position = checkElementOrder("title", 12, position, false);
+                    builder.title(parseString("title", reader, -1));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 13, position, false);
+                    builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", reader, -1));
+                    break;
+                case "experimental":
+                    position = checkElementOrder("experimental", 14, position, false);
+                    builder.experimental(parseBoolean("experimental", reader, -1));
+                    break;
+                case "date":
+                    position = checkElementOrder("date", 15, position, false);
+                    builder.date(parseDateTime("date", reader, -1));
+                    break;
+                case "publisher":
+                    position = checkElementOrder("publisher", 16, position, false);
+                    builder.publisher(parseString("publisher", reader, -1));
+                    break;
+                case "contact":
+                    position = checkElementOrder("contact", 17, position, true);
+                    builder.contact(parseContactDetail("contact", reader, contactElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 18, position, false);
+                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
+                    break;
+                case "useContext":
+                    position = checkElementOrder("useContext", 19, position, true);
+                    builder.useContext(parseUsageContext("useContext", reader, useContextElementIndex++));
+                    break;
+                case "jurisdiction":
+                    position = checkElementOrder("jurisdiction", 20, position, true);
+                    builder.jurisdiction(parseCodeableConcept("jurisdiction", reader, jurisdictionElementIndex++));
+                    break;
+                case "purpose":
+                    position = checkElementOrder("purpose", 21, position, false);
+                    builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", reader, -1));
+                    break;
+                case "copyright":
+                    position = checkElementOrder("copyright", 22, position, false);
+                    builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", reader, -1));
+                    break;
+                case "approvalDate":
+                    position = checkElementOrder("approvalDate", 23, position, false);
+                    builder.approvalDate(parseDate("approvalDate", reader, -1));
+                    break;
+                case "lastReviewDate":
+                    position = checkElementOrder("lastReviewDate", 24, position, false);
+                    builder.lastReviewDate(parseDate("lastReviewDate", reader, -1));
+                    break;
+                case "effectivePeriod":
+                    position = checkElementOrder("effectivePeriod", 25, position, false);
+                    builder.effectivePeriod(parsePeriod("effectivePeriod", reader, -1));
+                    break;
+                case "author":
+                    position = checkElementOrder("author", 26, position, true);
+                    builder.author(parseContactDetail("author", reader, authorElementIndex++));
+                    break;
+                case "editor":
+                    position = checkElementOrder("editor", 27, position, true);
+                    builder.editor(parseContactDetail("editor", reader, editorElementIndex++));
+                    break;
+                case "reviewer":
+                    position = checkElementOrder("reviewer", 28, position, true);
+                    builder.reviewer(parseContactDetail("reviewer", reader, reviewerElementIndex++));
+                    break;
+                case "endorser":
+                    position = checkElementOrder("endorser", 29, position, true);
+                    builder.endorser(parseContactDetail("endorser", reader, endorserElementIndex++));
+                    break;
+                case "summary":
+                    position = checkElementOrder("summary", 30, position, true);
+                    builder.summary(parseCitationSummary("summary", reader, summaryElementIndex++));
+                    break;
+                case "classification":
+                    position = checkElementOrder("classification", 31, position, true);
+                    builder.classification(parseCitationClassification("classification", reader, classificationElementIndex++));
+                    break;
+                case "note":
+                    position = checkElementOrder("note", 32, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
+                    break;
+                case "currentState":
+                    position = checkElementOrder("currentState", 33, position, true);
+                    builder.currentState(parseCodeableConcept("currentState", reader, currentStateElementIndex++));
+                    break;
+                case "statusDate":
+                    position = checkElementOrder("statusDate", 34, position, true);
+                    builder.statusDate(parseCitationStatusDate("statusDate", reader, statusDateElementIndex++));
+                    break;
+                case "relatesTo":
+                    position = checkElementOrder("relatesTo", 35, position, true);
+                    builder.relatesTo(parseCitationRelatesTo("relatesTo", reader, relatesToElementIndex++));
+                    break;
+                case "citedArtifact":
+                    position = checkElementOrder("citedArtifact", 36, position, false);
+                    builder.citedArtifact(parseCitationCitedArtifact("citedArtifact", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact parseCitationCitedArtifact(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.Builder builder = Citation.CitedArtifact.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, relatedIdentifierElementIndex = 0, currentStateElementIndex = 0, statusDateElementIndex = 0, titleElementIndex = 0, abstractElementIndex = 0, relatesToElementIndex = 0, publicationFormElementIndex = 0, webLocationElementIndex = 0, classificationElementIndex = 0, noteElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 2, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "relatedIdentifier":
+                    position = checkElementOrder("relatedIdentifier", 3, position, true);
+                    builder.relatedIdentifier(parseIdentifier("relatedIdentifier", reader, relatedIdentifierElementIndex++));
+                    break;
+                case "dateAccessed":
+                    position = checkElementOrder("dateAccessed", 4, position, false);
+                    builder.dateAccessed(parseDateTime("dateAccessed", reader, -1));
+                    break;
+                case "version":
+                    position = checkElementOrder("version", 5, position, false);
+                    builder.version(parseCitationCitedArtifactVersion("version", reader, -1));
+                    break;
+                case "currentState":
+                    position = checkElementOrder("currentState", 6, position, true);
+                    builder.currentState(parseCodeableConcept("currentState", reader, currentStateElementIndex++));
+                    break;
+                case "statusDate":
+                    position = checkElementOrder("statusDate", 7, position, true);
+                    builder.statusDate(parseCitationCitedArtifactStatusDate("statusDate", reader, statusDateElementIndex++));
+                    break;
+                case "title":
+                    position = checkElementOrder("title", 8, position, true);
+                    builder.title(parseCitationCitedArtifactTitle("title", reader, titleElementIndex++));
+                    break;
+                case "abstract":
+                    position = checkElementOrder("abstract", 9, position, true);
+                    builder._abstract(parseCitationCitedArtifactAbstract("abstract", reader, abstractElementIndex++));
+                    break;
+                case "part":
+                    position = checkElementOrder("part", 10, position, false);
+                    builder.part(parseCitationCitedArtifactPart("part", reader, -1));
+                    break;
+                case "relatesTo":
+                    position = checkElementOrder("relatesTo", 11, position, true);
+                    builder.relatesTo(parseCitationCitedArtifactRelatesTo("relatesTo", reader, relatesToElementIndex++));
+                    break;
+                case "publicationForm":
+                    position = checkElementOrder("publicationForm", 12, position, true);
+                    builder.publicationForm(parseCitationCitedArtifactPublicationForm("publicationForm", reader, publicationFormElementIndex++));
+                    break;
+                case "webLocation":
+                    position = checkElementOrder("webLocation", 13, position, true);
+                    builder.webLocation(parseCitationCitedArtifactWebLocation("webLocation", reader, webLocationElementIndex++));
+                    break;
+                case "classification":
+                    position = checkElementOrder("classification", 14, position, true);
+                    builder.classification(parseCitationCitedArtifactClassification("classification", reader, classificationElementIndex++));
+                    break;
+                case "contributorship":
+                    position = checkElementOrder("contributorship", 15, position, false);
+                    builder.contributorship(parseCitationCitedArtifactContributorship("contributorship", reader, -1));
+                    break;
+                case "note":
+                    position = checkElementOrder("note", 16, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.Abstract parseCitationCitedArtifactAbstract(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.Abstract.Builder builder = Citation.CitedArtifact.Abstract.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language(parseCodeableConcept("language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text((Markdown) parseString(Markdown.builder(), "text", reader, -1));
+                    break;
+                case "copyright":
+                    position = checkElementOrder("copyright", 5, position, false);
+                    builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.Classification parseCitationCitedArtifactClassification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.Classification.Builder builder = Citation.CitedArtifact.Classification.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, classifierElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "classifier":
+                    position = checkElementOrder("classifier", 3, position, true);
+                    builder.classifier(parseCodeableConcept("classifier", reader, classifierElementIndex++));
+                    break;
+                case "whoClassified":
+                    position = checkElementOrder("whoClassified", 4, position, false);
+                    builder.whoClassified(parseCitationCitedArtifactClassificationWhoClassified("whoClassified", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.Classification.WhoClassified parseCitationCitedArtifactClassificationWhoClassified(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.Classification.WhoClassified.Builder builder = Citation.CitedArtifact.Classification.WhoClassified.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "person":
+                    position = checkElementOrder("person", 2, position, false);
+                    builder.person(parseReference("person", reader, -1));
+                    break;
+                case "organization":
+                    position = checkElementOrder("organization", 3, position, false);
+                    builder.organization(parseReference("organization", reader, -1));
+                    break;
+                case "publisher":
+                    position = checkElementOrder("publisher", 4, position, false);
+                    builder.publisher(parseReference("publisher", reader, -1));
+                    break;
+                case "classifierCopyright":
+                    position = checkElementOrder("classifierCopyright", 5, position, false);
+                    builder.classifierCopyright(parseString("classifierCopyright", reader, -1));
+                    break;
+                case "freeToShare":
+                    position = checkElementOrder("freeToShare", 6, position, false);
+                    builder.freeToShare(parseBoolean("freeToShare", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.Contributorship parseCitationCitedArtifactContributorship(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.Contributorship.Builder builder = Citation.CitedArtifact.Contributorship.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, entryElementIndex = 0, summaryElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "complete":
+                    position = checkElementOrder("complete", 2, position, false);
+                    builder.complete(parseBoolean("complete", reader, -1));
+                    break;
+                case "entry":
+                    position = checkElementOrder("entry", 3, position, true);
+                    builder.entry(parseCitationCitedArtifactContributorshipEntry("entry", reader, entryElementIndex++));
+                    break;
+                case "summary":
+                    position = checkElementOrder("summary", 4, position, true);
+                    builder.summary(parseCitationCitedArtifactContributorshipSummary("summary", reader, summaryElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.Contributorship.Entry parseCitationCitedArtifactContributorshipEntry(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.Contributorship.Entry.Builder builder = Citation.CitedArtifact.Contributorship.Entry.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, affiliationInfoElementIndex = 0, addressElementIndex = 0, telecomElementIndex = 0, contributionTypeElementIndex = 0, contributionInstanceElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "name":
+                    position = checkElementOrder("name", 2, position, false);
+                    builder.name(parseHumanName("name", reader, -1));
+                    break;
+                case "initials":
+                    position = checkElementOrder("initials", 3, position, false);
+                    builder.initials(parseString("initials", reader, -1));
+                    break;
+                case "collectiveName":
+                    position = checkElementOrder("collectiveName", 4, position, false);
+                    builder.collectiveName(parseString("collectiveName", reader, -1));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 5, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "affiliationInfo":
+                    position = checkElementOrder("affiliationInfo", 6, position, true);
+                    builder.affiliationInfo(parseCitationCitedArtifactContributorshipEntryAffiliationInfo("affiliationInfo", reader, affiliationInfoElementIndex++));
+                    break;
+                case "address":
+                    position = checkElementOrder("address", 7, position, true);
+                    builder.address(parseAddress("address", reader, addressElementIndex++));
+                    break;
+                case "telecom":
+                    position = checkElementOrder("telecom", 8, position, true);
+                    builder.telecom(parseContactPoint("telecom", reader, telecomElementIndex++));
+                    break;
+                case "contributionType":
+                    position = checkElementOrder("contributionType", 9, position, true);
+                    builder.contributionType(parseCodeableConcept("contributionType", reader, contributionTypeElementIndex++));
+                    break;
+                case "role":
+                    position = checkElementOrder("role", 10, position, false);
+                    builder.role(parseCodeableConcept("role", reader, -1));
+                    break;
+                case "contributionInstance":
+                    position = checkElementOrder("contributionInstance", 11, position, true);
+                    builder.contributionInstance(parseCitationCitedArtifactContributorshipEntryContributionInstance("contributionInstance", reader, contributionInstanceElementIndex++));
+                    break;
+                case "correspondingContact":
+                    position = checkElementOrder("correspondingContact", 12, position, false);
+                    builder.correspondingContact(parseBoolean("correspondingContact", reader, -1));
+                    break;
+                case "listOrder":
+                    position = checkElementOrder("listOrder", 13, position, false);
+                    builder.listOrder((PositiveInt) parseInteger(PositiveInt.builder(), "listOrder", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.Contributorship.Entry.AffiliationInfo parseCitationCitedArtifactContributorshipEntryAffiliationInfo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.Contributorship.Entry.AffiliationInfo.Builder builder = Citation.CitedArtifact.Contributorship.Entry.AffiliationInfo.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "affiliation":
+                    position = checkElementOrder("affiliation", 2, position, false);
+                    builder.affiliation(parseString("affiliation", reader, -1));
+                    break;
+                case "role":
+                    position = checkElementOrder("role", 3, position, false);
+                    builder.role(parseString("role", reader, -1));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 4, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.Contributorship.Entry.ContributionInstance parseCitationCitedArtifactContributorshipEntryContributionInstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.Contributorship.Entry.ContributionInstance.Builder builder = Citation.CitedArtifact.Contributorship.Entry.ContributionInstance.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "time":
+                    position = checkElementOrder("time", 3, position, false);
+                    builder.time(parseDateTime("time", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.Contributorship.Summary parseCitationCitedArtifactContributorshipSummary(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.Contributorship.Summary.Builder builder = Citation.CitedArtifact.Contributorship.Summary.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "style":
+                    position = checkElementOrder("style", 3, position, false);
+                    builder.style(parseCodeableConcept("style", reader, -1));
+                    break;
+                case "source":
+                    position = checkElementOrder("source", 4, position, false);
+                    builder.source(parseCodeableConcept("source", reader, -1));
+                    break;
+                case "value":
+                    position = checkElementOrder("value", 5, position, false);
+                    builder.value((Markdown) parseString(Markdown.builder(), "value", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.Part parseCitationCitedArtifactPart(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.Part.Builder builder = Citation.CitedArtifact.Part.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "value":
+                    position = checkElementOrder("value", 3, position, false);
+                    builder.value(parseString("value", reader, -1));
+                    break;
+                case "baseCitation":
+                    position = checkElementOrder("baseCitation", 4, position, false);
+                    builder.baseCitation(parseReference("baseCitation", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.PublicationForm parseCitationCitedArtifactPublicationForm(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.PublicationForm.Builder builder = Citation.CitedArtifact.PublicationForm.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, languageElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "publishedIn":
+                    position = checkElementOrder("publishedIn", 2, position, false);
+                    builder.publishedIn(parseCitationCitedArtifactPublicationFormPublishedIn("publishedIn", reader, -1));
+                    break;
+                case "periodicRelease":
+                    position = checkElementOrder("periodicRelease", 3, position, false);
+                    builder.periodicRelease(parseCitationCitedArtifactPublicationFormPeriodicRelease("periodicRelease", reader, -1));
+                    break;
+                case "articleDate":
+                    position = checkElementOrder("articleDate", 4, position, false);
+                    builder.articleDate(parseDateTime("articleDate", reader, -1));
+                    break;
+                case "lastRevisionDate":
+                    position = checkElementOrder("lastRevisionDate", 5, position, false);
+                    builder.lastRevisionDate(parseDateTime("lastRevisionDate", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 6, position, true);
+                    builder.language(parseCodeableConcept("language", reader, languageElementIndex++));
+                    break;
+                case "accessionNumber":
+                    position = checkElementOrder("accessionNumber", 7, position, false);
+                    builder.accessionNumber(parseString("accessionNumber", reader, -1));
+                    break;
+                case "pageString":
+                    position = checkElementOrder("pageString", 8, position, false);
+                    builder.pageString(parseString("pageString", reader, -1));
+                    break;
+                case "firstPage":
+                    position = checkElementOrder("firstPage", 9, position, false);
+                    builder.firstPage(parseString("firstPage", reader, -1));
+                    break;
+                case "lastPage":
+                    position = checkElementOrder("lastPage", 10, position, false);
+                    builder.lastPage(parseString("lastPage", reader, -1));
+                    break;
+                case "pageCount":
+                    position = checkElementOrder("pageCount", 11, position, false);
+                    builder.pageCount(parseString("pageCount", reader, -1));
+                    break;
+                case "copyright":
+                    position = checkElementOrder("copyright", 12, position, false);
+                    builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.PublicationForm.PeriodicRelease parseCitationCitedArtifactPublicationFormPeriodicRelease(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.PublicationForm.PeriodicRelease.Builder builder = Citation.CitedArtifact.PublicationForm.PeriodicRelease.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "citedMedium":
+                    position = checkElementOrder("citedMedium", 2, position, false);
+                    builder.citedMedium(parseCodeableConcept("citedMedium", reader, -1));
+                    break;
+                case "volume":
+                    position = checkElementOrder("volume", 3, position, false);
+                    builder.volume(parseString("volume", reader, -1));
+                    break;
+                case "issue":
+                    position = checkElementOrder("issue", 4, position, false);
+                    builder.issue(parseString("issue", reader, -1));
+                    break;
+                case "dateOfPublication":
+                    position = checkElementOrder("dateOfPublication", 5, position, false);
+                    builder.dateOfPublication(parseCitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication("dateOfPublication", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.PublicationForm.PeriodicRelease.DateOfPublication parseCitationCitedArtifactPublicationFormPeriodicReleaseDateOfPublication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.PublicationForm.PeriodicRelease.DateOfPublication.Builder builder = Citation.CitedArtifact.PublicationForm.PeriodicRelease.DateOfPublication.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "date":
+                    position = checkElementOrder("date", 2, position, false);
+                    builder.date(parseDate("date", reader, -1));
+                    break;
+                case "year":
+                    position = checkElementOrder("year", 3, position, false);
+                    builder.year(parseString("year", reader, -1));
+                    break;
+                case "month":
+                    position = checkElementOrder("month", 4, position, false);
+                    builder.month(parseString("month", reader, -1));
+                    break;
+                case "day":
+                    position = checkElementOrder("day", 5, position, false);
+                    builder.day(parseString("day", reader, -1));
+                    break;
+                case "season":
+                    position = checkElementOrder("season", 6, position, false);
+                    builder.season(parseString("season", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 7, position, false);
+                    builder.text(parseString("text", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.PublicationForm.PublishedIn parseCitationCitedArtifactPublicationFormPublishedIn(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.PublicationForm.PublishedIn.Builder builder = Citation.CitedArtifact.PublicationForm.PublishedIn.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 3, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "title":
+                    position = checkElementOrder("title", 4, position, false);
+                    builder.title(parseString("title", reader, -1));
+                    break;
+                case "publisher":
+                    position = checkElementOrder("publisher", 5, position, false);
+                    builder.publisher(parseReference("publisher", reader, -1));
+                    break;
+                case "publisherLocation":
+                    position = checkElementOrder("publisherLocation", 6, position, false);
+                    builder.publisherLocation(parseString("publisherLocation", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.RelatesTo parseCitationCitedArtifactRelatesTo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.RelatesTo.Builder builder = Citation.CitedArtifact.RelatesTo.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, targetClassifierElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "relationshipType":
+                    position = checkElementOrder("relationshipType", 2, position, false);
+                    builder.relationshipType(parseCodeableConcept("relationshipType", reader, -1));
+                    break;
+                case "targetClassifier":
+                    position = checkElementOrder("targetClassifier", 3, position, true);
+                    builder.targetClassifier(parseCodeableConcept("targetClassifier", reader, targetClassifierElementIndex++));
+                    break;
+                case "targetUri":
+                    position = checkElementOrder("target[x]", 4, position, false);
+                    builder.target(parseUri("targetUri", reader, -1));
+                    break;
+                case "targetIdentifier":
+                    position = checkElementOrder("target[x]", 4, position, false);
+                    builder.target(parseIdentifier("targetIdentifier", reader, -1));
+                    break;
+                case "targetReference":
+                    position = checkElementOrder("target[x]", 4, position, false);
+                    builder.target(parseReference("targetReference", reader, -1));
+                    break;
+                case "targetAttachment":
+                    position = checkElementOrder("target[x]", 4, position, false);
+                    builder.target(parseAttachment("targetAttachment", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.StatusDate parseCitationCitedArtifactStatusDate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.StatusDate.Builder builder = Citation.CitedArtifact.StatusDate.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "activity":
+                    position = checkElementOrder("activity", 2, position, false);
+                    builder.activity(parseCodeableConcept("activity", reader, -1));
+                    break;
+                case "actual":
+                    position = checkElementOrder("actual", 3, position, false);
+                    builder.actual(parseBoolean("actual", reader, -1));
+                    break;
+                case "period":
+                    position = checkElementOrder("period", 4, position, false);
+                    builder.period(parsePeriod("period", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.Title parseCitationCitedArtifactTitle(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.Title.Builder builder = Citation.CitedArtifact.Title.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, typeElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, true);
+                    builder.type(parseCodeableConcept("type", reader, typeElementIndex++));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language(parseCodeableConcept("language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text((Markdown) parseString(Markdown.builder(), "text", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.Version parseCitationCitedArtifactVersion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.Version.Builder builder = Citation.CitedArtifact.Version.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "value":
+                    position = checkElementOrder("value", 2, position, false);
+                    builder.value(parseString("value", reader, -1));
+                    break;
+                case "baseCitation":
+                    position = checkElementOrder("baseCitation", 3, position, false);
+                    builder.baseCitation(parseReference("baseCitation", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.CitedArtifact.WebLocation parseCitationCitedArtifactWebLocation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.CitedArtifact.WebLocation.Builder builder = Citation.CitedArtifact.WebLocation.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "url":
+                    position = checkElementOrder("url", 3, position, false);
+                    builder.url(parseUri("url", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.Classification parseCitationClassification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.Classification.Builder builder = Citation.Classification.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, classifierElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "classifier":
+                    position = checkElementOrder("classifier", 3, position, true);
+                    builder.classifier(parseCodeableConcept("classifier", reader, classifierElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.RelatesTo parseCitationRelatesTo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.RelatesTo.Builder builder = Citation.RelatesTo.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, targetClassifierElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "relationshipType":
+                    position = checkElementOrder("relationshipType", 2, position, false);
+                    builder.relationshipType(parseCodeableConcept("relationshipType", reader, -1));
+                    break;
+                case "targetClassifier":
+                    position = checkElementOrder("targetClassifier", 3, position, true);
+                    builder.targetClassifier(parseCodeableConcept("targetClassifier", reader, targetClassifierElementIndex++));
+                    break;
+                case "targetUri":
+                    position = checkElementOrder("target[x]", 4, position, false);
+                    builder.target(parseUri("targetUri", reader, -1));
+                    break;
+                case "targetIdentifier":
+                    position = checkElementOrder("target[x]", 4, position, false);
+                    builder.target(parseIdentifier("targetIdentifier", reader, -1));
+                    break;
+                case "targetReference":
+                    position = checkElementOrder("target[x]", 4, position, false);
+                    builder.target(parseReference("targetReference", reader, -1));
+                    break;
+                case "targetAttachment":
+                    position = checkElementOrder("target[x]", 4, position, false);
+                    builder.target(parseAttachment("targetAttachment", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.StatusDate parseCitationStatusDate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.StatusDate.Builder builder = Citation.StatusDate.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "activity":
+                    position = checkElementOrder("activity", 2, position, false);
+                    builder.activity(parseCodeableConcept("activity", reader, -1));
+                    break;
+                case "actual":
+                    position = checkElementOrder("actual", 3, position, false);
+                    builder.actual(parseBoolean("actual", reader, -1));
+                    break;
+                case "period":
+                    position = checkElementOrder("period", 4, position, false);
+                    builder.period(parsePeriod("period", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Citation.Summary parseCitationSummary(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Citation.Summary.Builder builder = Citation.Summary.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "style":
+                    position = checkElementOrder("style", 2, position, false);
+                    builder.style(parseCodeableConcept("style", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 3, position, false);
+                    builder.text((Markdown) parseString(Markdown.builder(), "text", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -7952,6 +9932,530 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
+    private ClinicalUseDefinition parseClinicalUseDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        ClinicalUseDefinition.Builder builder = ClinicalUseDefinition.builder();
+        builder.setValidating(validating);
+        int position = -1;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, categoryElementIndex = 0, subjectElementIndex = 0, populationElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "id":
+                    position = checkElementOrder("id", 0, position, false);
+                    builder.id(parseJavaString("id", reader, -1));
+                    break;
+                case "meta":
+                    position = checkElementOrder("meta", 1, position, false);
+                    builder.meta(parseMeta("meta", reader, -1));
+                    break;
+                case "implicitRules":
+                    position = checkElementOrder("implicitRules", 2, position, false);
+                    builder.implicitRules(parseUri("implicitRules", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "contained":
+                    position = checkElementOrder("contained", 5, position, true);
+                    builder.contained(parseResource("contained", reader, containedElementIndex++));
+                    break;
+                case "extension":
+                    position = checkElementOrder("extension", 6, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 7, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 8, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 9, position, false);
+                    builder.type((ClinicalUseDefinitionType) parseString(ClinicalUseDefinitionType.builder(), "type", reader, -1));
+                    break;
+                case "category":
+                    position = checkElementOrder("category", 10, position, true);
+                    builder.category(parseCodeableConcept("category", reader, categoryElementIndex++));
+                    break;
+                case "subject":
+                    position = checkElementOrder("subject", 11, position, true);
+                    builder.subject(parseReference("subject", reader, subjectElementIndex++));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 12, position, false);
+                    builder.status(parseCodeableConcept("status", reader, -1));
+                    break;
+                case "contraindication":
+                    position = checkElementOrder("contraindication", 13, position, false);
+                    builder.contraindication(parseClinicalUseDefinitionContraindication("contraindication", reader, -1));
+                    break;
+                case "indication":
+                    position = checkElementOrder("indication", 14, position, false);
+                    builder.indication(parseClinicalUseDefinitionIndication("indication", reader, -1));
+                    break;
+                case "interaction":
+                    position = checkElementOrder("interaction", 15, position, false);
+                    builder.interaction(parseClinicalUseDefinitionInteraction("interaction", reader, -1));
+                    break;
+                case "population":
+                    position = checkElementOrder("population", 16, position, true);
+                    builder.population(parseReference("population", reader, populationElementIndex++));
+                    break;
+                case "undesirableEffect":
+                    position = checkElementOrder("undesirableEffect", 17, position, false);
+                    builder.undesirableEffect(parseClinicalUseDefinitionUndesirableEffect("undesirableEffect", reader, -1));
+                    break;
+                case "warning":
+                    position = checkElementOrder("warning", 18, position, false);
+                    builder.warning(parseClinicalUseDefinitionWarning("warning", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private ClinicalUseDefinition.Contraindication parseClinicalUseDefinitionContraindication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        ClinicalUseDefinition.Contraindication.Builder builder = ClinicalUseDefinition.Contraindication.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, comorbidityElementIndex = 0, indicationElementIndex = 0, otherTherapyElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "diseaseSymptomProcedure":
+                    position = checkElementOrder("diseaseSymptomProcedure", 2, position, false);
+                    builder.diseaseSymptomProcedure(parseCodeableReference("diseaseSymptomProcedure", reader, -1));
+                    break;
+                case "diseaseStatus":
+                    position = checkElementOrder("diseaseStatus", 3, position, false);
+                    builder.diseaseStatus(parseCodeableReference("diseaseStatus", reader, -1));
+                    break;
+                case "comorbidity":
+                    position = checkElementOrder("comorbidity", 4, position, true);
+                    builder.comorbidity(parseCodeableReference("comorbidity", reader, comorbidityElementIndex++));
+                    break;
+                case "indication":
+                    position = checkElementOrder("indication", 5, position, true);
+                    builder.indication(parseReference("indication", reader, indicationElementIndex++));
+                    break;
+                case "otherTherapy":
+                    position = checkElementOrder("otherTherapy", 6, position, true);
+                    builder.otherTherapy(parseClinicalUseDefinitionContraindicationOtherTherapy("otherTherapy", reader, otherTherapyElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private ClinicalUseDefinition.Contraindication.OtherTherapy parseClinicalUseDefinitionContraindicationOtherTherapy(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        ClinicalUseDefinition.Contraindication.OtherTherapy.Builder builder = ClinicalUseDefinition.Contraindication.OtherTherapy.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "relationshipType":
+                    position = checkElementOrder("relationshipType", 2, position, false);
+                    builder.relationshipType(parseCodeableConcept("relationshipType", reader, -1));
+                    break;
+                case "therapy":
+                    position = checkElementOrder("therapy", 3, position, false);
+                    builder.therapy(parseCodeableReference("therapy", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private ClinicalUseDefinition.Indication parseClinicalUseDefinitionIndication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        ClinicalUseDefinition.Indication.Builder builder = ClinicalUseDefinition.Indication.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, comorbidityElementIndex = 0, undesirableEffectElementIndex = 0, otherTherapyElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "diseaseSymptomProcedure":
+                    position = checkElementOrder("diseaseSymptomProcedure", 2, position, false);
+                    builder.diseaseSymptomProcedure(parseCodeableReference("diseaseSymptomProcedure", reader, -1));
+                    break;
+                case "diseaseStatus":
+                    position = checkElementOrder("diseaseStatus", 3, position, false);
+                    builder.diseaseStatus(parseCodeableReference("diseaseStatus", reader, -1));
+                    break;
+                case "comorbidity":
+                    position = checkElementOrder("comorbidity", 4, position, true);
+                    builder.comorbidity(parseCodeableReference("comorbidity", reader, comorbidityElementIndex++));
+                    break;
+                case "intendedEffect":
+                    position = checkElementOrder("intendedEffect", 5, position, false);
+                    builder.intendedEffect(parseCodeableReference("intendedEffect", reader, -1));
+                    break;
+                case "durationRange":
+                    position = checkElementOrder("duration[x]", 6, position, false);
+                    builder.duration(parseRange("durationRange", reader, -1));
+                    break;
+                case "durationString":
+                    position = checkElementOrder("duration[x]", 6, position, false);
+                    builder.duration(parseString("durationString", reader, -1));
+                    break;
+                case "undesirableEffect":
+                    position = checkElementOrder("undesirableEffect", 7, position, true);
+                    builder.undesirableEffect(parseReference("undesirableEffect", reader, undesirableEffectElementIndex++));
+                    break;
+                case "otherTherapy":
+                    position = checkElementOrder("otherTherapy", 8, position, true);
+                    builder.otherTherapy(parseClinicalUseDefinitionContraindicationOtherTherapy("otherTherapy", reader, otherTherapyElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private ClinicalUseDefinition.Interaction parseClinicalUseDefinitionInteraction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        ClinicalUseDefinition.Interaction.Builder builder = ClinicalUseDefinition.Interaction.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, interactantElementIndex = 0, managementElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "interactant":
+                    position = checkElementOrder("interactant", 2, position, true);
+                    builder.interactant(parseClinicalUseDefinitionInteractionInteractant("interactant", reader, interactantElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 3, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "effect":
+                    position = checkElementOrder("effect", 4, position, false);
+                    builder.effect(parseCodeableReference("effect", reader, -1));
+                    break;
+                case "incidence":
+                    position = checkElementOrder("incidence", 5, position, false);
+                    builder.incidence(parseCodeableConcept("incidence", reader, -1));
+                    break;
+                case "management":
+                    position = checkElementOrder("management", 6, position, true);
+                    builder.management(parseCodeableConcept("management", reader, managementElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private ClinicalUseDefinition.Interaction.Interactant parseClinicalUseDefinitionInteractionInteractant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        ClinicalUseDefinition.Interaction.Interactant.Builder builder = ClinicalUseDefinition.Interaction.Interactant.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "itemReference":
+                    position = checkElementOrder("item[x]", 2, position, false);
+                    builder.item(parseReference("itemReference", reader, -1));
+                    break;
+                case "itemCodeableConcept":
+                    position = checkElementOrder("item[x]", 2, position, false);
+                    builder.item(parseCodeableConcept("itemCodeableConcept", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private ClinicalUseDefinition.UndesirableEffect parseClinicalUseDefinitionUndesirableEffect(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        ClinicalUseDefinition.UndesirableEffect.Builder builder = ClinicalUseDefinition.UndesirableEffect.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "symptomConditionEffect":
+                    position = checkElementOrder("symptomConditionEffect", 2, position, false);
+                    builder.symptomConditionEffect(parseCodeableReference("symptomConditionEffect", reader, -1));
+                    break;
+                case "classification":
+                    position = checkElementOrder("classification", 3, position, false);
+                    builder.classification(parseCodeableConcept("classification", reader, -1));
+                    break;
+                case "frequencyOfOccurrence":
+                    position = checkElementOrder("frequencyOfOccurrence", 4, position, false);
+                    builder.frequencyOfOccurrence(parseCodeableConcept("frequencyOfOccurrence", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private ClinicalUseDefinition.Warning parseClinicalUseDefinitionWarning(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        ClinicalUseDefinition.Warning.Builder builder = ClinicalUseDefinition.Warning.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 2, position, false);
+                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
+                    break;
+                case "code":
+                    position = checkElementOrder("code", 3, position, false);
+                    builder.code(parseCodeableConcept("code", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
     private CodeSystem parseCodeSystem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeSystem.Builder builder = CodeSystem.builder();
@@ -8468,6 +10972,54 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "text":
                     position = checkElementOrder("text", 2, position, false);
                     builder.text(parseString("text", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private CodeableReference parseCodeableReference(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        CodeableReference.Builder builder = CodeableReference.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "concept":
+                    position = checkElementOrder("concept", 1, position, false);
+                    builder.concept(parseCodeableConcept("concept", reader, -1));
+                    break;
+                case "reference":
+                    position = checkElementOrder("reference", 2, position, false);
+                    builder.reference(parseReference("reference", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -9119,7 +11671,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "code":
                     position = checkElementOrder("code", 2, position, false);
-                    builder.code((ResourceType) parseString(ResourceType.builder(), "code", reader, -1));
+                    builder.code((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "code", reader, -1));
                     break;
                 case "param":
                     position = checkElementOrder("param", 3, position, true);
@@ -16120,558 +18672,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private EffectEvidenceSynthesis parseEffectEvidenceSynthesis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        EffectEvidenceSynthesis.Builder builder = EffectEvidenceSynthesis.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, noteElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, resultsByExposureElementIndex = 0, effectEstimateElementIndex = 0, certaintyElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "url":
-                    position = checkElementOrder("url", 8, position, false);
-                    builder.url(parseUri("url", reader, -1));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 9, position, true);
-                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
-                    break;
-                case "version":
-                    position = checkElementOrder("version", 10, position, false);
-                    builder.version(parseString("version", reader, -1));
-                    break;
-                case "name":
-                    position = checkElementOrder("name", 11, position, false);
-                    builder.name(parseString("name", reader, -1));
-                    break;
-                case "title":
-                    position = checkElementOrder("title", 12, position, false);
-                    builder.title(parseString("title", reader, -1));
-                    break;
-                case "status":
-                    position = checkElementOrder("status", 13, position, false);
-                    builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", reader, -1));
-                    break;
-                case "date":
-                    position = checkElementOrder("date", 14, position, false);
-                    builder.date(parseDateTime("date", reader, -1));
-                    break;
-                case "publisher":
-                    position = checkElementOrder("publisher", 15, position, false);
-                    builder.publisher(parseString("publisher", reader, -1));
-                    break;
-                case "contact":
-                    position = checkElementOrder("contact", 16, position, true);
-                    builder.contact(parseContactDetail("contact", reader, contactElementIndex++));
-                    break;
-                case "description":
-                    position = checkElementOrder("description", 17, position, false);
-                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
-                    break;
-                case "note":
-                    position = checkElementOrder("note", 18, position, true);
-                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
-                    break;
-                case "useContext":
-                    position = checkElementOrder("useContext", 19, position, true);
-                    builder.useContext(parseUsageContext("useContext", reader, useContextElementIndex++));
-                    break;
-                case "jurisdiction":
-                    position = checkElementOrder("jurisdiction", 20, position, true);
-                    builder.jurisdiction(parseCodeableConcept("jurisdiction", reader, jurisdictionElementIndex++));
-                    break;
-                case "copyright":
-                    position = checkElementOrder("copyright", 21, position, false);
-                    builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", reader, -1));
-                    break;
-                case "approvalDate":
-                    position = checkElementOrder("approvalDate", 22, position, false);
-                    builder.approvalDate(parseDate("approvalDate", reader, -1));
-                    break;
-                case "lastReviewDate":
-                    position = checkElementOrder("lastReviewDate", 23, position, false);
-                    builder.lastReviewDate(parseDate("lastReviewDate", reader, -1));
-                    break;
-                case "effectivePeriod":
-                    position = checkElementOrder("effectivePeriod", 24, position, false);
-                    builder.effectivePeriod(parsePeriod("effectivePeriod", reader, -1));
-                    break;
-                case "topic":
-                    position = checkElementOrder("topic", 25, position, true);
-                    builder.topic(parseCodeableConcept("topic", reader, topicElementIndex++));
-                    break;
-                case "author":
-                    position = checkElementOrder("author", 26, position, true);
-                    builder.author(parseContactDetail("author", reader, authorElementIndex++));
-                    break;
-                case "editor":
-                    position = checkElementOrder("editor", 27, position, true);
-                    builder.editor(parseContactDetail("editor", reader, editorElementIndex++));
-                    break;
-                case "reviewer":
-                    position = checkElementOrder("reviewer", 28, position, true);
-                    builder.reviewer(parseContactDetail("reviewer", reader, reviewerElementIndex++));
-                    break;
-                case "endorser":
-                    position = checkElementOrder("endorser", 29, position, true);
-                    builder.endorser(parseContactDetail("endorser", reader, endorserElementIndex++));
-                    break;
-                case "relatedArtifact":
-                    position = checkElementOrder("relatedArtifact", 30, position, true);
-                    builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", reader, relatedArtifactElementIndex++));
-                    break;
-                case "synthesisType":
-                    position = checkElementOrder("synthesisType", 31, position, false);
-                    builder.synthesisType(parseCodeableConcept("synthesisType", reader, -1));
-                    break;
-                case "studyType":
-                    position = checkElementOrder("studyType", 32, position, false);
-                    builder.studyType(parseCodeableConcept("studyType", reader, -1));
-                    break;
-                case "population":
-                    position = checkElementOrder("population", 33, position, false);
-                    builder.population(parseReference("population", reader, -1));
-                    break;
-                case "exposure":
-                    position = checkElementOrder("exposure", 34, position, false);
-                    builder.exposure(parseReference("exposure", reader, -1));
-                    break;
-                case "exposureAlternative":
-                    position = checkElementOrder("exposureAlternative", 35, position, false);
-                    builder.exposureAlternative(parseReference("exposureAlternative", reader, -1));
-                    break;
-                case "outcome":
-                    position = checkElementOrder("outcome", 36, position, false);
-                    builder.outcome(parseReference("outcome", reader, -1));
-                    break;
-                case "sampleSize":
-                    position = checkElementOrder("sampleSize", 37, position, false);
-                    builder.sampleSize(parseEffectEvidenceSynthesisSampleSize("sampleSize", reader, -1));
-                    break;
-                case "resultsByExposure":
-                    position = checkElementOrder("resultsByExposure", 38, position, true);
-                    builder.resultsByExposure(parseEffectEvidenceSynthesisResultsByExposure("resultsByExposure", reader, resultsByExposureElementIndex++));
-                    break;
-                case "effectEstimate":
-                    position = checkElementOrder("effectEstimate", 39, position, true);
-                    builder.effectEstimate(parseEffectEvidenceSynthesisEffectEstimate("effectEstimate", reader, effectEstimateElementIndex++));
-                    break;
-                case "certainty":
-                    position = checkElementOrder("certainty", 40, position, true);
-                    builder.certainty(parseEffectEvidenceSynthesisCertainty("certainty", reader, certaintyElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private EffectEvidenceSynthesis.Certainty parseEffectEvidenceSynthesisCertainty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        EffectEvidenceSynthesis.Certainty.Builder builder = EffectEvidenceSynthesis.Certainty.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, ratingElementIndex = 0, noteElementIndex = 0, certaintySubcomponentElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "rating":
-                    position = checkElementOrder("rating", 2, position, true);
-                    builder.rating(parseCodeableConcept("rating", reader, ratingElementIndex++));
-                    break;
-                case "note":
-                    position = checkElementOrder("note", 3, position, true);
-                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
-                    break;
-                case "certaintySubcomponent":
-                    position = checkElementOrder("certaintySubcomponent", 4, position, true);
-                    builder.certaintySubcomponent(parseEffectEvidenceSynthesisCertaintyCertaintySubcomponent("certaintySubcomponent", reader, certaintySubcomponentElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private EffectEvidenceSynthesis.Certainty.CertaintySubcomponent parseEffectEvidenceSynthesisCertaintyCertaintySubcomponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, ratingElementIndex = 0, noteElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 2, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "rating":
-                    position = checkElementOrder("rating", 3, position, true);
-                    builder.rating(parseCodeableConcept("rating", reader, ratingElementIndex++));
-                    break;
-                case "note":
-                    position = checkElementOrder("note", 4, position, true);
-                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private EffectEvidenceSynthesis.EffectEstimate parseEffectEvidenceSynthesisEffectEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        EffectEvidenceSynthesis.EffectEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, precisionEstimateElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "description":
-                    position = checkElementOrder("description", 2, position, false);
-                    builder.description(parseString("description", reader, -1));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 3, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "variantState":
-                    position = checkElementOrder("variantState", 4, position, false);
-                    builder.variantState(parseCodeableConcept("variantState", reader, -1));
-                    break;
-                case "value":
-                    position = checkElementOrder("value", 5, position, false);
-                    builder.value(parseDecimal("value", reader, -1));
-                    break;
-                case "unitOfMeasure":
-                    position = checkElementOrder("unitOfMeasure", 6, position, false);
-                    builder.unitOfMeasure(parseCodeableConcept("unitOfMeasure", reader, -1));
-                    break;
-                case "precisionEstimate":
-                    position = checkElementOrder("precisionEstimate", 7, position, true);
-                    builder.precisionEstimate(parseEffectEvidenceSynthesisEffectEstimatePrecisionEstimate("precisionEstimate", reader, precisionEstimateElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate parseEffectEvidenceSynthesisEffectEstimatePrecisionEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 2, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "level":
-                    position = checkElementOrder("level", 3, position, false);
-                    builder.level(parseDecimal("level", reader, -1));
-                    break;
-                case "from":
-                    position = checkElementOrder("from", 4, position, false);
-                    builder.from(parseDecimal("from", reader, -1));
-                    break;
-                case "to":
-                    position = checkElementOrder("to", 5, position, false);
-                    builder.to(parseDecimal("to", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private EffectEvidenceSynthesis.ResultsByExposure parseEffectEvidenceSynthesisResultsByExposure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        EffectEvidenceSynthesis.ResultsByExposure.Builder builder = EffectEvidenceSynthesis.ResultsByExposure.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "description":
-                    position = checkElementOrder("description", 2, position, false);
-                    builder.description(parseString("description", reader, -1));
-                    break;
-                case "exposureState":
-                    position = checkElementOrder("exposureState", 3, position, false);
-                    builder.exposureState((ExposureState) parseString(ExposureState.builder(), "exposureState", reader, -1));
-                    break;
-                case "variantState":
-                    position = checkElementOrder("variantState", 4, position, false);
-                    builder.variantState(parseCodeableConcept("variantState", reader, -1));
-                    break;
-                case "riskEvidenceSynthesis":
-                    position = checkElementOrder("riskEvidenceSynthesis", 5, position, false);
-                    builder.riskEvidenceSynthesis(parseReference("riskEvidenceSynthesis", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private EffectEvidenceSynthesis.SampleSize parseEffectEvidenceSynthesisSampleSize(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        EffectEvidenceSynthesis.SampleSize.Builder builder = EffectEvidenceSynthesis.SampleSize.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "description":
-                    position = checkElementOrder("description", 2, position, false);
-                    builder.description(parseString("description", reader, -1));
-                    break;
-                case "numberOfStudies":
-                    position = checkElementOrder("numberOfStudies", 3, position, false);
-                    builder.numberOfStudies(parseInteger("numberOfStudies", reader, -1));
-                    break;
-                case "numberOfParticipants":
-                    position = checkElementOrder("numberOfParticipants", 4, position, false);
-                    builder.numberOfParticipants(parseInteger("numberOfParticipants", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
     private ElementDefinition parseElementDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Builder builder = ElementDefinition.builder();
@@ -19385,7 +21385,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         Evidence.Builder builder = Evidence.builder();
         builder.setValidating(validating);
         int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, noteElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, exposureVariantElementIndex = 0, outcomeElementIndex = 0;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, useContextElementIndex = 0, contactElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, noteElementIndex = 0, variableDefinitionElementIndex = 0, statisticElementIndex = 0, certaintyElementIndex = 0;
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19437,105 +21437,993 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("version", 10, position, false);
                     builder.version(parseString("version", reader, -1));
                     break;
-                case "name":
-                    position = checkElementOrder("name", 11, position, false);
-                    builder.name(parseString("name", reader, -1));
-                    break;
                 case "title":
-                    position = checkElementOrder("title", 12, position, false);
+                    position = checkElementOrder("title", 11, position, false);
                     builder.title(parseString("title", reader, -1));
                     break;
-                case "shortTitle":
-                    position = checkElementOrder("shortTitle", 13, position, false);
-                    builder.shortTitle(parseString("shortTitle", reader, -1));
+                case "citeAsReference":
+                    position = checkElementOrder("citeAs[x]", 12, position, false);
+                    builder.citeAs(parseReference("citeAsReference", reader, -1));
                     break;
-                case "subtitle":
-                    position = checkElementOrder("subtitle", 14, position, false);
-                    builder.subtitle(parseString("subtitle", reader, -1));
+                case "citeAsMarkdown":
+                    position = checkElementOrder("citeAs[x]", 12, position, false);
+                    builder.citeAs((Markdown) parseString(Markdown.builder(), "citeAsMarkdown", reader, -1));
                     break;
                 case "status":
-                    position = checkElementOrder("status", 15, position, false);
+                    position = checkElementOrder("status", 13, position, false);
                     builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", reader, -1));
                     break;
                 case "date":
-                    position = checkElementOrder("date", 16, position, false);
+                    position = checkElementOrder("date", 14, position, false);
                     builder.date(parseDateTime("date", reader, -1));
                     break;
-                case "publisher":
-                    position = checkElementOrder("publisher", 17, position, false);
-                    builder.publisher(parseString("publisher", reader, -1));
-                    break;
-                case "contact":
-                    position = checkElementOrder("contact", 18, position, true);
-                    builder.contact(parseContactDetail("contact", reader, contactElementIndex++));
-                    break;
-                case "description":
-                    position = checkElementOrder("description", 19, position, false);
-                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
-                    break;
-                case "note":
-                    position = checkElementOrder("note", 20, position, true);
-                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
-                    break;
                 case "useContext":
-                    position = checkElementOrder("useContext", 21, position, true);
+                    position = checkElementOrder("useContext", 15, position, true);
                     builder.useContext(parseUsageContext("useContext", reader, useContextElementIndex++));
                     break;
-                case "jurisdiction":
-                    position = checkElementOrder("jurisdiction", 22, position, true);
-                    builder.jurisdiction(parseCodeableConcept("jurisdiction", reader, jurisdictionElementIndex++));
-                    break;
-                case "copyright":
-                    position = checkElementOrder("copyright", 23, position, false);
-                    builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", reader, -1));
-                    break;
                 case "approvalDate":
-                    position = checkElementOrder("approvalDate", 24, position, false);
+                    position = checkElementOrder("approvalDate", 16, position, false);
                     builder.approvalDate(parseDate("approvalDate", reader, -1));
                     break;
                 case "lastReviewDate":
-                    position = checkElementOrder("lastReviewDate", 25, position, false);
+                    position = checkElementOrder("lastReviewDate", 17, position, false);
                     builder.lastReviewDate(parseDate("lastReviewDate", reader, -1));
                     break;
-                case "effectivePeriod":
-                    position = checkElementOrder("effectivePeriod", 26, position, false);
-                    builder.effectivePeriod(parsePeriod("effectivePeriod", reader, -1));
+                case "publisher":
+                    position = checkElementOrder("publisher", 18, position, false);
+                    builder.publisher(parseString("publisher", reader, -1));
                     break;
-                case "topic":
-                    position = checkElementOrder("topic", 27, position, true);
-                    builder.topic(parseCodeableConcept("topic", reader, topicElementIndex++));
+                case "contact":
+                    position = checkElementOrder("contact", 19, position, true);
+                    builder.contact(parseContactDetail("contact", reader, contactElementIndex++));
                     break;
                 case "author":
-                    position = checkElementOrder("author", 28, position, true);
+                    position = checkElementOrder("author", 20, position, true);
                     builder.author(parseContactDetail("author", reader, authorElementIndex++));
                     break;
                 case "editor":
-                    position = checkElementOrder("editor", 29, position, true);
+                    position = checkElementOrder("editor", 21, position, true);
                     builder.editor(parseContactDetail("editor", reader, editorElementIndex++));
                     break;
                 case "reviewer":
-                    position = checkElementOrder("reviewer", 30, position, true);
+                    position = checkElementOrder("reviewer", 22, position, true);
                     builder.reviewer(parseContactDetail("reviewer", reader, reviewerElementIndex++));
                     break;
                 case "endorser":
-                    position = checkElementOrder("endorser", 31, position, true);
+                    position = checkElementOrder("endorser", 23, position, true);
                     builder.endorser(parseContactDetail("endorser", reader, endorserElementIndex++));
                     break;
                 case "relatedArtifact":
-                    position = checkElementOrder("relatedArtifact", 32, position, true);
+                    position = checkElementOrder("relatedArtifact", 24, position, true);
                     builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", reader, relatedArtifactElementIndex++));
                     break;
-                case "exposureBackground":
-                    position = checkElementOrder("exposureBackground", 33, position, false);
-                    builder.exposureBackground(parseReference("exposureBackground", reader, -1));
+                case "description":
+                    position = checkElementOrder("description", 25, position, false);
+                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
                     break;
-                case "exposureVariant":
-                    position = checkElementOrder("exposureVariant", 34, position, true);
-                    builder.exposureVariant(parseReference("exposureVariant", reader, exposureVariantElementIndex++));
+                case "assertion":
+                    position = checkElementOrder("assertion", 26, position, false);
+                    builder.assertion((Markdown) parseString(Markdown.builder(), "assertion", reader, -1));
                     break;
-                case "outcome":
-                    position = checkElementOrder("outcome", 35, position, true);
-                    builder.outcome(parseReference("outcome", reader, outcomeElementIndex++));
+                case "note":
+                    position = checkElementOrder("note", 27, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
+                    break;
+                case "variableDefinition":
+                    position = checkElementOrder("variableDefinition", 28, position, true);
+                    builder.variableDefinition(parseEvidenceVariableDefinition("variableDefinition", reader, variableDefinitionElementIndex++));
+                    break;
+                case "synthesisType":
+                    position = checkElementOrder("synthesisType", 29, position, false);
+                    builder.synthesisType(parseCodeableConcept("synthesisType", reader, -1));
+                    break;
+                case "studyType":
+                    position = checkElementOrder("studyType", 30, position, false);
+                    builder.studyType(parseCodeableConcept("studyType", reader, -1));
+                    break;
+                case "statistic":
+                    position = checkElementOrder("statistic", 31, position, true);
+                    builder.statistic(parseEvidenceStatistic("statistic", reader, statisticElementIndex++));
+                    break;
+                case "certainty":
+                    position = checkElementOrder("certainty", 32, position, true);
+                    builder.certainty(parseEvidenceCertainty("certainty", reader, certaintyElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Evidence.Certainty parseEvidenceCertainty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Evidence.Certainty.Builder builder = Evidence.Certainty.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, noteElementIndex = 0, subcomponentElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 2, position, false);
+                    builder.description(parseString("description", reader, -1));
+                    break;
+                case "note":
+                    position = checkElementOrder("note", 3, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 4, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "rating":
+                    position = checkElementOrder("rating", 5, position, false);
+                    builder.rating(parseCodeableConcept("rating", reader, -1));
+                    break;
+                case "rater":
+                    position = checkElementOrder("rater", 6, position, false);
+                    builder.rater(parseString("rater", reader, -1));
+                    break;
+                case "subcomponent":
+                    position = checkElementOrder("subcomponent", 7, position, true);
+                    builder.subcomponent(parseEvidenceCertainty("subcomponent", reader, subcomponentElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Evidence.Statistic parseEvidenceStatistic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Evidence.Statistic.Builder builder = Evidence.Statistic.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, noteElementIndex = 0, attributeEstimateElementIndex = 0, modelCharacteristicElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 2, position, false);
+                    builder.description(parseString("description", reader, -1));
+                    break;
+                case "note":
+                    position = checkElementOrder("note", 3, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
+                    break;
+                case "statisticType":
+                    position = checkElementOrder("statisticType", 4, position, false);
+                    builder.statisticType(parseCodeableConcept("statisticType", reader, -1));
+                    break;
+                case "category":
+                    position = checkElementOrder("category", 5, position, false);
+                    builder.category(parseCodeableConcept("category", reader, -1));
+                    break;
+                case "quantity":
+                    position = checkElementOrder("quantity", 6, position, false);
+                    builder.quantity(parseQuantity("quantity", reader, -1));
+                    break;
+                case "numberOfEvents":
+                    position = checkElementOrder("numberOfEvents", 7, position, false);
+                    builder.numberOfEvents((UnsignedInt) parseInteger(UnsignedInt.builder(), "numberOfEvents", reader, -1));
+                    break;
+                case "numberAffected":
+                    position = checkElementOrder("numberAffected", 8, position, false);
+                    builder.numberAffected((UnsignedInt) parseInteger(UnsignedInt.builder(), "numberAffected", reader, -1));
+                    break;
+                case "sampleSize":
+                    position = checkElementOrder("sampleSize", 9, position, false);
+                    builder.sampleSize(parseEvidenceStatisticSampleSize("sampleSize", reader, -1));
+                    break;
+                case "attributeEstimate":
+                    position = checkElementOrder("attributeEstimate", 10, position, true);
+                    builder.attributeEstimate(parseEvidenceStatisticAttributeEstimate("attributeEstimate", reader, attributeEstimateElementIndex++));
+                    break;
+                case "modelCharacteristic":
+                    position = checkElementOrder("modelCharacteristic", 11, position, true);
+                    builder.modelCharacteristic(parseEvidenceStatisticModelCharacteristic("modelCharacteristic", reader, modelCharacteristicElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Evidence.Statistic.AttributeEstimate parseEvidenceStatisticAttributeEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Evidence.Statistic.AttributeEstimate.Builder builder = Evidence.Statistic.AttributeEstimate.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, noteElementIndex = 0, attributeEstimateElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 2, position, false);
+                    builder.description(parseString("description", reader, -1));
+                    break;
+                case "note":
+                    position = checkElementOrder("note", 3, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 4, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "quantity":
+                    position = checkElementOrder("quantity", 5, position, false);
+                    builder.quantity(parseQuantity("quantity", reader, -1));
+                    break;
+                case "level":
+                    position = checkElementOrder("level", 6, position, false);
+                    builder.level(parseDecimal("level", reader, -1));
+                    break;
+                case "range":
+                    position = checkElementOrder("range", 7, position, false);
+                    builder.range(parseRange("range", reader, -1));
+                    break;
+                case "attributeEstimate":
+                    position = checkElementOrder("attributeEstimate", 8, position, true);
+                    builder.attributeEstimate(parseEvidenceStatisticAttributeEstimate("attributeEstimate", reader, attributeEstimateElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Evidence.Statistic.ModelCharacteristic parseEvidenceStatisticModelCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Evidence.Statistic.ModelCharacteristic.Builder builder = Evidence.Statistic.ModelCharacteristic.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, variableElementIndex = 0, attributeEstimateElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "code":
+                    position = checkElementOrder("code", 2, position, false);
+                    builder.code(parseCodeableConcept("code", reader, -1));
+                    break;
+                case "value":
+                    position = checkElementOrder("value", 3, position, false);
+                    builder.value((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "value", reader, -1));
+                    break;
+                case "variable":
+                    position = checkElementOrder("variable", 4, position, true);
+                    builder.variable(parseEvidenceStatisticModelCharacteristicVariable("variable", reader, variableElementIndex++));
+                    break;
+                case "attributeEstimate":
+                    position = checkElementOrder("attributeEstimate", 5, position, true);
+                    builder.attributeEstimate(parseEvidenceStatisticAttributeEstimate("attributeEstimate", reader, attributeEstimateElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Evidence.Statistic.ModelCharacteristic.Variable parseEvidenceStatisticModelCharacteristicVariable(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Evidence.Statistic.ModelCharacteristic.Variable.Builder builder = Evidence.Statistic.ModelCharacteristic.Variable.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, valueCategoryElementIndex = 0, valueQuantityElementIndex = 0, valueRangeElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "variableDefinition":
+                    position = checkElementOrder("variableDefinition", 2, position, false);
+                    builder.variableDefinition(parseReference("variableDefinition", reader, -1));
+                    break;
+                case "handling":
+                    position = checkElementOrder("handling", 3, position, false);
+                    builder.handling((EvidenceVariableHandling) parseString(EvidenceVariableHandling.builder(), "handling", reader, -1));
+                    break;
+                case "valueCategory":
+                    position = checkElementOrder("valueCategory", 4, position, true);
+                    builder.valueCategory(parseCodeableConcept("valueCategory", reader, valueCategoryElementIndex++));
+                    break;
+                case "valueQuantity":
+                    position = checkElementOrder("valueQuantity", 5, position, true);
+                    builder.valueQuantity(parseQuantity("valueQuantity", reader, valueQuantityElementIndex++));
+                    break;
+                case "valueRange":
+                    position = checkElementOrder("valueRange", 6, position, true);
+                    builder.valueRange(parseRange("valueRange", reader, valueRangeElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Evidence.Statistic.SampleSize parseEvidenceStatisticSampleSize(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Evidence.Statistic.SampleSize.Builder builder = Evidence.Statistic.SampleSize.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, noteElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 2, position, false);
+                    builder.description(parseString("description", reader, -1));
+                    break;
+                case "note":
+                    position = checkElementOrder("note", 3, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
+                    break;
+                case "numberOfStudies":
+                    position = checkElementOrder("numberOfStudies", 4, position, false);
+                    builder.numberOfStudies((UnsignedInt) parseInteger(UnsignedInt.builder(), "numberOfStudies", reader, -1));
+                    break;
+                case "numberOfParticipants":
+                    position = checkElementOrder("numberOfParticipants", 5, position, false);
+                    builder.numberOfParticipants((UnsignedInt) parseInteger(UnsignedInt.builder(), "numberOfParticipants", reader, -1));
+                    break;
+                case "knownDataCount":
+                    position = checkElementOrder("knownDataCount", 6, position, false);
+                    builder.knownDataCount((UnsignedInt) parseInteger(UnsignedInt.builder(), "knownDataCount", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Evidence.VariableDefinition parseEvidenceVariableDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Evidence.VariableDefinition.Builder builder = Evidence.VariableDefinition.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, noteElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 2, position, false);
+                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
+                    break;
+                case "note":
+                    position = checkElementOrder("note", 3, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
+                    break;
+                case "variableRole":
+                    position = checkElementOrder("variableRole", 4, position, false);
+                    builder.variableRole(parseCodeableConcept("variableRole", reader, -1));
+                    break;
+                case "observed":
+                    position = checkElementOrder("observed", 5, position, false);
+                    builder.observed(parseReference("observed", reader, -1));
+                    break;
+                case "intended":
+                    position = checkElementOrder("intended", 6, position, false);
+                    builder.intended(parseReference("intended", reader, -1));
+                    break;
+                case "directnessMatch":
+                    position = checkElementOrder("directnessMatch", 7, position, false);
+                    builder.directnessMatch(parseCodeableConcept("directnessMatch", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private EvidenceReport parseEvidenceReport(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        EvidenceReport.Builder builder = EvidenceReport.builder();
+        builder.setValidating(validating);
+        int position = -1;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, useContextElementIndex = 0, identifierElementIndex = 0, relatedIdentifierElementIndex = 0, noteElementIndex = 0, relatedArtifactElementIndex = 0, contactElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatesToElementIndex = 0, sectionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "id":
+                    position = checkElementOrder("id", 0, position, false);
+                    builder.id(parseJavaString("id", reader, -1));
+                    break;
+                case "meta":
+                    position = checkElementOrder("meta", 1, position, false);
+                    builder.meta(parseMeta("meta", reader, -1));
+                    break;
+                case "implicitRules":
+                    position = checkElementOrder("implicitRules", 2, position, false);
+                    builder.implicitRules(parseUri("implicitRules", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "contained":
+                    position = checkElementOrder("contained", 5, position, true);
+                    builder.contained(parseResource("contained", reader, containedElementIndex++));
+                    break;
+                case "extension":
+                    position = checkElementOrder("extension", 6, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 7, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "url":
+                    position = checkElementOrder("url", 8, position, false);
+                    builder.url(parseUri("url", reader, -1));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 9, position, false);
+                    builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", reader, -1));
+                    break;
+                case "useContext":
+                    position = checkElementOrder("useContext", 10, position, true);
+                    builder.useContext(parseUsageContext("useContext", reader, useContextElementIndex++));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 11, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "relatedIdentifier":
+                    position = checkElementOrder("relatedIdentifier", 12, position, true);
+                    builder.relatedIdentifier(parseIdentifier("relatedIdentifier", reader, relatedIdentifierElementIndex++));
+                    break;
+                case "citeAsReference":
+                    position = checkElementOrder("citeAs[x]", 13, position, false);
+                    builder.citeAs(parseReference("citeAsReference", reader, -1));
+                    break;
+                case "citeAsMarkdown":
+                    position = checkElementOrder("citeAs[x]", 13, position, false);
+                    builder.citeAs((Markdown) parseString(Markdown.builder(), "citeAsMarkdown", reader, -1));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 14, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "note":
+                    position = checkElementOrder("note", 15, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
+                    break;
+                case "relatedArtifact":
+                    position = checkElementOrder("relatedArtifact", 16, position, true);
+                    builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", reader, relatedArtifactElementIndex++));
+                    break;
+                case "subject":
+                    position = checkElementOrder("subject", 17, position, false);
+                    builder.subject(parseEvidenceReportSubject("subject", reader, -1));
+                    break;
+                case "publisher":
+                    position = checkElementOrder("publisher", 18, position, false);
+                    builder.publisher(parseString("publisher", reader, -1));
+                    break;
+                case "contact":
+                    position = checkElementOrder("contact", 19, position, true);
+                    builder.contact(parseContactDetail("contact", reader, contactElementIndex++));
+                    break;
+                case "author":
+                    position = checkElementOrder("author", 20, position, true);
+                    builder.author(parseContactDetail("author", reader, authorElementIndex++));
+                    break;
+                case "editor":
+                    position = checkElementOrder("editor", 21, position, true);
+                    builder.editor(parseContactDetail("editor", reader, editorElementIndex++));
+                    break;
+                case "reviewer":
+                    position = checkElementOrder("reviewer", 22, position, true);
+                    builder.reviewer(parseContactDetail("reviewer", reader, reviewerElementIndex++));
+                    break;
+                case "endorser":
+                    position = checkElementOrder("endorser", 23, position, true);
+                    builder.endorser(parseContactDetail("endorser", reader, endorserElementIndex++));
+                    break;
+                case "relatesTo":
+                    position = checkElementOrder("relatesTo", 24, position, true);
+                    builder.relatesTo(parseEvidenceReportRelatesTo("relatesTo", reader, relatesToElementIndex++));
+                    break;
+                case "section":
+                    position = checkElementOrder("section", 25, position, true);
+                    builder.section(parseEvidenceReportSection("section", reader, sectionElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private EvidenceReport.RelatesTo parseEvidenceReportRelatesTo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        EvidenceReport.RelatesTo.Builder builder = EvidenceReport.RelatesTo.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "code":
+                    position = checkElementOrder("code", 2, position, false);
+                    builder.code((ReportRelationshipType) parseString(ReportRelationshipType.builder(), "code", reader, -1));
+                    break;
+                case "targetIdentifier":
+                    position = checkElementOrder("target[x]", 3, position, false);
+                    builder.target(parseIdentifier("targetIdentifier", reader, -1));
+                    break;
+                case "targetReference":
+                    position = checkElementOrder("target[x]", 3, position, false);
+                    builder.target(parseReference("targetReference", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private EvidenceReport.Section parseEvidenceReportSection(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        EvidenceReport.Section.Builder builder = EvidenceReport.Section.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, authorElementIndex = 0, entryClassifierElementIndex = 0, entryReferenceElementIndex = 0, entryQuantityElementIndex = 0, sectionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "title":
+                    position = checkElementOrder("title", 2, position, false);
+                    builder.title(parseString("title", reader, -1));
+                    break;
+                case "focus":
+                    position = checkElementOrder("focus", 3, position, false);
+                    builder.focus(parseCodeableConcept("focus", reader, -1));
+                    break;
+                case "focusReference":
+                    position = checkElementOrder("focusReference", 4, position, false);
+                    builder.focusReference(parseReference("focusReference", reader, -1));
+                    break;
+                case "author":
+                    position = checkElementOrder("author", 5, position, true);
+                    builder.author(parseReference("author", reader, authorElementIndex++));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 6, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "mode":
+                    position = checkElementOrder("mode", 7, position, false);
+                    builder.mode((SectionMode) parseString(SectionMode.builder(), "mode", reader, -1));
+                    break;
+                case "orderedBy":
+                    position = checkElementOrder("orderedBy", 8, position, false);
+                    builder.orderedBy(parseCodeableConcept("orderedBy", reader, -1));
+                    break;
+                case "entryClassifier":
+                    position = checkElementOrder("entryClassifier", 9, position, true);
+                    builder.entryClassifier(parseCodeableConcept("entryClassifier", reader, entryClassifierElementIndex++));
+                    break;
+                case "entryReference":
+                    position = checkElementOrder("entryReference", 10, position, true);
+                    builder.entryReference(parseReference("entryReference", reader, entryReferenceElementIndex++));
+                    break;
+                case "entryQuantity":
+                    position = checkElementOrder("entryQuantity", 11, position, true);
+                    builder.entryQuantity(parseQuantity("entryQuantity", reader, entryQuantityElementIndex++));
+                    break;
+                case "emptyReason":
+                    position = checkElementOrder("emptyReason", 12, position, false);
+                    builder.emptyReason(parseCodeableConcept("emptyReason", reader, -1));
+                    break;
+                case "section":
+                    position = checkElementOrder("section", 13, position, true);
+                    builder.section(parseEvidenceReportSection("section", reader, sectionElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private EvidenceReport.Subject parseEvidenceReportSubject(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        EvidenceReport.Subject.Builder builder = EvidenceReport.Subject.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, characteristicElementIndex = 0, noteElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "characteristic":
+                    position = checkElementOrder("characteristic", 2, position, true);
+                    builder.characteristic(parseEvidenceReportSubjectCharacteristic("characteristic", reader, characteristicElementIndex++));
+                    break;
+                case "note":
+                    position = checkElementOrder("note", 3, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private EvidenceReport.Subject.Characteristic parseEvidenceReportSubjectCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        EvidenceReport.Subject.Characteristic.Builder builder = EvidenceReport.Subject.Characteristic.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "code":
+                    position = checkElementOrder("code", 2, position, false);
+                    builder.code(parseCodeableConcept("code", reader, -1));
+                    break;
+                case "valueReference":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseReference("valueReference", reader, -1));
+                    break;
+                case "valueCodeableConcept":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseCodeableConcept("valueCodeableConcept", reader, -1));
+                    break;
+                case "valueBoolean":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseBoolean("valueBoolean", reader, -1));
+                    break;
+                case "valueQuantity":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseQuantity("valueQuantity", reader, -1));
+                    break;
+                case "valueRange":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseRange("valueRange", reader, -1));
+                    break;
+                case "exclude":
+                    position = checkElementOrder("exclude", 4, position, false);
+                    builder.exclude(parseBoolean("exclude", reader, -1));
+                    break;
+                case "period":
+                    position = checkElementOrder("period", 5, position, false);
+                    builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -19561,7 +22449,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         EvidenceVariable.Builder builder = EvidenceVariable.builder();
         builder.setValidating(validating);
         int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, noteElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, characteristicElementIndex = 0;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, noteElementIndex = 0, useContextElementIndex = 0, contactElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, characteristicElementIndex = 0, categoryElementIndex = 0;
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19637,77 +22525,125 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("date", 16, position, false);
                     builder.date(parseDateTime("date", reader, -1));
                     break;
-                case "publisher":
-                    position = checkElementOrder("publisher", 17, position, false);
-                    builder.publisher(parseString("publisher", reader, -1));
-                    break;
-                case "contact":
-                    position = checkElementOrder("contact", 18, position, true);
-                    builder.contact(parseContactDetail("contact", reader, contactElementIndex++));
-                    break;
                 case "description":
-                    position = checkElementOrder("description", 19, position, false);
+                    position = checkElementOrder("description", 17, position, false);
                     builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
                     break;
                 case "note":
-                    position = checkElementOrder("note", 20, position, true);
+                    position = checkElementOrder("note", 18, position, true);
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 case "useContext":
-                    position = checkElementOrder("useContext", 21, position, true);
+                    position = checkElementOrder("useContext", 19, position, true);
                     builder.useContext(parseUsageContext("useContext", reader, useContextElementIndex++));
                     break;
-                case "jurisdiction":
-                    position = checkElementOrder("jurisdiction", 22, position, true);
-                    builder.jurisdiction(parseCodeableConcept("jurisdiction", reader, jurisdictionElementIndex++));
+                case "publisher":
+                    position = checkElementOrder("publisher", 20, position, false);
+                    builder.publisher(parseString("publisher", reader, -1));
                     break;
-                case "copyright":
-                    position = checkElementOrder("copyright", 23, position, false);
-                    builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", reader, -1));
-                    break;
-                case "approvalDate":
-                    position = checkElementOrder("approvalDate", 24, position, false);
-                    builder.approvalDate(parseDate("approvalDate", reader, -1));
-                    break;
-                case "lastReviewDate":
-                    position = checkElementOrder("lastReviewDate", 25, position, false);
-                    builder.lastReviewDate(parseDate("lastReviewDate", reader, -1));
-                    break;
-                case "effectivePeriod":
-                    position = checkElementOrder("effectivePeriod", 26, position, false);
-                    builder.effectivePeriod(parsePeriod("effectivePeriod", reader, -1));
-                    break;
-                case "topic":
-                    position = checkElementOrder("topic", 27, position, true);
-                    builder.topic(parseCodeableConcept("topic", reader, topicElementIndex++));
+                case "contact":
+                    position = checkElementOrder("contact", 21, position, true);
+                    builder.contact(parseContactDetail("contact", reader, contactElementIndex++));
                     break;
                 case "author":
-                    position = checkElementOrder("author", 28, position, true);
+                    position = checkElementOrder("author", 22, position, true);
                     builder.author(parseContactDetail("author", reader, authorElementIndex++));
                     break;
                 case "editor":
-                    position = checkElementOrder("editor", 29, position, true);
+                    position = checkElementOrder("editor", 23, position, true);
                     builder.editor(parseContactDetail("editor", reader, editorElementIndex++));
                     break;
                 case "reviewer":
-                    position = checkElementOrder("reviewer", 30, position, true);
+                    position = checkElementOrder("reviewer", 24, position, true);
                     builder.reviewer(parseContactDetail("reviewer", reader, reviewerElementIndex++));
                     break;
                 case "endorser":
-                    position = checkElementOrder("endorser", 31, position, true);
+                    position = checkElementOrder("endorser", 25, position, true);
                     builder.endorser(parseContactDetail("endorser", reader, endorserElementIndex++));
                     break;
                 case "relatedArtifact":
-                    position = checkElementOrder("relatedArtifact", 32, position, true);
+                    position = checkElementOrder("relatedArtifact", 26, position, true);
                     builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", reader, relatedArtifactElementIndex++));
                     break;
-                case "type":
-                    position = checkElementOrder("type", 33, position, false);
-                    builder.type((EvidenceVariableType) parseString(EvidenceVariableType.builder(), "type", reader, -1));
+                case "actual":
+                    position = checkElementOrder("actual", 27, position, false);
+                    builder.actual(parseBoolean("actual", reader, -1));
+                    break;
+                case "characteristicCombination":
+                    position = checkElementOrder("characteristicCombination", 28, position, false);
+                    builder.characteristicCombination((CharacteristicCombination) parseString(CharacteristicCombination.builder(), "characteristicCombination", reader, -1));
                     break;
                 case "characteristic":
-                    position = checkElementOrder("characteristic", 34, position, true);
+                    position = checkElementOrder("characteristic", 29, position, true);
                     builder.characteristic(parseEvidenceVariableCharacteristic("characteristic", reader, characteristicElementIndex++));
+                    break;
+                case "handling":
+                    position = checkElementOrder("handling", 30, position, false);
+                    builder.handling((EvidenceVariableHandling) parseString(EvidenceVariableHandling.builder(), "handling", reader, -1));
+                    break;
+                case "category":
+                    position = checkElementOrder("category", 31, position, true);
+                    builder.category(parseEvidenceVariableCategory("category", reader, categoryElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private EvidenceVariable.Category parseEvidenceVariableCategory(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        EvidenceVariable.Category.Builder builder = EvidenceVariable.Category.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "name":
+                    position = checkElementOrder("name", 2, position, false);
+                    builder.name(parseString("name", reader, -1));
+                    break;
+                case "valueCodeableConcept":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseCodeableConcept("valueCodeableConcept", reader, -1));
+                    break;
+                case "valueQuantity":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseQuantity("valueQuantity", reader, -1));
+                    break;
+                case "valueRange":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseRange("valueRange", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -19737,7 +22673,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
             builder.id(id);
         }
         int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, usageContextElementIndex = 0;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -19773,45 +22709,85 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("definition[x]", 3, position, false);
                     builder.definition(parseExpression("definitionExpression", reader, -1));
                     break;
-                case "definitionDataRequirement":
-                    position = checkElementOrder("definition[x]", 3, position, false);
-                    builder.definition(parseDataRequirement("definitionDataRequirement", reader, -1));
+                case "method":
+                    position = checkElementOrder("method", 4, position, false);
+                    builder.method(parseCodeableConcept("method", reader, -1));
                     break;
-                case "definitionTriggerDefinition":
-                    position = checkElementOrder("definition[x]", 3, position, false);
-                    builder.definition(parseTriggerDefinition("definitionTriggerDefinition", reader, -1));
-                    break;
-                case "usageContext":
-                    position = checkElementOrder("usageContext", 4, position, true);
-                    builder.usageContext(parseUsageContext("usageContext", reader, usageContextElementIndex++));
+                case "device":
+                    position = checkElementOrder("device", 5, position, false);
+                    builder.device(parseReference("device", reader, -1));
                     break;
                 case "exclude":
-                    position = checkElementOrder("exclude", 5, position, false);
+                    position = checkElementOrder("exclude", 6, position, false);
                     builder.exclude(parseBoolean("exclude", reader, -1));
-                    break;
-                case "participantEffectiveDateTime":
-                    position = checkElementOrder("participantEffective[x]", 6, position, false);
-                    builder.participantEffective(parseDateTime("participantEffectiveDateTime", reader, -1));
-                    break;
-                case "participantEffectivePeriod":
-                    position = checkElementOrder("participantEffective[x]", 6, position, false);
-                    builder.participantEffective(parsePeriod("participantEffectivePeriod", reader, -1));
-                    break;
-                case "participantEffectiveDuration":
-                    position = checkElementOrder("participantEffective[x]", 6, position, false);
-                    builder.participantEffective((Duration) parseQuantity(Duration.builder(), "participantEffectiveDuration", reader, -1));
-                    break;
-                case "participantEffectiveTiming":
-                    position = checkElementOrder("participantEffective[x]", 6, position, false);
-                    builder.participantEffective(parseTiming("participantEffectiveTiming", reader, -1));
                     break;
                 case "timeFromStart":
                     position = checkElementOrder("timeFromStart", 7, position, false);
-                    builder.timeFromStart((Duration) parseQuantity(Duration.builder(), "timeFromStart", reader, -1));
+                    builder.timeFromStart(parseEvidenceVariableCharacteristicTimeFromStart("timeFromStart", reader, -1));
                     break;
                 case "groupMeasure":
                     position = checkElementOrder("groupMeasure", 8, position, false);
                     builder.groupMeasure((GroupMeasure) parseString(GroupMeasure.builder(), "groupMeasure", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private EvidenceVariable.Characteristic.TimeFromStart parseEvidenceVariableCharacteristicTimeFromStart(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        EvidenceVariable.Characteristic.TimeFromStart.Builder builder = EvidenceVariable.Characteristic.TimeFromStart.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, noteElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 2, position, false);
+                    builder.description(parseString("description", reader, -1));
+                    break;
+                case "quantity":
+                    position = checkElementOrder("quantity", 3, position, false);
+                    builder.quantity(parseQuantity("quantity", reader, -1));
+                    break;
+                case "range":
+                    position = checkElementOrder("range", 4, position, false);
+                    builder.range(parseRange("range", reader, -1));
+                    break;
+                case "note":
+                    position = checkElementOrder("note", 5, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -20055,7 +23031,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "resourceType":
                     position = checkElementOrder("resourceType", 3, position, false);
-                    builder.resourceType((FHIRResourceType) parseString(FHIRResourceType.builder(), "resourceType", reader, -1));
+                    builder.resourceType((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "resourceType", reader, -1));
                     break;
                 case "name":
                     position = checkElementOrder("name", 4, position, false);
@@ -23175,7 +26151,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "start":
                     position = checkElementOrder("start", 20, position, false);
-                    builder.start((ResourceType) parseString(ResourceType.builder(), "start", reader, -1));
+                    builder.start((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "start", reader, -1));
                     break;
                 case "profile":
                     position = checkElementOrder("profile", 21, position, false);
@@ -23299,7 +26275,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "type":
                     position = checkElementOrder("type", 2, position, false);
-                    builder.type((ResourceType) parseString(ResourceType.builder(), "type", reader, -1));
+                    builder.type((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "type", reader, -1));
                     break;
                 case "params":
                     position = checkElementOrder("params", 3, position, false);
@@ -25939,7 +28915,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "type":
                     position = checkElementOrder("type", 2, position, false);
-                    builder.type((ResourceType) parseString(ResourceType.builder(), "type", reader, -1));
+                    builder.type((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "type", reader, -1));
                     break;
                 case "profile":
                     position = checkElementOrder("profile", 3, position, false);
@@ -26124,6 +29100,350 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "relativePath":
                     position = checkElementOrder("relativePath", 4, position, false);
                     builder.relativePath((Url) parseUri(Url.builder(), "relativePath", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Ingredient parseIngredient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Ingredient.Builder builder = Ingredient.builder();
+        builder.setValidating(validating);
+        int position = -1;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, forElementIndex = 0, functionElementIndex = 0, manufacturerElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "id":
+                    position = checkElementOrder("id", 0, position, false);
+                    builder.id(parseJavaString("id", reader, -1));
+                    break;
+                case "meta":
+                    position = checkElementOrder("meta", 1, position, false);
+                    builder.meta(parseMeta("meta", reader, -1));
+                    break;
+                case "implicitRules":
+                    position = checkElementOrder("implicitRules", 2, position, false);
+                    builder.implicitRules(parseUri("implicitRules", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "contained":
+                    position = checkElementOrder("contained", 5, position, true);
+                    builder.contained(parseResource("contained", reader, containedElementIndex++));
+                    break;
+                case "extension":
+                    position = checkElementOrder("extension", 6, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 7, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 8, position, false);
+                    builder.identifier(parseIdentifier("identifier", reader, -1));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 9, position, false);
+                    builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", reader, -1));
+                    break;
+                case "for":
+                    position = checkElementOrder("for", 10, position, true);
+                    builder._for(parseReference("for", reader, forElementIndex++));
+                    break;
+                case "role":
+                    position = checkElementOrder("role", 11, position, false);
+                    builder.role(parseCodeableConcept("role", reader, -1));
+                    break;
+                case "function":
+                    position = checkElementOrder("function", 12, position, true);
+                    builder.function(parseCodeableConcept("function", reader, functionElementIndex++));
+                    break;
+                case "allergenicIndicator":
+                    position = checkElementOrder("allergenicIndicator", 13, position, false);
+                    builder.allergenicIndicator(parseBoolean("allergenicIndicator", reader, -1));
+                    break;
+                case "manufacturer":
+                    position = checkElementOrder("manufacturer", 14, position, true);
+                    builder.manufacturer(parseIngredientManufacturer("manufacturer", reader, manufacturerElementIndex++));
+                    break;
+                case "substance":
+                    position = checkElementOrder("substance", 15, position, false);
+                    builder.substance(parseIngredientSubstance("substance", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Ingredient.Manufacturer parseIngredientManufacturer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Ingredient.Manufacturer.Builder builder = Ingredient.Manufacturer.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "role":
+                    position = checkElementOrder("role", 2, position, false);
+                    builder.role((IngredientManufacturerRole) parseString(IngredientManufacturerRole.builder(), "role", reader, -1));
+                    break;
+                case "manufacturer":
+                    position = checkElementOrder("manufacturer", 3, position, false);
+                    builder.manufacturer(parseReference("manufacturer", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Ingredient.Substance parseIngredientSubstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Ingredient.Substance.Builder builder = Ingredient.Substance.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, strengthElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "code":
+                    position = checkElementOrder("code", 2, position, false);
+                    builder.code(parseCodeableReference("code", reader, -1));
+                    break;
+                case "strength":
+                    position = checkElementOrder("strength", 3, position, true);
+                    builder.strength(parseIngredientSubstanceStrength("strength", reader, strengthElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Ingredient.Substance.Strength parseIngredientSubstanceStrength(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Ingredient.Substance.Strength.Builder builder = Ingredient.Substance.Strength.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, countryElementIndex = 0, referenceStrengthElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "presentationRatio":
+                    position = checkElementOrder("presentation[x]", 2, position, false);
+                    builder.presentation(parseRatio("presentationRatio", reader, -1));
+                    break;
+                case "presentationRatioRange":
+                    position = checkElementOrder("presentation[x]", 2, position, false);
+                    builder.presentation(parseRatioRange("presentationRatioRange", reader, -1));
+                    break;
+                case "textPresentation":
+                    position = checkElementOrder("textPresentation", 3, position, false);
+                    builder.textPresentation(parseString("textPresentation", reader, -1));
+                    break;
+                case "concentrationRatio":
+                    position = checkElementOrder("concentration[x]", 4, position, false);
+                    builder.concentration(parseRatio("concentrationRatio", reader, -1));
+                    break;
+                case "concentrationRatioRange":
+                    position = checkElementOrder("concentration[x]", 4, position, false);
+                    builder.concentration(parseRatioRange("concentrationRatioRange", reader, -1));
+                    break;
+                case "textConcentration":
+                    position = checkElementOrder("textConcentration", 5, position, false);
+                    builder.textConcentration(parseString("textConcentration", reader, -1));
+                    break;
+                case "measurementPoint":
+                    position = checkElementOrder("measurementPoint", 6, position, false);
+                    builder.measurementPoint(parseString("measurementPoint", reader, -1));
+                    break;
+                case "country":
+                    position = checkElementOrder("country", 7, position, true);
+                    builder.country(parseCodeableConcept("country", reader, countryElementIndex++));
+                    break;
+                case "referenceStrength":
+                    position = checkElementOrder("referenceStrength", 8, position, true);
+                    builder.referenceStrength(parseIngredientSubstanceStrengthReferenceStrength("referenceStrength", reader, referenceStrengthElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private Ingredient.Substance.Strength.ReferenceStrength parseIngredientSubstanceStrengthReferenceStrength(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        Ingredient.Substance.Strength.ReferenceStrength.Builder builder = Ingredient.Substance.Strength.ReferenceStrength.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, countryElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "substance":
+                    position = checkElementOrder("substance", 2, position, false);
+                    builder.substance(parseCodeableReference("substance", reader, -1));
+                    break;
+                case "strengthRatio":
+                    position = checkElementOrder("strength[x]", 3, position, false);
+                    builder.strength(parseRatio("strengthRatio", reader, -1));
+                    break;
+                case "strengthRatioRange":
+                    position = checkElementOrder("strength[x]", 3, position, false);
+                    builder.strength(parseRatioRange("strengthRatioRange", reader, -1));
+                    break;
+                case "measurementPoint":
+                    position = checkElementOrder("measurementPoint", 4, position, false);
+                    builder.measurementPoint(parseString("measurementPoint", reader, -1));
+                    break;
+                case "country":
+                    position = checkElementOrder("country", 5, position, true);
+                    builder.country(parseCodeableConcept("country", reader, countryElementIndex++));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -27895,6 +31215,166 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "altitude":
                     position = checkElementOrder("altitude", 4, position, false);
                     builder.altitude(parseDecimal("altitude", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private ManufacturedItemDefinition parseManufacturedItemDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        ManufacturedItemDefinition.Builder builder = ManufacturedItemDefinition.builder();
+        builder.setValidating(validating);
+        int position = -1;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, manufacturerElementIndex = 0, ingredientElementIndex = 0, propertyElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "id":
+                    position = checkElementOrder("id", 0, position, false);
+                    builder.id(parseJavaString("id", reader, -1));
+                    break;
+                case "meta":
+                    position = checkElementOrder("meta", 1, position, false);
+                    builder.meta(parseMeta("meta", reader, -1));
+                    break;
+                case "implicitRules":
+                    position = checkElementOrder("implicitRules", 2, position, false);
+                    builder.implicitRules(parseUri("implicitRules", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "contained":
+                    position = checkElementOrder("contained", 5, position, true);
+                    builder.contained(parseResource("contained", reader, containedElementIndex++));
+                    break;
+                case "extension":
+                    position = checkElementOrder("extension", 6, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 7, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 8, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 9, position, false);
+                    builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", reader, -1));
+                    break;
+                case "manufacturedDoseForm":
+                    position = checkElementOrder("manufacturedDoseForm", 10, position, false);
+                    builder.manufacturedDoseForm(parseCodeableConcept("manufacturedDoseForm", reader, -1));
+                    break;
+                case "unitOfPresentation":
+                    position = checkElementOrder("unitOfPresentation", 11, position, false);
+                    builder.unitOfPresentation(parseCodeableConcept("unitOfPresentation", reader, -1));
+                    break;
+                case "manufacturer":
+                    position = checkElementOrder("manufacturer", 12, position, true);
+                    builder.manufacturer(parseReference("manufacturer", reader, manufacturerElementIndex++));
+                    break;
+                case "ingredient":
+                    position = checkElementOrder("ingredient", 13, position, true);
+                    builder.ingredient(parseCodeableConcept("ingredient", reader, ingredientElementIndex++));
+                    break;
+                case "property":
+                    position = checkElementOrder("property", 14, position, true);
+                    builder.property(parseManufacturedItemDefinitionProperty("property", reader, propertyElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private ManufacturedItemDefinition.Property parseManufacturedItemDefinitionProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        ManufacturedItemDefinition.Property.Builder builder = ManufacturedItemDefinition.Property.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "valueCodeableConcept":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseCodeableConcept("valueCodeableConcept", reader, -1));
+                    break;
+                case "valueQuantity":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseQuantity("valueQuantity", reader, -1));
+                    break;
+                case "valueDate":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseDate("valueDate", reader, -1));
+                    break;
+                case "valueBoolean":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseBoolean("valueBoolean", reader, -1));
+                    break;
+                case "valueAttachment":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseAttachment("valueAttachment", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -31411,12 +34891,12 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private MedicinalProduct parseMedicinalProduct(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+    private MedicinalProductDefinition parseMedicinalProductDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
-        MedicinalProduct.Builder builder = MedicinalProduct.builder();
+        MedicinalProductDefinition.Builder builder = MedicinalProductDefinition.builder();
         builder.setValidating(validating);
         int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, specialMeasuresElementIndex = 0, productClassificationElementIndex = 0, marketingStatusElementIndex = 0, pharmaceuticalProductElementIndex = 0, packagedMedicinalProductElementIndex = 0, attachedDocumentElementIndex = 0, masterFileElementIndex = 0, contactElementIndex = 0, clinicalTrialElementIndex = 0, nameElementIndex = 0, crossReferenceElementIndex = 0, manufacturingBusinessOperationElementIndex = 0, specialDesignationElementIndex = 0;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, routeElementIndex = 0, specialMeasuresElementIndex = 0, classificationElementIndex = 0, marketingStatusElementIndex = 0, packagedMedicinalProductElementIndex = 0, ingredientElementIndex = 0, impurityElementIndex = 0, attachedDocumentElementIndex = 0, masterFileElementIndex = 0, contactElementIndex = 0, clinicalTrialElementIndex = 0, codeElementIndex = 0, nameElementIndex = 0, crossReferenceElementIndex = 0, operationElementIndex = 0, characteristicElementIndex = 0;
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -31466,75 +34946,107 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "domain":
                     position = checkElementOrder("domain", 10, position, false);
-                    builder.domain(parseCoding("domain", reader, -1));
+                    builder.domain(parseCodeableConcept("domain", reader, -1));
+                    break;
+                case "version":
+                    position = checkElementOrder("version", 11, position, false);
+                    builder.version(parseString("version", reader, -1));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 12, position, false);
+                    builder.status(parseCodeableConcept("status", reader, -1));
+                    break;
+                case "statusDate":
+                    position = checkElementOrder("statusDate", 13, position, false);
+                    builder.statusDate(parseDateTime("statusDate", reader, -1));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 14, position, false);
+                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
                     break;
                 case "combinedPharmaceuticalDoseForm":
-                    position = checkElementOrder("combinedPharmaceuticalDoseForm", 11, position, false);
+                    position = checkElementOrder("combinedPharmaceuticalDoseForm", 15, position, false);
                     builder.combinedPharmaceuticalDoseForm(parseCodeableConcept("combinedPharmaceuticalDoseForm", reader, -1));
                     break;
+                case "route":
+                    position = checkElementOrder("route", 16, position, true);
+                    builder.route(parseCodeableConcept("route", reader, routeElementIndex++));
+                    break;
+                case "indication":
+                    position = checkElementOrder("indication", 17, position, false);
+                    builder.indication((Markdown) parseString(Markdown.builder(), "indication", reader, -1));
+                    break;
                 case "legalStatusOfSupply":
-                    position = checkElementOrder("legalStatusOfSupply", 12, position, false);
+                    position = checkElementOrder("legalStatusOfSupply", 18, position, false);
                     builder.legalStatusOfSupply(parseCodeableConcept("legalStatusOfSupply", reader, -1));
                     break;
                 case "additionalMonitoringIndicator":
-                    position = checkElementOrder("additionalMonitoringIndicator", 13, position, false);
+                    position = checkElementOrder("additionalMonitoringIndicator", 19, position, false);
                     builder.additionalMonitoringIndicator(parseCodeableConcept("additionalMonitoringIndicator", reader, -1));
                     break;
                 case "specialMeasures":
-                    position = checkElementOrder("specialMeasures", 14, position, true);
-                    builder.specialMeasures(parseString("specialMeasures", reader, specialMeasuresElementIndex++));
+                    position = checkElementOrder("specialMeasures", 20, position, true);
+                    builder.specialMeasures(parseCodeableConcept("specialMeasures", reader, specialMeasuresElementIndex++));
                     break;
-                case "paediatricUseIndicator":
-                    position = checkElementOrder("paediatricUseIndicator", 15, position, false);
-                    builder.paediatricUseIndicator(parseCodeableConcept("paediatricUseIndicator", reader, -1));
+                case "pediatricUseIndicator":
+                    position = checkElementOrder("pediatricUseIndicator", 21, position, false);
+                    builder.pediatricUseIndicator(parseCodeableConcept("pediatricUseIndicator", reader, -1));
                     break;
-                case "productClassification":
-                    position = checkElementOrder("productClassification", 16, position, true);
-                    builder.productClassification(parseCodeableConcept("productClassification", reader, productClassificationElementIndex++));
+                case "classification":
+                    position = checkElementOrder("classification", 22, position, true);
+                    builder.classification(parseCodeableConcept("classification", reader, classificationElementIndex++));
                     break;
                 case "marketingStatus":
-                    position = checkElementOrder("marketingStatus", 17, position, true);
+                    position = checkElementOrder("marketingStatus", 23, position, true);
                     builder.marketingStatus(parseMarketingStatus("marketingStatus", reader, marketingStatusElementIndex++));
                     break;
-                case "pharmaceuticalProduct":
-                    position = checkElementOrder("pharmaceuticalProduct", 18, position, true);
-                    builder.pharmaceuticalProduct(parseReference("pharmaceuticalProduct", reader, pharmaceuticalProductElementIndex++));
-                    break;
                 case "packagedMedicinalProduct":
-                    position = checkElementOrder("packagedMedicinalProduct", 19, position, true);
-                    builder.packagedMedicinalProduct(parseReference("packagedMedicinalProduct", reader, packagedMedicinalProductElementIndex++));
+                    position = checkElementOrder("packagedMedicinalProduct", 24, position, true);
+                    builder.packagedMedicinalProduct(parseCodeableConcept("packagedMedicinalProduct", reader, packagedMedicinalProductElementIndex++));
+                    break;
+                case "ingredient":
+                    position = checkElementOrder("ingredient", 25, position, true);
+                    builder.ingredient(parseCodeableConcept("ingredient", reader, ingredientElementIndex++));
+                    break;
+                case "impurity":
+                    position = checkElementOrder("impurity", 26, position, true);
+                    builder.impurity(parseCodeableReference("impurity", reader, impurityElementIndex++));
                     break;
                 case "attachedDocument":
-                    position = checkElementOrder("attachedDocument", 20, position, true);
+                    position = checkElementOrder("attachedDocument", 27, position, true);
                     builder.attachedDocument(parseReference("attachedDocument", reader, attachedDocumentElementIndex++));
                     break;
                 case "masterFile":
-                    position = checkElementOrder("masterFile", 21, position, true);
+                    position = checkElementOrder("masterFile", 28, position, true);
                     builder.masterFile(parseReference("masterFile", reader, masterFileElementIndex++));
                     break;
                 case "contact":
-                    position = checkElementOrder("contact", 22, position, true);
-                    builder.contact(parseReference("contact", reader, contactElementIndex++));
+                    position = checkElementOrder("contact", 29, position, true);
+                    builder.contact(parseMedicinalProductDefinitionContact("contact", reader, contactElementIndex++));
                     break;
                 case "clinicalTrial":
-                    position = checkElementOrder("clinicalTrial", 23, position, true);
+                    position = checkElementOrder("clinicalTrial", 30, position, true);
                     builder.clinicalTrial(parseReference("clinicalTrial", reader, clinicalTrialElementIndex++));
                     break;
+                case "code":
+                    position = checkElementOrder("code", 31, position, true);
+                    builder.code(parseCoding("code", reader, codeElementIndex++));
+                    break;
                 case "name":
-                    position = checkElementOrder("name", 24, position, true);
-                    builder.name(parseMedicinalProductName("name", reader, nameElementIndex++));
+                    position = checkElementOrder("name", 32, position, true);
+                    builder.name(parseMedicinalProductDefinitionName("name", reader, nameElementIndex++));
                     break;
                 case "crossReference":
-                    position = checkElementOrder("crossReference", 25, position, true);
-                    builder.crossReference(parseIdentifier("crossReference", reader, crossReferenceElementIndex++));
+                    position = checkElementOrder("crossReference", 33, position, true);
+                    builder.crossReference(parseMedicinalProductDefinitionCrossReference("crossReference", reader, crossReferenceElementIndex++));
                     break;
-                case "manufacturingBusinessOperation":
-                    position = checkElementOrder("manufacturingBusinessOperation", 26, position, true);
-                    builder.manufacturingBusinessOperation(parseMedicinalProductManufacturingBusinessOperation("manufacturingBusinessOperation", reader, manufacturingBusinessOperationElementIndex++));
+                case "operation":
+                    position = checkElementOrder("operation", 34, position, true);
+                    builder.operation(parseMedicinalProductDefinitionOperation("operation", reader, operationElementIndex++));
                     break;
-                case "specialDesignation":
-                    position = checkElementOrder("specialDesignation", 27, position, true);
-                    builder.specialDesignation(parseMedicinalProductSpecialDesignation("specialDesignation", reader, specialDesignationElementIndex++));
+                case "characteristic":
+                    position = checkElementOrder("characteristic", 35, position, true);
+                    builder.characteristic(parseMedicinalProductDefinitionCharacteristic("characteristic", reader, characteristicElementIndex++));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -31555,16 +35067,16 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private MedicinalProduct.ManufacturingBusinessOperation parseMedicinalProductManufacturingBusinessOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+    private MedicinalProductDefinition.Characteristic parseMedicinalProductDefinitionCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
-        MedicinalProduct.ManufacturingBusinessOperation.Builder builder = MedicinalProduct.ManufacturingBusinessOperation.builder();
+        MedicinalProductDefinition.Characteristic.Builder builder = MedicinalProductDefinition.Characteristic.builder();
         builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
         }
         int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, manufacturerElementIndex = 0;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -31580,29 +35092,29 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("modifierExtension", 1, position, true);
                     builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
                     break;
-                case "operationType":
-                    position = checkElementOrder("operationType", 2, position, false);
-                    builder.operationType(parseCodeableConcept("operationType", reader, -1));
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
                     break;
-                case "authorisationReferenceNumber":
-                    position = checkElementOrder("authorisationReferenceNumber", 3, position, false);
-                    builder.authorisationReferenceNumber(parseIdentifier("authorisationReferenceNumber", reader, -1));
+                case "valueCodeableConcept":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseCodeableConcept("valueCodeableConcept", reader, -1));
                     break;
-                case "effectiveDate":
-                    position = checkElementOrder("effectiveDate", 4, position, false);
-                    builder.effectiveDate(parseDateTime("effectiveDate", reader, -1));
+                case "valueQuantity":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseQuantity("valueQuantity", reader, -1));
                     break;
-                case "confidentialityIndicator":
-                    position = checkElementOrder("confidentialityIndicator", 5, position, false);
-                    builder.confidentialityIndicator(parseCodeableConcept("confidentialityIndicator", reader, -1));
+                case "valueDate":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseDate("valueDate", reader, -1));
                     break;
-                case "manufacturer":
-                    position = checkElementOrder("manufacturer", 6, position, true);
-                    builder.manufacturer(parseReference("manufacturer", reader, manufacturerElementIndex++));
+                case "valueBoolean":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseBoolean("valueBoolean", reader, -1));
                     break;
-                case "regulator":
-                    position = checkElementOrder("regulator", 7, position, false);
-                    builder.regulator(parseReference("regulator", reader, -1));
+                case "valueAttachment":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseAttachment("valueAttachment", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -31623,9 +35135,113 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private MedicinalProduct.Name parseMedicinalProductName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+    private MedicinalProductDefinition.Contact parseMedicinalProductDefinitionContact(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
-        MedicinalProduct.Name.Builder builder = MedicinalProduct.Name.builder();
+        MedicinalProductDefinition.Contact.Builder builder = MedicinalProductDefinition.Contact.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "contact":
+                    position = checkElementOrder("contact", 3, position, false);
+                    builder.contact(parseReference("contact", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private MedicinalProductDefinition.CrossReference parseMedicinalProductDefinitionCrossReference(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        MedicinalProductDefinition.CrossReference.Builder builder = MedicinalProductDefinition.CrossReference.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "product":
+                    position = checkElementOrder("product", 2, position, false);
+                    builder.product(parseCodeableReference("product", reader, -1));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 3, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private MedicinalProductDefinition.Name parseMedicinalProductDefinitionName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        MedicinalProductDefinition.Name.Builder builder = MedicinalProductDefinition.Name.builder();
         builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
@@ -31652,13 +35268,17 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("productName", 2, position, false);
                     builder.productName(parseString("productName", reader, -1));
                     break;
+                case "type":
+                    position = checkElementOrder("type", 3, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
                 case "namePart":
-                    position = checkElementOrder("namePart", 3, position, true);
-                    builder.namePart(parseMedicinalProductNameNamePart("namePart", reader, namePartElementIndex++));
+                    position = checkElementOrder("namePart", 4, position, true);
+                    builder.namePart(parseMedicinalProductDefinitionNameNamePart("namePart", reader, namePartElementIndex++));
                     break;
                 case "countryLanguage":
-                    position = checkElementOrder("countryLanguage", 4, position, true);
-                    builder.countryLanguage(parseMedicinalProductNameCountryLanguage("countryLanguage", reader, countryLanguageElementIndex++));
+                    position = checkElementOrder("countryLanguage", 5, position, true);
+                    builder.countryLanguage(parseMedicinalProductDefinitionNameCountryLanguage("countryLanguage", reader, countryLanguageElementIndex++));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -31679,9 +35299,9 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private MedicinalProduct.Name.CountryLanguage parseMedicinalProductNameCountryLanguage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+    private MedicinalProductDefinition.Name.CountryLanguage parseMedicinalProductDefinitionNameCountryLanguage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
-        MedicinalProduct.Name.CountryLanguage.Builder builder = MedicinalProduct.Name.CountryLanguage.builder();
+        MedicinalProductDefinition.Name.CountryLanguage.Builder builder = MedicinalProductDefinition.Name.CountryLanguage.builder();
         builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
@@ -31735,9 +35355,9 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private MedicinalProduct.Name.NamePart parseMedicinalProductNameNamePart(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+    private MedicinalProductDefinition.Name.NamePart parseMedicinalProductDefinitionNameNamePart(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
-        MedicinalProduct.Name.NamePart.Builder builder = MedicinalProduct.Name.NamePart.builder();
+        MedicinalProductDefinition.Name.NamePart.Builder builder = MedicinalProductDefinition.Name.NamePart.builder();
         builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
@@ -31766,84 +35386,8 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "type":
                     position = checkElementOrder("type", 3, position, false);
-                    builder.type(parseCoding("type", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProduct.SpecialDesignation parseMedicinalProductSpecialDesignation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProduct.SpecialDesignation.Builder builder = MedicinalProduct.SpecialDesignation.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 2, position, true);
-                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 3, position, false);
                     builder.type(parseCodeableConcept("type", reader, -1));
                     break;
-                case "intendedUse":
-                    position = checkElementOrder("intendedUse", 4, position, false);
-                    builder.intendedUse(parseCodeableConcept("intendedUse", reader, -1));
-                    break;
-                case "indicationCodeableConcept":
-                    position = checkElementOrder("indication[x]", 5, position, false);
-                    builder.indication(parseCodeableConcept("indicationCodeableConcept", reader, -1));
-                    break;
-                case "indicationReference":
-                    position = checkElementOrder("indication[x]", 5, position, false);
-                    builder.indication(parseReference("indicationReference", reader, -1));
-                    break;
-                case "status":
-                    position = checkElementOrder("status", 6, position, false);
-                    builder.status(parseCodeableConcept("status", reader, -1));
-                    break;
-                case "date":
-                    position = checkElementOrder("date", 7, position, false);
-                    builder.date(parseDateTime("date", reader, -1));
-                    break;
-                case "species":
-                    position = checkElementOrder("species", 8, position, false);
-                    builder.species(parseCodeableConcept("species", reader, -1));
-                    break;
                 default:
                     if (!ignoringUnrecognizedElements) {
                         throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
@@ -31863,144 +35407,16 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private MedicinalProductAuthorization parseMedicinalProductAuthorization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+    private MedicinalProductDefinition.Operation parseMedicinalProductDefinitionOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
-        MedicinalProductAuthorization.Builder builder = MedicinalProductAuthorization.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, countryElementIndex = 0, jurisdictionElementIndex = 0, jurisdictionalAuthorizationElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 8, position, true);
-                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
-                    break;
-                case "subject":
-                    position = checkElementOrder("subject", 9, position, false);
-                    builder.subject(parseReference("subject", reader, -1));
-                    break;
-                case "country":
-                    position = checkElementOrder("country", 10, position, true);
-                    builder.country(parseCodeableConcept("country", reader, countryElementIndex++));
-                    break;
-                case "jurisdiction":
-                    position = checkElementOrder("jurisdiction", 11, position, true);
-                    builder.jurisdiction(parseCodeableConcept("jurisdiction", reader, jurisdictionElementIndex++));
-                    break;
-                case "status":
-                    position = checkElementOrder("status", 12, position, false);
-                    builder.status(parseCodeableConcept("status", reader, -1));
-                    break;
-                case "statusDate":
-                    position = checkElementOrder("statusDate", 13, position, false);
-                    builder.statusDate(parseDateTime("statusDate", reader, -1));
-                    break;
-                case "restoreDate":
-                    position = checkElementOrder("restoreDate", 14, position, false);
-                    builder.restoreDate(parseDateTime("restoreDate", reader, -1));
-                    break;
-                case "validityPeriod":
-                    position = checkElementOrder("validityPeriod", 15, position, false);
-                    builder.validityPeriod(parsePeriod("validityPeriod", reader, -1));
-                    break;
-                case "dataExclusivityPeriod":
-                    position = checkElementOrder("dataExclusivityPeriod", 16, position, false);
-                    builder.dataExclusivityPeriod(parsePeriod("dataExclusivityPeriod", reader, -1));
-                    break;
-                case "dateOfFirstAuthorization":
-                    position = checkElementOrder("dateOfFirstAuthorization", 17, position, false);
-                    builder.dateOfFirstAuthorization(parseDateTime("dateOfFirstAuthorization", reader, -1));
-                    break;
-                case "internationalBirthDate":
-                    position = checkElementOrder("internationalBirthDate", 18, position, false);
-                    builder.internationalBirthDate(parseDateTime("internationalBirthDate", reader, -1));
-                    break;
-                case "legalBasis":
-                    position = checkElementOrder("legalBasis", 19, position, false);
-                    builder.legalBasis(parseCodeableConcept("legalBasis", reader, -1));
-                    break;
-                case "jurisdictionalAuthorization":
-                    position = checkElementOrder("jurisdictionalAuthorization", 20, position, true);
-                    builder.jurisdictionalAuthorization(parseMedicinalProductAuthorizationJurisdictionalAuthorization("jurisdictionalAuthorization", reader, jurisdictionalAuthorizationElementIndex++));
-                    break;
-                case "holder":
-                    position = checkElementOrder("holder", 21, position, false);
-                    builder.holder(parseReference("holder", reader, -1));
-                    break;
-                case "regulator":
-                    position = checkElementOrder("regulator", 22, position, false);
-                    builder.regulator(parseReference("regulator", reader, -1));
-                    break;
-                case "procedure":
-                    position = checkElementOrder("procedure", 23, position, false);
-                    builder.procedure(parseMedicinalProductAuthorizationProcedure("procedure", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductAuthorization.JurisdictionalAuthorization parseMedicinalProductAuthorizationJurisdictionalAuthorization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductAuthorization.JurisdictionalAuthorization.Builder builder = MedicinalProductAuthorization.JurisdictionalAuthorization.builder();
+        MedicinalProductDefinition.Operation.Builder builder = MedicinalProductDefinition.Operation.builder();
         builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
         }
         int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, jurisdictionElementIndex = 0;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, organizationElementIndex = 0;
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -32015,1618 +35431,22 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "modifierExtension":
                     position = checkElementOrder("modifierExtension", 1, position, true);
                     builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 2, position, true);
-                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
-                    break;
-                case "country":
-                    position = checkElementOrder("country", 3, position, false);
-                    builder.country(parseCodeableConcept("country", reader, -1));
-                    break;
-                case "jurisdiction":
-                    position = checkElementOrder("jurisdiction", 4, position, true);
-                    builder.jurisdiction(parseCodeableConcept("jurisdiction", reader, jurisdictionElementIndex++));
-                    break;
-                case "legalStatusOfSupply":
-                    position = checkElementOrder("legalStatusOfSupply", 5, position, false);
-                    builder.legalStatusOfSupply(parseCodeableConcept("legalStatusOfSupply", reader, -1));
-                    break;
-                case "validityPeriod":
-                    position = checkElementOrder("validityPeriod", 6, position, false);
-                    builder.validityPeriod(parsePeriod("validityPeriod", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductAuthorization.Procedure parseMedicinalProductAuthorizationProcedure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductAuthorization.Procedure.Builder builder = MedicinalProductAuthorization.Procedure.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, applicationElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 2, position, false);
-                    builder.identifier(parseIdentifier("identifier", reader, -1));
                     break;
                 case "type":
-                    position = checkElementOrder("type", 3, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "datePeriod":
-                    position = checkElementOrder("date[x]", 4, position, false);
-                    builder.date(parsePeriod("datePeriod", reader, -1));
-                    break;
-                case "dateDateTime":
-                    position = checkElementOrder("date[x]", 4, position, false);
-                    builder.date(parseDateTime("dateDateTime", reader, -1));
-                    break;
-                case "application":
-                    position = checkElementOrder("application", 5, position, true);
-                    builder.application(parseMedicinalProductAuthorizationProcedure("application", reader, applicationElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductContraindication parseMedicinalProductContraindication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductContraindication.Builder builder = MedicinalProductContraindication.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, subjectElementIndex = 0, comorbidityElementIndex = 0, therapeuticIndicationElementIndex = 0, otherTherapyElementIndex = 0, populationElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "subject":
-                    position = checkElementOrder("subject", 8, position, true);
-                    builder.subject(parseReference("subject", reader, subjectElementIndex++));
-                    break;
-                case "disease":
-                    position = checkElementOrder("disease", 9, position, false);
-                    builder.disease(parseCodeableConcept("disease", reader, -1));
-                    break;
-                case "diseaseStatus":
-                    position = checkElementOrder("diseaseStatus", 10, position, false);
-                    builder.diseaseStatus(parseCodeableConcept("diseaseStatus", reader, -1));
-                    break;
-                case "comorbidity":
-                    position = checkElementOrder("comorbidity", 11, position, true);
-                    builder.comorbidity(parseCodeableConcept("comorbidity", reader, comorbidityElementIndex++));
-                    break;
-                case "therapeuticIndication":
-                    position = checkElementOrder("therapeuticIndication", 12, position, true);
-                    builder.therapeuticIndication(parseReference("therapeuticIndication", reader, therapeuticIndicationElementIndex++));
-                    break;
-                case "otherTherapy":
-                    position = checkElementOrder("otherTherapy", 13, position, true);
-                    builder.otherTherapy(parseMedicinalProductContraindicationOtherTherapy("otherTherapy", reader, otherTherapyElementIndex++));
-                    break;
-                case "population":
-                    position = checkElementOrder("population", 14, position, true);
-                    builder.population(parsePopulation("population", reader, populationElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductContraindication.OtherTherapy parseMedicinalProductContraindicationOtherTherapy(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductContraindication.OtherTherapy.Builder builder = MedicinalProductContraindication.OtherTherapy.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "therapyRelationshipType":
-                    position = checkElementOrder("therapyRelationshipType", 2, position, false);
-                    builder.therapyRelationshipType(parseCodeableConcept("therapyRelationshipType", reader, -1));
-                    break;
-                case "medicationCodeableConcept":
-                    position = checkElementOrder("medication[x]", 3, position, false);
-                    builder.medication(parseCodeableConcept("medicationCodeableConcept", reader, -1));
-                    break;
-                case "medicationReference":
-                    position = checkElementOrder("medication[x]", 3, position, false);
-                    builder.medication(parseReference("medicationReference", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductIndication parseMedicinalProductIndication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductIndication.Builder builder = MedicinalProductIndication.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, subjectElementIndex = 0, comorbidityElementIndex = 0, otherTherapyElementIndex = 0, undesirableEffectElementIndex = 0, populationElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "subject":
-                    position = checkElementOrder("subject", 8, position, true);
-                    builder.subject(parseReference("subject", reader, subjectElementIndex++));
-                    break;
-                case "diseaseSymptomProcedure":
-                    position = checkElementOrder("diseaseSymptomProcedure", 9, position, false);
-                    builder.diseaseSymptomProcedure(parseCodeableConcept("diseaseSymptomProcedure", reader, -1));
-                    break;
-                case "diseaseStatus":
-                    position = checkElementOrder("diseaseStatus", 10, position, false);
-                    builder.diseaseStatus(parseCodeableConcept("diseaseStatus", reader, -1));
-                    break;
-                case "comorbidity":
-                    position = checkElementOrder("comorbidity", 11, position, true);
-                    builder.comorbidity(parseCodeableConcept("comorbidity", reader, comorbidityElementIndex++));
-                    break;
-                case "intendedEffect":
-                    position = checkElementOrder("intendedEffect", 12, position, false);
-                    builder.intendedEffect(parseCodeableConcept("intendedEffect", reader, -1));
-                    break;
-                case "duration":
-                    position = checkElementOrder("duration", 13, position, false);
-                    builder.duration(parseQuantity("duration", reader, -1));
-                    break;
-                case "otherTherapy":
-                    position = checkElementOrder("otherTherapy", 14, position, true);
-                    builder.otherTherapy(parseMedicinalProductIndicationOtherTherapy("otherTherapy", reader, otherTherapyElementIndex++));
-                    break;
-                case "undesirableEffect":
-                    position = checkElementOrder("undesirableEffect", 15, position, true);
-                    builder.undesirableEffect(parseReference("undesirableEffect", reader, undesirableEffectElementIndex++));
-                    break;
-                case "population":
-                    position = checkElementOrder("population", 16, position, true);
-                    builder.population(parsePopulation("population", reader, populationElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductIndication.OtherTherapy parseMedicinalProductIndicationOtherTherapy(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductIndication.OtherTherapy.Builder builder = MedicinalProductIndication.OtherTherapy.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "therapyRelationshipType":
-                    position = checkElementOrder("therapyRelationshipType", 2, position, false);
-                    builder.therapyRelationshipType(parseCodeableConcept("therapyRelationshipType", reader, -1));
-                    break;
-                case "medicationCodeableConcept":
-                    position = checkElementOrder("medication[x]", 3, position, false);
-                    builder.medication(parseCodeableConcept("medicationCodeableConcept", reader, -1));
-                    break;
-                case "medicationReference":
-                    position = checkElementOrder("medication[x]", 3, position, false);
-                    builder.medication(parseReference("medicationReference", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductIngredient parseMedicinalProductIngredient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductIngredient.Builder builder = MedicinalProductIngredient.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, manufacturerElementIndex = 0, specifiedSubstanceElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 8, position, false);
-                    builder.identifier(parseIdentifier("identifier", reader, -1));
-                    break;
-                case "role":
-                    position = checkElementOrder("role", 9, position, false);
-                    builder.role(parseCodeableConcept("role", reader, -1));
-                    break;
-                case "allergenicIndicator":
-                    position = checkElementOrder("allergenicIndicator", 10, position, false);
-                    builder.allergenicIndicator(parseBoolean("allergenicIndicator", reader, -1));
-                    break;
-                case "manufacturer":
-                    position = checkElementOrder("manufacturer", 11, position, true);
-                    builder.manufacturer(parseReference("manufacturer", reader, manufacturerElementIndex++));
-                    break;
-                case "specifiedSubstance":
-                    position = checkElementOrder("specifiedSubstance", 12, position, true);
-                    builder.specifiedSubstance(parseMedicinalProductIngredientSpecifiedSubstance("specifiedSubstance", reader, specifiedSubstanceElementIndex++));
-                    break;
-                case "substance":
-                    position = checkElementOrder("substance", 13, position, false);
-                    builder.substance(parseMedicinalProductIngredientSubstance("substance", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductIngredient.SpecifiedSubstance parseMedicinalProductIngredientSpecifiedSubstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductIngredient.SpecifiedSubstance.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, strengthElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "code":
-                    position = checkElementOrder("code", 2, position, false);
-                    builder.code(parseCodeableConcept("code", reader, -1));
-                    break;
-                case "group":
-                    position = checkElementOrder("group", 3, position, false);
-                    builder.group(parseCodeableConcept("group", reader, -1));
-                    break;
-                case "confidentiality":
-                    position = checkElementOrder("confidentiality", 4, position, false);
-                    builder.confidentiality(parseCodeableConcept("confidentiality", reader, -1));
-                    break;
-                case "strength":
-                    position = checkElementOrder("strength", 5, position, true);
-                    builder.strength(parseMedicinalProductIngredientSpecifiedSubstanceStrength("strength", reader, strengthElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductIngredient.SpecifiedSubstance.Strength parseMedicinalProductIngredientSpecifiedSubstanceStrength(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductIngredient.SpecifiedSubstance.Strength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, countryElementIndex = 0, referenceStrengthElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "presentation":
-                    position = checkElementOrder("presentation", 2, position, false);
-                    builder.presentation(parseRatio("presentation", reader, -1));
-                    break;
-                case "presentationLowLimit":
-                    position = checkElementOrder("presentationLowLimit", 3, position, false);
-                    builder.presentationLowLimit(parseRatio("presentationLowLimit", reader, -1));
-                    break;
-                case "concentration":
-                    position = checkElementOrder("concentration", 4, position, false);
-                    builder.concentration(parseRatio("concentration", reader, -1));
-                    break;
-                case "concentrationLowLimit":
-                    position = checkElementOrder("concentrationLowLimit", 5, position, false);
-                    builder.concentrationLowLimit(parseRatio("concentrationLowLimit", reader, -1));
-                    break;
-                case "measurementPoint":
-                    position = checkElementOrder("measurementPoint", 6, position, false);
-                    builder.measurementPoint(parseString("measurementPoint", reader, -1));
-                    break;
-                case "country":
-                    position = checkElementOrder("country", 7, position, true);
-                    builder.country(parseCodeableConcept("country", reader, countryElementIndex++));
-                    break;
-                case "referenceStrength":
-                    position = checkElementOrder("referenceStrength", 8, position, true);
-                    builder.referenceStrength(parseMedicinalProductIngredientSpecifiedSubstanceStrengthReferenceStrength("referenceStrength", reader, referenceStrengthElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength parseMedicinalProductIngredientSpecifiedSubstanceStrengthReferenceStrength(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, countryElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "substance":
-                    position = checkElementOrder("substance", 2, position, false);
-                    builder.substance(parseCodeableConcept("substance", reader, -1));
-                    break;
-                case "strength":
-                    position = checkElementOrder("strength", 3, position, false);
-                    builder.strength(parseRatio("strength", reader, -1));
-                    break;
-                case "strengthLowLimit":
-                    position = checkElementOrder("strengthLowLimit", 4, position, false);
-                    builder.strengthLowLimit(parseRatio("strengthLowLimit", reader, -1));
-                    break;
-                case "measurementPoint":
-                    position = checkElementOrder("measurementPoint", 5, position, false);
-                    builder.measurementPoint(parseString("measurementPoint", reader, -1));
-                    break;
-                case "country":
-                    position = checkElementOrder("country", 6, position, true);
-                    builder.country(parseCodeableConcept("country", reader, countryElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductIngredient.Substance parseMedicinalProductIngredientSubstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductIngredient.Substance.Builder builder = MedicinalProductIngredient.Substance.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, strengthElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "code":
-                    position = checkElementOrder("code", 2, position, false);
-                    builder.code(parseCodeableConcept("code", reader, -1));
-                    break;
-                case "strength":
-                    position = checkElementOrder("strength", 3, position, true);
-                    builder.strength(parseMedicinalProductIngredientSpecifiedSubstanceStrength("strength", reader, strengthElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductInteraction parseMedicinalProductInteraction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductInteraction.Builder builder = MedicinalProductInteraction.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, subjectElementIndex = 0, interactantElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "subject":
-                    position = checkElementOrder("subject", 8, position, true);
-                    builder.subject(parseReference("subject", reader, subjectElementIndex++));
-                    break;
-                case "description":
-                    position = checkElementOrder("description", 9, position, false);
-                    builder.description(parseString("description", reader, -1));
-                    break;
-                case "interactant":
-                    position = checkElementOrder("interactant", 10, position, true);
-                    builder.interactant(parseMedicinalProductInteractionInteractant("interactant", reader, interactantElementIndex++));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 11, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "effect":
-                    position = checkElementOrder("effect", 12, position, false);
-                    builder.effect(parseCodeableConcept("effect", reader, -1));
-                    break;
-                case "incidence":
-                    position = checkElementOrder("incidence", 13, position, false);
-                    builder.incidence(parseCodeableConcept("incidence", reader, -1));
-                    break;
-                case "management":
-                    position = checkElementOrder("management", 14, position, false);
-                    builder.management(parseCodeableConcept("management", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductInteraction.Interactant parseMedicinalProductInteractionInteractant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductInteraction.Interactant.Builder builder = MedicinalProductInteraction.Interactant.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "itemReference":
-                    position = checkElementOrder("item[x]", 2, position, false);
-                    builder.item(parseReference("itemReference", reader, -1));
-                    break;
-                case "itemCodeableConcept":
-                    position = checkElementOrder("item[x]", 2, position, false);
-                    builder.item(parseCodeableConcept("itemCodeableConcept", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductManufactured parseMedicinalProductManufactured(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductManufactured.Builder builder = MedicinalProductManufactured.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, manufacturerElementIndex = 0, ingredientElementIndex = 0, otherCharacteristicsElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "manufacturedDoseForm":
-                    position = checkElementOrder("manufacturedDoseForm", 8, position, false);
-                    builder.manufacturedDoseForm(parseCodeableConcept("manufacturedDoseForm", reader, -1));
-                    break;
-                case "unitOfPresentation":
-                    position = checkElementOrder("unitOfPresentation", 9, position, false);
-                    builder.unitOfPresentation(parseCodeableConcept("unitOfPresentation", reader, -1));
-                    break;
-                case "quantity":
-                    position = checkElementOrder("quantity", 10, position, false);
-                    builder.quantity(parseQuantity("quantity", reader, -1));
-                    break;
-                case "manufacturer":
-                    position = checkElementOrder("manufacturer", 11, position, true);
-                    builder.manufacturer(parseReference("manufacturer", reader, manufacturerElementIndex++));
-                    break;
-                case "ingredient":
-                    position = checkElementOrder("ingredient", 12, position, true);
-                    builder.ingredient(parseReference("ingredient", reader, ingredientElementIndex++));
-                    break;
-                case "physicalCharacteristics":
-                    position = checkElementOrder("physicalCharacteristics", 13, position, false);
-                    builder.physicalCharacteristics(parseProdCharacteristic("physicalCharacteristics", reader, -1));
-                    break;
-                case "otherCharacteristics":
-                    position = checkElementOrder("otherCharacteristics", 14, position, true);
-                    builder.otherCharacteristics(parseCodeableConcept("otherCharacteristics", reader, otherCharacteristicsElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductPackaged parseMedicinalProductPackaged(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductPackaged.Builder builder = MedicinalProductPackaged.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, subjectElementIndex = 0, marketingStatusElementIndex = 0, manufacturerElementIndex = 0, batchIdentifierElementIndex = 0, packageItemElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 8, position, true);
-                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
-                    break;
-                case "subject":
-                    position = checkElementOrder("subject", 9, position, true);
-                    builder.subject(parseReference("subject", reader, subjectElementIndex++));
-                    break;
-                case "description":
-                    position = checkElementOrder("description", 10, position, false);
-                    builder.description(parseString("description", reader, -1));
-                    break;
-                case "legalStatusOfSupply":
-                    position = checkElementOrder("legalStatusOfSupply", 11, position, false);
-                    builder.legalStatusOfSupply(parseCodeableConcept("legalStatusOfSupply", reader, -1));
-                    break;
-                case "marketingStatus":
-                    position = checkElementOrder("marketingStatus", 12, position, true);
-                    builder.marketingStatus(parseMarketingStatus("marketingStatus", reader, marketingStatusElementIndex++));
-                    break;
-                case "marketingAuthorization":
-                    position = checkElementOrder("marketingAuthorization", 13, position, false);
-                    builder.marketingAuthorization(parseReference("marketingAuthorization", reader, -1));
-                    break;
-                case "manufacturer":
-                    position = checkElementOrder("manufacturer", 14, position, true);
-                    builder.manufacturer(parseReference("manufacturer", reader, manufacturerElementIndex++));
-                    break;
-                case "batchIdentifier":
-                    position = checkElementOrder("batchIdentifier", 15, position, true);
-                    builder.batchIdentifier(parseMedicinalProductPackagedBatchIdentifier("batchIdentifier", reader, batchIdentifierElementIndex++));
-                    break;
-                case "packageItem":
-                    position = checkElementOrder("packageItem", 16, position, true);
-                    builder.packageItem(parseMedicinalProductPackagedPackageItem("packageItem", reader, packageItemElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductPackaged.BatchIdentifier parseMedicinalProductPackagedBatchIdentifier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductPackaged.BatchIdentifier.Builder builder = MedicinalProductPackaged.BatchIdentifier.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "outerPackaging":
-                    position = checkElementOrder("outerPackaging", 2, position, false);
-                    builder.outerPackaging(parseIdentifier("outerPackaging", reader, -1));
-                    break;
-                case "immediatePackaging":
-                    position = checkElementOrder("immediatePackaging", 3, position, false);
-                    builder.immediatePackaging(parseIdentifier("immediatePackaging", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductPackaged.PackageItem parseMedicinalProductPackagedPackageItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductPackaged.PackageItem.Builder builder = MedicinalProductPackaged.PackageItem.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, materialElementIndex = 0, alternateMaterialElementIndex = 0, deviceElementIndex = 0, manufacturedItemElementIndex = 0, packageItemElementIndex = 0, otherCharacteristicsElementIndex = 0, shelfLifeStorageElementIndex = 0, manufacturerElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 2, position, true);
-                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 3, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "quantity":
-                    position = checkElementOrder("quantity", 4, position, false);
-                    builder.quantity(parseQuantity("quantity", reader, -1));
-                    break;
-                case "material":
-                    position = checkElementOrder("material", 5, position, true);
-                    builder.material(parseCodeableConcept("material", reader, materialElementIndex++));
-                    break;
-                case "alternateMaterial":
-                    position = checkElementOrder("alternateMaterial", 6, position, true);
-                    builder.alternateMaterial(parseCodeableConcept("alternateMaterial", reader, alternateMaterialElementIndex++));
-                    break;
-                case "device":
-                    position = checkElementOrder("device", 7, position, true);
-                    builder.device(parseReference("device", reader, deviceElementIndex++));
-                    break;
-                case "manufacturedItem":
-                    position = checkElementOrder("manufacturedItem", 8, position, true);
-                    builder.manufacturedItem(parseReference("manufacturedItem", reader, manufacturedItemElementIndex++));
-                    break;
-                case "packageItem":
-                    position = checkElementOrder("packageItem", 9, position, true);
-                    builder.packageItem(parseMedicinalProductPackagedPackageItem("packageItem", reader, packageItemElementIndex++));
-                    break;
-                case "physicalCharacteristics":
-                    position = checkElementOrder("physicalCharacteristics", 10, position, false);
-                    builder.physicalCharacteristics(parseProdCharacteristic("physicalCharacteristics", reader, -1));
-                    break;
-                case "otherCharacteristics":
-                    position = checkElementOrder("otherCharacteristics", 11, position, true);
-                    builder.otherCharacteristics(parseCodeableConcept("otherCharacteristics", reader, otherCharacteristicsElementIndex++));
-                    break;
-                case "shelfLifeStorage":
-                    position = checkElementOrder("shelfLifeStorage", 12, position, true);
-                    builder.shelfLifeStorage(parseProductShelfLife("shelfLifeStorage", reader, shelfLifeStorageElementIndex++));
-                    break;
-                case "manufacturer":
-                    position = checkElementOrder("manufacturer", 13, position, true);
-                    builder.manufacturer(parseReference("manufacturer", reader, manufacturerElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductPharmaceutical parseMedicinalProductPharmaceutical(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductPharmaceutical.Builder builder = MedicinalProductPharmaceutical.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, ingredientElementIndex = 0, deviceElementIndex = 0, characteristicsElementIndex = 0, routeOfAdministrationElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 8, position, true);
-                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
-                    break;
-                case "administrableDoseForm":
-                    position = checkElementOrder("administrableDoseForm", 9, position, false);
-                    builder.administrableDoseForm(parseCodeableConcept("administrableDoseForm", reader, -1));
-                    break;
-                case "unitOfPresentation":
-                    position = checkElementOrder("unitOfPresentation", 10, position, false);
-                    builder.unitOfPresentation(parseCodeableConcept("unitOfPresentation", reader, -1));
-                    break;
-                case "ingredient":
-                    position = checkElementOrder("ingredient", 11, position, true);
-                    builder.ingredient(parseReference("ingredient", reader, ingredientElementIndex++));
-                    break;
-                case "device":
-                    position = checkElementOrder("device", 12, position, true);
-                    builder.device(parseReference("device", reader, deviceElementIndex++));
-                    break;
-                case "characteristics":
-                    position = checkElementOrder("characteristics", 13, position, true);
-                    builder.characteristics(parseMedicinalProductPharmaceuticalCharacteristics("characteristics", reader, characteristicsElementIndex++));
-                    break;
-                case "routeOfAdministration":
-                    position = checkElementOrder("routeOfAdministration", 14, position, true);
-                    builder.routeOfAdministration(parseMedicinalProductPharmaceuticalRouteOfAdministration("routeOfAdministration", reader, routeOfAdministrationElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductPharmaceutical.Characteristics parseMedicinalProductPharmaceuticalCharacteristics(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductPharmaceutical.Characteristics.Builder builder = MedicinalProductPharmaceutical.Characteristics.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "code":
-                    position = checkElementOrder("code", 2, position, false);
-                    builder.code(parseCodeableConcept("code", reader, -1));
-                    break;
-                case "status":
-                    position = checkElementOrder("status", 3, position, false);
-                    builder.status(parseCodeableConcept("status", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductPharmaceutical.RouteOfAdministration parseMedicinalProductPharmaceuticalRouteOfAdministration(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductPharmaceutical.RouteOfAdministration.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, targetSpeciesElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "code":
-                    position = checkElementOrder("code", 2, position, false);
-                    builder.code(parseCodeableConcept("code", reader, -1));
-                    break;
-                case "firstDose":
-                    position = checkElementOrder("firstDose", 3, position, false);
-                    builder.firstDose(parseQuantity("firstDose", reader, -1));
-                    break;
-                case "maxSingleDose":
-                    position = checkElementOrder("maxSingleDose", 4, position, false);
-                    builder.maxSingleDose(parseQuantity("maxSingleDose", reader, -1));
-                    break;
-                case "maxDosePerDay":
-                    position = checkElementOrder("maxDosePerDay", 5, position, false);
-                    builder.maxDosePerDay(parseQuantity("maxDosePerDay", reader, -1));
-                    break;
-                case "maxDosePerTreatmentPeriod":
-                    position = checkElementOrder("maxDosePerTreatmentPeriod", 6, position, false);
-                    builder.maxDosePerTreatmentPeriod(parseRatio("maxDosePerTreatmentPeriod", reader, -1));
-                    break;
-                case "maxTreatmentPeriod":
-                    position = checkElementOrder("maxTreatmentPeriod", 7, position, false);
-                    builder.maxTreatmentPeriod((Duration) parseQuantity(Duration.builder(), "maxTreatmentPeriod", reader, -1));
-                    break;
-                case "targetSpecies":
-                    position = checkElementOrder("targetSpecies", 8, position, true);
-                    builder.targetSpecies(parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies("targetSpecies", reader, targetSpeciesElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, withdrawalPeriodElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "code":
-                    position = checkElementOrder("code", 2, position, false);
-                    builder.code(parseCodeableConcept("code", reader, -1));
-                    break;
-                case "withdrawalPeriod":
-                    position = checkElementOrder("withdrawalPeriod", 3, position, true);
-                    builder.withdrawalPeriod(parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod("withdrawalPeriod", reader, withdrawalPeriodElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "tissue":
-                    position = checkElementOrder("tissue", 2, position, false);
-                    builder.tissue(parseCodeableConcept("tissue", reader, -1));
-                    break;
-                case "value":
-                    position = checkElementOrder("value", 3, position, false);
-                    builder.value(parseQuantity("value", reader, -1));
-                    break;
-                case "supportingInformation":
-                    position = checkElementOrder("supportingInformation", 4, position, false);
-                    builder.supportingInformation(parseString("supportingInformation", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private MedicinalProductUndesirableEffect parseMedicinalProductUndesirableEffect(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        MedicinalProductUndesirableEffect.Builder builder = MedicinalProductUndesirableEffect.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, subjectElementIndex = 0, populationElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "subject":
-                    position = checkElementOrder("subject", 8, position, true);
-                    builder.subject(parseReference("subject", reader, subjectElementIndex++));
-                    break;
-                case "symptomConditionEffect":
-                    position = checkElementOrder("symptomConditionEffect", 9, position, false);
-                    builder.symptomConditionEffect(parseCodeableConcept("symptomConditionEffect", reader, -1));
-                    break;
-                case "classification":
-                    position = checkElementOrder("classification", 10, position, false);
-                    builder.classification(parseCodeableConcept("classification", reader, -1));
-                    break;
-                case "frequencyOfOccurrence":
-                    position = checkElementOrder("frequencyOfOccurrence", 11, position, false);
-                    builder.frequencyOfOccurrence(parseCodeableConcept("frequencyOfOccurrence", reader, -1));
-                    break;
-                case "population":
-                    position = checkElementOrder("population", 12, position, true);
-                    builder.population(parsePopulation("population", reader, populationElementIndex++));
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableReference("type", reader, -1));
+                    break;
+                case "effectiveDate":
+                    position = checkElementOrder("effectiveDate", 3, position, false);
+                    builder.effectiveDate(parsePeriod("effectiveDate", reader, -1));
+                    break;
+                case "organization":
+                    position = checkElementOrder("organization", 4, position, true);
+                    builder.organization(parseReference("organization", reader, organizationElementIndex++));
+                    break;
+                case "confidentialityIndicator":
+                    position = checkElementOrder("confidentialityIndicator", 5, position, false);
+                    builder.confidentialityIndicator(parseCodeableConcept("confidentialityIndicator", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -33890,7 +35710,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "code":
                     position = checkElementOrder("code", 2, position, false);
-                    builder.code((ResourceType) parseString(ResourceType.builder(), "code", reader, -1));
+                    builder.code((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "code", reader, -1));
                     break;
                 case "profile":
                     position = checkElementOrder("profile", 3, position, false);
@@ -35755,6 +37575,350 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
+    private NutritionProduct parseNutritionProduct(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        NutritionProduct.Builder builder = NutritionProduct.builder();
+        builder.setValidating(validating);
+        int position = -1;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, categoryElementIndex = 0, manufacturerElementIndex = 0, nutrientElementIndex = 0, ingredientElementIndex = 0, knownAllergenElementIndex = 0, productCharacteristicElementIndex = 0, noteElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "id":
+                    position = checkElementOrder("id", 0, position, false);
+                    builder.id(parseJavaString("id", reader, -1));
+                    break;
+                case "meta":
+                    position = checkElementOrder("meta", 1, position, false);
+                    builder.meta(parseMeta("meta", reader, -1));
+                    break;
+                case "implicitRules":
+                    position = checkElementOrder("implicitRules", 2, position, false);
+                    builder.implicitRules(parseUri("implicitRules", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "contained":
+                    position = checkElementOrder("contained", 5, position, true);
+                    builder.contained(parseResource("contained", reader, containedElementIndex++));
+                    break;
+                case "extension":
+                    position = checkElementOrder("extension", 6, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 7, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 8, position, false);
+                    builder.status((NutritionProductStatus) parseString(NutritionProductStatus.builder(), "status", reader, -1));
+                    break;
+                case "category":
+                    position = checkElementOrder("category", 9, position, true);
+                    builder.category(parseCodeableConcept("category", reader, categoryElementIndex++));
+                    break;
+                case "code":
+                    position = checkElementOrder("code", 10, position, false);
+                    builder.code(parseCodeableConcept("code", reader, -1));
+                    break;
+                case "manufacturer":
+                    position = checkElementOrder("manufacturer", 11, position, true);
+                    builder.manufacturer(parseReference("manufacturer", reader, manufacturerElementIndex++));
+                    break;
+                case "nutrient":
+                    position = checkElementOrder("nutrient", 12, position, true);
+                    builder.nutrient(parseNutritionProductNutrient("nutrient", reader, nutrientElementIndex++));
+                    break;
+                case "ingredient":
+                    position = checkElementOrder("ingredient", 13, position, true);
+                    builder.ingredient(parseNutritionProductIngredient("ingredient", reader, ingredientElementIndex++));
+                    break;
+                case "knownAllergen":
+                    position = checkElementOrder("knownAllergen", 14, position, true);
+                    builder.knownAllergen(parseCodeableReference("knownAllergen", reader, knownAllergenElementIndex++));
+                    break;
+                case "productCharacteristic":
+                    position = checkElementOrder("productCharacteristic", 15, position, true);
+                    builder.productCharacteristic(parseNutritionProductProductCharacteristic("productCharacteristic", reader, productCharacteristicElementIndex++));
+                    break;
+                case "instance":
+                    position = checkElementOrder("instance", 16, position, false);
+                    builder.instance(parseNutritionProductInstance("instance", reader, -1));
+                    break;
+                case "note":
+                    position = checkElementOrder("note", 17, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private NutritionProduct.Ingredient parseNutritionProductIngredient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        NutritionProduct.Ingredient.Builder builder = NutritionProduct.Ingredient.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, amountElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "item":
+                    position = checkElementOrder("item", 2, position, false);
+                    builder.item(parseCodeableReference("item", reader, -1));
+                    break;
+                case "amount":
+                    position = checkElementOrder("amount", 3, position, true);
+                    builder.amount(parseRatio("amount", reader, amountElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private NutritionProduct.Instance parseNutritionProductInstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        NutritionProduct.Instance.Builder builder = NutritionProduct.Instance.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "quantity":
+                    position = checkElementOrder("quantity", 2, position, false);
+                    builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", reader, -1));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 3, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "lotNumber":
+                    position = checkElementOrder("lotNumber", 4, position, false);
+                    builder.lotNumber(parseString("lotNumber", reader, -1));
+                    break;
+                case "expiry":
+                    position = checkElementOrder("expiry", 5, position, false);
+                    builder.expiry(parseDateTime("expiry", reader, -1));
+                    break;
+                case "useBy":
+                    position = checkElementOrder("useBy", 6, position, false);
+                    builder.useBy(parseDateTime("useBy", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private NutritionProduct.Nutrient parseNutritionProductNutrient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        NutritionProduct.Nutrient.Builder builder = NutritionProduct.Nutrient.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, amountElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "item":
+                    position = checkElementOrder("item", 2, position, false);
+                    builder.item(parseCodeableReference("item", reader, -1));
+                    break;
+                case "amount":
+                    position = checkElementOrder("amount", 3, position, true);
+                    builder.amount(parseRatio("amount", reader, amountElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private NutritionProduct.ProductCharacteristic parseNutritionProductProductCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        NutritionProduct.ProductCharacteristic.Builder builder = NutritionProduct.ProductCharacteristic.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "valueCodeableConcept":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseCodeableConcept("valueCodeableConcept", reader, -1));
+                    break;
+                case "valueString":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseString("valueString", reader, -1));
+                    break;
+                case "valueQuantity":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "valueQuantity", reader, -1));
+                    break;
+                case "valueBase64Binary":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseBase64Binary("valueBase64Binary", reader, -1));
+                    break;
+                case "valueAttachment":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseAttachment("valueAttachment", reader, -1));
+                    break;
+                case "valueBoolean":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseBoolean("valueBoolean", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
     private Observation parseObservation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Observation.Builder builder = Observation.builder();
@@ -36510,7 +38674,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "resource":
                     position = checkElementOrder("resource", 26, position, true);
-                    builder.resource((ResourceType) parseString(ResourceType.builder(), "resource", reader, resourceElementIndex++));
+                    builder.resource((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "resource", reader, resourceElementIndex++));
                     break;
                 case "system":
                     position = checkElementOrder("system", 27, position, false);
@@ -37195,6 +39359,442 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "endpoint":
                     position = checkElementOrder("endpoint", 19, position, true);
                     builder.endpoint(parseReference("endpoint", reader, endpointElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private PackagedProductDefinition parsePackagedProductDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        PackagedProductDefinition.Builder builder = PackagedProductDefinition.builder();
+        builder.setValidating(validating);
+        int position = -1;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, packageForElementIndex = 0, containedItemQuantityElementIndex = 0, legalStatusOfSupplyElementIndex = 0, marketingStatusElementIndex = 0, characteristicElementIndex = 0, manufacturerElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "id":
+                    position = checkElementOrder("id", 0, position, false);
+                    builder.id(parseJavaString("id", reader, -1));
+                    break;
+                case "meta":
+                    position = checkElementOrder("meta", 1, position, false);
+                    builder.meta(parseMeta("meta", reader, -1));
+                    break;
+                case "implicitRules":
+                    position = checkElementOrder("implicitRules", 2, position, false);
+                    builder.implicitRules(parseUri("implicitRules", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "contained":
+                    position = checkElementOrder("contained", 5, position, true);
+                    builder.contained(parseResource("contained", reader, containedElementIndex++));
+                    break;
+                case "extension":
+                    position = checkElementOrder("extension", 6, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 7, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 8, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "name":
+                    position = checkElementOrder("name", 9, position, false);
+                    builder.name(parseString("name", reader, -1));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 10, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "packageFor":
+                    position = checkElementOrder("packageFor", 11, position, true);
+                    builder.packageFor(parseReference("packageFor", reader, packageForElementIndex++));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 12, position, false);
+                    builder.status(parseCodeableConcept("status", reader, -1));
+                    break;
+                case "statusDate":
+                    position = checkElementOrder("statusDate", 13, position, false);
+                    builder.statusDate(parseDateTime("statusDate", reader, -1));
+                    break;
+                case "containedItemQuantity":
+                    position = checkElementOrder("containedItemQuantity", 14, position, true);
+                    builder.containedItemQuantity(parseQuantity("containedItemQuantity", reader, containedItemQuantityElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 15, position, false);
+                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
+                    break;
+                case "legalStatusOfSupply":
+                    position = checkElementOrder("legalStatusOfSupply", 16, position, true);
+                    builder.legalStatusOfSupply(parsePackagedProductDefinitionLegalStatusOfSupply("legalStatusOfSupply", reader, legalStatusOfSupplyElementIndex++));
+                    break;
+                case "marketingStatus":
+                    position = checkElementOrder("marketingStatus", 17, position, true);
+                    builder.marketingStatus(parseMarketingStatus("marketingStatus", reader, marketingStatusElementIndex++));
+                    break;
+                case "characteristic":
+                    position = checkElementOrder("characteristic", 18, position, true);
+                    builder.characteristic(parseCodeableConcept("characteristic", reader, characteristicElementIndex++));
+                    break;
+                case "copackagedIndicator":
+                    position = checkElementOrder("copackagedIndicator", 19, position, false);
+                    builder.copackagedIndicator(parseBoolean("copackagedIndicator", reader, -1));
+                    break;
+                case "manufacturer":
+                    position = checkElementOrder("manufacturer", 20, position, true);
+                    builder.manufacturer(parseReference("manufacturer", reader, manufacturerElementIndex++));
+                    break;
+                case "package":
+                    position = checkElementOrder("package", 21, position, false);
+                    builder._package(parsePackagedProductDefinitionPackage("package", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private PackagedProductDefinition.LegalStatusOfSupply parsePackagedProductDefinitionLegalStatusOfSupply(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        PackagedProductDefinition.LegalStatusOfSupply.Builder builder = PackagedProductDefinition.LegalStatusOfSupply.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "code":
+                    position = checkElementOrder("code", 2, position, false);
+                    builder.code(parseCodeableConcept("code", reader, -1));
+                    break;
+                case "jurisdiction":
+                    position = checkElementOrder("jurisdiction", 3, position, false);
+                    builder.jurisdiction(parseCodeableConcept("jurisdiction", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private PackagedProductDefinition.Package parsePackagedProductDefinitionPackage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        PackagedProductDefinition.Package.Builder builder = PackagedProductDefinition.Package.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, materialElementIndex = 0, alternateMaterialElementIndex = 0, shelfLifeStorageElementIndex = 0, manufacturerElementIndex = 0, propertyElementIndex = 0, containedItemElementIndex = 0, packageElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 2, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 3, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "quantity":
+                    position = checkElementOrder("quantity", 4, position, false);
+                    builder.quantity(parseInteger("quantity", reader, -1));
+                    break;
+                case "material":
+                    position = checkElementOrder("material", 5, position, true);
+                    builder.material(parseCodeableConcept("material", reader, materialElementIndex++));
+                    break;
+                case "alternateMaterial":
+                    position = checkElementOrder("alternateMaterial", 6, position, true);
+                    builder.alternateMaterial(parseCodeableConcept("alternateMaterial", reader, alternateMaterialElementIndex++));
+                    break;
+                case "shelfLifeStorage":
+                    position = checkElementOrder("shelfLifeStorage", 7, position, true);
+                    builder.shelfLifeStorage(parsePackagedProductDefinitionPackageShelfLifeStorage("shelfLifeStorage", reader, shelfLifeStorageElementIndex++));
+                    break;
+                case "manufacturer":
+                    position = checkElementOrder("manufacturer", 8, position, true);
+                    builder.manufacturer(parseReference("manufacturer", reader, manufacturerElementIndex++));
+                    break;
+                case "property":
+                    position = checkElementOrder("property", 9, position, true);
+                    builder.property(parsePackagedProductDefinitionPackageProperty("property", reader, propertyElementIndex++));
+                    break;
+                case "containedItem":
+                    position = checkElementOrder("containedItem", 10, position, true);
+                    builder.containedItem(parsePackagedProductDefinitionPackageContainedItem("containedItem", reader, containedItemElementIndex++));
+                    break;
+                case "package":
+                    position = checkElementOrder("package", 11, position, true);
+                    builder._package(parsePackagedProductDefinitionPackage("package", reader, packageElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private PackagedProductDefinition.Package.ContainedItem parsePackagedProductDefinitionPackageContainedItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        PackagedProductDefinition.Package.ContainedItem.Builder builder = PackagedProductDefinition.Package.ContainedItem.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "item":
+                    position = checkElementOrder("item", 2, position, false);
+                    builder.item(parseCodeableReference("item", reader, -1));
+                    break;
+                case "amount":
+                    position = checkElementOrder("amount", 3, position, false);
+                    builder.amount(parseQuantity("amount", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private PackagedProductDefinition.Package.Property parsePackagedProductDefinitionPackageProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        PackagedProductDefinition.Package.Property.Builder builder = PackagedProductDefinition.Package.Property.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "valueCodeableConcept":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseCodeableConcept("valueCodeableConcept", reader, -1));
+                    break;
+                case "valueQuantity":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseQuantity("valueQuantity", reader, -1));
+                    break;
+                case "valueDate":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseDate("valueDate", reader, -1));
+                    break;
+                case "valueBoolean":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseBoolean("valueBoolean", reader, -1));
+                    break;
+                case "valueAttachment":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseAttachment("valueAttachment", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private PackagedProductDefinition.Package.ShelfLifeStorage parsePackagedProductDefinitionPackageShelfLifeStorage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        PackagedProductDefinition.Package.ShelfLifeStorage.Builder builder = PackagedProductDefinition.Package.ShelfLifeStorage.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, specialPrecautionsForStorageElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "periodDuration":
+                    position = checkElementOrder("period[x]", 3, position, false);
+                    builder.period((Duration) parseQuantity(Duration.builder(), "periodDuration", reader, -1));
+                    break;
+                case "periodString":
+                    position = checkElementOrder("period[x]", 3, position, false);
+                    builder.period(parseString("periodString", reader, -1));
+                    break;
+                case "specialPrecautionsForStorage":
+                    position = checkElementOrder("specialPrecautionsForStorage", 4, position, true);
+                    builder.specialPrecautionsForStorage(parseCodeableConcept("specialPrecautionsForStorage", reader, specialPrecautionsForStorageElementIndex++));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -38568,6 +41168,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("subject[x]", 17, position, false);
                     builder.subject(parseReference("subjectReference", reader, -1));
                     break;
+                case "subjectCanonical":
+                    position = checkElementOrder("subject[x]", 17, position, false);
+                    builder.subject((Canonical) parseUri(Canonical.builder(), "subjectCanonical", reader, -1));
+                    break;
                 case "date":
                     position = checkElementOrder("date", 18, position, false);
                     builder.date(parseDateTime("date", reader, -1));
@@ -38739,6 +41343,10 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "subjectReference":
                     position = checkElementOrder("subject[x]", 11, position, false);
                     builder.subject(parseReference("subjectReference", reader, -1));
+                    break;
+                case "subjectCanonical":
+                    position = checkElementOrder("subject[x]", 11, position, false);
+                    builder.subject((Canonical) parseUri(Canonical.builder(), "subjectCanonical", reader, -1));
                     break;
                 case "trigger":
                     position = checkElementOrder("trigger", 12, position, true);
@@ -40477,7 +43085,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "subjectType":
                     position = checkElementOrder("subjectType", 16, position, true);
-                    builder.subjectType((ResourceType) parseString(ResourceType.builder(), "subjectType", reader, subjectTypeElementIndex++));
+                    builder.subjectType((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "subjectType", reader, subjectTypeElementIndex++));
                     break;
                 case "date":
                     position = checkElementOrder("date", 17, position, false);
@@ -41278,6 +43886,58 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
+    private RatioRange parseRatioRange(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        RatioRange.Builder builder = RatioRange.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "lowNumerator":
+                    position = checkElementOrder("lowNumerator", 1, position, false);
+                    builder.lowNumerator((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "lowNumerator", reader, -1));
+                    break;
+                case "highNumerator":
+                    position = checkElementOrder("highNumerator", 2, position, false);
+                    builder.highNumerator((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "highNumerator", reader, -1));
+                    break;
+                case "denominator":
+                    position = checkElementOrder("denominator", 3, position, false);
+                    builder.denominator((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "denominator", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
     private Reference parseReference(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Reference.Builder builder = Reference.builder();
@@ -41314,6 +43974,194 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "display":
                     position = checkElementOrder("display", 4, position, false);
                     builder.display(parseString("display", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private RegulatedAuthorization parseRegulatedAuthorization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        RegulatedAuthorization.Builder builder = RegulatedAuthorization.builder();
+        builder.setValidating(validating);
+        int position = -1;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, subjectElementIndex = 0, regionElementIndex = 0, basisElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "id":
+                    position = checkElementOrder("id", 0, position, false);
+                    builder.id(parseJavaString("id", reader, -1));
+                    break;
+                case "meta":
+                    position = checkElementOrder("meta", 1, position, false);
+                    builder.meta(parseMeta("meta", reader, -1));
+                    break;
+                case "implicitRules":
+                    position = checkElementOrder("implicitRules", 2, position, false);
+                    builder.implicitRules(parseUri("implicitRules", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "contained":
+                    position = checkElementOrder("contained", 5, position, true);
+                    builder.contained(parseResource("contained", reader, containedElementIndex++));
+                    break;
+                case "extension":
+                    position = checkElementOrder("extension", 6, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 7, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 8, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "subject":
+                    position = checkElementOrder("subject", 9, position, true);
+                    builder.subject(parseReference("subject", reader, subjectElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 10, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 11, position, false);
+                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
+                    break;
+                case "region":
+                    position = checkElementOrder("region", 12, position, true);
+                    builder.region(parseCodeableConcept("region", reader, regionElementIndex++));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 13, position, false);
+                    builder.status(parseCodeableConcept("status", reader, -1));
+                    break;
+                case "statusDate":
+                    position = checkElementOrder("statusDate", 14, position, false);
+                    builder.statusDate(parseDateTime("statusDate", reader, -1));
+                    break;
+                case "validityPeriod":
+                    position = checkElementOrder("validityPeriod", 15, position, false);
+                    builder.validityPeriod(parsePeriod("validityPeriod", reader, -1));
+                    break;
+                case "indication":
+                    position = checkElementOrder("indication", 16, position, false);
+                    builder.indication(parseCodeableReference("indication", reader, -1));
+                    break;
+                case "intendedUse":
+                    position = checkElementOrder("intendedUse", 17, position, false);
+                    builder.intendedUse(parseCodeableConcept("intendedUse", reader, -1));
+                    break;
+                case "basis":
+                    position = checkElementOrder("basis", 18, position, true);
+                    builder.basis(parseCodeableConcept("basis", reader, basisElementIndex++));
+                    break;
+                case "holder":
+                    position = checkElementOrder("holder", 19, position, false);
+                    builder.holder(parseReference("holder", reader, -1));
+                    break;
+                case "regulator":
+                    position = checkElementOrder("regulator", 20, position, false);
+                    builder.regulator(parseReference("regulator", reader, -1));
+                    break;
+                case "case":
+                    position = checkElementOrder("case", 21, position, false);
+                    builder._case(parseRegulatedAuthorizationCase("case", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private RegulatedAuthorization.Case parseRegulatedAuthorizationCase(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        RegulatedAuthorization.Case.Builder builder = RegulatedAuthorization.Case.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, applicationElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 2, position, false);
+                    builder.identifier(parseIdentifier("identifier", reader, -1));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 3, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 4, position, false);
+                    builder.status(parseCodeableConcept("status", reader, -1));
+                    break;
+                case "datePeriod":
+                    position = checkElementOrder("date[x]", 5, position, false);
+                    builder.date(parsePeriod("datePeriod", reader, -1));
+                    break;
+                case "dateDateTime":
+                    position = checkElementOrder("date[x]", 5, position, false);
+                    builder.date(parseDateTime("dateDateTime", reader, -1));
+                    break;
+                case "application":
+                    position = checkElementOrder("application", 6, position, true);
+                    builder.application(parseRegulatedAuthorizationCase("application", reader, applicationElementIndex++));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -43062,494 +45910,6 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private RiskEvidenceSynthesis parseRiskEvidenceSynthesis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        RiskEvidenceSynthesis.Builder builder = RiskEvidenceSynthesis.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, noteElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, certaintyElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "url":
-                    position = checkElementOrder("url", 8, position, false);
-                    builder.url(parseUri("url", reader, -1));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 9, position, true);
-                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
-                    break;
-                case "version":
-                    position = checkElementOrder("version", 10, position, false);
-                    builder.version(parseString("version", reader, -1));
-                    break;
-                case "name":
-                    position = checkElementOrder("name", 11, position, false);
-                    builder.name(parseString("name", reader, -1));
-                    break;
-                case "title":
-                    position = checkElementOrder("title", 12, position, false);
-                    builder.title(parseString("title", reader, -1));
-                    break;
-                case "status":
-                    position = checkElementOrder("status", 13, position, false);
-                    builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", reader, -1));
-                    break;
-                case "date":
-                    position = checkElementOrder("date", 14, position, false);
-                    builder.date(parseDateTime("date", reader, -1));
-                    break;
-                case "publisher":
-                    position = checkElementOrder("publisher", 15, position, false);
-                    builder.publisher(parseString("publisher", reader, -1));
-                    break;
-                case "contact":
-                    position = checkElementOrder("contact", 16, position, true);
-                    builder.contact(parseContactDetail("contact", reader, contactElementIndex++));
-                    break;
-                case "description":
-                    position = checkElementOrder("description", 17, position, false);
-                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
-                    break;
-                case "note":
-                    position = checkElementOrder("note", 18, position, true);
-                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
-                    break;
-                case "useContext":
-                    position = checkElementOrder("useContext", 19, position, true);
-                    builder.useContext(parseUsageContext("useContext", reader, useContextElementIndex++));
-                    break;
-                case "jurisdiction":
-                    position = checkElementOrder("jurisdiction", 20, position, true);
-                    builder.jurisdiction(parseCodeableConcept("jurisdiction", reader, jurisdictionElementIndex++));
-                    break;
-                case "copyright":
-                    position = checkElementOrder("copyright", 21, position, false);
-                    builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", reader, -1));
-                    break;
-                case "approvalDate":
-                    position = checkElementOrder("approvalDate", 22, position, false);
-                    builder.approvalDate(parseDate("approvalDate", reader, -1));
-                    break;
-                case "lastReviewDate":
-                    position = checkElementOrder("lastReviewDate", 23, position, false);
-                    builder.lastReviewDate(parseDate("lastReviewDate", reader, -1));
-                    break;
-                case "effectivePeriod":
-                    position = checkElementOrder("effectivePeriod", 24, position, false);
-                    builder.effectivePeriod(parsePeriod("effectivePeriod", reader, -1));
-                    break;
-                case "topic":
-                    position = checkElementOrder("topic", 25, position, true);
-                    builder.topic(parseCodeableConcept("topic", reader, topicElementIndex++));
-                    break;
-                case "author":
-                    position = checkElementOrder("author", 26, position, true);
-                    builder.author(parseContactDetail("author", reader, authorElementIndex++));
-                    break;
-                case "editor":
-                    position = checkElementOrder("editor", 27, position, true);
-                    builder.editor(parseContactDetail("editor", reader, editorElementIndex++));
-                    break;
-                case "reviewer":
-                    position = checkElementOrder("reviewer", 28, position, true);
-                    builder.reviewer(parseContactDetail("reviewer", reader, reviewerElementIndex++));
-                    break;
-                case "endorser":
-                    position = checkElementOrder("endorser", 29, position, true);
-                    builder.endorser(parseContactDetail("endorser", reader, endorserElementIndex++));
-                    break;
-                case "relatedArtifact":
-                    position = checkElementOrder("relatedArtifact", 30, position, true);
-                    builder.relatedArtifact(parseRelatedArtifact("relatedArtifact", reader, relatedArtifactElementIndex++));
-                    break;
-                case "synthesisType":
-                    position = checkElementOrder("synthesisType", 31, position, false);
-                    builder.synthesisType(parseCodeableConcept("synthesisType", reader, -1));
-                    break;
-                case "studyType":
-                    position = checkElementOrder("studyType", 32, position, false);
-                    builder.studyType(parseCodeableConcept("studyType", reader, -1));
-                    break;
-                case "population":
-                    position = checkElementOrder("population", 33, position, false);
-                    builder.population(parseReference("population", reader, -1));
-                    break;
-                case "exposure":
-                    position = checkElementOrder("exposure", 34, position, false);
-                    builder.exposure(parseReference("exposure", reader, -1));
-                    break;
-                case "outcome":
-                    position = checkElementOrder("outcome", 35, position, false);
-                    builder.outcome(parseReference("outcome", reader, -1));
-                    break;
-                case "sampleSize":
-                    position = checkElementOrder("sampleSize", 36, position, false);
-                    builder.sampleSize(parseRiskEvidenceSynthesisSampleSize("sampleSize", reader, -1));
-                    break;
-                case "riskEstimate":
-                    position = checkElementOrder("riskEstimate", 37, position, false);
-                    builder.riskEstimate(parseRiskEvidenceSynthesisRiskEstimate("riskEstimate", reader, -1));
-                    break;
-                case "certainty":
-                    position = checkElementOrder("certainty", 38, position, true);
-                    builder.certainty(parseRiskEvidenceSynthesisCertainty("certainty", reader, certaintyElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private RiskEvidenceSynthesis.Certainty parseRiskEvidenceSynthesisCertainty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        RiskEvidenceSynthesis.Certainty.Builder builder = RiskEvidenceSynthesis.Certainty.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, ratingElementIndex = 0, noteElementIndex = 0, certaintySubcomponentElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "rating":
-                    position = checkElementOrder("rating", 2, position, true);
-                    builder.rating(parseCodeableConcept("rating", reader, ratingElementIndex++));
-                    break;
-                case "note":
-                    position = checkElementOrder("note", 3, position, true);
-                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
-                    break;
-                case "certaintySubcomponent":
-                    position = checkElementOrder("certaintySubcomponent", 4, position, true);
-                    builder.certaintySubcomponent(parseRiskEvidenceSynthesisCertaintyCertaintySubcomponent("certaintySubcomponent", reader, certaintySubcomponentElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private RiskEvidenceSynthesis.Certainty.CertaintySubcomponent parseRiskEvidenceSynthesisCertaintyCertaintySubcomponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, ratingElementIndex = 0, noteElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 2, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "rating":
-                    position = checkElementOrder("rating", 3, position, true);
-                    builder.rating(parseCodeableConcept("rating", reader, ratingElementIndex++));
-                    break;
-                case "note":
-                    position = checkElementOrder("note", 4, position, true);
-                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private RiskEvidenceSynthesis.RiskEstimate parseRiskEvidenceSynthesisRiskEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        RiskEvidenceSynthesis.RiskEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, precisionEstimateElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "description":
-                    position = checkElementOrder("description", 2, position, false);
-                    builder.description(parseString("description", reader, -1));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 3, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "value":
-                    position = checkElementOrder("value", 4, position, false);
-                    builder.value(parseDecimal("value", reader, -1));
-                    break;
-                case "unitOfMeasure":
-                    position = checkElementOrder("unitOfMeasure", 5, position, false);
-                    builder.unitOfMeasure(parseCodeableConcept("unitOfMeasure", reader, -1));
-                    break;
-                case "denominatorCount":
-                    position = checkElementOrder("denominatorCount", 6, position, false);
-                    builder.denominatorCount(parseInteger("denominatorCount", reader, -1));
-                    break;
-                case "numeratorCount":
-                    position = checkElementOrder("numeratorCount", 7, position, false);
-                    builder.numeratorCount(parseInteger("numeratorCount", reader, -1));
-                    break;
-                case "precisionEstimate":
-                    position = checkElementOrder("precisionEstimate", 8, position, true);
-                    builder.precisionEstimate(parseRiskEvidenceSynthesisRiskEstimatePrecisionEstimate("precisionEstimate", reader, precisionEstimateElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate parseRiskEvidenceSynthesisRiskEstimatePrecisionEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 2, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "level":
-                    position = checkElementOrder("level", 3, position, false);
-                    builder.level(parseDecimal("level", reader, -1));
-                    break;
-                case "from":
-                    position = checkElementOrder("from", 4, position, false);
-                    builder.from(parseDecimal("from", reader, -1));
-                    break;
-                case "to":
-                    position = checkElementOrder("to", 5, position, false);
-                    builder.to(parseDecimal("to", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private RiskEvidenceSynthesis.SampleSize parseRiskEvidenceSynthesisSampleSize(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        RiskEvidenceSynthesis.SampleSize.Builder builder = RiskEvidenceSynthesis.SampleSize.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "description":
-                    position = checkElementOrder("description", 2, position, false);
-                    builder.description(parseString("description", reader, -1));
-                    break;
-                case "numberOfStudies":
-                    position = checkElementOrder("numberOfStudies", 3, position, false);
-                    builder.numberOfStudies(parseInteger("numberOfStudies", reader, -1));
-                    break;
-                case "numberOfParticipants":
-                    position = checkElementOrder("numberOfParticipants", 4, position, false);
-                    builder.numberOfParticipants(parseInteger("numberOfParticipants", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
     private SampledData parseSampledData(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SampledData.Builder builder = SampledData.builder();
@@ -43817,7 +46177,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "base":
                     position = checkElementOrder("base", 22, position, true);
-                    builder.base((ResourceType) parseString(ResourceType.builder(), "base", reader, baseElementIndex++));
+                    builder.base((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "base", reader, baseElementIndex++));
                     break;
                 case "type":
                     position = checkElementOrder("type", 23, position, false);
@@ -43837,7 +46197,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "target":
                     position = checkElementOrder("target", 27, position, true);
-                    builder.target((ResourceType) parseString(ResourceType.builder(), "target", reader, targetElementIndex++));
+                    builder.target((ResourceTypeCode) parseString(ResourceTypeCode.builder(), "target", reader, targetElementIndex++));
                     break;
                 case "multipleOr":
                     position = checkElementOrder("multipleOr", 28, position, false);
@@ -46356,7 +48716,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     break;
                 case "status":
                     position = checkElementOrder("status", 8, position, false);
-                    builder.status((SubscriptionStatus) parseString(SubscriptionStatus.builder(), "status", reader, -1));
+                    builder.status((SubscriptionStatusCode) parseString(SubscriptionStatusCode.builder(), "status", reader, -1));
                     break;
                 case "contact":
                     position = checkElementOrder("contact", 9, position, true);
@@ -46441,6 +48801,614 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                 case "header":
                     position = checkElementOrder("header", 5, position, true);
                     builder.header(parseString("header", reader, headerElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubscriptionStatus parseSubscriptionStatus(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubscriptionStatus.Builder builder = SubscriptionStatus.builder();
+        builder.setValidating(validating);
+        int position = -1;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, notificationEventElementIndex = 0, errorElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "id":
+                    position = checkElementOrder("id", 0, position, false);
+                    builder.id(parseJavaString("id", reader, -1));
+                    break;
+                case "meta":
+                    position = checkElementOrder("meta", 1, position, false);
+                    builder.meta(parseMeta("meta", reader, -1));
+                    break;
+                case "implicitRules":
+                    position = checkElementOrder("implicitRules", 2, position, false);
+                    builder.implicitRules(parseUri("implicitRules", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "contained":
+                    position = checkElementOrder("contained", 5, position, true);
+                    builder.contained(parseResource("contained", reader, containedElementIndex++));
+                    break;
+                case "extension":
+                    position = checkElementOrder("extension", 6, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 7, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 8, position, false);
+                    builder.status((SubscriptionStatusCode) parseString(SubscriptionStatusCode.builder(), "status", reader, -1));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 9, position, false);
+                    builder.type((SubscriptionNotificationType) parseString(SubscriptionNotificationType.builder(), "type", reader, -1));
+                    break;
+                case "eventsSinceSubscriptionStart":
+                    position = checkElementOrder("eventsSinceSubscriptionStart", 10, position, false);
+                    builder.eventsSinceSubscriptionStart(parseString("eventsSinceSubscriptionStart", reader, -1));
+                    break;
+                case "notificationEvent":
+                    position = checkElementOrder("notificationEvent", 11, position, true);
+                    builder.notificationEvent(parseSubscriptionStatusNotificationEvent("notificationEvent", reader, notificationEventElementIndex++));
+                    break;
+                case "subscription":
+                    position = checkElementOrder("subscription", 12, position, false);
+                    builder.subscription(parseReference("subscription", reader, -1));
+                    break;
+                case "topic":
+                    position = checkElementOrder("topic", 13, position, false);
+                    builder.topic((Canonical) parseUri(Canonical.builder(), "topic", reader, -1));
+                    break;
+                case "error":
+                    position = checkElementOrder("error", 14, position, true);
+                    builder.error(parseCodeableConcept("error", reader, errorElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubscriptionStatus.NotificationEvent parseSubscriptionStatusNotificationEvent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubscriptionStatus.NotificationEvent.Builder builder = SubscriptionStatus.NotificationEvent.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, additionalContextElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "eventNumber":
+                    position = checkElementOrder("eventNumber", 2, position, false);
+                    builder.eventNumber(parseString("eventNumber", reader, -1));
+                    break;
+                case "timestamp":
+                    position = checkElementOrder("timestamp", 3, position, false);
+                    builder.timestamp(parseInstant("timestamp", reader, -1));
+                    break;
+                case "focus":
+                    position = checkElementOrder("focus", 4, position, false);
+                    builder.focus(parseReference("focus", reader, -1));
+                    break;
+                case "additionalContext":
+                    position = checkElementOrder("additionalContext", 5, position, true);
+                    builder.additionalContext(parseReference("additionalContext", reader, additionalContextElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubscriptionTopic parseSubscriptionTopic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubscriptionTopic.Builder builder = SubscriptionTopic.builder();
+        builder.setValidating(validating);
+        int position = -1;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, derivedFromElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, resourceTriggerElementIndex = 0, eventTriggerElementIndex = 0, canFilterByElementIndex = 0, notificationShapeElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "id":
+                    position = checkElementOrder("id", 0, position, false);
+                    builder.id(parseJavaString("id", reader, -1));
+                    break;
+                case "meta":
+                    position = checkElementOrder("meta", 1, position, false);
+                    builder.meta(parseMeta("meta", reader, -1));
+                    break;
+                case "implicitRules":
+                    position = checkElementOrder("implicitRules", 2, position, false);
+                    builder.implicitRules(parseUri("implicitRules", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 3, position, false);
+                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
+                    break;
+                case "text":
+                    position = checkElementOrder("text", 4, position, false);
+                    builder.text(parseNarrative("text", reader, -1));
+                    break;
+                case "contained":
+                    position = checkElementOrder("contained", 5, position, true);
+                    builder.contained(parseResource("contained", reader, containedElementIndex++));
+                    break;
+                case "extension":
+                    position = checkElementOrder("extension", 6, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 7, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "url":
+                    position = checkElementOrder("url", 8, position, false);
+                    builder.url(parseUri("url", reader, -1));
+                    break;
+                case "identifier":
+                    position = checkElementOrder("identifier", 9, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
+                    break;
+                case "version":
+                    position = checkElementOrder("version", 10, position, false);
+                    builder.version(parseString("version", reader, -1));
+                    break;
+                case "title":
+                    position = checkElementOrder("title", 11, position, false);
+                    builder.title(parseString("title", reader, -1));
+                    break;
+                case "derivedFrom":
+                    position = checkElementOrder("derivedFrom", 12, position, true);
+                    builder.derivedFrom((Canonical) parseUri(Canonical.builder(), "derivedFrom", reader, derivedFromElementIndex++));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 13, position, false);
+                    builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", reader, -1));
+                    break;
+                case "experimental":
+                    position = checkElementOrder("experimental", 14, position, false);
+                    builder.experimental(parseBoolean("experimental", reader, -1));
+                    break;
+                case "date":
+                    position = checkElementOrder("date", 15, position, false);
+                    builder.date(parseDateTime("date", reader, -1));
+                    break;
+                case "publisher":
+                    position = checkElementOrder("publisher", 16, position, false);
+                    builder.publisher(parseString("publisher", reader, -1));
+                    break;
+                case "contact":
+                    position = checkElementOrder("contact", 17, position, true);
+                    builder.contact(parseContactDetail("contact", reader, contactElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 18, position, false);
+                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
+                    break;
+                case "useContext":
+                    position = checkElementOrder("useContext", 19, position, true);
+                    builder.useContext(parseUsageContext("useContext", reader, useContextElementIndex++));
+                    break;
+                case "jurisdiction":
+                    position = checkElementOrder("jurisdiction", 20, position, true);
+                    builder.jurisdiction(parseCodeableConcept("jurisdiction", reader, jurisdictionElementIndex++));
+                    break;
+                case "purpose":
+                    position = checkElementOrder("purpose", 21, position, false);
+                    builder.purpose((Markdown) parseString(Markdown.builder(), "purpose", reader, -1));
+                    break;
+                case "copyright":
+                    position = checkElementOrder("copyright", 22, position, false);
+                    builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", reader, -1));
+                    break;
+                case "approvalDate":
+                    position = checkElementOrder("approvalDate", 23, position, false);
+                    builder.approvalDate(parseDate("approvalDate", reader, -1));
+                    break;
+                case "lastReviewDate":
+                    position = checkElementOrder("lastReviewDate", 24, position, false);
+                    builder.lastReviewDate(parseDate("lastReviewDate", reader, -1));
+                    break;
+                case "effectivePeriod":
+                    position = checkElementOrder("effectivePeriod", 25, position, false);
+                    builder.effectivePeriod(parsePeriod("effectivePeriod", reader, -1));
+                    break;
+                case "resourceTrigger":
+                    position = checkElementOrder("resourceTrigger", 26, position, true);
+                    builder.resourceTrigger(parseSubscriptionTopicResourceTrigger("resourceTrigger", reader, resourceTriggerElementIndex++));
+                    break;
+                case "eventTrigger":
+                    position = checkElementOrder("eventTrigger", 27, position, true);
+                    builder.eventTrigger(parseSubscriptionTopicEventTrigger("eventTrigger", reader, eventTriggerElementIndex++));
+                    break;
+                case "canFilterBy":
+                    position = checkElementOrder("canFilterBy", 28, position, true);
+                    builder.canFilterBy(parseSubscriptionTopicCanFilterBy("canFilterBy", reader, canFilterByElementIndex++));
+                    break;
+                case "notificationShape":
+                    position = checkElementOrder("notificationShape", 29, position, true);
+                    builder.notificationShape(parseSubscriptionTopicNotificationShape("notificationShape", reader, notificationShapeElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubscriptionTopic.CanFilterBy parseSubscriptionTopicCanFilterBy(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubscriptionTopic.CanFilterBy.Builder builder = SubscriptionTopic.CanFilterBy.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, modifierElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 2, position, false);
+                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
+                    break;
+                case "resource":
+                    position = checkElementOrder("resource", 3, position, false);
+                    builder.resource(parseUri("resource", reader, -1));
+                    break;
+                case "filterParameter":
+                    position = checkElementOrder("filterParameter", 4, position, false);
+                    builder.filterParameter(parseString("filterParameter", reader, -1));
+                    break;
+                case "filterDefinition":
+                    position = checkElementOrder("filterDefinition", 5, position, false);
+                    builder.filterDefinition(parseUri("filterDefinition", reader, -1));
+                    break;
+                case "modifier":
+                    position = checkElementOrder("modifier", 6, position, true);
+                    builder.modifier((SubscriptionTopicFilterBySearchModifier) parseString(SubscriptionTopicFilterBySearchModifier.builder(), "modifier", reader, modifierElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubscriptionTopic.EventTrigger parseSubscriptionTopicEventTrigger(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubscriptionTopic.EventTrigger.Builder builder = SubscriptionTopic.EventTrigger.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 2, position, false);
+                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
+                    break;
+                case "event":
+                    position = checkElementOrder("event", 3, position, false);
+                    builder.event(parseCodeableConcept("event", reader, -1));
+                    break;
+                case "resource":
+                    position = checkElementOrder("resource", 4, position, false);
+                    builder.resource(parseUri("resource", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubscriptionTopic.NotificationShape parseSubscriptionTopicNotificationShape(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubscriptionTopic.NotificationShape.Builder builder = SubscriptionTopic.NotificationShape.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, includeElementIndex = 0, revIncludeElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "resource":
+                    position = checkElementOrder("resource", 2, position, false);
+                    builder.resource(parseUri("resource", reader, -1));
+                    break;
+                case "include":
+                    position = checkElementOrder("include", 3, position, true);
+                    builder.include(parseString("include", reader, includeElementIndex++));
+                    break;
+                case "revInclude":
+                    position = checkElementOrder("revInclude", 4, position, true);
+                    builder.revInclude(parseString("revInclude", reader, revIncludeElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubscriptionTopic.ResourceTrigger parseSubscriptionTopicResourceTrigger(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubscriptionTopic.ResourceTrigger.Builder builder = SubscriptionTopic.ResourceTrigger.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, supportedInteractionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "description":
+                    position = checkElementOrder("description", 2, position, false);
+                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
+                    break;
+                case "resource":
+                    position = checkElementOrder("resource", 3, position, false);
+                    builder.resource(parseUri("resource", reader, -1));
+                    break;
+                case "supportedInteraction":
+                    position = checkElementOrder("supportedInteraction", 4, position, true);
+                    builder.supportedInteraction((MethodCode) parseString(MethodCode.builder(), "supportedInteraction", reader, supportedInteractionElementIndex++));
+                    break;
+                case "queryCriteria":
+                    position = checkElementOrder("queryCriteria", 5, position, false);
+                    builder.queryCriteria(parseSubscriptionTopicResourceTriggerQueryCriteria("queryCriteria", reader, -1));
+                    break;
+                case "fhirPathCriteria":
+                    position = checkElementOrder("fhirPathCriteria", 6, position, false);
+                    builder.fhirPathCriteria(parseString("fhirPathCriteria", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubscriptionTopic.ResourceTrigger.QueryCriteria parseSubscriptionTopicResourceTriggerQueryCriteria(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubscriptionTopic.ResourceTrigger.QueryCriteria.Builder builder = SubscriptionTopic.ResourceTrigger.QueryCriteria.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "previous":
+                    position = checkElementOrder("previous", 2, position, false);
+                    builder.previous(parseString("previous", reader, -1));
+                    break;
+                case "resultForCreate":
+                    position = checkElementOrder("resultForCreate", 3, position, false);
+                    builder.resultForCreate((CriteriaNotExistsBehavior) parseString(CriteriaNotExistsBehavior.builder(), "resultForCreate", reader, -1));
+                    break;
+                case "current":
+                    position = checkElementOrder("current", 4, position, false);
+                    builder.current(parseString("current", reader, -1));
+                    break;
+                case "resultForDelete":
+                    position = checkElementOrder("resultForDelete", 5, position, false);
+                    builder.resultForDelete((CriteriaNotExistsBehavior) parseString(CriteriaNotExistsBehavior.builder(), "resultForDelete", reader, -1));
+                    break;
+                case "requireBoth":
+                    position = checkElementOrder("requireBoth", 6, position, false);
+                    builder.requireBoth(parseBoolean("requireBoth", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -46665,1808 +49633,12 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private SubstanceAmount parseSubstanceAmount(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+    private SubstanceDefinition parseSubstanceDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
-        SubstanceAmount.Builder builder = SubstanceAmount.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "amountQuantity":
-                    position = checkElementOrder("amount[x]", 2, position, false);
-                    builder.amount(parseQuantity("amountQuantity", reader, -1));
-                    break;
-                case "amountRange":
-                    position = checkElementOrder("amount[x]", 2, position, false);
-                    builder.amount(parseRange("amountRange", reader, -1));
-                    break;
-                case "amountString":
-                    position = checkElementOrder("amount[x]", 2, position, false);
-                    builder.amount(parseString("amountString", reader, -1));
-                    break;
-                case "amountType":
-                    position = checkElementOrder("amountType", 3, position, false);
-                    builder.amountType(parseCodeableConcept("amountType", reader, -1));
-                    break;
-                case "amountText":
-                    position = checkElementOrder("amountText", 4, position, false);
-                    builder.amountText(parseString("amountText", reader, -1));
-                    break;
-                case "referenceRange":
-                    position = checkElementOrder("referenceRange", 5, position, false);
-                    builder.referenceRange(parseSubstanceAmountReferenceRange("referenceRange", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceAmount.ReferenceRange parseSubstanceAmountReferenceRange(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceAmount.ReferenceRange.Builder builder = SubstanceAmount.ReferenceRange.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "lowLimit":
-                    position = checkElementOrder("lowLimit", 2, position, false);
-                    builder.lowLimit(parseQuantity("lowLimit", reader, -1));
-                    break;
-                case "highLimit":
-                    position = checkElementOrder("highLimit", 3, position, false);
-                    builder.highLimit(parseQuantity("highLimit", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceNucleicAcid parseSubstanceNucleicAcid(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceNucleicAcid.Builder builder = SubstanceNucleicAcid.builder();
+        SubstanceDefinition.Builder builder = SubstanceDefinition.builder();
         builder.setValidating(validating);
         int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, subunitElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "sequenceType":
-                    position = checkElementOrder("sequenceType", 8, position, false);
-                    builder.sequenceType(parseCodeableConcept("sequenceType", reader, -1));
-                    break;
-                case "numberOfSubunits":
-                    position = checkElementOrder("numberOfSubunits", 9, position, false);
-                    builder.numberOfSubunits(parseInteger("numberOfSubunits", reader, -1));
-                    break;
-                case "areaOfHybridisation":
-                    position = checkElementOrder("areaOfHybridisation", 10, position, false);
-                    builder.areaOfHybridisation(parseString("areaOfHybridisation", reader, -1));
-                    break;
-                case "oligoNucleotideType":
-                    position = checkElementOrder("oligoNucleotideType", 11, position, false);
-                    builder.oligoNucleotideType(parseCodeableConcept("oligoNucleotideType", reader, -1));
-                    break;
-                case "subunit":
-                    position = checkElementOrder("subunit", 12, position, true);
-                    builder.subunit(parseSubstanceNucleicAcidSubunit("subunit", reader, subunitElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceNucleicAcid.Subunit parseSubstanceNucleicAcidSubunit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceNucleicAcid.Subunit.Builder builder = SubstanceNucleicAcid.Subunit.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, linkageElementIndex = 0, sugarElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "subunit":
-                    position = checkElementOrder("subunit", 2, position, false);
-                    builder.subunit(parseInteger("subunit", reader, -1));
-                    break;
-                case "sequence":
-                    position = checkElementOrder("sequence", 3, position, false);
-                    builder.sequence(parseString("sequence", reader, -1));
-                    break;
-                case "length":
-                    position = checkElementOrder("length", 4, position, false);
-                    builder.length(parseInteger("length", reader, -1));
-                    break;
-                case "sequenceAttachment":
-                    position = checkElementOrder("sequenceAttachment", 5, position, false);
-                    builder.sequenceAttachment(parseAttachment("sequenceAttachment", reader, -1));
-                    break;
-                case "fivePrime":
-                    position = checkElementOrder("fivePrime", 6, position, false);
-                    builder.fivePrime(parseCodeableConcept("fivePrime", reader, -1));
-                    break;
-                case "threePrime":
-                    position = checkElementOrder("threePrime", 7, position, false);
-                    builder.threePrime(parseCodeableConcept("threePrime", reader, -1));
-                    break;
-                case "linkage":
-                    position = checkElementOrder("linkage", 8, position, true);
-                    builder.linkage(parseSubstanceNucleicAcidSubunitLinkage("linkage", reader, linkageElementIndex++));
-                    break;
-                case "sugar":
-                    position = checkElementOrder("sugar", 9, position, true);
-                    builder.sugar(parseSubstanceNucleicAcidSubunitSugar("sugar", reader, sugarElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceNucleicAcid.Subunit.Linkage parseSubstanceNucleicAcidSubunitLinkage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceNucleicAcid.Subunit.Linkage.Builder builder = SubstanceNucleicAcid.Subunit.Linkage.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "connectivity":
-                    position = checkElementOrder("connectivity", 2, position, false);
-                    builder.connectivity(parseString("connectivity", reader, -1));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 3, position, false);
-                    builder.identifier(parseIdentifier("identifier", reader, -1));
-                    break;
-                case "name":
-                    position = checkElementOrder("name", 4, position, false);
-                    builder.name(parseString("name", reader, -1));
-                    break;
-                case "residueSite":
-                    position = checkElementOrder("residueSite", 5, position, false);
-                    builder.residueSite(parseString("residueSite", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceNucleicAcid.Subunit.Sugar parseSubstanceNucleicAcidSubunitSugar(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceNucleicAcid.Subunit.Sugar.Builder builder = SubstanceNucleicAcid.Subunit.Sugar.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 2, position, false);
-                    builder.identifier(parseIdentifier("identifier", reader, -1));
-                    break;
-                case "name":
-                    position = checkElementOrder("name", 3, position, false);
-                    builder.name(parseString("name", reader, -1));
-                    break;
-                case "residueSite":
-                    position = checkElementOrder("residueSite", 4, position, false);
-                    builder.residueSite(parseString("residueSite", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstancePolymer parseSubstancePolymer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstancePolymer.Builder builder = SubstancePolymer.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, copolymerConnectivityElementIndex = 0, modificationElementIndex = 0, monomerSetElementIndex = 0, repeatElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "class":
-                    position = checkElementOrder("class", 8, position, false);
-                    builder.clazz(parseCodeableConcept("class", reader, -1));
-                    break;
-                case "geometry":
-                    position = checkElementOrder("geometry", 9, position, false);
-                    builder.geometry(parseCodeableConcept("geometry", reader, -1));
-                    break;
-                case "copolymerConnectivity":
-                    position = checkElementOrder("copolymerConnectivity", 10, position, true);
-                    builder.copolymerConnectivity(parseCodeableConcept("copolymerConnectivity", reader, copolymerConnectivityElementIndex++));
-                    break;
-                case "modification":
-                    position = checkElementOrder("modification", 11, position, true);
-                    builder.modification(parseString("modification", reader, modificationElementIndex++));
-                    break;
-                case "monomerSet":
-                    position = checkElementOrder("monomerSet", 12, position, true);
-                    builder.monomerSet(parseSubstancePolymerMonomerSet("monomerSet", reader, monomerSetElementIndex++));
-                    break;
-                case "repeat":
-                    position = checkElementOrder("repeat", 13, position, true);
-                    builder.repeat(parseSubstancePolymerRepeat("repeat", reader, repeatElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstancePolymer.MonomerSet parseSubstancePolymerMonomerSet(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstancePolymer.MonomerSet.Builder builder = SubstancePolymer.MonomerSet.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, startingMaterialElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "ratioType":
-                    position = checkElementOrder("ratioType", 2, position, false);
-                    builder.ratioType(parseCodeableConcept("ratioType", reader, -1));
-                    break;
-                case "startingMaterial":
-                    position = checkElementOrder("startingMaterial", 3, position, true);
-                    builder.startingMaterial(parseSubstancePolymerMonomerSetStartingMaterial("startingMaterial", reader, startingMaterialElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstancePolymer.MonomerSet.StartingMaterial parseSubstancePolymerMonomerSetStartingMaterial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstancePolymer.MonomerSet.StartingMaterial.Builder builder = SubstancePolymer.MonomerSet.StartingMaterial.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "material":
-                    position = checkElementOrder("material", 2, position, false);
-                    builder.material(parseCodeableConcept("material", reader, -1));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 3, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "isDefining":
-                    position = checkElementOrder("isDefining", 4, position, false);
-                    builder.isDefining(parseBoolean("isDefining", reader, -1));
-                    break;
-                case "amount":
-                    position = checkElementOrder("amount", 5, position, false);
-                    builder.amount(parseSubstanceAmount("amount", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstancePolymer.Repeat parseSubstancePolymerRepeat(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstancePolymer.Repeat.Builder builder = SubstancePolymer.Repeat.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, repeatUnitElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "numberOfUnits":
-                    position = checkElementOrder("numberOfUnits", 2, position, false);
-                    builder.numberOfUnits(parseInteger("numberOfUnits", reader, -1));
-                    break;
-                case "averageMolecularFormula":
-                    position = checkElementOrder("averageMolecularFormula", 3, position, false);
-                    builder.averageMolecularFormula(parseString("averageMolecularFormula", reader, -1));
-                    break;
-                case "repeatUnitAmountType":
-                    position = checkElementOrder("repeatUnitAmountType", 4, position, false);
-                    builder.repeatUnitAmountType(parseCodeableConcept("repeatUnitAmountType", reader, -1));
-                    break;
-                case "repeatUnit":
-                    position = checkElementOrder("repeatUnit", 5, position, true);
-                    builder.repeatUnit(parseSubstancePolymerRepeatRepeatUnit("repeatUnit", reader, repeatUnitElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstancePolymer.Repeat.RepeatUnit parseSubstancePolymerRepeatRepeatUnit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstancePolymer.Repeat.RepeatUnit.Builder builder = SubstancePolymer.Repeat.RepeatUnit.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, degreeOfPolymerisationElementIndex = 0, structuralRepresentationElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "orientationOfPolymerisation":
-                    position = checkElementOrder("orientationOfPolymerisation", 2, position, false);
-                    builder.orientationOfPolymerisation(parseCodeableConcept("orientationOfPolymerisation", reader, -1));
-                    break;
-                case "repeatUnit":
-                    position = checkElementOrder("repeatUnit", 3, position, false);
-                    builder.repeatUnit(parseString("repeatUnit", reader, -1));
-                    break;
-                case "amount":
-                    position = checkElementOrder("amount", 4, position, false);
-                    builder.amount(parseSubstanceAmount("amount", reader, -1));
-                    break;
-                case "degreeOfPolymerisation":
-                    position = checkElementOrder("degreeOfPolymerisation", 5, position, true);
-                    builder.degreeOfPolymerisation(parseSubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation("degreeOfPolymerisation", reader, degreeOfPolymerisationElementIndex++));
-                    break;
-                case "structuralRepresentation":
-                    position = checkElementOrder("structuralRepresentation", 6, position, true);
-                    builder.structuralRepresentation(parseSubstancePolymerRepeatRepeatUnitStructuralRepresentation("structuralRepresentation", reader, structuralRepresentationElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation parseSubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "degree":
-                    position = checkElementOrder("degree", 2, position, false);
-                    builder.degree(parseCodeableConcept("degree", reader, -1));
-                    break;
-                case "amount":
-                    position = checkElementOrder("amount", 3, position, false);
-                    builder.amount(parseSubstanceAmount("amount", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation parseSubstancePolymerRepeatRepeatUnitStructuralRepresentation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 2, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "representation":
-                    position = checkElementOrder("representation", 3, position, false);
-                    builder.representation(parseString("representation", reader, -1));
-                    break;
-                case "attachment":
-                    position = checkElementOrder("attachment", 4, position, false);
-                    builder.attachment(parseAttachment("attachment", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceProtein parseSubstanceProtein(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceProtein.Builder builder = SubstanceProtein.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, disulfideLinkageElementIndex = 0, subunitElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "sequenceType":
-                    position = checkElementOrder("sequenceType", 8, position, false);
-                    builder.sequenceType(parseCodeableConcept("sequenceType", reader, -1));
-                    break;
-                case "numberOfSubunits":
-                    position = checkElementOrder("numberOfSubunits", 9, position, false);
-                    builder.numberOfSubunits(parseInteger("numberOfSubunits", reader, -1));
-                    break;
-                case "disulfideLinkage":
-                    position = checkElementOrder("disulfideLinkage", 10, position, true);
-                    builder.disulfideLinkage(parseString("disulfideLinkage", reader, disulfideLinkageElementIndex++));
-                    break;
-                case "subunit":
-                    position = checkElementOrder("subunit", 11, position, true);
-                    builder.subunit(parseSubstanceProteinSubunit("subunit", reader, subunitElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceProtein.Subunit parseSubstanceProteinSubunit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceProtein.Subunit.Builder builder = SubstanceProtein.Subunit.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "subunit":
-                    position = checkElementOrder("subunit", 2, position, false);
-                    builder.subunit(parseInteger("subunit", reader, -1));
-                    break;
-                case "sequence":
-                    position = checkElementOrder("sequence", 3, position, false);
-                    builder.sequence(parseString("sequence", reader, -1));
-                    break;
-                case "length":
-                    position = checkElementOrder("length", 4, position, false);
-                    builder.length(parseInteger("length", reader, -1));
-                    break;
-                case "sequenceAttachment":
-                    position = checkElementOrder("sequenceAttachment", 5, position, false);
-                    builder.sequenceAttachment(parseAttachment("sequenceAttachment", reader, -1));
-                    break;
-                case "nTerminalModificationId":
-                    position = checkElementOrder("nTerminalModificationId", 6, position, false);
-                    builder.nTerminalModificationId(parseIdentifier("nTerminalModificationId", reader, -1));
-                    break;
-                case "nTerminalModification":
-                    position = checkElementOrder("nTerminalModification", 7, position, false);
-                    builder.nTerminalModification(parseString("nTerminalModification", reader, -1));
-                    break;
-                case "cTerminalModificationId":
-                    position = checkElementOrder("cTerminalModificationId", 8, position, false);
-                    builder.cTerminalModificationId(parseIdentifier("cTerminalModificationId", reader, -1));
-                    break;
-                case "cTerminalModification":
-                    position = checkElementOrder("cTerminalModification", 9, position, false);
-                    builder.cTerminalModification(parseString("cTerminalModification", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceReferenceInformation parseSubstanceReferenceInformation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceReferenceInformation.Builder builder = SubstanceReferenceInformation.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, geneElementIndex = 0, geneElementElementIndex = 0, classificationElementIndex = 0, targetElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "comment":
-                    position = checkElementOrder("comment", 8, position, false);
-                    builder.comment(parseString("comment", reader, -1));
-                    break;
-                case "gene":
-                    position = checkElementOrder("gene", 9, position, true);
-                    builder.gene(parseSubstanceReferenceInformationGene("gene", reader, geneElementIndex++));
-                    break;
-                case "geneElement":
-                    position = checkElementOrder("geneElement", 10, position, true);
-                    builder.geneElement(parseSubstanceReferenceInformationGeneElement("geneElement", reader, geneElementElementIndex++));
-                    break;
-                case "classification":
-                    position = checkElementOrder("classification", 11, position, true);
-                    builder.classification(parseSubstanceReferenceInformationClassification("classification", reader, classificationElementIndex++));
-                    break;
-                case "target":
-                    position = checkElementOrder("target", 12, position, true);
-                    builder.target(parseSubstanceReferenceInformationTarget("target", reader, targetElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceReferenceInformation.Classification parseSubstanceReferenceInformationClassification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceReferenceInformation.Classification.Builder builder = SubstanceReferenceInformation.Classification.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, subtypeElementIndex = 0, sourceElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "domain":
-                    position = checkElementOrder("domain", 2, position, false);
-                    builder.domain(parseCodeableConcept("domain", reader, -1));
-                    break;
-                case "classification":
-                    position = checkElementOrder("classification", 3, position, false);
-                    builder.classification(parseCodeableConcept("classification", reader, -1));
-                    break;
-                case "subtype":
-                    position = checkElementOrder("subtype", 4, position, true);
-                    builder.subtype(parseCodeableConcept("subtype", reader, subtypeElementIndex++));
-                    break;
-                case "source":
-                    position = checkElementOrder("source", 5, position, true);
-                    builder.source(parseReference("source", reader, sourceElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceReferenceInformation.Gene parseSubstanceReferenceInformationGene(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceReferenceInformation.Gene.Builder builder = SubstanceReferenceInformation.Gene.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, sourceElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "geneSequenceOrigin":
-                    position = checkElementOrder("geneSequenceOrigin", 2, position, false);
-                    builder.geneSequenceOrigin(parseCodeableConcept("geneSequenceOrigin", reader, -1));
-                    break;
-                case "gene":
-                    position = checkElementOrder("gene", 3, position, false);
-                    builder.gene(parseCodeableConcept("gene", reader, -1));
-                    break;
-                case "source":
-                    position = checkElementOrder("source", 4, position, true);
-                    builder.source(parseReference("source", reader, sourceElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceReferenceInformation.GeneElement parseSubstanceReferenceInformationGeneElement(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceReferenceInformation.GeneElement.Builder builder = SubstanceReferenceInformation.GeneElement.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, sourceElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 2, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "element":
-                    position = checkElementOrder("element", 3, position, false);
-                    builder.element(parseIdentifier("element", reader, -1));
-                    break;
-                case "source":
-                    position = checkElementOrder("source", 4, position, true);
-                    builder.source(parseReference("source", reader, sourceElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceReferenceInformation.Target parseSubstanceReferenceInformationTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceReferenceInformation.Target.Builder builder = SubstanceReferenceInformation.Target.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, sourceElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "target":
-                    position = checkElementOrder("target", 2, position, false);
-                    builder.target(parseIdentifier("target", reader, -1));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 3, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "interaction":
-                    position = checkElementOrder("interaction", 4, position, false);
-                    builder.interaction(parseCodeableConcept("interaction", reader, -1));
-                    break;
-                case "organism":
-                    position = checkElementOrder("organism", 5, position, false);
-                    builder.organism(parseCodeableConcept("organism", reader, -1));
-                    break;
-                case "organismType":
-                    position = checkElementOrder("organismType", 6, position, false);
-                    builder.organismType(parseCodeableConcept("organismType", reader, -1));
-                    break;
-                case "amountQuantity":
-                    position = checkElementOrder("amount[x]", 7, position, false);
-                    builder.amount(parseQuantity("amountQuantity", reader, -1));
-                    break;
-                case "amountRange":
-                    position = checkElementOrder("amount[x]", 7, position, false);
-                    builder.amount(parseRange("amountRange", reader, -1));
-                    break;
-                case "amountString":
-                    position = checkElementOrder("amount[x]", 7, position, false);
-                    builder.amount(parseString("amountString", reader, -1));
-                    break;
-                case "amountType":
-                    position = checkElementOrder("amountType", 8, position, false);
-                    builder.amountType(parseCodeableConcept("amountType", reader, -1));
-                    break;
-                case "source":
-                    position = checkElementOrder("source", 9, position, true);
-                    builder.source(parseReference("source", reader, sourceElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSourceMaterial parseSubstanceSourceMaterial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSourceMaterial.Builder builder = SubstanceSourceMaterial.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, parentSubstanceIdElementIndex = 0, parentSubstanceNameElementIndex = 0, countryOfOriginElementIndex = 0, geographicalLocationElementIndex = 0, fractionDescriptionElementIndex = 0, partDescriptionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "id":
-                    position = checkElementOrder("id", 0, position, false);
-                    builder.id(parseJavaString("id", reader, -1));
-                    break;
-                case "meta":
-                    position = checkElementOrder("meta", 1, position, false);
-                    builder.meta(parseMeta("meta", reader, -1));
-                    break;
-                case "implicitRules":
-                    position = checkElementOrder("implicitRules", 2, position, false);
-                    builder.implicitRules(parseUri("implicitRules", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 3, position, false);
-                    builder.language((Code) parseString(Code.builder(), "language", reader, -1));
-                    break;
-                case "text":
-                    position = checkElementOrder("text", 4, position, false);
-                    builder.text(parseNarrative("text", reader, -1));
-                    break;
-                case "contained":
-                    position = checkElementOrder("contained", 5, position, true);
-                    builder.contained(parseResource("contained", reader, containedElementIndex++));
-                    break;
-                case "extension":
-                    position = checkElementOrder("extension", 6, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 7, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "sourceMaterialClass":
-                    position = checkElementOrder("sourceMaterialClass", 8, position, false);
-                    builder.sourceMaterialClass(parseCodeableConcept("sourceMaterialClass", reader, -1));
-                    break;
-                case "sourceMaterialType":
-                    position = checkElementOrder("sourceMaterialType", 9, position, false);
-                    builder.sourceMaterialType(parseCodeableConcept("sourceMaterialType", reader, -1));
-                    break;
-                case "sourceMaterialState":
-                    position = checkElementOrder("sourceMaterialState", 10, position, false);
-                    builder.sourceMaterialState(parseCodeableConcept("sourceMaterialState", reader, -1));
-                    break;
-                case "organismId":
-                    position = checkElementOrder("organismId", 11, position, false);
-                    builder.organismId(parseIdentifier("organismId", reader, -1));
-                    break;
-                case "organismName":
-                    position = checkElementOrder("organismName", 12, position, false);
-                    builder.organismName(parseString("organismName", reader, -1));
-                    break;
-                case "parentSubstanceId":
-                    position = checkElementOrder("parentSubstanceId", 13, position, true);
-                    builder.parentSubstanceId(parseIdentifier("parentSubstanceId", reader, parentSubstanceIdElementIndex++));
-                    break;
-                case "parentSubstanceName":
-                    position = checkElementOrder("parentSubstanceName", 14, position, true);
-                    builder.parentSubstanceName(parseString("parentSubstanceName", reader, parentSubstanceNameElementIndex++));
-                    break;
-                case "countryOfOrigin":
-                    position = checkElementOrder("countryOfOrigin", 15, position, true);
-                    builder.countryOfOrigin(parseCodeableConcept("countryOfOrigin", reader, countryOfOriginElementIndex++));
-                    break;
-                case "geographicalLocation":
-                    position = checkElementOrder("geographicalLocation", 16, position, true);
-                    builder.geographicalLocation(parseString("geographicalLocation", reader, geographicalLocationElementIndex++));
-                    break;
-                case "developmentStage":
-                    position = checkElementOrder("developmentStage", 17, position, false);
-                    builder.developmentStage(parseCodeableConcept("developmentStage", reader, -1));
-                    break;
-                case "fractionDescription":
-                    position = checkElementOrder("fractionDescription", 18, position, true);
-                    builder.fractionDescription(parseSubstanceSourceMaterialFractionDescription("fractionDescription", reader, fractionDescriptionElementIndex++));
-                    break;
-                case "organism":
-                    position = checkElementOrder("organism", 19, position, false);
-                    builder.organism(parseSubstanceSourceMaterialOrganism("organism", reader, -1));
-                    break;
-                case "partDescription":
-                    position = checkElementOrder("partDescription", 20, position, true);
-                    builder.partDescription(parseSubstanceSourceMaterialPartDescription("partDescription", reader, partDescriptionElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSourceMaterial.FractionDescription parseSubstanceSourceMaterialFractionDescription(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSourceMaterial.FractionDescription.Builder builder = SubstanceSourceMaterial.FractionDescription.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "fraction":
-                    position = checkElementOrder("fraction", 2, position, false);
-                    builder.fraction(parseString("fraction", reader, -1));
-                    break;
-                case "materialType":
-                    position = checkElementOrder("materialType", 3, position, false);
-                    builder.materialType(parseCodeableConcept("materialType", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSourceMaterial.Organism parseSubstanceSourceMaterialOrganism(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSourceMaterial.Organism.Builder builder = SubstanceSourceMaterial.Organism.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, authorElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "family":
-                    position = checkElementOrder("family", 2, position, false);
-                    builder.family(parseCodeableConcept("family", reader, -1));
-                    break;
-                case "genus":
-                    position = checkElementOrder("genus", 3, position, false);
-                    builder.genus(parseCodeableConcept("genus", reader, -1));
-                    break;
-                case "species":
-                    position = checkElementOrder("species", 4, position, false);
-                    builder.species(parseCodeableConcept("species", reader, -1));
-                    break;
-                case "intraspecificType":
-                    position = checkElementOrder("intraspecificType", 5, position, false);
-                    builder.intraspecificType(parseCodeableConcept("intraspecificType", reader, -1));
-                    break;
-                case "intraspecificDescription":
-                    position = checkElementOrder("intraspecificDescription", 6, position, false);
-                    builder.intraspecificDescription(parseString("intraspecificDescription", reader, -1));
-                    break;
-                case "author":
-                    position = checkElementOrder("author", 7, position, true);
-                    builder.author(parseSubstanceSourceMaterialOrganismAuthor("author", reader, authorElementIndex++));
-                    break;
-                case "hybrid":
-                    position = checkElementOrder("hybrid", 8, position, false);
-                    builder.hybrid(parseSubstanceSourceMaterialOrganismHybrid("hybrid", reader, -1));
-                    break;
-                case "organismGeneral":
-                    position = checkElementOrder("organismGeneral", 9, position, false);
-                    builder.organismGeneral(parseSubstanceSourceMaterialOrganismOrganismGeneral("organismGeneral", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSourceMaterial.Organism.Author parseSubstanceSourceMaterialOrganismAuthor(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSourceMaterial.Organism.Author.Builder builder = SubstanceSourceMaterial.Organism.Author.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "authorType":
-                    position = checkElementOrder("authorType", 2, position, false);
-                    builder.authorType(parseCodeableConcept("authorType", reader, -1));
-                    break;
-                case "authorDescription":
-                    position = checkElementOrder("authorDescription", 3, position, false);
-                    builder.authorDescription(parseString("authorDescription", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSourceMaterial.Organism.Hybrid parseSubstanceSourceMaterialOrganismHybrid(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSourceMaterial.Organism.Hybrid.Builder builder = SubstanceSourceMaterial.Organism.Hybrid.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "maternalOrganismId":
-                    position = checkElementOrder("maternalOrganismId", 2, position, false);
-                    builder.maternalOrganismId(parseString("maternalOrganismId", reader, -1));
-                    break;
-                case "maternalOrganismName":
-                    position = checkElementOrder("maternalOrganismName", 3, position, false);
-                    builder.maternalOrganismName(parseString("maternalOrganismName", reader, -1));
-                    break;
-                case "paternalOrganismId":
-                    position = checkElementOrder("paternalOrganismId", 4, position, false);
-                    builder.paternalOrganismId(parseString("paternalOrganismId", reader, -1));
-                    break;
-                case "paternalOrganismName":
-                    position = checkElementOrder("paternalOrganismName", 5, position, false);
-                    builder.paternalOrganismName(parseString("paternalOrganismName", reader, -1));
-                    break;
-                case "hybridType":
-                    position = checkElementOrder("hybridType", 6, position, false);
-                    builder.hybridType(parseCodeableConcept("hybridType", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSourceMaterial.Organism.OrganismGeneral parseSubstanceSourceMaterialOrganismOrganismGeneral(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSourceMaterial.Organism.OrganismGeneral.Builder builder = SubstanceSourceMaterial.Organism.OrganismGeneral.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "kingdom":
-                    position = checkElementOrder("kingdom", 2, position, false);
-                    builder.kingdom(parseCodeableConcept("kingdom", reader, -1));
-                    break;
-                case "phylum":
-                    position = checkElementOrder("phylum", 3, position, false);
-                    builder.phylum(parseCodeableConcept("phylum", reader, -1));
-                    break;
-                case "class":
-                    position = checkElementOrder("class", 4, position, false);
-                    builder.clazz(parseCodeableConcept("class", reader, -1));
-                    break;
-                case "order":
-                    position = checkElementOrder("order", 5, position, false);
-                    builder.order(parseCodeableConcept("order", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSourceMaterial.PartDescription parseSubstanceSourceMaterialPartDescription(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSourceMaterial.PartDescription.Builder builder = SubstanceSourceMaterial.PartDescription.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "part":
-                    position = checkElementOrder("part", 2, position, false);
-                    builder.part(parseCodeableConcept("part", reader, -1));
-                    break;
-                case "partLocation":
-                    position = checkElementOrder("partLocation", 3, position, false);
-                    builder.partLocation(parseCodeableConcept("partLocation", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSpecification parseSubstanceSpecification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSpecification.Builder builder = SubstanceSpecification.builder();
-        builder.setValidating(validating);
-        int position = -1;
-        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, sourceElementIndex = 0, moietyElementIndex = 0, propertyElementIndex = 0, codeElementIndex = 0, nameElementIndex = 0, molecularWeightElementIndex = 0, relationshipElementIndex = 0;
+        int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, classificationElementIndex = 0, gradeElementIndex = 0, informationSourceElementIndex = 0, noteElementIndex = 0, manufacturerElementIndex = 0, supplierElementIndex = 0, moietyElementIndex = 0, propertyElementIndex = 0, molecularWeightElementIndex = 0, codeElementIndex = 0, nameElementIndex = 0, relationshipElementIndex = 0;
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -48507,80 +49679,80 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
                     break;
                 case "identifier":
-                    position = checkElementOrder("identifier", 8, position, false);
-                    builder.identifier(parseIdentifier("identifier", reader, -1));
+                    position = checkElementOrder("identifier", 8, position, true);
+                    builder.identifier(parseIdentifier("identifier", reader, identifierElementIndex++));
                     break;
-                case "type":
-                    position = checkElementOrder("type", 9, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
+                case "version":
+                    position = checkElementOrder("version", 9, position, false);
+                    builder.version(parseString("version", reader, -1));
                     break;
                 case "status":
                     position = checkElementOrder("status", 10, position, false);
                     builder.status(parseCodeableConcept("status", reader, -1));
                     break;
+                case "classification":
+                    position = checkElementOrder("classification", 11, position, true);
+                    builder.classification(parseCodeableConcept("classification", reader, classificationElementIndex++));
+                    break;
                 case "domain":
-                    position = checkElementOrder("domain", 11, position, false);
+                    position = checkElementOrder("domain", 12, position, false);
                     builder.domain(parseCodeableConcept("domain", reader, -1));
                     break;
+                case "grade":
+                    position = checkElementOrder("grade", 13, position, true);
+                    builder.grade(parseCodeableConcept("grade", reader, gradeElementIndex++));
+                    break;
                 case "description":
-                    position = checkElementOrder("description", 12, position, false);
-                    builder.description(parseString("description", reader, -1));
+                    position = checkElementOrder("description", 14, position, false);
+                    builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
                     break;
-                case "source":
-                    position = checkElementOrder("source", 13, position, true);
-                    builder.source(parseReference("source", reader, sourceElementIndex++));
+                case "informationSource":
+                    position = checkElementOrder("informationSource", 15, position, true);
+                    builder.informationSource(parseReference("informationSource", reader, informationSourceElementIndex++));
                     break;
-                case "comment":
-                    position = checkElementOrder("comment", 14, position, false);
-                    builder.comment(parseString("comment", reader, -1));
+                case "note":
+                    position = checkElementOrder("note", 16, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
+                    break;
+                case "manufacturer":
+                    position = checkElementOrder("manufacturer", 17, position, true);
+                    builder.manufacturer(parseReference("manufacturer", reader, manufacturerElementIndex++));
+                    break;
+                case "supplier":
+                    position = checkElementOrder("supplier", 18, position, true);
+                    builder.supplier(parseReference("supplier", reader, supplierElementIndex++));
                     break;
                 case "moiety":
-                    position = checkElementOrder("moiety", 15, position, true);
-                    builder.moiety(parseSubstanceSpecificationMoiety("moiety", reader, moietyElementIndex++));
+                    position = checkElementOrder("moiety", 19, position, true);
+                    builder.moiety(parseSubstanceDefinitionMoiety("moiety", reader, moietyElementIndex++));
                     break;
                 case "property":
-                    position = checkElementOrder("property", 16, position, true);
-                    builder.property(parseSubstanceSpecificationProperty("property", reader, propertyElementIndex++));
-                    break;
-                case "referenceInformation":
-                    position = checkElementOrder("referenceInformation", 17, position, false);
-                    builder.referenceInformation(parseReference("referenceInformation", reader, -1));
-                    break;
-                case "structure":
-                    position = checkElementOrder("structure", 18, position, false);
-                    builder.structure(parseSubstanceSpecificationStructure("structure", reader, -1));
-                    break;
-                case "code":
-                    position = checkElementOrder("code", 19, position, true);
-                    builder.code(parseSubstanceSpecificationCode("code", reader, codeElementIndex++));
-                    break;
-                case "name":
-                    position = checkElementOrder("name", 20, position, true);
-                    builder.name(parseSubstanceSpecificationName("name", reader, nameElementIndex++));
+                    position = checkElementOrder("property", 20, position, true);
+                    builder.property(parseSubstanceDefinitionProperty("property", reader, propertyElementIndex++));
                     break;
                 case "molecularWeight":
                     position = checkElementOrder("molecularWeight", 21, position, true);
-                    builder.molecularWeight(parseSubstanceSpecificationStructureIsotopeMolecularWeight("molecularWeight", reader, molecularWeightElementIndex++));
+                    builder.molecularWeight(parseSubstanceDefinitionMolecularWeight("molecularWeight", reader, molecularWeightElementIndex++));
+                    break;
+                case "structure":
+                    position = checkElementOrder("structure", 22, position, false);
+                    builder.structure(parseSubstanceDefinitionStructure("structure", reader, -1));
+                    break;
+                case "code":
+                    position = checkElementOrder("code", 23, position, true);
+                    builder.code(parseSubstanceDefinitionCode("code", reader, codeElementIndex++));
+                    break;
+                case "name":
+                    position = checkElementOrder("name", 24, position, true);
+                    builder.name(parseSubstanceDefinitionName("name", reader, nameElementIndex++));
                     break;
                 case "relationship":
-                    position = checkElementOrder("relationship", 22, position, true);
-                    builder.relationship(parseSubstanceSpecificationRelationship("relationship", reader, relationshipElementIndex++));
-                    break;
-                case "nucleicAcid":
-                    position = checkElementOrder("nucleicAcid", 23, position, false);
-                    builder.nucleicAcid(parseReference("nucleicAcid", reader, -1));
-                    break;
-                case "polymer":
-                    position = checkElementOrder("polymer", 24, position, false);
-                    builder.polymer(parseReference("polymer", reader, -1));
-                    break;
-                case "protein":
-                    position = checkElementOrder("protein", 25, position, false);
-                    builder.protein(parseReference("protein", reader, -1));
+                    position = checkElementOrder("relationship", 25, position, true);
+                    builder.relationship(parseSubstanceDefinitionRelationship("relationship", reader, relationshipElementIndex++));
                     break;
                 case "sourceMaterial":
                     position = checkElementOrder("sourceMaterial", 26, position, false);
-                    builder.sourceMaterial(parseReference("sourceMaterial", reader, -1));
+                    builder.sourceMaterial(parseSubstanceDefinitionSourceMaterial("sourceMaterial", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -48601,16 +49773,16 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private SubstanceSpecification.Code parseSubstanceSpecificationCode(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+    private SubstanceDefinition.Code parseSubstanceDefinitionCode(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
-        SubstanceSpecification.Code.Builder builder = SubstanceSpecification.Code.builder();
+        SubstanceDefinition.Code.Builder builder = SubstanceDefinition.Code.builder();
         builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
         }
         int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, sourceElementIndex = 0;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, noteElementIndex = 0, sourceElementIndex = 0;
         while (reader.hasNext()) {
             int eventType = reader.next();
             switch (eventType) {
@@ -48638,9 +49810,9 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("statusDate", 4, position, false);
                     builder.statusDate(parseDateTime("statusDate", reader, -1));
                     break;
-                case "comment":
-                    position = checkElementOrder("comment", 5, position, false);
-                    builder.comment(parseString("comment", reader, -1));
+                case "note":
+                    position = checkElementOrder("note", 5, position, true);
+                    builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 case "source":
                     position = checkElementOrder("source", 6, position, true);
@@ -48665,9 +49837,9 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private SubstanceSpecification.Moiety parseSubstanceSpecificationMoiety(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+    private SubstanceDefinition.Moiety parseSubstanceDefinitionMoiety(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
-        SubstanceSpecification.Moiety.Builder builder = SubstanceSpecification.Moiety.builder();
+        SubstanceDefinition.Moiety.Builder builder = SubstanceDefinition.Moiety.builder();
         builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
@@ -48722,93 +49894,9 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("amount[x]", 8, position, false);
                     builder.amount(parseString("amountString", reader, -1));
                     break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSpecification.Name parseSubstanceSpecificationName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSpecification.Name.Builder builder = SubstanceSpecification.Name.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, languageElementIndex = 0, domainElementIndex = 0, jurisdictionElementIndex = 0, synonymElementIndex = 0, translationElementIndex = 0, officialElementIndex = 0, sourceElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "name":
-                    position = checkElementOrder("name", 2, position, false);
-                    builder.name(parseString("name", reader, -1));
-                    break;
-                case "type":
-                    position = checkElementOrder("type", 3, position, false);
-                    builder.type(parseCodeableConcept("type", reader, -1));
-                    break;
-                case "status":
-                    position = checkElementOrder("status", 4, position, false);
-                    builder.status(parseCodeableConcept("status", reader, -1));
-                    break;
-                case "preferred":
-                    position = checkElementOrder("preferred", 5, position, false);
-                    builder.preferred(parseBoolean("preferred", reader, -1));
-                    break;
-                case "language":
-                    position = checkElementOrder("language", 6, position, true);
-                    builder.language(parseCodeableConcept("language", reader, languageElementIndex++));
-                    break;
-                case "domain":
-                    position = checkElementOrder("domain", 7, position, true);
-                    builder.domain(parseCodeableConcept("domain", reader, domainElementIndex++));
-                    break;
-                case "jurisdiction":
-                    position = checkElementOrder("jurisdiction", 8, position, true);
-                    builder.jurisdiction(parseCodeableConcept("jurisdiction", reader, jurisdictionElementIndex++));
-                    break;
-                case "synonym":
-                    position = checkElementOrder("synonym", 9, position, true);
-                    builder.synonym(parseSubstanceSpecificationName("synonym", reader, synonymElementIndex++));
-                    break;
-                case "translation":
-                    position = checkElementOrder("translation", 10, position, true);
-                    builder.translation(parseSubstanceSpecificationName("translation", reader, translationElementIndex++));
-                    break;
-                case "official":
-                    position = checkElementOrder("official", 11, position, true);
-                    builder.official(parseSubstanceSpecificationNameOfficial("official", reader, officialElementIndex++));
-                    break;
-                case "source":
-                    position = checkElementOrder("source", 12, position, true);
-                    builder.source(parseReference("source", reader, sourceElementIndex++));
+                case "measurementType":
+                    position = checkElementOrder("measurementType", 9, position, false);
+                    builder.measurementType(parseCodeableConcept("measurementType", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -48829,365 +49917,9 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private SubstanceSpecification.Name.Official parseSubstanceSpecificationNameOfficial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+    private SubstanceDefinition.MolecularWeight parseSubstanceDefinitionMolecularWeight(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
-        SubstanceSpecification.Name.Official.Builder builder = SubstanceSpecification.Name.Official.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "authority":
-                    position = checkElementOrder("authority", 2, position, false);
-                    builder.authority(parseCodeableConcept("authority", reader, -1));
-                    break;
-                case "status":
-                    position = checkElementOrder("status", 3, position, false);
-                    builder.status(parseCodeableConcept("status", reader, -1));
-                    break;
-                case "date":
-                    position = checkElementOrder("date", 4, position, false);
-                    builder.date(parseDateTime("date", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSpecification.Property parseSubstanceSpecificationProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSpecification.Property.Builder builder = SubstanceSpecification.Property.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "category":
-                    position = checkElementOrder("category", 2, position, false);
-                    builder.category(parseCodeableConcept("category", reader, -1));
-                    break;
-                case "code":
-                    position = checkElementOrder("code", 3, position, false);
-                    builder.code(parseCodeableConcept("code", reader, -1));
-                    break;
-                case "parameters":
-                    position = checkElementOrder("parameters", 4, position, false);
-                    builder.parameters(parseString("parameters", reader, -1));
-                    break;
-                case "definingSubstanceReference":
-                    position = checkElementOrder("definingSubstance[x]", 5, position, false);
-                    builder.definingSubstance(parseReference("definingSubstanceReference", reader, -1));
-                    break;
-                case "definingSubstanceCodeableConcept":
-                    position = checkElementOrder("definingSubstance[x]", 5, position, false);
-                    builder.definingSubstance(parseCodeableConcept("definingSubstanceCodeableConcept", reader, -1));
-                    break;
-                case "amountQuantity":
-                    position = checkElementOrder("amount[x]", 6, position, false);
-                    builder.amount(parseQuantity("amountQuantity", reader, -1));
-                    break;
-                case "amountString":
-                    position = checkElementOrder("amount[x]", 6, position, false);
-                    builder.amount(parseString("amountString", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSpecification.Relationship parseSubstanceSpecificationRelationship(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSpecification.Relationship.Builder builder = SubstanceSpecification.Relationship.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, sourceElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "substanceReference":
-                    position = checkElementOrder("substance[x]", 2, position, false);
-                    builder.substance(parseReference("substanceReference", reader, -1));
-                    break;
-                case "substanceCodeableConcept":
-                    position = checkElementOrder("substance[x]", 2, position, false);
-                    builder.substance(parseCodeableConcept("substanceCodeableConcept", reader, -1));
-                    break;
-                case "relationship":
-                    position = checkElementOrder("relationship", 3, position, false);
-                    builder.relationship(parseCodeableConcept("relationship", reader, -1));
-                    break;
-                case "isDefining":
-                    position = checkElementOrder("isDefining", 4, position, false);
-                    builder.isDefining(parseBoolean("isDefining", reader, -1));
-                    break;
-                case "amountQuantity":
-                    position = checkElementOrder("amount[x]", 5, position, false);
-                    builder.amount(parseQuantity("amountQuantity", reader, -1));
-                    break;
-                case "amountRange":
-                    position = checkElementOrder("amount[x]", 5, position, false);
-                    builder.amount(parseRange("amountRange", reader, -1));
-                    break;
-                case "amountRatio":
-                    position = checkElementOrder("amount[x]", 5, position, false);
-                    builder.amount(parseRatio("amountRatio", reader, -1));
-                    break;
-                case "amountString":
-                    position = checkElementOrder("amount[x]", 5, position, false);
-                    builder.amount(parseString("amountString", reader, -1));
-                    break;
-                case "amountRatioLowLimit":
-                    position = checkElementOrder("amountRatioLowLimit", 6, position, false);
-                    builder.amountRatioLowLimit(parseRatio("amountRatioLowLimit", reader, -1));
-                    break;
-                case "amountType":
-                    position = checkElementOrder("amountType", 7, position, false);
-                    builder.amountType(parseCodeableConcept("amountType", reader, -1));
-                    break;
-                case "source":
-                    position = checkElementOrder("source", 8, position, true);
-                    builder.source(parseReference("source", reader, sourceElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSpecification.Structure parseSubstanceSpecificationStructure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSpecification.Structure.Builder builder = SubstanceSpecification.Structure.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, isotopeElementIndex = 0, sourceElementIndex = 0, representationElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "stereochemistry":
-                    position = checkElementOrder("stereochemistry", 2, position, false);
-                    builder.stereochemistry(parseCodeableConcept("stereochemistry", reader, -1));
-                    break;
-                case "opticalActivity":
-                    position = checkElementOrder("opticalActivity", 3, position, false);
-                    builder.opticalActivity(parseCodeableConcept("opticalActivity", reader, -1));
-                    break;
-                case "molecularFormula":
-                    position = checkElementOrder("molecularFormula", 4, position, false);
-                    builder.molecularFormula(parseString("molecularFormula", reader, -1));
-                    break;
-                case "molecularFormulaByMoiety":
-                    position = checkElementOrder("molecularFormulaByMoiety", 5, position, false);
-                    builder.molecularFormulaByMoiety(parseString("molecularFormulaByMoiety", reader, -1));
-                    break;
-                case "isotope":
-                    position = checkElementOrder("isotope", 6, position, true);
-                    builder.isotope(parseSubstanceSpecificationStructureIsotope("isotope", reader, isotopeElementIndex++));
-                    break;
-                case "molecularWeight":
-                    position = checkElementOrder("molecularWeight", 7, position, false);
-                    builder.molecularWeight(parseSubstanceSpecificationStructureIsotopeMolecularWeight("molecularWeight", reader, -1));
-                    break;
-                case "source":
-                    position = checkElementOrder("source", 8, position, true);
-                    builder.source(parseReference("source", reader, sourceElementIndex++));
-                    break;
-                case "representation":
-                    position = checkElementOrder("representation", 9, position, true);
-                    builder.representation(parseSubstanceSpecificationStructureRepresentation("representation", reader, representationElementIndex++));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSpecification.Structure.Isotope parseSubstanceSpecificationStructureIsotope(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSpecification.Structure.Isotope.Builder builder = SubstanceSpecification.Structure.Isotope.builder();
-        builder.setValidating(validating);
-        java.lang.String id = reader.getAttributeValue(null, "id");
-        if (id != null) {
-            builder.id(id);
-        }
-        int position = -1;
-        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
-        while (reader.hasNext()) {
-            int eventType = reader.next();
-            switch (eventType) {
-            case XMLStreamReader.START_ELEMENT:
-                java.lang.String localName = reader.getLocalName();
-                requireNamespace(reader, FHIR_NS_URI);
-                switch (localName) {
-                case "extension":
-                    position = checkElementOrder("extension", 0, position, true);
-                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
-                    break;
-                case "modifierExtension":
-                    position = checkElementOrder("modifierExtension", 1, position, true);
-                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
-                    break;
-                case "identifier":
-                    position = checkElementOrder("identifier", 2, position, false);
-                    builder.identifier(parseIdentifier("identifier", reader, -1));
-                    break;
-                case "name":
-                    position = checkElementOrder("name", 3, position, false);
-                    builder.name(parseCodeableConcept("name", reader, -1));
-                    break;
-                case "substitution":
-                    position = checkElementOrder("substitution", 4, position, false);
-                    builder.substitution(parseCodeableConcept("substitution", reader, -1));
-                    break;
-                case "halfLife":
-                    position = checkElementOrder("halfLife", 5, position, false);
-                    builder.halfLife(parseQuantity("halfLife", reader, -1));
-                    break;
-                case "molecularWeight":
-                    position = checkElementOrder("molecularWeight", 6, position, false);
-                    builder.molecularWeight(parseSubstanceSpecificationStructureIsotopeMolecularWeight("molecularWeight", reader, -1));
-                    break;
-                default:
-                    if (!ignoringUnrecognizedElements) {
-                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
-                    }
-                    reader.nextTag();
-                    break;
-                }
-                break;
-            case XMLStreamReader.END_ELEMENT:
-                if (reader.getLocalName().equals(elementName)) {
-                    stackPop();
-                    return builder.build();
-                }
-                break;
-            }
-        }
-        throw new XMLStreamException("Unexpected end of stream");
-    }
-
-    private SubstanceSpecification.Structure.Isotope.MolecularWeight parseSubstanceSpecificationStructureIsotopeMolecularWeight(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
-        stackPush(elementName, elementIndex);
-        SubstanceSpecification.Structure.Isotope.MolecularWeight.Builder builder = SubstanceSpecification.Structure.Isotope.MolecularWeight.builder();
+        SubstanceDefinition.MolecularWeight.Builder builder = SubstanceDefinition.MolecularWeight.builder();
         builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
@@ -49241,9 +49973,445 @@ public class FHIRXMLParser extends FHIRAbstractParser {
         throw new XMLStreamException("Unexpected end of stream");
     }
 
-    private SubstanceSpecification.Structure.Representation parseSubstanceSpecificationStructureRepresentation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+    private SubstanceDefinition.Name parseSubstanceDefinitionName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
-        SubstanceSpecification.Structure.Representation.Builder builder = SubstanceSpecification.Structure.Representation.builder();
+        SubstanceDefinition.Name.Builder builder = SubstanceDefinition.Name.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, languageElementIndex = 0, domainElementIndex = 0, jurisdictionElementIndex = 0, synonymElementIndex = 0, translationElementIndex = 0, officialElementIndex = 0, sourceElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "name":
+                    position = checkElementOrder("name", 2, position, false);
+                    builder.name(parseString("name", reader, -1));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 3, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 4, position, false);
+                    builder.status(parseCodeableConcept("status", reader, -1));
+                    break;
+                case "preferred":
+                    position = checkElementOrder("preferred", 5, position, false);
+                    builder.preferred(parseBoolean("preferred", reader, -1));
+                    break;
+                case "language":
+                    position = checkElementOrder("language", 6, position, true);
+                    builder.language(parseCodeableConcept("language", reader, languageElementIndex++));
+                    break;
+                case "domain":
+                    position = checkElementOrder("domain", 7, position, true);
+                    builder.domain(parseCodeableConcept("domain", reader, domainElementIndex++));
+                    break;
+                case "jurisdiction":
+                    position = checkElementOrder("jurisdiction", 8, position, true);
+                    builder.jurisdiction(parseCodeableConcept("jurisdiction", reader, jurisdictionElementIndex++));
+                    break;
+                case "synonym":
+                    position = checkElementOrder("synonym", 9, position, true);
+                    builder.synonym(parseSubstanceDefinitionName("synonym", reader, synonymElementIndex++));
+                    break;
+                case "translation":
+                    position = checkElementOrder("translation", 10, position, true);
+                    builder.translation(parseSubstanceDefinitionName("translation", reader, translationElementIndex++));
+                    break;
+                case "official":
+                    position = checkElementOrder("official", 11, position, true);
+                    builder.official(parseSubstanceDefinitionNameOfficial("official", reader, officialElementIndex++));
+                    break;
+                case "source":
+                    position = checkElementOrder("source", 12, position, true);
+                    builder.source(parseReference("source", reader, sourceElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubstanceDefinition.Name.Official parseSubstanceDefinitionNameOfficial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubstanceDefinition.Name.Official.Builder builder = SubstanceDefinition.Name.Official.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "authority":
+                    position = checkElementOrder("authority", 2, position, false);
+                    builder.authority(parseCodeableConcept("authority", reader, -1));
+                    break;
+                case "status":
+                    position = checkElementOrder("status", 3, position, false);
+                    builder.status(parseCodeableConcept("status", reader, -1));
+                    break;
+                case "date":
+                    position = checkElementOrder("date", 4, position, false);
+                    builder.date(parseDateTime("date", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubstanceDefinition.Property parseSubstanceDefinitionProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubstanceDefinition.Property.Builder builder = SubstanceDefinition.Property.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "valueCodeableConcept":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseCodeableConcept("valueCodeableConcept", reader, -1));
+                    break;
+                case "valueQuantity":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseQuantity("valueQuantity", reader, -1));
+                    break;
+                case "valueDate":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseDate("valueDate", reader, -1));
+                    break;
+                case "valueBoolean":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseBoolean("valueBoolean", reader, -1));
+                    break;
+                case "valueAttachment":
+                    position = checkElementOrder("value[x]", 3, position, false);
+                    builder.value(parseAttachment("valueAttachment", reader, -1));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubstanceDefinition.Relationship parseSubstanceDefinitionRelationship(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubstanceDefinition.Relationship.Builder builder = SubstanceDefinition.Relationship.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, sourceElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "substanceDefinitionReference":
+                    position = checkElementOrder("substanceDefinition[x]", 2, position, false);
+                    builder.substanceDefinition(parseReference("substanceDefinitionReference", reader, -1));
+                    break;
+                case "substanceDefinitionCodeableConcept":
+                    position = checkElementOrder("substanceDefinition[x]", 2, position, false);
+                    builder.substanceDefinition(parseCodeableConcept("substanceDefinitionCodeableConcept", reader, -1));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 3, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "isDefining":
+                    position = checkElementOrder("isDefining", 4, position, false);
+                    builder.isDefining(parseBoolean("isDefining", reader, -1));
+                    break;
+                case "amountQuantity":
+                    position = checkElementOrder("amount[x]", 5, position, false);
+                    builder.amount(parseQuantity("amountQuantity", reader, -1));
+                    break;
+                case "amountRatio":
+                    position = checkElementOrder("amount[x]", 5, position, false);
+                    builder.amount(parseRatio("amountRatio", reader, -1));
+                    break;
+                case "amountString":
+                    position = checkElementOrder("amount[x]", 5, position, false);
+                    builder.amount(parseString("amountString", reader, -1));
+                    break;
+                case "ratioHighLimitAmount":
+                    position = checkElementOrder("ratioHighLimitAmount", 6, position, false);
+                    builder.ratioHighLimitAmount(parseRatio("ratioHighLimitAmount", reader, -1));
+                    break;
+                case "comparator":
+                    position = checkElementOrder("comparator", 7, position, false);
+                    builder.comparator(parseCodeableConcept("comparator", reader, -1));
+                    break;
+                case "source":
+                    position = checkElementOrder("source", 8, position, true);
+                    builder.source(parseReference("source", reader, sourceElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubstanceDefinition.SourceMaterial parseSubstanceDefinitionSourceMaterial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubstanceDefinition.SourceMaterial.Builder builder = SubstanceDefinition.SourceMaterial.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, countryOfOriginElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "type":
+                    position = checkElementOrder("type", 2, position, false);
+                    builder.type(parseCodeableConcept("type", reader, -1));
+                    break;
+                case "genus":
+                    position = checkElementOrder("genus", 3, position, false);
+                    builder.genus(parseCodeableConcept("genus", reader, -1));
+                    break;
+                case "species":
+                    position = checkElementOrder("species", 4, position, false);
+                    builder.species(parseCodeableConcept("species", reader, -1));
+                    break;
+                case "part":
+                    position = checkElementOrder("part", 5, position, false);
+                    builder.part(parseCodeableConcept("part", reader, -1));
+                    break;
+                case "countryOfOrigin":
+                    position = checkElementOrder("countryOfOrigin", 6, position, true);
+                    builder.countryOfOrigin(parseCodeableConcept("countryOfOrigin", reader, countryOfOriginElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubstanceDefinition.Structure parseSubstanceDefinitionStructure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubstanceDefinition.Structure.Builder builder = SubstanceDefinition.Structure.builder();
+        builder.setValidating(validating);
+        java.lang.String id = reader.getAttributeValue(null, "id");
+        if (id != null) {
+            builder.id(id);
+        }
+        int position = -1;
+        int extensionElementIndex = 0, modifierExtensionElementIndex = 0, techniqueElementIndex = 0, sourceDocumentElementIndex = 0, representationElementIndex = 0;
+        while (reader.hasNext()) {
+            int eventType = reader.next();
+            switch (eventType) {
+            case XMLStreamReader.START_ELEMENT:
+                java.lang.String localName = reader.getLocalName();
+                requireNamespace(reader, FHIR_NS_URI);
+                switch (localName) {
+                case "extension":
+                    position = checkElementOrder("extension", 0, position, true);
+                    builder.extension(parseExtension("extension", reader, extensionElementIndex++));
+                    break;
+                case "modifierExtension":
+                    position = checkElementOrder("modifierExtension", 1, position, true);
+                    builder.modifierExtension(parseExtension("modifierExtension", reader, modifierExtensionElementIndex++));
+                    break;
+                case "stereochemistry":
+                    position = checkElementOrder("stereochemistry", 2, position, false);
+                    builder.stereochemistry(parseCodeableConcept("stereochemistry", reader, -1));
+                    break;
+                case "opticalActivity":
+                    position = checkElementOrder("opticalActivity", 3, position, false);
+                    builder.opticalActivity(parseCodeableConcept("opticalActivity", reader, -1));
+                    break;
+                case "molecularFormula":
+                    position = checkElementOrder("molecularFormula", 4, position, false);
+                    builder.molecularFormula(parseString("molecularFormula", reader, -1));
+                    break;
+                case "molecularFormulaByMoiety":
+                    position = checkElementOrder("molecularFormulaByMoiety", 5, position, false);
+                    builder.molecularFormulaByMoiety(parseString("molecularFormulaByMoiety", reader, -1));
+                    break;
+                case "molecularWeight":
+                    position = checkElementOrder("molecularWeight", 6, position, false);
+                    builder.molecularWeight(parseSubstanceDefinitionMolecularWeight("molecularWeight", reader, -1));
+                    break;
+                case "technique":
+                    position = checkElementOrder("technique", 7, position, true);
+                    builder.technique(parseCodeableConcept("technique", reader, techniqueElementIndex++));
+                    break;
+                case "sourceDocument":
+                    position = checkElementOrder("sourceDocument", 8, position, true);
+                    builder.sourceDocument(parseReference("sourceDocument", reader, sourceDocumentElementIndex++));
+                    break;
+                case "representation":
+                    position = checkElementOrder("representation", 9, position, true);
+                    builder.representation(parseSubstanceDefinitionStructureRepresentation("representation", reader, representationElementIndex++));
+                    break;
+                default:
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
+                }
+                break;
+            case XMLStreamReader.END_ELEMENT:
+                if (reader.getLocalName().equals(elementName)) {
+                    stackPop();
+                    return builder.build();
+                }
+                break;
+            }
+        }
+        throw new XMLStreamException("Unexpected end of stream");
+    }
+
+    private SubstanceDefinition.Structure.Representation parseSubstanceDefinitionStructureRepresentation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
+        stackPush(elementName, elementIndex);
+        SubstanceDefinition.Structure.Representation.Builder builder = SubstanceDefinition.Structure.Representation.builder();
         builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
@@ -49274,9 +50442,13 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     position = checkElementOrder("representation", 3, position, false);
                     builder.representation(parseString("representation", reader, -1));
                     break;
-                case "attachment":
-                    position = checkElementOrder("attachment", 4, position, false);
-                    builder.attachment(parseAttachment("attachment", reader, -1));
+                case "format":
+                    position = checkElementOrder("format", 4, position, false);
+                    builder.format(parseCodeableConcept("format", reader, -1));
+                    break;
+                case "document":
+                    position = checkElementOrder("document", 5, position, false);
+                    builder.document(parseReference("document", reader, -1));
                     break;
                 default:
                     if (!ignoringUnrecognizedElements) {
@@ -54535,7 +55707,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private java.lang.String getResourceType(XMLStreamReader reader) throws XMLStreamException {
         java.lang.String resourceType = reader.getLocalName();
         try {
-            ResourceType.Value.from(resourceType);
+            ResourceType.from(resourceType);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid resource type: '" + resourceType + "'");
         }

@@ -1,0 +1,87 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "clinical-use-definition-type",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003cp\u003eThis code system http://hl7.org/fhir/clinical-use-definition-type defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eindication\n            \n            \u003ca name\u003d\"clinical-use-definition-type-indication\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eIndication\u003c/td\u003e\n          \n          \u003ctd\u003eA reason for giving the medicaton.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003econtraindication\n            \n            \u003ca name\u003d\"clinical-use-definition-type-contraindication\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eContraindication\u003c/td\u003e\n          \n          \u003ctd\u003eA reason for not giving the medicaition.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003einteraction\n            \n            \u003ca name\u003d\"clinical-use-definition-type-interaction\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eInteraction\u003c/td\u003e\n          \n          \u003ctd\u003eInteractions between the medication and other substances.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003eundesirable-effect\n            \n            \u003ca name\u003d\"clinical-use-definition-type-undesirable-effect\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eUndesirable Effect\u003c/td\u003e\n          \n          \u003ctd\u003eSide effects or adverse effects associated with the medication.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003ewarning\n            \n            \u003ca name\u003d\"clinical-use-definition-type-warning\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eWarning\u003c/td\u003e\n          \n          \u003ctd\u003eA general warning or issue that is not specifically one of the other types.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/clinical-use-definition-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1563"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "ClinicalUseDefinitionType",
+  "title": "ClinicalUseDefinitionType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Overall defining type of this clinical use definition.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/clinical-use-definition-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "indication",
+      "display": "Indication",
+      "definition": "A reason for giving the medication."
+    },
+    {
+      "code": "contraindication",
+      "display": "Contraindication",
+      "definition": "A reason for not giving the medication."
+    },
+    {
+      "code": "interaction",
+      "display": "Interaction",
+      "definition": "Interactions between the medication and other substances."
+    },
+    {
+      "code": "undesirable-effect",
+      "display": "Undesirable Effect",
+      "definition": "Side effects or adverse effects associated with the medication."
+    },
+    {
+      "code": "warning",
+      "display": "Warning",
+      "definition": "A general warning or issue that is not specifically one of the other types."
+    }
+  ]
+}

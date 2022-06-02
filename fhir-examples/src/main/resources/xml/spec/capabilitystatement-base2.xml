@@ -3,7 +3,7 @@
 <CapabilityStatement xmlns="http://hl7.org/fhir">
   <id value="base2"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
       <h2>Base FHIR Capability Statement (Empty)</h2>
       <div>
@@ -17,7 +17,12 @@
         </tr>
         <tr>
           <td>Description</td>
-          <td>An empty Capability Statement</td>
+          <td>
+            <div>
+              <p>An empty Capability Statement</p>
+
+            </div>
+          </td>
         </tr>
         <tr>
           <td>Transaction</td>
@@ -53,22 +58,15 @@
             <b title="POST a new resource (create interaction)">Create</b>
           </th>
         </tr>
-        <tr>
-          <td>CapabilityStatement</td>
-          <td>y</td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
       </table>
     </div>
   </text>
   <url value="http://hl7.org/fhir/CapabilityStatement/base2"/>
-  <version value="4.0.1"/>
+  <version value="4.3.0-cibuild"/>
   <name value="Base FHIR Capability Statement (Empty)"/>
   <status value="draft"/>
   <experimental value="true"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="FHIR Project Team"/>
   <contact>
     <telecom>
@@ -81,7 +79,7 @@
   <software>
     <name value="Insert your software name here..."/>
   </software>
-  <fhirVersion value="4.0.1"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <format value="xml"/>
   <format value="json"/>
   <rest>
@@ -99,12 +97,5 @@
       </service>
       <description value="This is the Capability Statement to declare that the server supports SMART-on-FHIR. See the SMART-on-FHIR docs for the extension that would go with such a server"/>
     </security>
-    <resource>
-      <type value="CapabilityStatement"/>
-      <interaction>
-        <code value="read"/>
-        <documentation value="Read CapabilityStatement Resource"/>
-      </interaction>
-    </resource>
   </rest>
 </CapabilityStatement>

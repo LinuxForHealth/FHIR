@@ -1,10 +1,6 @@
 {
   "resourceType": "Library",
   "id": "opioidcds-recommendation-07",
-  "text": {
-    "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative with Details\u003c/b\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eid\u003c/b\u003e: opioidcds-recommendation-07\u003c/p\u003e\u003cp\u003e\u003cb\u003eidentifier\u003c/b\u003e: OpioidCDS_REC_07 (OFFICIAL)\u003c/p\u003e\u003cp\u003e\u003cb\u003eversion\u003c/b\u003e: 0.1.0\u003c/p\u003e\u003cp\u003e\u003cb\u003etitle\u003c/b\u003e: Opioid CDS Logic for recommendation #7\u003c/p\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: active\u003c/p\u003e\u003cp\u003e\u003cb\u003eexperimental\u003c/b\u003e: false\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: Logic Library \u003cspan\u003e(Details : {http://terminology.hl7.org/CodeSystem/library-type code \u0027logic-library\u0027 \u003d \u0027Logic Library\u0027, given as \u0027Logic Library\u0027})\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003edate\u003c/b\u003e: 25/03/2018 1:49:09 PM\u003c/p\u003e\u003cp\u003e\u003cb\u003epublisher\u003c/b\u003e: Centers for Disease Control and Prevention (CDC)\u003c/p\u003e\u003cp\u003e\u003cb\u003edescription\u003c/b\u003e: Opioid decision support logic to evaluate benefits and harms with patients within 1 to 4 weeks of starting opioid therapy and harms of continued therapy with patients every 3 months or more frequently.\u003c/p\u003e\u003cp\u003e\u003cb\u003euseContext\u003c/b\u003e: , \u003c/p\u003e\u003cp\u003e\u003cb\u003ejurisdiction\u003c/b\u003e: United States of America \u003cspan\u003e(Details : {urn:iso:std:iso:3166 code \u0027US\u0027 \u003d \u0027United States of America\u0027, given as \u0027United States of America\u0027})\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003epurpose\u003c/b\u003e: The purpose of this library is to determine whether the patient has been evaluated for benefits and harms within 1 to 4 weeks of starting opioid therapy and every 3 months or more subsequently.\u003c/p\u003e\u003cp\u003e\u003cb\u003eusage\u003c/b\u003e: This library is used to notify the prescriber/user whether an evaluation for benefits and harms associated with opioid therapy is recommended for the patient.\u003c/p\u003e\u003cp\u003e\u003cb\u003ecopyright\u003c/b\u003e: © CDC 2016+.\u003c/p\u003e\u003cp\u003e\u003cb\u003etopic\u003c/b\u003e: Opioid Prescribing \u003cspan\u003e(Details )\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eauthor\u003c/b\u003e: , , , \u003c/p\u003e\u003cp\u003e\u003cb\u003erelatedArtifact\u003c/b\u003e: , \u003c/p\u003e\u003cp\u003e\u003cb\u003edataRequirement\u003c/b\u003e: , , , , \u003c/p\u003e\u003cp\u003e\u003cb\u003econtent\u003c/b\u003e: \u003c/p\u003e\u003c/div\u003e"
-  },
   "identifier": [
     {
       "use": "official",
@@ -98,11 +94,14 @@
     {
       "type": "documentation",
       "display": "CDC guideline for prescribing opioids for chronic pain",
-      "url": "https://guidelines.gov/summaries/summary/50153/cdc-guideline-for-prescribing-opioids-for-chronic-pain---united-states-2016#420"
+      "url": "https://guidelines.gov/summaries/summary/50153/cdc-guideline-for-prescribing-opioids-for-chronic-pain---united-states-2016#420",
+      "document": {
+        "url": "https://guidelines.gov/summaries/summary/50153/cdc-guideline-for-prescribing-opioids-for-chronic-pain---united-states-2016#420"
+      }
     },
     {
       "type": "depends-on",
-      "resource": "Library/opioidcds-common"
+      "resource": "http://example.org/fhir/Library/opioidcds-common"
     }
   ],
   "dataRequirement": [

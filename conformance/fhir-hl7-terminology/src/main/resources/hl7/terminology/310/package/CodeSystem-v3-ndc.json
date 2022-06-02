@@ -1,0 +1,29 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-ndc",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/sid/ndc",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.69"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Ndc",
+    "title": "National drug codes",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "FDA Data Standards Council"
+        }
+    ],
+    "description": "National drug codes",
+    "content": "not-present"
+}

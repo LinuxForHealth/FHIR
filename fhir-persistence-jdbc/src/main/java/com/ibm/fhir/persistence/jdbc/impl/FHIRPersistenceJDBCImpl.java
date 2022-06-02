@@ -105,8 +105,6 @@ import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.index.IndexProviderResponse;
 import com.ibm.fhir.persistence.index.RemoteIndexData;
@@ -294,15 +292,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     /**
      * Constructor for use when running standalone, outside of any web container. The
      * IConnectionProvider should be a pooling implementation which supports an
-     * ITransactionProvider. Uses the default adapter for reading FHIR configurations,
-     * which works OK for unit-tests.
+     * ITransactionProvider. Uses the default adapter for reading FHIR configurations
+     * and a new SearchHelper instance, which works OK for unit-tests.
      *
      * @param configProps
      * @param cp
+     * @param cache
      * @throws Exception
      */
     public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRPersistenceJDBCCache cache) throws Exception {
-        this(configProps, cp, new DefaultFHIRConfigProvider(), cache);
+        this(configProps, cp, new DefaultFHIRConfigProvider(), cache, new SearchHelper());
     }
 
     /**
@@ -319,15 +318,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param configProps
      * @param cp
      * @param configProvider adapter to provide access to FHIR configuration
+     * @param cache
+     * @param searchHelper
      * @throws Exception
      */
-    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRConfigProvider configProvider, FHIRPersistenceJDBCCache cache) throws Exception {
+    public FHIRPersistenceJDBCImpl(Properties configProps, IConnectionProvider cp, FHIRConfigProvider configProvider,
+            FHIRPersistenceJDBCCache cache, SearchHelper searchHelper) throws Exception {
         final String METHODNAME = "FHIRPersistenceJDBCImpl(Properties, IConnectionProvider, FHIRConfigProvider)";
         log.entering(CLASSNAME, METHODNAME);
 
         this.cache = cache;
         this.payloadPersistence = null;
-        this.searchHelper = new SearchHelper();
+        this.searchHelper = searchHelper;
         this.updateCreateEnabled = Boolean.parseBoolean(configProps.getProperty("updateCreateEnabled"));
 
         // not running inside a JEE container
@@ -1136,8 +1138,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Create a new Resource DTO instance to represent the deletion marker.
             final int newVersionId = versionId + 1;
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
-                    createResourceDTO(resourceType, logicalId, newVersionId, lastUpdated, null,
-                        null);
+                    createResourceDTO(resourceType, logicalId, newVersionId, lastUpdated, null, null);
             resourceDTO.setDeleted(true);
 
             // Persist the logically deleted Resource DTO.
@@ -1148,19 +1149,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 log.fine("Deleted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
             }
-        }
-        catch(FHIRPersistenceFKVException e) {
+        } catch(FHIRPersistenceException e) {
             throw e;
-        }
-        catch(FHIRPersistenceException e) {
-            throw e;
-        }
-        catch(Throwable e) {
+        } catch(Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a delete operation.");
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
@@ -1210,10 +1205,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             resourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
             boolean resourceIsDeleted = resourceDTO != null && resourceDTO.isDeleted();
-            if (resourceIsDeleted && !context.includeDeleted()) {
-                throw new FHIRPersistenceResourceDeletedException("Resource '" +
-                        resourceType.getSimpleName() + "/" + logicalId + "' is deleted.");
-            }
 
             // Fetch the resource payload if needed and convert to a model object
             final T resource = convertResourceDTO(resourceDTO, resourceType, elements);
@@ -1228,8 +1219,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .build();
 
             return result;
-        } catch(FHIRPersistenceResourceDeletedException e) {
-            throw e;
         } catch(Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a read operation.");
             log.log(Level.SEVERE, fx.getMessage(), e);
@@ -1437,10 +1426,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             version = Integer.parseInt(versionId);
             resourceDTO = resourceDao.versionRead(logicalId, resourceType.getSimpleName(), version);
-            if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
-                throw new FHIRPersistenceResourceDeletedException("Resource '" +
-                        resourceType.getSimpleName() + "/" + logicalId + "' version " + versionId + " is deleted.");
-            }
             resource = this.convertResourceDTO(resourceDTO, resourceType, elements);
 
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
@@ -1453,19 +1438,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .build();
 
             return result;
-        }
-        catch(FHIRPersistenceResourceDeletedException e) {
-            throw e;
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new FHIRPersistenceException("Invalid version id specified for vread operation: " + versionId);
-        }
-        catch(Throwable e) {
+        } catch(Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a version read operation.");
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
@@ -3040,8 +3019,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 eraseDao.clearErasedResourcesInGroup(eraseResourceGroupId);
             }
 
-        } catch(FHIRPersistenceResourceNotFoundException e) {
-            throw e;
         } catch(FHIRPersistenceException e) {
             // Other Peristence exceptions are implied, such as FHIRPersistenceFKVException.
             getTransaction().setRollbackOnly();
@@ -3179,7 +3156,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         // Make sure we read deleted resources...this is important because the result list must
         // line up row-for-row with the provided records list
-        FHIRPersistenceContext readContext = FHIRPersistenceContextFactory.createPersistenceContext(null, true);
+        FHIRPersistenceContext readContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
         List<Resource> result = new ArrayList<>(records.size());
         for (ResourceChangeLogRecord r: records) {
             Class<? extends Resource> resourceType = ModelSupport.getResourceType(r.getResourceTypeName());

@@ -1,0 +1,92 @@
+{
+    "resourceType": "ValueSet",
+    "id": "code-search-support",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "vocab"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/code-search-support",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.860"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CodeSearchSupport",
+    "title": "CodeSearchSupport",
+    "status": "draft",
+    "experimental": true,
+    "date": "2021-01-17T07:06:13+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The degree to which the server supports the code search parameter on ValueSet, if it is supported.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/code-search-support"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:173a5b33-b698-4a8c-9c16-cfdf7439b662",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/code-search-support|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/code-search-support",
+                "code": "explicit",
+                "display": "Explicit Codes"
+            },
+            {
+                "system": "http://hl7.org/fhir/code-search-support",
+                "code": "all",
+                "display": "Implicit Codes"
+            }
+        ]
+    }
+}

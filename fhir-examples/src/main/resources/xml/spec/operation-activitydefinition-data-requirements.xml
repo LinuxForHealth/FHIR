@@ -3,10 +3,10 @@
 <OperationDefinition xmlns="http://hl7.org/fhir">
   <id value="ActivityDefinition-data-requirements"/>
   <text>
-    <status value="generated"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
-      <h2>Data Requirements</h2>
-      <p>OPERATION: Data Requirements</p>
+      <h2>DataRequirements</h2>
+      <p>OPERATION: DataRequirements</p>
       <p>The official URL for this operation definition is: </p>
       <pre>http://hl7.org/fhir/OperationDefinition/ActivityDefinition-data-requirements</pre>
       <div>
@@ -59,17 +59,19 @@
     </div>
   </text>
   <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm">
-    <valueInteger value="2"/>
+    <valueInteger value="3"/>
   </extension>
   <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status">
     <valueCode value="trial-use"/>
   </extension>
   <url value="http://hl7.org/fhir/OperationDefinition/ActivityDefinition-data-requirements"/>
-  <version value="4.0.1"/>
-  <name value="Data Requirements"/>
+  <version value="4.3.0-cibuild"/>
+  <name value="DataRequirements"/>
+  <title value="Data Requirements"/>
   <status value="draft"/>
   <kind value="operation"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 (FHIR Project)"/>
   <contact>
     <telecom>
@@ -82,6 +84,7 @@
     </telecom>
   </contact>
   <description value="The data-requirements operation aggregates and returns the parameters and data requirements for the activity definition and all its dependencies as a single module definition library"/>
+  <affectsState value="false"/>
   <code value="data-requirements"/>
   <comment value="The effect of invoking this operation is to determine the aggregate set of data requirements and dependencies for the activity definition. The result is a Library resource with a type of module-definition that contains all the parameter definitions and data requirements of the activity definition and any libraries referenced by it. Implementations SHOULD aggregate data requirements intelligently (i.e. by collapsing overlapping data requirements)"/>
   <resource value="ActivityDefinition"/>

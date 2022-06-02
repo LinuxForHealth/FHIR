@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -65,7 +65,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "RiskAssessment.prediction",
     description = "Must be <= 100",
-    expression = "probability is decimal implies (probability as decimal) <= 100",
+    expression = "probability.exists($this is decimal) implies (probability as decimal) <= 100",
     source = "http://hl7.org/fhir/StructureDefinition/RiskAssessment"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -79,7 +79,7 @@ public class RiskAssessment extends DomainResource {
         bindingName = "RiskAssessmentStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the risk assessment; e.g. preliminary, final, amended, etc.",
-        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-cibuild"
     )
     @Required
     private final RiskAssessmentStatus status;

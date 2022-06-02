@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.ibm.fhir.model.builder.Builder;
+import com.ibm.fhir.model.resource.ClinicalUseDefinition;
 import com.ibm.fhir.model.resource.ExampleScenario;
 import com.ibm.fhir.model.resource.GraphDefinition;
 import com.ibm.fhir.model.resource.PlanDefinition;
@@ -61,7 +62,11 @@ public abstract class DataCreatorBase {
         return getMaxChoiceCount(resourceClass, 1, 1);
     }
 
-    private int getMaxChoiceCount(Class<?> resourceOrElementClass, int maxChoiceCount, int levelsDeep) {
+    protected int getMaxChoiceCount(Class<?> resourceOrElementClass, int maxChoiceCount, int levelsDeep) {
+        if (ClinicalUseDefinition.class == resourceOrElementClass) {
+            // special case to ensure we get all the variants of these ones (because 5 elements are mutually exclusive)
+            return 5;
+        }
         Collection<ElementInfo> elementsInfo = ModelSupport.getElementInfo(resourceOrElementClass);
         for (ElementInfo elementInfo : elementsInfo) {
             if (elementInfo.isChoice()) {
@@ -98,7 +103,7 @@ public abstract class DataCreatorBase {
      */
     public Resource createResource(Class<? extends Resource> resourceClass, int choiceIndicator) throws Exception {
         Method builderMethod = getBuilderMethod(resourceClass);
-        Resource.Builder builder = (Resource.Builder) builderMethod.invoke(null);
+        Resource.Builder builder = (Resource.Builder) builderMethod.invoke(null);    
         return (Resource) addData(builder, choiceIndicator).build();
     }
 
@@ -188,7 +193,7 @@ public abstract class DataCreatorBase {
                     // Otherwise just create a single element
                     if (Reference.class.equals(parameterType)){
                         // Handling references specially
-                        String elementName = builderMethod.getParameters()[i].getName();
+                        String elementName = reverseJavaEncoding(builderMethod.getParameters()[i].getName());
                         Set<String> referenceTargetTypes = ModelSupport.getReferenceTargetTypes(owningClass, elementName);
                         if (!referenceTargetTypes.isEmpty()) {
                             String[] targetTypes = new String[referenceTargetTypes.size()];
@@ -235,7 +240,7 @@ public abstract class DataCreatorBase {
             return createElement(choiceType, choiceIndicator);
         } else if (Reference.class.equals(parameterType)){
             // Handling references specially
-            String elementName = builderMethod.getParameters()[i].getName();
+            String elementName = reverseJavaEncoding(builderMethod.getParameters()[i].getName());
             Set<String> referenceTargetTypes = ModelSupport.getReferenceTargetTypes(owningClass, elementName);
             if (!referenceTargetTypes.isEmpty()) {
                 String[] targetTypes = new String[referenceTargetTypes.size()];
@@ -266,6 +271,15 @@ public abstract class DataCreatorBase {
         }
     }
 
+    protected String reverseJavaEncoding(String javaName) {
+        if (javaName.equals("clazz")) {
+            return "class";
+        } else if (javaName.startsWith("_")) {
+            return javaName.substring(1);
+        }
+        return javaName;
+    }
+    
     protected Element.Builder setDataAbsentReason(Element.Builder builder) {
         return builder.extension(DATA_ABSENT);
     }

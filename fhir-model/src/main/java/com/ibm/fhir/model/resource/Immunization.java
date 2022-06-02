@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -78,15 +78,15 @@ public class Immunization extends DomainResource {
     @Binding(
         bindingName = "ImmunizationStatus",
         strength = BindingStrength.Value.REQUIRED,
-        description = "A set of codes indicating the current status of an Immunization.",
-        valueSet = "http://hl7.org/fhir/ValueSet/immunization-status|4.0.1"
+        description = "x",
+        valueSet = "http://hl7.org/fhir/ValueSet/immunization-status|4.3.0-cibuild"
     )
     @Required
     private final ImmunizationStatus status;
     @Binding(
         bindingName = "ImmunizationStatusReason",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "The reason why a vaccine was not administered.",
+        description = "x",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-status-reason"
     )
     private final CodeableConcept statusReason;
@@ -94,7 +94,7 @@ public class Immunization extends DomainResource {
     @Binding(
         bindingName = "VaccineCode",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "The code for vaccine product administered.",
+        description = "x",
         valueSet = "http://hl7.org/fhir/ValueSet/vaccine-code"
     )
     @Required
@@ -115,7 +115,7 @@ public class Immunization extends DomainResource {
     @Binding(
         bindingName = "ImmunizationReportOrigin",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "The source of the data for a record which is not from a primary source.",
+        description = "x",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-origin"
     )
     private final CodeableConcept reportOrigin;
@@ -128,14 +128,14 @@ public class Immunization extends DomainResource {
     @Binding(
         bindingName = "ImmunizationSite",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "The site at which the vaccine was administered.",
+        description = "x",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-site"
     )
     private final CodeableConcept site;
     @Binding(
         bindingName = "ImmunizationRoute",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "The route by which the vaccine was administered.",
+        description = "x",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-route"
     )
     private final CodeableConcept route;
@@ -147,7 +147,7 @@ public class Immunization extends DomainResource {
     @Binding(
         bindingName = "ImmunizationReason",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "The reason why a vaccine was administered.",
+        description = "x",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-reason"
     )
     private final List<CodeableConcept> reasonCode;
@@ -166,14 +166,14 @@ public class Immunization extends DomainResource {
     @Binding(
         bindingName = "ProgramEligibility",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "The patient's eligibility for a vaccation program.",
+        description = "x",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-program-eligibility"
     )
     private final List<CodeableConcept> programEligibility;
     @Binding(
         bindingName = "FundingSource",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "The source of funding used to purchase the vaccine administered.",
+        description = "x",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-funding-source"
     )
     private final CodeableConcept fundingSource;
@@ -1796,7 +1796,7 @@ public class Immunization extends DomainResource {
         @Binding(
             bindingName = "ImmunizationFunction",
             strength = BindingStrength.Value.EXTENSIBLE,
-            description = "The role a practitioner or organization plays in the immunization event.",
+            description = "x",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-function"
         )
         private final CodeableConcept function;
@@ -2790,7 +2790,7 @@ public class Immunization extends DomainResource {
         @Binding(
             bindingName = "TargetDisease",
             strength = BindingStrength.Value.EXAMPLE,
-            description = "The vaccine preventable disease the dose is being administered for.",
+            description = "x",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-target-disease"
         )
         private final List<CodeableConcept> targetDisease;

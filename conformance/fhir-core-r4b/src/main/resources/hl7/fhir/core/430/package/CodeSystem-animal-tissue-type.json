@@ -1,0 +1,818 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "animal-tissue-type",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "brr"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/animal-tissue-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1591"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "AnimalTissueType",
+    "title": "AnimalTissueType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2021-01-05T10:01:24+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "A tissue type of an animal.",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/animal-tissue-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "100000072091",
+            "display": "All relevant tissues"
+        },
+        {
+            "code": "100000072092",
+            "display": "Fat"
+        },
+        {
+            "code": "100000072093",
+            "display": "Honey"
+        },
+        {
+            "code": "100000072094",
+            "display": "Liver"
+        },
+        {
+            "code": "100000072095",
+            "display": "Fresh Milk"
+        },
+        {
+            "code": "100000072096",
+            "display": "Muscle and skin in natural proportions"
+        },
+        {
+            "code": "100000072104",
+            "display": "Eggs"
+        },
+        {
+            "code": "100000072105",
+            "display": "Skin and fat"
+        },
+        {
+            "code": "100000072106",
+            "display": "Kidney"
+        },
+        {
+            "code": "100000072107",
+            "display": "Meat and offal"
+        },
+        {
+            "code": "100000072108",
+            "display": "Muscle"
+        },
+        {
+            "code": "100000072109",
+            "display": "Unspecified"
+        },
+        {
+            "code": "100000111053",
+            "display": "Adipose tissue"
+        },
+        {
+            "code": "100000111054",
+            "display": "Adrenal"
+        },
+        {
+            "code": "100000111055",
+            "display": "Blood vessels"
+        },
+        {
+            "code": "100000111056",
+            "display": "Bone"
+        },
+        {
+            "code": "100000111057",
+            "display": "Bone marrow"
+        },
+        {
+            "code": "100000111058",
+            "display": "Brain"
+        },
+        {
+            "code": "100000111059",
+            "display": "Connective tissue"
+        },
+        {
+            "code": "100000111060",
+            "display": "Cornea"
+        },
+        {
+            "code": "100000111061",
+            "display": "Dental pulp"
+        },
+        {
+            "code": "100000111062",
+            "display": "Duodenum"
+        },
+        {
+            "code": "100000111063",
+            "display": "Dura mater"
+        },
+        {
+            "code": "100000111064",
+            "display": "Egg, embryonated"
+        },
+        {
+            "code": "100000111065",
+            "display": "Egg"
+        },
+        {
+            "code": "100000111066",
+            "display": "Egg white"
+        },
+        {
+            "code": "100000111067",
+            "display": "Egg yolk"
+        },
+        {
+            "code": "100000111068",
+            "display": "Embryos"
+        },
+        {
+            "code": "100000111069",
+            "display": "Enteric plexuses"
+        },
+        {
+            "code": "100000111070",
+            "display": "Esophagus"
+        },
+        {
+            "code": "100000111071",
+            "display": "Feathers"
+        },
+        {
+            "code": "100000111072",
+            "display": "Foetus"
+        },
+        {
+            "code": "100000111073",
+            "display": "Fore-stomach (ruminants only)"
+        },
+        {
+            "code": "100000111074",
+            "display": "Gingival tissue"
+        },
+        {
+            "code": "100000111075",
+            "display": "Hair"
+        },
+        {
+            "code": "100000111076",
+            "display": "Heart/pericardium"
+        },
+        {
+            "code": "100000111077",
+            "display": "Hide"
+        },
+        {
+            "code": "100000111078",
+            "display": "Hooves"
+        },
+        {
+            "code": "100000111079",
+            "display": "Ileum"
+        },
+        {
+            "code": "100000111080",
+            "display": "Jejunum"
+        },
+        {
+            "code": "100000111081",
+            "display": "Kidney"
+        },
+        {
+            "code": "100000111082",
+            "display": "Lard/lard oil"
+        },
+        {
+            "code": "100000111083",
+            "display": "Large intestine"
+        },
+        {
+            "code": "100000111084",
+            "display": "Liver"
+        },
+        {
+            "code": "100000111085",
+            "display": "Lung"
+        },
+        {
+            "code": "100000111086",
+            "display": "Lymph nodes"
+        },
+        {
+            "code": "100000111087",
+            "display": "Mammary gland"
+        },
+        {
+            "code": "100000111088",
+            "display": "Udder"
+        },
+        {
+            "code": "100000111089",
+            "display": "Mammary tumour"
+        },
+        {
+            "code": "100000111090",
+            "display": "Meat extract"
+        },
+        {
+            "code": "100000111091",
+            "display": "Nasopharyngeal"
+        },
+        {
+            "code": "100000111092",
+            "display": "Nictitating membrane"
+        },
+        {
+            "code": "100000111093",
+            "display": "Nasal mucosa"
+        },
+        {
+            "code": "100000111094",
+            "display": "Ovary"
+        },
+        {
+            "code": "100000111095",
+            "display": "Pancreas"
+        },
+        {
+            "code": "100000111096",
+            "display": "Peripheral nerves"
+        },
+        {
+            "code": "100000111097",
+            "display": "Pituitary gland"
+        },
+        {
+            "code": "100000111098",
+            "display": "Placenta"
+        },
+        {
+            "code": "100000111099",
+            "display": "Prostate"
+        },
+        {
+            "code": "100000111100",
+            "display": "Epididymis"
+        },
+        {
+            "code": "100000111101",
+            "display": "Seminal vesicle"
+        },
+        {
+            "code": "100000111102",
+            "display": "Rennet, calf"
+        },
+        {
+            "code": "100000111103",
+            "display": "Retina"
+        },
+        {
+            "code": "100000111104",
+            "display": "Optic nerve"
+        },
+        {
+            "code": "100000111105",
+            "display": "Salivary gland"
+        },
+        {
+            "code": "100000111106",
+            "display": "Shank"
+        },
+        {
+            "code": "100000111107",
+            "display": "Skeletal muscle"
+        },
+        {
+            "code": "100000111108",
+            "display": "Skin"
+        },
+        {
+            "code": "100000111109",
+            "display": "Spinal ganglia"
+        },
+        {
+            "code": "100000111110",
+            "display": "Spinal cord"
+        },
+        {
+            "code": "100000111111",
+            "display": "Spleen"
+        },
+        {
+            "code": "100000111112",
+            "display": "Stomach"
+        },
+        {
+            "code": "100000111113",
+            "display": "Abomasum"
+        },
+        {
+            "code": "100000111114",
+            "display": "Submaxillary glands"
+        },
+        {
+            "code": "100000111115",
+            "display": "Tallow"
+        },
+        {
+            "code": "100000111116",
+            "display": "Tendon"
+        },
+        {
+            "code": "100000111117",
+            "display": "Testis"
+        },
+        {
+            "code": "100000111118",
+            "display": "Thymus"
+        },
+        {
+            "code": "100000111119",
+            "display": "Thyroid gland"
+        },
+        {
+            "code": "100000111120",
+            "display": "Tongue"
+        },
+        {
+            "code": "100000111121",
+            "display": "Tonsil"
+        },
+        {
+            "code": "100000111122",
+            "display": "Trachea"
+        },
+        {
+            "code": "100000111123",
+            "display": "Trigeminal ganglia"
+        },
+        {
+            "code": "100000111124",
+            "display": "Tripe"
+        },
+        {
+            "code": "100000111125",
+            "display": "Uterus (Non-gravid)"
+        },
+        {
+            "code": "100000111126",
+            "display": "Wool"
+        },
+        {
+            "code": "100000111127",
+            "display": "Ascites fluid"
+        },
+        {
+            "code": "100000111128",
+            "display": "Bile"
+        },
+        {
+            "code": "100000111129",
+            "display": "Blood1"
+        },
+        {
+            "code": "100000111130",
+            "display": "Blood, foetal"
+        },
+        {
+            "code": "100000111131",
+            "display": "Colostrum"
+        },
+        {
+            "code": "100000111132",
+            "display": "Cord blood"
+        },
+        {
+            "code": "100000111133",
+            "display": "CSF"
+        },
+        {
+            "code": "100000111134",
+            "display": "Faeces"
+        },
+        {
+            "code": "100000111135",
+            "display": "Milk"
+        },
+        {
+            "code": "100000111136",
+            "display": "Nasal mucus"
+        },
+        {
+            "code": "100000111137",
+            "display": "Placenta fluids"
+        },
+        {
+            "code": "100000111138",
+            "display": "Plasma"
+        },
+        {
+            "code": "100000111139",
+            "display": "Saliva"
+        },
+        {
+            "code": "100000111140",
+            "display": "Secretion from bees"
+        },
+        {
+            "code": "100000111141",
+            "display": "Semen"
+        },
+        {
+            "code": "100000111142",
+            "display": "Serum, calf"
+        },
+        {
+            "code": "100000111143",
+            "display": "Serum, donor adult bovine"
+        },
+        {
+            "code": "100000111144",
+            "display": "Serum, donor calf"
+        },
+        {
+            "code": "100000111145",
+            "display": "Serum, foetal bovine"
+        },
+        {
+            "code": "100000111146",
+            "display": "Serum, newborn calf"
+        },
+        {
+            "code": "100000111147",
+            "display": "Serum/plasma derivate, adult bovine"
+        },
+        {
+            "code": "100000111148",
+            "display": "Serum/plasma, adult bovine"
+        },
+        {
+            "code": "100000111149",
+            "display": "Sweat"
+        },
+        {
+            "code": "100000111150",
+            "display": "Tears"
+        },
+        {
+            "code": "100000111151",
+            "display": "Urine"
+        },
+        {
+            "code": "100000111152",
+            "display": "Venom"
+        },
+        {
+            "code": "100000111153",
+            "display": "Whey"
+        },
+        {
+            "code": "100000111154",
+            "display": "Casein"
+        },
+        {
+            "code": "100000111155",
+            "display": "Fermentation products"
+        },
+        {
+            "code": "100000111156",
+            "display": "Gelatin"
+        },
+        {
+            "code": "100000111157",
+            "display": "Lactose"
+        },
+        {
+            "code": "100000111158",
+            "display": "Protein"
+        },
+        {
+            "code": "100000111159",
+            "display": "Insulin"
+        },
+        {
+            "code": "100000111160",
+            "display": "Collagen"
+        },
+        {
+            "code": "100000111161",
+            "display": "Animal Charcoal"
+        },
+        {
+            "code": "100000111162",
+            "display": "Peptones"
+        },
+        {
+            "code": "100000111163",
+            "display": "Fatty acids"
+        },
+        {
+            "code": "100000111164",
+            "display": "Glycerol"
+        },
+        {
+            "code": "100000125717",
+            "display": "Not applicable"
+        },
+        {
+            "code": "100000136180",
+            "display": "Meat and offal, milk"
+        },
+        {
+            "code": "100000136181",
+            "display": "Agar blood"
+        },
+        {
+            "code": "100000136182",
+            "display": "Casamino acid"
+        },
+        {
+            "code": "100000136183",
+            "display": "Casein, hydrolysate"
+        },
+        {
+            "code": "100000136184",
+            "display": "Casein, pancreatic digest"
+        },
+        {
+            "code": "100000136185",
+            "display": "Casein, peptides N3"
+        },
+        {
+            "code": "100000136186",
+            "display": "Cells"
+        },
+        {
+            "code": "100000136187",
+            "display": "Cells, BHK21"
+        },
+        {
+            "code": "100000136188",
+            "display": "Cells, CHO"
+        },
+        {
+            "code": "100000136189",
+            "display": "Cells, CRFK"
+        },
+        {
+            "code": "100000136190",
+            "display": "Cells, embryo SPF"
+        },
+        {
+            "code": "100000136191",
+            "display": "Cells, IRC5"
+        },
+        {
+            "code": "100000136192",
+            "display": "Cells, kidney"
+        },
+        {
+            "code": "100000136193",
+            "display": "Cells, MDCK"
+        },
+        {
+            "code": "100000136194",
+            "display": "Cells, red blood"
+        },
+        {
+            "code": "100000136195",
+            "display": "Collagen, hydrolysate"
+        },
+        {
+            "code": "100000136196",
+            "display": "Cholesterol"
+        },
+        {
+            "code": "100000136197",
+            "display": "Egg, SPF embryonated"
+        },
+        {
+            "code": "100000136198",
+            "display": "Enzyme"
+        },
+        {
+            "code": "100000136199",
+            "display": "Enzyme, pancreatic enzymes"
+        },
+        {
+            "code": "100000136200",
+            "display": "Enzyme, pancreatin 6NF"
+        },
+        {
+            "code": "100000136201",
+            "display": "Enzyme, pepsin"
+        },
+        {
+            "code": "100000136202",
+            "display": "Enzyme, pronase"
+        },
+        {
+            "code": "100000136203",
+            "display": "Enzyme, trypsin"
+        },
+        {
+            "code": "100000136204",
+            "display": "Heart, digest"
+        },
+        {
+            "code": "100000136205",
+            "display": "Heart, extract"
+        },
+        {
+            "code": "100000136206",
+            "display": "Intestinal mucosae"
+        },
+        {
+            "code": "100000136207",
+            "display": "Lactalbumin hydrolysate"
+        },
+        {
+            "code": "100000136208",
+            "display": "Liver, digest"
+        },
+        {
+            "code": "100000136209",
+            "display": "Lymphocytes"
+        },
+        {
+            "code": "100000136210",
+            "display": "Meat"
+        },
+        {
+            "code": "100000136211",
+            "display": "Meat, enzymic hydrolysate"
+        },
+        {
+            "code": "100000136212",
+            "display": "Medium, cooked meat"
+        },
+        {
+            "code": "100000136213",
+            "display": "Medium, F10-199 medium"
+        },
+        {
+            "code": "100000136214",
+            "display": "Medium, FMD culture medium"
+        },
+        {
+            "code": "100000136215",
+            "display": "Medium, Glasgow MEM culture"
+        },
+        {
+            "code": "100000136216",
+            "display": "Medium, LB Agar Lennox"
+        },
+        {
+            "code": "100000136217",
+            "display": "Medium, LB Broth Lennox"
+        },
+        {
+            "code": "100000136218",
+            "display": "Medium, modified thioglycolate medium"
+        },
+        {
+            "code": "100000136219",
+            "display": "Medium, trypticase soy broth"
+        },
+        {
+            "code": "100000136220",
+            "display": "Medium, tryptose phosphate broth"
+        },
+        {
+            "code": "100000136221",
+            "display": "Milk, skimmed"
+        },
+        {
+            "code": "100000136222",
+            "display": "Pancreas, extract"
+        },
+        {
+            "code": "100000136223",
+            "display": "Peptones, casein hydrochloric peptone"
+        },
+        {
+            "code": "100000136224",
+            "display": "Peptones, casein tryptic peptone"
+        },
+        {
+            "code": "100000136225",
+            "display": "Pituitary extract"
+        },
+        {
+            "code": "100000136226",
+            "display": "Rennet"
+        },
+        {
+            "code": "100000136227",
+            "display": "Medium, nutrient broth"
+        },
+        {
+            "code": "100000136228",
+            "display": "Medium, NZ-Amine"
+        },
+        {
+            "code": "100000136229",
+            "display": "Medium, thioglycolate medium"
+        },
+        {
+            "code": "100000136230",
+            "display": "Peptones, proteose peptone"
+        },
+        {
+            "code": "100000136231",
+            "display": "Serum"
+        },
+        {
+            "code": "100000136232",
+            "display": "Serum, albumin"
+        },
+        {
+            "code": "100000136233",
+            "display": "Serum, Iron fortified calf"
+        },
+        {
+            "code": "100000136234",
+            "display": "Skin, connective tissue and bone"
+        },
+        {
+            "code": "100000136235",
+            "display": "Sperm"
+        },
+        {
+            "code": "100000136236",
+            "display": "Tryptone"
+        },
+        {
+            "code": "100000136237",
+            "display": "Meat, extract desiccated"
+        },
+        {
+            "code": "100000136247",
+            "display": "Stomach mucosa"
+        },
+        {
+            "code": "100000136248",
+            "display": "Transferin"
+        },
+        {
+            "code": "100000136554",
+            "display": "Non-neural"
+        },
+        {
+            "code": "100000136555",
+            "display": "Not specified"
+        },
+        {
+            "code": "100000136556",
+            "display": "Organ tissue"
+        },
+        {
+            "code": "100000142485",
+            "display": "Skin and fat in natural proportions"
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,8 +39,7 @@ public class Quantity extends Element {
     @Binding(
         bindingName = "QuantityComparator",
         strength = BindingStrength.Value.REQUIRED,
-        description = "How the Quantity should be understood and represented.",
-        valueSet = "http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"
     )
     protected final QuantityComparator comparator;
     @Summary

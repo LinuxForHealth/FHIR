@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.born[x]",
       "expansion": {
-        "identifier": "urn:uuid:00ccd281-9c21-4dd4-a8db-0ae4bda374f6",
-        "timestamp": "2019-11-01T09:35:19+11:00",
+        "identifier": "urn:uuid:b9cb260f-183f-4311-b6eb-9c3c564837e0",
+        "timestamp": "2022-04-23T22:29:27+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -37,8 +37,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.age[x]",
       "expansion": {
-        "identifier": "urn:uuid:b0c916dc-f6f6-4b51-a5aa-48918bcf9bc8",
-        "timestamp": "2019-11-01T09:35:19+11:00",
+        "identifier": "urn:uuid:41af7b81-5078-416b-944c-24979da5e104",
+        "timestamp": "2022-04-23T22:29:27+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -65,8 +65,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.deceased[x]",
       "expansion": {
-        "identifier": "urn:uuid:3f891603-4296-49c6-a9c8-bb21c0766f67",
-        "timestamp": "2019-11-01T09:35:19+11:00",
+        "identifier": "urn:uuid:3981ac90-0ea5-4922-b8ad-1386ae447b7a",
+        "timestamp": "2022-04-23T22:29:27+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -103,8 +103,8 @@
       "status": "active",
       "description": "Type options for FamilyMemberHistory.condition.onset[x]",
       "expansion": {
-        "identifier": "urn:uuid:ce4d9a6c-eac6-4295-83af-7f1e59bae33e",
-        "timestamp": "2019-11-01T09:35:19+11:00",
+        "identifier": "urn:uuid:5156c8ae-a0fd-4cce-929b-3a5bddbc0946",
+        "timestamp": "2022-04-23T22:29:27+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -135,9 +135,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2013-10-02T00:00:00+10:00",
+  "experimental": false,
+  "date": "2013-10-02T00:00:00+00:00",
   "publisher": "Health Level Seven International (Clinical Genomics)",
   "item": [
     {
@@ -162,6 +163,7 @@
               }
             }
           ],
+          "linkId": "FamilyMemberHistory-flyover",
           "text": "Significant health conditions for a person related to the patient relevant in the context of care for the patient.",
           "type": "display"
         },
@@ -196,6 +198,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -236,6 +239,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -272,6 +276,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -315,6 +320,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -355,6 +361,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -382,6 +389,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -409,6 +417,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.extension-flyover",
               "text": "An Extension",
               "type": "display"
             }
@@ -436,6 +445,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -469,7 +479,8 @@
                   }
                 }
               ],
-              "text": "Business identifiers assigned to this family member history by the performer or other systems which remain constant as the resource is updated and propagates from server to server. This is a business identifier, not a resource identifier (see [discussion](http://hl7.org/fhir/resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
+              "linkId": "FamilyMemberHistory.identifier-flyover",
+              "text": "Business identifiers assigned to this family member history by the performer or other systems which remain constant as the resource is updated and propagates from server to server. This is a business identifier, not a resource identifier (see [discussion](resource.html#identifiers)).  It is best practice for the identifier to only appear on a single resource instance, however business practices may occasionally dictate that multiple resource instances with the same identifier can exist - possibly even with different resource types.  For example, multiple Patient and a Person resource instance might share the same social insurance number.",
               "type": "display"
             },
             {
@@ -522,6 +533,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.instantiatesCanonical-flyover",
               "text": "The URL pointing to a FHIR-defined protocol, guideline, orderset or other definition that is adhered to in whole or in part by this FamilyMemberHistory.",
               "type": "display"
             },
@@ -561,6 +573,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.instantiatesUri-flyover",
               "text": "The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in whole or in part by this FamilyMemberHistory. This might be an HTML page, PDF, etc. or could just be a non-resolvable URI identifier.",
               "type": "display"
             },
@@ -608,6 +621,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.status-flyover",
               "text": "A code specifying the status of the record of the family history of a specific family member. This element is labeled as a modifier because the status contains codes that mark the resource as not currently valid.",
               "type": "display"
             },
@@ -652,13 +666,14 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.dataAbsentReason-flyover",
               "text": "Describes why the family member\u0027s history is not available.",
               "type": "display"
             },
             {
               "linkId": "FamilyMemberHistory.dataAbsentReason.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -706,6 +721,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.patient-flyover",
               "text": "The person who this history concerns.",
               "type": "display"
             },
@@ -759,6 +775,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.date-flyover",
               "text": "The date (and possibly time) when the family member history was recorded or last updated. This should be captured even if the same as the date on the List aggregating the full family history.",
               "type": "display"
             },
@@ -802,6 +819,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.name-flyover",
               "text": "This will either be a name or a description; e.g. \"Aunt Susan\", \"my cousin with the red hair\".",
               "type": "display"
             },
@@ -850,13 +868,14 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.relationship-flyover",
               "text": "The type of relationship this person has to the patient (father, mother, brother etc.).",
               "type": "display"
             },
             {
               "linkId": "FamilyMemberHistory.relationship.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -901,13 +920,14 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.sex-flyover",
               "text": "The birth sex of the family member. This element should ideally reflect whether the individual is genetically male or female.  However, as reported information based on the knowledge of the patient or reporting friend/relative, there may be situations where the reported sex might not be totally accurate.  E.g. \u0027Aunt Sue\u0027 might be XY rather than XX.  Questions soliciting this information should be phrased to encourage capture of genetic sex where known.  However, systems performing analysis should also allow for the possibility of imprecision with this element.",
               "type": "display"
             },
             {
               "linkId": "FamilyMemberHistory.sex.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -948,6 +968,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.born[x]-flyover",
               "text": "The actual or approximate date of birth of the relative.",
               "type": "display"
             },
@@ -1053,6 +1074,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.age[x]-flyover",
               "text": "The age of the relative at the time the family member history is recorded. use estimatedAge to indicate whether the age is actual or not.",
               "type": "display"
             },
@@ -1197,6 +1219,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.estimatedAge-flyover",
               "text": "If true, indicates that the age value specified is an estimated value. This element is labeled as a modifier because the fact that age is estimated can/should change the results of any algorithm that calculates based on the specified age.",
               "type": "display"
             },
@@ -1237,6 +1260,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.deceased[x]-flyover",
               "text": "Deceased flag or the actual or approximate age of the relative at the time of death for the family member history record.",
               "type": "display"
             },
@@ -1414,13 +1438,14 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.reasonCode-flyover",
               "text": "Describes why the family member history occurred in coded or textual form. Textual reasons can be captured using reasonCode.text.",
               "type": "display"
             },
             {
               "linkId": "FamilyMemberHistory.reasonCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -1460,6 +1485,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.reasonReference-flyover",
               "text": "Indicates a Condition, Observation, AllergyIntolerance, or QuestionnaireResponse that justifies this family member history event.",
               "type": "display"
             },
@@ -1510,6 +1536,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.note-flyover",
               "text": "This property allows a non condition-specific note to the made about the related person. Ideally, the note would be in the condition property, but this is not always possible.",
               "type": "display"
             }
@@ -1537,6 +1564,7 @@
                   }
                 }
               ],
+              "linkId": "FamilyMemberHistory.condition:Condition-flyover",
               "text": "The significant Conditions (or condition) that the family member had. This is a repeating section to allow a system to represent more than one condition per resource, though there is nothing stopping multiple resources - one per condition.",
               "type": "display"
             },
@@ -1571,6 +1599,7 @@
                       }
                     }
                   ],
+                  "linkId": "FamilyMemberHistory.condition.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1605,6 +1634,7 @@
                       }
                     }
                   ],
+                  "linkId": "FamilyMemberHistory.condition.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1632,6 +1662,7 @@
                       }
                     }
                   ],
+                  "linkId": "FamilyMemberHistory.condition.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1673,13 +1704,14 @@
                       }
                     }
                   ],
+                  "linkId": "FamilyMemberHistory.condition.code-flyover",
                   "text": "The actual condition specified. Could be a coded condition (like MI or Diabetes) or a less specific string like \u0027cancer\u0027 depending on how much is known about the condition and the capabilities of the creating system.",
                   "type": "display"
                 },
                 {
                   "linkId": "FamilyMemberHistory.condition.code.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1724,13 +1756,14 @@
                       }
                     }
                   ],
+                  "linkId": "FamilyMemberHistory.condition.outcome-flyover",
                   "text": "Indicates what happened following the condition.  If the condition resulted in death, deceased date is captured on the relation.",
                   "type": "display"
                 },
                 {
                   "linkId": "FamilyMemberHistory.condition.outcome.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1774,6 +1807,7 @@
                       }
                     }
                   ],
+                  "linkId": "FamilyMemberHistory.condition.contributedToDeath-flyover",
                   "text": "This condition contributed to the cause of death of the related person. If contributedToDeath is not populated, then it is unknown.",
                   "type": "display"
                 },
@@ -1814,6 +1848,7 @@
                       }
                     }
                   ],
+                  "linkId": "FamilyMemberHistory.condition.onset[x]-flyover",
                   "text": "Either the age of onset, range of approximate age or descriptive string can be recorded.  For conditions with multiple occurrences, this describes the first known occurrence.",
                   "type": "display"
                 },
@@ -1985,6 +2020,7 @@
                       }
                     }
                   ],
+                  "linkId": "FamilyMemberHistory.condition.note-flyover",
                   "text": "An area where general notes can be placed about this specific condition.",
                   "type": "display"
                 }

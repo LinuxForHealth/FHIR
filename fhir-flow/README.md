@@ -36,7 +36,7 @@ If no downstream properties are provided, the application simply logs the intera
 ```
 java \
   -Djava.util.logging.config.file=logging.properties \
-  -jar "fhir-flow-4.11.0-SNAPSHOT-cli.jar" \
+  -jar "fhir-flow-*-cli.jar" \
   --run-duration 10 \
   --upstream-properties upstream.properties \
   --upstream-tenant your-upstream-tenant-name
@@ -84,7 +84,7 @@ For example, to replicate changes from tenant1 to tenant2 on a local file server
 ```
 java \
   -Djava.util.logging.config.file=logging.properties \
-  -jar "fhir-flow-4.11.0-SNAPSHOT-cli.jar" \
+  -jar "fhir-flow-*-cli.jar" \
   --run-duration 1800 \
   --upstream-properties local.properties \
   --upstream-tenant tenant1 \
@@ -109,7 +109,7 @@ The checkpoint value can be used to resume processing using the `--from-checkpoi
 ```
 java \
   -Djava.util.logging.config.file=logging.properties \
-  -jar "fhir-flow-4.11.0-SNAPSHOT-cli.jar" \
+  -jar "fhir-flow-*-cli.jar" \
   --run-duration 1800 \
   --upstream-properties local.properties \
   --upstream-tenant tenant1 \

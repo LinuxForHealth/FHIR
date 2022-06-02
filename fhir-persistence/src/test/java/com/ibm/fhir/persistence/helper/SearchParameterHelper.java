@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,14 +19,11 @@ import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
 
 /**
  * Helper class to create {@link SearchParameter} model objects
- * 
-
- *
  */
 public class SearchParameterHelper {
 
@@ -39,8 +36,8 @@ public class SearchParameterHelper {
     }
 
     public static SearchParameter makeTestParameter(String name) {
-        List<ResourceType> base = new ArrayList<>();
-        base.add(ResourceType.PATIENT);
+        List<ResourceTypeCode> base = new ArrayList<>();
+        base.add(ResourceTypeCode.PATIENT);
 
         return SearchParameter.builder()
                               .url(Uri.of(dummyUri)).name(string(name))
@@ -50,7 +47,6 @@ public class SearchParameterHelper {
                               .base(base)
                               .type(SearchParamType.STRING)
                               .build();
-
     }
 
     /**
@@ -68,7 +64,7 @@ public class SearchParameterHelper {
 
     /**
      * Create a range with a high limit but no low limit
-     * 
+     *
      * @param code
      * @param unit
      * @param system

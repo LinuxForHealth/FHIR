@@ -25,6 +25,7 @@ import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
@@ -36,7 +37,6 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.CompartmentType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -48,8 +48,6 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -102,9 +100,8 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     private static final String BEARER_TOKEN_PREFIX = "Bearer";
     private static final String PATIENT = "Patient";
+    private static final String PROVENANCE = "Provenance";
     private static final String RESOURCE = "Resource";
-
-    private static final String REQUEST_NOT_PERMITTED = "Requested interaction is not permitted by any of the passed scopes.";
 
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
@@ -253,13 +250,9 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         String resourceType = event.getFhirResourceType();
         DecodedJWT jwt = JWT.decode(getAccessToken());
 
-        if (PATIENT.equals(resourceType)) {
-            enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
-        } else {
-            ContextType approvedContext = checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
-            if (approvedContext == ContextType.PATIENT) {
-                assertPatientIdClaimIsValued(jwt);
-            }
+        ContextType approvedContext = checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
+        if (approvedContext == ContextType.PATIENT) {
+            assertPatientIdClaimIsValued(jwt);
         }
     }
 
@@ -276,13 +269,9 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         String resourceType = event.getFhirResourceType();
         DecodedJWT jwt = JWT.decode(getAccessToken());
 
-        if (PATIENT.equals(resourceType)) {
-            enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
-        } else {
-            ContextType approvedContext = checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
-            if (approvedContext == ContextType.PATIENT) {
-                assertPatientIdClaimIsValued(jwt);
-            }
+        ContextType approvedContext = checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
+        if (approvedContext == ContextType.PATIENT) {
+            assertPatientIdClaimIsValued(jwt);
         }
     }
 
@@ -294,9 +283,6 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         if (event.getFhirResourceId() == null) {
             // System/type-level history
             enforceSystemLevelAccess(resourceType, event.getSystemHistoryContextImpl().getResourceTypes(), jwt);
-        } else if (PATIENT.equals(resourceType)) {
-            // For a Patient resource instance, check scopes for direct patient access
-            enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
         } else {
             ContextType approvedContext = checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
             if (approvedContext == ContextType.PATIENT) {
@@ -444,7 +430,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 break;
             case "Encounter":
                 Resource r = executeRead(event.getPersistenceImpl(), ModelSupport.getResourceType(compartment), compartmentId);
-                if (!isInCompartment(compartment, compartmentId, r, CompartmentType.PATIENT, patientIdFromToken)) {
+                if (r == null || !isInCompartment(compartment, compartmentId, r, CompartmentType.PATIENT, patientIdFromToken)) {
                     String msg = "Interaction with 'Encounter/" + compartmentId + "' is not permitted for patient context " + patientIdFromToken;
                     throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
                 }
@@ -510,12 +496,18 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     @Override
     public void afterRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        DecodedJWT jwt = JWT.decode(getAccessToken());
+        Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
+        Map<ContextType, List<Scope>> scopesFromToken = getScopesFromToken(jwt);
+        String resourceType = event.getFhirResourceType();
+        String resourceId = event.getFhirResourceId();
         Resource resource = event.getFhirResource();
-        if (resource != null) {
-            DecodedJWT jwt = JWT.decode(getAccessToken());
-            Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
-            Map<ContextType, List<Scope>> scopesFromToken = getScopesFromToken(jwt);
 
+        if (PATIENT.equals(resourceType)) {
+            // Patient differs from other resource types in that we enforce on null
+            // to avoid leaking "does this resource id exist on the system?" to unauthorized users
+            enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
+        } else if (resource != null) {
             enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
             enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
         }
@@ -523,12 +515,18 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     @Override
     public void afterVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        DecodedJWT jwt = JWT.decode(getAccessToken());
+        Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
+        Map<ContextType, List<Scope>> scopesFromToken = getScopesFromToken(jwt);
+        String resourceType = event.getFhirResourceType();
+        String resourceId = event.getFhirResourceId();
         Resource resource = event.getFhirResource();
-        if (resource != null) {
-            DecodedJWT jwt = JWT.decode(getAccessToken());
-            Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
-            Map<ContextType, List<Scope>> scopesFromToken = getScopesFromToken(jwt);
 
+        if (PATIENT.equals(resourceType)) {
+            // Patient differs from other resource types in that we enforce on null
+            // to avoid leaking "does this resource id exist on the system?" to unauthorized users
+            enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
+        } else if (resource != null) {
             enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
             enforce(resource, patientIdFromToken, Permission.READ, scopesFromToken);
         }
@@ -540,35 +538,48 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
         Map<ContextType, List<Scope>> scopesFromToken = getScopesFromToken(jwt);
 
+        // used to avoid leaking Patient id existence in the off-chance of a history page with only deleted entries
+        boolean hasResourceContent = false;
         if (event.getFhirResource() instanceof Bundle) {
             for (Bundle.Entry entry : ((Bundle) event.getFhirResource()).getEntry()) {
                 String resourceType = getResourceType(entry);
                 String resourceId = getResourceId(entry);
                 Resource resource = entry.getResource();
-                enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
-                if (resourceType != null && resourceId != null) {
-                    if (resource == null && entry.getRequest() != null && entry.getRequest().getMethod().getValueAsEnum() == HTTPVerb.Value.DELETE) {
-                        // explicitly allow DELETE entries
-                        // this is safe because beforeHistory prohibits system and type-level history request for patient-compartment resource types
-                        // that are only covered by 'patient' scoped access tokens (and not 'user' or 'system' scopes)
-                        continue;
-                    }
-                    enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
-                } else {
+
+                if (resourceType == null && resourceId == null) {
                     throw new FHIRPersistenceInterceptorException("Unable to enforce authorization for history interaction "
                             + "due to failure to compute the resource type and id for one or more response Bundle entries.");
                 }
+
+                enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
+                if (resource == null && entry.getRequest() != null && entry.getRequest().getMethod().getValueAsEnum() == HTTPVerb.Value.DELETE) {
+                    // explicitly allow DELETE entries
+                    // this is safe because beforeHistory prohibits system and type-level history request for patient-compartment resource types
+                    // that are only covered by 'patient' scoped access tokens (and not 'user' or 'system' scopes)
+                    continue;
+                }
+
+                hasResourceContent = true;
+                enforce(resourceType, resourceId, resource, patientIdFromToken, Permission.READ, scopesFromToken);
             }
         } else {
             throw new IllegalStateException("Expected event resource of type Bundle but found " +
                     event.getFhirResource().getClass().getSimpleName());
+        }
+
+        // avoid Patient id existence leakage
+        if (PATIENT.equals(event.getFhirResourceType()) && !patientIdFromToken.contains(event.getFhirResourceId()) && !hasResourceContent) {
+            String msg = "The requested interaction is not permitted by any of the passed scopes " + scopesFromToken +
+                    " for context id(s): " + patientIdFromToken;
+            throw new FHIRPersistenceInterceptorException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
         }
     }
 
     private void enforceDirectProvenanceAccess(FHIRPersistenceEvent event, Resource resource, Set<String> patientIdFromToken, Map<ContextType, List<Scope>> scopesFromToken)
             throws FHIRPersistenceInterceptorException {
         if (resource instanceof Provenance) {
-            ContextType approvedContext = checkScopes("Provenance", Permission.READ, scopesFromToken);
+            ContextType approvedContext = checkScopes(PROVENANCE, Permission.READ, scopesFromToken);
             // if the approving context is of type 'patient' then the Provenance should only be returned if the patient has access
             // to the target of the Provenance
             if (approvedContext == ContextType.PATIENT) {
@@ -645,24 +656,22 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 persistence.vread(freshContext, resourceType, referenceValue.getValue(), referenceValue.getVersion().toString());
     }
 
+    /**
+     * @param persistence
+     * @param resourceType
+     * @param resourceId
+     * @return the requested resource or null if the resource could not be read (e.g. if it is deleted or does not exist)
+     * @throws FHIRPersistenceInterceptorException
+     */
     private Resource executeRead(FHIRPersistence persistence, Class<? extends Resource> resourceType, String resourceId)
             throws FHIRPersistenceInterceptorException {
         try {
             FHIRPersistenceContext freshContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
             SingleResourceResult<? extends Resource> result = persistence.read(freshContext, resourceType, resourceId);
-            if (!result.isSuccess()) {
-                String msg = "Unexpected error while reading resource " + resourceType.getSimpleName() + "/" + resourceId;
-                throw new FHIRPersistenceInterceptorException(msg).withIssue(result.getOutcome().getIssue());
-            }
             return result.getResource();
-        } catch (FHIRPersistenceInterceptorException e) {
-            throw e;
-        } catch (FHIRPersistenceResourceNotFoundException | FHIRPersistenceResourceDeletedException e) {
-            String msg = "The resource '" + resourceType.getSimpleName() + "/" + resourceId + "' does not exist.";
-            throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
         } catch (FHIRPersistenceException e) {
-            String msg = "Unexpected error while reading resource " + resourceType.getSimpleName() + "/" + resourceId;
-            log.log(Level.WARNING, msg, e);
+            String msg = "Unexpected error while reading resource of type " + resourceType.getSimpleName();
+            log.log(Level.WARNING, msg + " and id " + resourceId, e);
             throw new FHIRPersistenceInterceptorException(msg);
         }
     }
@@ -741,7 +750,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
         for (Scope scope : grantedScopes) {
             // "Resource" is used for "*" which applies to all resource types
-            if (scope.getResourceType() == ResourceType.Value.RESOURCE || scope.getResourceType().value().equals(resourceType)) {
+            if (scope.getResourceType() == ResourceType.RESOURCE || scope.getResourceType().value().equals(resourceType)) {
                 if (hasPermission(scope.getPermission(), requiredPermission)) {
                     if (log.isLoggable(Level.FINE)) {
                         log.fine(requiredPermission.value() + " permission for '" + resourceType +
@@ -799,10 +808,12 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             if (log.isLoggable(Level.FINE)) {
                 log.fine(requiredPermission.value() + " permission for '" + resourceType + "/" + resourceId +
                         "' is not granted by any of the provided scopes: " + grantedScopes.values() +
-                        " with context id(s): " + contextIds);
+                        " for context id(s): " + contextIds);
             }
-            throw new FHIRPersistenceInterceptorException(REQUEST_NOT_PERMITTED)
-                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(REQUEST_NOT_PERMITTED, IssueType.FORBIDDEN));
+            String msg = "The requested interaction is not permitted by any of the passed scopes " + grantedScopes.values() +
+                    " for context id(s): " + contextIds;
+            throw new FHIRPersistenceInterceptorException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
         }
     }
 
@@ -831,7 +842,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
             // look for any scope that approves the current interaction
             Optional<Scope> approvingScope = grantedScopes.get(context).stream()
-                    .filter(s -> s.getResourceType() == ResourceType.Value.RESOURCE || s.getResourceType().value().equals(resourceType))
+                    .filter(s -> s.getResourceType() == ResourceType.RESOURCE || s.getResourceType().value().equals(resourceType))
                     .filter(s -> hasPermission(s.getPermission(), requiredPermission))
                     .findAny();
             if (approvingScope.isPresent()) {
@@ -858,12 +869,22 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
             // look for any scope that approves the current interaction
             Optional<Scope> approvingScope = grantedScopes.get(ContextType.PATIENT).stream()
-                    .filter(s -> s.getResourceType() == ResourceType.Value.RESOURCE || s.getResourceType().value().equals(resourceType))
+                    .filter(s -> s.getResourceType() == ResourceType.RESOURCE || s.getResourceType().value().equals(resourceType))
                     .filter(s -> hasPermission(s.getPermission(), requiredPermission))
                     .findAny();
 
             if (approvingScope.isPresent()) {
-                if ("Provenance".equals(resourceType)) {
+                if (PATIENT.equals(resourceType)) {
+                    if (contextIds.contains(resourceId)) {
+                        log.fine(requiredPermission.value() + " permission for 'Patient/" + resourceId +
+                                "' is granted via scope " + approvingScope.get());
+                        return true;
+                    } else if (resource == null) {
+                        // avoid leaking whether a patient resource exists with id or not
+                        return false;
+                    }
+                    // else fall through to the compartment membership check
+                } else if (PROVENANCE.equals(resourceType)) {
                     // Addressed for issue #1881, Provenance is a special-case:  a Patient-compartment resource type that
                     // we want to allow access to if and only if the patient has access to one or more resources that it targets.
 

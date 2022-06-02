@@ -13,10 +13,11 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/oid"/>
-  <version value="4.0.1"/>
+  <version value="4.3.0-cibuild"/>
   <name value="oid"/>
   <status value="active"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -25,7 +26,7 @@
     </telecom>
   </contact>
   <description value="Base StructureDefinition for oid type: An OID represented as a URI"/>
-  <fhirVersion value="4.0.1"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <kind value="primitive-type"/>
   <abstract value="false"/>
   <type value="oid"/>
@@ -36,7 +37,7 @@
       <path value="oid"/>
       <short value="Primitive Type oid"/>
       <definition value="An OID represented as a URI"/>
-      <comment value="RFC 3001. See also ISO/IEC 8824:1990 &#x20AC;"/>
+      <comment value="RFC 3001. See also ISO/IEC 8824:1990 €"/>
       <min value="0"/>
       <max value="*"/>
       <base>
@@ -47,9 +48,9 @@
       <constraint>
         <key value="ele-1"/>
         <severity value="error"/>
-        <human value="All FHIR elements must have a @value or children"/>
-        <expression value="hasValue() or (children().count() &gt; id.count())"/>
-        <xpath value="@value|f:*|h:div"/>
+        <human value="All FHIR elements must have a @value or children unless an empty Parameters resource"/>
+        <expression value="hasValue() or (children().count() &gt; id.count()) or $this is Parameters"/>
+        <xpath value="@value|f:*|h:div|self::f:Parameters"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <isModifier value="false"/>
@@ -67,7 +68,6 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (h) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="string"/>
@@ -107,7 +107,7 @@
         <severity value="error"/>
         <human value="Must have either extensions or value[x], not both"/>
         <expression value="extension.exists() != value.exists()"/>
-        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), &#39;value&#39;)])"/>
+        <xpath value="exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Extension"/>
       </constraint>
       <isModifier value="false"/>
@@ -125,10 +125,9 @@
         <min value="0"/>
         <max value="1"/>
       </base>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (i) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
-          <valueUrl value="string"/>
+          <valueUrl value="oid"/>
         </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/regex">
           <valueString value="urn:oid:[0-2](\.(0|[1-9][0-9]*))+"/>
@@ -144,7 +143,7 @@
       <path value="oid"/>
       <short value="Primitive Type oid"/>
       <definition value="An OID represented as a URI"/>
-      <comment value="RFC 3001. See also ISO/IEC 8824:1990 &#x20AC;"/>
+      <comment value="RFC 3001. See also ISO/IEC 8824:1990 €"/>
       <min value="0"/>
       <max value="*"/>
     </element>
@@ -155,7 +154,6 @@
       <definition value="Primitive value for oid"/>
       <min value="0"/>
       <max value="1"/>
-    <!-- Note: special primitive values have a FHIRPath system type. e.g. this is compiler magic (g) -->
       <type>
         <extension url="http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type">
           <valueUrl value="oid"/>

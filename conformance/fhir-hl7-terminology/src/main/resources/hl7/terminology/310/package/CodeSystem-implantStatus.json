@@ -1,0 +1,65 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "implantStatus",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00"
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/implantStatus",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1283"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "ImplantStatus",
+    "title": "Implant Status",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-04-09T21:10:28+00:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "A set codes that define the functional status of an implanted device.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/implantStatus",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "functional",
+            "display": "Functional",
+            "definition": "The implanted device is working normally."
+        },
+        {
+            "code": "non-functional",
+            "display": "Non-Functional",
+            "definition": "The implanted device is not working."
+        },
+        {
+            "code": "disabled",
+            "display": "Disabled",
+            "definition": "The implanted device has been turned off."
+        },
+        {
+            "code": "unknown",
+            "display": "Unknown",
+            "definition": "the functional status of the implant has not been determined."
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-ActClassOrganizationalPolicy",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-ActClassOrganizationalPolicy",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.20231"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "ActClassOrganizationalPolicy",
+    "title": "ActClassOrganizationalPolicy",
+    "status": "active",
+    "date": "2014-03-26",
+    "description": "**Description:**A mandate, obligation, requirement, rule, or expectation unilaterally imposed by an organization on:\r\n\r\n *  The activity of another party\r\n *  The behavior of another party\r\n *  The manner in which an act is executed\r\n\r\n**Examples:**A clinical or research protocols imposed by a payer, a malpractice insurer, or an institution to which a provider must adhere. A mandate imposed by a denominational institution for a provider to provide or withhold certain information from the patient about treatment options.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActClass",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "ORGPOL"
+                    }
+                ]
+            }
+        ]
+    }
+}

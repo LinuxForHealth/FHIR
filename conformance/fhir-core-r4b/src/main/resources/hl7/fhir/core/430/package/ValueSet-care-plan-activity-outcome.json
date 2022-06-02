@@ -1,0 +1,673 @@
+{
+    "resourceType": "ValueSet",
+    "id": "care-plan-activity-outcome",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pc"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/care-plan-activity-outcome",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.149"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CarePlanActivityOutcome",
+    "title": "Care Plan Activity Outcome",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "HL7 International - Patient Care WG",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/patientcare/"
+                }
+            ]
+        }
+    ],
+    "description": "Example codes indicating the outcome of a care plan activity. Note that these are in no way complete and might not even be appropriate for some uses.",
+    "copyright": "This resource includes content from SNOMED Clinical Terms® (SNOMED CT®) which is copyright of the International Health Terminology Standards Development Organisation (IHTSDO). Implementers of these specifications must have the appropriate SNOMED CT Affiliate license - for more information contact http://www.snomed.org/snomed-ct/get-snomed-ct or info@snomed.org",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "397640006"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/valueset-unclosed",
+                "valueBoolean": true
+            }
+        ],
+        "identifier": "urn:uuid:8eeb88bd-06e8-47a1-8e4e-9b4388c1909d",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 42,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "397640006",
+                "display": "Healthcare knowledge finding (finding)",
+                "designation": [
+                    {
+                        "value": "Healthcare knowledge finding (finding)"
+                    },
+                    {
+                        "value": "Healthcare knowledge finding"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "129862009",
+                "display": "Deficient knowledge: diagnostic test",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge: diagnostic test"
+                    },
+                    {
+                        "value": "Deficient knowledge of diagnostic testing"
+                    },
+                    {
+                        "value": "Deficient knowledge of diagnostic testing (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "129863004",
+                "display": "Deficient knowledge of dietary regimen",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of dietary regimen"
+                    },
+                    {
+                        "value": "Deficient knowledge: dietary regimen"
+                    },
+                    {
+                        "value": "Deficient knowledge of dietary regimen (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "129864005",
+                "display": "Deficient knowledge: disease process",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge: disease process"
+                    },
+                    {
+                        "value": "Deficient knowledge of disease process"
+                    },
+                    {
+                        "value": "Deficient knowledge of disease process (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "129865006",
+                "display": "Deficient knowledge of fluid volume management",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of fluid volume management"
+                    },
+                    {
+                        "value": "Deficient knowledge: fluid volume"
+                    },
+                    {
+                        "value": "Deficient knowledge of fluid volume management (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "129866007",
+                "display": "Deficient knowledge: medication regimen",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge: medication regimen"
+                    },
+                    {
+                        "value": "Deficient knowledge of medication regimen"
+                    },
+                    {
+                        "value": "Deficient knowledge of medication regimen (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "129867003",
+                "display": "Deficient knowledge of safety precautions",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of safety precautions"
+                    },
+                    {
+                        "value": "Deficient knowledge: safety precautions"
+                    },
+                    {
+                        "value": "Deficient knowledge of safety precautions (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "129868008",
+                "display": "Deficient knowledge: therapeutic regimen",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge: therapeutic regimen"
+                    },
+                    {
+                        "value": "Deficient knowledge of therapeutic regimen"
+                    },
+                    {
+                        "value": "Deficient knowledge of therapeutic regimen (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182891003",
+                "display": "Patient misunderstood treatment instructions",
+                "designation": [
+                    {
+                        "value": "Patient misunderstood treatment instructions"
+                    },
+                    {
+                        "value": "Patient misunderstood treatment instructions (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "397588000",
+                "display": "Demonstrates knowledge of expected responses to operative procedure (finding)",
+                "designation": [
+                    {
+                        "value": "Demonstrates knowledge of expected responses to operative procedure (finding)"
+                    },
+                    {
+                        "value": "Demonstrates knowledge of expected responses to operative procedure"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "397598006",
+                "display": "Demonstrates knowledge of nutritional requirements related to operative procedure (finding)",
+                "designation": [
+                    {
+                        "value": "Demonstrates knowledge of nutritional requirements related to operative procedure (finding)"
+                    },
+                    {
+                        "value": "Demonstrates knowledge of nutritional requirements related to operative procedure"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "397675006",
+                "display": "Demonstrates knowledge of wound healing process (finding)",
+                "designation": [
+                    {
+                        "value": "Demonstrates knowledge of wound healing process (finding)"
+                    },
+                    {
+                        "value": "Demonstrates knowledge of wound healing process"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "397699006",
+                "display": "Demonstrates knowledge of medication management (finding)",
+                "designation": [
+                    {
+                        "value": "Demonstrates knowledge of medication management (finding)"
+                    },
+                    {
+                        "value": "Demonstrates knowledge of medication management"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "397724004",
+                "display": "Demonstrates knowledge of pain management (finding)",
+                "designation": [
+                    {
+                        "value": "Demonstrates knowledge of pain management (finding)"
+                    },
+                    {
+                        "value": "Demonstrates knowledge of pain management"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "408364003",
+                "display": "Patient does not understand why taking all medication (finding)",
+                "designation": [
+                    {
+                        "value": "Patient does not understand why taking all medication (finding)"
+                    },
+                    {
+                        "value": "Patient does not understand why taking all medication"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "423875000",
+                "display": "Deficient knowledge of family planning methods (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of family planning methods (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of family planning methods"
+                    },
+                    {
+                        "value": "Deficient knowledge of contraception"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "424537004",
+                "display": "Deficient knowledge of preconception health practices (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of preconception health practices (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of preconception health practices"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704375003",
+                "display": "Deficient knowledge of breast feeding",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of breast feeding"
+                    },
+                    {
+                        "value": "Deficient knowledge of breast feeding (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704377006",
+                "display": "Deficient knowledge of peritoneal dialysis (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of peritoneal dialysis (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of peritoneal dialysis"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704379009",
+                "display": "Deficient knowledge of sexual behavior",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of sexual behavior"
+                    },
+                    {
+                        "value": "Deficient knowledge of sexual behavior (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704381006",
+                "display": "Deficient knowledge of oral hygiene (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of oral hygiene (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of oral hygiene"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704383009",
+                "display": "Deficient knowledge of child development",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of child development"
+                    },
+                    {
+                        "value": "Deficient knowledge of child development (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704400005",
+                "display": "Deficient knowledge of community services",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of community services"
+                    },
+                    {
+                        "value": "Deficient knowledge of community services (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704402002",
+                "display": "Deficient knowledge of physical therapy (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of physical therapy (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of physical therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704403007",
+                "display": "Deficient knowledge of fall prevention (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of fall prevention (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of fall prevention"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704404001",
+                "display": "Deficient knowledge of pain management",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of pain management"
+                    },
+                    {
+                        "value": "Deficient knowledge of pain management (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704406004",
+                "display": "Deficient knowledge of symptom",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of symptom"
+                    },
+                    {
+                        "value": "Deficient knowledge of symptom (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704446005",
+                "display": "Deficient knowledge of exercise (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of exercise (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of exercise"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704491001",
+                "display": "Deficient knowledge of traditional therapy (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of traditional therapy (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of traditional therapy"
+                    },
+                    {
+                        "value": "Traditional therapy is often called complementary or alternative therapy. It is the knowledge, skills and practices based on the theories, beliefs, and experiences indigenous to different cultures used in the maintenance of health and prevention, diagnosis, improvement or treatment of physical and mental illness."
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704680001",
+                "display": "Deficient knowledge of behavior change process (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of behavior change process (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of behavior change process"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "705086000",
+                "display": "Deficient knowledge of patient controlled analgesia",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of patient controlled analgesia"
+                    },
+                    {
+                        "value": "Deficient knowledge of patient controlled analgesia (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "706869001",
+                "display": "Deficient knowledge of medication (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of medication (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of medication"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "708571001",
+                "display": "Demonstrates knowledge of who to contact in medical emergency (finding)",
+                "designation": [
+                    {
+                        "value": "Demonstrates knowledge of who to contact in medical emergency (finding)"
+                    },
+                    {
+                        "value": "Demonstrates knowledge of who to contact in medical emergency"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "713398008",
+                "display": "Deficient knowledge of travel health (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of travel health (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of travel health"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "713447003",
+                "display": "Deficient knowledge of parenting (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of parenting (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of parenting"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "713448008",
+                "display": "Deficient knowledge of infant feeding (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of infant feeding (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of infant feeding"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "713449000",
+                "display": "Deficient knowledge of infant care (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of infant care (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of infant care"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "713451001",
+                "display": "Deficient knowledge of childbirth",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of childbirth"
+                    },
+                    {
+                        "value": "Deficient knowledge of labor and delivery"
+                    },
+                    {
+                        "value": "Deficient knowledge of labor and delivery (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "713452008",
+                "display": "Deficient knowledge of fetal development (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of fetal development (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of foetal development"
+                    },
+                    {
+                        "value": "Deficient knowledge of fetal development"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "714670007",
+                "display": "Deficient knowledge of pregnancy (finding)",
+                "designation": [
+                    {
+                        "value": "Deficient knowledge of pregnancy (finding)"
+                    },
+                    {
+                        "value": "Deficient knowledge of pregnancy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "716391009",
+                "display": "Able to adapt to sensory changes in body part (finding)",
+                "designation": [
+                    {
+                        "value": "Able to adapt to sensory changes in body part (finding)"
+                    },
+                    {
+                        "value": "Able to adapt to sensory changes in body part"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "716438000",
+                "display": "Able to recognize need for pressure area care (finding)",
+                "designation": [
+                    {
+                        "value": "Able to recognize need for pressure area care (finding)"
+                    },
+                    {
+                        "value": "Able to recognize need for pressure area care"
+                    }
+                ]
+            }
+        ]
+    }
+}

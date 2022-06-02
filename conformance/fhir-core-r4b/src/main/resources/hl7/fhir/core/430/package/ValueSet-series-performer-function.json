@@ -1,0 +1,123 @@
+{
+    "resourceType": "ValueSet",
+    "id": "series-performer-function",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "ii"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/series-performer-function",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.989"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ImagingStudySeriesPerformerFunction",
+    "title": "ImagingStudy series performer function",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Performer function of an agent in an imaging study series",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "concept": [
+                    {
+                        "code": "CON",
+                        "display": "consultant"
+                    },
+                    {
+                        "code": "VRF",
+                        "display": "verifier"
+                    },
+                    {
+                        "code": "PRF",
+                        "display": "performer"
+                    },
+                    {
+                        "code": "SPRF",
+                        "display": "secondary performer"
+                    },
+                    {
+                        "code": "REF",
+                        "display": "referrer"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:e4249b92-b0d4-4a55-a706-597bd53562a4",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 5,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType|3.1.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "CON",
+                "display": "consultant"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "VRF",
+                "display": "verifier"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "PRF",
+                "display": "performer"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "SPRF",
+                "display": "secondary performer"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ParticipationType",
+                "code": "REF",
+                "display": "referrer"
+            }
+        ]
+    }
+}

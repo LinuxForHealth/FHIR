@@ -1,0 +1,29 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-scptype",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "https://fhir.infoway-inforoute.ca/CodeSystem/scptype",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.2.20.5.3"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "Scptype",
+    "title": "pan-Canadian Provider Types",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "Canada Health Infoway",
+    "contact": [
+        {
+            "name": "Standards Collaborative"
+        }
+    ],
+    "description": "This code system contains the list of provider types used in the pan-Canadian specifications.",
+    "content": "not-present"
+}

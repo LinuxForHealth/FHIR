@@ -12,8 +12,6 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.fhirinteger;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
 import static com.ibm.fhir.cql.helpers.ModelHelper.relatedArtifact;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
@@ -104,7 +102,7 @@ public abstract class BaseDataRequirementsOperationTest {
         List<Library> fhirLibraries = Arrays.asList(primaryLibrary, getSupplementalDataElementsLibrary(), getFHIRHelpers(), getFHIRModelInfo());
 
         if (exists) {
-            when(resourceHelper.doRead(eq("Library"), eq(primaryLibrary.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(primaryLibrary));
+            when(resourceHelper.doRead(eq("Library"), eq(primaryLibrary.getId()))).thenAnswer(x -> TestHelper.asResult(primaryLibrary));
 
             fhirLibraries.stream().forEach( l -> when(mockRegistry.getResource( canonical(l.getUrl(), l.getVersion()).getValue(), Library.class )).thenReturn(l) );
         }

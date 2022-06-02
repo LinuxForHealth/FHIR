@@ -1,0 +1,212 @@
+{
+  "resourceType": "MedicinalProductDefinition",
+  "id": "drug-and-device-complete",
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tGenerated Narrative\n\t\t\t\t\u003c/b\u003e\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tid\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t: drug-and-device\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tidentifier\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t: id: Wonderdrug+\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tCombined Pharmaceutical Dose Form\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t:\n\t\t\t\t\u003cspan title\u003d\"Codes: {http://example.org.uk/fhir/doseform solution for injection}\"\u003e\n\t\t\t\t\tsolution for injection\n\t\t\t\t\u003c/span\u003e\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tPackaged Product\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t:\n\t\t\t\t\u003ca name\u003d\"package\"/\u003e\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cblockquote\u003e\n\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\tpackage\n\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\u003c/p\u003e\n\t\t\t\t\u003cblockquote\u003e\n\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\tBox\n\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\u003cblockquote\u003e\n\t\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\tInner box for Powder and Solution\n\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\t\u003cblockquote\u003e\n\t\t\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\t\tSachet\n\t\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\t\t\u003cblockquote\u003e\n\t\t\t\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\t\t\tItem\n\t\t\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\t\t\t:\n\t\t\t\t\t\t\t\t\t\u003ca href\u003d\"#liquidItem\"\u003e\n\t\t\t\t\t\t\t\t\t\tPowder for Solution for Injection\n\t\t\t\t\t\t\t\t\t\u003c/a\u003e\n\t\t\t\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\t\t\tAmount\n\t\t\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\t\t\t: 5 mg\n\t\t\t\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\t\t\tIngredient\n\t\t\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\t\t\t: Wondersubstance\n\t\t\t\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\t\t\u003c/blockquote\u003e\n\t\t\t\t\t\t\u003c/blockquote\u003e\n\t\t\t\t\t\t\u003cblockquote\u003e\n\t\t\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\t\tBottle\n\t\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\t\t\u003cblockquote\u003e\n\t\t\t\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\t\t\tItem\n\t\t\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\t\t\t:\n\t\t\t\t\t\t\t\t\t\u003ca href\u003d\"#liquidItem\"\u003e\n\t\t\t\t\t\t\t\t\t\tSolvent\n\t\t\t\t\t\t\t\t\t\u003c/a\u003e\n\t\t\t\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\t\t\tAmount\n\t\t\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\t\t\t: 20 ml\n\t\t\t\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\t\t\tIngredient\n\t\t\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\t\t\t: Distilled Water\n\t\t\t\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\t\t\u003c/blockquote\u003e\n\t\t\t\t\t\t\u003c/blockquote\u003e\n\t\t\t\t\t\u003c/blockquote\u003e\n\t\t\t\t\t\u003cblockquote\u003e\n\t\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\tFoil bag\n\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\t\u003cblockquote\u003e\n\t\t\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\t\tDevice\n\t\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\t\t:\n\t\t\t\t\t\t\t\t\u003ca href\u003d\"#syringeDevice\"\u003e\n\t\t\t\t\t\t\t\t\tSyringe\n\t\t\t\t\t\t\t\t\u003c/a\u003e\n\t\t\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\t\tamount\n\t\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\t\t: 1\n\t\t\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\t\u003c/blockquote\u003e\n\t\t\t\t\t\u003c/blockquote\u003e\n\t\t\t\t\u003c/blockquote\u003e\n\t\t\t\u003c/blockquote\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tAdministrable Product\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t:\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cblockquote\u003e\n\t\t\t\t\u003cp\u003e\n\t\t\t\t\tWonderdrug, dose form: Solution For Injection\n\t\t\t\t\u003c/p\u003e\n\t\t\t\u003c/blockquote\u003e\n\t\t\t\u003ch3\u003e\n\t\t\t\tNames\n\t\t\t\u003c/h3\u003e\n\t\t\t\u003ctable class\u003d\"grid\"\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t-\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\tProduct Name\n\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t*\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\tWonderdrug+ liquid 20ml\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\u003c/table\u003e\n\t\t\u003c/div\u003e"
+  },
+  "contained": [
+    {
+      "resourceType": "PackagedProductDefinition",
+      "id": "package",
+      "packageFor": [
+        {
+          "reference": "#"
+        }
+      ],
+      "package": {
+        "package": [
+          {
+            "type": {
+              "coding": [
+                {
+                  "code": "cardboard box (outer)"
+                }
+              ]
+            },
+            "package": [
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "code": "cardboard box (inner)"
+                    }
+                  ]
+                },
+                "package": [
+                  {
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "sachet"
+                        }
+                      ]
+                    },
+                    "containedItem": [
+                      {
+                        "item": {
+                          "reference": {
+                            "reference": "#powderItem"
+                          }
+                        },
+                        "amount": {
+                          "value": 5,
+                          "unit": "g",
+                          "system": "http://unitsofmeasure.org",
+                          "code": "g"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": {
+                      "coding": [
+                        {
+                          "code": "bottle"
+                        }
+                      ]
+                    },
+                    "containedItem": [
+                      {
+                        "item": {
+                          "reference": {
+                            "reference": "#solventItem"
+                          }
+                        },
+                        "amount": {
+                          "value": 20,
+                          "unit": "ml",
+                          "system": "http://unitsofmeasure.org",
+                          "code": "mL"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": {
+                  "coding": [
+                    {
+                      "code": "foil bag"
+                    }
+                  ]
+                },
+                "containedItem": [
+                  {
+                    "item": {
+                      "reference": {
+                        "reference": "#syringeDevice"
+                      }
+                    },
+                    "amount": {
+                      "value": 1
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "ManufacturedItemDefinition",
+      "id": "solventItem",
+      "status": "active",
+      "manufacturedDoseForm": {
+        "coding": [
+          {
+            "system": "http://example.org.uk/fhir/doseform",
+            "code": "solvent for powder for injection"
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "ManufacturedItemDefinition",
+      "id": "powderItem",
+      "status": "active",
+      "manufacturedDoseForm": {
+        "coding": [
+          {
+            "system": "http://example.org.uk/fhir/doseform",
+            "code": "powder for solution for injection"
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "DeviceDefinition",
+      "id": "syringeDevice",
+      "type": {
+        "text": "syringe"
+      }
+    },
+    {
+      "resourceType": "AdministrableProductDefinition",
+      "id": "administrable-form",
+      "status": "active",
+      "formOf": [
+        {
+          "reference": "#"
+        }
+      ],
+      "administrableDoseForm": {
+        "coding": [
+          {
+            "code": "solution for injection"
+          }
+        ]
+      },
+      "producedFrom": [
+        {
+          "reference": "#powderItem"
+        },
+        {
+          "reference": "#solventItem"
+        }
+      ],
+      "routeOfAdministration": [
+        {
+          "code": {
+            "coding": [
+              {
+                "system": "http://example.org.uk/fhir/route",
+                "code": "intramuscular"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "identifier": [
+    {
+      "system": "http://example.org.uk/fhir/product",
+      "value": "Wonderdrug+"
+    }
+  ],
+  "combinedPharmaceuticalDoseForm": {
+    "coding": [
+      {
+        "system": "http://example.org.uk/fhir/doseform",
+        "code": "Powder and solution for injection with itegral syringe"
+      }
+    ]
+  },
+  "name": [
+    {
+      "productName": "Wonderdrug liquid 20ml (integral syringe)"
+    }
+  ],
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

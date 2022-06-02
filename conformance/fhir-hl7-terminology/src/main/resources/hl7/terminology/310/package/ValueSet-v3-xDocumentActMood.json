@@ -1,0 +1,58 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-xDocumentActMood",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-xDocumentActMood",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.19458"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "XDocumentActMood",
+    "title": "x_DocumentActMood",
+    "status": "active",
+    "date": "2014-03-26",
+    "description": "Used to enumerate the moods that an act can take within the body of a clinical document.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActMood",
+                "concept": [
+                    {
+                        "code": "APT"
+                    },
+                    {
+                        "code": "ARQ"
+                    },
+                    {
+                        "code": "DEF"
+                    },
+                    {
+                        "code": "EVN"
+                    },
+                    {
+                        "code": "INT"
+                    },
+                    {
+                        "code": "PRMS"
+                    },
+                    {
+                        "code": "PRP"
+                    },
+                    {
+                        "code": "RQO"
+                    },
+                    {
+                        "code": "RSK"
+                    }
+                ]
+            }
+        ]
+    }
+}

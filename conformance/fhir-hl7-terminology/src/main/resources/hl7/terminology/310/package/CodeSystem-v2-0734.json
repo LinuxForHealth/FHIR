@@ -1,0 +1,183 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0734",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0734",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.393"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "GrouperStatus",
+    "title": "grouperStatus",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts specifying the status of a grouper in general.  US Realm. Used in HL7 Version 2.x messaging in the DRG segment.",
+    "purpose": "Underlying Master Code System for V2 table 0734 (Grouper Status)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0734",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "6430",
+            "code": "0",
+            "display": "Normal grouping",
+            "definition": "Normal grouping",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6431",
+            "code": "1",
+            "display": "Invalid or missing primary diagnosis",
+            "definition": "Invalid or missing primary diagnosis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6432",
+            "code": "2",
+            "display": "Diagnosis is not allowed to be primary",
+            "definition": "Diagnosis is not allowed to be primary",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6433",
+            "code": "3",
+            "display": "Data does not fulfill DRG criteria",
+            "definition": "Data does not fulfill DRG criteria",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6434",
+            "code": "4",
+            "display": "Invalid age, admission date, date of birth or discharge date",
+            "definition": "Invalid age, admission date, date of birth or discharge date",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6435",
+            "code": "5",
+            "display": "Invalid gender",
+            "definition": "Invalid gender",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6436",
+            "code": "6",
+            "display": "Invalid discharge status",
+            "definition": "Invalid discharge status",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6437",
+            "code": "7",
+            "display": "Invalid weight ad admission",
+            "definition": "Invalid weight ad admission",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6438",
+            "code": "8",
+            "display": "Invalid length of stay",
+            "definition": "Invalid length of stay",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "6439",
+            "code": "9",
+            "display": "Invalid field \"same day\"",
+            "definition": "Invalid field \"same day\"",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -72,8 +72,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     id = "con-3",
     level = "Warning",
     location = "(base)",
-    description = "Condition.clinicalStatus SHALL be present if verificationStatus is not entered-in-error and category is problem-list-item",
-    expression = "clinicalStatus.exists() or verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code = 'entered-in-error').exists() or category.select($this='problem-list-item').empty()",
+    description = "Condition.clinicalStatus SHOULD be present if verificationStatus is not entered-in-error and category is problem-list-item",
+    expression = "verificationStatus.empty().not() and verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code='entered-in-error').exists().not() and category.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-category' and code='problem-list-item').exists() implies clinicalStatus.empty().not()",
     source = "http://hl7.org/fhir/StructureDefinition/Condition"
 )
 @Constraint(
@@ -119,7 +119,7 @@ public class Condition extends DomainResource {
         bindingName = "ConditionClinicalStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The clinical status of the condition or diagnosis.",
-        valueSet = "http://hl7.org/fhir/ValueSet/condition-clinical|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-clinical|4.3.0-cibuild"
     )
     private final CodeableConcept clinicalStatus;
     @Summary
@@ -127,7 +127,7 @@ public class Condition extends DomainResource {
         bindingName = "ConditionVerificationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The verification status to support or decline the clinical status of the condition or diagnosis.",
-        valueSet = "http://hl7.org/fhir/ValueSet/condition-ver-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/condition-ver-status|4.3.0-cibuild"
     )
     private final CodeableConcept verificationStatus;
     @Binding(
@@ -156,7 +156,7 @@ public class Condition extends DomainResource {
     @Binding(
         bindingName = "BodySite",
         strength = BindingStrength.Value.EXAMPLE,
-        description = "Codes describing anatomical locations. May include laterality.",
+        description = "SNOMED CT Body site concepts",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final List<CodeableConcept> bodySite;

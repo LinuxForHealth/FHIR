@@ -1,0 +1,1179 @@
+{
+    "resourceType": "ValueSet",
+    "id": "c80-facilitycodes",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "sd"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/c80-facilitycodes",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.3.88.12.80.67"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "FacilityTypeCodeValueSet",
+    "title": "Facility Type Code Value Set",
+    "status": "active",
+    "experimental": true,
+    "publisher": "HITSP",
+    "description": "This is the code representing the type of organizational setting where the clinical encounter, service, interaction, or treatment occurred. The value set used for Healthcare Facility Type has been defined by HITSP to be the value set reproduced from HITSP C80 Table 2-147.",
+    "copyright": "This resource includes content from SNOMED Clinical Terms® (SNOMED CT®) which is copyright of the International Health Terminology Standards Development Organisation (IHTSDO). Implementers of these specifications must have the appropriate SNOMED CT Affiliate license - for more information contact http://www.snomed.org/snomed-ct/get-snomed-ct or info@snomed.org",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "82242000",
+                        "display": "Hospital-children's"
+                    },
+                    {
+                        "code": "225732001",
+                        "display": "Hospital-community"
+                    },
+                    {
+                        "code": "79993009",
+                        "display": "Hospital-government"
+                    },
+                    {
+                        "code": "32074000",
+                        "display": "Hospital-long term care"
+                    },
+                    {
+                        "code": "4322002",
+                        "display": "Hospital-military field"
+                    },
+                    {
+                        "code": "224687002",
+                        "display": "Hospital-prison"
+                    },
+                    {
+                        "code": "62480006",
+                        "display": "Hospital-psychiatric"
+                    },
+                    {
+                        "code": "80522000",
+                        "display": "Hospital-rehabilitation"
+                    },
+                    {
+                        "code": "36125001",
+                        "display": "Hospital-trauma center"
+                    },
+                    {
+                        "code": "48311003",
+                        "display": "Hospital-Veterans' Administration"
+                    },
+                    {
+                        "code": "284546000",
+                        "display": "Hospice facility"
+                    },
+                    {
+                        "code": "42665001",
+                        "display": "Nursing home"
+                    },
+                    {
+                        "code": "45618002",
+                        "display": "Skilled nursing facility"
+                    },
+                    {
+                        "code": "418518002",
+                        "display": "Dialysis unit--hospital"
+                    },
+                    {
+                        "code": "73770003",
+                        "display": "Emergency department--hospital"
+                    },
+                    {
+                        "code": "69362002",
+                        "display": "Hospital ambulatory surgery facility"
+                    },
+                    {
+                        "code": "52668009",
+                        "display": "Hospital birthing center"
+                    },
+                    {
+                        "code": "360957003",
+                        "display": "Hospital outpatient allergy clinic"
+                    },
+                    {
+                        "code": "10206005",
+                        "display": "Hospital outpatient dental clinic"
+                    },
+                    {
+                        "code": "37550003",
+                        "display": "Hospital outpatient dermatology clinic"
+                    },
+                    {
+                        "code": "73644007",
+                        "display": "Hospital outpatient endocrinology clinic"
+                    },
+                    {
+                        "code": "31628002",
+                        "display": "Hospital outpatient family medicine clinic"
+                    },
+                    {
+                        "code": "58482006",
+                        "display": "Hospital outpatient gastroenterology clinic"
+                    },
+                    {
+                        "code": "90484001",
+                        "display": "Hospital outpatient general surgery clinic"
+                    },
+                    {
+                        "code": "1814000",
+                        "display": "Hospital outpatient geriatric health center"
+                    },
+                    {
+                        "code": "22549003",
+                        "display": "Hospital outpatient gynecology clinic"
+                    },
+                    {
+                        "code": "56293002",
+                        "display": "Hospital outpatient hematology clinic"
+                    },
+                    {
+                        "code": "360966004",
+                        "display": "Hospital outpatient immunology clinic"
+                    },
+                    {
+                        "code": "2849009",
+                        "display": "Hospital outpatient infectious disease clinic"
+                    },
+                    {
+                        "code": "14866005",
+                        "display": "Hospital outpatient mental health center"
+                    },
+                    {
+                        "code": "38238005",
+                        "display": "Hospital outpatient neurology clinic"
+                    },
+                    {
+                        "code": "56189001",
+                        "display": "Hospital outpatient obstetrical clinic"
+                    },
+                    {
+                        "code": "89972002",
+                        "display": "Hospital outpatient oncology clinic"
+                    },
+                    {
+                        "code": "78088001",
+                        "display": "Hospital outpatient ophthalmology clinic"
+                    },
+                    {
+                        "code": "78001009",
+                        "display": "Hospital outpatient orthopedics clinic"
+                    },
+                    {
+                        "code": "23392004",
+                        "display": "Hospital outpatient otorhinolaryngology clinic"
+                    },
+                    {
+                        "code": "36293008",
+                        "display": "Hospital outpatient pain clinic"
+                    },
+                    {
+                        "code": "3729002",
+                        "display": "Hospital outpatient pediatric clinic"
+                    },
+                    {
+                        "code": "5584006",
+                        "display": "Hospital outpatient peripheral vascular clinic"
+                    },
+                    {
+                        "code": "37546005",
+                        "display": "Hospital outpatient rehabilitation clinic"
+                    },
+                    {
+                        "code": "57159002",
+                        "display": "Hospital outpatient respiratory disease clinic"
+                    },
+                    {
+                        "code": "331006",
+                        "display": "Hospital outpatient rheumatology clinic"
+                    },
+                    {
+                        "code": "50569004",
+                        "display": "Hospital outpatient urology clinic"
+                    },
+                    {
+                        "code": "79491001",
+                        "display": "Hospital radiology facility"
+                    },
+                    {
+                        "code": "33022008",
+                        "display": "Hospital-based outpatient clinic or department--OTHER-NOT LISTED"
+                    },
+                    {
+                        "code": "19602009",
+                        "display": "Fee-for-service private physicians' group office"
+                    },
+                    {
+                        "code": "39350007",
+                        "display": "Private physicians' group office"
+                    },
+                    {
+                        "code": "83891005",
+                        "display": "Solo practice private office"
+                    },
+                    {
+                        "code": "394759007",
+                        "display": "Independent ambulatory care provider site--OTHER--NOT LISTED"
+                    },
+                    {
+                        "code": "405607001",
+                        "display": "Ambulatory surgery center"
+                    },
+                    {
+                        "code": "309900005",
+                        "display": "Care of the elderly day hospital"
+                    },
+                    {
+                        "code": "275576008",
+                        "display": "Elderly assessment clinic"
+                    },
+                    {
+                        "code": "10531005",
+                        "display": "Free-standing ambulatory surgery facility"
+                    },
+                    {
+                        "code": "91154008",
+                        "display": "Free-standing birthing center"
+                    },
+                    {
+                        "code": "41844007",
+                        "display": "Free-standing geriatric health center"
+                    },
+                    {
+                        "code": "45899008",
+                        "display": "Free-standing laboratory facility"
+                    },
+                    {
+                        "code": "51563005",
+                        "display": "Free-standing mental health center"
+                    },
+                    {
+                        "code": "1773006",
+                        "display": "Free-standing radiology facility"
+                    },
+                    {
+                        "code": "72311000",
+                        "display": "Health maintenance organization"
+                    },
+                    {
+                        "code": "6827000",
+                        "display": "Local community health center"
+                    },
+                    {
+                        "code": "309898008",
+                        "display": "Psychogeriatric day hospital"
+                    },
+                    {
+                        "code": "39913001",
+                        "display": "Residential school infirmary"
+                    },
+                    {
+                        "code": "77931003",
+                        "display": "Rural health center"
+                    },
+                    {
+                        "code": "25681007",
+                        "display": "Sexually transmitted disease health center"
+                    },
+                    {
+                        "code": "20078004",
+                        "display": "Substance abuse treatment center"
+                    },
+                    {
+                        "code": "46224007",
+                        "display": "Vaccination clinic"
+                    },
+                    {
+                        "code": "81234003",
+                        "display": "Walk-in clinic"
+                    },
+                    {
+                        "code": "35971002",
+                        "display": "Ambulatory care site--OTHER--NOT LISTED"
+                    },
+                    {
+                        "code": "11424001",
+                        "display": "Ambulance-based care"
+                    },
+                    {
+                        "code": "409519008",
+                        "display": "Contained casualty setting"
+                    },
+                    {
+                        "code": "901005",
+                        "display": "Helicopter-based care"
+                    },
+                    {
+                        "code": "2081004",
+                        "display": "Hospital ship"
+                    },
+                    {
+                        "code": "59374000",
+                        "display": "Traveler's aid clinic"
+                    },
+                    {
+                        "code": "413456002",
+                        "display": "Adult day care center"
+                    },
+                    {
+                        "code": "413817003",
+                        "display": "Child day care center"
+                    },
+                    {
+                        "code": "310205006",
+                        "display": "Private residential home"
+                    },
+                    {
+                        "code": "419955002",
+                        "display": "Residential institution"
+                    },
+                    {
+                        "code": "272501009",
+                        "display": "Sports facility"
+                    },
+                    {
+                        "code": "394777002",
+                        "display": "Health encounter site--NOT LISTED"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:a5b4c1a3-1d69-455a-b72c-d7c54698f608",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 79,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "82242000",
+                "display": "Hospital-children's",
+                "designation": [
+                    {
+                        "value": "Hospital-children's"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "225732001",
+                "display": "Hospital-community",
+                "designation": [
+                    {
+                        "value": "Hospital-community"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "79993009",
+                "display": "Hospital-government",
+                "designation": [
+                    {
+                        "value": "Hospital-government"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "32074000",
+                "display": "Hospital-long term care",
+                "designation": [
+                    {
+                        "value": "Hospital-long term care"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "4322002",
+                "display": "Hospital-military field",
+                "designation": [
+                    {
+                        "value": "Hospital-military field"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "224687002",
+                "display": "Hospital-prison",
+                "designation": [
+                    {
+                        "value": "Hospital-prison"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "62480006",
+                "display": "Hospital-psychiatric",
+                "designation": [
+                    {
+                        "value": "Hospital-psychiatric"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "80522000",
+                "display": "Hospital-rehabilitation",
+                "designation": [
+                    {
+                        "value": "Hospital-rehabilitation"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "36125001",
+                "display": "Hospital-trauma center",
+                "designation": [
+                    {
+                        "value": "Hospital-trauma center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "48311003",
+                "display": "Hospital-Veterans' Administration",
+                "designation": [
+                    {
+                        "value": "Hospital-Veterans' Administration"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "284546000",
+                "display": "Hospice facility",
+                "designation": [
+                    {
+                        "value": "Hospice facility"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "42665001",
+                "display": "Nursing home",
+                "designation": [
+                    {
+                        "value": "Nursing home"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "45618002",
+                "display": "Skilled nursing facility",
+                "designation": [
+                    {
+                        "value": "Skilled nursing facility"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "418518002",
+                "display": "Dialysis unit--hospital",
+                "designation": [
+                    {
+                        "value": "Dialysis unit--hospital"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "73770003",
+                "display": "Emergency department--hospital",
+                "designation": [
+                    {
+                        "value": "Emergency department--hospital"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "69362002",
+                "display": "Hospital ambulatory surgery facility",
+                "designation": [
+                    {
+                        "value": "Hospital ambulatory surgery facility"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "52668009",
+                "display": "Hospital birthing center",
+                "designation": [
+                    {
+                        "value": "Hospital birthing center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "360957003",
+                "display": "Hospital outpatient allergy clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient allergy clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "10206005",
+                "display": "Hospital outpatient dental clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient dental clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "37550003",
+                "display": "Hospital outpatient dermatology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient dermatology clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "73644007",
+                "display": "Hospital outpatient endocrinology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient endocrinology clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "31628002",
+                "display": "Hospital outpatient family medicine clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient family medicine clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "58482006",
+                "display": "Hospital outpatient gastroenterology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient gastroenterology clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "90484001",
+                "display": "Hospital outpatient general surgery clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient general surgery clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "1814000",
+                "display": "Hospital outpatient geriatric health center",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient geriatric health center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "22549003",
+                "display": "Hospital outpatient gynecology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient gynecology clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "56293002",
+                "display": "Hospital outpatient hematology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient hematology clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "360966004",
+                "display": "Hospital outpatient immunology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient immunology clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "2849009",
+                "display": "Hospital outpatient infectious disease clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient infectious disease clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "14866005",
+                "display": "Hospital outpatient mental health center",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient mental health center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "38238005",
+                "display": "Hospital outpatient neurology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient neurology clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "56189001",
+                "display": "Hospital outpatient obstetrical clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient obstetrical clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "89972002",
+                "display": "Hospital outpatient oncology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient oncology clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "78088001",
+                "display": "Hospital outpatient ophthalmology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient ophthalmology clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "78001009",
+                "display": "Hospital outpatient orthopedics clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient orthopedics clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "23392004",
+                "display": "Hospital outpatient otorhinolaryngology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient otorhinolaryngology clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "36293008",
+                "display": "Hospital outpatient pain clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient pain clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "3729002",
+                "display": "Hospital outpatient pediatric clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient pediatric clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "5584006",
+                "display": "Hospital outpatient peripheral vascular clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient peripheral vascular clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "37546005",
+                "display": "Hospital outpatient rehabilitation clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient rehabilitation clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "57159002",
+                "display": "Hospital outpatient respiratory disease clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient respiratory disease clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "331006",
+                "display": "Hospital outpatient rheumatology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient rheumatology clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "50569004",
+                "display": "Hospital outpatient urology clinic",
+                "designation": [
+                    {
+                        "value": "Hospital outpatient urology clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "79491001",
+                "display": "Hospital radiology facility",
+                "designation": [
+                    {
+                        "value": "Hospital radiology facility"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "33022008",
+                "display": "Hospital-based outpatient clinic or department--OTHER-NOT LISTED",
+                "designation": [
+                    {
+                        "value": "Hospital-based outpatient clinic or department--OTHER-NOT LISTED"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "19602009",
+                "display": "Fee-for-service private physicians' group office",
+                "designation": [
+                    {
+                        "value": "Fee-for-service private physicians' group office"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "39350007",
+                "display": "Private physicians' group office",
+                "designation": [
+                    {
+                        "value": "Private physicians' group office"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "83891005",
+                "display": "Solo practice private office",
+                "designation": [
+                    {
+                        "value": "Solo practice private office"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "394759007",
+                "display": "Independent ambulatory care provider site--OTHER--NOT LISTED",
+                "designation": [
+                    {
+                        "value": "Independent ambulatory care provider site--OTHER--NOT LISTED"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "405607001",
+                "display": "Ambulatory surgery center",
+                "designation": [
+                    {
+                        "value": "Ambulatory surgery center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "309900005",
+                "display": "Care of the elderly day hospital",
+                "designation": [
+                    {
+                        "value": "Care of the elderly day hospital"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "275576008",
+                "display": "Elderly assessment clinic",
+                "designation": [
+                    {
+                        "value": "Elderly assessment clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "10531005",
+                "display": "Free-standing ambulatory surgery facility",
+                "designation": [
+                    {
+                        "value": "Free-standing ambulatory surgery facility"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "91154008",
+                "display": "Free-standing birthing center",
+                "designation": [
+                    {
+                        "value": "Free-standing birthing center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "41844007",
+                "display": "Free-standing geriatric health center",
+                "designation": [
+                    {
+                        "value": "Free-standing geriatric health center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "45899008",
+                "display": "Free-standing laboratory facility",
+                "designation": [
+                    {
+                        "value": "Free-standing laboratory facility"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "51563005",
+                "display": "Free-standing mental health center",
+                "designation": [
+                    {
+                        "value": "Free-standing mental health center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "1773006",
+                "display": "Free-standing radiology facility",
+                "designation": [
+                    {
+                        "value": "Free-standing radiology facility"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "72311000",
+                "display": "Health maintenance organization",
+                "designation": [
+                    {
+                        "value": "Health maintenance organization"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "6827000",
+                "display": "Local community health center",
+                "designation": [
+                    {
+                        "value": "Local community health center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "309898008",
+                "display": "Psychogeriatric day hospital",
+                "designation": [
+                    {
+                        "value": "Psychogeriatric day hospital"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "39913001",
+                "display": "Residential school infirmary",
+                "designation": [
+                    {
+                        "value": "Residential school infirmary"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "77931003",
+                "display": "Rural health center",
+                "designation": [
+                    {
+                        "value": "Rural health center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "25681007",
+                "display": "Sexually transmitted disease health center",
+                "designation": [
+                    {
+                        "value": "Sexually transmitted disease health center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "20078004",
+                "display": "Substance abuse treatment center",
+                "designation": [
+                    {
+                        "value": "Substance abuse treatment center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "46224007",
+                "display": "Vaccination clinic",
+                "designation": [
+                    {
+                        "value": "Vaccination clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "81234003",
+                "display": "Walk-in clinic",
+                "designation": [
+                    {
+                        "value": "Walk-in clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "35971002",
+                "display": "Ambulatory care site--OTHER--NOT LISTED",
+                "designation": [
+                    {
+                        "value": "Ambulatory care site--OTHER--NOT LISTED"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "11424001",
+                "display": "Ambulance-based care",
+                "designation": [
+                    {
+                        "value": "Ambulance-based care"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "409519008",
+                "display": "Contained casualty setting",
+                "designation": [
+                    {
+                        "value": "Contained casualty setting"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "901005",
+                "display": "Helicopter-based care",
+                "designation": [
+                    {
+                        "value": "Helicopter-based care"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "2081004",
+                "display": "Hospital ship",
+                "designation": [
+                    {
+                        "value": "Hospital ship"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "59374000",
+                "display": "Traveler's aid clinic",
+                "designation": [
+                    {
+                        "value": "Traveler's aid clinic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "413456002",
+                "display": "Adult day care center",
+                "designation": [
+                    {
+                        "value": "Adult day care center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "413817003",
+                "display": "Child day care center",
+                "designation": [
+                    {
+                        "value": "Child day care center"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "310205006",
+                "display": "Private residential home",
+                "designation": [
+                    {
+                        "value": "Private residential home"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "419955002",
+                "display": "Residential institution",
+                "designation": [
+                    {
+                        "value": "Residential institution"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "272501009",
+                "display": "Sports facility",
+                "designation": [
+                    {
+                        "value": "Sports facility"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "394777002",
+                "display": "Health encounter site--NOT LISTED",
+                "designation": [
+                    {
+                        "value": "Health encounter site--NOT LISTED"
+                    }
+                ]
+            }
+        ]
+    }
+}

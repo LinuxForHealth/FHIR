@@ -1,0 +1,451 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0104",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0104",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.41"
+        }
+    ],
+    "version": "2.12.0",
+    "name": "VersionId",
+    "title": "versionId",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts which are used to identify an HL7 version in the Version 2.x family of published standards.  Used in HL7 Version 2.x messaging in the VID segment.",
+    "purpose": "Underlying Master Code System for V2 table 0104 (Version ID)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0104",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "1321",
+            "code": "2.0",
+            "display": "Release 2.0",
+            "definition": "Release 2.0",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Version 2.0, September 1988"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "September 1988"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "September 1988"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1322",
+            "code": "2.0D",
+            "display": "Demo 2.0",
+            "definition": "Demo 2.0",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Version 2.0, October 1988 (nur zu Demonstrationszwecken)"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "October 1988"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "October 1988"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1323",
+            "code": "2.1",
+            "display": "Release 2.1",
+            "definition": "Release 2.1",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Version 2.1, März 1990"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "March 1990"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "March 1990"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1324",
+            "code": "2.2",
+            "display": "Release 2.2",
+            "definition": "Release 2.2",
+            "designation": [
+                {
+                    "language": "de",
+                    "use": {
+                        "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                        "code": "preferredForLanguage"
+                    },
+                    "value": "Version 2.2, Dezember 1994"
+                }
+            ],
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "December 1994"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "December 1994"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1325",
+            "code": "2.3",
+            "display": "Release 2.3",
+            "definition": "Release 2.3",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "March 1997"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "March 1997"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1326",
+            "code": "2.3.1",
+            "display": "Release 2.3.1",
+            "definition": "Release 2.3.1",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "May 1999"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "May 1999"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1327",
+            "code": "2.3.2",
+            "display": "Release 2.3.2",
+            "definition": "Release 2.3.2",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1328",
+            "code": "2.4",
+            "display": "Release 2.4",
+            "definition": "Release 2.4",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "November 2000"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "November 2000"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1329",
+            "code": "2.5",
+            "display": "Release 2.5",
+            "definition": "Release 2.5",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "May 2003"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "May 2003"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1330",
+            "code": "2.5.1",
+            "display": "Release 2.5.1",
+            "definition": "Release 2.5.1",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "January 2007"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "January 2007"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1331",
+            "code": "2.6",
+            "display": "Release 2.6",
+            "definition": "Release 2.6",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "July 2007"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "July 2007"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1332",
+            "code": "2.7",
+            "display": "Release 2.7",
+            "definition": "Release 2.7",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "November 2010"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "November 2010"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1333",
+            "code": "2.7.1",
+            "display": "Release 2.7.1",
+            "definition": "Release 2.7.1",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "July 2012"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "July 2012"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1334",
+            "code": "2.8",
+            "display": "Release 2.8",
+            "definition": "Release 2.8",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "February 2014"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "February 2014"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1335",
+            "code": "2.8.1",
+            "display": "Release 2.8.1",
+            "definition": "Release 2.8.1",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "April 2014"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "April 2014"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1336",
+            "code": "2.8.2",
+            "display": "Release 2.8.2",
+            "definition": "Release 2.8.2",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "May 2015"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "May 2015"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "1337",
+            "code": "2.9",
+            "display": "Draft 2.9",
+            "definition": "Draft 2.9",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Sep. 2017"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Sep. 2017"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "N"
+                }
+            ]
+        }
+    ]
+}

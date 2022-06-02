@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -146,6 +146,13 @@ public class FHIRVersion extends Code {
     public static final FHIRVersion VERSION_3_0_1 = FHIRVersion.builder().value(Value.VERSION_3_0_1).build();
 
     /**
+     * 3.0.2
+     * 
+     * <p>FHIR Release 3 (STU) with 2 technical errata.
+     */
+    public static final FHIRVersion VERSION_3_0_2 = FHIRVersion.builder().value(Value.VERSION_3_0_2).build();
+
+    /**
      * 3.3.0
      * 
      * <p>R4 Ballot #1.
@@ -172,6 +179,20 @@ public class FHIRVersion extends Code {
      * <p>FHIR Release 4 Technical Correction.
      */
     public static final FHIRVersion VERSION_4_0_1 = FHIRVersion.builder().value(Value.VERSION_4_0_1).build();
+
+    /**
+     * 4.1.0
+     * 
+     * <p>FHIR Release 4B Ballot #1.
+     */
+    public static final FHIRVersion VERSION_4_1_0 = FHIRVersion.builder().value(Value.VERSION_4_1_0).build();
+
+    /**
+     * 4.3.0-cibuild
+     * 
+     * <p>FHIR Release 4B CI-Build.
+     */
+    public static final FHIRVersion VERSION_4_3_0_CIBUILD = FHIRVersion.builder().value(Value.VERSION_4_3_0_CIBUILD).build();
 
     private volatile int hashCode;
 
@@ -227,6 +248,8 @@ public class FHIRVersion extends Code {
             return VERSION_3_0_0;
         case VERSION_3_0_1:
             return VERSION_3_0_1;
+        case VERSION_3_0_2:
+            return VERSION_3_0_2;
         case VERSION_3_3_0:
             return VERSION_3_3_0;
         case VERSION_3_5_0:
@@ -235,6 +258,10 @@ public class FHIRVersion extends Code {
             return VERSION_4_0_0;
         case VERSION_4_0_1:
             return VERSION_4_0_1;
+        case VERSION_4_1_0:
+            return VERSION_4_1_0;
+        case VERSION_4_3_0_CIBUILD:
+            return VERSION_4_3_0_CIBUILD;
         default:
             throw new IllegalStateException(value.name());
         }
@@ -494,6 +521,13 @@ public class FHIRVersion extends Code {
         VERSION_3_0_1("3.0.1"),
 
         /**
+         * 3.0.2
+         * 
+         * <p>FHIR Release 3 (STU) with 2 technical errata.
+         */
+        VERSION_3_0_2("3.0.2"),
+
+        /**
          * 3.3.0
          * 
          * <p>R4 Ballot #1.
@@ -519,7 +553,21 @@ public class FHIRVersion extends Code {
          * 
          * <p>FHIR Release 4 Technical Correction.
          */
-        VERSION_4_0_1("4.0.1");
+        VERSION_4_0_1("4.0.1"),
+
+        /**
+         * 4.1.0
+         * 
+         * <p>FHIR Release 4B Ballot #1.
+         */
+        VERSION_4_1_0("4.1.0"),
+
+        /**
+         * 4.3.0-cibuild
+         * 
+         * <p>FHIR Release 4B CI-Build.
+         */
+        VERSION_4_3_0_CIBUILD("4.3.0-cibuild");
 
         private final java.lang.String value;
 
@@ -586,6 +634,8 @@ public class FHIRVersion extends Code {
                 return VERSION_3_0_0;
             case "3.0.1":
                 return VERSION_3_0_1;
+            case "3.0.2":
+                return VERSION_3_0_2;
             case "3.3.0":
                 return VERSION_3_3_0;
             case "3.5.0":
@@ -594,6 +644,10 @@ public class FHIRVersion extends Code {
                 return VERSION_4_0_0;
             case "4.0.1":
                 return VERSION_4_0_1;
+            case "4.1.0":
+                return VERSION_4_1_0;
+            case "4.3.0-cibuild":
+                return VERSION_4_3_0_CIBUILD;
             default:
                 throw new IllegalArgumentException(value);
             }

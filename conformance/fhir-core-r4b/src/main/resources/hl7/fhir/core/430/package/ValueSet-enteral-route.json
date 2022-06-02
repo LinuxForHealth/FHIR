@@ -1,0 +1,150 @@
+{
+    "resourceType": "ValueSet",
+    "id": "enteral-route",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/enteral-route",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.394"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "EnteralRouteCodes",
+    "title": "Enteral Route Codes",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "FHIR NutritionOrder team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "EnteralRouteOfAdministration: Codes specifying the route of administration of enteral formula.  This value set is composed of HL7 V3 codes and is provided as a suggestive example.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "concept": [
+                    {
+                        "code": "PO"
+                    },
+                    {
+                        "code": "EFT"
+                    },
+                    {
+                        "code": "ENTINSTL"
+                    },
+                    {
+                        "code": "GT"
+                    },
+                    {
+                        "code": "NGT"
+                    },
+                    {
+                        "code": "OGT"
+                    },
+                    {
+                        "code": "GJT"
+                    },
+                    {
+                        "code": "JJTINSTL"
+                    },
+                    {
+                        "code": "OJJ"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:2d07ee57-d9a5-459c-ae68-5f620041a245",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration|2.1.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "PO",
+                "display": "Swallow, oral"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "EFT",
+                "display": "Instillation, enteral feeding tube"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "ENTINSTL",
+                "display": "Instillation, enteral"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "GT",
+                "display": "Instillation, gastrostomy tube"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "NGT",
+                "display": "Instillation, nasogastric tube"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "OGT",
+                "display": "Instillation, orogastric tube"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "GJT",
+                "display": "Instillation, gastro-jejunostomy tube"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "JJTINSTL",
+                "display": "Instillation, jejunostomy tube"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RouteOfAdministration",
+                "code": "OJJ",
+                "display": "Instillation, orojejunum tube"
+            }
+        ]
+    }
+}

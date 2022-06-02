@@ -64,7 +64,11 @@ config(){
     if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty ]
     then
         cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
-        cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+        if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/test/liberty ]; then
+            cp ${WORKSPACE}/prev/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml ${DIST}/overrides
+        else
+            cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+        fi
     else
         cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
         cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
@@ -136,16 +140,16 @@ bringup(){
     DB_LOC="${WORKSPACE}/fhir/build/migration/db2/workarea/volumes/dist/derby"
     mkdir -p ${DB_LOC}
     java -jar ${WORKSPACE}/prev/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
-        --db-type derby --prop db.database=${DB_LOC}/fhirDB --prop db.create=Y \
-        --update-schema
-    java -jar ${WORKSPACE}/prev/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
         --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
+        --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,AllergyIntolerance,Observation,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
         --update-schema
     java -jar ${WORKSPACE}/prev/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
         --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \
+        --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
         --update-schema
     java -jar ${WORKSPACE}/prev/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
         --db-type derby --prop db.database=${DB_LOC}/study1 --prop db.create=Y \
+        --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,Procedure,Substance,StructureDefinition,ElementDefinition,CodeSystem,ValueSet \
         --update-schema
 
     # find ./workarea/volumes/dist/derby

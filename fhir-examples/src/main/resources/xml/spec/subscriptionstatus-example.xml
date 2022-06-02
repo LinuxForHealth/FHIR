@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><SubscriptionStatus xmlns="http://hl7.org/fhir">
+	<id value="example"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "example" </p></div><p><b>status</b>: active</p><p><b>type</b>: event-notification</p><p><b>eventsSinceSubscriptionStart</b>: 1000</p><h3>NotificationEvents</h3><table class="grid"><tr><td>-</td><td><b>EventNumber</b></td><td><b>Focus</b></td></tr><tr><td>*</td><td>1000</td><td><a href="todo.html">urn:uuid:9986fc11-a845-4965-af24-45312fd0cc4e</a></td></tr></table><p><b>subscription</b>: <a href="todo.html">http://example.org/FHIR/R4B/Subscription/123</a></p><p><b>topic</b>: <a href="http://example.org/FHIR/R4B/SubscriptionTopic/admission">http://example.org/FHIR/R4B/SubscriptionTopic/admission</a></p></div></text><status value="active"/>
+  <type value="event-notification"/>
+  <eventsSinceSubscriptionStart value="1000"/>
+  <notificationEvent>
+    <eventNumber value="1000"/>
+    <focus>
+      <reference value="urn:uuid:9986fc11-a845-4965-af24-45312fd0cc4e"/>
+    </focus>
+  </notificationEvent>
+  <subscription>
+    <reference value="http://example.org/FHIR/R4B/Subscription/123"/>
+  </subscription>
+  <topic value="http://example.org/FHIR/R4B/SubscriptionTopic/admission"/>
+</SubscriptionStatus>

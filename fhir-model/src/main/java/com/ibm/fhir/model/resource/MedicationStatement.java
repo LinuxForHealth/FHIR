@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -87,7 +87,7 @@ public class MedicationStatement extends DomainResource {
         bindingName = "MedicationStatementStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept indicating the current status of a MedicationStatement.",
-        valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-status|4.3.0-cibuild"
     )
     @Required
     private final MedicationStatementStatus status;

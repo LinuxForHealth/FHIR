@@ -1,0 +1,102 @@
+{
+    "resourceType": "ValueSet",
+    "id": "claim-type",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/claim-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.558"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ClaimTypeCodes",
+    "title": "Claim Type Codes",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "Financial Management",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes Claim Type codes.",
+    "copyright": "HL7 Inc.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:46f17f4e-6d66-4cbf-8473-fe8cc368b32d",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 5,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/claim-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "institutional",
+                "display": "Institutional"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "oral",
+                "display": "Oral"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "pharmacy",
+                "display": "Pharmacy"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "professional",
+                "display": "Professional"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/claim-type",
+                "code": "vision",
+                "display": "Vision"
+            }
+        ]
+    }
+}

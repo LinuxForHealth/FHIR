@@ -27,7 +27,6 @@ import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.server.util.FHIRRestHelperTest;
 
@@ -38,9 +37,9 @@ public class MockPersistenceImpl implements FHIRPersistence {
     int id = 0;
 
     @Override
-    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) 
+    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource)
             throws FHIRPersistenceException {
-        
+
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
                 .interactionStatus(InteractionStatus.MODIFIED)
@@ -51,7 +50,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
-            throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+            throws FHIRPersistenceException {
         // TODO. Why this logic? Definitely worthy of a comment
         if (logicalId.startsWith("generated")) {
             return new SingleResourceResult.Builder<T>()
@@ -70,7 +69,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> vread(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, String versionId)
-            throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
+            throws FHIRPersistenceException {
         if (logicalId.startsWith("generated")) {
             return new SingleResourceResult.Builder<T>()
                     .success(true)
@@ -100,11 +99,8 @@ public class MockPersistenceImpl implements FHIRPersistence {
         return resultBuilder.build();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public MultiResourceResult history(FHIRPersistenceContext context, Class<? extends Resource> resourceType, String logicalId) throws FHIRPersistenceException {
-
-        
         Instant lastUpdated = Instant.now(ZoneOffset.UTC);
         Patient updatedResource = Patient.builder().id("test").meta(Meta.builder().versionId(Id.of("1")).lastUpdated(lastUpdated).build()).build();
         ResourceResult<Resource> resourceResult = ResourceResult.builder()
@@ -153,7 +149,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public <T extends Resource> void delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, int versionId, 
+    public <T extends Resource> void delete(FHIRPersistenceContext context, Class<T> resourceType, String logicalId, int versionId,
             com.ibm.fhir.model.type.Instant lastUpdated) throws FHIRPersistenceException {
         // NOP. No need to do anything in this very simple mock
     }

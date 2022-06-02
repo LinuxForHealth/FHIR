@@ -1,19 +1,15 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.model.util;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
@@ -25,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -54,6 +49,7 @@ import com.ibm.fhir.model.type.Base64Binary;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.CodeableReference;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.ContactDetail;
 import com.ibm.fhir.model.type.ContactPoint;
@@ -90,12 +86,12 @@ import com.ibm.fhir.model.type.ProductShelfLife;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Ratio;
+import com.ibm.fhir.model.type.RatioRange;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.SampledData;
 import com.ibm.fhir.model.type.Signature;
 import com.ibm.fhir.model.type.SimpleQuantity;
-import com.ibm.fhir.model.type.SubstanceAmount;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.TriggerDefinition;
@@ -117,91 +113,17 @@ public final class ModelSupport {
 
     private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
     private static final List<Class<?>> MODEL_CLASSES = Arrays.asList(
-        com.ibm.fhir.model.type.Element.class,
-        com.ibm.fhir.model.type.Extension.class,
-        com.ibm.fhir.model.type.BackboneElement.class,
-        com.ibm.fhir.model.type.String.class,
-        com.ibm.fhir.model.type.Uri.class,
-        com.ibm.fhir.model.type.Integer.class,
-        com.ibm.fhir.model.type.Quantity.class,
-        com.ibm.fhir.model.type.Address.class,
-        com.ibm.fhir.model.type.Age.class,
-        com.ibm.fhir.model.type.Annotation.class,
-        com.ibm.fhir.model.type.Attachment.class,
-        com.ibm.fhir.model.type.Base64Binary.class,
-        com.ibm.fhir.model.type.Boolean.class,
-        com.ibm.fhir.model.type.Canonical.class,
-        com.ibm.fhir.model.type.Code.class,
-        com.ibm.fhir.model.type.CodeableConcept.class,
-        com.ibm.fhir.model.type.Coding.class,
-        com.ibm.fhir.model.type.ContactDetail.class,
-        com.ibm.fhir.model.type.ContactPoint.class,
-        com.ibm.fhir.model.type.Contributor.class,
-        com.ibm.fhir.model.type.Count.class,
-        com.ibm.fhir.model.type.DataRequirement.class,
-        com.ibm.fhir.model.type.DataRequirement.CodeFilter.class,
-        com.ibm.fhir.model.type.DataRequirement.DateFilter.class,
-        com.ibm.fhir.model.type.DataRequirement.Sort.class,
-        com.ibm.fhir.model.type.Date.class,
-        com.ibm.fhir.model.type.DateTime.class,
-        com.ibm.fhir.model.type.Decimal.class,
-        com.ibm.fhir.model.type.Distance.class,
-        com.ibm.fhir.model.type.Dosage.class,
-        com.ibm.fhir.model.type.Dosage.DoseAndRate.class,
-        com.ibm.fhir.model.type.Duration.class,
-        com.ibm.fhir.model.type.ElementDefinition.class,
-        com.ibm.fhir.model.type.ElementDefinition.Base.class,
-        com.ibm.fhir.model.type.ElementDefinition.Binding.class,
-        com.ibm.fhir.model.type.ElementDefinition.Constraint.class,
-        com.ibm.fhir.model.type.ElementDefinition.Example.class,
-        com.ibm.fhir.model.type.ElementDefinition.Mapping.class,
-        com.ibm.fhir.model.type.ElementDefinition.Slicing.class,
-        com.ibm.fhir.model.type.ElementDefinition.Slicing.Discriminator.class,
-        com.ibm.fhir.model.type.ElementDefinition.Type.class,
-        com.ibm.fhir.model.type.Expression.class,
-        com.ibm.fhir.model.type.HumanName.class,
-        com.ibm.fhir.model.type.Id.class,
-        com.ibm.fhir.model.type.Identifier.class,
-        com.ibm.fhir.model.type.Instant.class,
-        com.ibm.fhir.model.type.Markdown.class,
-        com.ibm.fhir.model.type.MarketingStatus.class,
-        com.ibm.fhir.model.type.Meta.class,
-        com.ibm.fhir.model.type.Money.class,
-        com.ibm.fhir.model.type.MoneyQuantity.class,
-        com.ibm.fhir.model.type.Narrative.class,
-        com.ibm.fhir.model.type.Oid.class,
-        com.ibm.fhir.model.type.ParameterDefinition.class,
-        com.ibm.fhir.model.type.Period.class,
-        com.ibm.fhir.model.type.Population.class,
-        com.ibm.fhir.model.type.PositiveInt.class,
-        com.ibm.fhir.model.type.ProdCharacteristic.class,
-        com.ibm.fhir.model.type.ProductShelfLife.class,
-        com.ibm.fhir.model.type.Range.class,
-        com.ibm.fhir.model.type.Ratio.class,
-        com.ibm.fhir.model.type.Reference.class,
-        com.ibm.fhir.model.type.RelatedArtifact.class,
-        com.ibm.fhir.model.type.SampledData.class,
-        com.ibm.fhir.model.type.Signature.class,
-        com.ibm.fhir.model.type.SimpleQuantity.class,
-        com.ibm.fhir.model.type.SubstanceAmount.class,
-        com.ibm.fhir.model.type.SubstanceAmount.ReferenceRange.class,
-        com.ibm.fhir.model.type.Time.class,
-        com.ibm.fhir.model.type.Timing.class,
-        com.ibm.fhir.model.type.Timing.Repeat.class,
-        com.ibm.fhir.model.type.TriggerDefinition.class,
-        com.ibm.fhir.model.type.UnsignedInt.class,
-        com.ibm.fhir.model.type.Url.class,
-        com.ibm.fhir.model.type.UsageContext.class,
-        com.ibm.fhir.model.type.Uuid.class,
-        com.ibm.fhir.model.type.Xhtml.class,
-        com.ibm.fhir.model.resource.Resource.class,
-        com.ibm.fhir.model.resource.DomainResource.class,
         com.ibm.fhir.model.resource.Account.class,
         com.ibm.fhir.model.resource.Account.Coverage.class,
         com.ibm.fhir.model.resource.Account.Guarantor.class,
         com.ibm.fhir.model.resource.ActivityDefinition.class,
         com.ibm.fhir.model.resource.ActivityDefinition.DynamicValue.class,
         com.ibm.fhir.model.resource.ActivityDefinition.Participant.class,
+        com.ibm.fhir.model.resource.AdministrableProductDefinition.class,
+        com.ibm.fhir.model.resource.AdministrableProductDefinition.Property.class,
+        com.ibm.fhir.model.resource.AdministrableProductDefinition.RouteOfAdministration.class,
+        com.ibm.fhir.model.resource.AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.class,
+        com.ibm.fhir.model.resource.AdministrableProductDefinition.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.class,
         com.ibm.fhir.model.resource.AdverseEvent.class,
         com.ibm.fhir.model.resource.AdverseEvent.SuspectEntity.class,
         com.ibm.fhir.model.resource.AdverseEvent.SuspectEntity.Causality.class,
@@ -257,6 +179,30 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.ChargeItemDefinition.Applicability.class,
         com.ibm.fhir.model.resource.ChargeItemDefinition.PropertyGroup.class,
         com.ibm.fhir.model.resource.ChargeItemDefinition.PropertyGroup.PriceComponent.class,
+        com.ibm.fhir.model.resource.Citation.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.Abstract.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.Classification.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.Classification.WhoClassified.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.Contributorship.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.Contributorship.Entry.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.Contributorship.Entry.AffiliationInfo.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.Contributorship.Entry.ContributionInstance.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.Contributorship.Summary.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.Part.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.PublicationForm.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.PublicationForm.PeriodicRelease.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.PublicationForm.PeriodicRelease.DateOfPublication.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.PublicationForm.PublishedIn.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.RelatesTo.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.StatusDate.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.Title.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.Version.class,
+        com.ibm.fhir.model.resource.Citation.CitedArtifact.WebLocation.class,
+        com.ibm.fhir.model.resource.Citation.Classification.class,
+        com.ibm.fhir.model.resource.Citation.RelatesTo.class,
+        com.ibm.fhir.model.resource.Citation.Summary.class,
+        com.ibm.fhir.model.resource.Citation.StatusDate.class,
         com.ibm.fhir.model.resource.Claim.class,
         com.ibm.fhir.model.resource.Claim.Accident.class,
         com.ibm.fhir.model.resource.Claim.CareTeam.class,
@@ -285,6 +231,14 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.ClinicalImpression.class,
         com.ibm.fhir.model.resource.ClinicalImpression.Finding.class,
         com.ibm.fhir.model.resource.ClinicalImpression.Investigation.class,
+        com.ibm.fhir.model.resource.ClinicalUseDefinition.class,
+        com.ibm.fhir.model.resource.ClinicalUseDefinition.Contraindication.class,
+        com.ibm.fhir.model.resource.ClinicalUseDefinition.Contraindication.OtherTherapy.class,
+        com.ibm.fhir.model.resource.ClinicalUseDefinition.Indication.class,
+        com.ibm.fhir.model.resource.ClinicalUseDefinition.Interaction.class,
+        com.ibm.fhir.model.resource.ClinicalUseDefinition.Interaction.Interactant.class,
+        com.ibm.fhir.model.resource.ClinicalUseDefinition.UndesirableEffect.class,
+        com.ibm.fhir.model.resource.ClinicalUseDefinition.Warning.class,
         com.ibm.fhir.model.resource.CodeSystem.class,
         com.ibm.fhir.model.resource.CodeSystem.Concept.class,
         com.ibm.fhir.model.resource.CodeSystem.Concept.Designation.class,
@@ -376,13 +330,7 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.DocumentReference.Content.class,
         com.ibm.fhir.model.resource.DocumentReference.Context.class,
         com.ibm.fhir.model.resource.DocumentReference.RelatesTo.class,
-        com.ibm.fhir.model.resource.EffectEvidenceSynthesis.class,
-        com.ibm.fhir.model.resource.EffectEvidenceSynthesis.Certainty.class,
-        com.ibm.fhir.model.resource.EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.class,
-        com.ibm.fhir.model.resource.EffectEvidenceSynthesis.EffectEstimate.class,
-        com.ibm.fhir.model.resource.EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.class,
-        com.ibm.fhir.model.resource.EffectEvidenceSynthesis.ResultsByExposure.class,
-        com.ibm.fhir.model.resource.EffectEvidenceSynthesis.SampleSize.class,
+        com.ibm.fhir.model.resource.DomainResource.class,
         com.ibm.fhir.model.resource.Encounter.class,
         com.ibm.fhir.model.resource.Encounter.ClassHistory.class,
         com.ibm.fhir.model.resource.Encounter.Diagnosis.class,
@@ -398,8 +346,22 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.EpisodeOfCare.StatusHistory.class,
         com.ibm.fhir.model.resource.EventDefinition.class,
         com.ibm.fhir.model.resource.Evidence.class,
+        com.ibm.fhir.model.resource.Evidence.Certainty.class,
+        com.ibm.fhir.model.resource.Evidence.Statistic.class,
+        com.ibm.fhir.model.resource.Evidence.Statistic.AttributeEstimate.class,
+        com.ibm.fhir.model.resource.Evidence.Statistic.ModelCharacteristic.class,
+        com.ibm.fhir.model.resource.Evidence.Statistic.ModelCharacteristic.Variable.class,
+        com.ibm.fhir.model.resource.Evidence.Statistic.SampleSize.class,
+        com.ibm.fhir.model.resource.Evidence.VariableDefinition.class,
+        com.ibm.fhir.model.resource.EvidenceReport.class,
+        com.ibm.fhir.model.resource.EvidenceReport.RelatesTo.class,
+        com.ibm.fhir.model.resource.EvidenceReport.Section.class,
+        com.ibm.fhir.model.resource.EvidenceReport.Subject.class,
+        com.ibm.fhir.model.resource.EvidenceReport.Subject.Characteristic.class,
         com.ibm.fhir.model.resource.EvidenceVariable.class,
+        com.ibm.fhir.model.resource.EvidenceVariable.Category.class,
         com.ibm.fhir.model.resource.EvidenceVariable.Characteristic.class,
+        com.ibm.fhir.model.resource.EvidenceVariable.Characteristic.TimeFromStart.class,
         com.ibm.fhir.model.resource.ExampleScenario.class,
         com.ibm.fhir.model.resource.ExampleScenario.Actor.class,
         com.ibm.fhir.model.resource.ExampleScenario.Instance.class,
@@ -472,6 +434,11 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.ImplementationGuide.Manifest.class,
         com.ibm.fhir.model.resource.ImplementationGuide.Manifest.Page.class,
         com.ibm.fhir.model.resource.ImplementationGuide.Manifest.Resource.class,
+        com.ibm.fhir.model.resource.Ingredient.class,
+        com.ibm.fhir.model.resource.Ingredient.Manufacturer.class,
+        com.ibm.fhir.model.resource.Ingredient.Substance.class,
+        com.ibm.fhir.model.resource.Ingredient.Substance.Strength.class,
+        com.ibm.fhir.model.resource.Ingredient.Substance.Strength.ReferenceStrength.class,
         com.ibm.fhir.model.resource.InsurancePlan.class,
         com.ibm.fhir.model.resource.InsurancePlan.Contact.class,
         com.ibm.fhir.model.resource.InsurancePlan.Coverage.class,
@@ -494,6 +461,8 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.Location.class,
         com.ibm.fhir.model.resource.Location.HoursOfOperation.class,
         com.ibm.fhir.model.resource.Location.Position.class,
+        com.ibm.fhir.model.resource.ManufacturedItemDefinition.class,
+        com.ibm.fhir.model.resource.ManufacturedItemDefinition.Property.class,
         com.ibm.fhir.model.resource.Measure.class,
         com.ibm.fhir.model.resource.Measure.Group.class,
         com.ibm.fhir.model.resource.Measure.Group.Population.class,
@@ -539,36 +508,14 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.MedicationRequest.DispenseRequest.InitialFill.class,
         com.ibm.fhir.model.resource.MedicationRequest.Substitution.class,
         com.ibm.fhir.model.resource.MedicationStatement.class,
-        com.ibm.fhir.model.resource.MedicinalProduct.class,
-        com.ibm.fhir.model.resource.MedicinalProduct.ManufacturingBusinessOperation.class,
-        com.ibm.fhir.model.resource.MedicinalProduct.Name.class,
-        com.ibm.fhir.model.resource.MedicinalProduct.Name.CountryLanguage.class,
-        com.ibm.fhir.model.resource.MedicinalProduct.Name.NamePart.class,
-        com.ibm.fhir.model.resource.MedicinalProduct.SpecialDesignation.class,
-        com.ibm.fhir.model.resource.MedicinalProductAuthorization.class,
-        com.ibm.fhir.model.resource.MedicinalProductAuthorization.JurisdictionalAuthorization.class,
-        com.ibm.fhir.model.resource.MedicinalProductAuthorization.Procedure.class,
-        com.ibm.fhir.model.resource.MedicinalProductContraindication.class,
-        com.ibm.fhir.model.resource.MedicinalProductContraindication.OtherTherapy.class,
-        com.ibm.fhir.model.resource.MedicinalProductIndication.class,
-        com.ibm.fhir.model.resource.MedicinalProductIndication.OtherTherapy.class,
-        com.ibm.fhir.model.resource.MedicinalProductIngredient.class,
-        com.ibm.fhir.model.resource.MedicinalProductIngredient.SpecifiedSubstance.class,
-        com.ibm.fhir.model.resource.MedicinalProductIngredient.SpecifiedSubstance.Strength.class,
-        com.ibm.fhir.model.resource.MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.class,
-        com.ibm.fhir.model.resource.MedicinalProductIngredient.Substance.class,
-        com.ibm.fhir.model.resource.MedicinalProductInteraction.class,
-        com.ibm.fhir.model.resource.MedicinalProductInteraction.Interactant.class,
-        com.ibm.fhir.model.resource.MedicinalProductManufactured.class,
-        com.ibm.fhir.model.resource.MedicinalProductPackaged.class,
-        com.ibm.fhir.model.resource.MedicinalProductPackaged.BatchIdentifier.class,
-        com.ibm.fhir.model.resource.MedicinalProductPackaged.PackageItem.class,
-        com.ibm.fhir.model.resource.MedicinalProductPharmaceutical.class,
-        com.ibm.fhir.model.resource.MedicinalProductPharmaceutical.Characteristics.class,
-        com.ibm.fhir.model.resource.MedicinalProductPharmaceutical.RouteOfAdministration.class,
-        com.ibm.fhir.model.resource.MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.class,
-        com.ibm.fhir.model.resource.MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.class,
-        com.ibm.fhir.model.resource.MedicinalProductUndesirableEffect.class,
+        com.ibm.fhir.model.resource.MedicinalProductDefinition.class,
+        com.ibm.fhir.model.resource.MedicinalProductDefinition.Characteristic.class,
+        com.ibm.fhir.model.resource.MedicinalProductDefinition.Contact.class,
+        com.ibm.fhir.model.resource.MedicinalProductDefinition.CrossReference.class,
+        com.ibm.fhir.model.resource.MedicinalProductDefinition.Name.class,
+        com.ibm.fhir.model.resource.MedicinalProductDefinition.Name.CountryLanguage.class,
+        com.ibm.fhir.model.resource.MedicinalProductDefinition.Name.NamePart.class,
+        com.ibm.fhir.model.resource.MedicinalProductDefinition.Operation.class,
         com.ibm.fhir.model.resource.MessageDefinition.class,
         com.ibm.fhir.model.resource.MessageDefinition.AllowedResponse.class,
         com.ibm.fhir.model.resource.MessageDefinition.Focus.class,
@@ -594,6 +541,11 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.NutritionOrder.OralDiet.Nutrient.class,
         com.ibm.fhir.model.resource.NutritionOrder.OralDiet.Texture.class,
         com.ibm.fhir.model.resource.NutritionOrder.Supplement.class,
+        com.ibm.fhir.model.resource.NutritionProduct.class,
+        com.ibm.fhir.model.resource.NutritionProduct.Ingredient.class,
+        com.ibm.fhir.model.resource.NutritionProduct.Instance.class,
+        com.ibm.fhir.model.resource.NutritionProduct.Nutrient.class,
+        com.ibm.fhir.model.resource.NutritionProduct.ProductCharacteristic.class,
         com.ibm.fhir.model.resource.Observation.class,
         com.ibm.fhir.model.resource.Observation.Component.class,
         com.ibm.fhir.model.resource.Observation.ReferenceRange.class,
@@ -610,6 +562,12 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.Organization.class,
         com.ibm.fhir.model.resource.Organization.Contact.class,
         com.ibm.fhir.model.resource.OrganizationAffiliation.class,
+        com.ibm.fhir.model.resource.PackagedProductDefinition.class,
+        com.ibm.fhir.model.resource.PackagedProductDefinition.LegalStatusOfSupply.class,
+        com.ibm.fhir.model.resource.PackagedProductDefinition.Package.class,
+        com.ibm.fhir.model.resource.PackagedProductDefinition.Package.ContainedItem.class,
+        com.ibm.fhir.model.resource.PackagedProductDefinition.Package.Property.class,
+        com.ibm.fhir.model.resource.PackagedProductDefinition.Package.ShelfLifeStorage.class,
         com.ibm.fhir.model.resource.Parameters.class,
         com.ibm.fhir.model.resource.Parameters.Parameter.class,
         com.ibm.fhir.model.resource.Patient.class,
@@ -649,6 +607,8 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.QuestionnaireResponse.class,
         com.ibm.fhir.model.resource.QuestionnaireResponse.Item.class,
         com.ibm.fhir.model.resource.QuestionnaireResponse.Item.Answer.class,
+        com.ibm.fhir.model.resource.RegulatedAuthorization.class,
+        com.ibm.fhir.model.resource.RegulatedAuthorization.Case.class,
         com.ibm.fhir.model.resource.RelatedPerson.class,
         com.ibm.fhir.model.resource.RelatedPerson.Communication.class,
         com.ibm.fhir.model.resource.RequestGroup.class,
@@ -662,14 +622,9 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.ResearchStudy.Arm.class,
         com.ibm.fhir.model.resource.ResearchStudy.Objective.class,
         com.ibm.fhir.model.resource.ResearchSubject.class,
+        com.ibm.fhir.model.resource.Resource.class,
         com.ibm.fhir.model.resource.RiskAssessment.class,
         com.ibm.fhir.model.resource.RiskAssessment.Prediction.class,
-        com.ibm.fhir.model.resource.RiskEvidenceSynthesis.class,
-        com.ibm.fhir.model.resource.RiskEvidenceSynthesis.Certainty.class,
-        com.ibm.fhir.model.resource.RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.class,
-        com.ibm.fhir.model.resource.RiskEvidenceSynthesis.RiskEstimate.class,
-        com.ibm.fhir.model.resource.RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.class,
-        com.ibm.fhir.model.resource.RiskEvidenceSynthesis.SampleSize.class,
         com.ibm.fhir.model.resource.Schedule.class,
         com.ibm.fhir.model.resource.SearchParameter.class,
         com.ibm.fhir.model.resource.SearchParameter.Component.class,
@@ -700,45 +655,28 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.StructureMap.Structure.class,
         com.ibm.fhir.model.resource.Subscription.class,
         com.ibm.fhir.model.resource.Subscription.Channel.class,
+        com.ibm.fhir.model.resource.SubscriptionStatus.class,
+        com.ibm.fhir.model.resource.SubscriptionStatus.NotificationEvent.class,
+        com.ibm.fhir.model.resource.SubscriptionTopic.class,
+        com.ibm.fhir.model.resource.SubscriptionTopic.CanFilterBy.class,
+        com.ibm.fhir.model.resource.SubscriptionTopic.EventTrigger.class,
+        com.ibm.fhir.model.resource.SubscriptionTopic.NotificationShape.class,
+        com.ibm.fhir.model.resource.SubscriptionTopic.ResourceTrigger.class,
+        com.ibm.fhir.model.resource.SubscriptionTopic.ResourceTrigger.QueryCriteria.class,
         com.ibm.fhir.model.resource.Substance.class,
         com.ibm.fhir.model.resource.Substance.Ingredient.class,
         com.ibm.fhir.model.resource.Substance.Instance.class,
-        com.ibm.fhir.model.resource.SubstanceNucleicAcid.class,
-        com.ibm.fhir.model.resource.SubstanceNucleicAcid.Subunit.class,
-        com.ibm.fhir.model.resource.SubstanceNucleicAcid.Subunit.Linkage.class,
-        com.ibm.fhir.model.resource.SubstanceNucleicAcid.Subunit.Sugar.class,
-        com.ibm.fhir.model.resource.SubstancePolymer.class,
-        com.ibm.fhir.model.resource.SubstancePolymer.MonomerSet.class,
-        com.ibm.fhir.model.resource.SubstancePolymer.MonomerSet.StartingMaterial.class,
-        com.ibm.fhir.model.resource.SubstancePolymer.Repeat.class,
-        com.ibm.fhir.model.resource.SubstancePolymer.Repeat.RepeatUnit.class,
-        com.ibm.fhir.model.resource.SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.class,
-        com.ibm.fhir.model.resource.SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.class,
-        com.ibm.fhir.model.resource.SubstanceProtein.class,
-        com.ibm.fhir.model.resource.SubstanceProtein.Subunit.class,
-        com.ibm.fhir.model.resource.SubstanceReferenceInformation.class,
-        com.ibm.fhir.model.resource.SubstanceReferenceInformation.Classification.class,
-        com.ibm.fhir.model.resource.SubstanceReferenceInformation.Gene.class,
-        com.ibm.fhir.model.resource.SubstanceReferenceInformation.GeneElement.class,
-        com.ibm.fhir.model.resource.SubstanceReferenceInformation.Target.class,
-        com.ibm.fhir.model.resource.SubstanceSourceMaterial.class,
-        com.ibm.fhir.model.resource.SubstanceSourceMaterial.FractionDescription.class,
-        com.ibm.fhir.model.resource.SubstanceSourceMaterial.Organism.class,
-        com.ibm.fhir.model.resource.SubstanceSourceMaterial.Organism.Author.class,
-        com.ibm.fhir.model.resource.SubstanceSourceMaterial.Organism.Hybrid.class,
-        com.ibm.fhir.model.resource.SubstanceSourceMaterial.Organism.OrganismGeneral.class,
-        com.ibm.fhir.model.resource.SubstanceSourceMaterial.PartDescription.class,
-        com.ibm.fhir.model.resource.SubstanceSpecification.class,
-        com.ibm.fhir.model.resource.SubstanceSpecification.Code.class,
-        com.ibm.fhir.model.resource.SubstanceSpecification.Moiety.class,
-        com.ibm.fhir.model.resource.SubstanceSpecification.Name.class,
-        com.ibm.fhir.model.resource.SubstanceSpecification.Name.Official.class,
-        com.ibm.fhir.model.resource.SubstanceSpecification.Property.class,
-        com.ibm.fhir.model.resource.SubstanceSpecification.Relationship.class,
-        com.ibm.fhir.model.resource.SubstanceSpecification.Structure.class,
-        com.ibm.fhir.model.resource.SubstanceSpecification.Structure.Isotope.class,
-        com.ibm.fhir.model.resource.SubstanceSpecification.Structure.Isotope.MolecularWeight.class,
-        com.ibm.fhir.model.resource.SubstanceSpecification.Structure.Representation.class,
+        com.ibm.fhir.model.resource.SubstanceDefinition.class,
+        com.ibm.fhir.model.resource.SubstanceDefinition.Code.class,
+        com.ibm.fhir.model.resource.SubstanceDefinition.Moiety.class,
+        com.ibm.fhir.model.resource.SubstanceDefinition.MolecularWeight.class,
+        com.ibm.fhir.model.resource.SubstanceDefinition.Name.class,
+        com.ibm.fhir.model.resource.SubstanceDefinition.Name.Official.class,
+        com.ibm.fhir.model.resource.SubstanceDefinition.Property.class,
+        com.ibm.fhir.model.resource.SubstanceDefinition.Relationship.class,
+        com.ibm.fhir.model.resource.SubstanceDefinition.SourceMaterial.class,
+        com.ibm.fhir.model.resource.SubstanceDefinition.Structure.class,
+        com.ibm.fhir.model.resource.SubstanceDefinition.Structure.Representation.class,
         com.ibm.fhir.model.resource.SupplyDelivery.class,
         com.ibm.fhir.model.resource.SupplyDelivery.SuppliedItem.class,
         com.ibm.fhir.model.resource.SupplyRequest.class,
@@ -800,7 +738,84 @@ public final class ModelSupport {
         com.ibm.fhir.model.resource.VerificationResult.Validator.class,
         com.ibm.fhir.model.resource.VisionPrescription.class,
         com.ibm.fhir.model.resource.VisionPrescription.LensSpecification.class,
-        com.ibm.fhir.model.resource.VisionPrescription.LensSpecification.Prism.class
+        com.ibm.fhir.model.resource.VisionPrescription.LensSpecification.Prism.class,
+        com.ibm.fhir.model.type.Address.class,
+        com.ibm.fhir.model.type.Age.class,
+        com.ibm.fhir.model.type.Annotation.class,
+        com.ibm.fhir.model.type.Attachment.class,
+        com.ibm.fhir.model.type.BackboneElement.class,
+        com.ibm.fhir.model.type.Base64Binary.class,
+        com.ibm.fhir.model.type.Boolean.class,
+        com.ibm.fhir.model.type.Canonical.class,
+        com.ibm.fhir.model.type.Code.class,
+        com.ibm.fhir.model.type.CodeableConcept.class,
+        com.ibm.fhir.model.type.CodeableReference.class,
+        com.ibm.fhir.model.type.Coding.class,
+        com.ibm.fhir.model.type.ContactDetail.class,
+        com.ibm.fhir.model.type.ContactPoint.class,
+        com.ibm.fhir.model.type.Contributor.class,
+        com.ibm.fhir.model.type.Count.class,
+        com.ibm.fhir.model.type.DataRequirement.class,
+        com.ibm.fhir.model.type.DataRequirement.CodeFilter.class,
+        com.ibm.fhir.model.type.DataRequirement.DateFilter.class,
+        com.ibm.fhir.model.type.DataRequirement.Sort.class,
+        com.ibm.fhir.model.type.Date.class,
+        com.ibm.fhir.model.type.DateTime.class,
+        com.ibm.fhir.model.type.Decimal.class,
+        com.ibm.fhir.model.type.Distance.class,
+        com.ibm.fhir.model.type.Dosage.class,
+        com.ibm.fhir.model.type.Dosage.DoseAndRate.class,
+        com.ibm.fhir.model.type.Duration.class,
+        com.ibm.fhir.model.type.Element.class,
+        com.ibm.fhir.model.type.ElementDefinition.class,
+        com.ibm.fhir.model.type.ElementDefinition.Base.class,
+        com.ibm.fhir.model.type.ElementDefinition.Binding.class,
+        com.ibm.fhir.model.type.ElementDefinition.Constraint.class,
+        com.ibm.fhir.model.type.ElementDefinition.Example.class,
+        com.ibm.fhir.model.type.ElementDefinition.Mapping.class,
+        com.ibm.fhir.model.type.ElementDefinition.Slicing.class,
+        com.ibm.fhir.model.type.ElementDefinition.Slicing.Discriminator.class,
+        com.ibm.fhir.model.type.ElementDefinition.Type.class,
+        com.ibm.fhir.model.type.Expression.class,
+        com.ibm.fhir.model.type.Extension.class,
+        com.ibm.fhir.model.type.HumanName.class,
+        com.ibm.fhir.model.type.Id.class,
+        com.ibm.fhir.model.type.Identifier.class,
+        com.ibm.fhir.model.type.Instant.class,
+        com.ibm.fhir.model.type.Integer.class,
+        com.ibm.fhir.model.type.Markdown.class,
+        com.ibm.fhir.model.type.MarketingStatus.class,
+        com.ibm.fhir.model.type.Meta.class,
+        com.ibm.fhir.model.type.Money.class,
+        com.ibm.fhir.model.type.MoneyQuantity.class,
+        com.ibm.fhir.model.type.Narrative.class,
+        com.ibm.fhir.model.type.Oid.class,
+        com.ibm.fhir.model.type.ParameterDefinition.class,
+        com.ibm.fhir.model.type.Period.class,
+        com.ibm.fhir.model.type.Population.class,
+        com.ibm.fhir.model.type.PositiveInt.class,
+        com.ibm.fhir.model.type.ProdCharacteristic.class,
+        com.ibm.fhir.model.type.ProductShelfLife.class,
+        com.ibm.fhir.model.type.Quantity.class,
+        com.ibm.fhir.model.type.Range.class,
+        com.ibm.fhir.model.type.Ratio.class,
+        com.ibm.fhir.model.type.RatioRange.class,
+        com.ibm.fhir.model.type.Reference.class,
+        com.ibm.fhir.model.type.RelatedArtifact.class,
+        com.ibm.fhir.model.type.SampledData.class,
+        com.ibm.fhir.model.type.Signature.class,
+        com.ibm.fhir.model.type.SimpleQuantity.class,
+        com.ibm.fhir.model.type.String.class,
+        com.ibm.fhir.model.type.Time.class,
+        com.ibm.fhir.model.type.Timing.class,
+        com.ibm.fhir.model.type.Timing.Repeat.class,
+        com.ibm.fhir.model.type.TriggerDefinition.class,
+        com.ibm.fhir.model.type.UnsignedInt.class,
+        com.ibm.fhir.model.type.Uri.class,
+        com.ibm.fhir.model.type.Url.class,
+        com.ibm.fhir.model.type.UsageContext.class,
+        com.ibm.fhir.model.type.Uuid.class,
+        com.ibm.fhir.model.type.Xhtml.class
             );
     private static final Map<Class<?>, Map<String, ElementInfo>> MODEL_CLASS_ELEMENT_INFO_MAP = buildModelClassElementInfoMap();
     private static final Map<String, Class<? extends Resource>> RESOURCE_TYPE_MAP = buildResourceTypeMap();
@@ -834,6 +849,7 @@ public final class ModelSupport {
             Annotation.class,
             Attachment.class,
             CodeableConcept.class,
+            CodeableReference.class,
             Coding.class,
             ContactPoint.class,
             Count.class,
@@ -847,6 +863,7 @@ public final class ModelSupport {
             Quantity.class,
             Range.class,
             Ratio.class,
+            RatioRange.class,
             Reference.class,
             SampledData.class,
             SimpleQuantity.class, // profiled type
@@ -874,7 +891,6 @@ public final class ModelSupport {
         dataTypes.add(Population.class);
         dataTypes.add(ProductShelfLife.class);
         dataTypes.add(ProdCharacteristic.class);
-        dataTypes.add(SubstanceAmount.class);
         DATA_TYPES = Collections.unmodifiableSet(dataTypes);
     }
     private static final Map<String, Class<?>> DATA_TYPE_MAP = buildDataTypeMap();
@@ -1024,17 +1040,262 @@ public final class ModelSupport {
     }
 
     private static Map<String, Class<?>> buildCodeSubtypeMap() {
-        try (InputStream in = ModelSupport.class.getClassLoader().getResourceAsStream("codeSubtypeClasses")) {
-            Map<String, Class<?>> codeSubtypeMap = new LinkedHashMap<>();
-            List<String> lines = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8)).lines().collect(Collectors.toList());
-            for (String className : lines) {
-                Class<?> codeSubtypeClass = Class.forName(className);
-                codeSubtypeMap.put(codeSubtypeClass.getSimpleName(), codeSubtypeClass);
-            }
-            return Collections.unmodifiableMap(codeSubtypeMap);
-        } catch (Exception e) {
-            throw new Error(e);
-        }
+        Map<String, Class<?>> codeSubtypeMap = new LinkedHashMap<>();
+        codeSubtypeMap.put("AccountStatus", com.ibm.fhir.model.type.code.AccountStatus.class);
+        codeSubtypeMap.put("ActionCardinalityBehavior", com.ibm.fhir.model.type.code.ActionCardinalityBehavior.class);
+        codeSubtypeMap.put("ActionConditionKind", com.ibm.fhir.model.type.code.ActionConditionKind.class);
+        codeSubtypeMap.put("ActionGroupingBehavior", com.ibm.fhir.model.type.code.ActionGroupingBehavior.class);
+        codeSubtypeMap.put("ActionParticipantType", com.ibm.fhir.model.type.code.ActionParticipantType.class);
+        codeSubtypeMap.put("ActionPrecheckBehavior", com.ibm.fhir.model.type.code.ActionPrecheckBehavior.class);
+        codeSubtypeMap.put("ActionRelationshipType", com.ibm.fhir.model.type.code.ActionRelationshipType.class);
+        codeSubtypeMap.put("ActionRequiredBehavior", com.ibm.fhir.model.type.code.ActionRequiredBehavior.class);
+        codeSubtypeMap.put("ActionSelectionBehavior", com.ibm.fhir.model.type.code.ActionSelectionBehavior.class);
+        codeSubtypeMap.put("ActivityDefinitionKind", com.ibm.fhir.model.type.code.ActivityDefinitionKind.class);
+        codeSubtypeMap.put("ActivityParticipantType", com.ibm.fhir.model.type.code.ActivityParticipantType.class);
+        codeSubtypeMap.put("AddressType", com.ibm.fhir.model.type.code.AddressType.class);
+        codeSubtypeMap.put("AddressUse", com.ibm.fhir.model.type.code.AddressUse.class);
+        codeSubtypeMap.put("AdministrativeGender", com.ibm.fhir.model.type.code.AdministrativeGender.class);
+        codeSubtypeMap.put("AdverseEventActuality", com.ibm.fhir.model.type.code.AdverseEventActuality.class);
+        codeSubtypeMap.put("AggregationMode", com.ibm.fhir.model.type.code.AggregationMode.class);
+        codeSubtypeMap.put("AllergyIntoleranceCategory", com.ibm.fhir.model.type.code.AllergyIntoleranceCategory.class);
+        codeSubtypeMap.put("AllergyIntoleranceCriticality", com.ibm.fhir.model.type.code.AllergyIntoleranceCriticality.class);
+        codeSubtypeMap.put("AllergyIntoleranceSeverity", com.ibm.fhir.model.type.code.AllergyIntoleranceSeverity.class);
+        codeSubtypeMap.put("AllergyIntoleranceType", com.ibm.fhir.model.type.code.AllergyIntoleranceType.class);
+        codeSubtypeMap.put("AppointmentStatus", com.ibm.fhir.model.type.code.AppointmentStatus.class);
+        codeSubtypeMap.put("AssertionDirectionType", com.ibm.fhir.model.type.code.AssertionDirectionType.class);
+        codeSubtypeMap.put("AssertionOperatorType", com.ibm.fhir.model.type.code.AssertionOperatorType.class);
+        codeSubtypeMap.put("AssertionResponseTypes", com.ibm.fhir.model.type.code.AssertionResponseTypes.class);
+        codeSubtypeMap.put("AuditEventAction", com.ibm.fhir.model.type.code.AuditEventAction.class);
+        codeSubtypeMap.put("AuditEventAgentNetworkType", com.ibm.fhir.model.type.code.AuditEventAgentNetworkType.class);
+        codeSubtypeMap.put("AuditEventOutcome", com.ibm.fhir.model.type.code.AuditEventOutcome.class);
+        codeSubtypeMap.put("BindingStrength", com.ibm.fhir.model.type.code.BindingStrength.class);
+        codeSubtypeMap.put("BiologicallyDerivedProductCategory", com.ibm.fhir.model.type.code.BiologicallyDerivedProductCategory.class);
+        codeSubtypeMap.put("BiologicallyDerivedProductStatus", com.ibm.fhir.model.type.code.BiologicallyDerivedProductStatus.class);
+        codeSubtypeMap.put("BiologicallyDerivedProductStorageScale", com.ibm.fhir.model.type.code.BiologicallyDerivedProductStorageScale.class);
+        codeSubtypeMap.put("BundleType", com.ibm.fhir.model.type.code.BundleType.class);
+        codeSubtypeMap.put("CapabilityStatementKind", com.ibm.fhir.model.type.code.CapabilityStatementKind.class);
+        codeSubtypeMap.put("CarePlanActivityKind", com.ibm.fhir.model.type.code.CarePlanActivityKind.class);
+        codeSubtypeMap.put("CarePlanActivityStatus", com.ibm.fhir.model.type.code.CarePlanActivityStatus.class);
+        codeSubtypeMap.put("CarePlanIntent", com.ibm.fhir.model.type.code.CarePlanIntent.class);
+        codeSubtypeMap.put("CarePlanStatus", com.ibm.fhir.model.type.code.CarePlanStatus.class);
+        codeSubtypeMap.put("CareTeamStatus", com.ibm.fhir.model.type.code.CareTeamStatus.class);
+        codeSubtypeMap.put("CatalogEntryRelationType", com.ibm.fhir.model.type.code.CatalogEntryRelationType.class);
+        codeSubtypeMap.put("CharacteristicCombination", com.ibm.fhir.model.type.code.CharacteristicCombination.class);
+        codeSubtypeMap.put("ChargeItemDefinitionPriceComponentType", com.ibm.fhir.model.type.code.ChargeItemDefinitionPriceComponentType.class);
+        codeSubtypeMap.put("ChargeItemStatus", com.ibm.fhir.model.type.code.ChargeItemStatus.class);
+        codeSubtypeMap.put("ClaimResponseStatus", com.ibm.fhir.model.type.code.ClaimResponseStatus.class);
+        codeSubtypeMap.put("ClaimStatus", com.ibm.fhir.model.type.code.ClaimStatus.class);
+        codeSubtypeMap.put("ClinicalImpressionStatus", com.ibm.fhir.model.type.code.ClinicalImpressionStatus.class);
+        codeSubtypeMap.put("ClinicalUseDefinitionType", com.ibm.fhir.model.type.code.ClinicalUseDefinitionType.class);
+        codeSubtypeMap.put("CodeSearchSupport", com.ibm.fhir.model.type.code.CodeSearchSupport.class);
+        codeSubtypeMap.put("CodeSystemContentMode", com.ibm.fhir.model.type.code.CodeSystemContentMode.class);
+        codeSubtypeMap.put("CodeSystemHierarchyMeaning", com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning.class);
+        codeSubtypeMap.put("CommunicationPriority", com.ibm.fhir.model.type.code.CommunicationPriority.class);
+        codeSubtypeMap.put("CommunicationRequestStatus", com.ibm.fhir.model.type.code.CommunicationRequestStatus.class);
+        codeSubtypeMap.put("CommunicationStatus", com.ibm.fhir.model.type.code.CommunicationStatus.class);
+        codeSubtypeMap.put("CompartmentCode", com.ibm.fhir.model.type.code.CompartmentCode.class);
+        codeSubtypeMap.put("CompartmentType", com.ibm.fhir.model.type.code.CompartmentType.class);
+        codeSubtypeMap.put("CompositionAttestationMode", com.ibm.fhir.model.type.code.CompositionAttestationMode.class);
+        codeSubtypeMap.put("CompositionStatus", com.ibm.fhir.model.type.code.CompositionStatus.class);
+        codeSubtypeMap.put("ConceptMapEquivalence", com.ibm.fhir.model.type.code.ConceptMapEquivalence.class);
+        codeSubtypeMap.put("ConceptMapGroupUnmappedMode", com.ibm.fhir.model.type.code.ConceptMapGroupUnmappedMode.class);
+        codeSubtypeMap.put("ConceptSubsumptionOutcome", com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome.class);
+        codeSubtypeMap.put("ConditionalDeleteStatus", com.ibm.fhir.model.type.code.ConditionalDeleteStatus.class);
+        codeSubtypeMap.put("ConditionalReadStatus", com.ibm.fhir.model.type.code.ConditionalReadStatus.class);
+        codeSubtypeMap.put("ConsentDataMeaning", com.ibm.fhir.model.type.code.ConsentDataMeaning.class);
+        codeSubtypeMap.put("ConsentProvisionType", com.ibm.fhir.model.type.code.ConsentProvisionType.class);
+        codeSubtypeMap.put("ConsentState", com.ibm.fhir.model.type.code.ConsentState.class);
+        codeSubtypeMap.put("ConstraintSeverity", com.ibm.fhir.model.type.code.ConstraintSeverity.class);
+        codeSubtypeMap.put("ContactPointSystem", com.ibm.fhir.model.type.code.ContactPointSystem.class);
+        codeSubtypeMap.put("ContactPointUse", com.ibm.fhir.model.type.code.ContactPointUse.class);
+        codeSubtypeMap.put("ContractPublicationStatus", com.ibm.fhir.model.type.code.ContractPublicationStatus.class);
+        codeSubtypeMap.put("ContractStatus", com.ibm.fhir.model.type.code.ContractStatus.class);
+        codeSubtypeMap.put("ContributorType", com.ibm.fhir.model.type.code.ContributorType.class);
+        codeSubtypeMap.put("CoverageStatus", com.ibm.fhir.model.type.code.CoverageStatus.class);
+        codeSubtypeMap.put("CriteriaNotExistsBehavior", com.ibm.fhir.model.type.code.CriteriaNotExistsBehavior.class);
+        codeSubtypeMap.put("DataAbsentReason", com.ibm.fhir.model.type.code.DataAbsentReason.class);
+        codeSubtypeMap.put("DayOfWeek", com.ibm.fhir.model.type.code.DayOfWeek.class);
+        codeSubtypeMap.put("DaysOfWeek", com.ibm.fhir.model.type.code.DaysOfWeek.class);
+        codeSubtypeMap.put("DetectedIssueSeverity", com.ibm.fhir.model.type.code.DetectedIssueSeverity.class);
+        codeSubtypeMap.put("DetectedIssueStatus", com.ibm.fhir.model.type.code.DetectedIssueStatus.class);
+        codeSubtypeMap.put("DeviceMetricCalibrationState", com.ibm.fhir.model.type.code.DeviceMetricCalibrationState.class);
+        codeSubtypeMap.put("DeviceMetricCalibrationType", com.ibm.fhir.model.type.code.DeviceMetricCalibrationType.class);
+        codeSubtypeMap.put("DeviceMetricCategory", com.ibm.fhir.model.type.code.DeviceMetricCategory.class);
+        codeSubtypeMap.put("DeviceMetricColor", com.ibm.fhir.model.type.code.DeviceMetricColor.class);
+        codeSubtypeMap.put("DeviceMetricOperationalStatus", com.ibm.fhir.model.type.code.DeviceMetricOperationalStatus.class);
+        codeSubtypeMap.put("DeviceNameType", com.ibm.fhir.model.type.code.DeviceNameType.class);
+        codeSubtypeMap.put("DeviceRequestStatus", com.ibm.fhir.model.type.code.DeviceRequestStatus.class);
+        codeSubtypeMap.put("DeviceUseStatementStatus", com.ibm.fhir.model.type.code.DeviceUseStatementStatus.class);
+        codeSubtypeMap.put("DiagnosticReportStatus", com.ibm.fhir.model.type.code.DiagnosticReportStatus.class);
+        codeSubtypeMap.put("DiscriminatorType", com.ibm.fhir.model.type.code.DiscriminatorType.class);
+        codeSubtypeMap.put("DocumentConfidentiality", com.ibm.fhir.model.type.code.DocumentConfidentiality.class);
+        codeSubtypeMap.put("DocumentMode", com.ibm.fhir.model.type.code.DocumentMode.class);
+        codeSubtypeMap.put("DocumentReferenceStatus", com.ibm.fhir.model.type.code.DocumentReferenceStatus.class);
+        codeSubtypeMap.put("DocumentRelationshipType", com.ibm.fhir.model.type.code.DocumentRelationshipType.class);
+        codeSubtypeMap.put("EligibilityRequestPurpose", com.ibm.fhir.model.type.code.EligibilityRequestPurpose.class);
+        codeSubtypeMap.put("EligibilityRequestStatus", com.ibm.fhir.model.type.code.EligibilityRequestStatus.class);
+        codeSubtypeMap.put("EligibilityResponsePurpose", com.ibm.fhir.model.type.code.EligibilityResponsePurpose.class);
+        codeSubtypeMap.put("EligibilityResponseStatus", com.ibm.fhir.model.type.code.EligibilityResponseStatus.class);
+        codeSubtypeMap.put("EnableWhenBehavior", com.ibm.fhir.model.type.code.EnableWhenBehavior.class);
+        codeSubtypeMap.put("EncounterLocationStatus", com.ibm.fhir.model.type.code.EncounterLocationStatus.class);
+        codeSubtypeMap.put("EncounterStatus", com.ibm.fhir.model.type.code.EncounterStatus.class);
+        codeSubtypeMap.put("EndpointStatus", com.ibm.fhir.model.type.code.EndpointStatus.class);
+        codeSubtypeMap.put("EnrollmentRequestStatus", com.ibm.fhir.model.type.code.EnrollmentRequestStatus.class);
+        codeSubtypeMap.put("EnrollmentResponseStatus", com.ibm.fhir.model.type.code.EnrollmentResponseStatus.class);
+        codeSubtypeMap.put("EpisodeOfCareStatus", com.ibm.fhir.model.type.code.EpisodeOfCareStatus.class);
+        codeSubtypeMap.put("EventCapabilityMode", com.ibm.fhir.model.type.code.EventCapabilityMode.class);
+        codeSubtypeMap.put("EventTiming", com.ibm.fhir.model.type.code.EventTiming.class);
+        codeSubtypeMap.put("EvidenceVariableHandling", com.ibm.fhir.model.type.code.EvidenceVariableHandling.class);
+        codeSubtypeMap.put("ExampleScenarioActorType", com.ibm.fhir.model.type.code.ExampleScenarioActorType.class);
+        codeSubtypeMap.put("ExplanationOfBenefitStatus", com.ibm.fhir.model.type.code.ExplanationOfBenefitStatus.class);
+        codeSubtypeMap.put("ExtensionContextType", com.ibm.fhir.model.type.code.ExtensionContextType.class);
+        codeSubtypeMap.put("FamilyHistoryStatus", com.ibm.fhir.model.type.code.FamilyHistoryStatus.class);
+        codeSubtypeMap.put("FHIRAllTypes", com.ibm.fhir.model.type.code.FHIRAllTypes.class);
+        codeSubtypeMap.put("FHIRDefinedType", com.ibm.fhir.model.type.code.FHIRDefinedType.class);
+        codeSubtypeMap.put("FHIRDeviceStatus", com.ibm.fhir.model.type.code.FHIRDeviceStatus.class);
+        codeSubtypeMap.put("FHIRSubstanceStatus", com.ibm.fhir.model.type.code.FHIRSubstanceStatus.class);
+        codeSubtypeMap.put("FHIRVersion", com.ibm.fhir.model.type.code.FHIRVersion.class);
+        codeSubtypeMap.put("FilterOperator", com.ibm.fhir.model.type.code.FilterOperator.class);
+        codeSubtypeMap.put("FlagStatus", com.ibm.fhir.model.type.code.FlagStatus.class);
+        codeSubtypeMap.put("GoalLifecycleStatus", com.ibm.fhir.model.type.code.GoalLifecycleStatus.class);
+        codeSubtypeMap.put("GraphCompartmentRule", com.ibm.fhir.model.type.code.GraphCompartmentRule.class);
+        codeSubtypeMap.put("GraphCompartmentUse", com.ibm.fhir.model.type.code.GraphCompartmentUse.class);
+        codeSubtypeMap.put("GroupMeasure", com.ibm.fhir.model.type.code.GroupMeasure.class);
+        codeSubtypeMap.put("GroupType", com.ibm.fhir.model.type.code.GroupType.class);
+        codeSubtypeMap.put("GuidanceResponseStatus", com.ibm.fhir.model.type.code.GuidanceResponseStatus.class);
+        codeSubtypeMap.put("GuidePageGeneration", com.ibm.fhir.model.type.code.GuidePageGeneration.class);
+        codeSubtypeMap.put("GuideParameterCode", com.ibm.fhir.model.type.code.GuideParameterCode.class);
+        codeSubtypeMap.put("HTTPVerb", com.ibm.fhir.model.type.code.HTTPVerb.class);
+        codeSubtypeMap.put("IdentifierUse", com.ibm.fhir.model.type.code.IdentifierUse.class);
+        codeSubtypeMap.put("IdentityAssuranceLevel", com.ibm.fhir.model.type.code.IdentityAssuranceLevel.class);
+        codeSubtypeMap.put("ImagingStudyStatus", com.ibm.fhir.model.type.code.ImagingStudyStatus.class);
+        codeSubtypeMap.put("ImmunizationEvaluationStatus", com.ibm.fhir.model.type.code.ImmunizationEvaluationStatus.class);
+        codeSubtypeMap.put("ImmunizationStatus", com.ibm.fhir.model.type.code.ImmunizationStatus.class);
+        codeSubtypeMap.put("InvoicePriceComponentType", com.ibm.fhir.model.type.code.InvoicePriceComponentType.class);
+        codeSubtypeMap.put("InvoiceStatus", com.ibm.fhir.model.type.code.InvoiceStatus.class);
+        codeSubtypeMap.put("IssueSeverity", com.ibm.fhir.model.type.code.IssueSeverity.class);
+        codeSubtypeMap.put("IssueType", com.ibm.fhir.model.type.code.IssueType.class);
+        codeSubtypeMap.put("LinkageType", com.ibm.fhir.model.type.code.LinkageType.class);
+        codeSubtypeMap.put("LinkType", com.ibm.fhir.model.type.code.LinkType.class);
+        codeSubtypeMap.put("ListMode", com.ibm.fhir.model.type.code.ListMode.class);
+        codeSubtypeMap.put("ListStatus", com.ibm.fhir.model.type.code.ListStatus.class);
+        codeSubtypeMap.put("LocationMode", com.ibm.fhir.model.type.code.LocationMode.class);
+        codeSubtypeMap.put("LocationStatus", com.ibm.fhir.model.type.code.LocationStatus.class);
+        codeSubtypeMap.put("MeasureReportStatus", com.ibm.fhir.model.type.code.MeasureReportStatus.class);
+        codeSubtypeMap.put("MeasureReportType", com.ibm.fhir.model.type.code.MeasureReportType.class);
+        codeSubtypeMap.put("MediaStatus", com.ibm.fhir.model.type.code.MediaStatus.class);
+        codeSubtypeMap.put("MedicationAdministrationStatus", com.ibm.fhir.model.type.code.MedicationAdministrationStatus.class);
+        codeSubtypeMap.put("MedicationDispenseStatus", com.ibm.fhir.model.type.code.MedicationDispenseStatus.class);
+        codeSubtypeMap.put("MedicationKnowledgeStatus", com.ibm.fhir.model.type.code.MedicationKnowledgeStatus.class);
+        codeSubtypeMap.put("MedicationRequestIntent", com.ibm.fhir.model.type.code.MedicationRequestIntent.class);
+        codeSubtypeMap.put("MedicationRequestPriority", com.ibm.fhir.model.type.code.MedicationRequestPriority.class);
+        codeSubtypeMap.put("MedicationRequestStatus", com.ibm.fhir.model.type.code.MedicationRequestStatus.class);
+        codeSubtypeMap.put("MedicationStatementStatus", com.ibm.fhir.model.type.code.MedicationStatementStatus.class);
+        codeSubtypeMap.put("MedicationStatus", com.ibm.fhir.model.type.code.MedicationStatus.class);
+        codeSubtypeMap.put("MessageHeaderResponseRequest", com.ibm.fhir.model.type.code.MessageHeaderResponseRequest.class);
+        codeSubtypeMap.put("MessageSignificanceCategory", com.ibm.fhir.model.type.code.MessageSignificanceCategory.class);
+        codeSubtypeMap.put("MethodCode", com.ibm.fhir.model.type.code.MethodCode.class);
+        codeSubtypeMap.put("NameUse", com.ibm.fhir.model.type.code.NameUse.class);
+        codeSubtypeMap.put("NamingSystemIdentifierType", com.ibm.fhir.model.type.code.NamingSystemIdentifierType.class);
+        codeSubtypeMap.put("NamingSystemType", com.ibm.fhir.model.type.code.NamingSystemType.class);
+        codeSubtypeMap.put("NarrativeStatus", com.ibm.fhir.model.type.code.NarrativeStatus.class);
+        codeSubtypeMap.put("NoteType", com.ibm.fhir.model.type.code.NoteType.class);
+        codeSubtypeMap.put("NutritionOrderIntent", com.ibm.fhir.model.type.code.NutritionOrderIntent.class);
+        codeSubtypeMap.put("NutritionOrderStatus", com.ibm.fhir.model.type.code.NutritionOrderStatus.class);
+        codeSubtypeMap.put("NutritionProductStatus", com.ibm.fhir.model.type.code.NutritionProductStatus.class);
+        codeSubtypeMap.put("ObservationDataType", com.ibm.fhir.model.type.code.ObservationDataType.class);
+        codeSubtypeMap.put("ObservationRangeCategory", com.ibm.fhir.model.type.code.ObservationRangeCategory.class);
+        codeSubtypeMap.put("ObservationStatus", com.ibm.fhir.model.type.code.ObservationStatus.class);
+        codeSubtypeMap.put("OperationKind", com.ibm.fhir.model.type.code.OperationKind.class);
+        codeSubtypeMap.put("OperationParameterUse", com.ibm.fhir.model.type.code.OperationParameterUse.class);
+        codeSubtypeMap.put("OrientationType", com.ibm.fhir.model.type.code.OrientationType.class);
+        codeSubtypeMap.put("ParameterUse", com.ibm.fhir.model.type.code.ParameterUse.class);
+        codeSubtypeMap.put("ParticipantRequired", com.ibm.fhir.model.type.code.ParticipantRequired.class);
+        codeSubtypeMap.put("ParticipantStatus", com.ibm.fhir.model.type.code.ParticipantStatus.class);
+        codeSubtypeMap.put("ParticipationStatus", com.ibm.fhir.model.type.code.ParticipationStatus.class);
+        codeSubtypeMap.put("PaymentNoticeStatus", com.ibm.fhir.model.type.code.PaymentNoticeStatus.class);
+        codeSubtypeMap.put("PaymentReconciliationStatus", com.ibm.fhir.model.type.code.PaymentReconciliationStatus.class);
+        codeSubtypeMap.put("ProcedureStatus", com.ibm.fhir.model.type.code.ProcedureStatus.class);
+        codeSubtypeMap.put("PropertyRepresentation", com.ibm.fhir.model.type.code.PropertyRepresentation.class);
+        codeSubtypeMap.put("PropertyType", com.ibm.fhir.model.type.code.PropertyType.class);
+        codeSubtypeMap.put("ProvenanceEntityRole", com.ibm.fhir.model.type.code.ProvenanceEntityRole.class);
+        codeSubtypeMap.put("PublicationStatus", com.ibm.fhir.model.type.code.PublicationStatus.class);
+        codeSubtypeMap.put("QualityType", com.ibm.fhir.model.type.code.QualityType.class);
+        codeSubtypeMap.put("QuantityComparator", com.ibm.fhir.model.type.code.QuantityComparator.class);
+        codeSubtypeMap.put("QuestionnaireItemOperator", com.ibm.fhir.model.type.code.QuestionnaireItemOperator.class);
+        codeSubtypeMap.put("QuestionnaireItemType", com.ibm.fhir.model.type.code.QuestionnaireItemType.class);
+        codeSubtypeMap.put("QuestionnaireResponseStatus", com.ibm.fhir.model.type.code.QuestionnaireResponseStatus.class);
+        codeSubtypeMap.put("ReferenceHandlingPolicy", com.ibm.fhir.model.type.code.ReferenceHandlingPolicy.class);
+        codeSubtypeMap.put("ReferenceVersionRules", com.ibm.fhir.model.type.code.ReferenceVersionRules.class);
+        codeSubtypeMap.put("ReferredDocumentStatus", com.ibm.fhir.model.type.code.ReferredDocumentStatus.class);
+        codeSubtypeMap.put("RelatedArtifactType", com.ibm.fhir.model.type.code.RelatedArtifactType.class);
+        codeSubtypeMap.put("RemittanceOutcome", com.ibm.fhir.model.type.code.RemittanceOutcome.class);
+        codeSubtypeMap.put("ReportRelationshipType", com.ibm.fhir.model.type.code.ReportRelationshipType.class);
+        codeSubtypeMap.put("RepositoryType", com.ibm.fhir.model.type.code.RepositoryType.class);
+        codeSubtypeMap.put("RequestIntent", com.ibm.fhir.model.type.code.RequestIntent.class);
+        codeSubtypeMap.put("RequestPriority", com.ibm.fhir.model.type.code.RequestPriority.class);
+        codeSubtypeMap.put("RequestStatus", com.ibm.fhir.model.type.code.RequestStatus.class);
+        codeSubtypeMap.put("ResearchElementType", com.ibm.fhir.model.type.code.ResearchElementType.class);
+        codeSubtypeMap.put("ResearchStudyStatus", com.ibm.fhir.model.type.code.ResearchStudyStatus.class);
+        codeSubtypeMap.put("ResearchSubjectStatus", com.ibm.fhir.model.type.code.ResearchSubjectStatus.class);
+        codeSubtypeMap.put("ResourceTypeCode", com.ibm.fhir.model.type.code.ResourceTypeCode.class);
+        codeSubtypeMap.put("ResourceVersionPolicy", com.ibm.fhir.model.type.code.ResourceVersionPolicy.class);
+        codeSubtypeMap.put("ResponseType", com.ibm.fhir.model.type.code.ResponseType.class);
+        codeSubtypeMap.put("RestfulCapabilityMode", com.ibm.fhir.model.type.code.RestfulCapabilityMode.class);
+        codeSubtypeMap.put("RiskAssessmentStatus", com.ibm.fhir.model.type.code.RiskAssessmentStatus.class);
+        codeSubtypeMap.put("SearchComparator", com.ibm.fhir.model.type.code.SearchComparator.class);
+        codeSubtypeMap.put("SearchEntryMode", com.ibm.fhir.model.type.code.SearchEntryMode.class);
+        codeSubtypeMap.put("SearchModifierCode", com.ibm.fhir.model.type.code.SearchModifierCode.class);
+        codeSubtypeMap.put("SearchParamType", com.ibm.fhir.model.type.code.SearchParamType.class);
+        codeSubtypeMap.put("SectionMode", com.ibm.fhir.model.type.code.SectionMode.class);
+        codeSubtypeMap.put("SequenceType", com.ibm.fhir.model.type.code.SequenceType.class);
+        codeSubtypeMap.put("ServiceRequestIntent", com.ibm.fhir.model.type.code.ServiceRequestIntent.class);
+        codeSubtypeMap.put("ServiceRequestPriority", com.ibm.fhir.model.type.code.ServiceRequestPriority.class);
+        codeSubtypeMap.put("ServiceRequestStatus", com.ibm.fhir.model.type.code.ServiceRequestStatus.class);
+        codeSubtypeMap.put("SlicingRules", com.ibm.fhir.model.type.code.SlicingRules.class);
+        codeSubtypeMap.put("SlotStatus", com.ibm.fhir.model.type.code.SlotStatus.class);
+        codeSubtypeMap.put("SortDirection", com.ibm.fhir.model.type.code.SortDirection.class);
+        codeSubtypeMap.put("SPDXLicense", com.ibm.fhir.model.type.code.SPDXLicense.class);
+        codeSubtypeMap.put("SpecimenContainedPreference", com.ibm.fhir.model.type.code.SpecimenContainedPreference.class);
+        codeSubtypeMap.put("SpecimenStatus", com.ibm.fhir.model.type.code.SpecimenStatus.class);
+        codeSubtypeMap.put("StandardsStatus", com.ibm.fhir.model.type.code.StandardsStatus.class);
+        codeSubtypeMap.put("Status", com.ibm.fhir.model.type.code.Status.class);
+        codeSubtypeMap.put("StrandType", com.ibm.fhir.model.type.code.StrandType.class);
+        codeSubtypeMap.put("StructureDefinitionKind", com.ibm.fhir.model.type.code.StructureDefinitionKind.class);
+        codeSubtypeMap.put("StructureMapContextType", com.ibm.fhir.model.type.code.StructureMapContextType.class);
+        codeSubtypeMap.put("StructureMapGroupTypeMode", com.ibm.fhir.model.type.code.StructureMapGroupTypeMode.class);
+        codeSubtypeMap.put("StructureMapInputMode", com.ibm.fhir.model.type.code.StructureMapInputMode.class);
+        codeSubtypeMap.put("StructureMapModelMode", com.ibm.fhir.model.type.code.StructureMapModelMode.class);
+        codeSubtypeMap.put("StructureMapSourceListMode", com.ibm.fhir.model.type.code.StructureMapSourceListMode.class);
+        codeSubtypeMap.put("StructureMapTargetListMode", com.ibm.fhir.model.type.code.StructureMapTargetListMode.class);
+        codeSubtypeMap.put("StructureMapTransform", com.ibm.fhir.model.type.code.StructureMapTransform.class);
+        codeSubtypeMap.put("SubscriptionChannelType", com.ibm.fhir.model.type.code.SubscriptionChannelType.class);
+        codeSubtypeMap.put("SubscriptionNotificationType", com.ibm.fhir.model.type.code.SubscriptionNotificationType.class);
+        codeSubtypeMap.put("SubscriptionStatusCode", com.ibm.fhir.model.type.code.SubscriptionStatusCode.class);
+        codeSubtypeMap.put("SubscriptionTopicFilterBySearchModifier", com.ibm.fhir.model.type.code.SubscriptionTopicFilterBySearchModifier.class);
+        codeSubtypeMap.put("SupplyDeliveryStatus", com.ibm.fhir.model.type.code.SupplyDeliveryStatus.class);
+        codeSubtypeMap.put("SupplyRequestStatus", com.ibm.fhir.model.type.code.SupplyRequestStatus.class);
+        codeSubtypeMap.put("SystemRestfulInteraction", com.ibm.fhir.model.type.code.SystemRestfulInteraction.class);
+        codeSubtypeMap.put("TaskIntent", com.ibm.fhir.model.type.code.TaskIntent.class);
+        codeSubtypeMap.put("TaskPriority", com.ibm.fhir.model.type.code.TaskPriority.class);
+        codeSubtypeMap.put("TaskStatus", com.ibm.fhir.model.type.code.TaskStatus.class);
+        codeSubtypeMap.put("TestReportActionResult", com.ibm.fhir.model.type.code.TestReportActionResult.class);
+        codeSubtypeMap.put("TestReportParticipantType", com.ibm.fhir.model.type.code.TestReportParticipantType.class);
+        codeSubtypeMap.put("TestReportResult", com.ibm.fhir.model.type.code.TestReportResult.class);
+        codeSubtypeMap.put("TestReportStatus", com.ibm.fhir.model.type.code.TestReportStatus.class);
+        codeSubtypeMap.put("TestScriptRequestMethodCode", com.ibm.fhir.model.type.code.TestScriptRequestMethodCode.class);
+        codeSubtypeMap.put("TriggerType", com.ibm.fhir.model.type.code.TriggerType.class);
+        codeSubtypeMap.put("TypeDerivationRule", com.ibm.fhir.model.type.code.TypeDerivationRule.class);
+        codeSubtypeMap.put("TypeRestfulInteraction", com.ibm.fhir.model.type.code.TypeRestfulInteraction.class);
+        codeSubtypeMap.put("UDIEntryType", com.ibm.fhir.model.type.code.UDIEntryType.class);
+        codeSubtypeMap.put("UnitsOfTime", com.ibm.fhir.model.type.code.UnitsOfTime.class);
+        codeSubtypeMap.put("Use", com.ibm.fhir.model.type.code.Use.class);
+        codeSubtypeMap.put("VariableType", com.ibm.fhir.model.type.code.VariableType.class);
+        codeSubtypeMap.put("VisionBase", com.ibm.fhir.model.type.code.VisionBase.class);
+        codeSubtypeMap.put("VisionEyes", com.ibm.fhir.model.type.code.VisionEyes.class);
+        codeSubtypeMap.put("VisionStatus", com.ibm.fhir.model.type.code.VisionStatus.class);
+        codeSubtypeMap.put("XPathUsageType", com.ibm.fhir.model.type.code.XPathUsageType.class);
+        return Collections.unmodifiableMap(codeSubtypeMap);
     }
 
     private static Map<String, Class<?>> buildDataTypeMap() {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,7 +56,7 @@ public class DocumentManifest extends DomainResource {
         bindingName = "DocumentReferenceStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the document reference.",
-        valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.3.0-cibuild"
     )
     @Required
     private final DocumentReferenceStatus status;

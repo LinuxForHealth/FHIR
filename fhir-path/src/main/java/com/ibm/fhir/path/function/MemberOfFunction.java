@@ -33,6 +33,7 @@ import com.ibm.fhir.model.resource.ValueSet.Compose.Include;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.CodeableReference;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Quantity;
@@ -131,6 +132,16 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                         if (codeableConcept.getCoding() != null && validateCode(service, valueSet, codeableConcept, evaluationContext, elementNode, strength)) {
                             return SINGLETON_TRUE;
                         }
+                    } else if (element.is(CodeableReference.class)) {
+                        CodeableConcept concept = element.as(CodeableReference.class).getConcept();
+                        if (concept == null) {
+                            // A codeableReference with a required binding is allowed to have a reference instead of a concept
+                            return SINGLETON_TRUE;
+                        }
+                        // If we have a concept, then it follow the same rules as a normal CodeableConcept
+                        if (concept.getCoding() != null && validateCode(service, valueSet, concept, evaluationContext, elementNode, strength)) {
+                            return SINGLETON_TRUE;
+                        }
                     } else if (element.is(Quantity.class)) {
                         Quantity quantity = element.as(Quantity.class);
                         if (validateCode(service, valueSet, quantity.getSystem(), null, quantity.getCode(), null, evaluationContext, elementNode, strength)) {
@@ -204,7 +215,8 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         return true;
     }
 
-    private boolean validateCode(FHIRTermService service, ValueSet valueSet, Coding coding, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+    private boolean validateCode(FHIRTermService service, ValueSet valueSet, Coding coding,
+            EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
         ValidationOutcome outcome = null;
         if (convertsToCodeSystemValidateCode(valueSet, coding)) {
             // optimization
@@ -220,7 +232,8 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         return true;
     }
 
-    private boolean validateCode(FHIRTermService service, ValueSet valueSet, CodeableConcept codeableConcept, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
+    private boolean validateCode(FHIRTermService service, ValueSet valueSet, CodeableConcept codeableConcept,
+            EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
         ValidationOutcome outcome = null;
         if (convertsToCodeSystemValidateCode(valueSet, codeableConcept)) {
             // optimization

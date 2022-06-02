@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for DeviceDefinition.manufacturer[x]",
       "expansion": {
-        "identifier": "urn:uuid:f0ea3334-4f8d-4cd3-9e2c-6f4c8b73adff",
-        "timestamp": "2019-11-01T09:34:59+11:00",
+        "identifier": "urn:uuid:5e7823dc-cac2-4ec7-8df9-5af996e779eb",
+        "timestamp": "2022-04-23T22:29:04+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/data-types",
@@ -31,9 +31,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Orders and Observations)",
   "item": [
     {
@@ -44,6 +45,7 @@
       "repeats": true,
       "item": [
         {
+          "linkId": "DeviceDefinition-display",
           "text": "For the initial scope, this DeviceDefinition resource is only applicable to describe a single node in the containment tree that is produced by the context scanner in any medical device that implements or derives from the ISO/IEEE 11073 standard and that does not represent a metric. Examples for such a node are MDS, VMD, or Channel.",
           "type": "display"
         },
@@ -62,6 +64,7 @@
               }
             }
           ],
+          "linkId": "DeviceDefinition-flyover",
           "text": "The characteristics, operational status and capabilities of a medical-related component of a medical device.",
           "type": "display"
         },
@@ -96,6 +99,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -136,6 +140,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -172,6 +177,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -215,6 +221,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -255,6 +262,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -282,6 +290,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -309,6 +318,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -336,6 +346,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -369,6 +380,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.identifier-flyover",
               "text": "Unique instance identifiers assigned to a device by the software, manufacturers, other organizations or owners. For example: handle ID.",
               "type": "display"
             },
@@ -417,6 +429,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.udiDeviceIdentifier-flyover",
               "text": "Unique device identifier (UDI) assigned to device label or package.  Note that the Device may include multiple udiCarriers as it either may include just the udiCarrier for the jurisdiction it is sold, or for multiple jurisdictions it could have been sold.",
               "type": "display"
             },
@@ -451,6 +464,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.udiDeviceIdentifier.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -485,6 +499,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.udiDeviceIdentifier.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -512,6 +527,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.udiDeviceIdentifier.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -552,6 +568,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.udiDeviceIdentifier.deviceIdentifier-flyover",
                   "text": "The identifier that is to be associated with every Device that references this DeviceDefintiion for the issuer and jurisdication porvided in the DeviceDefinition.udiDeviceIdentifier.",
                   "type": "display"
                 },
@@ -599,6 +616,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.udiDeviceIdentifier.issuer-flyover",
                   "text": "The organization that assigns the identifier algorithm.",
                   "type": "display"
                 },
@@ -646,6 +664,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.udiDeviceIdentifier.jurisdiction-flyover",
                   "text": "The jurisdiction to which the deviceIdentifier applies.",
                   "type": "display"
                 },
@@ -688,6 +707,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.manufacturer[x]-flyover",
               "text": "A name of the manufacturer.",
               "type": "display"
             },
@@ -771,6 +791,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.deviceName-flyover",
               "text": "A name given to the device to identify it.",
               "type": "display"
             },
@@ -805,6 +826,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.deviceName.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -839,6 +861,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.deviceName.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -866,6 +889,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.deviceName.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -906,6 +930,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.deviceName.name-flyover",
                   "text": "The name of the device.",
                   "type": "display"
                 },
@@ -953,6 +978,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.deviceName.type-flyover",
                   "text": "The type of deviceName.\nUDILabelName | UserFriendlyName | PatientReportedName | ManufactureDeviceName | ModelName.",
                   "type": "display"
                 },
@@ -998,6 +1024,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.modelNumber-flyover",
               "text": "The model number for the device.",
               "type": "display"
             },
@@ -1042,13 +1069,14 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.type-flyover",
               "text": "What kind of device or device system this is.",
               "type": "display"
             },
             {
               "linkId": "DeviceDefinition.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -1083,6 +1111,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.specialization-flyover",
               "text": "The capabilities supported on a  device, the standards to which the device conforms for a particular purpose, and used for the communication.",
               "type": "display"
             },
@@ -1117,6 +1146,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.specialization.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1151,6 +1181,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.specialization.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1178,6 +1209,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.specialization.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1218,6 +1250,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.specialization.systemType-flyover",
                   "text": "The standard that is used to operate and communicate.",
                   "type": "display"
                 },
@@ -1261,6 +1294,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.specialization.version-flyover",
                   "text": "The version of the standard that is used to operate and communicate.",
                   "type": "display"
                 },
@@ -1302,6 +1336,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.version-flyover",
               "text": "The available versions of the device, e.g., software versions.",
               "type": "display"
             },
@@ -1342,13 +1377,14 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.safety-flyover",
               "text": "Safety characteristics of the device.",
               "type": "display"
             },
             {
               "linkId": "DeviceDefinition.safety.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -1383,6 +1419,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.shelfLifeStorage-flyover",
               "text": "Shelf Life and storage information.",
               "type": "display"
             }
@@ -1416,6 +1453,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.physicalCharacteristics-flyover",
               "text": "Dimensions, color etc.",
               "type": "display"
             }
@@ -1449,13 +1487,14 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.languageCode-flyover",
               "text": "Language code for the human-readable text strings produced by the device (all supported).",
               "type": "display"
             },
             {
               "linkId": "DeviceDefinition.languageCode.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -1490,6 +1529,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.capability-flyover",
               "text": "Device capabilities.",
               "type": "display"
             },
@@ -1524,6 +1564,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.capability.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1558,6 +1599,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.capability.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1585,6 +1627,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.capability.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1626,13 +1669,14 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.capability.type-flyover",
                   "text": "Type of capability.",
                   "type": "display"
                 },
                 {
                   "linkId": "DeviceDefinition.capability.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1673,13 +1717,14 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.capability.description-flyover",
                   "text": "Description of capability.",
                   "type": "display"
                 },
                 {
                   "linkId": "DeviceDefinition.capability.description.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1716,6 +1761,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.property-flyover",
               "text": "The actual configuration settings of a device as it actually operates, e.g., regulation status, time properties.",
               "type": "display"
             },
@@ -1750,6 +1796,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.property.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1784,6 +1831,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.property.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1811,6 +1859,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.property.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1852,13 +1901,14 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.property.type-flyover",
                   "text": "Code that specifies the property DeviceDefinitionPropetyCode (Extensible).",
                   "type": "display"
                 },
                 {
                   "linkId": "DeviceDefinition.property.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1899,6 +1949,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.property.valueQuantity-flyover",
                   "text": "Property value as a quantity.",
                   "type": "display"
                 },
@@ -1967,13 +2018,14 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.property.valueCode-flyover",
                   "text": "Property value as a code, e.g., NTP4 (synced to NTP).",
                   "type": "display"
                 },
                 {
                   "linkId": "DeviceDefinition.property.valueCode.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -2019,6 +2071,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.owner-flyover",
               "text": "An organization that is responsible for the provision and ongoing maintenance of the device.",
               "type": "display"
             },
@@ -2069,6 +2122,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.contact-flyover",
               "text": "Contact details for an organization or a particular human that is responsible for the device. used for troubleshooting etc.",
               "type": "display"
             },
@@ -2126,6 +2180,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.url-flyover",
               "text": "A network address on which the device may be contacted directly. If the device is running a FHIR server, the network address should  be the Base URL from which a conformance statement may be retrieved.",
               "type": "display"
             },
@@ -2169,6 +2224,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.onlineInformation-flyover",
               "text": "Access to on-line information about the device.",
               "type": "display"
             },
@@ -2209,6 +2265,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.note-flyover",
               "text": "Descriptive information, usage information or implantation information that is not captured in an existing element.",
               "type": "display"
             }
@@ -2246,6 +2303,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.quantity-flyover",
               "text": "The quantity of the device present in the packaging (e.g. the number of devices present in a pack, or the number of devices in the same package of the medicinal product).",
               "type": "display"
             },
@@ -2317,6 +2375,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.parentDevice-flyover",
               "text": "The parent device it can be part of.",
               "type": "display"
             },
@@ -2361,6 +2420,7 @@
                   }
                 }
               ],
+              "linkId": "DeviceDefinition.material-flyover",
               "text": "A substance used to create the material(s) of which the device is made.",
               "type": "display"
             },
@@ -2395,6 +2455,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.material.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -2429,6 +2490,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.material.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2456,6 +2518,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.material.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -2497,13 +2560,14 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.material.substance-flyover",
                   "text": "The substance.",
                   "type": "display"
                 },
                 {
                   "linkId": "DeviceDefinition.material.substance.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -2547,6 +2611,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.material.alternate-flyover",
                   "text": "Indicates an alternative material of the device.",
                   "type": "display"
                 },
@@ -2590,6 +2655,7 @@
                       }
                     }
                   ],
+                  "linkId": "DeviceDefinition.material.allergenicIndicator-flyover",
                   "text": "Whether the substance is a known or suspected allergen.",
                   "type": "display"
                 },

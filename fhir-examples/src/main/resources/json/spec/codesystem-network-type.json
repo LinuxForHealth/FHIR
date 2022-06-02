@@ -2,11 +2,14 @@
   "resourceType": "CodeSystem",
   "id": "network-type",
   "meta": {
-    "lastUpdated": "2019-11-01T09:29:23.356+11:00"
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
   },
   "text": {
     "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003ch2\u003eAuditEventAgentNetworkType\u003c/h2\u003e\u003cdiv\u003e\u003cp\u003eThe type of network access point of this agent in the audit event.\u003c/p\u003e\n\u003c/div\u003e\u003cp\u003eThis code system http://hl7.org/fhir/network-type defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDefinition\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e1\u003ca name\u003d\"network-type-1\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMachine Name\u003c/td\u003e\u003ctd\u003eThe machine name, including DNS name.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e2\u003ca name\u003d\"network-type-2\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eIP Address\u003c/td\u003e\u003ctd\u003eThe assigned Internet Protocol (IP) address.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e3\u003ca name\u003d\"network-type-3\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTelephone Number\u003c/td\u003e\u003ctd\u003eThe assigned telephone number.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e4\u003ca name\u003d\"network-type-4\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEmail address\u003c/td\u003e\u003ctd\u003eThe assigned email address.\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e5\u003ca name\u003d\"network-type-5\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eURI\u003c/td\u003e\u003ctd\u003eURI (User directory, HTTP-PUT, ftp, etc.).\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \u003ch2\u003eAuditEventAgentNetworkType\u003c/h2\u003e\n      \n      \u003cdiv\u003e\n        \n        \u003cp\u003eThe type of network access point of this agent in the audit event.\u003c/p\u003e\n\n      \n      \u003c/div\u003e\n      \n      \u003cp\u003eThis code system http://hl7.org/fhir/network-type defines the following codes:\u003c/p\u003e\n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003e\n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e1\n            \n            \u003ca name\u003d\"network-type-1\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eMachine Name\u003c/td\u003e\n          \n          \u003ctd\u003eThe machine name, including DNS name.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e2\n            \n            \u003ca name\u003d\"network-type-2\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eIP Address\u003c/td\u003e\n          \n          \u003ctd\u003eThe assigned Internet Protocol (IP) address.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e3\n            \n            \u003ca name\u003d\"network-type-3\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eTelephone Number\u003c/td\u003e\n          \n          \u003ctd\u003eThe assigned telephone number.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e4\n            \n            \u003ca name\u003d\"network-type-4\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eEmail address\u003c/td\u003e\n          \n          \u003ctd\u003eThe assigned email address.\u003c/td\u003e\n        \n        \u003c/tr\u003e\n        \n        \u003ctr\u003e\n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e5\n            \n            \u003ca name\u003d\"network-type-5\"\u003e \u003c/a\u003e\n          \n          \u003c/td\u003e\n          \n          \u003ctd\u003eURI\u003c/td\u003e\n          \n          \u003ctd\u003eURI (User directory, HTTP-PUT, ftp, etc.).\u003c/td\u003e\n        \n        \u003c/tr\u003e\n      \n      \u003c/table\u003e\n    \n    \u003c/div\u003e"
   },
   "extension": [
     {
@@ -29,12 +32,12 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.4.457"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "AuditEventAgentNetworkType",
   "title": "AuditEventAgentNetworkType",
   "status": "draft",
   "experimental": false,
-  "date": "2019-11-01T09:29:23+11:00",
+  "date": "2021-01-17T07:06:13+11:00",
   "publisher": "HL7 (FHIR Project)",
   "contact": [
     {

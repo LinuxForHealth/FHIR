@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,15 +38,13 @@ public class Identifier extends Element {
     @Binding(
         bindingName = "IdentifierUse",
         strength = BindingStrength.Value.REQUIRED,
-        description = "Identifies the purpose for this identifier, if known .",
-        valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.3.0-cibuild"
     )
     private final IdentifierUse use;
     @Summary
     @Binding(
         bindingName = "IdentifierType",
         strength = BindingStrength.Value.EXTENSIBLE,
-        description = "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-type"
     )
     private final CodeableConcept type;

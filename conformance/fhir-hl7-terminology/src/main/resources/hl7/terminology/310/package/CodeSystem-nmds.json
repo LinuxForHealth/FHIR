@@ -1,0 +1,24 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "nmds",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/nmds",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.87"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Nmds",
+    "title": "Nursing Minimum Data Set",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "description": "The NMDS is the minimum set of items of information with uniform definitions and categories concerning the specific dimension of the context of patient care delivery. It represents the minimum data used to support the management and administration of patient/nursing care delivery across all types of settings.",
+    "content": "not-present"
+}

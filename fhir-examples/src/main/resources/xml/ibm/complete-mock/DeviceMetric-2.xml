@@ -1,160 +1,163 @@
 <DeviceMetric xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="ktkgNGkkxo"/>
-    <lastUpdated value="2021-04-12T14:34:37.854-05:00"/>
-    <source value="KtKKQ2L_Fk"/>
-    <profile value="kaYI7fTu6E"/>
+    <versionId value="rohkhqnvB3"/>
+    <lastUpdated value="2022-05-13T14:23:06.660386-04:00"/>
+    <source value="97vbxNGJaJ"/>
+    <profile value="QgRuJVGMVB"/>
     <security>
-      <system value="PrrtN5iZn4"/>
-      <version value="ORyMF0Mllr"/>
-      <code value="Y387aRG1RP"/>
-      <display value="rozoYXvIeB"/>
+      <system value="faRAZ2WdTJ"/>
+      <version value="qTpuS4RRNT"/>
+      <code value="fK0Ms1d5Q1"/>
+      <display value="aM4KDI5fBD"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="x9LeDkzGGJ"/>
-      <version value="XigXDrwBe1"/>
-      <code value="C41IJuBkG1"/>
-      <display value="dv8AZbMmyh"/>
+      <system value="UJgrvKaWiq"/>
+      <version value="XNrLtIok3o"/>
+      <code value="rDid7hhw2y"/>
+      <display value="ZCZ_8ZsBiP"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="pOTURRbegm"/>
+  <implicitRules value="pHiBFV5WH8"/>
   <language value="en-US"/>
   <text>
     <status value="generated"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
   <identifier>
-    <use value="official"/>
+    <use value="secondary"/>
     <type>
       <coding>
-        <system value="8gVkfoA2EA"/>
-        <version value="EtGnBQjVVU"/>
-        <code value="JlMKOTxb38"/>
-        <display value="AeQKUkKneO"/>
+        <system value="UmyBbw6beZ"/>
+        <version value="6mmd9G3DtX"/>
+        <code value="PP0_TgsSeq"/>
+        <display value="QX65b71w0D"/>
         <userSelected value="true"/>
       </coding>
-      <text value="cjiiHys31t"/>
+      <text value="mxrt_txW3N"/>
     </type>
-    <system value="1X7zXy760j"/>
-    <value value="JjoXelgjqj"/>
+    <system value="gsJ_W6b2w4"/>
+    <value value="LMU1jDFzRz"/>
     <period>
-      <start value="2021-04-12T14:34:37.849-05:00"/>
-      <end value="2021-04-12T14:34:37.849-05:00"/>
+      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+        <valueCode value="unknown"/>
+      </extension>
     </period>
   </identifier>
   <type>
     <coding>
-      <system value="iDcSxJ7bIM"/>
-      <version value="W6yDNag38d"/>
-      <code value="0oQSuTBaT9"/>
-      <display value="FRpKdK9jAX"/>
+      <system value="JOM5YplEw1"/>
+      <version value="CGDgzUmpkr"/>
+      <code value="GyuJxpFp2y"/>
+      <display value="Q9ix7Uxm4Q"/>
       <userSelected value="true"/>
     </coding>
-    <text value="76Gnq_qvAh"/>
+    <text value="SuIKFb0ZeU"/>
   </type>
   <unit>
     <coding>
-      <system value="eeWT7HtfWN"/>
-      <version value="m052qo8rVH"/>
-      <code value="TJ3oF6Is_G"/>
-      <display value="StMuMwSWru"/>
+      <system value="MLnGrUr_Bg"/>
+      <version value="HgCMfUPWD_"/>
+      <code value="ZUe6K8_qzQ"/>
+      <display value="0Sg1U5riiZ"/>
       <userSelected value="true"/>
     </coding>
-    <text value="lBFwWNOPz6"/>
+    <text value="rDy1sTaxNG"/>
   </unit>
   <source>
-    <reference value="Device/kJk9hl2suE"/>
+    <reference value="Device/vy6qsbEXmS"/>
     <type value="Device"/>
     <identifier>
-      <use value="official"/>
+      <use value="usual"/>
       <type>
         <coding>
-          <system value="0R3llr4AdL"/>
-          <version value="O7eYJLqzYu"/>
-          <code value="A5k8CITsR5"/>
-          <display value="v6Z_DW8e89"/>
+          <system value="4geURFuBPN"/>
+          <version value="6FeScRnXA3"/>
+          <code value="qbj5sU7TF1"/>
+          <display value="w7oLUQegGu"/>
           <userSelected value="true"/>
         </coding>
-        <text value="t5J0MhQTyc"/>
+        <text value="nE72WRwRGo"/>
       </type>
-      <system value="H6itJvmVNz"/>
-      <value value="9gU8ASEGRo"/>
+      <system value="4lsjZbAeUE"/>
+      <value value="aoCq1PWWSZ"/>
       <period>
-        <start value="2021-04-12T14:34:37.85-05:00"/>
-        <end value="2021-04-12T14:34:37.851-05:00"/>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
       </period>
     </identifier>
-    <display value="HMTBzmQQ1H"/>
+    <display value="rTt7OiWiT0"/>
   </source>
   <parent>
-    <reference value="Device/KAW9KXD1et"/>
+    <reference value="Device/lZ2wz8qaiV"/>
     <type value="Device"/>
     <identifier>
-      <use value="official"/>
+      <use value="temp"/>
       <type>
         <coding>
-          <system value="rmwR4fu1bY"/>
-          <version value="EiIumbHdzM"/>
-          <code value="4etIcdGr8N"/>
-          <display value="9qHVLSduxU"/>
+          <system value="9FmIHIuVGg"/>
+          <version value="cOY7Z66ez7"/>
+          <code value="JQNgiMn_jh"/>
+          <display value="qEsyE8YF_E"/>
           <userSelected value="true"/>
         </coding>
-        <text value="Qs0mAiOIlT"/>
+        <text value="mhISVqRbxL"/>
       </type>
-      <system value="p888svgfuU"/>
-      <value value="xcmm3OWz0l"/>
+      <system value="a2DeKwa5OY"/>
+      <value value="ivSHacW9WJ"/>
       <period>
-        <start value="2021-04-12T14:34:37.852-05:00"/>
-        <end value="2021-04-12T14:34:37.852-05:00"/>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
       </period>
     </identifier>
-    <display value="j7OpmjlPsF"/>
+    <display value="RWOm8F5dny"/>
   </parent>
-  <operationalStatus value="on"/>
-  <color value="blue"/>
+  <operationalStatus value="standby"/>
+  <color value="magenta"/>
   <category value="measurement"/>
   <measurementPeriod>
-    <event value="2021-04-12T14:34:37.845-05:00"/>
+    <event value="2022-05-13T14:23:06.664751-04:00"/>
     <repeat>
       <boundsDuration>
-        <value value="263977315677"/>
+        <value value="0.25463774657048710015061487865750677883625030517578125"/>
         <comparator value="&lt;="/>
-        <unit value="MI6qn1UdeF"/>
+        <unit value="NYBrFB6y2n"/>
         <system value="http://unitsofmeasure.org"/>
         <code value="h"/>
       </boundsDuration>
-      <count value="1527271078"/>
-      <countMax value="976596180"/>
-      <duration value="387874106995"/>
-      <durationMax value="332845701948"/>
+      <count value="1809054286"/>
+      <countMax value="423091762"/>
+      <duration value="0.34961732693369407254380121230497024953365325927734375"/>
+      <durationMax value="0.42446635650164676878404179660719819366931915283203125"/>
       <durationUnit value="h"/>
-      <frequency value="201311494"/>
-      <frequencyMax value="1133313528"/>
-      <period value="133834158660"/>
-      <periodMax value="241525617969"/>
-      <periodUnit value="mo"/>
-      <dayOfWeek value="tue"/>
-      <when value="ACV"/>
+      <frequency value="1388016012"/>
+      <frequencyMax value="794195906"/>
+      <period value="0.87973761469489708542113248768146149814128875732421875"/>
+      <periodMax value="0.8605513493081604625700720134773291647434234619140625"/>
+      <periodUnit value="min"/>
+      <dayOfWeek value="sun"/>
+      <when value="CM"/>
     </repeat>
     <code>
       <coding>
-        <system value="U5lCIEqQpw"/>
-        <version value="fhV4sk5aEo"/>
-        <code value="VYd0OXZusg"/>
-        <display value="YEH3Yb08m6"/>
+        <system value="0A8_zvEmPJ"/>
+        <version value="G6MmPpiaWz"/>
+        <code value="UeBQGugppX"/>
+        <display value="RNT9n60ut5"/>
         <userSelected value="true"/>
       </coding>
-      <text value="gxUxSdnxUs"/>
+      <text value="QLjS2Bzs1v"/>
     </code>
   </measurementPeriod>
   <calibration>
     <type value="two-point"/>
     <state value="calibrated"/>
-    <time value="2021-04-12T14:34:37.849-05:00"/>
+    <time value="2022-05-13T14:23:06.666363-04:00"/>
   </calibration>
 </DeviceMetric>

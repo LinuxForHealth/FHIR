@@ -1,0 +1,102 @@
+{
+    "resourceType": "ValueSet",
+    "id": "remittance-outcome",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/remittance-outcome",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.13"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "RemittanceOutcome",
+    "title": "RemittanceOutcome",
+    "status": "draft",
+    "experimental": true,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The outcome of the processing.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://hl7.org/fhir/remittance-outcome"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:119c20b6-4900-4039-a0f6-3698d95fb956",
+        "timestamp": "2022-04-23T22:23:07Z",
+        "total": 4,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://hl7.org/fhir/remittance-outcome|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://hl7.org/fhir/remittance-outcome",
+                "code": "queued",
+                "display": "Queued"
+            },
+            {
+                "system": "http://hl7.org/fhir/remittance-outcome",
+                "code": "complete",
+                "display": "Complete"
+            },
+            {
+                "system": "http://hl7.org/fhir/remittance-outcome",
+                "code": "error",
+                "display": "Error"
+            },
+            {
+                "system": "http://hl7.org/fhir/remittance-outcome",
+                "code": "partial",
+                "display": "Partial"
+            }
+        ]
+    }
+}

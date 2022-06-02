@@ -1,14 +1,16 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2021
+ * (C) Copyright IBM Corp. 2018, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.search.test;
 
+import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.test.util.PersistenceTestSupport;
 import com.ibm.fhir.persistence.search.test.AbstractSearchReferenceTest;
+import com.ibm.fhir.search.util.SearchHelper;
 
 public class JDBCSearchReferenceTest extends AbstractSearchReferenceTest {
 
@@ -21,8 +23,8 @@ public class JDBCSearchReferenceTest extends AbstractSearchReferenceTest {
     }
 
     @Override
-    public FHIRPersistence getPersistenceImpl() throws Exception {
-        return testSupport.getPersistenceImpl();
+    public FHIRPersistence getPersistenceImpl(FHIRConfigProvider configProvider, SearchHelper searchHelper) throws Exception {
+        return testSupport.getPersistenceImpl(configProvider, searchHelper);
     }
 
     @Override

@@ -1,0 +1,343 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0368",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0368",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.226"
+        }
+    ],
+    "version": "2.3.0",
+    "name": "RemoteControlCommand",
+    "title": "remoteControlCommand",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts that identify the comment the component is to initiate.  Used in the Equipment Command (ECD) and Interaction Status Detail (ISD) segments in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0368 (Remote Control Command)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0368",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "3693",
+            "code": "SA",
+            "display": "Sampling",
+            "definition": "Sampling",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3694",
+            "code": "LO",
+            "display": "Load",
+            "definition": "Load",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3695",
+            "code": "UN",
+            "display": "Unload",
+            "definition": "Unload",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3696",
+            "code": "LK",
+            "display": "Lock",
+            "definition": "Lock",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3697",
+            "code": "UC",
+            "display": "Unlock",
+            "definition": "Unlock",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3698",
+            "code": "TT",
+            "display": "Transport To",
+            "definition": "Transport To",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3699",
+            "code": "CN",
+            "display": "Clear Notification",
+            "definition": "Clear Notification",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3700",
+            "code": "IN",
+            "display": "Initialize/Initiate",
+            "definition": "Initialize/Initiate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3701",
+            "code": "SU",
+            "display": "Setup",
+            "definition": "Setup",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3702",
+            "code": "CL",
+            "display": "Clear",
+            "definition": "Clear",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3703",
+            "code": "PA",
+            "display": "Pause",
+            "definition": "Pause",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3704",
+            "code": "RE",
+            "display": "Resume",
+            "definition": "Resume",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3705",
+            "code": "ES",
+            "display": "Emergency -stop",
+            "definition": "Emergency -stop",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3706",
+            "code": "LC",
+            "display": "Local Control Request",
+            "definition": "Local Control Request",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3707",
+            "code": "RC",
+            "display": "Remote Control Request",
+            "definition": "Remote Control Request",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3708",
+            "code": "AB",
+            "display": "Abort",
+            "definition": "Abort",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3709",
+            "code": "EN",
+            "display": "Enable Sending Events",
+            "definition": "Enable Sending Events",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3710",
+            "code": "DI",
+            "display": "Disable Sending Events",
+            "definition": "Disable Sending Events",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3711",
+            "code": "EX",
+            "display": "Execute (command specified in field Parameters (ST) 01394)",
+            "definition": "Execute (command specified in field Parameters (ST) 01394)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3712",
+            "code": "AF",
+            "display": "Aliquot From container",
+            "definition": "Aliquot From container",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "See desc. below"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "See desc. below"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3713",
+            "code": "AT",
+            "display": "Aliquot To container",
+            "definition": "Aliquot To container",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "See desc. below"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "See desc. below"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

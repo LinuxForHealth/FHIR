@@ -1,0 +1,72 @@
+{
+  "resourceType": "MedicinalProductDefinition",
+  "id": "Acetamin-500-20-generic",
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv style\u003d\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"\u003e\u003cp style\u003d\"margin-bottom: 0px\"\u003eResource \u0026quot;Acetamin-500-20-generic\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003eidentifier\u003c/b\u003e: id: 12345\u003c/p\u003e\u003ch3\u003eNames\u003c/h3\u003e\u003ctable class\u003d\"grid\"\u003e\u003ctr\u003e\u003ctd\u003e-\u003c/td\u003e\u003ctd\u003e\u003cb\u003eProductName\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd\u003e*\u003c/td\u003e\u003ctd\u003eAcetaminophen 500 mg tablets [generic]\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "contained": [
+    {
+      "resourceType": "PackagedProductDefinition",
+      "id": "Acetamin-pack-20",
+      "packageFor": [
+        {
+          "reference": "#"
+        }
+      ],
+      "package": {
+        "type": {
+          "coding": [
+            {
+              "code": "cardboard box"
+            }
+          ]
+        },
+        "containedItem": [
+          {
+            "item": {
+              "reference": {
+                "reference": "#Acetamin-tab-500"
+              }
+            },
+            "amount": {
+              "value": 20
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "ManufacturedItemDefinition",
+      "id": "Acetamin-tab-500",
+      "status": "active",
+      "manufacturedDoseForm": {
+        "coding": [
+          {
+            "code": "tablet"
+          }
+        ]
+      }
+    }
+  ],
+  "identifier": [
+    {
+      "system": "http://example.nation.org/drugs",
+      "value": "12345"
+    }
+  ],
+  "name": [
+    {
+      "productName": "Acetaminophen 500 mg tablets [generic]"
+    }
+  ],
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

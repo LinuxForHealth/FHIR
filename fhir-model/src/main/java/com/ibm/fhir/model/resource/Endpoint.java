@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -67,7 +67,7 @@ public class Endpoint extends DomainResource {
         bindingName = "EndpointStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the endpoint.",
-        valueSet = "http://hl7.org/fhir/ValueSet/endpoint-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/endpoint-status|4.3.0-cibuild"
     )
     @Required
     private final EndpointStatus status;
@@ -99,8 +99,8 @@ public class Endpoint extends DomainResource {
     @Binding(
         bindingName = "MimeType",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The mime type of an attachment. Any valid mime type is allowed.",
-        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
+        description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
     )
     private final List<Code> payloadMimeType;
     @Summary

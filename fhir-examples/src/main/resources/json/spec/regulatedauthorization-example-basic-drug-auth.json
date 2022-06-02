@@ -1,0 +1,41 @@
+{
+  "resourceType": "RegulatedAuthorization",
+  "id": "basic-drug-auth",
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv style\u003d\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"\u003e\u003cp style\u003d\"margin-bottom: 0px\"\u003eResource \u0026quot;basic-drug-auth\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003esubject\u003c/b\u003e: \u003ca href\u003d\"todo.html\"\u003eMedicinalProductDefinition/equilidem\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: Regulatory Drug Marketing Approval \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e ()\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: active \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e ([not stated]#active)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003estatusDate\u003c/b\u003e: 2016-01-01\u003c/p\u003e\u003cp\u003e\u003cb\u003eholder\u003c/b\u003e: \u003ca href\u003d\"todo.html\"\u003eOrganization/EqlidrugCo: EquiliDrugCo Holdings Inc.\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eregulator\u003c/b\u003e: \u003ca href\u003d\"todo.html\"\u003eOrganization/FDA: FDA\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
+  },
+  "subject": [
+    {
+      "reference": "MedicinalProductDefinition/equilidem"
+    }
+  ],
+  "type": {
+    "text": "Regulatory Drug Marketing Approval"
+  },
+  "status": {
+    "coding": [
+      {
+        "code": "active"
+      }
+    ]
+  },
+  "statusDate": "2016-01-01",
+  "holder": {
+    "reference": "Organization/EqlidrugCo",
+    "display": "EquiliDrugCo Holdings Inc."
+  },
+  "regulator": {
+    "reference": "Organization/FDA",
+    "display": "FDA"
+  },
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

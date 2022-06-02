@@ -1,0 +1,78 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "fhirpath-types",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-normative-version",
+            "valueCode": "4.0.0"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 5
+        }
+    ],
+    "url": "http://hl7.org/fhir/CodeSystem/fhirpath-types",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "FHIRPathTypes",
+    "title": "FHIRPath Types Value Set",
+    "status": "active",
+    "experimental": false,
+    "description": "All FHIRPath data types",
+    "caseSensitive": true,
+    "valueSet": "http://hl7.org/fhir/ValueSet/fhirpath-types",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "http://hl7.org/fhirpath/System.String",
+            "display": "String"
+        },
+        {
+            "code": "http://hl7.org/fhirpath/System.Boolean",
+            "display": "Boolean"
+        },
+        {
+            "code": "http://hl7.org/fhirpath/System.Date",
+            "display": "Date"
+        },
+        {
+            "code": "http://hl7.org/fhirpath/System.DateTime",
+            "display": "DateTime"
+        },
+        {
+            "code": "http://hl7.org/fhirpath/System.Decimal",
+            "display": "Decimal"
+        },
+        {
+            "code": "http://hl7.org/fhirpath/System.Integer",
+            "display": "Integer"
+        },
+        {
+            "code": "http://hl7.org/fhirpath/System.Time",
+            "display": "Time"
+        }
+    ]
+}

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><Bundle xmlns="http://hl7.org/fhir">
+  <id value="54f808cf-d159-4c9b-accb-c33eb20f0ecc"/>
+  <meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <type value="history"/>
+  <timestamp value="2020-04-17T10:24:13.1882432-05:00"/>
+  <entry>
+    <fullUrl value="urn:uuid:231e7f38-2dd1-45ac-9161-d7bd87c403bd"/>
+    <resource>
+      <SubscriptionStatus>
+        <id value="231e7f38-2dd1-45ac-9161-d7bd87c403bd"/>
+        <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "231e7f38-2dd1-45ac-9161-d7bd87c403bd" </p></div><p><b>status</b>: requested</p><p><b>type</b>: handshake</p><p><b>eventsSinceSubscriptionStart</b>: 0</p><p><b>subscription</b>: <a href="todo.html">http://example.org/FHIR/R4B/Subscription/123</a></p><p><b>topic</b>: <a href="http://example.org/FHIR/R4B/SubscriptionTopic/admission">http://example.org/FHIR/R4B/SubscriptionTopic/admission</a></p></div></text><status value="requested"/>
+        <type value="handshake"/>
+        <eventsSinceSubscriptionStart value="0"/>
+        <subscription>
+          <reference value="http://example.org/FHIR/R4B/Subscription/123"/>
+        </subscription>
+        <topic value="http://example.org/FHIR/R4B/SubscriptionTopic/admission"/>
+      </SubscriptionStatus>
+    </resource>
+    <request>
+      <method value="GET"/>
+      <url value="Subscription/123/$status"/>
+    </request>
+    <response>
+      <status value="200"/>
+    </response>
+  </entry>
+</Bundle>

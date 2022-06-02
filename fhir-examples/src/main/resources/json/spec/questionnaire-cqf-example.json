@@ -20,7 +20,7 @@
   "extension": [
     {
       "url": "http://hl7.org/fhir/StructureDefinition/cqf-library",
-      "valueCanonical": "Library/phq-9-logic"
+      "valueCanonical": "http://example.org/fhir/Library/phq-9-logic"
     }
   ],
   "identifier": [
@@ -32,6 +32,7 @@
   "version": "1.0.0",
   "title": "Patient Health Questionnaire (PHQ-9)",
   "status": "draft",
+  "experimental": true,
   "subjectType": [
     "Patient"
   ],

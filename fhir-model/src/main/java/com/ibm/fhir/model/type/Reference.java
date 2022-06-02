@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "SHALL have a contained resource if a local reference is provided",
-    expression = "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
+    expression = "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids')) or (reference='#' and %rootResource!=%resource)",
     source = "http://hl7.org/fhir/StructureDefinition/Reference"
 )
 @Constraint(
@@ -46,7 +46,6 @@ public class Reference extends Element {
     @Binding(
         bindingName = "FHIRResourceTypeExt",
         strength = BindingStrength.Value.EXTENSIBLE,
-        description = "Aa resource (or, for logical models, the URI of the logical model).",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types"
     )
     private final Uri type;

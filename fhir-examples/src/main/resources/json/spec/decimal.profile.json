@@ -16,10 +16,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/decimal",
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "decimal",
   "status": "active",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -32,7 +33,7 @@
     }
   ],
   "description": "Base StructureDefinition for decimal Type: A rational number with implicit precision",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.3.0-cibuild",
   "kind": "primitive-type",
   "abstract": false,
   "type": "decimal",
@@ -57,9 +58,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           }
         ],

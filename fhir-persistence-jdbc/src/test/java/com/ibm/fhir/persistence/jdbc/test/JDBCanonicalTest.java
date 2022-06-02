@@ -6,9 +6,11 @@
 
 package com.ibm.fhir.persistence.jdbc.test;
 
+import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.test.util.PersistenceTestSupport;
 import com.ibm.fhir.persistence.test.common.AbstractCanonicalTest;
+import com.ibm.fhir.search.util.SearchHelper;
 
 public class JDBCanonicalTest extends AbstractCanonicalTest {
     // Container to hide the instantiation of the persistence impl used for tests
@@ -20,8 +22,8 @@ public class JDBCanonicalTest extends AbstractCanonicalTest {
     }
 
     @Override
-    public FHIRPersistence getPersistenceImpl() throws Exception {
-        return testSupport.getPersistenceImpl();
+    public FHIRPersistence getPersistenceImpl(FHIRConfigProvider configProvider, SearchHelper searchHelper) throws Exception {
+        return testSupport.getPersistenceImpl(configProvider, searchHelper);
     }
 
     @Override

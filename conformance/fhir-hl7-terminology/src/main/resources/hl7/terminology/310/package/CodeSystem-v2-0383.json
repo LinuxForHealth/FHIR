@@ -1,0 +1,195 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0383",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0383",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.236"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "SubstanceStatus",
+    "title": "substanceStatus",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts identifying the status of the inventoried item.  The status indicates the current status of the substance.  Used in HL7 Version 2.x messaging in the Inventory Detail (INV) segment.",
+    "purpose": "Underlying Master Code System for V2 table 0383 (Substance Status)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0383",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "3830",
+            "code": "EW",
+            "display": "Expired Warning",
+            "definition": "Expired Warning",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3831",
+            "code": "EE",
+            "display": "Expired Error",
+            "definition": "Expired Error",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3832",
+            "code": "CW",
+            "display": "Calibration Warning",
+            "definition": "Calibration Warning",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3833",
+            "code": "CE",
+            "display": "Calibration Error",
+            "definition": "Calibration Error",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3834",
+            "code": "QW",
+            "display": "QC Warning",
+            "definition": "QC Warning",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3835",
+            "code": "QE",
+            "display": "QC Error",
+            "definition": "QC Error",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3836",
+            "code": "NW",
+            "display": "Not Available Warning",
+            "definition": "Not Available Warning",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3837",
+            "code": "NE",
+            "display": "Not Available Error",
+            "definition": "Not Available Error",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3838",
+            "code": "OW",
+            "display": "Other Warning",
+            "definition": "Other Warning",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3839",
+            "code": "OE",
+            "display": "Other Error",
+            "definition": "Other Error",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3840",
+            "code": "OK",
+            "display": "OK Status",
+            "definition": "OK Status",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

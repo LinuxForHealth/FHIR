@@ -2,8 +2,8 @@
   "resourceType": "Observation",
   "id": "example-TPMT-haplotype-one",
   "text": {
-    "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative with Details\u003c/b\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eid\u003c/b\u003e: example-TPMT-haplotype-one\u003c/p\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: unknown\u003c/p\u003e\u003cp\u003e\u003cb\u003ecode\u003c/b\u003e: Haplotype Call \u003cspan\u003e(Details : {SNOMED CT code \u0027363779003\u0027 \u003d \u0027Genotype determination\u0027, given as \u0027Genotype determination\u0027})\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003esubject\u003c/b\u003e: \u003ca\u003eE***********\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eissued\u003c/b\u003e: 03/04/2013 3:30:10 PM\u003c/p\u003e\u003cp\u003e\u003cb\u003evalue\u003c/b\u003e: *1 \u003cspan\u003e(Details : {http://pharmakb.org code \u0027PA166128347\u0027 \u003d \u0027PA166128347\u0027, given as \u0027*1\u0027})\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003ederivedFrom\u003c/b\u003e: \u003ca\u003eMolecularSequence/example-TPMT-one\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
+    "status": "extensions",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv style\u003d\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"\u003e\u003cp style\u003d\"margin-bottom: 0px\"\u003eResource \u0026quot;example-TPMT-haplotype-one\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003eGene\u003c/b\u003e: TPMT \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e (\u003ca href\u003d\"http://terminology.hl7.org/3.1.0/CodeSystem-v3-hgnc.html\"\u003eHUGO Gene Nomenclature\u003c/a\u003e#12014)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: unknown\u003c/p\u003e\u003cp\u003e\u003cb\u003ecode\u003c/b\u003e: Haplotype Call \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e (\u003ca href\u003d\"https://browser.ihtsdotools.org/\"\u003eSNOMED CT\u003c/a\u003e#363779003 \u0026quot;The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. Genotype determination\u0026quot;)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003esubject\u003c/b\u003e: \u003ca href\u003d\"patient-example.html\"\u003ePatient/example: E***********\u003c/a\u003e \u0026quot;Peter CHALMERS\u0026quot;\u003c/p\u003e\u003cp\u003e\u003cb\u003eeffective\u003c/b\u003e: 2013-04-03T15:30:10+01:00\u003c/p\u003e\u003cp\u003e\u003cb\u003evalue\u003c/b\u003e: *1 \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e (pharmakb.org#PA166128347)\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003edevice\u003c/b\u003e: \u003ca href\u003d\"device-example.html\"\u003eDevice/example\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003ederivedFrom\u003c/b\u003e: \u003ca href\u003d\"molecularsequence-example-tpmt-one.html\"\u003eMolecularSequence/example-TPMT-one\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
   },
   "extension": [
     {
@@ -25,7 +25,7 @@
       {
         "system": "http://snomed.info/sct",
         "code": "363779003",
-        "display": "Genotype determination"
+        "display": "The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. Genotype determination"
       }
     ],
     "text": "Haplotype Call"
@@ -34,7 +34,7 @@
     "reference": "Patient/example",
     "display": "E***********"
   },
-  "issued": "2013-04-03T15:30:10+01:00",
+  "effectiveDateTime": "2013-04-03T15:30:10+01:00",
   "valueCodeableConcept": {
     "coding": [
       {
@@ -43,6 +43,9 @@
         "display": "*1"
       }
     ]
+  },
+  "device": {
+    "reference": "Device/example"
   },
   "derivedFrom": [
     {

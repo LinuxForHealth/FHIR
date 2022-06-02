@@ -1,0 +1,379 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0265",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0265",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.159"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "SpecialtyType",
+    "title": "specialtyType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "Code system of concepts used to identify the specialty of the care professional who is supported when using this location definition.  Used in HL7 Version 2.x messaging in the LDP segment.",
+    "purpose": "Underlying Master Code System for V2 table 0265 (Specialty Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0265",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "2593",
+            "code": "AMB",
+            "display": "Ambulatory",
+            "definition": "Ambulatory",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2594",
+            "code": "PSY",
+            "display": "Psychiatric",
+            "definition": "Psychiatric",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2595",
+            "code": "PPS",
+            "display": "Pediatric psychiatric",
+            "definition": "Pediatric psychiatric",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2596",
+            "code": "REH",
+            "display": "Rehabilitation",
+            "definition": "Rehabilitation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2597",
+            "code": "PRE",
+            "display": "Pediatric rehabilitation",
+            "definition": "Pediatric rehabilitation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2598",
+            "code": "ISO",
+            "display": "Isolation",
+            "definition": "Isolation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2599",
+            "code": "OBG",
+            "display": "Obstetrics, gynecology",
+            "definition": "Obstetrics, gynecology",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2600",
+            "code": "PIN",
+            "display": "Pediatric/neonatal intensive care",
+            "definition": "Pediatric/neonatal intensive care",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2601",
+            "code": "INT",
+            "display": "Intensive care",
+            "definition": "Intensive care",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2602",
+            "code": "SUR",
+            "display": "Surgery",
+            "definition": "Surgery",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2603",
+            "code": "PSI",
+            "display": "Psychiatric intensive care",
+            "definition": "Psychiatric intensive care",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2604",
+            "code": "EDI",
+            "display": "Education",
+            "definition": "Education",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2605",
+            "code": "CAR",
+            "display": "Coronary/cardiac care",
+            "definition": "Coronary/cardiac care",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2606",
+            "code": "NBI",
+            "display": "Newborn, nursery, infants",
+            "definition": "Newborn, nursery, infants",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2607",
+            "code": "CCR",
+            "display": "Critical care",
+            "definition": "Critical care",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2608",
+            "code": "PED",
+            "display": "Pediatrics",
+            "definition": "Pediatrics",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2609",
+            "code": "EMR",
+            "display": "Emergency",
+            "definition": "Emergency",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2610",
+            "code": "OBS",
+            "display": "Observation",
+            "definition": "Observation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2611",
+            "code": "WIC",
+            "display": "Walk-in clinic",
+            "definition": "Walk-in clinic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2612",
+            "code": "PHY",
+            "display": "General/family practice",
+            "definition": "General/family practice",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2613",
+            "code": "ALC",
+            "display": "Allergy",
+            "definition": "Allergy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2614",
+            "code": "FPC",
+            "display": "Family planning",
+            "definition": "Family planning",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2615",
+            "code": "CHI",
+            "display": "Chiropractic",
+            "definition": "Chiropractic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2616",
+            "code": "CAN",
+            "display": "Cancer",
+            "definition": "Cancer",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2617",
+            "code": "NAT",
+            "display": "Naturopathic",
+            "definition": "Naturopathic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "2618",
+            "code": "OTH",
+            "display": "Other specialty",
+            "definition": "Other specialty",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

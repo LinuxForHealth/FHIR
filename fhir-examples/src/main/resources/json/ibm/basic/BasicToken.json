@@ -42,15 +42,15 @@
     {
       "url": "http://example.org/Coding-validCodeAndSystem",
       "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
-        "code": "AA"
+        "system": "http://hl7.org/fhir/issue-type",
+        "code": "not-found"
       }
     },
     {
       "url": "http://example.org/Coding-validCaseInsensitiveCodeAndSystem",
       "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/v2-0001",
-        "code": "F"
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0535",
+        "code": "s"
       }
     },
     {
@@ -80,6 +80,10 @@
         "coding": [{
           "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
           "code": "AA"
+        },
+        {
+          "system": "http://hl7.org/fhir/issue-type",
+          "code": "not-found"
         }]
       }
     },

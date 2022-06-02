@@ -32,6 +32,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.cql.engine.searchparam.SearchParameterResolver;
 import com.ibm.fhir.cql.engine.server.terminology.ServerFHIRTerminologyProvider;
+import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Link;
 import com.ibm.fhir.model.resource.Condition;
@@ -42,7 +43,6 @@ import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.persistence.SingleResourceResult;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 
@@ -78,7 +78,7 @@ public class ServerFHIRRetrieveProviderTest {
         when(result.isSuccess()).thenReturn(true);
         when(result.getResource()).thenReturn(p1);
 
-        when(helpers.doRead(eq("Patient"), eq("123"), eq(true), eq(false), isNull())).thenReturn(result);
+        when(helpers.doRead(eq("Patient"), eq("123"))).thenReturn(result);
 
         Iterable<Object> resources = provider.retrieve("Patient", "id", "123", "Patient", null, null, null, null, null, null, null, null);
         assertNotNull(resources);
@@ -94,7 +94,7 @@ public class ServerFHIRRetrieveProviderTest {
 
     @Test(expectedExceptions = RuntimeException.class)
     public void testQueryByIdNotFound() throws Exception {
-        when(helpers.doRead(eq("Patient"), eq("123"), eq(true), eq(false), isNull())).thenThrow(FHIRPersistenceResourceNotFoundException.class);
+        when(helpers.doRead(eq("Patient"), eq("123"))).thenThrow(FHIROperationException.class);
 
         provider.retrieve("Patient", "id", "123", "Patient", null, null, null, null, null, null, null, null);
     }
@@ -111,8 +111,8 @@ public class ServerFHIRRetrieveProviderTest {
 
         Bundle page2 = Bundle.builder().type(BundleType.SEARCHSET).total(UnsignedInt.of(1)).entry(Bundle.Entry.builder().resource(c2).build()).build();
 
-        when(helpers.doSearch(eq("Condition"), isNull(), isNull(), not(hasEntry("_page")), anyString(), isNull())).thenReturn(page1);
-        when(helpers.doSearch(eq("Condition"), isNull(), isNull(), hasEntry("_page"), anyString(), isNull())).thenReturn(page2);
+        when(helpers.doSearch(eq("Condition"), isNull(), isNull(), not(hasEntry("_page")), anyString())).thenReturn(page1);
+        when(helpers.doSearch(eq("Condition"), isNull(), isNull(), hasEntry("_page"), anyString())).thenReturn(page2);
 
         Iterable<Object> resources = provider.retrieve("Patient", "subject", "123", "Condition", null, null, null, null, null, null, null, null);
         assertNotNull(resources);
@@ -126,7 +126,7 @@ public class ServerFHIRRetrieveProviderTest {
         expected.add(c2.getId());
         assertEquals(results.keySet(), expected);
 
-        verify(helpers, times(2)).doSearch(eq("Condition"), isNull(), isNull(), ArgumentMatchers.<MultivaluedMap<String, String>> any(), anyString(), isNull());
+        verify(helpers, times(2)).doSearch(eq("Condition"), isNull(), isNull(), ArgumentMatchers.<MultivaluedMap<String, String>> any(), anyString());
     }
 
     private String getBaseUrl() {

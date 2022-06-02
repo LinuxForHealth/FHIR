@@ -1,0 +1,70 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "de-boolean.value",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z"
+    },
+    "url": "http://hl7.org/fhir/StructureDefinition/de-boolean.value",
+    "version": "4.3.0-cibuild",
+    "name": "boolean.value",
+    "title": "boolean.value",
+    "status": "draft",
+    "experimental": true,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "HL7 FHIR Standard",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Data Element for boolean.value",
+    "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
+    "fhirVersion": "4.3.0-cibuild",
+    "kind": "logical",
+    "abstract": false,
+    "type": "boolean.value",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Element",
+    "derivation": "specialization",
+    "snapshot": {
+        "element": [
+            {
+                "id": "boolean.value",
+                "path": "boolean.value",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Primitive value for boolean",
+                "definition": "The actual value",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "boolean.value",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "boolean"
+                            },
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/regex",
+                                "valueString": "true|false"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.Boolean"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            }
+        ]
+    }
+}

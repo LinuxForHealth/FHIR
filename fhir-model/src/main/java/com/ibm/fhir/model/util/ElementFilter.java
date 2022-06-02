@@ -20,7 +20,7 @@ import jakarta.json.JsonObjectBuilder;
 
 public class ElementFilter implements Function<JsonObject, JsonObject> {
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
-    private static final List<String> REQUIRED_ELEMENTS = Arrays.asList("resourceType", "id", "_id", "meta");
+    private static final List<String> REQUIRED_ELEMENTS = Arrays.asList("resourceType", "id", "meta");
     
     private Set<String> includeElements = new HashSet<>();
 

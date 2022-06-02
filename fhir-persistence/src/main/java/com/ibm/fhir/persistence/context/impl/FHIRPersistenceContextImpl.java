@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,6 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     private FHIRPersistenceEvent persistenceEvent;
     private FHIRHistoryContext historyContext;
     private FHIRSearchContext searchContext;
-    private boolean includeDeleted = false;
     private Integer ifNoneMatch;
     private String requestShard;
     
@@ -44,7 +43,6 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         private FHIRPersistenceEvent persistenceEvent;
         private FHIRHistoryContext historyContext;
         private FHIRSearchContext searchContext;
-        private boolean includeDeleted;
         private Integer ifNoneMatch;
         private PayloadPersistenceResponse offloadResponse;
         private String requestShard;
@@ -56,14 +54,14 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         protected Builder(FHIRPersistenceEvent event) {
             this.persistenceEvent = event;
         }
-        
+
         /**
          * Build the FHIRPersistenceContext implementation
          * @return
          */
         public FHIRPersistenceContext build() {
             FHIRPersistenceContextImpl impl;
-            
+
             if (historyContext != null) {
                 impl = new FHIRPersistenceContextImpl(persistenceEvent, historyContext);
             } else if (searchContext != null) {
@@ -72,13 +70,12 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
                 impl = new FHIRPersistenceContextImpl(persistenceEvent);
             }
             impl.setIfNoneMatch(ifNoneMatch);
-            impl.setIncludeDeleted(includeDeleted);
             impl.setOffloadResponse(offloadResponse);
             impl.setRequestShard(requestShard);
             
             return impl;
         }
-        
+
         /**
          * Build with the given searchContext
          * @param searchContext
@@ -106,16 +103,6 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
          */
         public Builder withIfNoneMatch(Integer ifNoneMatch) {
             this.ifNoneMatch = ifNoneMatch;
-            return this;
-        }
-
-        /**
-         * Build with the includeDeleted value
-         * @param includeDeleted
-         * @return
-         */
-        public Builder withIncludeDeleted(boolean includeDeleted) {
-            this.includeDeleted = includeDeleted;
             return this;
         }
 
@@ -148,11 +135,6 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         this.persistenceEvent = pe;
     }
 
-    private FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, boolean includeDeleted) {
-        this.persistenceEvent = pe;
-        setIncludeDeleted(includeDeleted);
-    }
-
     /**
      * Public constructor
      * @param pe
@@ -162,19 +144,13 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         this.persistenceEvent = pe;
         setIfNoneMatch(ifNoneMatch);
     }
-    
+
     private FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRHistoryContext hc) {
         this.persistenceEvent = pe;
         this.historyContext = hc;
     }
     private FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRSearchContext sc) {
         this.persistenceEvent = pe;
-        this.searchContext = sc;
-    }
-
-    private FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, boolean includeDeleted, FHIRSearchContext sc) {
-        this.persistenceEvent = pe;
-        setIncludeDeleted(includeDeleted);
         this.searchContext = sc;
     }
 
@@ -194,21 +170,8 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     }
 
     @Override
-    public boolean includeDeleted() {
-        return includeDeleted;
-    }
-
-    @Override
     public String getRequestShard() {
         return this.requestShard;
-    }
-
-    /**
-     * Setter for the includeDeleted flag
-     * @param includeDeleted
-     */
-    public void setIncludeDeleted(boolean includeDeleted) {
-        this.includeDeleted = includeDeleted;
     }
 
     /**

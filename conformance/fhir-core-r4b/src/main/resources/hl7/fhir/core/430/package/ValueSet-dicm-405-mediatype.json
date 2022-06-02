@@ -1,0 +1,204 @@
+{
+    "resourceType": "ValueSet",
+    "id": "dicm-405-mediatype",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "sec"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/dicm-405-mediatype",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:1.2.840.10008.6.​1.​908"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "MediaTypeCode",
+    "title": "Media Type Code",
+    "status": "active",
+    "experimental": false,
+    "date": "2010-08-26",
+    "publisher": "NEMA/DICOM",
+    "description": "Media Type Code",
+    "copyright": "These codes are excerpted from Digital Imaging and Communications in Medicine (DICOM) Standard, Part 16: Content Mapping Resource, Copyright 2011 by the National Electrical Manufacturers Association.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "concept": [
+                    {
+                        "code": "110030"
+                    },
+                    {
+                        "code": "110031"
+                    },
+                    {
+                        "code": "110032"
+                    },
+                    {
+                        "code": "110033"
+                    },
+                    {
+                        "code": "110034"
+                    },
+                    {
+                        "code": "110035"
+                    },
+                    {
+                        "code": "110036"
+                    },
+                    {
+                        "code": "110037"
+                    },
+                    {
+                        "code": "110010"
+                    },
+                    {
+                        "code": "110038"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:8b808d32-71e8-4472-bc60-2211b50b6100",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 10,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://dicom.nema.org/resources/ontology/DCM|2022.1.20220124"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110030",
+                "display": "USB Disk Emulation",
+                "designation": [
+                    {
+                        "value": "USB Disk Emulation"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110031",
+                "display": "Email",
+                "designation": [
+                    {
+                        "value": "Email"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110032",
+                "display": "CD",
+                "designation": [
+                    {
+                        "value": "CD"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110033",
+                "display": "DVD",
+                "designation": [
+                    {
+                        "value": "DVD"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110034",
+                "display": "Compact Flash",
+                "designation": [
+                    {
+                        "value": "Compact Flash"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110035",
+                "display": "Multi-media Card",
+                "designation": [
+                    {
+                        "value": "Multi-media Card"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110036",
+                "display": "Secure Digital Card",
+                "designation": [
+                    {
+                        "value": "Secure Digital Card"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110037",
+                "display": "URI",
+                "designation": [
+                    {
+                        "value": "URI"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110010",
+                "display": "Film",
+                "designation": [
+                    {
+                        "value": "Film"
+                    }
+                ]
+            },
+            {
+                "system": "http://dicom.nema.org/resources/ontology/DCM",
+                "code": "110038",
+                "display": "Paper Document",
+                "designation": [
+                    {
+                        "value": "Paper Document"
+                    }
+                ]
+            }
+        ]
+    }
+}

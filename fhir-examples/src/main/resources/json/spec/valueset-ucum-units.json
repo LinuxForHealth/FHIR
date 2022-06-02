@@ -2,7 +2,7 @@
   "resourceType": "ValueSet",
   "id": "ucum-units",
   "meta": {
-    "lastUpdated": "2019-11-01T09:29:23.356+11:00",
+    "lastUpdated": "2022-04-23T22:21:35.043+00:00",
     "profile": [
       "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
     ]
@@ -32,12 +32,12 @@
       "value": "urn:oid:2.16.840.1.113883.4.642.3.912"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "UCUMCodes",
   "title": "UCUM Codes",
   "status": "draft",
-  "experimental": false,
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": true,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "FHIR Project team",
   "contact": [
     {

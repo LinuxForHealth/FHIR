@@ -1,0 +1,243 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0426",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0426",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.267"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "BloodProduct",
+    "title": "bloodProduct",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts which specify a type of blood product.  Used in HL7 Version 2 messaging in the BLC segment.",
+    "purpose": "Underlying Master Code System for V2 table 0426 (Blood Product Code)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0426",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "id": "4591",
+            "code": "CRYO",
+            "display": "Cryoprecipitated AHF",
+            "definition": "Cryoprecipitated AHF",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4592",
+            "code": "CRYOP",
+            "display": "Pooled Cryoprecipitate",
+            "definition": "Pooled Cryoprecipitate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4593",
+            "code": "FFP",
+            "display": "Fresh Frozen Plasma",
+            "definition": "Fresh Frozen Plasma",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4594",
+            "code": "FFPTH",
+            "display": "Fresh Frozen Plasma - Thawed",
+            "definition": "Fresh Frozen Plasma - Thawed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4595",
+            "code": "PC",
+            "display": "Packed Cells",
+            "definition": "Packed Cells",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4596",
+            "code": "PCA",
+            "display": "Autologous Packed Cells",
+            "definition": "Autologous Packed Cells",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4597",
+            "code": "PCNEO",
+            "display": "Packed Cells - Neonatal",
+            "definition": "Packed Cells - Neonatal",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4598",
+            "code": "PCW",
+            "display": "Washed Packed Cells",
+            "definition": "Washed Packed Cells",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4599",
+            "code": "PLT",
+            "display": "Platelet Concentrate",
+            "definition": "Platelet Concentrate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4600",
+            "code": "PLTNEO",
+            "display": "Reduced Volume Platelets",
+            "definition": "Reduced Volume Platelets",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4601",
+            "code": "PLTP",
+            "display": "Pooled Platelets",
+            "definition": "Pooled Platelets",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4602",
+            "code": "PLTPH",
+            "display": "Platelet Pheresis",
+            "definition": "Platelet Pheresis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4603",
+            "code": "PLTPHLR",
+            "display": "Leukoreduced Platelet Pheresis",
+            "definition": "Leukoreduced Platelet Pheresis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4604",
+            "code": "RWB",
+            "display": "Reconstituted Whole Blood",
+            "definition": "Reconstituted Whole Blood",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4605",
+            "code": "WBA",
+            "display": "Autologous Whole Blood",
+            "definition": "Autologous Whole Blood",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

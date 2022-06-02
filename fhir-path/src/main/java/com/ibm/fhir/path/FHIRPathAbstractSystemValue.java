@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,28 +18,6 @@ import java.util.stream.Stream;
 public abstract class FHIRPathAbstractSystemValue extends FHIRPathAbstractNode implements FHIRPathSystemValue {
     protected FHIRPathAbstractSystemValue(Builder builder) {
         super(builder);
-    }
-
-    /**
-     * This method always returns false
-     *
-     * @return
-     *     false
-     */
-    @Override
-    public final boolean hasValue() {
-        return false;
-    }
-
-    /**
-     * This method always returns null
-     *
-     * @return
-     *     null
-     */
-    @Override
-    public final FHIRPathSystemValue getValue() {
-        return null;
     }
 
     /**

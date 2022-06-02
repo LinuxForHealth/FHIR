@@ -1,0 +1,2755 @@
+{
+    "resourceType": "ValueSet",
+    "id": "reason-medication-status-codes",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "phx"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/reason-medication-status-codes",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.369"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "SNOMEDCTDrugTherapyStatusCodes",
+    "title": "SNOMED CT Drug Therapy Status codes",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes some taken and not taken reason codes from SNOMED CT - provided as an exemplar",
+    "copyright": "This value set includes content from SNOMED CT, which is copyright © 2002+ International Health Terminology Standards Development Organisation (IHTSDO), and distributed by agreement between IHTSDO and HL7. Implementer use of SNOMED CT is not covered by this agreement",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "266710000"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "410684002"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/valueset-unclosed",
+                "valueBoolean": true
+            }
+        ],
+        "identifier": "urn:uuid:4852f244-9c41-404c-b054-58432acc6e82",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 194,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "266710000",
+                "display": "Drugs not taken/completed",
+                "designation": [
+                    {
+                        "value": "Drugs not taken/completed"
+                    },
+                    {
+                        "value": "Drugs not taken/completed (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182862001",
+                "display": "Drug not taken - dislike taste",
+                "designation": [
+                    {
+                        "value": "Drug not taken - dislike taste"
+                    },
+                    {
+                        "value": "Drug not taken - dislike taste (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182863006",
+                "display": "Drug not taken - dislike form",
+                "designation": [
+                    {
+                        "value": "Drug not taken - dislike form"
+                    },
+                    {
+                        "value": "Drug not taken - dislike form (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182864000",
+                "display": "Drug not taken - side-effects",
+                "designation": [
+                    {
+                        "value": "Drug not taken - side-effects"
+                    },
+                    {
+                        "value": "Drug not taken - side-effects (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182865004",
+                "display": "Drug not taken - inconvenient",
+                "designation": [
+                    {
+                        "value": "Drug not taken - inconvenient"
+                    },
+                    {
+                        "value": "Drug not taken - inconvenient (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182868002",
+                "display": "Treatment stopped - alternative therapy undertaken",
+                "designation": [
+                    {
+                        "value": "Treatment stopped - alternative therapy undertaken"
+                    },
+                    {
+                        "value": "Treatment stopped - alternative therapy undertaken (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182869005",
+                "display": "Drug not taken - patient lost tablets",
+                "designation": [
+                    {
+                        "value": "Drug not taken - patient lost tablets"
+                    },
+                    {
+                        "value": "Drug not taken - patient lost tablets (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182870006",
+                "display": "Drug discontinued - reason unknown",
+                "designation": [
+                    {
+                        "value": "Drug discontinued - reason unknown"
+                    },
+                    {
+                        "value": "Drug discontinued - reason unknown (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182871005",
+                "display": "Drug discontinued - patient fear/risk",
+                "designation": [
+                    {
+                        "value": "Drug discontinued - patient fear/risk"
+                    },
+                    {
+                        "value": "Drug discontinued - patient fear/risk (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182872003",
+                "display": "Drug discontinued - too expensive",
+                "designation": [
+                    {
+                        "value": "Drug discontinued - too expensive"
+                    },
+                    {
+                        "value": "Drug discontinued - too expensive (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182873008",
+                "display": "Drug treatment stopped - patient ran out of tablets",
+                "designation": [
+                    {
+                        "value": "Drug treatment stopped - patient ran out of tablets"
+                    },
+                    {
+                        "value": "Drug treatment stopped - patient ran out of tablets (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182874002",
+                "display": "Treatment stopped - patient unable to concentrate",
+                "designation": [
+                    {
+                        "value": "Treatment stopped - patient unable to concentrate"
+                    },
+                    {
+                        "value": "Treatment stopped - patient unable to concentrate (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "266711001",
+                "display": "Drug not taken - problem swallowing",
+                "designation": [
+                    {
+                        "value": "Drug not taken - problem swallowing"
+                    },
+                    {
+                        "value": "Drug not taken - problem swallowing (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "275929009",
+                "display": "Tablets too large to swallow",
+                "designation": [
+                    {
+                        "value": "Tablets too large to swallow"
+                    },
+                    {
+                        "value": "Tablets too large to swallow (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "410684002",
+                "display": "Drug therapy status",
+                "designation": [
+                    {
+                        "value": "Drug therapy status"
+                    },
+                    {
+                        "value": "Drug therapy status (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "134390006",
+                "display": "Angiotensin converting enzyme inhibitor not indicated",
+                "designation": [
+                    {
+                        "value": "Angiotensin converting enzyme inhibitor not indicated"
+                    },
+                    {
+                        "value": "Angiotensin converting enzyme inhibitor not indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "134397009",
+                "display": "Angiotensin converting enzyme inhibitor declined",
+                "designation": [
+                    {
+                        "value": "Angiotensin converting enzyme inhibitor declined"
+                    },
+                    {
+                        "value": "Angiotensin converting enzyme inhibitor declined (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "135794007",
+                "display": "Drug indicated",
+                "designation": [
+                    {
+                        "value": "Drug indicated"
+                    },
+                    {
+                        "value": "Drug indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "135795008",
+                "display": "Nitrate indicated",
+                "designation": [
+                    {
+                        "value": "Nitrate indicated"
+                    },
+                    {
+                        "value": "Nitrate indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "135796009",
+                "display": "Calcium channel blocker indicated",
+                "designation": [
+                    {
+                        "value": "Calcium channel blocker indicated"
+                    },
+                    {
+                        "value": "Calcium channel blocker indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "135798005",
+                "display": "Diuretic indicated",
+                "designation": [
+                    {
+                        "value": "Diuretic indicated"
+                    },
+                    {
+                        "value": "Diuretic indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "135799002",
+                "display": "Angiotensin converting enzyme inhibitor indicated",
+                "designation": [
+                    {
+                        "value": "Angiotensin converting enzyme inhibitor indicated"
+                    },
+                    {
+                        "value": "Angiotensin converting enzyme inhibitor indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "135800003",
+                "display": "Aspirin indicated",
+                "designation": [
+                    {
+                        "value": "Aspirin indicated"
+                    },
+                    {
+                        "value": "Aspirin indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "135801004",
+                "display": "Beta blocker indicated",
+                "designation": [
+                    {
+                        "value": "Beta blocker indicated"
+                    },
+                    {
+                        "value": "Beta blocker indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "135803001",
+                "display": "Warfarin indicated",
+                "designation": [
+                    {
+                        "value": "Warfarin indicated"
+                    },
+                    {
+                        "value": "Warfarin indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "161646004",
+                "display": "H/O: high risk medication",
+                "designation": [
+                    {
+                        "value": "H/O: high risk medication"
+                    },
+                    {
+                        "value": "History of high risk medication (situation)"
+                    },
+                    {
+                        "value": "History of high risk medication"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "161647008",
+                "display": "H/O: anticoagulant therapy",
+                "designation": [
+                    {
+                        "value": "H/O: anticoagulant therapy"
+                    },
+                    {
+                        "value": "History of anticoagulant therapy (situation)"
+                    },
+                    {
+                        "value": "History of anticoagulant therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "161648003",
+                "display": "H/O: steroid therapy",
+                "designation": [
+                    {
+                        "value": "H/O: steroid therapy"
+                    },
+                    {
+                        "value": "History of steroid therapy"
+                    },
+                    {
+                        "value": "History of steroid therapy (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "161649006",
+                "display": "H/O: insulin therapy",
+                "designation": [
+                    {
+                        "value": "H/O: insulin therapy"
+                    },
+                    {
+                        "value": "History of insulin therapy"
+                    },
+                    {
+                        "value": "History of insulin therapy (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "161650006",
+                "display": "H/O: anticonvulsant therapy",
+                "designation": [
+                    {
+                        "value": "H/O: anticonvulsant therapy"
+                    },
+                    {
+                        "value": "History of anticonvulsant therapy"
+                    },
+                    {
+                        "value": "History of anticonvulsant therapy (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "161652003",
+                "display": "H/O: hormone replacement (HRT)",
+                "designation": [
+                    {
+                        "value": "H/O: hormone replacement (HRT)"
+                    },
+                    {
+                        "value": "History of - hormone replacement (HRT)"
+                    },
+                    {
+                        "value": "History of hormone replacement"
+                    },
+                    {
+                        "value": "History of hormone replacement (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "161653008",
+                "display": "H/O: chemotherapy",
+                "designation": [
+                    {
+                        "value": "H/O: chemotherapy"
+                    },
+                    {
+                        "value": "History of chemotherapy (situation)"
+                    },
+                    {
+                        "value": "History of chemotherapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170622002",
+                "display": "Oral steroids started",
+                "designation": [
+                    {
+                        "value": "Oral steroids started"
+                    },
+                    {
+                        "value": "Oral steroids started (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170624001",
+                "display": "Oral steroids stopped",
+                "designation": [
+                    {
+                        "value": "Oral steroids stopped"
+                    },
+                    {
+                        "value": "Oral steroids stopped (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170688000",
+                "display": "Lithium stopped",
+                "designation": [
+                    {
+                        "value": "Lithium stopped"
+                    },
+                    {
+                        "value": "Lithium stopped (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170689008",
+                "display": "Injectable phenothiazine stopped",
+                "designation": [
+                    {
+                        "value": "Injectable phenothiazine stopped"
+                    },
+                    {
+                        "value": "Injectable phenothiazine stopped (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170821007",
+                "display": "B12 injections started",
+                "designation": [
+                    {
+                        "value": "B12 injections started"
+                    },
+                    {
+                        "value": "Vitamin B12 injections started (situation)"
+                    },
+                    {
+                        "value": "Vitamin B12 injections started"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170826002",
+                "display": "B12 injections stopped",
+                "designation": [
+                    {
+                        "value": "B12 injections stopped"
+                    },
+                    {
+                        "value": "Vitamin B12 injections stopped (situation)"
+                    },
+                    {
+                        "value": "Vitamin B12 injections stopped"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170919001",
+                "display": "Warfarin therapy stopped",
+                "designation": [
+                    {
+                        "value": "Warfarin therapy stopped"
+                    },
+                    {
+                        "value": "Warfarin therapy stopped (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170954008",
+                "display": "HRT contraindicated",
+                "designation": [
+                    {
+                        "value": "HRT contraindicated"
+                    },
+                    {
+                        "value": "Hormone replacement therapy (HRT) contraindicated"
+                    },
+                    {
+                        "value": "Hormone replacement therapy contraindicated (situation)"
+                    },
+                    {
+                        "value": "Hormone replacement therapy contraindicated"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170955009",
+                "display": "HRT started",
+                "designation": [
+                    {
+                        "value": "HRT started"
+                    },
+                    {
+                        "value": "Hormone replacement therapy (HRT) started"
+                    },
+                    {
+                        "value": "Hormone replacement therapy started (situation)"
+                    },
+                    {
+                        "value": "Hormone replacement therapy started"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "170958006",
+                "display": "HRT stopped",
+                "designation": [
+                    {
+                        "value": "HRT stopped"
+                    },
+                    {
+                        "value": "Hormonal replacement therapy (HRT) stopped"
+                    },
+                    {
+                        "value": "Hormonal replacement therapy stopped (situation)"
+                    },
+                    {
+                        "value": "Hormonal replacement therapy stopped"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182834008",
+                "display": "Drug course completed",
+                "designation": [
+                    {
+                        "value": "Drug course completed"
+                    },
+                    {
+                        "value": "Drug course completed (situation)"
+                    },
+                    {
+                        "value": "Medication course completed"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182840001",
+                "display": "Drug treatment stopped - medical advice",
+                "designation": [
+                    {
+                        "value": "Drug treatment stopped - medical advice"
+                    },
+                    {
+                        "value": "Drug treatment discontinued - medical advice"
+                    },
+                    {
+                        "value": "Drug Rx stopped-medical advice"
+                    },
+                    {
+                        "value": "Drug treatment stopped - medical advice (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182841002",
+                "display": "Dr stopped drugs - ineffective",
+                "designation": [
+                    {
+                        "value": "Dr stopped drugs - ineffective"
+                    },
+                    {
+                        "value": "Doctor stopped drugs - ineffective"
+                    },
+                    {
+                        "value": "Doctor stopped drugs - ineffective (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182842009",
+                "display": "Doctor stopped drugs - side effect",
+                "designation": [
+                    {
+                        "value": "Doctor stopped drugs - side effect"
+                    },
+                    {
+                        "value": "Dr stopped drugs - side effect"
+                    },
+                    {
+                        "value": "Doctor stopped drugs - side effect (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182843004",
+                "display": "Dr stopped drugs -inconvenient",
+                "designation": [
+                    {
+                        "value": "Dr stopped drugs -inconvenient"
+                    },
+                    {
+                        "value": "Doctor stopped drugs - inconvenient"
+                    },
+                    {
+                        "value": "Doctor stopped drugs - inconvenient (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182844005",
+                "display": "Doctor stopped drugs - patient dislikes",
+                "designation": [
+                    {
+                        "value": "Doctor stopped drugs - patient dislikes"
+                    },
+                    {
+                        "value": "Dr stop drugs-patient dislikes"
+                    },
+                    {
+                        "value": "Doctor stopped drugs - patient dislikes (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182845006",
+                "display": "Doctor stopped drugs - avoid interaction",
+                "designation": [
+                    {
+                        "value": "Doctor stopped drugs - avoid interaction"
+                    },
+                    {
+                        "value": "Doctor stopped drugs - avoid interaction (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "182846007",
+                "display": "Doctor stopped drugs - medical aim achieved",
+                "designation": [
+                    {
+                        "value": "Doctor stopped drugs - medical aim achieved"
+                    },
+                    {
+                        "value": "Dr stopped drug - medical aim achieved"
+                    },
+                    {
+                        "value": "Doctor stopped drugs - medical aim achieved (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "274512008",
+                "display": "Drug therapy discontinued",
+                "designation": [
+                    {
+                        "value": "Drug therapy discontinued"
+                    },
+                    {
+                        "value": "Drug therapy discontinued (situation)"
+                    },
+                    {
+                        "value": "Medication discontinued"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "309841001",
+                "display": "Thyroxine treatment stopped",
+                "designation": [
+                    {
+                        "value": "Thyroxine treatment stopped"
+                    },
+                    {
+                        "value": "Thyroxine treatment stopped (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "312451002",
+                "display": "Aspirin prophylaxis contra-indicated",
+                "designation": [
+                    {
+                        "value": "Aspirin prophylaxis contra-indicated"
+                    },
+                    {
+                        "value": "Aspirin prophylaxis contra-indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "315023008",
+                "display": "Aspirin prophylaxis refused",
+                "designation": [
+                    {
+                        "value": "Aspirin prophylaxis refused"
+                    },
+                    {
+                        "value": "Aspirin prophylaxis refused (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "315062004",
+                "display": "Beta blocker contraindicated",
+                "designation": [
+                    {
+                        "value": "Beta blocker contraindicated"
+                    },
+                    {
+                        "value": "Beta blocker contraindicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "315364008",
+                "display": "Angiotensin converting enzyme inhibitors contraindicated",
+                "designation": [
+                    {
+                        "value": "Angiotensin converting enzyme inhibitors contraindicated"
+                    },
+                    {
+                        "value": "Angiotensin converting enzyme inhibitors contraindicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "390914001",
+                "display": "Thrombolytic therapy refused",
+                "designation": [
+                    {
+                        "value": "Thrombolytic therapy refused"
+                    },
+                    {
+                        "value": "Thrombolytic therapy refused (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "391158008",
+                "display": "Antibiotic prophylaxis recommended",
+                "designation": [
+                    {
+                        "value": "Antibiotic prophylaxis recommended"
+                    },
+                    {
+                        "value": "Antibiotic prophylaxis recommended (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "391159000",
+                "display": "Antibiotic prophylaxis not recommended",
+                "designation": [
+                    {
+                        "value": "Antibiotic prophylaxis not recommended"
+                    },
+                    {
+                        "value": "Antibiotic prophylaxis not recommended (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "394888000",
+                "display": "Hormone replacement therapy requested",
+                "designation": [
+                    {
+                        "value": "Hormone replacement therapy requested"
+                    },
+                    {
+                        "value": "Hormone replacement therapy requested (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "394987009",
+                "display": "Angiotensin II receptor antagonists contraindicated",
+                "designation": [
+                    {
+                        "value": "Angiotensin II receptor antagonists contraindicated"
+                    },
+                    {
+                        "value": "Angiotensin II receptor antagonists contraindicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "395006008",
+                "display": "Medication stopped - interaction",
+                "designation": [
+                    {
+                        "value": "Medication stopped - interaction"
+                    },
+                    {
+                        "value": "Medication stopped - interaction (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "395007004",
+                "display": "Medication stopped - ineffective",
+                "designation": [
+                    {
+                        "value": "Medication stopped - ineffective"
+                    },
+                    {
+                        "value": "Medication stopped - ineffective (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "395008009",
+                "display": "Medication stopped - contra-indication",
+                "designation": [
+                    {
+                        "value": "Medication stopped - contra-indication"
+                    },
+                    {
+                        "value": "Medication stopped - contra-indication (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "395009001",
+                "display": "Medication stopped - side effect",
+                "designation": [
+                    {
+                        "value": "Medication stopped - side effect"
+                    },
+                    {
+                        "value": "Medication stopped - side effect (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "401084003",
+                "display": "Angiotensin II receptor antagonist declined",
+                "designation": [
+                    {
+                        "value": "Angiotensin II receptor antagonist declined"
+                    },
+                    {
+                        "value": "Angiotensin II receptor antagonist declined (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "401244004",
+                "display": "H/O: prolonged corticosteroid therapy",
+                "designation": [
+                    {
+                        "value": "H/O: prolonged corticosteroid therapy"
+                    },
+                    {
+                        "value": "History of prolonged corticosteroid therapy (situation)"
+                    },
+                    {
+                        "value": "History of prolonged corticosteroid therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "407572003",
+                "display": "Angiotensin II receptor antagonist not indicated",
+                "designation": [
+                    {
+                        "value": "Angiotensin II receptor antagonist not indicated"
+                    },
+                    {
+                        "value": "Angiotensin II receptor antagonist not indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "408339001",
+                "display": "Thrombolysis therapy not indicated",
+                "designation": [
+                    {
+                        "value": "Thrombolysis therapy not indicated"
+                    },
+                    {
+                        "value": "Thrombolysis therapy not indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "408354007",
+                "display": "Drug treatment still needed",
+                "designation": [
+                    {
+                        "value": "Drug treatment still needed"
+                    },
+                    {
+                        "value": "Drug treatment still needed (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "408355008",
+                "display": "Drug treatment no longer needed",
+                "designation": [
+                    {
+                        "value": "Drug treatment no longer needed"
+                    },
+                    {
+                        "value": "Drug treatment no longer needed (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "412782003",
+                "display": "Inappropriate medication stopped",
+                "designation": [
+                    {
+                        "value": "Inappropriate medication stopped"
+                    },
+                    {
+                        "value": "Inappropriate medication stopped (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "413555000",
+                "display": "Antibiotic prophylaxis indicated",
+                "designation": [
+                    {
+                        "value": "Antibiotic prophylaxis indicated"
+                    },
+                    {
+                        "value": "Antibiotic prophylaxis indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "413558003",
+                "display": "Anticoagulation contraindicated",
+                "designation": [
+                    {
+                        "value": "Anticoagulation contraindicated"
+                    },
+                    {
+                        "value": "Anticoagulation contraindicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "413559006",
+                "display": "Anticoagulation declined",
+                "designation": [
+                    {
+                        "value": "Anticoagulation declined"
+                    },
+                    {
+                        "value": "Anticoagulation declined (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "413560001",
+                "display": "Anticoagulation not indicated",
+                "designation": [
+                    {
+                        "value": "Anticoagulation not indicated"
+                    },
+                    {
+                        "value": "Anticoagulation not indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "416404000",
+                "display": "Angiotensin converting enzyme inhibitor target dose not achieved",
+                "designation": [
+                    {
+                        "value": "Angiotensin converting enzyme inhibitor target dose not achieved"
+                    },
+                    {
+                        "value": "Angiotensin converting enzyme inhibitor target dose not achieved (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "417576009",
+                "display": "Deferred antibiotic therapy",
+                "designation": [
+                    {
+                        "value": "Deferred antibiotic therapy"
+                    },
+                    {
+                        "value": "Deferred antibiotic therapy (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "430279008",
+                "display": "Drug treatment stopped at end of clinical trial (situation)",
+                "designation": [
+                    {
+                        "value": "Drug treatment stopped at end of clinical trial (situation)"
+                    },
+                    {
+                        "value": "Drug treatment stopped at end of clinical trial"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "438553004",
+                "display": "History of drug therapy (situation)",
+                "designation": [
+                    {
+                        "value": "History of drug therapy (situation)"
+                    },
+                    {
+                        "value": "H/O: drug therapy"
+                    },
+                    {
+                        "value": "History of drug therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "439631004",
+                "display": "History of statin therapy (situation)",
+                "designation": [
+                    {
+                        "value": "History of statin therapy (situation)"
+                    },
+                    {
+                        "value": "H/O: statin therapy"
+                    },
+                    {
+                        "value": "History of statin therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "440935004",
+                "display": "History of beta adrenergic receptor blocking agent therapy (situation)",
+                "designation": [
+                    {
+                        "value": "History of beta adrenergic receptor blocking agent therapy (situation)"
+                    },
+                    {
+                        "value": "H/O: beta blocker therapy"
+                    },
+                    {
+                        "value": "History of beta adrenoceptor blocking therapy"
+                    },
+                    {
+                        "value": "History of beta adrenergic receptor blocking agent therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "440991005",
+                "display": "History of nitrate therapy (situation)",
+                "designation": [
+                    {
+                        "value": "History of nitrate therapy (situation)"
+                    },
+                    {
+                        "value": "H/O: nitrate therapy"
+                    },
+                    {
+                        "value": "History of nitrate therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "441195008",
+                "display": "History of angiotensin converting enzyme inhibitor therapy (situation)",
+                "designation": [
+                    {
+                        "value": "History of angiotensin converting enzyme inhibitor therapy (situation)"
+                    },
+                    {
+                        "value": "H/O: angiotensin converting enzyme (ACE) inhibitor therapy"
+                    },
+                    {
+                        "value": "History of angiotensin converting enzyme inhibitor therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "441196009",
+                "display": "History of angiotensin II receptor antagonist therapy (situation)",
+                "designation": [
+                    {
+                        "value": "History of angiotensin II receptor antagonist therapy (situation)"
+                    },
+                    {
+                        "value": "H/O: angiotensin II receptor antagonist therapy"
+                    },
+                    {
+                        "value": "History of angiotensin II receptor antagonist therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "441899004",
+                "display": "History of therapy with ototoxic medication",
+                "designation": [
+                    {
+                        "value": "History of therapy with ototoxic medication"
+                    },
+                    {
+                        "value": "History of therapy with ototoxic medication (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "473151000",
+                "display": "History of tuberculosis drug therapy (situation)",
+                "designation": [
+                    {
+                        "value": "History of tuberculosis drug therapy (situation)"
+                    },
+                    {
+                        "value": "History of tuberculosis chemotherapy"
+                    },
+                    {
+                        "value": "History of tuberculosis drug therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "698428006",
+                "display": "Angiotensin II receptor antagonist indicated",
+                "designation": [
+                    {
+                        "value": "Angiotensin II receptor antagonist indicated"
+                    },
+                    {
+                        "value": "Angiotensin II receptor antagonist indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "698449007",
+                "display": "Antibiotic therapy indicated",
+                "designation": [
+                    {
+                        "value": "Antibiotic therapy indicated"
+                    },
+                    {
+                        "value": "Antibiotic therapy indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "698459008",
+                "display": "Antidepressant drug treatment stopped",
+                "designation": [
+                    {
+                        "value": "Antidepressant drug treatment stopped"
+                    },
+                    {
+                        "value": "Antidepressant drug treatment stopped (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "698460003",
+                "display": "Antiviral therapy declined",
+                "designation": [
+                    {
+                        "value": "Antiviral therapy declined"
+                    },
+                    {
+                        "value": "Antiviral therapy declined (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "698468005",
+                "display": "Bisoprolol contraindicated (situation)",
+                "designation": [
+                    {
+                        "value": "Bisoprolol contraindicated (situation)"
+                    },
+                    {
+                        "value": "Bisoprolol contraindicated"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "698758004",
+                "display": "Nebivolol therapy refused",
+                "designation": [
+                    {
+                        "value": "Nebivolol therapy refused"
+                    },
+                    {
+                        "value": "Nebivolol therapy refused (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "699008007",
+                "display": "History of fenfluramine therapy",
+                "designation": [
+                    {
+                        "value": "History of fenfluramine therapy"
+                    },
+                    {
+                        "value": "History of fenfluramine therapy (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "699137009",
+                "display": "Carvedilol therapy declined",
+                "designation": [
+                    {
+                        "value": "Carvedilol therapy declined"
+                    },
+                    {
+                        "value": "Carvedilol therapy declined (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "700110004",
+                "display": "Bisphosphonate prophylaxis suspended",
+                "designation": [
+                    {
+                        "value": "Bisphosphonate prophylaxis suspended"
+                    },
+                    {
+                        "value": "Bisphosphonate prophylaxis suspended (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "700384008",
+                "display": "Antibiotic prophylaxis not indicated",
+                "designation": [
+                    {
+                        "value": "Antibiotic prophylaxis not indicated"
+                    },
+                    {
+                        "value": "Antibiotic prophylaxis not indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "702542006",
+                "display": "Incretin mimetic therapy started (situation)",
+                "designation": [
+                    {
+                        "value": "Incretin mimetic therapy started (situation)"
+                    },
+                    {
+                        "value": "Incretin mimetic therapy started"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703989007",
+                "display": "Teriparatide therapy declined (situation)",
+                "designation": [
+                    {
+                        "value": "Teriparatide therapy declined (situation)"
+                    },
+                    {
+                        "value": "Teriparatide therapy declined"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703991004",
+                "display": "Raloxifene therapy declined",
+                "designation": [
+                    {
+                        "value": "Raloxifene therapy declined"
+                    },
+                    {
+                        "value": "Raloxifene therapy declined (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703996009",
+                "display": "Teriparatide not indicated (situation)",
+                "designation": [
+                    {
+                        "value": "Teriparatide not indicated (situation)"
+                    },
+                    {
+                        "value": "Teriparatide not indicated"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703997000",
+                "display": "Teriparatide contraindicated",
+                "designation": [
+                    {
+                        "value": "Teriparatide contraindicated"
+                    },
+                    {
+                        "value": "Teriparatide contraindicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "703999002",
+                "display": "Raloxifene contraindicated",
+                "designation": [
+                    {
+                        "value": "Raloxifene contraindicated"
+                    },
+                    {
+                        "value": "Raloxifene contraindicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704000000",
+                "display": "Raloxifene not indicated",
+                "designation": [
+                    {
+                        "value": "Raloxifene not indicated"
+                    },
+                    {
+                        "value": "Raloxifene not indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704033005",
+                "display": "Phosphodiesterase 5 inhibitor not indicated (situation)",
+                "designation": [
+                    {
+                        "value": "Phosphodiesterase 5 inhibitor not indicated (situation)"
+                    },
+                    {
+                        "value": "Phosphodiesterase 5 inhibitor not indicated"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "704047009",
+                "display": "Phosphodiesterase 5 inhibitor declined (situation)",
+                "designation": [
+                    {
+                        "value": "Phosphodiesterase 5 inhibitor declined (situation)"
+                    },
+                    {
+                        "value": "Phosphodiesterase 5 inhibitor declined"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "707298000",
+                "display": "Phosphodiesterase-5 inhibitor contraindicated (situation)",
+                "designation": [
+                    {
+                        "value": "Phosphodiesterase-5 inhibitor contraindicated (situation)"
+                    },
+                    {
+                        "value": "Phosphodiesterase-5 inhibitor contraindicated"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "708000007",
+                "display": "Insulin treatment stopped (situation)",
+                "designation": [
+                    {
+                        "value": "Insulin treatment stopped (situation)"
+                    },
+                    {
+                        "value": "Insulin treatment stopped"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "710159007",
+                "display": "Long-term current use of immunosuppressive drug (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of immunosuppressive drug (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of immunosuppressive drug"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "710814002",
+                "display": "Long-term current use of drug therapy",
+                "designation": [
+                    {
+                        "value": "Long-term current use of drug therapy"
+                    },
+                    {
+                        "value": "Long-term current use of drug therapy (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "710815001",
+                "display": "Long-term current use of insulin",
+                "designation": [
+                    {
+                        "value": "Long-term current use of insulin"
+                    },
+                    {
+                        "value": "Long-term current use of insulin (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "710816000",
+                "display": "Long-term current use of steroid",
+                "designation": [
+                    {
+                        "value": "Long-term current use of steroid"
+                    },
+                    {
+                        "value": "Long-term current use of steroid (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "710817009",
+                "display": "Long-term current use of inhaled steroid (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of inhaled steroid (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of inhaled steroid"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "711149003",
+                "display": "Long-term current use of antibiotic (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of antibiotic (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of antibiotic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "711150003",
+                "display": "Long-term current use of anticoagulant (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of anticoagulant (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of anticoagulant"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "711370000",
+                "display": "Oral steroids used since last encounter (situation)",
+                "designation": [
+                    {
+                        "value": "Oral steroids used since last encounter (situation)"
+                    },
+                    {
+                        "value": "Oral steroids used since last encounter"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "711436000",
+                "display": "Inhaled steroids used daily (situation)",
+                "designation": [
+                    {
+                        "value": "Inhaled steroids used daily (situation)"
+                    },
+                    {
+                        "value": "Inhaled steroids used daily"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "712985002",
+                "display": "Chemotherapy not done",
+                "designation": [
+                    {
+                        "value": "Chemotherapy not done"
+                    },
+                    {
+                        "value": "Chemotherapy not done (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "720971004",
+                "display": "Insulin declined (situation)",
+                "designation": [
+                    {
+                        "value": "Insulin declined (situation)"
+                    },
+                    {
+                        "value": "Insulin declined"
+                    },
+                    {
+                        "value": "Insulin refused"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "721872002",
+                "display": "Antifungal therapy indicated (situation)",
+                "designation": [
+                    {
+                        "value": "Antifungal therapy indicated (situation)"
+                    },
+                    {
+                        "value": "Antifungal therapy indicated"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "722480002",
+                "display": "Chemotherapy started (situation)",
+                "designation": [
+                    {
+                        "value": "Chemotherapy started (situation)"
+                    },
+                    {
+                        "value": "Chemotherapy started"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736004008",
+                "display": "Nebivolol contraindicated (situation)",
+                "designation": [
+                    {
+                        "value": "Nebivolol contraindicated (situation)"
+                    },
+                    {
+                        "value": "Nebivolol contraindicated"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736006005",
+                "display": "Carvedilol contraindicated (situation)",
+                "designation": [
+                    {
+                        "value": "Carvedilol contraindicated (situation)"
+                    },
+                    {
+                        "value": "Carvedilol contraindicated"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "736799004",
+                "display": "Beta blocker target dose not achieved (situation)",
+                "designation": [
+                    {
+                        "value": "Beta blocker target dose not achieved (situation)"
+                    },
+                    {
+                        "value": "Beta blocker target dose not achieved"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "763323007",
+                "display": "Hormone replacement therapy refused",
+                "designation": [
+                    {
+                        "value": "Hormone replacement therapy refused"
+                    },
+                    {
+                        "value": "Hormone replacement therapy refused (situation)"
+                    },
+                    {
+                        "value": "Hormone replacement therapy declined"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "764639002",
+                "display": "Antidepressant drug treatment started (situation)",
+                "designation": [
+                    {
+                        "value": "Antidepressant drug treatment started (situation)"
+                    },
+                    {
+                        "value": "Antidepressant drug treatment started"
+                    },
+                    {
+                        "value": "Antidepressant therapy started"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "787928003",
+                "display": "Coagulation factor Xa inhibitor prophylaxis indicated",
+                "designation": [
+                    {
+                        "value": "Coagulation factor Xa inhibitor prophylaxis indicated"
+                    },
+                    {
+                        "value": "Coagulation factor Xa inhibitor prophylaxis indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "787930001",
+                "display": "Direct thrombin inhibitor prophylaxis indicated",
+                "designation": [
+                    {
+                        "value": "Direct thrombin inhibitor prophylaxis indicated"
+                    },
+                    {
+                        "value": "Direct thrombin inhibitor prophylaxis indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "840596001",
+                "display": "H/O: platelet aggregation inhibitor therapy",
+                "designation": [
+                    {
+                        "value": "H/O: platelet aggregation inhibitor therapy"
+                    },
+                    {
+                        "value": "History of platelet aggregation inhibitor therapy (situation)"
+                    },
+                    {
+                        "value": "History of platelet aggregation inhibitor therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "840597005",
+                "display": "Long term dual platelet aggregation inhibitor therapy indicated",
+                "designation": [
+                    {
+                        "value": "Long term dual platelet aggregation inhibitor therapy indicated"
+                    },
+                    {
+                        "value": "Long term dual platelet aggregation inhibitor therapy indicated (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "840598000",
+                "display": "Platelet aggregation inhibitor therapy contraindicated (situation)",
+                "designation": [
+                    {
+                        "value": "Platelet aggregation inhibitor therapy contraindicated (situation)"
+                    },
+                    {
+                        "value": "Platelet aggregation inhibitor therapy contraindicated"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "7611000175100",
+                "display": "Dipyridamole contraindicated (situation)",
+                "designation": [
+                    {
+                        "value": "Dipyridamole contraindicated (situation)"
+                    },
+                    {
+                        "value": "Dipyridamole contraindicated"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "21651000175103",
+                "display": "Antibiotic prophylaxis declined (situation)",
+                "designation": [
+                    {
+                        "value": "Antibiotic prophylaxis declined (situation)"
+                    },
+                    {
+                        "value": "Antibiotic prophylaxis declined"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "21681000175107",
+                "display": "Antihypertensive therapy declined (situation)",
+                "designation": [
+                    {
+                        "value": "Antihypertensive therapy declined (situation)"
+                    },
+                    {
+                        "value": "Antihypertensive therapy declined"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "53081000119101",
+                "display": "Long-term current use of testosterone replacement therapy (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of testosterone replacement therapy (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of testosterone replacement therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "61251000119108",
+                "display": "Long-term current use of tacrolimus (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of tacrolimus (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of tacrolimus"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "61261000119105",
+                "display": "Long-term current use of sirolimus (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of sirolimus (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of sirolimus"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "69521000119101",
+                "display": "Long-term current use of thyroid hormone replacement therapy (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of thyroid hormone replacement therapy (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of thyroid hormone replacement therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "98001000119105",
+                "display": "Long-term current use of anticonvulsant (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of anticonvulsant (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of anticonvulsant"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "106511000119106",
+                "display": "Long-term current use of mycophenolate",
+                "designation": [
+                    {
+                        "value": "Long-term current use of mycophenolate"
+                    },
+                    {
+                        "value": "Long-term current use of mycophenolate (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "106521000119104",
+                "display": "Long-term current use of cyclophosphamide",
+                "designation": [
+                    {
+                        "value": "Long-term current use of cyclophosphamide"
+                    },
+                    {
+                        "value": "Long-term current use of cyclophosphamide (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "106571000119103",
+                "display": "Long-term current use of sulfasalazine (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of sulfasalazine (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of sulfasalazine"
+                    },
+                    {
+                        "value": "Long-term current use of sulphasalazine"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "106581000119100",
+                "display": "Long-term current use of cyclosporine (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of cyclosporine (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of cyclosporine"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "106631000119102",
+                "display": "Long-term current use of infliximab (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of infliximab (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of infliximab"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "106691000119103",
+                "display": "Long-term current use of etanercept (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of etanercept (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of etanercept"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "106701000119103",
+                "display": "Long-term current use of leflunomide (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of leflunomide (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of leflunomide"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "113481000119108",
+                "display": "Long-term current use of tamoxifen (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of tamoxifen (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of tamoxifen"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "113521000119108",
+                "display": "Long term current use of adalimumab therapy",
+                "designation": [
+                    {
+                        "value": "Long term current use of adalimumab therapy"
+                    },
+                    {
+                        "value": "Long term current use of adalimumab therapy (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "113531000119106",
+                "display": "Long term current use of abatacept (situation)",
+                "designation": [
+                    {
+                        "value": "Long term current use of abatacept (situation)"
+                    },
+                    {
+                        "value": "Long term current use of abatacept"
+                    },
+                    {
+                        "value": "Long term abatacept therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "113541000119102",
+                "display": "Long-term current use of rituximab (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of rituximab (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of rituximab"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "117431000119101",
+                "display": "Long term current use of drug therapy for attention deficit hyperactivity disorder (situation)",
+                "designation": [
+                    {
+                        "value": "Long term current use of drug therapy for attention deficit hyperactivity disorder (situation)"
+                    },
+                    {
+                        "value": "Long term current use of drug therapy for attention deficit hyperactivity disorder"
+                    },
+                    {
+                        "value": "Long term ADHD medication therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "118901000119102",
+                "display": "Long-term current use of erythropoiesis stimulating therapy (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of erythropoiesis stimulating therapy (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of erythropoiesis stimulating therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "118911000119104",
+                "display": "Long-term current use of lenalidomide (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of lenalidomide (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of lenalidomide"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "118921000119106",
+                "display": "Long-term current use of clozapine (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of clozapine (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of clozapine"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "118931000119109",
+                "display": "Long-term current use of intravenous immune globulin (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of intravenous immune globulin (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of intravenous immune globulin"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "122621000119109",
+                "display": "Prophylactic anticoagulation given (situation)",
+                "designation": [
+                    {
+                        "value": "Prophylactic anticoagulation given (situation)"
+                    },
+                    {
+                        "value": "Prophylactic anticoagulation given"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "123971000119106",
+                "display": "Long-term current use of acitretin (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of acitretin (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of acitretin"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "123981000119109",
+                "display": "Long-term current use of isotretinoin (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of isotretinoin (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of isotretinoin"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "126951000119109",
+                "display": "Long-term current use of lithium (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of lithium (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of lithium"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "127721000119100",
+                "display": "Long-term current use of testosterone cypionate (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of testosterone cypionate (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of testosterone cypionate"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "130721000119103",
+                "display": "Long-term current use of golimumab (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of golimumab (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of golimumab"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "131531000119103",
+                "display": "Long-term current use of aspirin (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of aspirin (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of aspirin"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "133621000119103",
+                "display": "Long term current use of non-steroidal anti-inflammatory drug",
+                "designation": [
+                    {
+                        "value": "Long term current use of non-steroidal anti-inflammatory drug"
+                    },
+                    {
+                        "value": "Long term current use of non-steroidal anti-inflammatory drug (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "134651000119108",
+                "display": "History of estrogen therapy",
+                "designation": [
+                    {
+                        "value": "History of estrogen therapy"
+                    },
+                    {
+                        "value": "History of estrogen therapy (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "134671000119104",
+                "display": "History of systemic steroid therapy (situation)",
+                "designation": [
+                    {
+                        "value": "History of systemic steroid therapy (situation)"
+                    },
+                    {
+                        "value": "History of systemic steroid therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "139181000119106",
+                "display": "Long-term current use of amiodarone (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of amiodarone (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of amiodarone"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "140301000119107",
+                "display": "Long-term current use of hydroxychloroquine",
+                "designation": [
+                    {
+                        "value": "Long-term current use of hydroxychloroquine"
+                    },
+                    {
+                        "value": "Long-term current use of hydroxychloroquine (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "140561000119102",
+                "display": "Long-term current use of azathioprine",
+                "designation": [
+                    {
+                        "value": "Long-term current use of azathioprine"
+                    },
+                    {
+                        "value": "Long-term current use of azathioprine (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "150881000119107",
+                "display": "Long-term current use of postmenopausal hormone replacement therapy (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of postmenopausal hormone replacement therapy (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of postmenopausal hormone replacement therapy"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "328941000119101",
+                "display": "Long-term current use of bisphosphonates (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of bisphosphonates (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of bisphosphonates"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "329061000119105",
+                "display": "Long-term current use of belimumab (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of belimumab (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of belimumab"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "329071000119104",
+                "display": "Long-term current use of tocilizumab (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of tocilizumab (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of tocilizumab"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "347841000119106",
+                "display": "Long-term current use of cannabis (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of cannabis (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of cannabis"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "11012701000119107",
+                "display": "Long-term current use of antibiotics for prevention of recurrent infection (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of antibiotics for prevention of recurrent infection (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of antibiotics for prevention of recurrent infection"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "11012741000119109",
+                "display": "Long-term current use of certolizumab pegol (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of certolizumab pegol (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of certolizumab pegol"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "12384021000119106",
+                "display": "Long-term current use of mercaptopurine (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of mercaptopurine (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of mercaptopurine"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "15625371000119108",
+                "display": "Long-term current use of ustekinumab (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of ustekinumab (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of ustekinumab"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "15625411000119109",
+                "display": "Long-term current use of apremilast (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of apremilast (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of apremilast"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "15625451000119105",
+                "display": "Long-term current use of tofacitinib (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of tofacitinib (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of tofacitinib"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "15929341000119102",
+                "display": "Long-term current use of antipsychotic medication (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of antipsychotic medication (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of antipsychotic medication"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "15929381000119107",
+                "display": "Long-term current use of anxiolytic medication (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of anxiolytic medication (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of anxiolytic medication"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "15929421000119103",
+                "display": "Long-term current use of antiviral agent (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of antiviral agent (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of antiviral agent"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "15929461000119108",
+                "display": "Long-term current use of leuprorelin (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of leuprorelin (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of leuprorelin"
+                    },
+                    {
+                        "value": "Long-term current use of leuprolide"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "15929581000119100",
+                "display": "Long-term current use of antidepressant medication (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of antidepressant medication (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of antidepressant medication"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "16234971000119108",
+                "display": "Long-term current use of diuretic (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of diuretic (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of diuretic"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "16526761000119100",
+                "display": "Long-term current use of secukinumab (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of secukinumab (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of secukinumab"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "16659291000119100",
+                "display": "Long-term current use of levothyroxine (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of levothyroxine (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of levothyroxine"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "16755631000119109",
+                "display": "Long-term current use of natalizumab (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of natalizumab (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of natalizumab"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "16755671000119107",
+                "display": "Long-term current use of mesalamine",
+                "designation": [
+                    {
+                        "value": "Long-term current use of mesalamine"
+                    },
+                    {
+                        "value": "Long-term current use of mesalamine (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "16772161000119102",
+                "display": "Long-term current use of vedolizumab (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of vedolizumab (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of vedolizumab"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "16772201000119107",
+                "display": "Long-term current use of everolimus (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of everolimus (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of everolimus"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "16863441000119108",
+                "display": "Long-term current use of stimulant",
+                "designation": [
+                    {
+                        "value": "Long-term current use of stimulant"
+                    },
+                    {
+                        "value": "Long-term current use of stimulant (situation)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "16863481000119103",
+                "display": "Long-term current use of benzodiazepine (situation)",
+                "designation": [
+                    {
+                        "value": "Long-term current use of benzodiazepine (situation)"
+                    },
+                    {
+                        "value": "Long-term current use of benzodiazepine"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "70732231000132107",
+                "display": "Duplicate drug therapy stopped",
+                "designation": [
+                    {
+                        "value": "Duplicate drug therapy stopped"
+                    },
+                    {
+                        "value": "Duplicate drug therapy discontinued (situation)"
+                    },
+                    {
+                        "value": "Duplicate drug therapy discontinued"
+                    }
+                ]
+            }
+        ]
+    }
+}

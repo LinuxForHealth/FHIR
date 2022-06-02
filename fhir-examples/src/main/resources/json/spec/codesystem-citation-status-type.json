@@ -1,0 +1,197 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "citation-status-type",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n      \n      \n      \u003cp\u003eThis code system http://terminology.hl7.org/CodeSystem/citation-status-type defines the following codes:\u003c/p\u003e\n      \n      \n      \u003ctable class\u003d\"codes\"\u003e\n        \n        \n        \u003ctr\u003e\n          \n          \n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\n            \n            \n            \u003cb\u003eCode\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003e\n            \n            \n            \u003cb\u003eDisplay\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n          \n          \n          \u003ctd\u003e\n            \n            \n            \u003cb\u003eDefinition\u003c/b\u003e\n          \n          \n          \u003c/td\u003e\n        \n        \n        \u003c/tr\u003e\n\t\t\n\t\t\u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-received\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-received\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Received\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Received\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-accepted\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-accepted\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Accepted\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Accepted\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-epublish\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-epublish\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Epublish\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Epublish\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003e\u0026quot;pubmed-pubstatus-ppublish\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-ppublish\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Ppublish\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Ppublish\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-revised\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-revised\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Revised\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Revised\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-aheadofprint\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-aheadofprint\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of aheadofprint\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of aheadofprint\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-retracted\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-retracted\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Retracted\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Retracted\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-ecollection\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-ecollection\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Ecollection\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Ecollection\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-pmc\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-pmc\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of PMC\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of PMC\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-pmcr\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-pmcr\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of PMCr\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of PMCr\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-pubmed\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-pubmed\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of PubMed\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of PubMed\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-pubmedr\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-pubmedr\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of PubMedr\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of PubMedr\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-premedline\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-premedline\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Premedline\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Premedline\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-medline\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-medline\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Medline\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Medline\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-medliner\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-medliner\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Medliner\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Medliner\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-entrez\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-entrez\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Entrez\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of Entrez\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-pubstatus-pmc-release\n\n            \u003ca name\u003d\"citation-status-type-pubmed-pubstatus-pmc-release\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of PMC release\u003c/td\u003e\n\n          \u003ctd\u003ePubMed Pubstatus of PMC release\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003emedline-completed\n\n            \u003ca name\u003d\"citation-status-type-medline-completed\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of Completed\u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of Completed\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003emedline-in-process\n\n            \u003ca name\u003d\"citation-status-type-medline-in-process\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of In-Process\u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of In-Process\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003emedline-pubmed-not-medline\n\n            \u003ca name\u003d\"citation-status-type-medline-pubmed-not-medline\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of PubMed-not-MEDLINE\u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of PubMed-not-MEDLINE\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003emedline-in-data-review\n\n            \u003ca name\u003d\"citation-status-type-medline-in-data-review\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of In-Data-Review\u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of In-Data-Review\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003emedline-publisher\n\n            \u003ca name\u003d\"citation-status-type-medline-publisher\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of Publisher\u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of Publisher\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003emedline-medline\n\n            \u003ca name\u003d\"citation-status-type-medline-medline\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of MEDLINE\u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of MEDLINE\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003emedline-oldmedline\n\n            \u003ca name\u003d\"citation-status-type-medline-oldmedline\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of OLDMEDLINE\u003c/td\u003e\n\n          \u003ctd\u003eMedline Citation Status of OLDMEDLINE\u003c/td\u003e\n\n        \u003c/tr\u003e\n\t\t\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-publication-status-ppublish\n\n            \u003ca name\u003d\"citation-status-type-pubmed-publication-status-ppublish\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed PublicationStatus of ppublish\u003c/td\u003e\n\n          \u003ctd\u003epublished in print\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-publication-status-epublish\n\n            \u003ca name\u003d\"citation-status-type-pubmed-publication-status-epublish\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed PublicationStatus of epublish\u003c/td\u003e\n\n          \u003ctd\u003eelectronically published only, never published in print\u003c/td\u003e\n\n        \u003c/tr\u003e\n\n        \u003ctr\u003e\n\n          \u003ctd style\u003d\"white-space:nowrap\"\u003epubmed-publication-status-aheadofprint\n\n            \u003ca name\u003d\"citation-status-type-pubmed-publication-status-aheadofprint\"\u003e \u003c/a\u003e\n\n          \u003c/td\u003e\n\n          \u003ctd\u003ePubMed PublicationStatus of aheadofprint\u003c/td\u003e\n\n          \u003ctd\u003eelectronically published, but followed by print\u003c/td\u003e\n\n        \u003c/tr\u003e\n\t\t      \n      \u003c/table\u003e\n    \n    \n    \u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "cds"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 0
+    }
+  ],
+  "url": "http://terminology.hl7.org/CodeSystem/citation-status-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.0"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "CitationStatusType",
+  "title": "CitationStatusType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-03-11T10:55:11.085+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "Citation status type",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/citation-status-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "pubmed-pubstatus-received",
+      "display": "PubMed Pubstatus of Received",
+      "definition": "PubMed Pubstatus of Received"
+    },
+    {
+      "code": "pubmed-pubstatus-accepted",
+      "display": "PubMed Pubstatus of Accepted",
+      "definition": "PubMed Pubstatus of Accepted"
+    },
+    {
+      "code": "pubmed-pubstatus-epublish",
+      "display": "PubMed Pubstatus of Epublish",
+      "definition": "PubMed Pubstatus of Epublish"
+    },
+    {
+      "code": "pubmed-pubstatus-ppublish",
+      "display": "PubMed Pubstatus of Ppublish",
+      "definition": "PubMed Pubstatus of Ppublish"
+    },
+    {
+      "code": "pubmed-pubstatus-revised",
+      "display": "PubMed Pubstatus of Revised",
+      "definition": "PubMed Pubstatus of Revised"
+    },
+    {
+      "code": "pubmed-pubstatus-aheadofprint",
+      "display": "PubMed Pubstatus of aheadofprint",
+      "definition": "PubMed Pubstatus of aheadofprint"
+    },
+    {
+      "code": "pubmed-pubstatus-retracted",
+      "display": "PubMed Pubstatus of Retracted",
+      "definition": "PubMed Pubstatus of Retracted"
+    },
+    {
+      "code": "pubmed-pubstatus-ecollection",
+      "display": "PubMed Pubstatus of Ecollection",
+      "definition": "PubMed Pubstatus of Ecollection"
+    },
+    {
+      "code": "pubmed-pubstatus-pmc",
+      "display": "PubMed Pubstatus of PMC",
+      "definition": "PubMed Pubstatus of PMC"
+    },
+    {
+      "code": "pubmed-pubstatus-pmcr",
+      "display": "PubMed Pubstatus of PMCr",
+      "definition": "PubMed Pubstatus of PMCr"
+    },
+    {
+      "code": "pubmed-pubstatus-pubmed",
+      "display": "PubMed Pubstatus of PubMed",
+      "definition": "PubMed Pubstatus of PubMed"
+    },
+    {
+      "code": "pubmed-pubstatus-pubmedr",
+      "display": "PubMed Pubstatus of PubMedr",
+      "definition": "PubMed Pubstatus of PubMedr"
+    },
+    {
+      "code": "pubmed-pubstatus-premedline",
+      "display": "PubMed Pubstatus of Premedline",
+      "definition": "PubMed Pubstatus of Premedline"
+    },
+    {
+      "code": "pubmed-pubstatus-medline",
+      "display": "PubMed Pubstatus of Medline",
+      "definition": "PubMed Pubstatus of Medline"
+    },
+    {
+      "code": "pubmed-pubstatus-medliner",
+      "display": "PubMed Pubstatus of Medliner",
+      "definition": "PubMed Pubstatus of Medliner"
+    },
+    {
+      "code": "pubmed-pubstatus-entrez",
+      "display": "PubMed Pubstatus of Entrez",
+      "definition": "PubMed Pubstatus of Entrez"
+    },
+    {
+      "code": "pubmed-pubstatus-pmc-release",
+      "display": "PubMed Pubstatus of PMC release",
+      "definition": "PubMed Pubstatus of PMC release"
+    },
+    {
+      "code": "medline-completed",
+      "display": "Medline Citation Status of Completed",
+      "definition": "Medline Citation Status of Completed"
+    },
+    {
+      "code": "medline-in-process",
+      "display": "Medline Citation Status of In-Process",
+      "definition": "Medline Citation Status of In-Process"
+    },
+    {
+      "code": "medline-pubmed-not-medline",
+      "display": "Medline Citation Status of PubMed-not-MEDLINE",
+      "definition": "Medline Citation Status of PubMed-not-MEDLINE"
+    },
+    {
+      "code": "medline-in-data-review",
+      "display": "Medline Citation Status of In-Data-Review",
+      "definition": "Medline Citation Status of In-Data-Review"
+    },
+    {
+      "code": "medline-publisher",
+      "display": "Medline Citation Status of Publisher",
+      "definition": "Medline Citation Status of Publisher"
+    },
+    {
+      "code": "medline-medline",
+      "display": "Medline Citation Status of MEDLINE",
+      "definition": "Medline Citation Status of MEDLINE"
+    },
+    {
+      "code": "medline-oldmedline",
+      "display": "Medline Citation Status of OLDMEDLINE",
+      "definition": "Medline Citation Status of OLDMEDLINE"
+    },
+    {
+      "code": "pubmed-publication-status-ppublish",
+      "display": "PubMed PublicationStatus of ppublish",
+      "definition": "published in print"
+    },
+    {
+      "code": "pubmed-publication-status-epublish",
+      "display": "PubMed PublicationStatus of epublish",
+      "definition": "electronically published only, never published in print"
+    },
+    {
+      "code": "pubmed-publication-status-aheadofprint",
+      "display": "PubMed PublicationStatus of aheadofprint",
+      "definition": "electronically published, but followed by print"
+    }
+  ]
+}

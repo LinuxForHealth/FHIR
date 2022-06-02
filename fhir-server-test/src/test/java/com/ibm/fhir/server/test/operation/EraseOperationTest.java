@@ -585,7 +585,9 @@ public class EraseOperationTest extends FHIRServerTestBase {
             // Version 2 (Update)
             r = response.readEntity(Patient.class);
             entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
-            response = target.path("Patient/" + id).request().put(entity, Response.class);
+            response = target.path("Patient/" + id).request()
+                    .header("X-FHIR-FORCE-UPDATE", "true")
+                    .put(entity, Response.class);
         }
 
         List<Parameter> parameters = new ArrayList<>();
@@ -627,7 +629,9 @@ public class EraseOperationTest extends FHIRServerTestBase {
             // Version 2 (Update)
             r = response.readEntity(Patient.class);
             entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
-            response = target.path("Patient/" + id).request().put(entity, Response.class);
+            response = target.path("Patient/" + id).request()
+                    .header("X-FHIR-FORCE-UPDATE", "true")
+                    .put(entity, Response.class);
         }
 
         List<Parameter> parameters = new ArrayList<>();
@@ -688,7 +692,9 @@ public class EraseOperationTest extends FHIRServerTestBase {
             // Version 2 (Update)
             r = response.readEntity(Patient.class);
             entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
-            response = target.path("Patient/" + id).request().put(entity, Response.class);
+            response = target.path("Patient/" + id).request()
+                    .header("X-FHIR-FORCE-UPDATE", "true")
+                    .put(entity, Response.class);
         }
 
         eraseResourceByVersion("Patient", id, 1, false, "message", true, true, "message");
@@ -721,7 +727,9 @@ public class EraseOperationTest extends FHIRServerTestBase {
             // Version 2 (Update)
             r = response.readEntity(Patient.class);
             entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
-            response = target.path("Patient/" + id).request().put(entity, Response.class);
+            response = target.path("Patient/" + id).request()
+                    .header("X-FHIR-FORCE-UPDATE", "true")
+                    .put(entity, Response.class);
         }
 
         eraseResourceByVersion("Patient", id, 1, false, "message", true, true, "message");
@@ -770,7 +778,9 @@ public class EraseOperationTest extends FHIRServerTestBase {
             // Version 2 (Update)
             r = response.readEntity(Patient.class);
             entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
-            response = target.path("Patient/" + id).request().put(entity, Response.class);
+            response = target.path("Patient/" + id).request()
+                    .header("X-FHIR-FORCE-UPDATE", "true")
+                    .put(entity, Response.class);
         }
 
         // Create a Condition whose subject points to version 1 of the resource we just created

@@ -1,0 +1,170 @@
+{
+  "resourceType": "MedicinalProductDefinition",
+  "id": "equilidem-with-ing-and-auth",
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tGenerated Narrative\n\t\t\t\t\u003c/b\u003e\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tId\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t: equilidem-with-ing-and-auth\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tIdentifier\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t: Equilidem25\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tCombined Pharmaceutical Dose Form\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t:\n\t\t\t\t\u003cspan title\u003d\"Codes: {http://example.org.uk/fhir/dosefom tablet}\"\u003e\n\t\t\t\t\ttablet\n\t\t\t\t\u003c/span\u003e\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tIndication\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t: Prevention of venous thromboembolic events (VTE) in adult patients who have undergone elective hip or knee replacement surgery. Prevention of stroke and systemic embolism in adult patients with non-valvular atrial fibrillation (NVAF), with one or more risk factors, such as prior stroke or transient ischaemic attack (TIA); age ≥ 75 years; hypertension; diabetes mellitus; symptomatic heart failure (NYHA Class \u0026gt;\u003d II). Treatment of deep vein thrombosis (DVT) and pulmonary embolism (PE), and prevention of recurrent DVT and PE in adults.\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tLegal Status Of Supply\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t:\n\t\t\t\t\u003cspan title\u003d\"Codes: {http://example.org.uk/fhir/legalstatusofsupply POM}\"\u003e\n\t\t\t\t\tPrescription only medicine\n\t\t\t\t\u003c/span\u003e\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tclassification\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t:\n\t\t\t\t\u003cspan title\u003d\"Codes: {http://www.whocc.no/atc/example B01A}\"\u003e\n\t\t\t\t\tB01A\n\t\t\t\t\u003c/span\u003e\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cp\u003e\n\t\t\t\t\u003cb\u003e\n\t\t\t\t\tIngredients\n\t\t\t\t\u003c/b\u003e\n\t\t\t\t:\n\t\t\t\u003c/p\u003e\n\t\t\t\u003cblockquote\u003e\n\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\tRole\n\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t:\n\t\t\t\t\t\u003cspan title\u003d\"Codes: {http://example.org.uk/fhir/ingredientType active}\"\u003e\n\t\t\t\t\t\tactive\n\t\t\t\t\t\u003c/span\u003e\n\t\t\t\t\u003c/p\u003e\n\t\t\t\t\u003cblockquote\u003e\n\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\tsubstance\n\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t:\n\t\t\t\t\t\t\u003cspan title\u003d\"Codes: {http://example.org.uk/fhir/substances 123456}\"\u003e\n\t\t\t\t\t\t\tEquilidonium Phosphate\n\t\t\t\t\t\t\u003c/span\u003e\n\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\u003ctable class\u003d\"grid\"\u003e\n\t\t\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\t\tPresentation\n\t\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\t\u003c/tr\u003e\n\t\t\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\t\t*\n\t\t\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\t\t22 ml/1 tablet\n\t\t\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\t\u003c/tr\u003e\n\t\t\t\t\t\u003c/table\u003e\n\t\t\t\t\u003c/blockquote\u003e\n\t\t\t\u003c/blockquote\u003e\n\t\t\t\u003cblockquote\u003e\n\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\tRole\n\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t:\n\t\t\t\t\t\u003cspan title\u003d\"Codes: {http://example.org.uk/fhir/ingredientType excipient}\"\u003e\n\t\t\t\t\t\texcipient\n\t\t\t\t\t\u003c/span\u003e\n\t\t\t\t\u003c/p\u003e\n\t\t\t\t\u003cblockquote\u003e\n\t\t\t\t\t\u003cp\u003e\n\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\tsubstance\n\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t:\n\t\t\t\t\t\t\u003cspan title\u003d\"Codes: {http://example.org.uk/fhir/substances 456789}\"\u003e\n\t\t\t\t\t\t\tCalcium Carbonate\n\t\t\t\t\t\t\u003c/span\u003e\n\t\t\t\t\t\u003c/p\u003e\n\t\t\t\t\t\u003ctable class\u003d\"grid\"\u003e\n\t\t\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\t\t-\n\t\t\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\t\t\tPresentation\n\t\t\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\t\u003c/tr\u003e\n\t\t\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\t\t*\n\t\t\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\t\t3 ml/tablet\n\t\t\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\t\u003c/tr\u003e\n\t\t\t\t\t\u003c/table\u003e\n\t\t\t\t\u003c/blockquote\u003e\n\t\t\t\u003c/blockquote\u003e\n\t\t\t\u003ch3\u003e\n\t\t\t\tNames\n\t\t\t\u003c/h3\u003e\n\t\t\t\u003ctable class\u003d\"grid\"\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t-\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\tProductName\n\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t*\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\tEquilidem 2.5 mg film-coated tablets\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\u003c/table\u003e\n\t\t\t\u003ch3\u003e\n\t\t\t\tCross References\n\t\t\t\u003c/h3\u003e\n\t\t\t\u003ctable class\u003d\"grid\"\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t-\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\tProduct\n\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t*\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\tLink to generic equivalent\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\u003c/table\u003e\n\t\t\t\u003ch3\u003e\n\t\t\t\tManufacturing Business Operations\n\t\t\t\u003c/h3\u003e\n\t\t\t\u003ctable class\u003d\"grid\"\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t-\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\u003cb\u003e\n\t\t\t\t\t\t\tManufacturer\n\t\t\t\t\t\t\u003c/b\u003e\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\t\u003ctr\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t*\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\t\u003ctd\u003e\n\t\t\t\t\t\t\u003cspan\u003e\n\t\t\t\t\t\t\tEquiliDrugCo Processing Inc.\n\t\t\t\t\t\t\u003c/span\u003e\n\t\t\t\t\t\u003c/td\u003e\n\t\t\t\t\u003c/tr\u003e\n\t\t\t\u003c/table\u003e\n\t\t\u003c/div\u003e"
+  },
+  "contained": [
+    {
+      "resourceType": "Ingredient",
+      "id": "EquilidoniumPhosphate",
+      "status": "active",
+      "for": [
+        {
+          "reference": "#"
+        }
+      ],
+      "role": {
+        "coding": [
+          {
+            "system": "http://example.org.uk/fhir/ingredientType",
+            "code": "active"
+          }
+        ]
+      },
+      "substance": {
+        "code": {
+          "concept": {
+            "coding": [
+              {
+                "system": "http://example.org.uk/fhir/substances",
+                "code": "123456",
+                "display": "Equilidonium Phosphate"
+              }
+            ]
+          }
+        },
+        "strength": [
+          {
+            "presentationRatio": {
+              "numerator": {
+                "value": 22,
+                "unit": "ml",
+                "system": "http://unitsofmeasure.org",
+                "code": "mL"
+              },
+              "denominator": {
+                "value": 1,
+                "unit": "tablet"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "Ingredient",
+      "id": "CalciumCarbonate",
+      "status": "active",
+      "for": [
+        {
+          "reference": "#"
+        }
+      ],
+      "role": {
+        "coding": [
+          {
+            "system": "http://example.org.uk/fhir/ingredientType",
+            "code": "excipient"
+          }
+        ]
+      },
+      "substance": {
+        "code": {
+          "concept": {
+            "coding": [
+              {
+                "system": "http://example.org.uk/fhir/substances",
+                "code": "456789",
+                "display": "Calcium Carbonate"
+              }
+            ]
+          }
+        },
+        "strength": [
+          {
+            "presentationRatio": {
+              "numerator": {
+                "value": 3,
+                "unit": "ml",
+                "system": "http://unitsofmeasure.org",
+                "code": "mL"
+              },
+              "denominator": {
+                "value": 1,
+                "unit": "tablet"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "identifier": [
+    {
+      "system": "http://example.org.uk/fhir/product",
+      "value": "Equilidem25"
+    }
+  ],
+  "combinedPharmaceuticalDoseForm": {
+    "coding": [
+      {
+        "system": "http://example.org.uk/fhir/dosefom",
+        "code": "tablet"
+      }
+    ]
+  },
+  "indication": "Prevention of venous thromboembolic events (VTE) in adult patients who have undergone elective hip or knee replacement surgery. Prevention of stroke and systemic embolism in adult patients with non-valvular atrial fibrillation (NVAF), with one or more risk factors, such as prior stroke or transient ischaemic attack (TIA); age ≥ 75 years; hypertension; diabetes mellitus; symptomatic heart failure (NYHA Class \u003e\u003d II). Treatment of deep vein thrombosis (DVT) and pulmonary embolism (PE), and prevention of recurrent DVT and PE in adults.",
+  "legalStatusOfSupply": {
+    "coding": [
+      {
+        "system": "http://example.org.uk/fhir/legalstatusofsupply",
+        "code": "POM",
+        "display": "Prescription only medicine"
+      }
+    ]
+  },
+  "classification": [
+    {
+      "coding": [
+        {
+          "system": "http://www.whocc.no/atc/example",
+          "code": "B01A"
+        }
+      ]
+    }
+  ],
+  "name": [
+    {
+      "productName": "Equilidem 2.5 mg film-coated tablets"
+    }
+  ],
+  "crossReference": [
+    {
+      "product": {
+        "reference": {
+          "reference": "MedicinalProductDefinition/genericEquilidonium"
+        }
+      }
+    }
+  ],
+  "operation": [
+    {
+      "organization": [
+        {
+          "display": "EquiliDrugCo Processing Inc."
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "tag": [
+      {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "HTEST",
+        "display": "test health data"
+      }
+    ]
+  }
+}

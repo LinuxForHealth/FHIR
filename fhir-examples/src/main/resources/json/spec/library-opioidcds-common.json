@@ -1,10 +1,6 @@
 {
   "resourceType": "Library",
   "id": "opioidcds-common",
-  "text": {
-    "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative with Details\u003c/b\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eid\u003c/b\u003e: opioidcds-common\u003c/p\u003e\u003cp\u003e\u003cb\u003eidentifier\u003c/b\u003e: OpioidCDS_Common (OFFICIAL)\u003c/p\u003e\u003cp\u003e\u003cb\u003eversion\u003c/b\u003e: 0.1.0\u003c/p\u003e\u003cp\u003e\u003cb\u003etitle\u003c/b\u003e: Opioid CDS Common Logic\u003c/p\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: active\u003c/p\u003e\u003cp\u003e\u003cb\u003eexperimental\u003c/b\u003e: false\u003c/p\u003e\u003cp\u003e\u003cb\u003etype\u003c/b\u003e: Logic Library \u003cspan\u003e(Details : {http://terminology.hl7.org/CodeSystem/library-type code \u0027logic-library\u0027 \u003d \u0027Logic Library\u0027, given as \u0027Logic Library\u0027})\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003edate\u003c/b\u003e: 25/03/2018 1:49:09 PM\u003c/p\u003e\u003cp\u003e\u003cb\u003epublisher\u003c/b\u003e: Centers for Disease Control and Prevention (CDC)\u003c/p\u003e\u003cp\u003e\u003cb\u003edescription\u003c/b\u003e: Common Opioid Decision Support Logic for use in implementing CDC Opioid Prescribing Guidelines.\u003c/p\u003e\u003cp\u003e\u003cb\u003euseContext\u003c/b\u003e: , \u003c/p\u003e\u003cp\u003e\u003cb\u003ejurisdiction\u003c/b\u003e: United States of America \u003cspan\u003e(Details : {urn:iso:std:iso:3166 code \u0027US\u0027 \u003d \u0027United States of America\u0027, given as \u0027United States of America\u0027})\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003epurpose\u003c/b\u003e: This library contains common logic across recommendations including MME calculations, conversions, and looking up codes in valuesets.\u003c/p\u003e\u003cp\u003e\u003cb\u003eusage\u003c/b\u003e: This library is used for decision support for opioid guideline recommendations when applying PlanDefinitions.\u003c/p\u003e\u003cp\u003e\u003cb\u003ecopyright\u003c/b\u003e: © CDC 2016+.\u003c/p\u003e\u003cp\u003e\u003cb\u003etopic\u003c/b\u003e: Opioid Prescribing \u003cspan\u003e(Details )\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eauthor\u003c/b\u003e: , , , \u003c/p\u003e\u003cp\u003e\u003cb\u003erelatedArtifact\u003c/b\u003e: , , \u003c/p\u003e\u003cp\u003e\u003cb\u003econtent\u003c/b\u003e: \u003c/p\u003e\u003c/div\u003e"
-  },
   "identifier": [
     {
       "use": "official",
@@ -98,16 +94,22 @@
     {
       "type": "documentation",
       "display": "CDC guideline for prescribing opioids for chronic pain",
-      "url": "https://guidelines.gov/summaries/summary/50153/cdc-guideline-for-prescribing-opioids-for-chronic-pain---united-states-2016#420"
+      "url": "https://guidelines.gov/summaries/summary/50153/cdc-guideline-for-prescribing-opioids-for-chronic-pain---united-states-2016#420",
+      "document": {
+        "url": "https://guidelines.gov/summaries/summary/50153/cdc-guideline-for-prescribing-opioids-for-chronic-pain---united-states-2016#420"
+      }
     },
     {
       "type": "depends-on",
-      "resource": "Library/omtk-logic"
+      "resource": "http://example.org/fhir/Library/omtk-logic"
     },
     {
       "type": "documentation",
       "display": "MME Conversion Tables",
-      "url": "https://www.cdc.gov/drugoverdose/pdf/calculating_total_daily_dose-a.pdf"
+      "url": "https://www.cdc.gov/drugoverdose/pdf/calculating_total_daily_dose-a.pdf",
+      "document": {
+        "url": "https://www.cdc.gov/drugoverdose/pdf/calculating_total_daily_dose-a.pdf"
+      }
     }
   ],
   "content": [

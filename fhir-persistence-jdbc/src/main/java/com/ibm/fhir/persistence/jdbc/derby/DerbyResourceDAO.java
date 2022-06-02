@@ -30,7 +30,6 @@ import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
@@ -84,7 +83,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
     }
 
     @Override
-    public Resource  insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao,
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao,
             Integer ifNoneMatch)
             throws FHIRPersistenceException {
         final String METHODNAME = "insert";
@@ -125,7 +124,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 outIfNoneMatchVersion
                 );
 
-
             dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
 
             if (outInteractionStatus.get() == INTERACTION_STATUS_IF_NONE_MATCH) {
@@ -148,9 +146,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             if (FHIRDAOConstants.SQLSTATE_WRONG_VERSION.equals(e.getSQLState())) {
                 // this is just a concurrent update, so there's no need to log the SQLException here
                 throw new FHIRPersistenceVersionIdMismatchException("Encountered version id mismatch while inserting Resource");
-            } else if (FHIRDAOConstants.SQLSTATE_CURRENTLY_DELETED.equals((e.getSQLState()))) {
-                // the resource is already deleted, which should be handled before the persistence layer is called
-                throw new FHIRPersistenceResourceDeletedException("Unexpected attempt to delete a Resource which is currently deleted.");
             } else {
                 FHIRPersistenceException fx = new FHIRPersistenceException("SQLException encountered while inserting Resource.");
                 throw severe(logger, fx, e);

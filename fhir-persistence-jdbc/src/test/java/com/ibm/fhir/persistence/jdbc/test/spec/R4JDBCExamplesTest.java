@@ -35,6 +35,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
 import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
+import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.validation.test.ValidationProcessor;
 
 public class R4JDBCExamplesTest extends AbstractPersistenceTest {
@@ -124,7 +125,7 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
     }
 
     @Override
-    public FHIRPersistence getPersistenceImpl() throws Exception {
+    public FHIRPersistence getPersistenceImpl(FHIRConfigProvider configProvider, SearchHelper searchHelper) throws Exception {
         // Return null to make sure the transaction operations in @BeforeMethod will be skipped
         return null;
     }

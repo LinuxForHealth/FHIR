@@ -6,12 +6,12 @@
 
 package com.ibm.fhir.smart.test;
 
+import static com.ibm.fhir.core.ResourceType.CONDITION;
+import static com.ibm.fhir.core.ResourceType.OBSERVATION;
+import static com.ibm.fhir.core.ResourceType.PATIENT;
+import static com.ibm.fhir.core.ResourceType.PROVENANCE;
+import static com.ibm.fhir.core.ResourceType.RESOURCE;
 import static com.ibm.fhir.model.type.String.string;
-import static com.ibm.fhir.model.type.code.ResourceType.Value.CONDITION;
-import static com.ibm.fhir.model.type.code.ResourceType.Value.OBSERVATION;
-import static com.ibm.fhir.model.type.code.ResourceType.Value.PATIENT;
-import static com.ibm.fhir.model.type.code.ResourceType.Value.PROVENANCE;
-import static com.ibm.fhir.model.type.code.ResourceType.Value.RESOURCE;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -36,6 +36,7 @@ import org.testng.annotations.Test;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Observation;
@@ -54,7 +55,6 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.context.impl.FHIRSystemHistoryContextImpl;
@@ -142,7 +142,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testCreate(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testCreate(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
@@ -174,7 +174,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testUpdate(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testUpdate(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
@@ -215,7 +215,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testDelete(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testDelete(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
@@ -265,9 +265,11 @@ public class AuthzPolicyEnforcementTest {
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
         properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "bogus");
         FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+        event.setFhirResource(null);
 
         try {
             interceptor.beforeRead(event);
+            interceptor.afterRead(event);
             fail("Patient read was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
@@ -275,6 +277,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             interceptor.beforeVread(event);
+            interceptor.afterVread(event);
             fail("Patient vread was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
@@ -282,6 +285,10 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             interceptor.beforeHistory(event);
+            event.setFhirResource(Bundle.builder()
+                    .type(BundleType.HISTORY)
+                    .build());
+            interceptor.afterHistory(event);
             fail("Patient history was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
@@ -380,7 +387,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringForSearch")
-    public void testBeforeSearch(String scopeString, List<String> contextIds, Set<ResourceType.Value> implicitCompartmentScopeResourceTypes)
+    public void testBeforeSearch(String scopeString, List<String> contextIds, Set<ResourceType> implicitCompartmentScopeResourceTypes)
             throws FHIRPersistenceInterceptorException {
 
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, PATIENT_ID));
@@ -479,7 +486,7 @@ public class AuthzPolicyEnforcementTest {
                 assertEquals(e.getIssues().size(), 1);
                 assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
                 assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                        "The resource 'Encounter/bogus' does not exist.");
+                        "Interaction with 'Encounter/bogus' is not permitted for patient context [11111111-1111-1111-1111-111111111111]");
             } else {
                 fail("Encounter compartment interaction was not allowed but should have been", e);
             }
@@ -687,20 +694,22 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testRead(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testRead(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
             interceptor.afterRead(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission), e.getMessage());
         }
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, OBSERVATION_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.afterRead(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission));
@@ -710,6 +719,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Condition");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, CONDITION_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(condition, properties);
             interceptor.afterRead(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission));
@@ -719,6 +729,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Provenance");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_PROVENANCE_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(patientProvenance, properties);
             interceptor.afterRead(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
@@ -728,6 +739,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Provenance");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, OBSERVATION_PROVENANCE_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observationProvenance, properties);
             interceptor.afterRead(event);
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, PROVENANCE, READ_APPROVED, permission));
@@ -737,11 +749,12 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testVRead(String scopeString, List<String> contextIds, Set<ResourceType.Value> typesPermittedByScopes, Permission permission) {
+    public void testVRead(String scopeString, List<String> contextIds, Set<ResourceType> typesPermittedByScopes, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
             interceptor.afterVread(event);
             assertTrue(shouldSucceed(typesPermittedByScopes, PATIENT, READ_APPROVED, permission));
@@ -751,6 +764,7 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, OBSERVATION_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.afterVread(event);
             assertTrue(shouldSucceed(typesPermittedByScopes, OBSERVATION, READ_APPROVED, permission));
@@ -760,11 +774,32 @@ public class AuthzPolicyEnforcementTest {
 
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Condition");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, CONDITION_ID);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(condition, properties);
             interceptor.afterVread(event);
             assertTrue(shouldSucceed(typesPermittedByScopes, CONDITION, READ_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
             assertFalse(shouldSucceed(typesPermittedByScopes, CONDITION, READ_APPROVED, permission));
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Provenance");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_PROVENANCE_ID);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patientProvenance, properties);
+            interceptor.afterVread(event);
+            assertTrue(shouldSucceed(typesPermittedByScopes, PROVENANCE, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(typesPermittedByScopes, PROVENANCE, READ_APPROVED, permission));
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Provenance");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, OBSERVATION_PROVENANCE_ID);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observationProvenance, properties);
+            interceptor.afterVread(event);
+            assertTrue(shouldSucceed(typesPermittedByScopes, PROVENANCE, READ_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(typesPermittedByScopes, PROVENANCE, READ_APPROVED, permission));
         }
     }
 
@@ -906,7 +941,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testHistory(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testHistory(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
@@ -991,7 +1026,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringPreferReturnMinimalProvider")
-    public void testHistoryPreferReturnMinimal(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testHistoryPreferReturnMinimal(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         // Simulate when 'Prefer: return=minimal' HTTP header is used by only setting fullUrl and not resource in bundle
@@ -1036,7 +1071,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testSearch(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testSearch(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         try {
@@ -1127,7 +1162,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringPreferReturnMinimalProvider")
-    public void testSearchPreferReturnMinimal(String scopeString, List<String> contextIds, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
+    public void testSearchPreferReturnMinimal(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
         // Simulate when 'Prefer: return=minimal' HTTP header is used by only setting fullUrl and not resource in bundle
@@ -1415,9 +1450,9 @@ public class AuthzPolicyEnforcementTest {
     /**
      * @return true if the interaction should succeed, otherwise false
      */
-    private boolean shouldSucceed(Set<ResourceType.Value> resourceTypesPermittedByScope, ResourceType.Value requiredResourceType,
+    private boolean shouldSucceed(Set<ResourceType> resourceTypesPermittedByScope, ResourceType requiredResourceType,
             List<Permission> permissionsPermittedByScope, Permission requiredPermission) {
-        if (resourceTypesPermittedByScope.contains(ResourceType.Value.RESOURCE) && permissionsPermittedByScope.contains(requiredPermission)) {
+        if (resourceTypesPermittedByScope.contains(ResourceType.RESOURCE) && permissionsPermittedByScope.contains(requiredPermission)) {
             return true;
         }
         if (resourceTypesPermittedByScope.contains(requiredResourceType) && permissionsPermittedByScope.contains(requiredPermission)) {
@@ -1428,10 +1463,10 @@ public class AuthzPolicyEnforcementTest {
 
     @DataProvider(name = "scopeStringProvider")
     public static Object[][] scopeStrings() {
-        final Set<ResourceType.Value> all_resources = Collections.singleton(RESOURCE);
-        final Set<ResourceType.Value> patient = Collections.singleton(PATIENT);
-        final Set<ResourceType.Value> observation = Collections.singleton(OBSERVATION);
-        final Set<ResourceType.Value> provenance = Collections.singleton(PROVENANCE);
+        final Set<ResourceType> all_resources = Collections.singleton(RESOURCE);
+        final Set<ResourceType> patient = Collections.singleton(PATIENT);
+        final Set<ResourceType> observation = Collections.singleton(OBSERVATION);
+        final Set<ResourceType> provenance = Collections.singleton(PROVENANCE);
 
         final List<String> CONTEXT_IDS = Collections.singletonList(PATIENT_ID);
 
@@ -1475,20 +1510,24 @@ public class AuthzPolicyEnforcementTest {
 
     @DataProvider(name = "scopeStringPreferReturnMinimalProvider")
     public static Object[][] scopeStringPreferReturnMinimal() {
-        final Set<ResourceType.Value> all_resources = Collections.singleton(RESOURCE);
-        final Set<ResourceType.Value> patient = Collections.singleton(PATIENT);
-        final Set<ResourceType.Value> observation = Collections.singleton(OBSERVATION);
-        final Set<ResourceType.Value> provenance = Collections.singleton(PROVENANCE);
+        final Set<ResourceType> all_resources = Collections.singleton(RESOURCE);
+        final Set<ResourceType> patient = Collections.singleton(PATIENT);
+        final Set<ResourceType> observation = Collections.singleton(OBSERVATION);
+        final Set<ResourceType> provenance = Collections.singleton(PROVENANCE);
 
         final List<String> CONTEXT_IDS = Collections.singletonList(PATIENT_ID);
 
         return new Object[][] {
             //String scopeString, String context, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission
+
             {"patient/*.*", null, all_resources, null},
-            {"patient/*.*", CONTEXT_IDS, Collections.EMPTY_SET, null},
-            {"patient/*.read", CONTEXT_IDS, Collections.EMPTY_SET, null},
-            {"patient/*.write", CONTEXT_IDS, Collections.EMPTY_SET, null},
-            {"patient/Patient.* patient/Provenance.*", CONTEXT_IDS, Collections.EMPTY_SET, null},
+            // even though the scopes apply to many types, because the resource contents are missing
+            // we can only assume compartment membership for the Patient resource (the "identity" of the compartment)
+            // and the provenance that points to that
+            {"patient/*.*", CONTEXT_IDS, union(patient, provenance), Permission.ALL},
+            {"patient/*.read", CONTEXT_IDS, union(patient, provenance), Permission.READ},
+            {"patient/*.write", CONTEXT_IDS, union(patient, provenance), Permission.WRITE},
+            {"patient/Patient.* patient/Provenance.*", CONTEXT_IDS, union(patient, provenance), Permission.ALL},
             {"patient/Observation.* patient/Provenance.*", CONTEXT_IDS, Collections.EMPTY_SET, null},
 
             {"user/*.*", CONTEXT_IDS, all_resources, Permission.ALL},
@@ -1512,8 +1551,8 @@ public class AuthzPolicyEnforcementTest {
 
     @DataProvider(name = "scopeStringForSearch")
     public static Object[][] scopeStringsForSearch() {
-        final Set<ResourceType.Value> patient = Collections.singleton(PATIENT);
-        final Set<ResourceType.Value> observation = Collections.singleton(OBSERVATION);
+        final Set<ResourceType> patient = Collections.singleton(PATIENT);
+        final Set<ResourceType> observation = Collections.singleton(OBSERVATION);
 
         final List<String> CONTEXT_IDS = Collections.singletonList(PATIENT_ID);
 

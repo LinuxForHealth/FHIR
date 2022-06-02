@@ -1,0 +1,92 @@
+{
+    "resourceType": "ValueSet",
+    "id": "measure-data-usage",
+    "meta": {
+        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cqi"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/measure-data-usage",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.771"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "MeasureDataUsage",
+    "title": "MeasureDataUsage",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-12-28T16:55:11+11:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The intended usage for supplemental data elements in the measure.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:4cc60d77-a7f4-49f4-94a1-3c084cf9a25f",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/measure-data-usage|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+                "code": "supplemental-data",
+                "display": "Supplemental Data"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/measure-data-usage",
+                "code": "risk-adjustment-factor",
+                "display": "Risk Adjustment Factor"
+            }
+        ]
+    }
+}

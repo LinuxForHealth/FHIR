@@ -10,6 +10,7 @@
   <text>
     <status value="generated"/>
     <div xmlns="http://www.w3.org/1999/xhtml">
+      
       <pre>Lifelines Questionnaire 1 part 1
   1. Do you have allergies?
   2. General Questions:
@@ -20,10 +21,12 @@
     3. Intoxications:
       3.a) Do you smoke?
       3.b) Do you drink alcohol?</pre>
+    
     </div>
   </text>
   <url value="http://hl7.org/fhir/Questionnaire/f201"/>
   <status value="active"/>
+  <experimental value="true"/>
   <subjectType value="Patient"/>
   <date value="2010"/>
   <code>

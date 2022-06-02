@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1892,7 +1892,7 @@ public class DeviceDefinition extends DomainResource {
             bindingName = "DeviceNameType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of name the device is referred by.",
-            valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.3.0-cibuild"
         )
         @Required
         private final DeviceNameType type;

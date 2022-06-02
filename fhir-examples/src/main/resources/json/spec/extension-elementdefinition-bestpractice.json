@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bestpractice",
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "bestpractice",
   "status": "draft",
+  "experimental": false,
   "date": "2015-02-28",
   "publisher": "Health Level Seven, Inc. - FHIR Core WG",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "Mark that an invariant represents \u0027best practice\u0027 rule - a rule that implementers may choose to enforce at error level in some or all circumstances.",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -69,9 +70,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
@@ -215,7 +216,7 @@
         "id": "Extension.value[x]",
         "path": "Extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {
@@ -246,6 +247,10 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
+              "valueString": "Indicates the countries, regions, disciplines and other aspects of use within which this artifact is targeted for use."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "ConformanceUseContext"
             },
@@ -255,7 +260,6 @@
             }
           ],
           "strength": "extensible",
-          "description": "Indicates the countries, regions, disciplines and other aspects of use within which this artifact is targeted for use.",
           "valueSet": "http://hl7.org/fhir/ValueSet/use-context"
         },
         "mapping": [
@@ -309,6 +313,10 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
+              "valueString": "Indicates the countries, regions, disciplines and other aspects of use within which this artifact is targeted for use."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "ConformanceUseContext"
             },
@@ -318,7 +326,6 @@
             }
           ],
           "strength": "extensible",
-          "description": "Indicates the countries, regions, disciplines and other aspects of use within which this artifact is targeted for use.",
           "valueSet": "http://hl7.org/fhir/ValueSet/use-context"
         }
       }

@@ -1,0 +1,29 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "IUPC",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/IUPC",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.47"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "IUPC",
+    "title": "IUPAC/IFCC Component Codes",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "International Union of Pure and Applied Chemistry"
+        }
+    ],
+    "description": "IUPAC/IFCC Component Codes",
+    "content": "not-present"
+}

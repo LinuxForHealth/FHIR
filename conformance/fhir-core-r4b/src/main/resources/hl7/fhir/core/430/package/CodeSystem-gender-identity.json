@@ -1,0 +1,71 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "gender-identity",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://hl7.org/fhir/gender-identity",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.973"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "GenderIdentity",
+    "status": "draft",
+    "experimental": true,
+    "description": "This example code System defines a set of codes that can be used to indicate a patient's gender identity.",
+    "caseSensitive": true,
+    "content": "complete",
+    "concept": [
+        {
+            "code": "transgender-female",
+            "display": "transgender female",
+            "definition": "the patient identifies as transgender male-to-female"
+        },
+        {
+            "code": "transgender-male",
+            "display": "transgender male",
+            "definition": "the patient identifies as transgender female-to-male"
+        },
+        {
+            "code": "non-binary",
+            "display": "non-binary",
+            "definition": "the patient identifies with neither/both female and male"
+        },
+        {
+            "code": "male",
+            "display": "male",
+            "definition": "the patient identifies as male"
+        },
+        {
+            "code": "female",
+            "display": "female",
+            "definition": "the patient identifies as female"
+        },
+        {
+            "code": "other",
+            "display": "other",
+            "definition": "other gender identity"
+        },
+        {
+            "code": "non-disclose",
+            "display": "does not wish to disclose",
+            "definition": "the patient does not wish to disclose his gender identity"
+        }
+    ]
+}

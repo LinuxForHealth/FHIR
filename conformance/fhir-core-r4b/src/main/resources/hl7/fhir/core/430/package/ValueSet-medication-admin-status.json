@@ -1,0 +1,110 @@
+{
+    "resourceType": "ValueSet",
+    "id": "medication-admin-status",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "phx"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/medication-admin-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.340"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "MedicationAdministration Status Codes",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "MedicationAdministration Status Codes",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-status"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:7be3e5cb-f69f-4b18-93a2-ce28ec5d0ec7",
+        "timestamp": "2022-04-23T22:23:08Z",
+        "total": 7,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/medication-admin-status|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-status",
+                "code": "in-progress",
+                "display": "In Progress"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-status",
+                "code": "not-done",
+                "display": "Not Done"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-status",
+                "code": "on-hold",
+                "display": "On Hold"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-status",
+                "code": "completed",
+                "display": "Completed"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-status",
+                "code": "entered-in-error",
+                "display": "Entered in Error"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-status",
+                "code": "stopped",
+                "display": "Stopped"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/medication-admin-status",
+                "code": "unknown",
+                "display": "Unknown"
+            }
+        ]
+    }
+}

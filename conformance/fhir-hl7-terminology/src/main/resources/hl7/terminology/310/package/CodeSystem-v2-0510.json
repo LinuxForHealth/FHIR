@@ -1,0 +1,295 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0510",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0510",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.333"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "BloodProductDispenseStatus",
+    "title": "bloodProductDispenseStatus",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts used to specify the current status of the specified blood product as indicated by the filler or placer.  For example, the first status change of a product that may trigger a Blood Product Dispense Status Message occurs when it first becomes linked to a patient and is ready to dispense. The placer system may use the Blood Product Dispense Status Message to request the transfusion service to dispense the product.  When the blood product is delivered or issued to a patient, the status of the blood product would be changed to indicate that it has now been \"dispensed\".  Used in the Blood Product Dispense Status (BPX) segment in HL7 Version 2.x messaging.",
+    "purpose": "Underlying Master Code System for V2 table 0510 (Blood Product Dispense Status)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0510",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "5543",
+            "code": "RI",
+            "display": "Received into inventory (for specified patient)",
+            "definition": "Received into inventory (for specified patient)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5544",
+            "code": "RD",
+            "display": "Reserved and ready to dispense",
+            "definition": "Reserved and ready to dispense",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5545",
+            "code": "RS",
+            "display": "Reserved (ordered and product allocated for the patient)",
+            "definition": "Reserved (ordered and product allocated for the patient)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5546",
+            "code": "RE",
+            "display": "Released (no longer allocated for the patient)",
+            "definition": "Released (no longer allocated for the patient)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Status determined by Placer or Filler"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Status determined by Placer or Filler"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5547",
+            "code": "DS",
+            "display": "Dispensed to patient location",
+            "definition": "Dispensed to patient location",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5548",
+            "code": "RA",
+            "display": "Returned unused/no longer needed",
+            "definition": "Returned unused/no longer needed",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5549",
+            "code": "RL",
+            "display": "Returned unused/keep linked to patient for possible use later",
+            "definition": "Returned unused/keep linked to patient for possible use later",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5550",
+            "code": "WA",
+            "display": "Wasted (product no longer viable)",
+            "definition": "Wasted (product no longer viable)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5551",
+            "code": "PT",
+            "display": "Presumed transfused (dispensed and not returned)",
+            "definition": "Presumed transfused (dispensed and not returned)",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5552",
+            "code": "CR",
+            "display": "Released into inventory for general availability",
+            "definition": "Released into inventory for general availability",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Status determined by Filler"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "5553",
+            "code": "RQ",
+            "display": "Request to dispense blood product",
+            "definition": "Request to dispense blood product",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Status determined by Placer"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Status determined by Placer"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,6 +53,8 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractSystemValue implements
     /**
      * Static factory method for creating named FHIRPathDecimalValue instances from a {@link BigDecimal} value
      *
+     * @param path
+     *     the path of the FHIRPathNode
      * @param name
      *     the name
      * @param decimal
@@ -60,8 +62,8 @@ public class FHIRPathDecimalValue extends FHIRPathAbstractSystemValue implements
      * @return
      *     a new named FHIRPathDecimalValue instance
      */
-    public static FHIRPathDecimalValue decimalValue(String name, BigDecimal decimal) {
-        return FHIRPathDecimalValue.builder(decimal).name(name).build();
+    public static FHIRPathDecimalValue decimalValue(String path, String name, BigDecimal decimal) {
+        return FHIRPathDecimalValue.builder(decimal).name(name).path(path).build();
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -61,8 +61,7 @@ public class DataRequirement extends Element {
     @Binding(
         bindingName = "FHIRAllTypes",
         strength = BindingStrength.Value.REQUIRED,
-        description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
-        valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.3.0-cibuild"
     )
     @Required
     private final FHIRAllTypes type;
@@ -74,7 +73,6 @@ public class DataRequirement extends Element {
     @Binding(
         bindingName = "SubjectType",
         strength = BindingStrength.Value.EXTENSIBLE,
-        description = "The possible types of subjects for a data requirement (E.g., Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
     private final Element subject;
@@ -1487,8 +1485,7 @@ public class DataRequirement extends Element {
         @Binding(
             bindingName = "SortDirection",
             strength = BindingStrength.Value.REQUIRED,
-            description = "The possible sort directions, ascending or descending.",
-            valueSet = "http://hl7.org/fhir/ValueSet/sort-direction|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/sort-direction|4.3.0-cibuild"
         )
         @Required
         private final SortDirection direction;

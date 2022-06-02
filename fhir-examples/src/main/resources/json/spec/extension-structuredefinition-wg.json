@@ -12,9 +12,10 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "wg",
   "status": "draft",
+  "experimental": false,
   "date": "2014-01-31",
   "publisher": "Health Level Seven, Inc. - [WG Name] WG",
   "contact": [
@@ -28,7 +29,7 @@
     }
   ],
   "description": "The work group that owns and maintains this resource.",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "rim",
@@ -69,9 +70,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
@@ -209,7 +210,7 @@
         "id": "Extension.value[x]",
         "path": "Extension.value[x]",
         "short": "Value of extension",
-        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/extensibility.html) for a list).",
+        "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a list).",
         "min": 1,
         "max": "1",
         "base": {
@@ -237,13 +238,17 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "valueString": "An HL7 administrative unit that owns artifacts in the FHIR specification."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "HL7Workgroup"
             }
           ],
           "strength": "required",
           "description": "An HL7 administrative unit that owns artifacts in the FHIR specification.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/hl7-work-group|4.0.1"
+          "valueSet": "http://terminology.hl7.org/ValueSet/hl7-work-group"
         },
         "mapping": [
           {
@@ -287,13 +292,17 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/definition",
+              "valueString": "An HL7 administrative unit that owns artifacts in the FHIR specification."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "HL7Workgroup"
             }
           ],
           "strength": "required",
           "description": "An HL7 administrative unit that owns artifacts in the FHIR specification.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/hl7-work-group|4.0.1"
+          "valueSet": "http://terminology.hl7.org/ValueSet/hl7-work-group"
         }
       }
     ]

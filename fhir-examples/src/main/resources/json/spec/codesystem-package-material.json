@@ -1,0 +1,234 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "package-material",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/package-material defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003200\u003ca name\u003d\"package-material-200000003200\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAluminium\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003201\u003ca name\u003d\"package-material-200000003201\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCyclic Olefin Copolymer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003202\u003ca name\u003d\"package-material-200000003202\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEpoxyphenol\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003203\u003ca name\u003d\"package-material-200000003203\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGlass\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003204\u003ca name\u003d\"package-material-200000003204\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGlass type I\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003205\u003ca name\u003d\"package-material-200000003205\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGlass type II\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003206\u003ca name\u003d\"package-material-200000003206\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eGlass type III\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003207\u003ca name\u003d\"package-material-200000003207\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePaper\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003208\u003ca name\u003d\"package-material-200000003208\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePlastic\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003209\u003ca name\u003d\"package-material-200000003209\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyAmide\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003210\u003ca name\u003d\"package-material-200000003210\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOrientated PolyAmide\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003211\u003ca name\u003d\"package-material-200000003211\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyCarbonate\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003212\u003ca name\u003d\"package-material-200000003212\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyChloroTriFluoroEthylene\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003213\u003ca name\u003d\"package-material-200000003213\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyester\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003214\u003ca name\u003d\"package-material-200000003214\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyEthylene\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003215\u003ca name\u003d\"package-material-200000003215\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eHigh Density PolyEthylene\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003216\u003ca name\u003d\"package-material-200000003216\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLow Density PolyEthylene\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003217\u003ca name\u003d\"package-material-200000003217\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyEthylene TerePhthalate\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003218\u003ca name\u003d\"package-material-200000003218\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyolefin\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003219\u003ca name\u003d\"package-material-200000003219\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyPropylene\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003220\u003ca name\u003d\"package-material-200000003220\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyStyrene\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003221\u003ca name\u003d\"package-material-200000003221\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyVinyl Acetate\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003222\u003ca name\u003d\"package-material-200000003222\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyVinyl Chloride\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003223\u003ca name\u003d\"package-material-200000003223\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePlasticised PolyVinyl Chloride\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003224\u003ca name\u003d\"package-material-200000003224\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eNon-plasticised PolyVinyl Chloride / Unplasticised PolyVinyl Chloride\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003225\u003ca name\u003d\"package-material-200000003225\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyVinylidene Chloride\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003226\u003ca name\u003d\"package-material-200000003226\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRubber\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003227\u003ca name\u003d\"package-material-200000003227\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSilicone oil\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003228\u003ca name\u003d\"package-material-200000003228\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSilicone elastomer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003229\u003ca name\u003d\"package-material-200000003229\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSteel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000003529\u003ca name\u003d\"package-material-200000003529\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCardboard\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000012514\u003ca name\u003d\"package-material-200000012514\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyAcryloNitrile\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000012515\u003ca name\u003d\"package-material-200000012515\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEthylene acrylic acid copolymer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000012521\u003ca name\u003d\"package-material-200000012521\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEthylene meta-acrylic acid\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000012522\u003ca name\u003d\"package-material-200000012522\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eEthylene-Vinyl Alcohol copolymer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000012523\u003ca name\u003d\"package-material-200000012523\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyVinylidene Fluoride\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000012524\u003ca name\u003d\"package-material-200000012524\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eMedium Density PolyEthylene\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000012538\u003ca name\u003d\"package-material-200000012538\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSyndiotactic Polypropylene\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000015521\u003ca name\u003d\"package-material-200000015521\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePolyEthylene copolymer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000023330\u003ca name\u003d\"package-material-200000023330\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eExpanded Polyethylene\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000023332\u003ca name\u003d\"package-material-200000023332\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eCyclic Olefin Polymer\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000025255\u003ca name\u003d\"package-material-200000025255\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSilica gel\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e200000025257\u003ca name\u003d\"package-material-200000025257\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLinear Low Density PolyEthylene\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/package-material",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1675"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "PackageMaterial",
+  "title": "PackageMaterial",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "description": "A material used in the construction of packages and their components.",
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/package-material",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "200000003200",
+      "display": "Aluminium"
+    },
+    {
+      "code": "200000003201",
+      "display": "Cyclic Olefin Copolymer"
+    },
+    {
+      "code": "200000003202",
+      "display": "Epoxyphenol"
+    },
+    {
+      "code": "200000003203",
+      "display": "Glass"
+    },
+    {
+      "code": "200000003204",
+      "display": "Glass type I"
+    },
+    {
+      "code": "200000003205",
+      "display": "Glass type II"
+    },
+    {
+      "code": "200000003206",
+      "display": "Glass type III"
+    },
+    {
+      "code": "200000003207",
+      "display": "Paper"
+    },
+    {
+      "code": "200000003208",
+      "display": "Plastic"
+    },
+    {
+      "code": "200000003209",
+      "display": "PolyAmide"
+    },
+    {
+      "code": "200000003210",
+      "display": "Orientated PolyAmide"
+    },
+    {
+      "code": "200000003211",
+      "display": "PolyCarbonate"
+    },
+    {
+      "code": "200000003212",
+      "display": "PolyChloroTriFluoroEthylene"
+    },
+    {
+      "code": "200000003213",
+      "display": "Polyester"
+    },
+    {
+      "code": "200000003214",
+      "display": "PolyEthylene"
+    },
+    {
+      "code": "200000003215",
+      "display": "High Density PolyEthylene"
+    },
+    {
+      "code": "200000003216",
+      "display": "Low Density PolyEthylene"
+    },
+    {
+      "code": "200000003217",
+      "display": "PolyEthylene TerePhthalate"
+    },
+    {
+      "code": "200000003218",
+      "display": "Polyolefin"
+    },
+    {
+      "code": "200000003219",
+      "display": "PolyPropylene"
+    },
+    {
+      "code": "200000003220",
+      "display": "PolyStyrene"
+    },
+    {
+      "code": "200000003221",
+      "display": "PolyVinyl Acetate"
+    },
+    {
+      "code": "200000003222",
+      "display": "PolyVinyl Chloride"
+    },
+    {
+      "code": "200000003223",
+      "display": "Plasticised PolyVinyl Chloride"
+    },
+    {
+      "code": "200000003224",
+      "display": "Non-plasticised PolyVinyl Chloride / Unplasticised PolyVinyl Chloride"
+    },
+    {
+      "code": "200000003225",
+      "display": "PolyVinylidene Chloride"
+    },
+    {
+      "code": "200000003226",
+      "display": "Rubber"
+    },
+    {
+      "code": "200000003227",
+      "display": "Silicone oil"
+    },
+    {
+      "code": "200000003228",
+      "display": "Silicone elastomer"
+    },
+    {
+      "code": "200000003229",
+      "display": "Steel"
+    },
+    {
+      "code": "200000003529",
+      "display": "Cardboard"
+    },
+    {
+      "code": "200000012514",
+      "display": "PolyAcryloNitrile"
+    },
+    {
+      "code": "200000012515",
+      "display": "Ethylene acrylic acid copolymer"
+    },
+    {
+      "code": "200000012521",
+      "display": "Ethylene meta-acrylic acid"
+    },
+    {
+      "code": "200000012522",
+      "display": "Ethylene-Vinyl Alcohol copolymer"
+    },
+    {
+      "code": "200000012523",
+      "display": "PolyVinylidene Fluoride"
+    },
+    {
+      "code": "200000012524",
+      "display": "Medium Density PolyEthylene"
+    },
+    {
+      "code": "200000012538",
+      "display": "Syndiotactic Polypropylene"
+    },
+    {
+      "code": "200000015521",
+      "display": "PolyEthylene copolymer"
+    },
+    {
+      "code": "200000023330",
+      "display": "Expanded Polyethylene"
+    },
+    {
+      "code": "200000023332",
+      "display": "Cyclic Olefin Polymer"
+    },
+    {
+      "code": "200000025255",
+      "display": "Silica gel"
+    },
+    {
+      "code": "200000025257",
+      "display": "Linear Low Density PolyEthylene"
+    }
+  ]
+}

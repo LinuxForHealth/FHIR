@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -62,7 +62,7 @@ public class SupplyDelivery extends DomainResource {
         bindingName = "SupplyDeliveryStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Status of the supply delivery.",
-        valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-status|4.3.0-cibuild"
     )
     private final SupplyDeliveryStatus status;
     @ReferenceTarget({ "Patient" })
@@ -71,7 +71,7 @@ public class SupplyDelivery extends DomainResource {
         bindingName = "SupplyDeliveryType",
         strength = BindingStrength.Value.REQUIRED,
         description = "The type of supply dispense.",
-        valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-type|4.3.0-cibuild"
     )
     private final CodeableConcept type;
     private final SuppliedItem suppliedItem;

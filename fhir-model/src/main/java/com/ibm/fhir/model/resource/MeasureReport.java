@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,10 +45,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * The MeasureReport resource contains the results of the calculation of a measure; and optionally a reference to the 
  * resources involved in that calculation.
  * 
- * <p>Maturity level: FMM2 (Trial Use)
+ * <p>Maturity level: FMM3 (Trial Use)
  */
 @Maturity(
-    level = 2,
+    level = 3,
     status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
@@ -93,8 +93,8 @@ public class MeasureReport extends DomainResource {
     @Binding(
         bindingName = "MeasureReportStatus",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The status of the measure report.",
-        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-status|4.0.1"
+        description = "The status of the measure report (e.g. complete, pending, or error)",
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-status|4.3.0-cibuild"
     )
     @Required
     private final MeasureReportStatus status;
@@ -102,8 +102,8 @@ public class MeasureReport extends DomainResource {
     @Binding(
         bindingName = "MeasureReportType",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The type of the measure report.",
-        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-type|4.0.1"
+        description = "The type of the measure report: individual, patient listing, or summary",
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-report-type|4.3.0-cibuild"
     )
     @Required
     private final MeasureReportType type;
@@ -125,8 +125,8 @@ public class MeasureReport extends DomainResource {
     @Binding(
         bindingName = "MeasureImprovementNotation",
         strength = BindingStrength.Value.REQUIRED,
-        description = "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
-        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.0.1"
+        description = "The improvement notation of the measure report (e.g. increase or decrease)",
+        valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.3.0-cibuild"
     )
     private final CodeableConcept improvementNotation;
     private final List<Group> group;
@@ -930,6 +930,12 @@ public class MeasureReport extends DomainResource {
      */
     public static class Group extends BackboneElement {
         @Summary
+        @Binding(
+            bindingName = "MeasureGroupExample",
+            strength = BindingStrength.Value.EXAMPLE,
+            description = "Example of measure groups.",
+            valueSet = "http://hl7.org/fhir/ValueSet/measure-group-example"
+        )
         private final CodeableConcept code;
         private final List<Population> population;
         @Summary
@@ -1669,6 +1675,12 @@ public class MeasureReport extends DomainResource {
          * measure.
          */
         public static class Stratifier extends BackboneElement {
+            @Binding(
+                bindingName = "MeasureStratifierExample",
+                strength = BindingStrength.Value.EXAMPLE,
+                description = "Meaning of the stratifier.",
+                valueSet = "http://hl7.org/fhir/ValueSet/measure-stratifier-example"
+            )
             private final List<CodeableConcept> code;
             private final List<Stratum> stratum;
 
@@ -2001,6 +2013,12 @@ public class MeasureReport extends DomainResource {
              * administrative gender, there will be four strata, one for each possible gender value.
              */
             public static class Stratum extends BackboneElement {
+                @Binding(
+                    bindingName = "MeasureReportStratifierValueExample",
+                    strength = BindingStrength.Value.EXAMPLE,
+                    description = "The stratum value.",
+                    valueSet = "http://hl7.org/fhir/ValueSet/measurereport-stratifier-value-example"
+                )
                 private final CodeableConcept value;
                 private final List<Component> component;
                 private final List<Population> population;
@@ -2397,8 +2415,20 @@ public class MeasureReport extends DomainResource {
                  * A stratifier component value.
                  */
                 public static class Component extends BackboneElement {
+                    @Binding(
+                        bindingName = "MeasureStratifierExample",
+                        strength = BindingStrength.Value.EXAMPLE,
+                        description = "Meaning of the stratifier.",
+                        valueSet = "http://hl7.org/fhir/ValueSet/measure-stratifier-example"
+                    )
                     @Required
                     private final CodeableConcept code;
+                    @Binding(
+                        bindingName = "MeasureReportStratifierValueExample",
+                        strength = BindingStrength.Value.EXAMPLE,
+                        description = "The stratum value.",
+                        valueSet = "http://hl7.org/fhir/ValueSet/measurereport-stratifier-value-example"
+                    )
                     @Required
                     private final CodeableConcept value;
 

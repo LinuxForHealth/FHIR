@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,23 +27,23 @@ public class RemittanceOutcome extends Code {
     public static final RemittanceOutcome QUEUED = RemittanceOutcome.builder().value(Value.QUEUED).build();
 
     /**
-     * Processing Complete
+     * Complete
      * 
-     * <p>The processing has completed without errors
+     * <p>The processing completed without errors.
      */
     public static final RemittanceOutcome COMPLETE = RemittanceOutcome.builder().value(Value.COMPLETE).build();
 
     /**
      * Error
      * 
-     * <p>One or more errors have been detected in the Claim
+     * <p>The processing identified errors.
      */
     public static final RemittanceOutcome ERROR = RemittanceOutcome.builder().value(Value.ERROR).build();
 
     /**
-     * Partial Processing
+     * Partial
      * 
-     * <p>No errors have been detected in the Claim and some of the adjudication has been performed.
+     * <p>No errors have been detected and some of the adjudication has been performed.
      */
     public static final RemittanceOutcome PARTIAL = RemittanceOutcome.builder().value(Value.PARTIAL).build();
 
@@ -213,23 +213,23 @@ public class RemittanceOutcome extends Code {
         QUEUED("queued"),
 
         /**
-         * Processing Complete
+         * Complete
          * 
-         * <p>The processing has completed without errors
+         * <p>The processing completed without errors.
          */
         COMPLETE("complete"),
 
         /**
          * Error
          * 
-         * <p>One or more errors have been detected in the Claim
+         * <p>The processing identified errors.
          */
         ERROR("error"),
 
         /**
-         * Partial Processing
+         * Partial
          * 
-         * <p>No errors have been detected in the Claim and some of the adjudication has been performed.
+         * <p>No errors have been detected and some of the adjudication has been performed.
          */
         PARTIAL("partial");
 

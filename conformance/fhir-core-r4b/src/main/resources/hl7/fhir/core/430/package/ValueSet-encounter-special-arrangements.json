@@ -1,0 +1,92 @@
+{
+    "resourceType": "ValueSet",
+    "id": "encounter-special-arrangements",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/encounter-special-arrangements",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.253"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "SpecialArrangements",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set defines a set of codes that can be used to indicate the kinds of special arrangements in place for a patients visit.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/encounter-special-arrangements"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:f0517e1d-a545-48fb-a41b-f0bd83b87fb0",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 5,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/encounter-special-arrangements|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/encounter-special-arrangements",
+                "code": "wheel",
+                "display": "Wheelchair"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/encounter-special-arrangements",
+                "code": "add-bed",
+                "display": "Additional bedding"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/encounter-special-arrangements",
+                "code": "int",
+                "display": "Interpreter"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/encounter-special-arrangements",
+                "code": "att",
+                "display": "Attendant"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/encounter-special-arrangements",
+                "code": "dog",
+                "display": "Guide dog"
+            }
+        ]
+    }
+}

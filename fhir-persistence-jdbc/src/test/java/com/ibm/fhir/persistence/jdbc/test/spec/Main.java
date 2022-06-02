@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -442,7 +442,8 @@ public class Main {
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
             ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
             ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
-            FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
+            FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), 
+                new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
             persistence = new FHIRPersistenceJDBCImpl(this.configProps, database, cache);
 
             // create a custom list of operations to apply in order to each resource

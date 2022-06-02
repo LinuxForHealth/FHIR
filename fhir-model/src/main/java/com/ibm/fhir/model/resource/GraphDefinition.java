@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,7 +39,7 @@ import com.ibm.fhir.model.type.code.CompartmentCode;
 import com.ibm.fhir.model.type.code.GraphCompartmentRule;
 import com.ibm.fhir.model.type.code.GraphCompartmentUse;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -59,7 +59,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/GraphDefinition"
 )
 @Constraint(
@@ -85,7 +85,7 @@ public class GraphDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -114,10 +114,10 @@ public class GraphDefinition extends DomainResource {
         bindingName = "ResourceType",
         strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
-        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
     )
     @Required
-    private final ResourceType start;
+    private final ResourceTypeCode start;
     private final Canonical profile;
     private final List<Link> link;
 
@@ -276,9 +276,9 @@ public class GraphDefinition extends DomainResource {
      * The type of FHIR resource at which instances of this graph start.
      * 
      * @return
-     *     An immutable object of type {@link ResourceType} that is non-null.
+     *     An immutable object of type {@link ResourceTypeCode} that is non-null.
      */
-    public ResourceType getStart() {
+    public ResourceTypeCode getStart() {
         return start;
     }
 
@@ -448,7 +448,7 @@ public class GraphDefinition extends DomainResource {
         private List<UsageContext> useContext = new ArrayList<>();
         private List<CodeableConcept> jurisdiction = new ArrayList<>();
         private Markdown purpose;
-        private ResourceType start;
+        private ResourceTypeCode start;
         private Canonical profile;
         private List<Link> link = new ArrayList<>();
 
@@ -1005,7 +1005,7 @@ public class GraphDefinition extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder start(ResourceType start) {
+        public Builder start(ResourceTypeCode start) {
             this.start = start;
             return this;
         }
@@ -1637,10 +1637,10 @@ public class GraphDefinition extends DomainResource {
                 bindingName = "ResourceType",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "One of the resource types defined as part of this version of FHIR.",
-                valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
+                valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
             )
             @Required
-            private final ResourceType type;
+            private final ResourceTypeCode type;
             private final String params;
             private final Canonical profile;
             private final List<Compartment> compartment;
@@ -1659,9 +1659,9 @@ public class GraphDefinition extends DomainResource {
              * Type of resource this link refers to.
              * 
              * @return
-             *     An immutable object of type {@link ResourceType} that is non-null.
+             *     An immutable object of type {@link ResourceTypeCode} that is non-null.
              */
-            public ResourceType getType() {
+            public ResourceTypeCode getType() {
                 return type;
             }
 
@@ -1784,7 +1784,7 @@ public class GraphDefinition extends DomainResource {
             }
 
             public static class Builder extends BackboneElement.Builder {
-                private ResourceType type;
+                private ResourceTypeCode type;
                 private String params;
                 private Canonical profile;
                 private List<Compartment> compartment = new ArrayList<>();
@@ -1916,7 +1916,7 @@ public class GraphDefinition extends DomainResource {
                  * @return
                  *     A reference to this Builder instance
                  */
-                public Builder type(ResourceType type) {
+                public Builder type(ResourceTypeCode type) {
                     this.type = type;
                     return this;
                 }
@@ -2092,7 +2092,7 @@ public class GraphDefinition extends DomainResource {
                     bindingName = "GraphCompartmentUse",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "Defines how a compartment rule is used.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-use|4.0.1"
+                    valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-use|4.3.0-cibuild"
                 )
                 @Required
                 private final GraphCompartmentUse use;
@@ -2100,7 +2100,7 @@ public class GraphDefinition extends DomainResource {
                     bindingName = "CompartmentCode",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "Identifies a compartment.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.1"
+                    valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0-cibuild"
                 )
                 @Required
                 private final CompartmentCode code;
@@ -2108,7 +2108,7 @@ public class GraphDefinition extends DomainResource {
                     bindingName = "GraphCompartmentRule",
                     strength = BindingStrength.Value.REQUIRED,
                     description = "How a compartment must be linked.",
-                    valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-rule|4.0.1"
+                    valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-rule|4.3.0-cibuild"
                 )
                 @Required
                 private final GraphCompartmentRule rule;

@@ -1,0 +1,169 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "statistic-type",
+    "meta": {
+        "lastUpdated": "2020-04-09T15:10:28.568-06:00"
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 5
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/statistic-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1411"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "StatisticStatisticType",
+    "title": "StatisticStatisticType",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-04-09T21:10:28Z",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The type of a specific statistic.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/statistic-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "absolute-MedianDiff",
+            "display": "Absolute Median Difference",
+            "definition": "Computed by forming the difference between two medians."
+        },
+        {
+            "code": "C25463",
+            "display": "Count",
+            "definition": "The number or amount of something."
+        },
+        {
+            "code": "0000301",
+            "display": "Covariance",
+            "definition": "The strength of correlation between a set (2 or more) of random variables. The covariance is obtained by forming: cov(x,y)=e([x-e(x)][y-e(y)] where e(x), e(y) is the expected value (mean) of variable x and y respectively. Covariance is symmetric so cov(x,y)=cov(y,x). The covariance is usefull when looking at the variance of the sum of the 2 random variables since: var(x+y) = var(x) +var(y) +2cov(x,y) the covariance cov(x,y) is used to obtain the coefficient of correlation cor(x,y) by normalizing (dividing) cov(x,y) but the product of the standard deviations of x and y."
+        },
+        {
+            "code": "predictedRisk",
+            "display": "Predicted Risk",
+            "definition": "A special use case where the proportion is derived from a formula rather than derived from summary evidence."
+        },
+        {
+            "code": "descriptive",
+            "display": "Descriptive",
+            "definition": "Descriptive measure reported as narrative."
+        },
+        {
+            "code": "C93150",
+            "display": "Hazard Ratio",
+            "definition": "A measure of how often a particular event happens in one group compared to how often it happens in another group, over time. In cancer research, hazard ratios are often used in clinical trials to measure survival at any point in time in a group of patients who have been given a specific treatment compared to a control group given another treatment or a placebo. A hazard ratio of one means that there is no difference in survival between the two groups. A hazard ratio of greater than one or less than one means that survival was better in one of the groups."
+        },
+        {
+            "code": "C16726",
+            "display": "Incidence",
+            "definition": "The relative frequency of occurrence of something."
+        },
+        {
+            "code": "rate-ratio",
+            "display": "Incidence Rate Ratio",
+            "definition": "A type of relative effect estimate that compares rates over time (eg events per person-years)."
+        },
+        {
+            "code": "C25564",
+            "display": "Maximum",
+            "definition": "The largest possible quantity or degree."
+        },
+        {
+            "code": "C53319",
+            "display": "Mean",
+            "definition": "The sum of a set of values divided by the number of values in the set."
+        },
+        {
+            "code": "0000457",
+            "display": "Mean Difference",
+            "definition": "The mean difference, or difference in means, measures the absolute difference between the mean value in two different groups."
+        },
+        {
+            "code": "C28007",
+            "display": "Median",
+            "definition": "The value which has an equal number of values greater and less than it."
+        },
+        {
+            "code": "C25570",
+            "display": "Minimum",
+            "definition": "The smallest possible quantity."
+        },
+        {
+            "code": "C16932",
+            "display": "Odds Ratio",
+            "definition": "The ratio of the odds of an event occurring in one group to the odds of it occurring in another group, or to a sample-based estimate of that ratio."
+        },
+        {
+            "code": "C65172",
+            "display": "Pearson Correlation Coefficient",
+            "definition": "A measure of the correlation of two variables X and Y measured on the same object or organism, that is, a measure of the tendency of the variables to increase or decrease together. It is defined as the sum of the products of the standard scores of the two measures divided by the degrees of freedom."
+        },
+        {
+            "code": "C17010",
+            "display": "Prevalence",
+            "definition": "The ratio (for a given time period) of the number of occurrences of a disease or event to the number of units at risk in the population."
+        },
+        {
+            "code": "C44256",
+            "display": "Proportion",
+            "definition": "Quotient of quantities of the same kind for different components within the same system. [Use for univariate outcomes within an individual.]."
+        },
+        {
+            "code": "0000565",
+            "display": "Regression Coefficient",
+            "definition": "Generated by a type of data transformation called a regression, which aims to model a response variable by expression the predictor variables as part of a function where variable terms are modified by a number. A regression coefficient is one such number."
+        },
+        {
+            "code": "C93152",
+            "display": "Relative Risk",
+            "definition": "A measure of the risk of a certain event happening in one group compared to the risk of the same event happening in another group. In cancer research, risk ratios are used in prospective (forward looking) studies, such as cohort studies and clinical trials. A risk ratio of one means there is no difference between two groups in terms of their risk of cancer, based on whether or not they were exposed to a certain substance or factor, or how they responded to two treatments being compared. A risk ratio of greater than one or of less than one usually means that being exposed to a certain substance or factor either increases (risk ratio greater than one) or decreases (risk ratio less than one) the risk of cancer, or that the treatments being compared do not have the same effects."
+        },
+        {
+            "code": "0000424",
+            "display": "Risk Difference",
+            "definition": "Difference between the observed risks (proportions of individuals with the outcome of interest) in the two groups. The risk difference is straightforward to interpret: it describes the actual difference in the observed risk of events between experimental and control interventions."
+        },
+        {
+            "code": "C65171",
+            "display": "Spearman Rank-Order Correlation",
+            "definition": "A distribution-free analog of correlation analysis. Like regression, it can be applied to compare two independent random variables, each at several levels (which may be discrete or continuous). Unlike regression, Spearman's rank correlation works on ranked (relative) data, rather than directly on the data itself."
+        },
+        {
+            "code": "0000100",
+            "display": "Standardized Mean Difference",
+            "definition": "Computed by forming the difference between two means, divided by an estimate of the within-group standard deviation. It is used to provide an estimatation of the effect size between two treatments when the predictor (independent variable) is categorical and the response(dependent) variable is continuous."
+        }
+    ]
+}

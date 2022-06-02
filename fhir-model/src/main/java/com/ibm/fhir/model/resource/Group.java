@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -73,7 +73,7 @@ public class Group extends DomainResource {
         bindingName = "GroupType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Types of resources that are part of group.",
-        valueSet = "http://hl7.org/fhir/ValueSet/group-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/group-type|4.3.0-cibuild"
     )
     @Required
     private final GroupType type;
@@ -1300,7 +1300,7 @@ public class Group extends DomainResource {
      * Identifies the resource instances that are members of the group.
      */
     public static class Member extends BackboneElement {
-        @ReferenceTarget({ "Patient", "Practitioner", "PractitionerRole", "Device", "Medication", "Substance", "Group" })
+        @ReferenceTarget({ "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Medication", "Substance", "Group" })
         @Required
         private final Reference entity;
         private final Period period;
@@ -1543,6 +1543,7 @@ public class Group extends DomainResource {
              * <p>Allowed resource types for this reference:
              * <ul>
              * <li>{@link Patient}</li>
+             * <li>{@link RelatedPerson}</li>
              * <li>{@link Practitioner}</li>
              * <li>{@link PractitionerRole}</li>
              * <li>{@link Device}</li>
@@ -1631,7 +1632,7 @@ public class Group extends DomainResource {
             protected void validate(Member member) {
                 super.validate(member);
                 ValidationSupport.requireNonNull(member.entity, "entity");
-                ValidationSupport.checkReferenceType(member.entity, "entity", "Patient", "Practitioner", "PractitionerRole", "Device", "Medication", "Substance", "Group");
+                ValidationSupport.checkReferenceType(member.entity, "entity", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Medication", "Substance", "Group");
                 ValidationSupport.requireValueOrChildren(member);
             }
 

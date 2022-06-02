@@ -625,6 +625,8 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertNotNull(locationURI);
 
         // Second conditional update should find 1 match, so we should get back a 200.
+        // Update the observation first to ensure that the update is not optimized away.
+        obs = obs.toBuilder().status(ObservationStatus.AMENDED).build();
         response = client.conditionalUpdate(obs, query);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
@@ -633,6 +635,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
 
         // The location URIs should differ in the version #'s.
         assertNotEquals(locationURI, locationURI2);
+
+        // Third conditional update should find 1 match, so we should get back a 200,
+        // but the resource content is the same and so the actual update should be skipped.
+        response = client.conditionalUpdate(obs, query);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        assertEquals(response.getLocation(), locationURI2);
 
         // Next, verify that we have two versions of the Observation resource.
         response = client.history("Observation", obsId, null);

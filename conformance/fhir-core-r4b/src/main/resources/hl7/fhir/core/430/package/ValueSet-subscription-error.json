@@ -1,0 +1,96 @@
+{
+    "resourceType": "ValueSet",
+    "id": "subscription-error",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/subscription-error",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.1437"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "SubscriptionErrorCodes",
+    "title": "Subscription Error Codes",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes to represent subscription error details",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-error"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:4141f3f5-0d9d-4301-a9d7-52746af3806d",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 3,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/subscription-error|0.1.0"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-error",
+                "code": "dns-resolution-error",
+                "display": "DNS resolution error"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-error",
+                "code": "no-response",
+                "display": "No response"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/subscription-error",
+                "code": "error-response",
+                "display": "Error response"
+            }
+        ]
+    }
+}

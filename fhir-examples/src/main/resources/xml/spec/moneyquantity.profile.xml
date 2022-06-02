@@ -11,7 +11,7 @@
       <p>There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = &quot;urn:iso:std:iso:4217&quot; - currency).</p>
       <p>XPath:</p>
       <blockquote>
-        <pre>(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value=&#39;urn:iso:std:iso:4217&#39;)</pre>
+        <pre>(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value='urn:iso:std:iso:4217')</pre>
       </blockquote>
     </div>
   </text>
@@ -22,10 +22,11 @@
     <valueCode value="4.0.0"/>
   </extension>
   <url value="http://hl7.org/fhir/StructureDefinition/MoneyQuantity"/>
-  <version value="4.0.1"/>
+  <version value="4.3.0-cibuild"/>
   <name value="MoneyQuantity"/>
   <status value="active"/>
-  <date value="2019-11-01T09:29:23+11:00"/>
+  <experimental value="false"/>
+  <date value="2022-04-23T22:21:35+00:00"/>
   <publisher value="HL7 FHIR Standard"/>
   <contact>
     <telecom>
@@ -34,7 +35,7 @@
     </telecom>
   </contact>
   <description value="An amount of money. With regard to precision, see [Decimal Precision](datatypes.html#precision)"/>
-  <fhirVersion value="4.0.1"/>
+  <fhirVersion value="4.3.0-cibuild"/>
   <mapping>
     <identity value="v2"/>
     <uri value="http://hl7.org/v2"/>
@@ -67,17 +68,17 @@
       <constraint>
         <key value="ele-1"/>
         <severity value="error"/>
-        <human value="All FHIR elements must have a @value or children"/>
-        <expression value="hasValue() or (children().count() &gt; id.count())"/>
-        <xpath value="@value|f:*|h:div"/>
+        <human value="All FHIR elements must have a @value or children unless an empty Parameters resource"/>
+        <expression value="hasValue() or (children().count() &gt; id.count()) or $this is Parameters"/>
+        <xpath value="@value|f:*|h:div|self::f:Parameters"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Element"/>
       </constraint>
       <constraint>
         <key value="mqty-1"/>
         <severity value="error"/>
         <human value="There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = &quot;urn:iso:std:iso:4217&quot; - currency)."/>
-        <expression value="(code.exists() or value.empty()) and (system.empty() or system = &#39;urn:iso:std:iso:4217&#39;)"/>
-        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value=&#39;urn:iso:std:iso:4217&#39;)"/>
+        <expression value="(code.exists() or value.empty()) and (system.empty() or system = 'urn:iso:std:iso:4217')"/>
+        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value='urn:iso:std:iso:4217')"/>
       </constraint>
       <constraint>
         <key value="qty-3"/>
@@ -237,12 +238,14 @@
       <isModifierReason value="This is labeled as &quot;Is Modifier&quot; because the comparator modifies the interpretation of the value significantly. If there is no comparator, then there is no modification of the value"/>
       <isSummary value="true"/>
       <binding>
+        <extension url="http://hl7.org/fhir/build/StructureDefinition/binding-definition">
+          <valueString value="How the Quantity should be understood and represented."/>
+        </extension>
         <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName">
           <valueString value="QuantityComparator"/>
         </extension>
         <strength value="required"/>
-        <description value="How the Quantity should be understood and represented."/>
-        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.1"/>
+        <valueSet value="http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"/>
       </binding>
       <mapping>
         <identity value="v2"/>
@@ -254,6 +257,9 @@
       </mapping>
     </element>
     <element id="Quantity.unit">
+      <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-translatable">
+        <valueBoolean value="true"/>
+      </extension>
       <extension url="http://hl7.org/fhir/StructureDefinition/elementdefinition-translatable">
         <valueBoolean value="true"/>
       </extension>
@@ -326,6 +332,9 @@
       </mapping>
     </element>
     <element id="Quantity.code">
+      <extension url="http://hl7.org/fhir/build/StructureDefinition/no-binding">
+        <valueBoolean value="true"/>
+      </extension>
       <path value="Quantity.code"/>
       <short value="Coded form of the unit"/>
       <definition value="A computer processable form of the unit in some unit representation system."/>
@@ -372,8 +381,8 @@
         <key value="mqty-1"/>
         <severity value="error"/>
         <human value="There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = &quot;urn:iso:std:iso:4217&quot; - currency)."/>
-        <expression value="(code.exists() or value.empty()) and (system.empty() or system = &#39;urn:iso:std:iso:4217&#39;)"/>
-        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value=&#39;urn:iso:std:iso:4217&#39;)"/>
+        <expression value="(code.exists() or value.empty()) and (system.empty() or system = 'urn:iso:std:iso:4217')"/>
+        <xpath value="(f:code or not(f:value)) and (not(exists(f:system)) or f:system/@value='urn:iso:std:iso:4217')"/>
       </constraint>
       <isModifier value="false"/>
     </element>

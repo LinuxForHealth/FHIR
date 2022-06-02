@@ -1,0 +1,127 @@
+{
+    "resourceType": "ValueSet",
+    "id": "coverage-copay-type",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/coverage-copay-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.527"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "CoverageCopayTypeCodes",
+    "title": "Coverage Copay Type Codes",
+    "status": "draft",
+    "experimental": false,
+    "publisher": "Financial Management",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes sample Coverage Copayment Type codes.",
+    "copyright": "This is an example set.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/coverage-copay-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:24a94424-6ad4-40a8-aaf3-1db7070dc5fd",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 10,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/coverage-copay-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/coverage-copay-type",
+                "code": "gpvisit",
+                "display": "GP Office Visit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/coverage-copay-type",
+                "code": "spvisit",
+                "display": "Specialist Office Visit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/coverage-copay-type",
+                "code": "emergency",
+                "display": "Emergency"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/coverage-copay-type",
+                "code": "inpthosp",
+                "display": "Inpatient Hospital"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/coverage-copay-type",
+                "code": "televisit",
+                "display": "Tele-visit"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/coverage-copay-type",
+                "code": "urgentcare",
+                "display": "Urgent Care"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/coverage-copay-type",
+                "code": "copaypct",
+                "display": "Copay Percentage"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/coverage-copay-type",
+                "code": "copay",
+                "display": "Copay Amount"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/coverage-copay-type",
+                "code": "deductible",
+                "display": "Deductible"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/coverage-copay-type",
+                "code": "maxoutofpocket",
+                "display": "Maximum out of pocket"
+            }
+        ]
+    }
+}

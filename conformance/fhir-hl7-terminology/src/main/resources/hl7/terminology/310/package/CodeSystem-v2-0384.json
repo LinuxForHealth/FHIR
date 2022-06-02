@@ -1,0 +1,229 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0384",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0384",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.237"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "SubstanceType",
+    "title": "substanceType",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined  code system of concepts identifying the type of substance.  Used in HL7 Version 2.x messaging in the Inventory Detail (INV) segment.",
+    "purpose": "Underlying Master Code System for V2 table 0384 (Substance Type)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0384",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "3841",
+            "code": "SR",
+            "display": "Single Test Reagent",
+            "definition": "Single Test Reagent",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3842",
+            "code": "MR",
+            "display": "Multiple Test Reagent",
+            "definition": "Multiple Test Reagent",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "The consumption cannot be tied to orders for a single test"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "The consumption cannot be tied to orders for a single test"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3843",
+            "code": "DI",
+            "display": "Diluent",
+            "definition": "Diluent",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3844",
+            "code": "PT",
+            "display": "Pretreatment",
+            "definition": "Pretreatment",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3845",
+            "code": "RC",
+            "display": "Reagent Calibrator",
+            "definition": "Reagent Calibrator",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3846",
+            "code": "CO",
+            "display": "Control Reagent",
+            "definition": "Control Reagent",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3847",
+            "code": "PW",
+            "display": "Purified Water",
+            "definition": "Purified Water",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3848",
+            "code": "LW",
+            "display": "Liquid Waste",
+            "definition": "Liquid Waste",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3849",
+            "code": "SW",
+            "display": "Solid Waste",
+            "definition": "Solid Waste",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3850",
+            "code": "SC",
+            "display": "Countable Solid Item",
+            "definition": "Countable Solid Item",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "E.g., Pipetting tip"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "E.g., Pipetting tip"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3851",
+            "code": "LI",
+            "display": "Measurable Liquid Item",
+            "definition": "Measurable Liquid Item",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "3852",
+            "code": "OT",
+            "display": "Other",
+            "definition": "Other",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

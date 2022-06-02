@@ -1,0 +1,145 @@
+{
+    "resourceType": "ValueSet",
+    "id": "location-physical-type",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/location-physical-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.328"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "LocationType",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This example value set defines a set of codes that can be used to indicate the physical form of the Location.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:74d12351-e7a9-4912-809a-d8bc717cabc5",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 14,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/location-physical-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "si",
+                "display": "Site"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bu",
+                "display": "Building"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "wi",
+                "display": "Wing"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "wa",
+                "display": "Ward"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "lvl",
+                "display": "Level"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "co",
+                "display": "Corridor"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "ro",
+                "display": "Room"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "bd",
+                "display": "Bed"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "ve",
+                "display": "Vehicle"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "ho",
+                "display": "House"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "ca",
+                "display": "Cabinet"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "rd",
+                "display": "Road"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "area",
+                "display": "Area"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/location-physical-type",
+                "code": "jdn",
+                "display": "Jurisdiction"
+            }
+        ]
+    }
+}

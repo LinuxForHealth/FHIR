@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,8 +45,7 @@ public class Narrative extends Element {
     @Binding(
         bindingName = "NarrativeStatus",
         strength = BindingStrength.Value.REQUIRED,
-        description = "The status of a resource narrative.",
-        valueSet = "http://hl7.org/fhir/ValueSet/narrative-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-cibuild"
     )
     @Required
     private final NarrativeStatus status;

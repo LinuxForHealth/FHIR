@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -61,7 +61,7 @@ public class Person extends DomainResource {
         bindingName = "AdministrativeGender",
         strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
-        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-cibuild"
     )
     private final AdministrativeGender gender;
     @Summary
@@ -885,7 +885,7 @@ public class Person extends DomainResource {
             bindingName = "IdentityAssuranceLevel",
             strength = BindingStrength.Value.REQUIRED,
             description = "The level of confidence that this link represents the same actual person, based on NIST Authentication Levels.",
-            valueSet = "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.0.1"
+            valueSet = "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.3.0-cibuild"
         )
         private final IdentityAssuranceLevel assurance;
 

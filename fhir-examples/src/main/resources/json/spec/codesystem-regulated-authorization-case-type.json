@@ -1,0 +1,149 @@
+{
+  "resourceType": "CodeSystem",
+  "id": "regulated-authorization-case-type",
+  "meta": {
+    "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+    ]
+  },
+  "text": {
+    "status": "generated",
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003eThis code system http://hl7.org/fhir/regulated-authorization-case-type defines the following codes:\u003c/p\u003e\u003ctable class\u003d\"codes\"\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e\u003cb\u003eCode\u003c/b\u003e\u003c/td\u003e\u003ctd\u003e\u003cb\u003eDisplay\u003c/b\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eInitialMAA\u003ca name\u003d\"regulated-authorization-case-type-InitialMAA\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eInitial Marketing Authorisation Application\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eVariation\u003ca name\u003d\"regulated-authorization-case-type-Variation\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eVariation\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eLineExtension\u003ca name\u003d\"regulated-authorization-case-type-LineExtension\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLine Extension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ePSUR\u003ca name\u003d\"regulated-authorization-case-type-PSUR\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePeriodic Safety Update Report\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eRenewal\u003ca name\u003d\"regulated-authorization-case-type-Renewal\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRenewal\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eFollow-up\u003ca name\u003d\"regulated-authorization-case-type-Follow-up\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFollow-up Measure\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003e100000155699\u003ca name\u003d\"regulated-authorization-case-type-100000155699\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSpecific Obligation\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eAnnualReassessment\u003ca name\u003d\"regulated-authorization-case-type-AnnualReassessment\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eAnnual Reassessment\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eUrgentSafetyRestriction\u003ca name\u003d\"regulated-authorization-case-type-UrgentSafetyRestriction\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eUrgent Safety Restriction\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ePaediatricSubmission\u003ca name\u003d\"regulated-authorization-case-type-PaediatricSubmission\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePaediatric Submission\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eTransferMA\u003ca name\u003d\"regulated-authorization-case-type-TransferMA\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eTransfer of a marketing authorisation\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eLiftingSuspension\u003ca name\u003d\"regulated-authorization-case-type-LiftingSuspension\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eLifting of a Suspension\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eWithdrawal\u003ca name\u003d\"regulated-authorization-case-type-Withdrawal\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eWithdrawal\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eReformatting\u003ca name\u003d\"regulated-authorization-case-type-Reformatting\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eReformatting\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eRMP\u003ca name\u003d\"regulated-authorization-case-type-RMP\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRisk Management Plan\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eReviewSuspension\u003ca name\u003d\"regulated-authorization-case-type-ReviewSuspension\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eReview of a Suspension of MA\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eSupplementalInformation\u003ca name\u003d\"regulated-authorization-case-type-SupplementalInformation\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSupplemental Information\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eRepeatUse\u003ca name\u003d\"regulated-authorization-case-type-RepeatUse\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eRepeat Use Procedure\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eSignalDetection\u003ca name\u003d\"regulated-authorization-case-type-SignalDetection\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eSignal detection\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eFLU\u003ca name\u003d\"regulated-authorization-case-type-FLU\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eFLU STRAIN UPDATE\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003ePANDEMIC\u003ca name\u003d\"regulated-authorization-case-type-PANDEMIC\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003ePANDEMIC UPDATE\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd style\u003d\"white-space:nowrap\"\u003eOrphan\u003ca name\u003d\"regulated-authorization-case-type-Orphan\"\u003e \u003c/a\u003e\u003c/td\u003e\u003ctd\u003eOrphan Designation Application\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/div\u003e"
+  },
+  "extension": [
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+      "valueCode": "brr"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+      "valueCode": "trial-use"
+    },
+    {
+      "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+      "valueInteger": 1
+    }
+  ],
+  "url": "http://hl7.org/fhir/regulated-authorization-case-type",
+  "identifier": [
+    {
+      "system": "urn:ietf:rfc:3986",
+      "value": "urn:oid:2.16.840.1.113883.4.642.1.1645"
+    }
+  ],
+  "version": "4.3.0-cibuild",
+  "name": "RegulatedAuthorizationCaseType",
+  "title": "RegulatedAuthorizationCaseType",
+  "status": "draft",
+  "experimental": false,
+  "date": "2021-01-05T10:01:24+11:00",
+  "publisher": "HL7 (FHIR Project)",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://hl7.org/fhir"
+        },
+        {
+          "system": "email",
+          "value": "fhir@lists.hl7.org"
+        }
+      ]
+    }
+  ],
+  "caseSensitive": true,
+  "valueSet": "http://hl7.org/fhir/ValueSet/regulated-authorization-case-type",
+  "content": "complete",
+  "concept": [
+    {
+      "code": "InitialMAA",
+      "display": "Initial Marketing Authorisation Application"
+    },
+    {
+      "code": "Variation",
+      "display": "Variation"
+    },
+    {
+      "code": "LineExtension",
+      "display": "Line Extension"
+    },
+    {
+      "code": "PSUR",
+      "display": "Periodic Safety Update Report"
+    },
+    {
+      "code": "Renewal",
+      "display": "Renewal"
+    },
+    {
+      "code": "Follow-up",
+      "display": "Follow-up Measure"
+    },
+    {
+      "code": "100000155699",
+      "display": "Specific Obligation"
+    },
+    {
+      "code": "AnnualReassessment",
+      "display": "Annual Reassessment"
+    },
+    {
+      "code": "UrgentSafetyRestriction",
+      "display": "Urgent Safety Restriction"
+    },
+    {
+      "code": "PaediatricSubmission",
+      "display": "Paediatric Submission"
+    },
+    {
+      "code": "TransferMA",
+      "display": "Transfer of a marketing authorisation"
+    },
+    {
+      "code": "LiftingSuspension",
+      "display": "Lifting of a Suspension"
+    },
+    {
+      "code": "Withdrawal",
+      "display": "Withdrawal"
+    },
+    {
+      "code": "Reformatting",
+      "display": "Reformatting"
+    },
+    {
+      "code": "RMP",
+      "display": "Risk Management Plan"
+    },
+    {
+      "code": "ReviewSuspension",
+      "display": "Review of a Suspension of MA"
+    },
+    {
+      "code": "SupplementalInformation",
+      "display": "Supplemental Information"
+    },
+    {
+      "code": "RepeatUse",
+      "display": "Repeat Use Procedure"
+    },
+    {
+      "code": "SignalDetection",
+      "display": "Signal detection"
+    },
+    {
+      "code": "FLU",
+      "display": "FLU STRAIN UPDATE"
+    },
+    {
+      "code": "PANDEMIC",
+      "display": "PANDEMIC UPDATE"
+    },
+    {
+      "code": "Orphan",
+      "display": "Orphan Designation Application"
+    }
+  ]
+}

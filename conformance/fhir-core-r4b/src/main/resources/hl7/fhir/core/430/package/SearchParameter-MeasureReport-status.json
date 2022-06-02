@@ -1,0 +1,48 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "MeasureReport-status",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "normative"
+        },
+        {
+            "url": "http://ibm.com/fhir/extension/implicit-system",
+            "valueUri": "http://hl7.org/fhir/measure-report-status"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/MeasureReport-status",
+    "version": "4.3.0-cibuild",
+    "name": "status",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "Health Level Seven International (Clinical Quality Information)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/cqi/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "The status of the measure report",
+    "code": "status",
+    "base": [
+        "MeasureReport"
+    ],
+    "type": "token",
+    "expression": "MeasureReport.status",
+    "xpath": "f:MeasureReport/f:status",
+    "xpathUsage": "normal"
+}

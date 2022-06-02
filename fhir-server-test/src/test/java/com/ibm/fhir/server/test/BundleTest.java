@@ -108,8 +108,6 @@ public class BundleTest extends FHIRServerTestBase {
     private static final String PREFER_HEADER_RETURN_REPRESENTATION = "return=representation";
     private static final String PREFER_HEADER_NAME = "Prefer";
 
-    private static final String UPDATE_IF_MODIFIED_HEADER_NAME = "X-FHIR-UPDATE-IF-MODIFIED";
-
     /**
      * Retrieve the server's conformance statement to determine the status of
      * certain runtime options.
@@ -536,8 +534,8 @@ public class BundleTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Make a small change to each patient.
-        patientBVA2 = patientBVA2.toBuilder().active(com.ibm.fhir.model.type.Boolean.TRUE).build();
-        patientBVA1 = patientBVA1.toBuilder().active(com.ibm.fhir.model.type.Boolean.FALSE).build();
+        patientBVA2 = patientBVA2.toBuilder().deceased(true).build();
+        patientBVA1 = patientBVA1.toBuilder().deceased(false).build();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientBVA2.getId(), "W/\"1\"",
@@ -624,8 +622,8 @@ public class BundleTest extends FHIRServerTestBase {
         assertNotNull(patientVA1);
 
         // Make a small change to each patient.
-        patientVA2 = patientVA2.toBuilder().active(com.ibm.fhir.model.type.Boolean.TRUE).build();
-        patientVA1 = patientVA1.toBuilder().active(com.ibm.fhir.model.type.Boolean.FALSE).build();
+        patientVA2 = patientVA2.toBuilder().language(Code.of("en")).build();
+        patientVA1 = patientVA1.toBuilder().language(Code.of("en")).build();
 
         Bundle bundle = buildBundle(BundleType.BATCH);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientVA2.getId(), "W/\"1\"",
@@ -950,6 +948,11 @@ public class BundleTest extends FHIRServerTestBase {
     public void testBatchMixture() throws Exception {
         String method = "testBatchMixture";
         WebTarget target = getWebTarget();
+
+        // change at least one field so that the update below isn't skipped
+        patientB1 = patientB1.toBuilder()
+                .deceased(true)
+                .build();
 
         // Perform a mixture of request types.
         Bundle bundle = buildBundle(BundleType.BATCH);
@@ -2627,8 +2630,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         // Process bundle
         FHIRRequestHeader returnPref = FHIRRequestHeader.header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION);
-        FHIRRequestHeader updateOnlyIfModified = FHIRRequestHeader.header(UPDATE_IF_MODIFIED_HEADER_NAME, true);
-        FHIRResponse response = client.transaction(requestBundle, returnPref, updateOnlyIfModified);
+        FHIRResponse response = client.transaction(requestBundle, returnPref);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle = response.getResource(Bundle.class);
@@ -2658,7 +2660,7 @@ public class BundleTest extends FHIRServerTestBase {
                 .build();
 
         // Process bundle
-        FHIRResponse response2 = client.transaction(requestBundle, returnPref, updateOnlyIfModified);
+        FHIRResponse response2 = client.transaction(requestBundle, returnPref);
         assertNotNull(response2);
         assertResponse(response2.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle2 = response2.getResource(Bundle.class);
@@ -2706,7 +2708,7 @@ public class BundleTest extends FHIRServerTestBase {
                 .build();
 
         // Process the bundle request and check that the patch was skipped
-        FHIRResponse response3 = client.transaction(requestBundle, returnPref, updateOnlyIfModified);
+        FHIRResponse response3 = client.transaction(requestBundle, returnPref);
         assertNotNull(response3);
         assertResponse(response3.getResponse(), Response.Status.OK.getStatusCode());
         Bundle responseBundle3 = response3.getResource(Bundle.class);

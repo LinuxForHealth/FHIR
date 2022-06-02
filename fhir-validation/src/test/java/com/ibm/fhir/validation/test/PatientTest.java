@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,11 +40,6 @@ import com.ibm.fhir.validation.FHIRValidator;
 
 /**
  * Demonstrates the Creation of a Patient and Subsequent validation against the specification.
- * 
- * Further, shows how to add ID/META inline.
- * 
- * @author pbastide
- *
  */
 public class PatientTest {
 
@@ -56,12 +51,26 @@ public class PatientTest {
 
     @Test
     public void testUnknownExtensions() {
-        com.ibm.fhir.model.type.String given =
-                com.ibm.fhir.model.type.String.builder().value("John").extension(Extension.builder().url("http://www.ibm.com/someExtension").value(string("value and extension")).build()).build();
-        com.ibm.fhir.model.type.String otherGiven =
-                com.ibm.fhir.model.type.String.builder().extension(Extension.builder().url("http://www.ibm.com/someExtension").value(string("extension only")).build()).build();
-        HumanName name =
-                HumanName.builder().id("someId").given(given).given(otherGiven).given(string("value no extension")).family(string("Doe")).build();
+        com.ibm.fhir.model.type.String given = com.ibm.fhir.model.type.String.builder()
+                .value("John")
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")
+                    .value(string("value and extension"))
+                    .build())
+                .build();
+        com.ibm.fhir.model.type.String otherGiven = com.ibm.fhir.model.type.String.builder()
+                .extension(Extension.builder()
+                    .url("http://www.ibm.com/someExtension")
+                    .value(string("extension only"))
+                    .build())
+                .build();
+        HumanName name = HumanName.builder()
+                .id("someId")
+                .given(given)
+                .given(otherGiven)
+                .given(string("value no extension"))
+                .family(string("Doe"))
+                .build();
 
         Patient p = buildTestPatient().toBuilder().name(name).build();
         checkForIssuesWithValidation(p, false, true);
@@ -69,25 +78,42 @@ public class PatientTest {
 
     @Test
     public void testWarningFromExtensibleBindingOnBaseField() {
-        CodeableConcept maritalStatus =
-                CodeableConcept.builder().coding(Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/v3-MaritalStatus")).code(Code.of("INVALID")).build()).build();
+        CodeableConcept maritalStatus = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"))
+                    .code(Code.of("INVALID"))
+                    .build())
+                .build();
         Patient p = buildTestPatient().toBuilder().maritalStatus(maritalStatus).build();
         checkForIssuesWithValidation(p, false, true);
     }
 
     @Test
     public void testWarningFromExtensibleBindingOnSubField() {
-        CodeableConcept relationship =
-                CodeableConcept.builder().coding(Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/INVALID")).code(Code.of("C")).build()).build();
-        Contact contact =
-                Contact.builder().name(HumanName.builder().text(com.ibm.fhir.model.type.String.of("Name")).build()).relationship(relationship).build();
+        CodeableConcept relationship = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/INVALID"))
+                    .code(Code.of("C"))
+                    .build())
+                .build();
+        Contact contact = Contact.builder()
+                .name(HumanName.builder()
+                    .text(com.ibm.fhir.model.type.String.of("Name"))
+                    .build())
+                .relationship(relationship)
+                .build();
         Patient p = buildTestPatient().toBuilder().contact(Collections.singleton(contact)).build();
         checkForIssuesWithValidation(p, false, true);
     }
 
     @Test
     public void testWarningFromPreferredBinding() {
-        CodeableConcept language = CodeableConcept.builder().coding(Coding.builder().system(Uri.of("urn:ietf:bcp:47")).code(Code.of("tlh")).build()).build();
+        CodeableConcept language = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of("urn:ietf:bcp:47"))
+                    .code(Code.of("tlh"))
+                    .build())
+                .build();
         Communication communication = Communication.builder().language(language).build();
         Patient p = buildTestPatient().toBuilder().communication(Collections.singleton(communication)).build();
         checkForIssuesWithValidation(p, false, true);
@@ -96,8 +122,12 @@ public class PatientTest {
     @Test
     public void testExceptionFromRequiredBinding() {
         try {
-            CodeableConcept language =
-                    CodeableConcept.builder().coding(Coding.builder().system(Uri.of("urn:ietf:bcp:47")).code(Code.of("completelyInvalid")).build()).build();
+            CodeableConcept language = CodeableConcept.builder()
+                    .coding(Coding.builder()
+                        .system(Uri.of("urn:ietf:bcp:47"))
+                        .code(Code.of("completelyInvalid"))
+                        .build())
+                    .build();
             Communication.builder().language(language).build();
             fail();
         } catch (IllegalStateException e) {
@@ -106,37 +136,66 @@ public class PatientTest {
 
     /**
      * Builds a valid Patient.
-     * 
+     *
      * @return a valid Patient
      */
     public static Patient buildTestPatient() {
         String id = UUID.randomUUID().toString();
 
-        Meta meta =
-                Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now(ZoneOffset.UTC)).build();
+        Meta meta = Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now(ZoneOffset.UTC)).build();
 
         java.lang.String uUID = UUID.randomUUID().toString();
 
-        Reference providerRef =
-                Reference.builder().reference(string("urn:uuid:" + uUID)).build();
+        Reference providerRef = Reference.builder().reference(string("urn:uuid:" + uUID)).build();
 
-        CodeableConcept maritalStatus =
-                CodeableConcept.builder().coding(Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/v3-MaritalStatus")).code(Code.of("M")).build()).build();
+        CodeableConcept maritalStatus = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/v3-MaritalStatus"))
+                    .code(Code.of("M"))
+                    .build())
+                .build();
 
-        CodeableConcept relationship =
-                CodeableConcept.builder().coding(Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/v2-0131")).code(Code.of("C")).build()).build();
-        Contact contact =
-                Contact.builder().name(HumanName.builder().text(com.ibm.fhir.model.type.String.of("Name")).build()).relationship(relationship).build();
+        CodeableConcept relationship = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of("http://terminology.hl7.org/CodeSystem/v2-0131"))
+                    .code(Code.of("C"))
+                    .build())
+                .build();
+        Contact contact = Contact.builder()
+                .name(HumanName.builder()
+                    .text(com.ibm.fhir.model.type.String.of("Name"))
+                    .build())
+                .relationship(relationship)
+                .build();
 
-        CodeableConcept language = CodeableConcept.builder().coding(Coding.builder().system(Uri.of("urn:ietf:bcp:47")).code(Code.of("en-US")).build()).build();
+        CodeableConcept language = CodeableConcept.builder()
+                .coding(Coding.builder()
+                    .system(Uri.of("urn:ietf:bcp:47"))
+                    .code(Code.of("en-US"))
+                    .build())
+                .build();
         Communication communication = Communication.builder().language(language).build();
 
-        return Patient.builder().id(id).active(com.ibm.fhir.model.type.Boolean.TRUE).multipleBirth(com.ibm.fhir.model.type.Integer.of(2)).meta(meta).birthDate(Date.of(LocalDate.now())).maritalStatus(maritalStatus).contact(contact).communication(communication).generalPractitioner(providerRef).text(Narrative.builder().div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>")).status(NarrativeStatus.GENERATED).build()).build();
+        return Patient.builder()
+                .id(id)
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .multipleBirth(com.ibm.fhir.model.type.Integer.of(2))
+                .meta(meta)
+                .birthDate(Date.of(LocalDate.now()))
+                .maritalStatus(maritalStatus)
+                .contact(contact)
+                .communication(communication)
+                .generalPractitioner(providerRef)
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">loaded from the datastore</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
     }
 
     /**
      * Checks for validation issues.
-     * 
+     *
      * @param resource
      *            the resource
      * @param errorsExpected

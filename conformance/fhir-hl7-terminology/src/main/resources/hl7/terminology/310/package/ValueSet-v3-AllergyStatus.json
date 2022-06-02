@@ -1,0 +1,40 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-AllergyStatus",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-AllergyStatus",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.20559"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "AllergyStatus",
+    "title": "Allergy Status",
+    "status": "active",
+    "date": "2019-03-20",
+    "description": "The clinical status of an allergy disposition (Clinical Focus)\r\n\r\nUsed in Program: C-CDA, C-CDA R2.1 2017-06-09 using this value set",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "413322009"
+                    },
+                    {
+                        "code": "55561003"
+                    },
+                    {
+                        "code": "73425007"
+                    }
+                ]
+            }
+        ]
+    }
+}

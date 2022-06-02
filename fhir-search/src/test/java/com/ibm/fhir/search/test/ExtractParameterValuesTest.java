@@ -11,10 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -28,18 +26,8 @@ import com.ibm.fhir.search.test.ExtractorValidator.Builder;
 
 /**
  * Extract Parameter Values Test
- *
- * @author pbastide
- *
  */
 public class ExtractParameterValuesTest extends BaseSearchTest {
-
-    @Override
-    @BeforeClass
-    public void setup() {
-        FHIRConfiguration.setConfigHome("target/test-classes");
-    }
-
     /**
      * run test
      *

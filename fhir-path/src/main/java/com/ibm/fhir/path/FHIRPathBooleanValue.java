@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -74,6 +74,8 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractSystemValue {
     /**
      * Static factory method for creating named FHIRPathBooleanValue instances from a {@link Boolean} value
      *
+     * @param path
+     *     the path of the FHIRPathNode
      * @param name
      *    the name
      * @param _boolean
@@ -81,8 +83,8 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractSystemValue {
      * @return
      *    a new named FHIRPathBooleanValue instance
      */
-    public static FHIRPathBooleanValue booleanValue(String name, Boolean _boolean) {
-        return FHIRPathBooleanValue.builder(_boolean).name(name).build();
+    public static FHIRPathBooleanValue booleanValue(String path, String name, Boolean _boolean) {
+        return FHIRPathBooleanValue.builder(_boolean).name(name).path(path).build();
     }
 
     @Override

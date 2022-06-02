@@ -1,0 +1,44 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "ClinicalUseDefinition-contraindication-reference",
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        }
+    ],
+    "url": "http://hl7.org/fhir/SearchParameter/ClinicalUseDefinition-contraindication-reference",
+    "version": "4.3.0-cibuild",
+    "name": "contraindication-reference",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-04-23T22:21:35Z",
+    "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        },
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/rcrim/index.cfm"
+                }
+            ]
+        }
+    ],
+    "description": "The situation that is being documented as contraindicating against this item, as a reference",
+    "code": "contraindication-reference",
+    "base": [
+        "ClinicalUseDefinition"
+    ],
+    "type": "reference",
+    "expression": "ClinicalUseDefinition.contraindication.diseaseSymptomProcedure",
+    "xpath": "f:ClinicalUseDefinition/f:contraindication/f:diseaseSymptomProcedure",
+    "xpathUsage": "normal"
+}

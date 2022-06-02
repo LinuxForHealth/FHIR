@@ -1,0 +1,112 @@
+{
+    "resourceType": "ValueSet",
+    "id": "audit-source-type",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "sec"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/audit-source-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.466"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "AuditEventSourceType",
+    "title": "Audit Event Source Type",
+    "status": "active",
+    "experimental": false,
+    "date": "2010-08-26",
+    "publisher": "NEMA/DICOM",
+    "description": "The type of process where the audit event originated from.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/security-source-type"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:e1ddc71b-d313-4b07-8efe-3aafcf9bec09",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 9,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://terminology.hl7.org/CodeSystem/security-source-type|4.3.0-cibuild"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/security-source-type",
+                "code": "1",
+                "display": "User Device"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/security-source-type",
+                "code": "2",
+                "display": "Data Interface"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/security-source-type",
+                "code": "3",
+                "display": "Web Server"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/security-source-type",
+                "code": "4",
+                "display": "Application Server"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/security-source-type",
+                "code": "5",
+                "display": "Database Server"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/security-source-type",
+                "code": "6",
+                "display": "Security Server"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/security-source-type",
+                "code": "7",
+                "display": "Network Device"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/security-source-type",
+                "code": "8",
+                "display": "Network Router"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/security-source-type",
+                "code": "9",
+                "display": "Other"
+            }
+        ]
+    }
+}

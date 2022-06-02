@@ -3,7 +3,7 @@
   "id": "example-genetics-3",
   "text": {
     "status": "generated",
-    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative with Details\u003c/b\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eid\u003c/b\u003e: example-genetics-3\u003c/p\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: final\u003c/p\u003e\u003cp\u003e\u003cb\u003ecode\u003c/b\u003e: Further analysis \u003cspan\u003e(Details )\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003esubject\u003c/b\u003e: \u003ca\u003eMolecular Lab Patient ID: HOSP-23456\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003eissued\u003c/b\u003e: 03/04/2013 3:30:10 PM\u003c/p\u003e\u003cp\u003e\u003cb\u003eperformer\u003c/b\u003e: \u003ca\u003eSequence Analysis Laboratory\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003enote\u003c/b\u003e: The EGFR p.L858R mutation has been associated with response to anti-EGFR therapy\u003c/p\u003e\u003cp\u003e\u003cb\u003ederivedFrom\u003c/b\u003e: \u003ca\u003eObservationForGenetics profile example 1\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
+    "div": "\u003cdiv xmlns\u003d\"http://www.w3.org/1999/xhtml\"\u003e\u003cp\u003e\u003cb\u003eGenerated Narrative\u003c/b\u003e\u003c/p\u003e\u003cdiv style\u003d\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"\u003e\u003cp style\u003d\"margin-bottom: 0px\"\u003eResource \u0026quot;example-genetics-3\u0026quot; \u003c/p\u003e\u003c/div\u003e\u003cp\u003e\u003cb\u003estatus\u003c/b\u003e: final\u003c/p\u003e\u003cp\u003e\u003cb\u003ecode\u003c/b\u003e: Further analysis \u003cspan style\u003d\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"\u003e ()\u003c/span\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003esubject\u003c/b\u003e: \u003ca href\u003d\"patient-example.html\"\u003ePatient/example: Molecular Lab Patient ID: HOSP-23456\u003c/a\u003e \u0026quot;Peter CHALMERS\u0026quot;\u003c/p\u003e\u003cp\u003e\u003cb\u003eeffective\u003c/b\u003e: 2013-04-03T15:30:10+01:00\u003c/p\u003e\u003cp\u003e\u003cb\u003eperformer\u003c/b\u003e: \u003ca href\u003d\"practitioner-example.html\"\u003ePractitioner/example: Sequence Analysis Laboratory\u003c/a\u003e \u0026quot;Adam CAREFUL\u0026quot;\u003c/p\u003e\u003cp\u003e\u003cb\u003enote\u003c/b\u003e: The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. The EGFR p.L858R mutation has been associated with response to anti-EGFR therapy\u003c/p\u003e\u003cp\u003e\u003cb\u003edevice\u003c/b\u003e: \u003ca href\u003d\"device-example.html\"\u003eDevice/example\u003c/a\u003e\u003c/p\u003e\u003cp\u003e\u003cb\u003ederivedFrom\u003c/b\u003e: \u003ca href\u003d\"observation-example-genetics-1.html\"\u003eObservation/example-genetics-1: ObservationForGenetics profile example 1\u003c/a\u003e\u003c/p\u003e\u003c/div\u003e"
   },
   "status": "final",
   "code": {
@@ -13,7 +13,7 @@
     "reference": "Patient/example",
     "display": "Molecular Lab Patient ID: HOSP-23456"
   },
-  "issued": "2013-04-03T15:30:10+01:00",
+  "effectiveDateTime": "2013-04-03T15:30:10+01:00",
   "performer": [
     {
       "reference": "Practitioner/example",
@@ -22,9 +22,12 @@
   ],
   "note": [
     {
-      "text": "The EGFR p.L858R mutation has been associated with response to anti-EGFR therapy"
+      "text": "The material on this page will be removed in a future release. This content is deprecated and SHOULD NOT be used. Implementers are instead directed to the ([Genomics Reporting Implementation Guide](http://hl7.org/fhir/uv/genomics-reporting/index.html)) for guidance. The EGFR p.L858R mutation has been associated with response to anti-EGFR therapy"
     }
   ],
+  "device": {
+    "reference": "Device/example"
+  },
   "derivedFrom": [
     {
       "reference": "Observation/example-genetics-1",

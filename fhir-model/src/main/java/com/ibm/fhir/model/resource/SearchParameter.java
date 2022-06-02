@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,7 +35,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.PublicationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
 import com.ibm.fhir.model.type.code.SearchComparator;
 import com.ibm.fhir.model.type.code.SearchModifierCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
@@ -58,7 +58,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    expression = "name.exists() implies name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
     source = "http://hl7.org/fhir/StructureDefinition/SearchParameter"
 )
 @Constraint(
@@ -102,7 +102,7 @@ public class SearchParameter extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
     )
     @Required
     private final PublicationStatus status;
@@ -136,16 +136,16 @@ public class SearchParameter extends DomainResource {
         bindingName = "ResourceType",
         strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
-        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
     )
     @Required
-    private final List<ResourceType> base;
+    private final List<ResourceTypeCode> base;
     @Summary
     @Binding(
         bindingName = "SearchParamType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Data types allowed to be used for search parameters.",
-        valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.3.0-cibuild"
     )
     @Required
     private final SearchParamType type;
@@ -155,30 +155,30 @@ public class SearchParameter extends DomainResource {
         bindingName = "XPathUsageType",
         strength = BindingStrength.Value.REQUIRED,
         description = "How a search parameter relates to the set of elements returned by evaluating its xpath query.",
-        valueSet = "http://hl7.org/fhir/ValueSet/search-xpath-usage|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/search-xpath-usage|4.3.0-cibuild"
     )
     private final XPathUsageType xpathUsage;
     @Binding(
         bindingName = "ResourceType",
         strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
-        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
     )
-    private final List<ResourceType> target;
+    private final List<ResourceTypeCode> target;
     private final Boolean multipleOr;
     private final Boolean multipleAnd;
     @Binding(
         bindingName = "SearchComparator",
         strength = BindingStrength.Value.REQUIRED,
         description = "What Search Comparator Codes are supported in search.",
-        valueSet = "http://hl7.org/fhir/ValueSet/search-comparator|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/search-comparator|4.3.0-cibuild"
     )
     private final List<SearchComparator> comparator;
     @Binding(
         bindingName = "SearchModifierCode",
         strength = BindingStrength.Value.REQUIRED,
         description = "A supported modifier for a search parameter.",
-        valueSet = "http://hl7.org/fhir/ValueSet/search-modifier-code|4.0.1"
+        valueSet = "http://hl7.org/fhir/ValueSet/search-modifier-code|4.3.0-cibuild"
     )
     private final List<SearchModifierCode> modifier;
     private final List<String> chain;
@@ -372,9 +372,9 @@ public class SearchParameter extends DomainResource {
      * The base resource type(s) that this search parameter can be used against.
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ResourceType} that is non-empty.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceTypeCode} that is non-empty.
      */
-    public List<ResourceType> getBase() {
+    public List<ResourceTypeCode> getBase() {
         return base;
     }
 
@@ -422,9 +422,9 @@ public class SearchParameter extends DomainResource {
      * Types of resource (if a resource is referenced).
      * 
      * @return
-     *     An unmodifiable list containing immutable objects of type {@link ResourceType} that may be empty.
+     *     An unmodifiable list containing immutable objects of type {@link ResourceTypeCode} that may be empty.
      */
-    public List<ResourceType> getTarget() {
+    public List<ResourceTypeCode> getTarget() {
         return target;
     }
 
@@ -552,12 +552,12 @@ public class SearchParameter extends DomainResource {
                 accept(jurisdiction, "jurisdiction", visitor, CodeableConcept.class);
                 accept(purpose, "purpose", visitor);
                 accept(code, "code", visitor);
-                accept(base, "base", visitor, ResourceType.class);
+                accept(base, "base", visitor, ResourceTypeCode.class);
                 accept(type, "type", visitor);
                 accept(expression, "expression", visitor);
                 accept(xpath, "xpath", visitor);
                 accept(xpathUsage, "xpathUsage", visitor);
-                accept(target, "target", visitor, ResourceType.class);
+                accept(target, "target", visitor, ResourceTypeCode.class);
                 accept(multipleOr, "multipleOr", visitor);
                 accept(multipleAnd, "multipleAnd", visitor);
                 accept(comparator, "comparator", visitor, SearchComparator.class);
@@ -685,12 +685,12 @@ public class SearchParameter extends DomainResource {
         private List<CodeableConcept> jurisdiction = new ArrayList<>();
         private Markdown purpose;
         private Code code;
-        private List<ResourceType> base = new ArrayList<>();
+        private List<ResourceTypeCode> base = new ArrayList<>();
         private SearchParamType type;
         private String expression;
         private String xpath;
         private XPathUsageType xpathUsage;
-        private List<ResourceType> target = new ArrayList<>();
+        private List<ResourceTypeCode> target = new ArrayList<>();
         private Boolean multipleOr;
         private Boolean multipleAnd;
         private List<SearchComparator> comparator = new ArrayList<>();
@@ -1290,8 +1290,8 @@ public class SearchParameter extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder base(ResourceType... base) {
-            for (ResourceType value : base) {
+        public Builder base(ResourceTypeCode... base) {
+            for (ResourceTypeCode value : base) {
                 this.base.add(value);
             }
             return this;
@@ -1314,7 +1314,7 @@ public class SearchParameter extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder base(Collection<ResourceType> base) {
+        public Builder base(Collection<ResourceTypeCode> base) {
             this.base = new ArrayList<>(base);
             return this;
         }
@@ -1421,8 +1421,8 @@ public class SearchParameter extends DomainResource {
          * @return
          *     A reference to this Builder instance
          */
-        public Builder target(ResourceType... target) {
-            for (ResourceType value : target) {
+        public Builder target(ResourceTypeCode... target) {
+            for (ResourceTypeCode value : target) {
                 this.target.add(value);
             }
             return this;
@@ -1443,7 +1443,7 @@ public class SearchParameter extends DomainResource {
          * @throws NullPointerException
          *     If the passed collection is null
          */
-        public Builder target(Collection<ResourceType> target) {
+        public Builder target(Collection<ResourceTypeCode> target) {
             this.target = new ArrayList<>(target);
             return this;
         }
@@ -1731,9 +1731,9 @@ public class SearchParameter extends DomainResource {
             ValidationSupport.checkList(searchParameter.useContext, "useContext", UsageContext.class);
             ValidationSupport.checkList(searchParameter.jurisdiction, "jurisdiction", CodeableConcept.class);
             ValidationSupport.requireNonNull(searchParameter.code, "code");
-            ValidationSupport.checkNonEmptyList(searchParameter.base, "base", ResourceType.class);
+            ValidationSupport.checkNonEmptyList(searchParameter.base, "base", ResourceTypeCode.class);
             ValidationSupport.requireNonNull(searchParameter.type, "type");
-            ValidationSupport.checkList(searchParameter.target, "target", ResourceType.class);
+            ValidationSupport.checkList(searchParameter.target, "target", ResourceTypeCode.class);
             ValidationSupport.checkList(searchParameter.comparator, "comparator", SearchComparator.class);
             ValidationSupport.checkList(searchParameter.modifier, "modifier", SearchModifierCode.class);
             ValidationSupport.checkList(searchParameter.chain, "chain", String.class);

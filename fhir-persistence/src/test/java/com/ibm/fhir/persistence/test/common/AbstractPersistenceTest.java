@@ -26,6 +26,8 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
+import com.ibm.fhir.config.DefaultFHIRConfigProvider;
+import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
@@ -37,7 +39,6 @@ import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.util.FHIRPersistenceTestSupport;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -72,7 +73,7 @@ public abstract class AbstractPersistenceTest {
     protected static SearchHelper searchHelper;
 
     // Each concrete subclass needs to implement this to obtain the appropriate persistence layer instance.
-    protected abstract FHIRPersistence getPersistenceImpl() throws Exception;
+    protected abstract FHIRPersistence getPersistenceImpl(FHIRConfigProvider configProvider, SearchHelper searchHelper) throws Exception;
 
     // A hook for subclasses to override and provide specific test database setup functionality if required.
     protected void bootstrapDatabase() throws Exception {}
@@ -112,11 +113,11 @@ public abstract class AbstractPersistenceTest {
     @BeforeClass(alwaysRun = true)
     public void setUp() throws Exception {
         bootstrapDatabase();
-        persistence = getPersistenceImpl();
         // Note: this assumes that the concrete test classes will be in a project that is peer to the fhir-persistence module
         // TODO: it would be better for our unit tests if we could load config files from the classpath
         FHIRConfiguration.setConfigHome("../fhir-persistence/target/test-classes");
         searchHelper = new SearchHelper();
+        persistence = getPersistenceImpl(new DefaultFHIRConfigProvider(), searchHelper);
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -125,7 +126,6 @@ public abstract class AbstractPersistenceTest {
         FHIRRequestContext context = FHIRRequestContext.get();
         context.setOriginalRequestUri(BASE);
 
-        FHIRRequestContext.set(context);
         if (persistence != null && persistence.isTransactional()) {
             persistence.getTransaction().begin();
         }
@@ -279,11 +279,12 @@ public abstract class AbstractPersistenceTest {
     }
 
     /**
-     * Soft delete the resource
+     * Soft delete the resource in a manner that is mostly-consistent with the REST layer.
+     *
      * @param <T>
      * @param context
      * @param resource
-     * @throws FHIRPersistenceException
+     * @throws FHIRPersistenceException if the resource was not found, but not if it was previously deleted.
      */
     protected <T extends Resource> void delete(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
         // before attempting the delete, we need to make sure the resource actually exists
@@ -291,9 +292,14 @@ public abstract class AbstractPersistenceTest {
         Class<? extends Resource> resourceType = resource.getClass();
         SingleResourceResult<? extends Resource> srr = persistence.read(context, resourceType, resource.getId());
 
+        // If its already deleted, then nothing to do
+        if (srr.isDeleted()) {
+            return;
+        }
+
         // If we weren't able to read the resource, we need to bail on the delete, just like the FHIRRestHelper.
         if (srr.getResource() == null) {
-            throw new FHIRPersistenceResourceNotFoundException("Resource '"
+            throw new FHIRPersistenceException("Resource '"
                     + resourceType.getSimpleName() + "/" + resource.getId() + "' not found.");
         }
 

@@ -484,11 +484,11 @@ Avoiding these unnecessary updates is important for two reasons:
 1. ingestion performance (each update performs work in the database)
 2. database size (each version of each resource is stored in the database)
 
-The HL7 FHIR specification includes experimental support for both [conditional create](https://www.hl7.org/fhir/R4/http.html#ccreate) and [conditional update](https://www.hl7.org/fhir/R4/http.html#cond-update) and the IBM FHIR server implements each of these. However, this approach suffers multiple issues:
+The HL7 FHIR specification defines experimental support for both [conditional create](https://www.hl7.org/fhir/R4/http.html#ccreate) and [conditional update](https://www.hl7.org/fhir/R4/http.html#cond-update) and the IBM FHIR server implements each of these. However, this approach suffers multiple issues:
 1. each update must perform a search which can be more costly than simply performing read before the update
 2. conditional requests require intricate locking techniques to avoid race conditions and the currently-implemented approach has [significant limitations](https://github.com/IBM/FHIR/issues/2051)
 
-Instead, IBM FHIR Server version 4.7.1 introduces support for a server-enabled optimization to avoid performing unnecessary updates. When users pass the `X-FHIR-UPDATE-IF-MODIFIED` header with a value of `true`, the server will perform a comparison of the resource contents from the update with the contents of the resource in the database.
+Instead, IBM FHIR Server version 4.7.1 introduces support for a server-enabled optimization to avoid performing unnecessary updates. The server will only create a new resource version if the resource contents from the update differ from the contents of the resource in the database.
 
 Two resources will be considered equivalent based on the following criteria:
 * whitespace between the resource elements (both XML and JSON) is ignored
@@ -497,6 +497,9 @@ Two resources will be considered equivalent based on the following criteria:
 
 When the update is skipped, the response will contain a Location header that points to the *existing* resource version (e.g. `[base]/Patient/1234/_history/1`) instead of a newly created instance of this resource (`[base]/Patient/1234/_history/2`) and the response body will be sent according to the client's [return preference](https://www.hl7.org/fhir/R4/http.html#ops).
 If the client indicates a return preference of OperationOutcome and the update is skipped on the server, the response will contain an informational issue to indicate this case.
+
+To opt out of this optimization, users can force the server to perform an update by setting an
+HTTP header named `X-FHIR-FORCE-UPDATE` to "true".
 
 # 6. Client Access Scenarios
 

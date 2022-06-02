@@ -1,0 +1,1695 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v2-0440",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "inm"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/v2-0440",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.18.280"
+        }
+    ],
+    "version": "2.4.0",
+    "name": "DataTypes",
+    "title": "dataTypes",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-12-01",
+    "publisher": "HL7, Inc",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/"
+                }
+            ]
+        }
+    ],
+    "description": "HL7-defined code system of concepts specifying the format of the observation value in the Observation Result (OBX).   Used in HL7 Version 2.x messaging in the OBX, OM1, OM3 and OMC segments.",
+    "purpose": "Underlying Master Code System for V2 table 0440 (Data Types)",
+    "copyright": "Copyright HL7. Licensed under creative commons public domain",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/v2-0440",
+    "hierarchyMeaning": "is-a",
+    "compositional": false,
+    "versionNeeded": false,
+    "content": "complete",
+    "property": [
+        {
+            "code": "status",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#status",
+            "description": "Status of the concept",
+            "type": "code"
+        },
+        {
+            "code": "deprecated",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-table-deprecated",
+            "description": "Version of HL7 in which the code was deprecated",
+            "type": "code"
+        },
+        {
+            "code": "v2-concComment",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concComment",
+            "description": "V2 Concept Comment",
+            "type": "string"
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v2-concCommentAsPub",
+            "description": "V2 Concept Comment As Published",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "id": "4687",
+            "code": "AD",
+            "display": "Address",
+            "definition": "Address",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaced by XAD as of v 2.3"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaced by XAD as of v 2.3"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4688",
+            "code": "AUI",
+            "display": "Authorization information",
+            "definition": "Authorization information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in sections 6.5.6.14 IN1-14, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in sections 6.5.6.14 IN1-14, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4689",
+            "code": "CCD",
+            "display": "Charge code and date",
+            "definition": "Charge code and date",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in section 4.5.2.1 BLG-1, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in section 4.5.2.1 BLG-1, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4690",
+            "code": "CCP",
+            "display": "Channel calibration parameters",
+            "definition": "Channel calibration parameters",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in 7.14.1.5 OBX-5.3 where OBX-5Observation value (*) is data type CD as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in 7.14.1.5 OBX-5.3 where OBX-5Observation value (*) is data type CD as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4691",
+            "code": "CD",
+            "display": "Channel definition",
+            "definition": "Channel definition",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For waveform data only;."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "For waveform data only;."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4692",
+            "code": "CE",
+            "display": "Coded element",
+            "definition": "Coded element",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4693",
+            "code": "CF",
+            "display": "Coded element with formatted values",
+            "definition": "Coded element with formatted values",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4694",
+            "code": "CK",
+            "display": "Composite ID with check digit",
+            "definition": "Composite ID with check digit",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4695",
+            "code": "CM",
+            "display": "Composite",
+            "definition": "Composite",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WITHDRAWN Replaced by numerous new unambiguous data types in v 2.5"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "WITHDRAWN Replaced by numerous new unambiguous data types in v 2.5"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4696",
+            "code": "CN",
+            "display": "Composite ID number and name",
+            "definition": "Composite ID number and name",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WITHDRAWN. Replaced by XCN as of v 2.3"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "WITHDRAWN. Replaced by XCN as of v 2.3"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4697",
+            "code": "CNE",
+            "display": "Coded with no exceptions",
+            "definition": "Coded with no exceptions",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4698",
+            "code": "CNS",
+            "display": "Composite ID number and name simplified",
+            "definition": "Composite ID number and name simplified",
+            "property": [
+                {
+                    "code": "deprecated",
+                    "valueCode": "2.9"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4699",
+            "code": "CNN",
+            "display": "Composite ID number and name simplified",
+            "definition": "Composite ID number and name simplified",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Restores the original data type CN as was initially implementable in the CM used in sections 4.5.3.32 and 7.4.1.32-(OBR-32), 4.5.3.33 and 7.4.1.33 - (OBR-33) 4.5.3.34 and 7.4.1.34 - (OBR-34) 4.5.3.35 and 7.4.1.35 - (OBR-35). Components 7 and 8, however, have been promoted to data type IS to be consistent with current practice without violating backward compatibility."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Restores the original data type CN as was initially implementable in the CM used in sections 4.5.3.32 and 7.4.1.32-(OBR-32), 4.5.3.33 and 7.4.1.33 - (OBR-33) 4.5.3.34 and 7.4.1.34 - (OBR-34) 4.5.3.35 and 7.4.1.35 - (OBR-35). Components 7 and 8, however, have been promoted to data type IS to be consistent with current practice without violating backward compatibility."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4700",
+            "code": "CP",
+            "display": "Composite price",
+            "definition": "Composite price",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4701",
+            "code": "CQ",
+            "display": "Composite quantity with units",
+            "definition": "Composite quantity with units",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "CQ cannot be legally expressed when embedded within another data type. Its use is constrained to a segment field."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "CQ cannot be legally expressed when embedded within another data type. Its use is constrained to a segment field."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4702",
+            "code": "CSU",
+            "display": "Channel sensitivity and units",
+            "definition": "Channel sensitivity and units",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in 7.14.1.5 OBX-5.3 where OBX-5Observation value (*) is data type CD as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in 7.14.1.5 OBX-5.3 where OBX-5Observation value (*) is data type CD as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4703",
+            "code": "CWE",
+            "display": "Coded with exceptions",
+            "definition": "Coded with exceptions",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4704",
+            "code": "CX",
+            "display": "Extended composite ID with check digit",
+            "definition": "Extended composite ID with check digit",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4705",
+            "code": "DDI",
+            "display": "Daily deductible information",
+            "definition": "Daily deductible information",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in section 6.5.7.30  IN2-30, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in section 6.5.7.30  IN2-30, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4706",
+            "code": "DIN",
+            "display": "Date and institution name",
+            "definition": "Date and institution name",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in sections 15.4.6.12 STF-12 and 15.4.6.14 STF-13, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in sections 15.4.6.12 STF-12 and 15.4.6.14 STF-13, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4707",
+            "code": "DLD",
+            "display": "Discharge to location and date",
+            "definition": "Discharge to location and date",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in section 8.8.4.9 - OM2-9, as of v 2.5"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in section 8.8.4.9 - OM2-9, as of v 2.5"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4708",
+            "code": "DLN",
+            "display": "Driver's license number",
+            "definition": "Driver's license number",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4709",
+            "code": "DLT",
+            "display": "Delta",
+            "definition": "Delta",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4710",
+            "code": "DR",
+            "display": "Date/time range",
+            "definition": "Date/time range",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4711",
+            "code": "DT",
+            "display": "Date",
+            "definition": "Date",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4712",
+            "code": "DTM",
+            "display": "Date/time",
+            "definition": "Date/time",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4713",
+            "code": "DTN",
+            "display": "Day type and number",
+            "definition": "Day type and number",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in section 6.5.8.11  IN3-11, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in section 6.5.8.11  IN3-11, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4714",
+            "code": "ED",
+            "display": "Encapsulated data",
+            "definition": "Encapsulated data",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Supports ASCII MIME-encoding of binary data."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Supports ASCII MIME-encoding of binary data."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4715",
+            "code": "EI",
+            "display": "Entity identifier",
+            "definition": "Entity identifier",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4716",
+            "code": "EIP",
+            "display": "Entity identifier pair",
+            "definition": "Entity identifier pair",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in sections 4.5.1.8 - ORC-8, 4.5.3.29 - OBR-29, 7.3.1.29 - OBR-29, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in sections 4.5.1.8 - ORC-8, 4.5.3.29 - OBR-29, 7.3.1.29 - OBR-29, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4717",
+            "code": "ELD",
+            "display": "Error location and description",
+            "definition": "Error location and description",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4718",
+            "code": "ERL",
+            "display": "Error location",
+            "definition": "Error location",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4719",
+            "code": "FC",
+            "display": "Financial class",
+            "definition": "Financial class",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4720",
+            "code": "FN",
+            "display": "Family name",
+            "definition": "Family name",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Appears ONLY in the PPN, XCN, and XPN."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Appears ONLY in the PPN, XCN, and XPN."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4721",
+            "code": "FT",
+            "display": "Formatted text",
+            "definition": "Formatted text",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4722",
+            "code": "GTS",
+            "display": "General timing specification",
+            "definition": "General timing specification",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4723",
+            "code": "HD",
+            "display": "Hierarchic designator",
+            "definition": "Hierarchic designator",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4724",
+            "code": "ICD",
+            "display": "Insurance certification definition",
+            "definition": "Insurance certification definition",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in section 6.5.8.20  IN3-20, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in section 6.5.8.20  IN3-20, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4725",
+            "code": "ID",
+            "display": "Coded values for HL7 tables",
+            "definition": "Coded values for HL7 tables",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4726",
+            "code": "IS",
+            "display": "Coded value for user-defined tables",
+            "definition": "Coded value for user-defined tables",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4727",
+            "code": "JCC",
+            "display": "Job code/class",
+            "definition": "Job code/class",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4728",
+            "code": "LA1",
+            "display": "Location with address variation 1",
+            "definition": "Location with address variation 1",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Datatype has been withdrawn from the Standard; the segments RXO-8 and RXE-8 were deprecated, and kept for backward compatibility only as of v2.5, and as of v2.9 they have been witdrawn so the code for the datapyt is here marked as backwars-compatible use (for historical records only)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in 4.14.1.8 RXO-8 and 4.14.4.8 RXE-8 as of v 2.5. Retained for backward compatibility only as of v 2.5"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "B"
+                }
+            ]
+        },
+        {
+            "id": "4729",
+            "code": "LA2",
+            "display": "Location with address variation 2",
+            "definition": "Location with address variation 2",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Datatype has been withdrawn from the Standard; the segments RXD-13, RXG-11 and RXA-11 were deprecated, and kept for backward compatibility only as of v2.5, and as of v2.9 they have been withdrawn so the code for the datatype is here marked as backwards-compatible use (for historical records only)"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in 4.14.5.13 RXD-13, 4.14.6.11 RXG-11 and 4.14.7.11 RXA-11 as of v 2.5. Retained for backward compatibility only as of v 2.5,"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "B"
+                }
+            ]
+        },
+        {
+            "id": "4730",
+            "code": "MA",
+            "display": "Multiplexed array",
+            "definition": "Multiplexed array",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For waveform data only"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "For waveform data only"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4731",
+            "code": "MO",
+            "display": "Money",
+            "definition": "Money",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4732",
+            "code": "MOC",
+            "display": "Money and charge code",
+            "definition": "Money and charge code",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in sections 4.5.3.23 OBR-23 and 7.4.1.23- OBR-23 as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in sections 4.5.3.23 OBR-23 and 7.4.1.23- OBR-23 as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4733",
+            "code": "MOP",
+            "display": "Money or percentage",
+            "definition": "Money or percentage",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in section 6.5.8.5  IN3-5, as of v 2.5. This data type is restricted to this field."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in section 6.5.8.5  IN3-5, as of v 2.5. This data type is restricted to this field."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4734",
+            "code": "MSG",
+            "display": "Message type",
+            "definition": "Message type",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in 2.16.9.9 MSH-9 as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in 2.16.9.9 MSH-9 as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4735",
+            "code": "NA",
+            "display": "Numeric array",
+            "definition": "Numeric array",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For waveform data only"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "For waveform data only"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4736",
+            "code": "NDL",
+            "display": "Name with date and location",
+            "definition": "Name with date and location",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in sections 4.5.3.32 and 7.4.1.32-( OBR-32) , 4.5.3.33 and 7.4.1.33  - ( OBR-33) 4.5.3.34 and 7.4.1.34 - ( OBR-34) 4.5.3.35 and 7.4.1.35 - ( OBR-35) as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in sections 4.5.3.32 and 7.4.1.32-( OBR-32) , 4.5.3.33 and 7.4.1.33  - ( OBR-33) 4.5.3.34 and 7.4.1.34 - ( OBR-34) 4.5.3.35 and 7.4.1.35 - ( OBR-35) as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4737",
+            "code": "NM",
+            "display": "Numeric",
+            "definition": "Numeric",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4738",
+            "code": "NR",
+            "display": "Numeric range",
+            "definition": "Numeric range",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in sections 8.8.4.6.1- OM2-6.1, 8.8.4.6.3- OM2-6.3and 8.8.4.6.4- OM2-6.4, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in sections 8.8.4.6.1- OM2-6.1, 8.8.4.6.3- OM2-6.3and 8.8.4.6.4- OM2-6.4, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4739",
+            "code": "OCD",
+            "display": "Occurrence code and date",
+            "definition": "Occurrence code and date",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in sections 6.5.10.10 UB1-16 and 6.5.11.7 UB2-7, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in sections 6.5.10.10 UB1-16 and 6.5.11.7 UB2-7, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4740",
+            "code": "OSD",
+            "display": "Order sequence definition",
+            "definition": "Order sequence definition",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4741",
+            "code": "OSP",
+            "display": "Occurrence span code and date",
+            "definition": "Occurrence span code and date",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in section 6.5.11.8 UB2-8, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in section 6.5.11.8 UB2-8, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4742",
+            "code": "PIP",
+            "display": "Practitioner institutional privileges",
+            "definition": "Practitioner institutional privileges",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in 15.4.5.7 PRA-7 as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in 15.4.5.7 PRA-7 as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4743",
+            "code": "PL",
+            "display": "Person location",
+            "definition": "Person location",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4744",
+            "code": "PLN",
+            "display": "Practitioner license or other ID number",
+            "definition": "Practitioner license or other ID number",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in 15.4.5.6 PRA-6, 11.6.3.7 PRD-7 and 11.6.4.7 CTD-7 as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in 15.4.5.6 PRA-6, 11.6.3.7 PRD-7 and 11.6.4.7 CTD-7 as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4745",
+            "code": "PN",
+            "display": "Person name",
+            "definition": "Person name",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4746",
+            "code": "PPN",
+            "display": "Performing person time stamp",
+            "definition": "Performing person time stamp",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "equivalent of an XCN joined with a TS"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "equivalent of an XCN joined with a TS"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4747",
+            "code": "PRL",
+            "display": "Parent result link",
+            "definition": "Parent result link",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in sections 4.5.3.26 - OBR-26 and 7.4.1.26 - OBR-26 as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in sections 4.5.3.26 - OBR-26 and 7.4.1.26 - OBR-26 as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4748",
+            "code": "PT",
+            "display": "Processing type",
+            "definition": "Processing type",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4749",
+            "code": "PTA",
+            "display": "Policy type and amount",
+            "definition": "Policy type and amount",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in section 6.5.7.29  IN2-29, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in section 6.5.7.29  IN2-29, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4750",
+            "code": "QIP",
+            "display": "Query input parameter list",
+            "definition": "Query input parameter list",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4751",
+            "code": "QSC",
+            "display": "Query selection criteria",
+            "definition": "Query selection criteria",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4752",
+            "code": "RCD",
+            "display": "Row column definition",
+            "definition": "Row column definition",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4753",
+            "code": "RFR",
+            "display": "Reference range",
+            "definition": "Reference range",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in sections 8.8.4.6 - OM2-6, 8.8.4.7 - OM2-7 and8.8.4.8 - OM2-8 as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in sections 8.8.4.6 - OM2-6, 8.8.4.7 - OM2-7 and8.8.4.8 - OM2-8 as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4754",
+            "code": "RI",
+            "display": "Repeat interval",
+            "definition": "Repeat interval",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4755",
+            "code": "RMC",
+            "display": "Room coverage",
+            "definition": "Room coverage",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in section 6.5.7.28  IN2-28, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in section 6.5.7.28  IN2-28, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4756",
+            "code": "RP",
+            "display": "Reference pointer",
+            "definition": "Reference pointer",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4757",
+            "code": "RPT",
+            "display": "Repeat pattern",
+            "definition": "Repeat pattern",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4758",
+            "code": "SAD",
+            "display": "Street Address",
+            "definition": "Street Address",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Appears ONLY in the XAD data type."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Appears ONLY in the XAD data type."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4759",
+            "code": "SCV",
+            "display": "Scheduling class value pair",
+            "definition": "Scheduling class value pair",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "For scheduling data only. See Chapter 10"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "For scheduling data only. See Chapter 10"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4760",
+            "code": "SI",
+            "display": "Sequence ID",
+            "definition": "Sequence ID",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4761",
+            "code": "SN",
+            "display": "Structured numeric",
+            "definition": "Structured numeric",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4762",
+            "code": "SNM",
+            "display": "String of telephone number digits",
+            "definition": "String of telephone number digits",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Definition: a string whose characters are limited to \"+\" and the decimal digits 0 through 9.  As a string, leading zeros are always considered significant.  Maximum length: Not specified for the type. May be specified in the context of use."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Definition: a string whose characters are limited to \"+\" and the decimal digits 0 through 9.  As a string, leading zeros are always considered significant.  Maximum length: Not specified for the type. May be specified in the context of use."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4763",
+            "code": "SPD",
+            "display": "Specialty description",
+            "definition": "Specialty description",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in 15.4.5.5 PRA-5 as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in 15.4.5.5 PRA-5 as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4764",
+            "code": "SPS",
+            "display": "Specimen source",
+            "definition": "Specimen source",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4765",
+            "code": "SRT",
+            "display": "Sort order",
+            "definition": "Sort order",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4766",
+            "code": "ST",
+            "display": "String data",
+            "definition": "String data",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4767",
+            "code": "TM",
+            "display": "Time",
+            "definition": "Time",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4768",
+            "code": "TN",
+            "display": "Telephone number",
+            "definition": "Telephone number",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4769",
+            "code": "TQ",
+            "display": "Timing/quantity",
+            "definition": "Timing/quantity",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4770",
+            "code": "TS",
+            "display": "Time stamp",
+            "definition": "Time stamp",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "WITHDRAWN"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4771",
+            "code": "TX",
+            "display": "Text data",
+            "definition": "Text data",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4772",
+            "code": "UVC",
+            "display": "UB value code and amount",
+            "definition": "UB value code and amount",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in sections 6.5.10.10 UB1-10 and 6.5.11.6 UB2-6, as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in sections 6.5.10.10 UB1-10 and 6.5.11.6 UB2-6, as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4773",
+            "code": "VH",
+            "display": "Visiting hours",
+            "definition": "Visiting hours",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4774",
+            "code": "VID",
+            "display": "Version identifier",
+            "definition": "Version identifier",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4775",
+            "code": "VR",
+            "display": "Value range",
+            "definition": "Value range",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in 5.10.5.3.11 QRD-11 as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in 5.10.5.3.11 QRD-11 as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4776",
+            "code": "WVI",
+            "display": "Channel Identifier",
+            "definition": "Channel Identifier",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in 7.14.1.3.1 OBX-5.1 where OBX-5 Observation value (*) is data type CD as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in 7.14.1.3.1 OBX-5.1 where OBX-5 Observation value (*) is data type CD as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4777",
+            "code": "WVS",
+            "display": "Waveform source",
+            "definition": "Waveform source",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces the CM data type used in 7.14.1.4 OBX-5.2 where OBX-5 Observation value (*) is data type CD as of v 2.5."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces the CM data type used in 7.14.1.4 OBX-5.2 where OBX-5 Observation value (*) is data type CD as of v 2.5."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4778",
+            "code": "XAD",
+            "display": "Extended address",
+            "definition": "Extended address",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces AD as of v 2.3"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces AD as of v 2.3"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4779",
+            "code": "XCN",
+            "display": "Extended composite ID number and name for persons",
+            "definition": "Extended composite ID number and name for persons",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces CN as of v 2.3"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces CN as of v 2.3"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4780",
+            "code": "XON",
+            "display": "Extended composite name and ID number for organizations",
+            "definition": "Extended composite name and ID number for organizations",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4781",
+            "code": "XPN",
+            "display": "Extended person name",
+            "definition": "Extended person name",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces PN as of v 2.3."
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces PN as of v 2.3."
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        },
+        {
+            "id": "4782",
+            "code": "XTN",
+            "display": "Extended telecommunications number",
+            "definition": "Extended telecommunications number",
+            "property": [
+                {
+                    "code": "v2-concComment",
+                    "valueString": "Replaces TN as of v 2.3"
+                },
+                {
+                    "code": "v2-concCommentAsPub",
+                    "valueString": "Replaces TN as of v 2.3"
+                },
+                {
+                    "code": "status",
+                    "valueCode": "A"
+                }
+            ]
+        }
+    ]
+}

@@ -12,7 +12,6 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.concept;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.valueset;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -118,10 +117,10 @@ public class EvaluateMeasureOperationTest {
         Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pReportType, pMeasure, pSubject).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()))).thenAnswer(x -> TestHelper.asResult(patient));
 
-        when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString(), any())).thenReturn( bundle(encounter) );
-        when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString(), any())).thenReturn( bundle(procedure) );
+        when(resourceHelper.doSearch(eq("Encounter"), anyString(), anyString(), any(), anyString())).thenReturn( bundle(encounter) );
+        when(resourceHelper.doSearch(eq("Procedure"), anyString(), anyString(), any(), anyString())).thenReturn( bundle(procedure) );
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
@@ -181,7 +180,7 @@ public class EvaluateMeasureOperationTest {
         Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pReportType, pMeasure, pSubject).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()))).thenAnswer(x -> TestHelper.asResult(patient));
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
@@ -194,7 +193,7 @@ public class EvaluateMeasureOperationTest {
                     Measure.class, null, null, parameters, resourceHelper, searchHelper);
             fail("Operation was expected to fail");
         } catch( FHIROperationException fex ) {
-            assertEquals(fex.getMessage(), "Failed to resolve Measure resource \"NOT VALID\"");
+            assertEquals(fex.getMessage(), "Unexpected error while reading Measure/NOT VALID");
         }
     }
 
@@ -224,7 +223,8 @@ public class EvaluateMeasureOperationTest {
         Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pReportType, pMeasure, pSubject).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()))).thenAnswer(x -> TestHelper.asResult(patient));
+        when(resourceHelper.doRead(eq("Measure"), eq("NOT_VALID"))).thenAnswer(x -> TestHelper.asResult(null));
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
@@ -267,7 +267,7 @@ public class EvaluateMeasureOperationTest {
         Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pReportType, pMeasure, pSubject).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()))).thenAnswer(x -> TestHelper.asResult(patient));
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);
@@ -309,7 +309,7 @@ public class EvaluateMeasureOperationTest {
         Parameters parameters = Parameters.builder().parameter(pPeriodStart, pPeriodEnd, pReportType, pMeasure, pSubject).build();
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
-        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()), anyBoolean(), anyBoolean(), any())).thenAnswer(x -> TestHelper.asResult(patient));
+        when(resourceHelper.doRead(eq("Patient"), eq(patient.getId()))).thenAnswer(x -> TestHelper.asResult(patient));
 
         try (MockedStatic<FHIRRegistry> staticRegistry = mockStatic(FHIRRegistry.class)) {
             FHIRRegistry mockRegistry = spy(FHIRRegistry.class);

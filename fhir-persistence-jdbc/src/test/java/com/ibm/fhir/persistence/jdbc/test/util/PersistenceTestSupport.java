@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
@@ -25,6 +26,7 @@ import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
+import com.ibm.fhir.search.util.SearchHelper;
 
 /**
  * Encapsulates the instantiation of objects needed to support the JDBC persistence tests.
@@ -59,18 +61,28 @@ public class PersistenceTestSupport {
 
     /**
      * Return a new FHIRPersistence implementation configured using the connection pool
+     * and cache from this object and the given configProvider and searchHelper.
+     * @return
+     * @throws Exception
+     */
+    public FHIRPersistence getPersistenceImpl(FHIRConfigProvider configProvider, SearchHelper searchHelper) throws Exception {
+        if (this.connectionPool == null) {
+            throw new IllegalStateException("Database not bootstrapped");
+        }
+        return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, configProvider, cache, searchHelper);
+    }
+
+    /**
+     * Return a new FHIRPersistence implementation configured using the connection pool
      * and cache from this object
      * @return
      * @throws Exception
      */
     public FHIRPersistence getPersistenceImpl() throws Exception {
-
         if (this.connectionPool == null) {
             throw new IllegalStateException("Database not bootstrapped");
         }
-
         return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, cache);
-
     }
 
     /**

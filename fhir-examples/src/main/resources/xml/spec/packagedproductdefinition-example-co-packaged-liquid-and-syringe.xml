@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><PackagedProductDefinition xmlns="http://hl7.org/fhir">
+	<id value="package-with-liquid-and-syringe"/>
+	<!--   Note that contained here is a completely different meaning to "containedItem" below
+	     This refers to data contained in the resource, not physically in the package.   -->
+	<meta>
+    <security>
+      <system value="http://terminology.hl7.org/CodeSystem/v3-ActReason"/>
+      <code value="HTEST"/>
+      <display value="test health data"/>
+    </security>
+  </meta>
+  <text><status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><div style="display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%"><p style="margin-bottom: 0px">Resource "package-with-liquid-and-syringe" </p></div><p><b>packageFor</b>: <a href="todo.html">MedicinalProductDefinition/ProductThatHasThisPackType</a></p><blockquote><p><b>package</b></p><blockquote><p><b>containedItem</b></p><p><b>amount</b>: 20 ml<span style="background: LightGoldenRodYellow"> (Details: UCUM code mL = 'mL')</span></p></blockquote><blockquote><p><b>containedItem</b></p></blockquote></blockquote></div></text><contained>
+		<DeviceDefinition>
+			<id value="syringeDevice"/>
+			<type>
+				<text value="syringe"/>
+			</type>
+			<!--   Schema appears to be broken, deviceName is not present in XSD   -->
+			<!--  deviceName>
+				<name value="WonderSyringe"/>
+				<type value="manufacturer-name"/>
+			</deviceName  -->
+		</DeviceDefinition>
+	</contained>
+	<contained>
+		<ManufacturedItemDefinition>
+			<id value="liquidItem"/>
+			<status value="active"/> 
+			<manufacturedDoseForm>
+				<coding>
+					<system value="http://example.org.uk/fhir/doseform"/>
+					<code value="solution for injection"/>
+				</coding>
+			</manufacturedDoseForm>
+		</ManufacturedItemDefinition>
+	</contained>
+	<!--   the product for which this is one available package type (possibly one package type of several for this product)   -->
+	<packageFor>
+		<reference value="MedicinalProductDefinition/ProductThatHasThisPackType"/>
+	</packageFor>
+	<!--   package contents start here, consists of a liquid and a syringe   -->
+	<package>
+		<!--   here we can describe the packaging, but in this case we just want to talk about the contents   -->
+		<!--   Note that containedItem here is a completely different meaning to "contained" above
+	         This refers to items physically contained in the package.   -->
+		<containedItem>
+			<item>
+				<reference>
+				<!--   reference an item defined above   -->
+				<reference value="#liquidItem"/>
+				</reference>
+			</item>
+			<amount>
+				<value value="20"/>
+				<unit value="ml"/>
+				<system value="http://unitsofmeasure.org"/> 
+				<code value="mL"/>
+			</amount>
+		</containedItem>
+		<containedItem>
+			<item>
+				<reference>
+				<!--   reference an item defined above   -->
+				<reference value="#syringeDevice"/>
+				</reference>
+			</item>
+		</containedItem>
+	</package>
+</PackagedProductDefinition>

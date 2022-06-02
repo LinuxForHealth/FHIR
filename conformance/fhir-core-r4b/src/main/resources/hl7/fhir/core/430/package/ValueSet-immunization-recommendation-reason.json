@@ -1,0 +1,130 @@
+{
+    "resourceType": "ValueSet",
+    "id": "immunization-recommendation-reason",
+    "meta": {
+        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pher"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://hl7.org/fhir/ValueSet/immunization-recommendation-reason",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.307"
+        }
+    ],
+    "version": "4.3.0-cibuild",
+    "name": "ImmunizationRecommendationReasonCodes",
+    "title": "Immunization Recommendation Reason Codes",
+    "status": "draft",
+    "experimental": true,
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "The value set to instantiate this attribute should be drawn from a terminologically robust code system that consists of or contains concepts to support describing the reasons why a given recommendation status is assigned. This value set is provided as a suggestive example and includes SNOMED CT concepts.",
+    "copyright": "This resource includes content from SNOMED Clinical Terms® (SNOMED CT®) which is copyright of the International Health Terminology Standards Development Organisation (IHTSDO). Implementers of these specifications must have the appropriate SNOMED CT Affiliate license - for more information contact http://www.snomed.org/snomed-ct/get-snomed-ct or info@snomed.org",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "77176002"
+                    },
+                    {
+                        "code": "77386006"
+                    }
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:b94fd3e8-92ee-446d-848b-ca2dc24e68ef",
+        "timestamp": "2022-04-23T22:23:26Z",
+        "total": 2,
+        "parameter": [
+            {
+                "name": "excludeNested",
+                "valueBoolean": true
+            },
+            {
+                "name": "includeDesignations",
+                "valueBoolean": true
+            },
+            {
+                "name": "limitedExpansion",
+                "valueBoolean": true
+            },
+            {
+                "name": "version",
+                "valueUri": "http://snomed.info/sct|http://snomed.info/sct/900000000000207008/version/20200731"
+            }
+        ],
+        "contains": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "77176002",
+                "display": "Smoker",
+                "designation": [
+                    {
+                        "value": "Smoker"
+                    },
+                    {
+                        "value": "Current smoker"
+                    },
+                    {
+                        "value": "Smoker (finding)"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "code": "77386006",
+                "display": "Pregnancy not delivered",
+                "designation": [
+                    {
+                        "value": "Pregnancy not delivered"
+                    },
+                    {
+                        "value": "Gestation"
+                    },
+                    {
+                        "value": "Pregnant"
+                    },
+                    {
+                        "value": "Pregnancy confirmed"
+                    },
+                    {
+                        "value": "Pregnant (finding)"
+                    },
+                    {
+                        "value": "Patient currently pregnant"
+                    }
+                ]
+            }
+        ]
+    }
+}

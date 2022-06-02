@@ -9,8 +9,8 @@
       "status": "active",
       "description": "Type options for Coverage.costToBeneficiary.value[x]",
       "expansion": {
-        "identifier": "urn:uuid:cd8c0c36-3403-4733-b33d-137527d27bcd",
-        "timestamp": "2019-11-01T09:34:55+11:00",
+        "identifier": "urn:uuid:731837ed-bf4d-41b6-91e4-f0e5ec6fcc57",
+        "timestamp": "2022-04-23T22:29:00+00:00",
         "contains": [
           {
             "system": "http://hl7.org/fhir/resource-types",
@@ -31,9 +31,10 @@
       "system": "urn:ietf:rfc:3986"
     }
   ],
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "status": "draft",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "Health Level Seven International (Financial Management)",
   "item": [
     {
@@ -44,6 +45,7 @@
       "repeats": true,
       "item": [
         {
+          "linkId": "Coverage-display",
           "text": "The Coverage resource contains the insurance card level information, which is customary to provide on claims and other communications between providers and insurers.",
           "type": "display"
         },
@@ -62,6 +64,7 @@
               }
             }
           ],
+          "linkId": "Coverage-flyover",
           "text": "Financial instrument which may be used to reimburse or pay for health care products and services. Includes both insurance and self-payment.",
           "type": "display"
         },
@@ -96,6 +99,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.id-flyover",
               "text": "The logical id of the resource, as used in the URL for the resource. Once assigned, this value never changes. The only time that a resource does not have an id is when it is being submitted to the server using a create operation.",
               "type": "display"
             },
@@ -136,6 +140,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.meta-flyover",
               "text": "The metadata about the resource. This is content that is maintained by the infrastructure. Changes to the content might not always be associated with version changes to the resource.",
               "type": "display"
             }
@@ -172,6 +177,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.implicitRules-flyover",
               "text": "A reference to a set of rules that were followed when the resource was constructed, and which must be understood when processing the content. Often, this is a reference to an implementation guide that defines the special rules along with other profiles etc. Asserting this rule set restricts the content to be only understood by a limited set of trading partners. This inherently limits the usefulness of the data in the long term. However, the existing health eco-system is highly fractured, and not yet ready to define, collect, and exchange data in a generally computable sense. Wherever possible, implementers and/or specification writers should avoid using this element. Often, when used, the URL is a reference to an implementation guide that defines these special rules as part of it\u0027s narrative along with other profiles, value sets, etc.",
               "type": "display"
             },
@@ -215,6 +221,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.language-flyover",
               "text": "The base language in which the resource is written. Language is provided to support indexing and accessibility (typically, services such as text to speech use the language tag). The html language tag in the narrative applies  to the narrative. The language tag on the resource may be used to specify the language of other presentations generated from the data in the resource. Not all the content has to be in the base language. The Resource.language should not be assumed to apply to the narrative automatically. If a language is specified, it should it also be specified on the div element in the html (see rules in HTML5 for information about the relationship between xml:lang and the html lang attribute).",
               "type": "display"
             },
@@ -255,6 +262,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.text-flyover",
               "text": "A human-readable narrative that contains a summary of the resource and can be used to represent the content of the resource to a human. The narrative need not encode all the structured data, but is required to contain sufficient detail to make it \"clinically safe\" for a human to just read the narrative. Resource definitions may define what content should be represented in the narrative to ensure clinical safety. Contained resources do not have narrative. Resources that are not contained SHOULD have a narrative. In some cases, a resource may only have text with little or no additional discrete data (as long as all minOccurs\u003d1 elements are satisfied).  This may be necessary for data from legacy systems where information is captured as a \"text blob\" or where text is additionally entered raw or narrated and encoded information is added later.",
               "type": "display"
             }
@@ -282,6 +290,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.contained-flyover",
               "text": "These resources do not have an independent existence apart from the resource that contains them - they cannot be identified independently, and nor can they have their own independent transaction scope. This should never be done when the content can be identified properly, as once identification is lost, it is extremely difficult (and context dependent) to restore it again. Contained resources may have profiles and tags In their meta elements, but SHALL NOT have security labels.",
               "type": "display"
             }
@@ -309,6 +318,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.extension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -336,6 +346,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.modifierExtension-flyover",
               "text": "May be used to represent additional information that is not part of the basic definition of the resource and that modifies the understanding of the element that contains it and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer is allowed to define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
               "type": "display"
             }
@@ -369,6 +380,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.identifier-flyover",
               "text": "A unique identifier assigned to this coverage. The main (and possibly only) identifier for the coverage - often referred to as a Member Id, Certificate number, Personal Health Number or Case ID. May be constructed as the concatenation of the Coverage.SubscriberID and the Coverage.dependant.",
               "type": "display"
             },
@@ -430,6 +442,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.status-flyover",
               "text": "The status of the resource instance. This element is labeled as a modifier because the status contains the code entered-in-error that marks the coverage as not currently valid.",
               "type": "display"
             },
@@ -474,13 +487,14 @@
                   }
                 }
               ],
+              "linkId": "Coverage.type-flyover",
               "text": "The type of coverage: social program, medical plan, accident coverage (workers compensation, auto), group health or payment by an individual or organization.",
               "type": "display"
             },
             {
               "linkId": "Coverage.type.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -524,6 +538,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.policyHolder-flyover",
               "text": "The party who \u0027owns\u0027 the insurance policy. For example: may be an individual, corporation or the subscriber\u0027s employer.",
               "type": "display"
             },
@@ -577,6 +592,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.subscriber-flyover",
               "text": "The party who has signed-up for or \u0027owns\u0027 the contractual relationship to the policy or to whom the benefit of the policy for services rendered to them or their family is due. May be self or a parent in the case of dependants.",
               "type": "display"
             },
@@ -630,6 +646,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.subscriberId-flyover",
               "text": "The insurer assigned ID for the Subscriber.",
               "type": "display"
             },
@@ -677,6 +694,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.beneficiary-flyover",
               "text": "The party who benefits from the insurance coverage; the patient when products and/or services are provided.",
               "type": "display"
             },
@@ -730,6 +748,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.dependent-flyover",
               "text": "A unique identifier for a dependent under the coverage. Periodically the member number is constructed from the subscriberId and the dependant number.",
               "type": "display"
             },
@@ -774,13 +793,14 @@
                   }
                 }
               ],
+              "linkId": "Coverage.relationship-flyover",
               "text": "The relationship of beneficiary (patient) to the subscriber. Typically, an individual uses policies which are theirs (relationship\u003d\u0027self\u0027) before policies owned by others.",
               "type": "display"
             },
             {
               "linkId": "Coverage.relationship.coding",
               "text": "code:",
-              "type": "open-choice",
+              "type": "choice",
               "required": false,
               "repeats": false
             },
@@ -825,6 +845,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.period-flyover",
               "text": "Time period during which the coverage is in force. A missing start date indicates the start date isn\u0027t known, a missing end date means the coverage is continuing to be in force.",
               "type": "display"
             },
@@ -875,6 +896,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.payor-flyover",
               "text": "The program or plan underwriter or payor including both insurance and non-insurance agreements, such as patient-pay agreements. May provide multiple identifiers such as insurance company identifier or business identifier (BIN number).\nFor selfpay it may provide multiple paying persons and/or organizations.",
               "type": "display"
             },
@@ -905,6 +927,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Coverage.class-display",
               "text": "For example may be used to identify a class of coverage or employer group, Policy, Plan.",
               "type": "display"
             },
@@ -923,6 +946,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.class-flyover",
               "text": "A suite of underwriter specific classifiers.",
               "type": "display"
             },
@@ -957,6 +981,7 @@
                       }
                     }
                   ],
+                  "linkId": "Coverage.class.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -991,6 +1016,7 @@
                       }
                     }
                   ],
+                  "linkId": "Coverage.class.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1018,6 +1044,7 @@
                       }
                     }
                   ],
+                  "linkId": "Coverage.class.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1059,13 +1086,14 @@
                       }
                     }
                   ],
+                  "linkId": "Coverage.class.type-flyover",
                   "text": "The type of classification for which an insurer-specific class label or number and optional name is provided, for example may be used to identify a class of coverage or employer group, Policy, Plan.",
                   "type": "display"
                 },
                 {
                   "linkId": "Coverage.class.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1113,6 +1141,7 @@
                       }
                     }
                   ],
+                  "linkId": "Coverage.class.value-flyover",
                   "text": "The alphanumeric string value associated with the insurer issued label. For example, the Group or Plan number.",
                   "type": "display"
                 },
@@ -1156,6 +1185,7 @@
                       }
                     }
                   ],
+                  "linkId": "Coverage.class.name-flyover",
                   "text": "A short description for the class.",
                   "type": "display"
                 },
@@ -1201,6 +1231,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.order-flyover",
               "text": "The order of applicability of this coverage relative to other coverages which are currently in force. Note, there may be gaps in the numbering and this does not imply primary, secondary etc. as the specific positioning of coverages depends upon the episode of care.",
               "type": "display"
             },
@@ -1244,6 +1275,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.network-flyover",
               "text": "The insurer-specific identifier for the insurer-defined network of providers to which the beneficiary may seek treatment which will be covered at the \u0027in-network\u0027 rate, otherwise \u0027out of network\u0027 terms and conditions apply.",
               "type": "display"
             },
@@ -1264,6 +1296,7 @@
           "repeats": true,
           "item": [
             {
+              "linkId": "Coverage.costToBeneficiary-display",
               "text": "For example by knowing the patient visit co-pay, the provider can collect the amount prior to undertaking treatment.",
               "type": "display"
             },
@@ -1282,6 +1315,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.costToBeneficiary-flyover",
               "text": "A suite of codes indicating the cost category and associated amount which have been detailed in the policy and may have been  included on the health card.",
               "type": "display"
             },
@@ -1316,6 +1350,7 @@
                       }
                     }
                   ],
+                  "linkId": "Coverage.costToBeneficiary.id-flyover",
                   "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                   "type": "display"
                 },
@@ -1350,6 +1385,7 @@
                       }
                     }
                   ],
+                  "linkId": "Coverage.costToBeneficiary.extension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1377,6 +1413,7 @@
                       }
                     }
                   ],
+                  "linkId": "Coverage.costToBeneficiary.modifierExtension-flyover",
                   "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                   "type": "display"
                 }
@@ -1414,13 +1451,14 @@
                       }
                     }
                   ],
+                  "linkId": "Coverage.costToBeneficiary.type-flyover",
                   "text": "The category of patient centric costs associated with treatment. For example visit, specialist visits, emergency, inpatient care, etc.",
                   "type": "display"
                 },
                 {
                   "linkId": "Coverage.costToBeneficiary.type.coding",
                   "text": "code:",
-                  "type": "open-choice",
+                  "type": "choice",
                   "required": false,
                   "repeats": false
                 },
@@ -1465,6 +1503,7 @@
                       }
                     }
                   ],
+                  "linkId": "Coverage.costToBeneficiary.value[x]-flyover",
                   "text": "The amount due from the patient for the cost category. Amount may be expressed as a percentage of the service/product cost or a fixed amount of currency.",
                   "type": "display"
                 },
@@ -1596,6 +1635,7 @@
                       }
                     }
                   ],
+                  "linkId": "Coverage.costToBeneficiary.exception-flyover",
                   "text": "A suite of codes indicating exceptions or reductions to patient costs and their effective periods.",
                   "type": "display"
                 },
@@ -1630,6 +1670,7 @@
                           }
                         }
                       ],
+                      "linkId": "Coverage.costToBeneficiary.exception.id-flyover",
                       "text": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
                       "type": "display"
                     },
@@ -1664,6 +1705,7 @@
                           }
                         }
                       ],
+                      "linkId": "Coverage.costToBeneficiary.exception.extension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1691,6 +1733,7 @@
                           }
                         }
                       ],
+                      "linkId": "Coverage.costToBeneficiary.exception.modifierExtension-flyover",
                       "text": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element\u0027s descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself). There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
                       "type": "display"
                     }
@@ -1732,13 +1775,14 @@
                           }
                         }
                       ],
+                      "linkId": "Coverage.costToBeneficiary.exception.type-flyover",
                       "text": "The code for the specific exception.",
                       "type": "display"
                     },
                     {
                       "linkId": "Coverage.costToBeneficiary.exception.type.coding",
                       "text": "code:",
-                      "type": "open-choice",
+                      "type": "choice",
                       "required": false,
                       "repeats": false
                     },
@@ -1783,6 +1827,7 @@
                           }
                         }
                       ],
+                      "linkId": "Coverage.costToBeneficiary.exception.period-flyover",
                       "text": "The timeframe during when the exception is in force.",
                       "type": "display"
                     },
@@ -1837,6 +1882,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.subrogation-flyover",
               "text": "When \u0027subrogation\u003dtrue\u0027 this insurance instance has been included not for adjudication but to provide insurers with the details to recover costs. Typically, automotive and worker\u0027s compensation policies would be flagged with \u0027subrogation\u003dtrue\u0027 to enable healthcare payors to collect against accident claims.",
               "type": "display"
             },
@@ -1876,6 +1922,7 @@
                   }
                 }
               ],
+              "linkId": "Coverage.contract-flyover",
               "text": "The policy(s) which constitute this insurance coverage.",
               "type": "display"
             },

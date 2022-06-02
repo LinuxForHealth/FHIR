@@ -16,10 +16,11 @@
     }
   ],
   "url": "http://hl7.org/fhir/StructureDefinition/MoneyQuantity",
-  "version": "4.0.1",
+  "version": "4.3.0-cibuild",
   "name": "MoneyQuantity",
   "status": "active",
-  "date": "2019-11-01T09:29:23+11:00",
+  "experimental": false,
+  "date": "2022-04-23T22:21:35+00:00",
   "publisher": "HL7 FHIR Standard",
   "contact": [
     {
@@ -32,7 +33,7 @@
     }
   ],
   "description": "An amount of money. With regard to precision, see [Decimal Precision](datatypes.html#precision)",
-  "fhirVersion": "4.0.1",
+  "fhirVersion": "4.3.0-cibuild",
   "mapping": [
     {
       "identity": "v2",
@@ -72,9 +73,9 @@
           {
             "key": "ele-1",
             "severity": "error",
-            "human": "All FHIR elements must have a @value or children",
-            "expression": "hasValue() or (children().count() \u003e id.count())",
-            "xpath": "@value|f:*|h:div",
+            "human": "All FHIR elements must have a @value or children unless an empty Parameters resource",
+            "expression": "hasValue() or (children().count() \u003e id.count()) or $this is Parameters",
+            "xpath": "@value|f:*|h:div|self::f:Parameters",
             "source": "http://hl7.org/fhir/StructureDefinition/Element"
           },
           {
@@ -280,13 +281,16 @@
         "binding": {
           "extension": [
             {
+              "url": "http://hl7.org/fhir/build/StructureDefinition/binding-definition",
+              "valueString": "How the Quantity should be understood and represented."
+            },
+            {
               "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
               "valueString": "QuantityComparator"
             }
           ],
           "strength": "required",
-          "description": "How the Quantity should be understood and represented.",
-          "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.1"
+          "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"
         },
         "mapping": [
           {
@@ -302,6 +306,10 @@
       {
         "id": "Quantity.unit",
         "extension": [
+          {
+            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-translatable",
+            "valueBoolean": true
+          },
           {
             "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-translatable",
             "valueBoolean": true
@@ -392,6 +400,12 @@
       },
       {
         "id": "Quantity.code",
+        "extension": [
+          {
+            "url": "http://hl7.org/fhir/build/StructureDefinition/no-binding",
+            "valueBoolean": true
+          }
+        ],
         "path": "Quantity.code",
         "short": "Coded form of the unit",
         "definition": "A computer processable form of the unit in some unit representation system.",
