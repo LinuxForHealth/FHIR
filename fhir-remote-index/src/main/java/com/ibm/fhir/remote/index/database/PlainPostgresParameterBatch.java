@@ -463,7 +463,7 @@ public class PlainPostgresParameterBatch {
      * @throws SQLException
      */
     public void addSecurity(long logicalResourceId, long commonTokenValueId) throws SQLException {
-        if (tags == null) {
+        if (security == null) {
             final String tablePrefix = resourceType.toLowerCase();
             final String INS = "INSERT INTO " + tablePrefix + "_security (common_token_value_id, logical_resource_id) VALUES (?,?)";
             security = connection.prepareStatement(INS);

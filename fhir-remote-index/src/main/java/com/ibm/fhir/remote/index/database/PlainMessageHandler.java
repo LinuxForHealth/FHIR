@@ -4,14 +4,16 @@
  * SPDX-License-Identifier: Apache-2.0
  */
  
-package com.ibm.fhir.remote.index.sharded;
+package com.ibm.fhir.remote.index.database;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Types;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,7 +27,6 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.ResultSetReader;
-import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.index.DateParameter;
 import com.ibm.fhir.persistence.index.LocationParameter;
@@ -51,38 +52,27 @@ import com.ibm.fhir.remote.index.batch.BatchSecurityParameter;
 import com.ibm.fhir.remote.index.batch.BatchStringParameter;
 import com.ibm.fhir.remote.index.batch.BatchTagParameter;
 import com.ibm.fhir.remote.index.batch.BatchTokenParameter;
-import com.ibm.fhir.remote.index.database.BaseMessageHandler;
-import com.ibm.fhir.remote.index.database.CodeSystemValue;
-import com.ibm.fhir.remote.index.database.CommonCanonicalValue;
-import com.ibm.fhir.remote.index.database.CommonCanonicalValueKey;
-import com.ibm.fhir.remote.index.database.CommonTokenValue;
-import com.ibm.fhir.remote.index.database.CommonTokenValueKey;
-import com.ibm.fhir.remote.index.database.LogicalResourceIdentKey;
-import com.ibm.fhir.remote.index.database.LogicalResourceIdentValue;
-import com.ibm.fhir.remote.index.database.LogicalResourceValue;
-import com.ibm.fhir.remote.index.database.ParameterNameValue;
-import com.ibm.fhir.remote.index.database.PlainMessageHandler;
-import com.ibm.fhir.remote.index.database.PreparedStatementWrapper;
 
 /**
- * Loads search parameter values into the target FHIR schema on
- * a PostgreSQL database.
- * TODO refactor to try and share more processing with the {@link PlainMessageHandler}
+ * Loads search parameter values into the target PostgreSQL database using
+ * the plain (non-sharded) schema variant.
  */
-public class ShardedPostgresMessageHandler extends BaseMessageHandler {
-    private static final Logger logger = Logger.getLogger(ShardedPostgresMessageHandler.class.getName());
+public abstract class PlainMessageHandler extends BaseMessageHandler {
+    private static final String CLASSNAME = PlainMessageHandler.class.getName();
+    private static final Logger logger = Logger.getLogger(PlainMessageHandler.class.getName());
+    private static final short FIXED_SHARD = 0;
 
     // the connection to use for the inserts
-    private final Connection connection;
+    protected final Connection connection;
 
-    // We're a PostgreSQL DAO, so we now which translator to use
-    private final IDatabaseTranslator translator = new PostgresTranslator();
+    // The translator to handle variations in SQL syntax
+    protected final IDatabaseTranslator translator;
 
     // The FHIR data schema
-    private final String schemaName;
+    protected final String schemaName;
 
     // the cache we use for various lookups
-    private final IdentityCache identityCache;
+    protected final IdentityCache identityCache;
 
     // All logical_resource_ident values we've seen
     private final Map<LogicalResourceIdentKey,LogicalResourceIdentValue> logicalResourceIdentMap = new HashMap<>();
@@ -118,11 +108,12 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
     private final List<BatchParameterValue> batchedParameterValues = new ArrayList<>();
 
     // The processor used to process the batched parameter values after all the reference values are created
-    private final ShardedBatchParameterProcessor batchProcessor;
+    private final PlainBatchParameterProcessor batchProcessor;
 
-    private final int maxCodeSystemsPerStatement = 512;
-    private final int maxCommonTokenValuesPerStatement = 256;
-    private final int maxCommonCanonicalValuesPerStatement = 256;
+    protected final int maxLogicalResourcesPerStatement = 256;
+    protected final int maxCodeSystemsPerStatement = 512;
+    protected final int maxCommonTokenValuesPerStatement = 256;
+    protected final int maxCommonCanonicalValuesPerStatement = 256;
     private boolean rollbackOnly;
 
     /**
@@ -133,18 +124,20 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
      * @param cache
      * @param maxReadyTimeMs
      */
-    public ShardedPostgresMessageHandler(Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
+    public PlainMessageHandler(IDatabaseTranslator translator, Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
         super(maxReadyTimeMs);
+        this.translator = translator;
         this.connection = connection;
         this.schemaName = schemaName;
         this.identityCache = cache;
-        this.batchProcessor = new ShardedBatchParameterProcessor(connection);
+        this.batchProcessor = new PlainBatchParameterProcessor(connection);
     }
 
     @Override
     protected void startBatch() {
         // always start with a clean slate
         batchedParameterValues.clear();
+        unresolvedLogicalResourceIdents.clear();
         unresolvedParameterNames.clear();
         unresolvedSystemValues.clear();
         unresolvedTokenValues.clear();
@@ -178,7 +171,7 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
                 // any values from parameter_names, code_systems and common_token_values
                 // are now committed to the database, so we can publish their record ids
                 // to the shared cache which makes them accessible from other threads 
-                publishCachedValues();
+                publishValuesToCache();
             } else {
                 // something went wrong...try to roll back the transaction before we close
                 // everything
@@ -196,25 +189,40 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         } catch (SQLException x) {
             throw new FHIRPersistenceException("commit failed", x);
         } finally {
-            if (!committed) {
-                // The maps may contain ids that were not committed to the database so
-                // we should clean them out in case we decide to reuse this consumer
-                this.parameterNameMap.clear();
-                this.codeSystemValueMap.clear();
-                this.commonTokenValueMap.clear();
-                this.commonCanonicalValueMap.clear();
-            }
+            // always clear these maps because otherwise they could grow unbounded. Values
+            // are cached by the identityCache
+            this.logicalResourceIdentMap.clear();
+            this.parameterNameMap.clear();
+            this.codeSystemValueMap.clear();
+            this.commonTokenValueMap.clear();
+            this.commonCanonicalValueMap.clear();
         }
     }
 
     /**
      * After the transaction has been committed, we can publish certain values to the
-     * shared identity caches
+     * shared identity caches allowing them to be used by other threads
      */
-    public void publishCachedValues() {
-        // all the unresolvedParameterNames should be resolved at this point
+    private void publishValuesToCache() {
         for (ParameterNameValue pnv: this.unresolvedParameterNames) {
+            logger.fine(() -> "Adding parameter-name to cache: '" + pnv.getParameterName() + "' -> " + pnv.getParameterNameId());
             identityCache.addParameterName(pnv.getParameterName(), pnv.getParameterNameId());
+        }
+
+        for (CommonCanonicalValue value: this.unresolvedCanonicalValues) {
+            identityCache.addCommonCanonicalValue(FIXED_SHARD, value.getUrl(), value.getCanonicalId());
+        }
+
+        for (CodeSystemValue value: this.unresolvedSystemValues) {
+            identityCache.addCodeSystem(value.getCodeSystem(), value.getCodeSystemId());
+        }
+
+        for (CommonTokenValue value: this.unresolvedTokenValues) {
+            identityCache.addCommonTokenValue(FIXED_SHARD, value.getCodeSystemValue().getCodeSystem(), value.getTokenValue(), value.getCommonTokenValueId());
+        }
+
+        for (LogicalResourceIdentValue value: this.unresolvedLogicalResourceIdents) {
+            identityCache.addLogicalResourceIdent(value.getResourceType(), value.getLogicalId(), value.getLogicalResourceId());
         }
     }
 
@@ -225,6 +233,8 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         // the last step before the current transaction is committed,
         // Process the token values so that we can establish
         // any entries we need for common_token_values
+        logger.fine("pushBatch: resolving all ids");
+        resolveLogicalResourceIdents();
         resolveParameterNames();
         resolveCodeSystems();
         resolveCommonTokenValues();
@@ -233,10 +243,14 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         // Now that all the lookup values should've been resolved, we can go ahead
         // and push the parameters to the JDBC batch insert statements via the
         // batchProcessor
+        logger.fine("pushBatch: processing collected parameters");
         for (BatchParameterValue v: this.batchedParameterValues) {
             v.apply(batchProcessor);
         }
+
+        logger.fine("pushBatch: executing final batch statements");
         batchProcessor.pushBatch();
+        logger.fine("pushBatch completed");
     }
 
     /**
@@ -264,20 +278,6 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         }
         return result;
     }
-
-    private LogicalResourceIdentValue lookupLogicalResourceIdentValue(String resourceType, String logicalId) {
-        LogicalResourceIdentKey key = new LogicalResourceIdentKey(resourceType, logicalId);
-        LogicalResourceIdentValue result = this.logicalResourceIdentMap.get(key);
-        if (result == null) {
-            result = LogicalResourceIdentValue.builder()
-                    .withResourceType(resourceType)
-                    .withLogicalId(logicalId)
-                    .build();
-            this.logicalResourceIdentMap.put(key, result);
-            this.unresolvedLogicalResourceIdents.add(result);
-        }
-        return result;
-    }
     
     @Override
     protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, StringParameter p) throws FHIRPersistenceException {
@@ -293,32 +293,28 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
 
     @Override
     protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, TokenParameter p) throws FHIRPersistenceException {
-        Short shardKey = batchProcessor.encodeShardKey(requestShard);
-        CommonTokenValue ctv = lookupCommonTokenValue(shardKey, p.getValueSystem(), p.getValueCode());
+        CommonTokenValue ctv = lookupCommonTokenValue(p.getValueSystem(), p.getValueCode());
         ParameterNameValue parameterNameValue = getParameterNameId(p);
         this.batchedParameterValues.add(new BatchTokenParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p, ctv));
     }
 
     @Override
     protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, TagParameter p) throws FHIRPersistenceException {
-        Short shardKey = batchProcessor.encodeShardKey(requestShard);
-        CommonTokenValue ctv = lookupCommonTokenValue(shardKey, p.getValueSystem(), p.getValueCode());
+        CommonTokenValue ctv = lookupCommonTokenValue(p.getValueSystem(), p.getValueCode());
         ParameterNameValue parameterNameValue = getParameterNameId(p);
         this.batchedParameterValues.add(new BatchTagParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p, ctv));
     }
 
     @Override
     protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, SecurityParameter p) throws FHIRPersistenceException {
-        Short shardKey = batchProcessor.encodeShardKey(requestShard);
-        CommonTokenValue ctv = lookupCommonTokenValue(shardKey, p.getValueSystem(), p.getValueCode());
+        CommonTokenValue ctv = lookupCommonTokenValue(p.getValueSystem(), p.getValueCode());
         ParameterNameValue parameterNameValue = getParameterNameId(p);
         this.batchedParameterValues.add(new BatchSecurityParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p, ctv));
     }
 
     @Override
     protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, ProfileParameter p) throws FHIRPersistenceException {
-        Short shardKey = batchProcessor.encodeShardKey(requestShard);
-        CommonCanonicalValue ctv = lookupCommonCanonicalValue(shardKey, p.getUrl());
+        CommonCanonicalValue ctv = lookupCommonCanonicalValue(p.getUrl());
         ParameterNameValue parameterNameValue = getParameterNameId(p);
         this.batchedParameterValues.add(new BatchProfileParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p, ctv));
     }
@@ -344,6 +340,7 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
 
     @Override
     protected void process(String tenantId, String requestShard, String resourceType, String logicalId, long logicalResourceId, ReferenceParameter p) throws FHIRPersistenceException {
+        logger.fine(() -> "Processing reference parameter value:" + p.toString());
         ParameterNameValue parameterNameValue = getParameterNameId(p);
         LogicalResourceIdentValue lriv = lookupLogicalResourceIdentValue(p.getResourceType(), p.getLogicalId());
         this.batchedParameterValues.add(new BatchReferenceParameter(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, p, lriv));
@@ -383,16 +380,16 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
      * @param tokenValue
      * @return
      */
-    private CommonTokenValue lookupCommonTokenValue(short shardKey, String codeSystem, String tokenValue) {
-        CommonTokenValueKey key = new CommonTokenValueKey(shardKey, codeSystem, tokenValue);
+    private CommonTokenValue lookupCommonTokenValue(String codeSystem, String tokenValue) {
+        CommonTokenValueKey key = new CommonTokenValueKey(FIXED_SHARD, codeSystem, tokenValue);
         CommonTokenValue result = this.commonTokenValueMap.get(key);
         if (result == null) {
             CodeSystemValue csv = lookupCodeSystemValue(codeSystem);
-            result = new CommonTokenValue(shardKey, csv, tokenValue);
+            result = new CommonTokenValue(FIXED_SHARD, csv, tokenValue);
             this.commonTokenValueMap.put(key, result);
 
             // Take this opportunity to see if we have a cached value for this common token value
-            Long commonTokenValueId = identityCache.getCommonTokenValueId(shardKey, codeSystem, tokenValue);
+            Long commonTokenValueId = identityCache.getCommonTokenValueId(FIXED_SHARD, codeSystem, tokenValue);
             if (commonTokenValueId != null) {
                 result.setCommonTokenValueId(commonTokenValueId);
             } else {
@@ -402,15 +399,53 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         return result;
     }
 
-    private CommonCanonicalValue lookupCommonCanonicalValue(short shardKey, String url) {
-        CommonCanonicalValueKey key = new CommonCanonicalValueKey(shardKey, url);
+    /**
+     * Get the LogicalResourceIdentValue we've assigned for the given (resourceType, logicalId)
+     * tuple. The returned value may not yet have the actual logical_resource_id yet - we fetch
+     * these values later and create new database records as necessary
+     * @param resourceType
+     * @param logicalId
+     * @return
+     */
+    private LogicalResourceIdentValue lookupLogicalResourceIdentValue(String resourceType, String logicalId) {
+        LogicalResourceIdentKey key = new LogicalResourceIdentKey(resourceType, logicalId);
+        LogicalResourceIdentValue result = this.logicalResourceIdentMap.get(key);
+        if (result == null) {
+            result = LogicalResourceIdentValue.builder()
+                    .withResourceTypeId(identityCache.getResourceTypeId(resourceType))
+                    .withResourceType(resourceType)
+                    .withLogicalId(logicalId)
+                    .build();
+            this.logicalResourceIdentMap.put(key, result);
+
+            // see if we can find the logical_resource_id from the cache
+            Long logicalResourceId = identityCache.getLogicalResourceIdentId(resourceType, logicalId);
+            if (logicalResourceId != null) {
+                result.setLogicalResourceId(logicalResourceId);
+            } else {
+                // Add to the unresolved list to look up later
+                this.unresolvedLogicalResourceIdents.add(result);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the CommonCanonicalValue we've assigned for the given url value.
+     * The returned value may not yet have the actual canonical_id yet - we fetch
+     * these values later and create new database records as necessary.
+     * @param url
+     * @return
+     */
+    private CommonCanonicalValue lookupCommonCanonicalValue(String url) {
+        CommonCanonicalValueKey key = new CommonCanonicalValueKey(FIXED_SHARD, url);
         CommonCanonicalValue result = this.commonCanonicalValueMap.get(key);
         if (result == null) {
-            result = new CommonCanonicalValue(shardKey, url);
+            result = new CommonCanonicalValue(FIXED_SHARD, url);
             this.commonCanonicalValueMap.put(key, result);
 
             // Take this opportunity to see if we have a cached value for this common token value
-            Long canonicalId = identityCache.getCommonCanonicalValueId(shardKey, url);
+            Long canonicalId = identityCache.getCommonCanonicalValueId(FIXED_SHARD, url);
             if (canonicalId != null) {
                 result.setCanonicalId(canonicalId);
             } else {
@@ -470,6 +505,8 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         return ps;
     }
 
+    protected abstract String onConflict();
+
     /**
      * These code systems weren't found in the database, so we need to try and add them.
      * We have to deal with concurrency here - there's a chance another thread could also
@@ -477,7 +514,7 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
      * consistent order. At the end, we should be able to read back values for each entry
      * @param missing
      */
-    private void addMissingCodeSystems(List<CodeSystemValue> missing) throws FHIRPersistenceException {
+    protected void addMissingCodeSystems(List<CodeSystemValue> missing) throws FHIRPersistenceException {
         List<String> values = missing.stream().map(csv -> csv.getCodeSystem()).collect(Collectors.toList());
         // Sort the code system values first to help avoid deadlocks
         Collections.sort(values); // natural ordering for String is fine here
@@ -486,7 +523,8 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO code_systems (code_system_id, code_system_name) VALUES (");
         insert.append(nextVal); // next sequence value
-        insert.append(",?) ON CONFLICT DO NOTHING");
+        insert.append(",?) ");
+        insert.append(onConflict());
 
         try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
             int count = 0;
@@ -509,6 +547,12 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         }
     }
 
+    /**
+     * Fetch all the code_system_id values for the given list of CodeSystemValue objects.
+     * @param unresolved
+     * @return
+     * @throws FHIRPersistenceException
+     */
     private List<CodeSystemValue> fetchCodeSystemIds(List<CodeSystemValue> unresolved) throws FHIRPersistenceException {
         // track which values aren't yet in the database
         List<CodeSystemValue> missing = new ArrayList<>();
@@ -596,18 +640,18 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
      * Build and prepare a statement to fetch the common_token_value records
      * for all the given (unresolved) code system values
      * @param values
-     * @return SELECT shard_key, code_system, token_value, common_token_value_id
+     * @return SELECT code_system, token_value, common_token_value_id
      * @throws SQLException
      */
-    private PreparedStatementWrapper buildCommonTokenValueSelectStatement(List<CommonTokenValue> values) throws SQLException {
+    protected PreparedStatementWrapper buildCommonTokenValueSelectStatement(List<CommonTokenValue> values) throws SQLException {
         StringBuilder query = new StringBuilder();
         // need the code_system name - so we join back to the code_systems table as well
-        query.append("SELECT c.shard_key, cs.code_system_name, c.token_value, c.common_token_value_id ");
+        query.append("SELECT cs.code_system_name, c.token_value, c.common_token_value_id ");
         query.append("  FROM common_token_values c");
         query.append("  JOIN code_systems cs ON (cs.code_system_id = c.code_system_id)");
         query.append("  JOIN (VALUES ");
 
-        // Create a (codeSystem, shardKey, tokenValue) tuple for each of the CommonTokenValue records
+        // Create a (codeSystem, tokenValue) tuple for each of the CommonTokenValue records
         boolean first = true;
         for (CommonTokenValue ctv: values) {
             if (first) {
@@ -617,11 +661,10 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
             }
             query.append("(");
             query.append(ctv.getCodeSystemValue().getCodeSystemId()); // literal for code_system_id
-            query.append(",").append(ctv.getShardKey()); // literal for shard_key
             query.append(",?)"); // bind variable for the token-value
         }
-        query.append(") AS v(code_system_id, shard_key, token_value) ");
-        query.append(" ON (c.code_system_id = v.code_system_id AND c.token_value = v.token_value AND c.shard_key = v.shard_key)");
+        query.append(") AS v(code_system_id, token_value) ");
+        query.append(" ON (c.code_system_id = v.code_system_id AND c.token_value = v.token_value)");
 
         // Create the prepared statement and bind the values
         final String statementText = query.toString();
@@ -634,7 +677,13 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         }
         return new PreparedStatementWrapper(statementText, ps);
     }
-    
+
+    /**
+     * Fetch the common_token_value_id values for the given list of CommonTokenValue objects.
+     * @param unresolved
+     * @return
+     * @throws FHIRPersistenceException
+     */
     private List<CommonTokenValue> fetchCommonTokenValueIds(List<CommonTokenValue> unresolved) throws FHIRPersistenceException {
         // track which values aren't yet in the database
         List<CommonTokenValue> missing = new ArrayList<>();
@@ -654,10 +703,10 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
                 int resultCount = 0;
                 while (rs.next()) {
                     resultCount++;
-                    CommonTokenValueKey key = new CommonTokenValueKey(rs.getShort(1), rs.getString(2), rs.getString(3));
+                    CommonTokenValueKey key = new CommonTokenValueKey(FIXED_SHARD, rs.getString(1), rs.getString(2));
                     CommonTokenValue ctv = this.commonTokenValueMap.get(key);
                     if (ctv != null) {
-                        ctv.setCommonTokenValueId(rs.getLong(4));
+                        ctv.setCommonTokenValueId(rs.getLong(3));
                     } else {
                         // can't really happen, but be defensive
                         throw new FHIRPersistenceException("common token values query returned an unexpected value");
@@ -692,22 +741,18 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
      * @param missing
      * @throws FHIRPersistenceException
      */
-    private void addMissingCommonTokenValues(List<CommonTokenValue> missing) throws FHIRPersistenceException {
+    protected void addMissingCommonTokenValues(List<CommonTokenValue> missing) throws FHIRPersistenceException {
 
-        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
         StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO common_token_values (shard_key, code_system_id, token_value, common_token_value_id) ");
-        insert.append(" OVERRIDING SYSTEM VALUE "); // we want to use our sequence number
-        insert.append("     VALUES (?,?,?,");
-        insert.append(nextVal); // next sequence value
-        insert.append(") ON CONFLICT DO NOTHING");
+        insert.append("INSERT INTO common_token_values (code_system_id, token_value) ");
+        insert.append("     VALUES (?,?) ");
+        insert.append(onConflict());
 
         try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
             int count = 0;
             for (CommonTokenValue ctv: missing) {
-                ps.setShort(1, ctv.getShardKey());
-                ps.setInt(2, ctv.getCodeSystemValue().getCodeSystemId());
-                ps.setString(3, ctv.getTokenValue());
+                ps.setInt(1, ctv.getCodeSystemValue().getCodeSystemId());
+                ps.setString(2, ctv.getTokenValue());
                 ps.addBatch();
                 if (++count == this.maxCommonTokenValuesPerStatement) {
                     // not too many statements in a single batch
@@ -735,13 +780,9 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         List<CommonCanonicalValue> missing = fetchCanonicalIds(unresolvedCanonicalValues);
 
         if (!missing.isEmpty()) {
-            // Sort on (url, shard_key) to minimize deadlocks
+            // Sort on url to minimize deadlocks
             Collections.sort(missing, (a,b) -> {
-                int result = a.getUrl().compareTo(b.getUrl());
-                if (result == 0) {
-                    result = Short.compare(a.getShardKey(), b.getShardKey());
-                }
-                return result;
+                return a.getUrl().compareTo(b.getUrl());
             });
             addMissingCommonCanonicalValues(missing);
         }
@@ -756,6 +797,12 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         }
     }
 
+    /**
+     * Fetch the common_canonical_id values for the given list of CommonCanonicalValue objects.
+     * @param unresolved
+     * @return
+     * @throws FHIRPersistenceException
+     */
     private List<CommonCanonicalValue> fetchCanonicalIds(List<CommonCanonicalValue> unresolved) throws FHIRPersistenceException {
         // track which values aren't yet in the database
         List<CommonCanonicalValue> missing = new ArrayList<>();
@@ -775,10 +822,10 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
                 int resultCount = 0;
                 while (rs.next()) {
                     resultCount++;
-                    CommonCanonicalValueKey key = new CommonCanonicalValueKey(rs.getShort(1), rs.getString(2));
+                    CommonCanonicalValueKey key = new CommonCanonicalValueKey(FIXED_SHARD, rs.getString(1));
                     CommonCanonicalValue ctv = this.commonCanonicalValueMap.get(key);
                     if (ctv != null) {
-                        ctv.setCanonicalId(rs.getLong(3));
+                        ctv.setCanonicalId(rs.getLong(2));
                     } else {
                         // can't really happen, but be defensive
                         throw new FHIRPersistenceException("common canonical values query returned an unexpected value");
@@ -811,16 +858,16 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
      * Build and prepare a statement to fetch the common_token_value records
      * for all the given (unresolved) code system values
      * @param values
-     * @return SELECT shard_key, code_system, token_value, common_token_value_id
+     * @return SELECT code_system, token_value, common_token_value_id
      * @throws SQLException
      */
     private PreparedStatementWrapper buildCommonCanonicalValueSelectStatement(List<CommonCanonicalValue> values) throws SQLException {
         StringBuilder query = new StringBuilder();
-        query.append("SELECT c.shard_key, c.url, c.canonical_id ");
+        query.append("SELECT c.url, c.canonical_id ");
         query.append("  FROM common_canonical_values c ");
-        query.append("  JOIN (VALUES ");
+        query.append("  WHERE c.url IN (");
 
-        // Create a (shardKey, url) tuple for each of the CommonCanonicalValue records
+        // add bind variables for each url we need to fetch
         boolean first = true;
         for (CommonCanonicalValue ctv: values) {
             if (first) {
@@ -828,12 +875,9 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
             } else {
                 query.append(",");
             }
-            query.append("(");
-            query.append(ctv.getShardKey()); // literal for shard_key
-            query.append(",?)"); // bind variable for the uri
+            query.append("?"); // bind variable for the url
         }
-        query.append(") AS v(shard_key, url) ");
-        query.append(" ON (c.url = v.url AND c.shard_key = v.shard_key)");
+        query.append(")");
 
         // Create the prepared statement and bind the values
         final String statementText = query.toString();
@@ -854,15 +898,11 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
      * @param missing
      * @throws FHIRPersistenceException
      */
-    private void addMissingCommonCanonicalValues(List<CommonCanonicalValue> missing) throws FHIRPersistenceException {
+    protected void addMissingCommonCanonicalValues(List<CommonCanonicalValue> missing) throws FHIRPersistenceException {
 
-        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
         StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO common_canonical_values (shard_key, url, canonical_id) ");
-        insert.append(" OVERRIDING SYSTEM VALUE "); // we want to use our sequence number
-        insert.append("     VALUES (?,?,");
-        insert.append(nextVal); // next sequence value
-        insert.append(") ON CONFLICT DO NOTHING");
+        insert.append("INSERT INTO common_canonical_values (url) VALUES (?) ");
+        insert.append(onConflict());
 
         final String DML = insert.toString();
         if (logger.isLoggable(Level.FINE)) {
@@ -872,8 +912,7 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
             int count = 0;
             for (CommonCanonicalValue ctv: missing) {
                 logger.finest(() -> "Adding canonical value [" + ctv.toString() + "]");
-                ps.setShort(1, ctv.getShardKey());
-                ps.setString(2, ctv.getUrl());
+                ps.setString(1, ctv.getUrl());
                 ps.addBatch();
                 if (++count == this.maxCommonCanonicalValuesPerStatement) {
                     // not too many statements in a single batch
@@ -902,23 +941,43 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         // values we still need to resolve. The most important point here is
         // to do this in a sorted order to avoid deadlock issues because this
         // could be happening across multiple consumer threads at the same time.
+        logger.fine("resolveParameterNames: sorting unresolved names");
         Collections.sort(this.unresolvedParameterNames, (a,b) -> {
             return a.getParameterName().compareTo(b.getParameterName());
         });
 
         try {
             for (ParameterNameValue pnv: this.unresolvedParameterNames) {
+                logger.finer(() -> "fetching parameter_name_id for '" + pnv.getParameterName() + "'");
                 Integer parameterNameId = getParameterNameIdFromDatabase(pnv.getParameterName());
                 if (parameterNameId == null) {
                     parameterNameId = createParameterName(pnv.getParameterName());
+                    if (logger.isLoggable(Level.FINER)) {
+                        logger.finer("assigned parameter_name_id '" + pnv.getParameterName() + "' = " + parameterNameId);
+                    }
+
+                    if (parameterNameId == null) {
+                        // be defensive
+                        throw new FHIRPersistenceException("parameter_name_id not assigned for '" + pnv.getParameterName());
+                    }
+                } else if (logger.isLoggable(Level.FINER)) {
+                    logger.finer("read parameter_name_id '" + pnv.getParameterName() + "' = " + parameterNameId);
                 }
                 pnv.setParameterNameId(parameterNameId);
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceException("error resolving parameter names", x);
+        } finally {
+            logger.exiting(CLASSNAME, "resolveParameterNames");
         }
     }
 
+    /**
+     * Fetch the parameter_name_id for the given parameterName value
+     * @param parameterName
+     * @return
+     * @throws SQLException
+     */
     private Integer getParameterNameIdFromDatabase(String parameterName) throws SQLException {
         String SQL = "SELECT parameter_name_id FROM parameter_names WHERE parameter_name = ?";
         try (PreparedStatement ps = connection.prepareStatement(SQL)) {
@@ -939,7 +998,7 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
      * @param parameterName
      * @return
      */
-    private Integer createParameterName(String parameterName) throws SQLException {
+    protected Integer createParameterName(String parameterName) throws SQLException {
         final String CALL = "{CALL " + schemaName + ".add_parameter_name(?, ?)}";
         Integer parameterNameId;
         try (CallableStatement stmt = connection.prepareCall(CALL)) {
@@ -976,13 +1035,13 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
         // work so only worth doing if we identify contention here.
 
         StringBuilder select = new StringBuilder();
-        // SELECT lr.shard_key, lr.logical_resource_id, lr.resource_type, lr.logical_id, xlr.version_id, lr.last_updated, lr.parameter_hash
+        // SELECT lr.logical_resource_id, lr.resource_type, lr.logical_id, xlr.version_id, lr.last_updated, lr.parameter_hash
         //   FROM logical_resources AS lr,
         //        patient_logical_resources AS xlr
         //  WHERE lr.logical_resource_id = xlr.logical_resource_id
         //    AND xlr.logical_resource_id IN (1,2,3,4)
         //  UNION ALL
-        // SELECT lr.shard_key, lr.logical_resource_id, lr.resource_type, lr.logical_id, xlr.version_id, lr.last_updated, lr.parameter_hash
+        // SELECT lr.logical_resource_id, lr.resource_type, lr.logical_id, xlr.version_id, lr.last_updated, lr.parameter_hash
         //   FROM logical_resources AS lr,
         //        observation_logical_resources AS xlr
         //  WHERE lr.logical_resource_id = xlr.logical_resource_id
@@ -997,7 +1056,7 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
             } else {
                 select.append(" UNION ALL ");
             }
-            select.append(" SELECT lr.shard_key, lr.logical_resource_id, '" + resourceType + "' AS resource_type, lr.logical_id, xlr.version_id, lr.last_updated, lr.parameter_hash ");
+            select.append(" SELECT lr.logical_resource_id, '" + resourceType + "' AS resource_type, lr.logical_id, xlr.version_id, lr.last_updated, lr.parameter_hash ");
             select.append("   FROM logical_resources AS lr, ");
             select.append(resourceType).append("_logical_resources AS xlr ");
             select.append("  WHERE lr.logical_resource_id = xlr.logical_resource_id ");
@@ -1035,7 +1094,6 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
             ResultSetReader rsReader = new ResultSetReader(rs);
             while (rsReader.next()) {
                 LogicalResourceValue lrv = LogicalResourceValue.builder()
-                        .withShardKey(rsReader.getShort())
                         .withLogicalResourceId(rsReader.getLong())
                         .withResourceType(rsReader.getString())
                         .withLogicalId(rsReader.getString())
@@ -1055,10 +1113,13 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
                     // times match - which is a good check that we're storing parameters
                     // from the correct transaction. If these don't match, we can simply
                     // say we found the data but don't need to process the message.
-                    final String lastUpdated = lrv.getLastUpdated().toString();
+                    final Instant dbLastUpdated = lrv.getLastUpdated().toInstant();
+                    final Instant msgLastUpdated = m.getData().getLastUpdated();
                     if (lrv.getParameterHash().equals(m.getData().getParameterHash()) 
-                            && lastUpdated.equals(m.getData().getLastUpdated())) {
+                            && dbLastUpdated.equals(msgLastUpdated)) {
                         okToProcess.add(m);
+                    } else {
+                        logger.warning("Parameter message must match both parameter_hash and last_updated. Must be from an uncommitted transaction so ignoring: " + m.toString());
                     }
                     found.add(lrv.getLogicalResourceId()); // won't be marked as missing
                 } else if (m.getData().getVersionId() > lrv.getVersionId()) {
@@ -1085,4 +1146,212 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
             }
         }
     }
+    
+    
+    
+    
+    /**
+     * Make sure we have values for all the logical_resource_ident values
+     * we have collected in the current batch. Need to make sure these are
+     * added in order to minimize deadlocks. Note that because we may create
+     * new logical_resource_ident records, we could be blocked by the main
+     * add_any_resource procedure run within the server CREATE/UPDATE
+     * transaction.
+     * @throws FHIRPersistenceException
+     */
+    private void resolveLogicalResourceIdents() throws FHIRPersistenceException {
+        logger.fine("resolveLogicalResourceIdents: fetching ids for unresolved LogicalResourceIdent records");
+        // identify which values aren't yet in the database
+        List<LogicalResourceIdentValue> missing = fetchLogicalResourceIdentIds(unresolvedLogicalResourceIdents);
+
+        if (!missing.isEmpty()) {
+            logger.fine("resolveLogicalResourceIdents: add missing LogicalResourceIdent records");
+            addMissingLogicalResourceIdents(missing);
+        }
+
+        // All the previously missing values should now be in the database. We need to fetch them again,
+        // possibly having to use multiple queries
+        logger.fine("resolveLogicalResourceIdents: fetch ids for missing LogicalResourceIdent records");
+        List<LogicalResourceIdentValue> bad = fetchLogicalResourceIdentIds(missing);
+
+        if (!bad.isEmpty()) {
+            // shouldn't happen, but let's protected against it anyway
+            throw new FHIRPersistenceException("Failed to create all logical_resource_ident values");
+        }
+        logger.fine("resolveLogicalResourceIdents: all resolved");
+    }
+
+    /**
+     * Build and prepare a statement to fetch the code_system_id and code_system_name
+     * from the code_systems table for all the given (unresolved) code system values
+     * @param values
+     * @return
+     * @throws SQLException
+     */
+    protected PreparedStatement buildLogicalResourceIdentSelectStatement(List<LogicalResourceIdentValue> values) throws SQLException {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT rt.resource_type, lri.logical_id, lri.logical_resource_id ");
+        query.append("  FROM logical_resource_ident AS lri ");
+        query.append("  JOIN (VALUES ");
+        for (int i=0; i<values.size(); i++) {
+            if (i > 0) {
+                query.append(",");
+            }
+            query.append("(?,?)");
+        }
+        query.append(") AS v(resource_type_id, logical_id) ");
+        query.append("    ON (lri.resource_type_id = v.resource_type_id AND lri.logical_id = v.logical_id)");
+        query.append("  JOIN resource_types AS rt ON (rt.resource_type_id = v.resource_type_id)"); // convenient to get the resource type name here
+        PreparedStatement ps = connection.prepareStatement(query.toString());
+        // bind the parameter values
+        int param = 1;
+        for (LogicalResourceIdentValue val: values) {
+            ps.setInt(param++, val.getResourceTypeId());
+            ps.setString(param++, val.getLogicalId());
+        }
+        logger.fine(() -> "logicalResourceIdents: " + query.toString());
+        return ps;
+    }
+
+    /**
+     * These logical_resource_ident values weren't found in the database, so we need to try and add them.
+     * We have to deal with concurrency here - there's a chance another thread could also
+     * be trying to add them. To avoid deadlocks, it's important to do any inserts in a
+     * consistent order. At the end, we should be able to read back values for each entry
+     * @param missing
+     */
+    protected void addMissingLogicalResourceIdents(List<LogicalResourceIdentValue> missing) throws FHIRPersistenceException {
+        // Sort the values first to help avoid deadlocks
+        Collections.sort(missing, (a,b) -> {
+            return a.compareTo(b);
+        });
+
+        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
+        StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO logical_resource_ident (resource_type_id, logical_id, logical_resource_id) VALUES (?,?,");
+        insert.append(nextVal); // next sequence value
+        insert.append(") ");
+        insert.append(onConflict());
+
+        try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
+            int count = 0;
+            for (LogicalResourceIdentValue value: missing) {
+                if (value.getResourceTypeId() == null) {
+                    logger.severe("bad value: " + value);
+                }
+                ps.setInt(1, value.getResourceTypeId());
+                ps.setString(2, value.getLogicalId());
+                ps.addBatch();
+                if (++count == this.maxLogicalResourcesPerStatement) {
+                    // not too many statements in a single batch
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+            if (count > 0) {
+                // final batch
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "logical_resource_ident insert failed: " + insert.toString(), x);
+            throw new FHIRPersistenceException("logical_resource_ident insert failed");
+        }
+    }
+
+    /**
+     * Fetch logical_resource_id values for the given list of LogicalResourceIdent objects.
+     * @param unresolved
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    private List<LogicalResourceIdentValue> fetchLogicalResourceIdentIds(List<LogicalResourceIdentValue> unresolved) throws FHIRPersistenceException {
+        // track which values aren't yet in the database
+        List<LogicalResourceIdentValue> missing = new ArrayList<>();
+
+        int offset = 0;
+        while (offset < unresolved.size()) {
+            int remaining = unresolved.size() - offset;
+            int subSize = Math.min(remaining, this.maxCodeSystemsPerStatement);
+            List<LogicalResourceIdentValue> sub = unresolved.subList(offset, offset+subSize); // remember toIndex is exclusive
+            offset += subSize; // set up for the next iteration
+            try (PreparedStatement ps = buildLogicalResourceIdentSelectStatement(sub)) {
+                ResultSet rs = ps.executeQuery();
+                // We can't rely on the order of result rows matching the order of the in-list,
+                // so we have to go back to our map to look up each LogicalResourceIdentValue
+                int resultCount = 0;
+                while (rs.next()) {
+                    resultCount++;
+                    LogicalResourceIdentKey key = new LogicalResourceIdentKey(rs.getString(1), rs.getString(2));
+                    LogicalResourceIdentValue csv = this.logicalResourceIdentMap.get(key);
+                    if (csv != null) {
+                        csv.setLogicalResourceId(rs.getLong(3));
+                    } else {
+                        // can't really happen, but be defensive
+                        throw new FHIRPersistenceException("logical resource ident query returned an unexpected value");
+                    }
+                }
+
+                // Most of the time we'll get everything, so we can bypass the check for
+                // missing values
+                if (resultCount == 0) {
+                    // 100% miss
+                    missing.addAll(sub);
+                } else if (resultCount < subSize) {
+                    // need to scan the sub list and see which values we don't yet have ids for
+                    for (LogicalResourceIdentValue csv: sub) {
+                        if (csv.getLogicalResourceId() == null) {
+                            missing.add(csv);
+                        }
+                    }
+                }
+            } catch (SQLException x) {
+                logger.log(Level.SEVERE, "logical resource ident fetch failed", x);
+                throw new FHIRPersistenceException("logical resource ident fetch failed");
+            }
+        }
+
+        // Return the list of CodeSystemValues which don't yet have a database entry
+        return missing;
+    }
+
+    /**
+     * Get the next value from fhir_ref_sequence
+     * @param c
+     * @return
+     * @throws SQLException
+     */
+    protected Integer getNextRefId() throws SQLException {
+        final String select = translator.selectSequenceNextValue(schemaName, "fhir_ref_sequence");
+        Integer result;
+        try (Statement s = connection.createStatement()) {
+            ResultSet rs = s.executeQuery(select);
+            if (rs.next()) {
+                result = rs.getInt(1);
+            } else {
+                throw new IllegalStateException("no row from '" + select + "'");
+            }
+        }
+        return result;
+    }    
+
+    /**
+     * Get the next value from fhir_sequence
+     * @param c
+     * @return
+     * @throws SQLException
+     */
+    protected Long getNextId() throws SQLException {
+        final String select = translator.selectSequenceNextValue(schemaName, "fhir_sequence");
+        Long result;
+        try (Statement s = connection.createStatement()) {
+            ResultSet rs = s.executeQuery(select);
+            if (rs.next()) {
+                result = rs.getLong(1);
+            } else {
+                throw new IllegalStateException("no row from '" + select + "'");
+            }
+        }
+        return result;
+    }
+
 }

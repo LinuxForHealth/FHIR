@@ -42,6 +42,7 @@ import com.ibm.fhir.remote.index.api.IMessageHandler;
 import com.ibm.fhir.remote.index.cache.IdentityCacheImpl;
 import com.ibm.fhir.remote.index.database.CacheLoader;
 import com.ibm.fhir.remote.index.database.DistributedPostgresMessageHandler;
+import com.ibm.fhir.remote.index.database.PlainDerbyMessageHandler;
 import com.ibm.fhir.remote.index.database.PlainPostgresMessageHandler;
 import com.ibm.fhir.remote.index.kafka.RemoteIndexConsumer;
 import com.ibm.fhir.remote.index.sharded.ShardedPostgresMessageHandler;
@@ -332,7 +333,11 @@ public class Main {
             case SHARDED:
                 return new ShardedPostgresMessageHandler(c, getSchemaName(), identityCache, maxReadyTimeMs);
             case PLAIN:
-                return new PlainPostgresMessageHandler(c, getSchemaName(), identityCache, maxReadyTimeMs);                
+                if (dbType == DbType.DERBY) {
+                    return new PlainDerbyMessageHandler(c, getSchemaName(), identityCache, maxReadyTimeMs);                
+                } else {
+                    return new PlainPostgresMessageHandler(c, getSchemaName(), identityCache, maxReadyTimeMs);                
+                }
             case DISTRIBUTED:
                 return new DistributedPostgresMessageHandler(c, getSchemaName(), identityCache, maxReadyTimeMs);                
             default:

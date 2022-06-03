@@ -182,7 +182,7 @@ public class PlainPostgresSystemParameterBatch {
      */
     public void addDate(long logicalResourceId, int parameterNameId, Timestamp dateStart, Timestamp dateEnd, Integer compositeId) throws SQLException {
         if (systemDates == null) {
-            final String insertSystemDate = "INSERT INTO date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?,?)";
+            final String insertSystemDate = "INSERT INTO date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?)";
             systemDates = connection.prepareStatement(insertSystemDate);
         }
         final Calendar UTC = CalendarHelper.getCalendarForUTC();
@@ -190,7 +190,6 @@ public class PlainPostgresSystemParameterBatch {
         systemDates.setTimestamp(2, dateStart, UTC);
         systemDates.setTimestamp(3, dateEnd, UTC);
         systemDates.setLong(4, logicalResourceId);
-        setComposite(systemDates, 5, compositeId);
         systemDates.addBatch();
         systemDateCount++;
     }

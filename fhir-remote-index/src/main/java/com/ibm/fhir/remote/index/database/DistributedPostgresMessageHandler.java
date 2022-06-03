@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.remote.index.api.IdentityCache;
 
@@ -22,7 +23,7 @@ import com.ibm.fhir.remote.index.api.IdentityCache;
  * by a sequence, which means a slightly different INSERT statement
  * in certain cases
  */
-public class DistributedPostgresMessageHandler extends PlainPostgresMessageHandler {
+public class DistributedPostgresMessageHandler extends PlainMessageHandler {
     private static final Logger logger = Logger.getLogger(DistributedPostgresMessageHandler.class.getName());
 
     /**
@@ -33,7 +34,12 @@ public class DistributedPostgresMessageHandler extends PlainPostgresMessageHandl
      * @param maxReadyTimeMs
      */
     public DistributedPostgresMessageHandler(Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
-        super(connection, schemaName, cache, maxReadyTimeMs);
+        super(new PostgresTranslator(), connection, schemaName, cache, maxReadyTimeMs);
+    }
+
+    @Override
+    protected String onConflict() {
+        return "ON CONFLICT DO NOTHING";
     }
 
     @Override
@@ -47,7 +53,8 @@ public class DistributedPostgresMessageHandler extends PlainPostgresMessageHandl
         insert.append(" OVERRIDING SYSTEM VALUE "); // we want to use our sequence number
         insert.append("     VALUES (?,?,");
         insert.append(nextVal); // next sequence value
-        insert.append(") ON CONFLICT DO NOTHING");
+        insert.append(") ");
+        insert.append(onConflict());
 
         try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
             int count = 0;
@@ -82,7 +89,8 @@ public class DistributedPostgresMessageHandler extends PlainPostgresMessageHandl
         insert.append(" OVERRIDING SYSTEM VALUE "); // we want to use our sequence number
         insert.append("     VALUES (?,");
         insert.append(nextVal); // next sequence value
-        insert.append(") ON CONFLICT DO NOTHING");
+        insert.append(") ");
+        insert.append(onConflict());
 
         final String DML = insert.toString();
         if (logger.isLoggable(Level.FINE)) {

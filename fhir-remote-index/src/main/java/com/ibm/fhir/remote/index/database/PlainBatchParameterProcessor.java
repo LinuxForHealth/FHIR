@@ -220,6 +220,7 @@ public class PlainBatchParameterProcessor implements BatchParameterProcessor {
                 systemDao.addDate(logicalResourceId, parameterNameValue.getParameterNameId(), valueDateStart, valueDateEnd, p.getCompositeId());
             }
         } catch (SQLException x) {
+            logger.log(Level.SEVERE, "DateParameter", x);
             throw new FHIRPersistenceException("Failed inserting date params for '" + resourceType + "'");
         }
     }
