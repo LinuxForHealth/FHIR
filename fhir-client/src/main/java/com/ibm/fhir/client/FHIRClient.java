@@ -179,49 +179,70 @@ public interface FHIRClient {
      * @return a FHIRResponse that contains a Conformance object which describes the
      * FHIR Server's capabilities
      * @throws Exception
+     * @deprecated use {@link #capabilities(FHIRRequestHeader...)}
      */
-    FHIRResponse metadata(FHIRRequestHeader... headers) throws Exception;
+    @Deprecated
+    default FHIRResponse metadata(FHIRRequestHeader... headers) throws Exception {
+        return capabilities(headers);
+    }
 
     /**
-     * Invokes the 'create' FHIR REST API operation.
+     * Invokes the 'capabilities' FHIR REST API operation to get a capability statement for the target server.
+     * @param headers an optional list of request headers to be added to the request
+     * @return a FHIRResponse that contains a Conformance object which describes the
+     * FHIR Server's capabilities
+     * @throws Exception
+     */
+    FHIRResponse capabilities(FHIRRequestHeader... headers) throws Exception;
+
+    /**
+     * Invokes the 'create' FHIR REST API operation to create a new resource with a server assigned id.
      * @param resource the FHIR resource to be created
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'create' operation
      * @throws Exception
+     * @implSpec Per the FHIR specification, the server is expected to assign the resource
+     *     a new id and meta.lastUpdated, so any existing value in those fields will be ignored.
      */
     FHIRResponse create(Resource resource, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'conditional create' FHIR REST API operation.
+     * Invokes the 'conditional create' FHIR REST API operation to conditionally create a new resource with a server assigned id.
      * @param resource the FHIR resource to be created
      * @param parameters search-related query parameters to be included in the request
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'conditional create' operation
      * @throws Exception
+     * @implSpec Per the FHIR specification, the server is expected to assign the resource
+     *     a new id and meta.lastUpdated, so any existing value in those fields will be ignored.
      */
     FHIRResponse conditionalCreate(Resource resource, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'create' FHIR REST API operation.
+     * Invokes the 'create' FHIR REST API operation to create a new resource with a server assigned id.
      * @param resource the resource (in the form of a JsonObject) to be created
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'create' operation
      * @throws Exception
+     * @implSpec Per the FHIR specification, the server is expected to assign the resource
+     *     a new id and meta.lastUpdated, so any existing value in those fields will be ignored.
      */
     FHIRResponse create(JsonObject resource, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'conditional create' FHIR REST API operation.
+     * Invokes the 'conditional create' FHIR REST API operation to conditionally create a new resource with a server assigned id.
      * @param resource the resource (in the form of a JsonObject) to be created
      * @param parameters search-related query parameters to be included in the request
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'conditional create' operation
      * @throws Exception
+     * @implSpec Per the FHIR specification, the server is expected to assign the resource
+     *     a new id and meta.lastUpdated, so any existing value in those fields will be ignored.
      */
     FHIRResponse conditionalCreate(JsonObject resource, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'update' FHIR REST API operation.
+     * Invokes the 'update' FHIR REST API operation to update an existing resource by its id (or create it if it is new).
      * @param resource the FHIR resource to be updated
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'update' operation
@@ -230,7 +251,7 @@ public interface FHIRClient {
     FHIRResponse update(Resource resource, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'conditional update' FHIR REST API operation.
+     * Invokes the 'conditional update' FHIR REST API operation to conditionally update an existing resource by its id (or create it if it is new).
      * @param resource the FHIR resource to be created
      * @param parameters search-related query parameters to be included in the request
      * @param headers an optional list of request headers to be added to the request
@@ -240,7 +261,7 @@ public interface FHIRClient {
     FHIRResponse conditionalUpdate(Resource resource, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'update' FHIR REST API operation.
+     * Invokes the 'update' FHIR REST API operation to update an existing resource by its id (or create it if it is new).
      * @param resource the resource (in the form of a JsonObject) to be updated
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'update' operation
@@ -249,7 +270,7 @@ public interface FHIRClient {
     FHIRResponse update(JsonObject resource, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'conditional update' FHIR REST API operation.
+     * Invokes the 'conditional update' FHIR REST API operation to conditionally update an existing resource by its id (or create it if it is new).
      * @param resource the resource (in the form of a JsonObject) to be updated
      * @param parameters search-related query parameters to be included in the request
      * @param headers an optional list of request headers to be added to the request
@@ -259,7 +280,7 @@ public interface FHIRClient {
     FHIRResponse conditionalUpdate(JsonObject resource, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'delete' FHIR REST API operation.
+     * Invokes the 'delete' FHIR REST API operation to delete a resource.
      * @param resourceType a string representing the name of the resource type
      * to be deleted (e.g. "Patient")
      * @param resourceId the id of the resource to be deleted
@@ -270,7 +291,7 @@ public interface FHIRClient {
     FHIRResponse delete(String resourceType, String resourceId, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'conditional delete' FHIR REST API operation.
+     * Invokes the 'conditional delete' FHIR REST API operation to conditionally delete a resource.
      * @param resourceType a string representing the name of the resource type
      * to be deleted (e.g. "Patient")
      * @param parameters search-related query parameters to be included in the request
@@ -281,7 +302,7 @@ public interface FHIRClient {
     FHIRResponse conditionalDelete(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'read' FHIR REST API operation.
+     * Invokes the 'read' FHIR REST API operation to read the current state of a resource.
      * @param resourceType a string representing the name of the resource type
      * to be retrieved (e.g. "Patient")
      * @param resourceId the id of the resource to be retrieved
@@ -292,7 +313,7 @@ public interface FHIRClient {
     FHIRResponse read(String resourceType, String resourceId, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'vread' FHIR REST API operation.
+     * Invokes the 'vread' FHIR REST API operation to read the state of a specific version of a resource.
      * @param resourceType a string representing the name of the resource type
      * to be retrieved (e.g. "Patient")
      * @param resourceId the id of the resource to be retrieved
@@ -304,7 +325,7 @@ public interface FHIRClient {
     FHIRResponse vread(String resourceType, String resourceId, String versionId, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'history' FHIR REST API operation.
+     * Invokes the type-level 'history' FHIR REST API operation to retrieve the change history for a particular resource type.
      * @param resourceType a string representing the name of the resource type
      * to be retrieved (e.g. "Patient")
      * @param resourceId the id of the resource to be retrieved
@@ -317,7 +338,7 @@ public interface FHIRClient {
     FHIRResponse history(String resourceType, String resourceId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes system level history FHIR REST API operation
+     * Invokes the system-level 'history' FHIR REST API operation to retrieve the change history for all resources.
      * @param parameters an optional collection of request parameters for the 'history' operation;
      * may be specified as null if no parameters need to be passed to the 'history' operation
      * @param headers an optional list of request headers to be added to the request
@@ -327,7 +348,7 @@ public interface FHIRClient {
     FHIRResponse history(FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'search' FHIR REST API operation.
+     * Invokes the type-level 'search' FHIR REST API operation to search the resource type based on some filter criteria.
      * @param resourceType a string representing the name of the resource type to search for (e.g. "Patient")
      * @param parameters  an optional collection of request parameters for the 'search' operation;
      * may be specified as null if no parameters need to be passed to the 'search' operation
@@ -338,7 +359,7 @@ public interface FHIRClient {
     FHIRResponse search(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the '_search' FHIR REST API operation.
+     * Invokes the type-level 'search' FHIR REST API operation via HTTP POST.
      * @param resourceType a string representing the name of the resource type to search for (e.g. "Patient")
      * @param parameters  an optional collection of request parameters for the '_search' operation;
      * may be specified as null if no parameters need to be passed to the '_search' operation;
@@ -349,7 +370,7 @@ public interface FHIRClient {
     FHIRResponse _search(String resourceType, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'search-all' FHIR REST API operation with HTTP POST.
+     * Invokes the system-level 'search' FHIR REST API operation to search across all resource types based on some filter criteria.
      * @param parameters  an optional collection of request parameters for the 'search-all' operation;
      * may be specified as null if no parameters need to be passed to the 'search' operation;
      * for Post, search parameters for this operation will go in the request body as FORM parameters
@@ -360,7 +381,7 @@ public interface FHIRClient {
     FHIRResponse searchAll(FHIRParameters parameters, boolean isPost, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'validate' FHIR REST API operation.
+     * Invokes the 'validate' FHIR extended operation.
      * @param resource the resource to be validated
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'validate' operation
@@ -369,7 +390,7 @@ public interface FHIRClient {
     FHIRResponse validate(Resource resource, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'validate' FHIR REST API operation.
+     * Invokes the 'validate' FHIR extended operation.
      * @param resource the resource (in the form of a JsonObject) to be validated
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'validate' operation
@@ -396,8 +417,9 @@ public interface FHIRClient {
     FHIRResponse transaction(Bundle bundle, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'invoke' FHIR REST API operation.
+     * Invokes a FHIR extended operation at the system level via HTTP GET.
      * @param operationName name of the operation to be performed
+     * @param parameters query parameters to use for the request
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'invoke' operation
      * @throws Exception
@@ -405,9 +427,9 @@ public interface FHIRClient {
     FHIRResponse invoke(String operationName, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'invoke' FHIR REST API operation.
+     * Invokes a FHIR extended operation at the system level via HTTP POST.
      * @param operationName name of the operation to be performed
-     * @param resource the FHIR resource used in context for the operation
+     * @param resource the FHIR resource to use as the input for the operation
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'invoke' operation
      * @throws Exception
@@ -415,9 +437,10 @@ public interface FHIRClient {
     FHIRResponse invoke(String operationName, Resource resource, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'invoke' FHIR REST API operation.
+     * Invokes a FHIR extended operation at the type level via HTTP GET.
      * @param resourceType the FHIR resource type used in context for the operation
      * @param operationName name of the operation to be performed
+     * @param parameters query parameters to use for the request
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'invoke' operation
      * @throws Exception
@@ -425,10 +448,10 @@ public interface FHIRClient {
     FHIRResponse invoke(String resourceType, String operationName, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'invoke' FHIR REST API operation.
+     * Invokes a FHIR extended operation at the type level via HTTP POST.
      * @param resourceType the FHIR resource type used in context for the operation
      * @param operationName name of the operation to be performed
-     * @param resource the FHIR resource used in context for the operation
+     * @param resource the FHIR resource to use as the input for the operation
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'invoke' operation
      * @throws Exception
@@ -436,10 +459,11 @@ public interface FHIRClient {
     FHIRResponse invoke(String resourceType, String operationName, Resource resource, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'invoke' FHIR REST API operation.
+     * Invokes a FHIR extended operation at the instance level via HTTP GET.
      * @param resourceType the FHIR resource type used in context for the operation
      * @param operationName name of the operation to be performed
      * @param resourceId the FHIR resource instance used in context for the operation
+     * @param parameters query parameters to use for the request
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'invoke' operation
      * @throws Exception
@@ -447,11 +471,11 @@ public interface FHIRClient {
     FHIRResponse invoke(String resourceType, String operationName, String resourceId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'invoke' FHIR REST API operation.
+     * Invokes a FHIR extended operation at the instance level via HTTP POST.
      * @param resourceType the FHIR resource type used in context for the operation
      * @param operationName name of the operation to be performed
      * @param resourceId the FHIR resource instance used in context for the operation
-     * @param resource the FHIR resource used in context for the operation
+     * @param resource the FHIR resource to use as the input for the operation
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'invoke' operation
      * @throws Exception
@@ -459,11 +483,12 @@ public interface FHIRClient {
     FHIRResponse invoke(String resourceType, String operationName, String resourceId, Resource resource, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'invoke' FHIR REST API operation.
+     * Invokes a FHIR extended operation at the instance version level via HTTP GET.
      * @param resourceType the FHIR resource type used in context for the operation
      * @param operationName name of the operation to be performed
      * @param resourceId the FHIR resource instance used in context for the operation
      * @param versionId version of the FHIR resource instance used in context for the operation
+     * @param parameters query parameters to use for the request
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'invoke' operation
      * @throws Exception
@@ -471,12 +496,12 @@ public interface FHIRClient {
     FHIRResponse invoke(String resourceType, String operationName, String resourceId, String versionId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception;
 
     /**
-     * Invokes the 'invoke' FHIR REST API operation.
+     * Invokes a FHIR extended operation at the instance version level via HTTP POST.
      * @param resourceType the FHIR resource type used in context for the operation
      * @param operationName name of the operation to be performed
      * @param resourceId the FHIR resource instance used in context for the operation
      * @param versionId version of the FHIR resource instance used in context for the operation
-     * @param resource the FHIR resource used in context for the operation
+     * @param resource the FHIR resource to use as the input for the operation
      * @param headers an optional list of request headers to be added to the request
      * @return a FHIRResponse that contains the results of the 'invoke' operation
      * @throws Exception

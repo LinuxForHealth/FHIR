@@ -178,7 +178,7 @@ public class FHIRClientImpl implements FHIRClient {
     }
 
     @Override
-    public FHIRResponse metadata(FHIRRequestHeader... headers) throws Exception {
+    public FHIRResponse capabilities(FHIRRequestHeader... headers) throws Exception {
         WebTarget endpoint = getWebTarget();
         Invocation.Builder builder = endpoint.path("metadata").request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
