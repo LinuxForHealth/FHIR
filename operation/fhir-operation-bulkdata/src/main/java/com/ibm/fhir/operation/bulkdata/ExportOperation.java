@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.ws.rs.core.MediaType;
 
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
@@ -66,7 +67,8 @@ public class ExportOperation extends AbstractOperation {
         Parameters response = null;
         OperationConstants.ExportType exportType = export.checkExportType(operationContext.getType(), resourceType);
 
-        Set<String> types = export.checkAndValidateTypes(exportType, getParameters(parameters, OperationConstants.PARAM_TYPE));
+        FHIRVersionParam fhirVersion = (FHIRVersionParam) operationContext.getProperty(FHIROperationContext.PROPNAME_FHIR_VERSION);
+        Set<String> types = export.checkAndValidateTypes(exportType, fhirVersion, getParameters(parameters, OperationConstants.PARAM_TYPE));
 
         if (!ExportType.INVALID.equals(exportType)) {
 
