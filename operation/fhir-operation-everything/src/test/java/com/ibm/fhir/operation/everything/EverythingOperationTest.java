@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,22 +29,17 @@ import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 
 /**
- *
+ * Unit tests for the $everything operation
  */
 public class EverythingOperationTest {
-
-
     private EverythingOperation everythingOperation;
 
-    /**
-     *
-     */
     public EverythingOperationTest() {
         everythingOperation = new EverythingOperation();
     }
 
     /**
-     *
+     * Build the OperationDefinition and ensure its not null
      */
     @Test
     public void testEverythingOperation() {
