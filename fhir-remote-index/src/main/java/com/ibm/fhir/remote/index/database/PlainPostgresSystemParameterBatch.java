@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.sql.Types;
 import java.util.Calendar;
 
 import com.ibm.fhir.database.utils.common.CalendarHelper;
@@ -132,31 +131,15 @@ public class PlainPostgresSystemParameterBatch {
     }
 
     /**
-     * Set the compositeId on the given PreparedStatement, handling a value if necessary
-     * @param ps
-     * @param index
-     * @param compositeId
-     * @throws SQLException
-     */
-    private void setComposite(PreparedStatement ps, int index, Integer compositeId) throws SQLException {
-        if (compositeId != null) {
-            ps.setInt(index, compositeId);
-        } else {
-            ps.setNull(index, Types.INTEGER);
-        }
-    }
-
-    /**
      * Add a string parameter value to the whole-system batch statement
      * 
      * @param logicalResourceId
      * @param parameterNameId
      * @param strValue
      * @param strValueLower
-     * @param compositeId
      * @throws SQLException
      */
-    public void addString(long logicalResourceId, int parameterNameId, String strValue, String strValueLower, Integer compositeId) throws SQLException {
+    public void addString(long logicalResourceId, int parameterNameId, String strValue, String strValueLower) throws SQLException {
             // System level string attributes
             if (systemStrings == null) {
                 final String insertSystemString = "INSERT INTO str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (?,?,?,?)";
@@ -166,7 +149,6 @@ public class PlainPostgresSystemParameterBatch {
             systemStrings.setString(2, strValue);
             systemStrings.setString(3, strValueLower);
             systemStrings.setLong(4, logicalResourceId);
-            setComposite(systemStrings, 5, compositeId);
             systemStrings.addBatch();
             systemStringCount++;
     }
@@ -242,7 +224,7 @@ public class PlainPostgresSystemParameterBatch {
      * @throws SQLException
      */
     public void addSecurity(long logicalResourceId, long commonTokenValueId) throws SQLException {
-        if (systemTags == null) {
+        if (systemSecurity == null) {
             final String INS = "INSERT INTO logical_resource_security(common_token_value_id, logical_resource_id) VALUES (?,?)";
             systemSecurity = connection.prepareStatement(INS);
         }

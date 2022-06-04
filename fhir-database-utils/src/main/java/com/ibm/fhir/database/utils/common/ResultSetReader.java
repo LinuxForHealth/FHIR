@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.database.utils.common;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -82,6 +83,32 @@ public class ResultSetReader {
      */
     public Long getLong() throws SQLException {
         Long result = rs.getLong(index++);
+        if (rs.wasNull()) {
+            result = null;
+        }
+        return result;
+    }
+
+    /**
+     * Get a BigDecimal column value and increment the column index
+     * @return
+     * @throws SQLException
+     */
+    public BigDecimal getBigDecimal() throws SQLException {
+        BigDecimal result = rs.getBigDecimal(index++);
+        if (rs.wasNull()) {
+            result = null;
+        }
+        return result;
+    }
+
+    /**
+     * Get a Double column value and increment the column index
+     * @return
+     * @throws SQLException
+     */
+    public Double getDouble() throws SQLException {
+        Double result = rs.getDouble(index++);
         if (rs.wasNull()) {
             result = null;
         }

@@ -152,9 +152,10 @@ public class PlainBatchParameterProcessor implements BatchParameterProcessor {
             dao.addString(logicalResourceId, parameterNameValue.getParameterNameId(), parameter.getValue(), parameter.getValue().toLowerCase(), parameter.getCompositeId());
 
             if (parameter.isSystemParam()) {
-                systemDao.addString(logicalResourceId, parameterNameValue.getParameterNameId(), parameter.getValue(), parameter.getValue().toLowerCase(), parameter.getCompositeId());
+                systemDao.addString(logicalResourceId, parameterNameValue.getParameterNameId(), parameter.getValue(), parameter.getValue().toLowerCase());
             }
         } catch (SQLException x) {
+            logger.log(Level.SEVERE, "StringParameter", x);
             throw new FHIRPersistenceException("Failed inserting string params for '" + resourceType + "'");
         }
     }
