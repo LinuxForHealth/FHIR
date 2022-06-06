@@ -26,9 +26,11 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentKey;
 import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentValue;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
@@ -328,5 +330,37 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
         }
 
         return ps;
+    }
+
+    @Override
+    protected void fetchLogicalResourceIdentIds(Map<LogicalResourceIdentKey, LogicalResourceIdentValue> lrIdentMap, List<LogicalResourceIdentValue> unresolved) throws FHIRPersistenceException {
+        // For Derby, we opt to do this row by row so that we can keep the selects in order which
+        // helps us to avoid deadlocks due to lock compatibility issues with Derby
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT lri.logical_resource_id ");
+        query.append("  FROM logical_resource_ident AS lri ");
+        query.append(" WHERE lri.resource_type_id = ? AND lri.logical_id = ?");
+        final String sql = query.toString();
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            for (LogicalResourceIdentValue value: unresolved) {
+                ps.setInt(1, value.getResourceTypeId());
+                ps.setString(2, value.getLogicalId());
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    final long logicalResourceId = rs.getLong(1);
+                    LogicalResourceIdentKey key = new LogicalResourceIdentKey(value.getResourceTypeId(), value.getLogicalId());
+                    value.setLogicalResourceId(logicalResourceId);
+                    lrIdentMap.put(key, value);
+                } else {
+                    // something wrong with our data handling code because we should already have values
+                    // for every logical resource at this point
+                    throw new FHIRPersistenceException("logical_resource_ident record missing: resourceTypeId["
+                            + value.getResourceTypeId() + "] logicalId[" + value.getLogicalId() + "]");
+                }
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "logical resource ident fetch failed", x);
+            throw new FHIRPersistenceException("logical resource ident fetch failed");
+        }
     }
 }

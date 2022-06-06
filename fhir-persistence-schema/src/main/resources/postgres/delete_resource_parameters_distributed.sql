@@ -40,6 +40,8 @@ BEGIN
 	USING p_logical_resource_id;
 	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_security            WHERE logical_resource_id = $1'
 	USING p_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_ref_values          WHERE logical_resource_id = $1'
+    USING p_logical_resource_id;
 	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.str_values                 WHERE logical_resource_id = $1'
 	USING p_logical_resource_id;
 	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.date_values                WHERE logical_resource_id = $1'

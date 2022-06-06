@@ -1213,7 +1213,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         }
     }
 
-    private void fetchLogicalResourceIdentIds(Map<LogicalResourceIdentKey, LogicalResourceIdentValue> lrIdentMap, List<LogicalResourceIdentValue> unresolved) throws FHIRPersistenceException {
+    protected void fetchLogicalResourceIdentIds(Map<LogicalResourceIdentKey, LogicalResourceIdentValue> lrIdentMap, List<LogicalResourceIdentValue> unresolved) throws FHIRPersistenceException {
 
         int resultCount = 0;
         final int maxValuesPerStatement = 512;

@@ -45,6 +45,8 @@ BEGIN
 	USING p_shard_key, p_logical_resource_id;
 	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_security            WHERE shard_key = $1 AND logical_resource_id = $2'
 	USING p_shard_key, p_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_ref_values          WHERE shard_key = $1 AND logical_resource_id = $2'
+    USING p_logical_resource_id;
 	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.str_values                 WHERE shard_key = $1 AND logical_resource_id = $2'
 	USING p_shard_key, p_logical_resource_id;
 	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.date_values                WHERE shard_key = $1 AND logical_resource_id = $2'
