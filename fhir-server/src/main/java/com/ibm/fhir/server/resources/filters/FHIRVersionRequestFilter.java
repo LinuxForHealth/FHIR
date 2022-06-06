@@ -46,9 +46,17 @@ public class FHIRVersionRequestFilter implements ContainerRequestFilter {
         FHIRVersionParam fhirVersion;
 
         switch (requestContext.getMethod()) {
-        case HttpMethod.POST:
         case HttpMethod.PUT:
             fhirVersion = getFhirVersionFromContentTypeHeader(requestContext);
+            break;
+        case HttpMethod.POST:
+            // HTTP POST is used for 'create', but also can be used for 'search', 'batch/transaction', and invoking extended operations.
+            // If it's a POST search, then the request path must in '_search', and thats our clue to use the Accept header for the fhirVersion.
+            if (requestContext.getUriInfo().getPath().endsWith("_search")) {
+                fhirVersion = getFhirVersionFromAcceptHeader(requestContext);
+            } else {
+                fhirVersion = getFhirVersionFromContentTypeHeader(requestContext);
+            }
             break;
         case HttpMethod.GET:
         default:
