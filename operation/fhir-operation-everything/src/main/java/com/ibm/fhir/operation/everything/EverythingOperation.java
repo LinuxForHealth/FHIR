@@ -11,10 +11,8 @@ import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -32,7 +30,6 @@ import com.ibm.fhir.config.ResourcesConfigAdapter;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.core.HTTPHandlingPreference;
-import com.ibm.fhir.core.ResourceType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
@@ -41,15 +38,12 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceTypeCode;
-import com.ibm.fhir.model.type.code.SearchParamType.Value;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceFinder;
 import com.ibm.fhir.registry.FHIRRegistry;
@@ -57,6 +51,7 @@ import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.compartment.CompartmentHelper;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
+import com.ibm.fhir.search.parameters.IncludesUtil;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.SearchHelper;
@@ -186,7 +181,7 @@ public class EverythingOperation extends AbstractOperation {
 
         int maxPageSize = Math.max(1, FHIRConfigHelper.getIntProperty("fhirServer/core/maxPageSize", FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX));
         List<Entry> allEntries = new ArrayList<>(maxPageSize);
-        List<String> resourceIds = new ArrayList<String>();
+        Set<String> resourceIds = new HashSet<>();
         // Look up which extra resources should be returned
         List<String> extraResources = new ArrayList<String>();
         try {
@@ -240,7 +235,7 @@ public class EverythingOperation extends AbstractOperation {
             try {
                 // Don't need to add more search parameters if the config section isn't there or is empty
                 if (retrieveAdditionalResources) {
-                    List<String> includes = computeIncludesSearchParameters(compartmentMemberType, extraResources, searchHelper);
+                    List<String> includes = IncludesUtil.computeIncludesParamValues(compartmentMemberType, extraResources, searchHelper);
                     tempSearchParameters.addAll(SearchConstants.INCLUDE, includes);
                 }
                 results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null);
@@ -431,67 +426,6 @@ public class EverythingOperation extends AbstractOperation {
     }
 
     /**
-     * Add in Location, Medication, Organization, and Practitioner resources which are pointed to
-     * from search parameters only if the request does not have a _type parameter or it does have a
-     * _type parameter that includes these
-     *
-     * @param compartmentMemberType
-     * @param extraResources
-     * @param searchHelper
-     * @return The list of values to use for the _include search parameter.
-     * @throws Exception
-     */
-    private List<String> computeIncludesSearchParameters(String compartmentMemberType, List<String> extraResources, SearchHelper searchHelper)
-            throws Exception {
-        List<String> result = new ArrayList<>();
-
-        List<String> allowedIncludes = FHIRConfigHelper.getSearchPropertyRestrictions(compartmentMemberType, FHIRConfigHelper.SEARCH_PROPERTY_TYPE_INCLUDE);
-        Map<ResourceType, List<String>> codesByType = getSearchCodesByType(compartmentMemberType, searchHelper);
-
-        for (Map.Entry<ResourceType, List<String>> entry : codesByType.entrySet()) {
-            result.addAll(computeIncludes(compartmentMemberType, entry.getKey(), allowedIncludes, extraResources, entry.getValue()));
-        }
-
-        return result;
-    }
-
-    /**
-     * @param compartmentMemberType the resource type that is the source of the includes
-     * @param subResourceType the target resource type of the includes; null
-     * @param allowedIncludes the list of include parameter values to allow
-     * @param extraResources the resource types to include
-     * @param codes the search parameter codes to include on
-     * @return A list of parameter values to use for the _include query parameter.
-     * @throws Exception
-     */
-    private List<String> computeIncludes(String compartmentMemberType, ResourceType subResourceType,
-            List<String> allowedIncludes, List<String> extraResources, List<String> codes)
-            throws Exception {
-        List<String> includes = new ArrayList<>();
-
-        for (String code : codes) {
-            // Need to make sure the search parameter has not been excluded
-            String parameterName = compartmentMemberType + ":" + code + ":" + subResourceType.value();
-            String simplifiedParameterName = compartmentMemberType + ":" + code;
-
-            boolean isAllowed = allowedIncludes == null ||
-                    allowedIncludes.contains(parameterName) ||
-                    allowedIncludes.contains(simplifiedParameterName);
-
-            boolean isConfigured = extraResources != null &&
-                    extraResources.contains(subResourceType.value());
-
-            if (isAllowed && isConfigured) {
-                includes.add(parameterName);
-            } else if (LOG.isLoggable(Level.FINE)) {
-                LOG.fine("Filtering out searchParameter because it is not supported by the server config: " + parameterName);
-            }
-        }
-
-        return includes;
-    }
-
-    /**
      * Read additional associated resources for the "extra" types (like location)
      * supported by this server configuration.  Only references of type LITERAL_RELATIVE
      * (including absolute references that match the server's hostname) are resolved by the
@@ -500,12 +434,14 @@ public class EverythingOperation extends AbstractOperation {
      * @param compartmentMemberType the type of resource currently drilling down on
      * @param newEntries a list of Bundle response entries that include compartmentMemberType instances found via search
      * @param allEntries a list of all entries that have been found so far (minus duplicates)
+     * @param resourceIds the set of external resource ids ("resourceType/id") to be included in the result (to avoid duplicates)
      * @param resourceHelper an instance of FHIRResourceHelpers to use to make the calls
      * @param extraResources a list of "extra" resource types configured for this server
+     * @implNote this method adds to both the allEntries list and the resourceIds set in-place
      */
     private void readsOfAdditionalAssociatedResources(String compartmentMemberType, List<Entry> newEntries,
-                List<Entry> allEntries, List<String> resourceIds,
-                FHIRResourceHelpers resourceHelper, List<String> extraResources) throws Exception {
+            List<Entry> allEntries, Set<String> resourceIds, FHIRResourceHelpers resourceHelper, List<String> extraResources)
+            throws Exception {
         if (extraResources == null || extraResources.isEmpty()) {
             return;
         }
@@ -521,8 +457,7 @@ public class EverythingOperation extends AbstractOperation {
                     String type = referenceValue.getTargetResourceType();
                     String value = referenceValue.getValue();
                     String resourceId = type + "/" + value;
-                    if (!resourceIds.contains(resourceId) && extraResources.contains(type) && (type.equals(ResourceType.LOCATION.value()) || type.equals(ResourceType.MEDICATION.value())
-                            || type.equals(ResourceType.ORGANIZATION.value()) || type.equals(ResourceType.PRACTITIONER.value()))) {
+                    if (!resourceIds.contains(resourceId) && extraResources.contains(type)) {
                         // Bundle up the requests so we can send them as a batch
                         addRequestToBundle(requestBundleBuilder, HTTPVerb.GET, resourceId, null);
                         resourceIds.add(resourceId);
@@ -563,7 +498,7 @@ public class EverythingOperation extends AbstractOperation {
      * @param retrieveAdditionalResources whether the server config has specified to retrieve additional resources
      */
     private void processResults(Bundle results, String compartmentMemberType, List<Entry> newEntries,
-                List<Entry> allEntries, List<String> resourceIds, FHIRResourceHelpers resourceHelper, List<String> extraResources,
+                List<Entry> allEntries, Set<String> resourceIds, FHIRResourceHelpers resourceHelper, List<String> extraResources,
                 boolean retrieveAdditionalResources) throws Exception {
         // Only add resources we don't already have and keep track of what we've found so far,
         // otherwise, we were getting duplicate entries from the _includes
@@ -590,40 +525,5 @@ public class EverythingOperation extends AbstractOperation {
         }
 
         bundleBuilder.entry(entryBuilder.build());
-    }
-
-    /**
-     * @param compartmentMemberType
-     * @param searchHelper
-     * @return a map from resource target type to the list of reference search parameter codes that can target that type
-     * @throws Exception
-     */
-    private Map<ResourceType, List<String>> getSearchCodesByType(String compartmentMemberType, SearchHelper searchHelper) throws Exception {
-        Map<ResourceType, List<String>> codesByType = new HashMap<>();
-
-        Map<String, SearchParameter> allSearchParameters = searchHelper.getSearchParameters(compartmentMemberType);
-        for (Map.Entry<String, SearchParameter> entry : allSearchParameters.entrySet()) {
-            SearchParameter sp = entry.getValue();
-            if (sp.getType().getValueAsEnum() != Value.REFERENCE) {
-                continue;
-            }
-
-            String expression = sp.getExpression().getValue();
-            for (ResourceTypeCode target : sp.getTarget()) {
-                // The search parameter target types come from the possible types of the target reference
-                // and don't take into account any "is X" filters from within the expression,
-                // so we use this heuristic to avoid adding the code when expression filtering applies
-                // and does not include a filter clause for this particular target type.
-                if (expression.contains(".is(") || expression.contains(" is ")) {
-                    if (!expression.contains(".is(" + target.getValue()) && !expression.contains(" is " + target.getValue())) {
-                        continue;
-                    }
-                }
-
-                codesByType.computeIfAbsent(target.getValueAsEnum(), rt -> new ArrayList<>())
-                        .add(entry.getKey());
-            }
-        }
-        return codesByType;
     }
 }
