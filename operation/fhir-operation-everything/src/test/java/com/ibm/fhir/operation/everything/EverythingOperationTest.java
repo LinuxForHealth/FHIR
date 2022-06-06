@@ -42,7 +42,7 @@ public class EverythingOperationTest {
      * Build the OperationDefinition and ensure its not null
      */
     @Test
-    public void testEverythingOperation() {
+    public void testEverythingOperationDefinition() {
         EverythingOperation exportOperation = new EverythingOperation();
         OperationDefinition operationDefinition = exportOperation.buildOperationDefinition();
         assertNotNull(operationDefinition);

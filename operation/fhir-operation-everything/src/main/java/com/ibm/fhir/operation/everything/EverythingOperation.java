@@ -48,6 +48,8 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.ResourceTypeCode;
+import com.ibm.fhir.model.type.code.SearchParamType.Value;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceFinder;
 import com.ibm.fhir.registry.FHIRRegistry;
@@ -238,7 +240,8 @@ public class EverythingOperation extends AbstractOperation {
             try {
                 // Don't need to add more search parameters if the config section isn't there or is empty
                 if (retrieveAdditionalResources) {
-                    addIncludesSearchParameters(compartmentMemberType, tempSearchParameters, extraResources, searchHelper);
+                    List<String> includes = computeIncludesSearchParameters(compartmentMemberType, extraResources, searchHelper);
+                    tempSearchParameters.addAll(SearchConstants.INCLUDE, includes);
                 }
                 results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null);
                 int countBeforeAddingNewResources = allEntries.size();
@@ -427,37 +430,29 @@ public class EverythingOperation extends AbstractOperation {
         return resourceTypes;
     }
 
-    private void addIncludesSearchParameters(String compartmentMemberType, MultivaluedMap<String, String> searchParameters,
-            List<String> extraResources, SearchHelper searchHelper) throws Exception {
-        // Add in Location, Medication, Organization, and Practitioner resources which are pointed to
-        // from search parameters only if the request does not have a _type parameter or it does have a
-        // _type parameter that includes these
+    /**
+     * Add in Location, Medication, Organization, and Practitioner resources which are pointed to
+     * from search parameters only if the request does not have a _type parameter or it does have a
+     * _type parameter that includes these
+     *
+     * @param compartmentMemberType
+     * @param extraResources
+     * @param searchHelper
+     * @return The list of values to use for the _include search parameter.
+     * @throws Exception
+     */
+    private List<String> computeIncludesSearchParameters(String compartmentMemberType, List<String> extraResources, SearchHelper searchHelper)
+            throws Exception {
+        List<String> result = new ArrayList<>();
 
-        List<String> allowedIncludes = new ArrayList<String>(10);
+        List<String> allowedIncludes = FHIRConfigHelper.getSearchPropertyRestrictions(compartmentMemberType, FHIRConfigHelper.SEARCH_PROPERTY_TYPE_INCLUDE);
+        Map<ResourceType, List<String>> codesByType = getSearchCodesByType(compartmentMemberType, searchHelper);
 
-        try {
-            allowedIncludes = FHIRConfigHelper.getSearchPropertyRestrictions(compartmentMemberType, FHIRConfigHelper.SEARCH_PROPERTY_TYPE_INCLUDE);
-        } catch (Exception e) {
-            FHIRSearchException exceptionWithIssue = new FHIRSearchException("There has been an error retrieving the list of supported search parameters for the $everything operation.", e);
-            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
-            throw exceptionWithIssue;
+        for (Map.Entry<ResourceType, List<String>> entry : codesByType.entrySet()) {
+            result.addAll(computeIncludes(compartmentMemberType, entry.getKey(), allowedIncludes, extraResources, entry.getValue()));
         }
 
-        // Add in _includes for all search parameters that are Location, Medication, Organization, or Practitioner
-        Map<ResourceType, String[]> codesByType = getSearchCodesByType(compartmentMemberType);
-
-        // BodyStructure, ResearchSubject, and RelatedPerson have no references to:
-        // Location, Medication, Organization, and Practitioner
-
-        // DeviceUseStatement, EnrollmentRequest, FamilyMemberHistory, ChargeItem,
-        // ImmunizationEvaluation, ImmunizationRecommendation, MolecularSequence,
-        // and NutritionOrder have no search parameters that reference:
-        // Location, Medication, Organization, and Practitioner
-
-        for (Map.Entry<ResourceType, String[]> entry : codesByType.entrySet()) {
-            List<String> includes = computeIncludes(compartmentMemberType, entry.getKey(), allowedIncludes, extraResources, searchHelper, entry.getValue());
-            searchParameters.addAll("_include", includes);
-        }
+        return result;
     }
 
     /**
@@ -465,13 +460,12 @@ public class EverythingOperation extends AbstractOperation {
      * @param subResourceType the target resource type of the includes; null
      * @param allowedIncludes the list of include parameter values to allow
      * @param extraResources the resource types to include
-     * @param searchHelper the source of truth for configured search parameters
      * @param codes the search parameter codes to include on
-     * @return A list of parameter values to use for the _include query parameter
+     * @return A list of parameter values to use for the _include query parameter.
      * @throws Exception
      */
     private List<String> computeIncludes(String compartmentMemberType, ResourceType subResourceType,
-            List<String> allowedIncludes, List<String> extraResources, SearchHelper searchHelper, String... codes)
+            List<String> allowedIncludes, List<String> extraResources, List<String> codes)
             throws Exception {
         List<String> includes = new ArrayList<>();
 
@@ -487,15 +481,10 @@ public class EverythingOperation extends AbstractOperation {
             boolean isConfigured = extraResources != null &&
                     extraResources.contains(subResourceType.value());
 
-            // Also check if the parameter is supported by retrieving it from the SearchHelper
-            SearchParameter searchParam = searchHelper.getSearchParameter(compartmentMemberType, code);
-
-            if (isAllowed && isConfigured && searchParam != null) {
+            if (isAllowed && isConfigured) {
                 includes.add(parameterName);
-            } else {
-                if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine("Filtering out searchParameter because it is not supported by the server config: " + parameterName);
-                }
+            } else if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Filtering out searchParameter because it is not supported by the server config: " + parameterName);
             }
         }
 
@@ -604,206 +593,37 @@ public class EverythingOperation extends AbstractOperation {
     }
 
     /**
-     * This couple be static if we wrap it in one more map...
+     * @param compartmentMemberType
+     * @param searchHelper
+     * @return a map from resource target type to the list of reference search parameter codes that can target that type
+     * @throws Exception
      */
-    private Map<ResourceType, String[]> getSearchCodesByType(String compartmentMemberType) {
-        Map<ResourceType, String[]> codesByType = new HashMap<>();
-        if (compartmentMemberType.equals(ResourceType.ADVERSE_EVENT.value())) {
-            addLocationCodes(codesByType, "location");
-            addPractitionerCodes(codesByType, "recorder", "subject");
-            addMedicationCodes(codesByType, "substance");
-        } else if (compartmentMemberType.equals(ResourceType.ALLERGY_INTOLERANCE.value())) {
-            addPractitionerCodes(codesByType, "recorder", "asserter");
-        } else if (compartmentMemberType.equals(ResourceType.APPOINTMENT.value())) {
-            addLocationCodes(codesByType, "location");
-            addPractitionerCodes(codesByType, "practitioner");
-        } else if (compartmentMemberType.equals(ResourceType.APPOINTMENT_RESPONSE.value())) {
-            addLocationCodes(codesByType, "actor", "location");
-            addPractitionerCodes(codesByType, "actor", "practitioner");
-        } else if (compartmentMemberType.equals(ResourceType.ACCOUNT.value())) {
-            addOrganizationCodes(codesByType, "owner", "subject");
-            addLocationCodes(codesByType, "subject");
-            addPractitionerCodes(codesByType, "subject");
-        } else if (compartmentMemberType.equals(ResourceType.AUDIT_EVENT.value())) {
-            addOrganizationCodes(codesByType, "agent", "source");
-            addPractitionerCodes(codesByType, "agent", "source");
-        } else if (compartmentMemberType.equals(ResourceType.BASIC.value())) {
-            addOrganizationCodes(codesByType, "author");
-            addPractitionerCodes(codesByType, "author");
-        } else if (compartmentMemberType.equals(ResourceType.CARE_PLAN.value())) {
-            addOrganizationCodes(codesByType, "performer");
-            addPractitionerCodes(codesByType, "performer");
-        } else if (compartmentMemberType.equals(ResourceType.CARE_TEAM.value())) {
-            addOrganizationCodes(codesByType, "participant");
-            addPractitionerCodes(codesByType, "participant");
-        } else if (compartmentMemberType.equals("ChargeHistory")) {
-            addOrganizationCodes(codesByType, "service");
-            addPractitionerCodes(codesByType, "enterer", "performer-actor");
-        } else if (compartmentMemberType.equals(ResourceType.CLAIM.value())) {
-            addOrganizationCodes(codesByType, "care-team", "insurer", "payee", "provider");
-            addPractitionerCodes(codesByType, "care-team", "enterer", "payee", "provider");
-            addLocationCodes(codesByType, "facility");
-        } else if (compartmentMemberType.equals(ResourceType.CLAIM_RESPONSE.value())) {
-            addOrganizationCodes(codesByType, "insurer", "requestor");
-            addPractitionerCodes(codesByType, "requestor");
-        } else if (compartmentMemberType.equals(ResourceType.CLINICAL_IMPRESSION.value())) {
-            addPractitionerCodes(codesByType, "assessor");
-        } else if (compartmentMemberType.equals(ResourceType.COMMUNICATION.value())) {
-            addPractitionerCodes(codesByType, "recipient", "sender");
-        } else if (compartmentMemberType.equals(ResourceType.COMPOSITION.value())) {
-            addPractitionerCodes(codesByType, "attester", "author");
-        } else if (compartmentMemberType.equals(ResourceType.CONDITION.value())) {
-            addPractitionerCodes(codesByType, "asserter");
-        } else if (compartmentMemberType.equals(ResourceType.COMMUNICATION_REQUEST.value())) {
-            addOrganizationCodes(codesByType, "recipient", "requester", "sender");
-            addPractitionerCodes(codesByType, "recipient", "requester", "sender");
-        } else if (compartmentMemberType.equals(ResourceType.CONSENT.value())) {
-            addOrganizationCodes(codesByType, "actor", "consentor", "organization");
-            addPractitionerCodes(codesByType, "actor", "consentor");
-        } else if (compartmentMemberType.equals(ResourceType.COVERAGE.value())) {
-            addOrganizationCodes(codesByType, "payor", "policy-holder");
-        } else if (compartmentMemberType.equals(ResourceType.COVERAGE_ELIGIBILITY_REQUEST.value())) {
-            addPractitionerCodes(codesByType, "enterer", "provider");
-            addLocationCodes(codesByType, "facility");
-            addOrganizationCodes(codesByType, "provider");
-        } else if (compartmentMemberType.equals(ResourceType.COVERAGE_ELIGIBILITY_RESPONSE.value())) {
-            addOrganizationCodes(codesByType, "insurer", "requestor");
-            addPractitionerCodes(codesByType, "requestor");
-        } else if (compartmentMemberType.equals(ResourceType.DETECTED_ISSUE.value())) {
-            addPractitionerCodes(codesByType, "author");
-        } else if (compartmentMemberType.equals(ResourceType.DEVICE_REQUEST.value())) {
-            addOrganizationCodes(codesByType, "performer", "requester");
-            addPractitionerCodes(codesByType, "performer", "requester");
-            addLocationCodes(codesByType, "subject");
-        } else if (compartmentMemberType.equals(ResourceType.DIAGNOSTIC_REPORT.value())) {
-            addOrganizationCodes(codesByType, "performer", "results-interpreter");
-            addPractitionerCodes(codesByType, "performer", "results-interpreter");
-            addLocationCodes(codesByType, "subject");
-        } else if (compartmentMemberType.equals(ResourceType.DOCUMENT_MANIFEST.value())) {
-            addOrganizationCodes(codesByType, "author", "recipient");
-            addPractitionerCodes(codesByType, "author", "recipient", "subject");
-        } else if (compartmentMemberType.equals(ResourceType.DOCUMENT_REFERENCE.value())) {
-            addOrganizationCodes(codesByType, "authenticator", "author", "custodian");
-            addPractitionerCodes(codesByType, "authenticator", "author", "subject");
-        } else if (compartmentMemberType.equals(ResourceType.ENCOUNTER.value())) {
-            addLocationCodes(codesByType, "location");
-            addOrganizationCodes(codesByType, "service-provider");
-            addPractitionerCodes(codesByType, "participant");
-        } else if (compartmentMemberType.equals(ResourceType.EPISODE_OF_CARE.value())) {
-            addPractitionerCodes(codesByType, "care-manager");
-            addOrganizationCodes(codesByType, "organization");
-        } else if (compartmentMemberType.equals(ResourceType.EXPLANATION_OF_BENEFIT.value())) {
-            addOrganizationCodes(codesByType, "care-team", "insurer", "payee", "provider");
-            addPractitionerCodes(codesByType, "care-team", "enterer", "payee", "provider");
-            addLocationCodes(codesByType, "facility");
-        } else if (compartmentMemberType.equals(ResourceType.FLAG.value())) {
-            addOrganizationCodes(codesByType, "author", "subject");
-            addPractitionerCodes(codesByType, "author", "subject");
-            addLocationCodes(codesByType, "subject");
-            addMedicationCodes(codesByType, "subject");
-        } else if (compartmentMemberType.equals(ResourceType.GOAL.value())) {
-            addOrganizationCodes(codesByType, "subject");
-        } else if (compartmentMemberType.equals(ResourceType.GROUP.value())) {
-            addMedicationCodes(codesByType, "member");
-            addOrganizationCodes(codesByType, "member", "managing-entity");
-            addPractitionerCodes(codesByType, "managing-entity");
-        } else if (compartmentMemberType.equals(ResourceType.IMAGING_STUDY.value())) {
-            addPractitionerCodes(codesByType, "interpreter", "performer", "referrer");
-        } else if (compartmentMemberType.equals(ResourceType.IMMUNIZATION.value())) {
-            addLocationCodes(codesByType, "location");
-            addOrganizationCodes(codesByType, "manufacturer", "performer");
-            addPractitionerCodes(codesByType, "performer");
-        } else if (compartmentMemberType.equals(ResourceType.INVOICE.value())) {
-            addOrganizationCodes(codesByType, "issuer", "participant", "recipient");
-            addPractitionerCodes(codesByType, "participant");
-        } else if (compartmentMemberType.equals(ResourceType.LIST.value())) {
-            addPractitionerCodes(codesByType, "source");
-            addLocationCodes(codesByType, "subject");
-        } else if (compartmentMemberType.equals(ResourceType.MEASURE_REPORT.value())) {
-            addLocationCodes(codesByType, "reporter", "subject");
-            addOrganizationCodes(codesByType, "reporter");
-            addPractitionerCodes(codesByType, "reporter", "subject");
-        } else if (compartmentMemberType.equals(ResourceType.MEDIA.value())) {
-            addOrganizationCodes(codesByType, "operator");
-            addPractitionerCodes(codesByType, "operator", "subject");
-            addLocationCodes(codesByType, "subject");
-        } else if (compartmentMemberType.equals(ResourceType.MEDICATION_ADMINISTRATION.value())) {
-            addMedicationCodes(codesByType, "medication");
-            addPractitionerCodes(codesByType, "performer");
-        } else if (compartmentMemberType.equals(ResourceType.MEDICATION_DISPENSE.value())) {
-            addLocationCodes(codesByType, "destination");
-            addMedicationCodes(codesByType, "medication");
-            addPractitionerCodes(codesByType, "performer", "receiver", "responsibleparty");
-        } else if (compartmentMemberType.equals(ResourceType.MEDICATION_REQUEST.value())) {
-            addOrganizationCodes(codesByType, "intended-dispenser", "intended-performer", "requester");
-            addPractitionerCodes(codesByType, "intended-performer", "requester");
-            addMedicationCodes(codesByType, "medication");
-        } else if (compartmentMemberType.equals(ResourceType.MEDICATION_STATEMENT.value())) {
-            addMedicationCodes(codesByType, "medication");
-            addOrganizationCodes(codesByType, "source");
-            addPractitionerCodes(codesByType, "source");
-        } else if (compartmentMemberType.equals("NutritionHistory")) {
-            addPractitionerCodes(codesByType, "provider");
-        } else if (compartmentMemberType.equals(ResourceType.OBSERVATION.value())) {
-            addOrganizationCodes(codesByType, "performer");
-            addPractitionerCodes(codesByType, "performer");
-            addLocationCodes(codesByType, "subject");
-        } else if (compartmentMemberType.equals(ResourceType.QUESTIONNAIRE_RESPONSE.value())) {
-            addOrganizationCodes(codesByType, "author");
-            addPractitionerCodes(codesByType, "author", "source");
-        } else if (compartmentMemberType.equals(ResourceType.PATIENT.value())) {
-            addOrganizationCodes(codesByType, "general-practitioner", "organization");
-            addPractitionerCodes(codesByType, "general-practitioner");
-        } else if (compartmentMemberType.equals(ResourceType.PERSON.value())) {
-            addOrganizationCodes(codesByType, "organization");
-            addPractitionerCodes(codesByType, "practitioner");
-        } else if (compartmentMemberType.equals(ResourceType.PROCEDURE.value())) {
-            addLocationCodes(codesByType, "location");
-            addOrganizationCodes(codesByType, "performer");
-            addPractitionerCodes(codesByType, "performer");
-        } else if (compartmentMemberType.equals(ResourceType.PROVENANCE.value())) {
-            addLocationCodes(codesByType, "location");
-            addOrganizationCodes(codesByType, "agent");
-            addPractitionerCodes(codesByType, "agent");
-        } else if (compartmentMemberType.equals(Reference.class.getSimpleName())) {
-            addOrganizationCodes(codesByType, "authenticator", "author", "custodian");
-            addPractitionerCodes(codesByType, "authenticator", "author", "subject");
-        } else if (compartmentMemberType.equals(ResourceType.REQUEST_GROUP.value())) {
-            addPractitionerCodes(codesByType, "author", "participant");
-        } else if (compartmentMemberType.equals(ResourceType.RISK_ASSESSMENT.value())) {
-            addPractitionerCodes(codesByType, "performer");
-        } else if (compartmentMemberType.equals(ResourceType.SCHEDULE.value())) {
-            addLocationCodes(codesByType, "actor");
-            addPractitionerCodes(codesByType, "actor");
-        } else if (compartmentMemberType.equals(ResourceType.SERVICE_REQUEST.value())) {
-            addOrganizationCodes(codesByType, "performer", "requester");
-            addPractitionerCodes(codesByType, "performer", "requester");
-            addLocationCodes(codesByType, "subject");
-        } else if (compartmentMemberType.equals(ResourceType.SPECIMEN.value())) {
-            addPractitionerCodes(codesByType, "collector");
-            addLocationCodes(codesByType, "subject");
-        } else if (compartmentMemberType.equals(ResourceType.SUPPLY_DELIVERY.value())) {
-            addPractitionerCodes(codesByType, "receiver", "supplier");
-            addOrganizationCodes(codesByType, "supplier");
-        } else if (compartmentMemberType.equals(ResourceType.SUPPLY_REQUEST.value())) {
-            addOrganizationCodes(codesByType, "requester", "subject", "supplier");
-            addPractitionerCodes(codesByType, "requester");
-            addLocationCodes(codesByType, "subject");
-        } else if (compartmentMemberType.equals(ResourceType.VISION_PRESCRIPTION.value())) {
-            addPractitionerCodes(codesByType, "prescriber");
+    private Map<ResourceType, List<String>> getSearchCodesByType(String compartmentMemberType, SearchHelper searchHelper) throws Exception {
+        Map<ResourceType, List<String>> codesByType = new HashMap<>();
+
+        Map<String, SearchParameter> allSearchParameters = searchHelper.getSearchParameters(compartmentMemberType);
+        for (Map.Entry<String, SearchParameter> entry : allSearchParameters.entrySet()) {
+            SearchParameter sp = entry.getValue();
+            if (sp.getType().getValueAsEnum() != Value.REFERENCE) {
+                continue;
+            }
+
+            String expression = sp.getExpression().getValue();
+            for (ResourceTypeCode target : sp.getTarget()) {
+                // The search parameter target types come from the possible types of the target reference
+                // and don't take into account any "is X" filters from within the expression,
+                // so we use this heuristic to avoid adding the code when expression filtering applies
+                // and does not include a filter clause for this particular target type.
+                if (expression.contains(".is(") || expression.contains(" is ")) {
+                    if (!expression.contains(".is(" + target.getValue()) && !expression.contains(" is " + target.getValue())) {
+                        continue;
+                    }
+                }
+
+                codesByType.computeIfAbsent(target.getValueAsEnum(), rt -> new ArrayList<>())
+                        .add(entry.getKey());
+            }
         }
         return codesByType;
-    }
-    private void addLocationCodes(Map<ResourceType, String[]> codesByType, String... codes) {
-        codesByType.put(ResourceType.LOCATION, codes);
-    }
-    private void addMedicationCodes(Map<ResourceType, String[]> codesByType, String... codes) {
-        codesByType.put(ResourceType.MEDICATION, codes);
-    }
-    private void addPractitionerCodes(Map<ResourceType, String[]> codesByType, String... codes) {
-        codesByType.put(ResourceType.PRACTITIONER, codes);
-    }
-    private void addOrganizationCodes(Map<ResourceType, String[]> codesByType, String... codes) {
-        codesByType.put(ResourceType.ORGANIZATION, codes);
     }
 }
