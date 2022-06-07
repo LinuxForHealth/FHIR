@@ -2268,7 +2268,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/operations/membermatch/enabled`|boolean|Enables or disables the $member-match|
 |`fhirServer/operations/membermatch/strategy`|string|The key identifying the Member Match strategy|
 |`fhirServer/operations/membermatch/extendedProps`|object|The extended options for the extended member match implementation|
-|`fhirServer/operations/everything/includeTypes`|list|The list of related resources to retrieve, allowed entries are `Location`, `Medication`, `Organization`, and `Practitioner`|
+|`fhirServer/operations/everything/includeTypes`|list|The list of related resource types to include alongside the patient compartment resource types. Instances of these resource types will only be returned when they are referenced from one or more resource instances from the target patient compartment. Example values are like `Location`, `Medication`, `Organization`, and `Practitioner`|
 
 
 ### 5.1.2 Default property values
