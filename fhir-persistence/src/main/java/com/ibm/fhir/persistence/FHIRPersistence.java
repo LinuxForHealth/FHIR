@@ -211,11 +211,12 @@ public interface FHIRPersistence {
      * @param indexIds list of index IDs of resources to reindex, or null
      * @param resourceLogicalId resourceType/logicalId value of a specific resource to reindex, or null;
      * this parameter is ignored if the indexIds parameter value is non-null
+     * @param force if true, always replace the stored parameters
      * @return count of the number of resources reindexed by this call
      * @throws FHIRPersistenceException
      */
     int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, List<Long> indexIds,
-        String resourceLogicalId) throws FHIRPersistenceException;
+        String resourceLogicalId, boolean force) throws FHIRPersistenceException;
 
     /**
      * Special function for high speed export of resource payloads. The process

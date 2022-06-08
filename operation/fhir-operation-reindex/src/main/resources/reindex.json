@@ -52,6 +52,14 @@
             "max": "1",
             "documentation": "Reindex only the specified resource or resources of the given resource type when no id is provided. Format as Patient/abc123 or Patient. If indexIds is specified, this parameter is not used.",
             "type": "string"
+        },
+        {
+            "name": "force",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "When true, always replace the parameters even if the parameter hash matches. This is typically used when a schema migration step changes structure used to stored parameters in the database.",
+            "type": "boolean"
         }
     ]
 }

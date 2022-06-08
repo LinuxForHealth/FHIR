@@ -2611,13 +2611,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp,
-            List<Long> indexIds, String resourceLogicalId) throws Exception {
+            List<Long> indexIds, String resourceLogicalId, boolean force) throws Exception {
         int result = 0;
         // Since the try logic is slightly different in the code paths, we want to dispatch to separate methods to simplify the logic.
         if (indexIds == null) {
-            result = doReindexSingle(operationOutcomeResult, tstamp, resourceLogicalId);
+            result = doReindexSingle(operationOutcomeResult, tstamp, resourceLogicalId, force);
         } else {
-            result = doReindexList(operationOutcomeResult, tstamp, indexIds);
+            result = doReindexList(operationOutcomeResult, tstamp, indexIds, force);
         }
         return result;
     }
@@ -2628,10 +2628,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @param operationOutcomeResult
      * @param tstamp
      * @param indexIds
+     * @param force
      * @return
      * @throws Exception
      */
-    public int doReindexList(OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds) throws Exception {
+    public int doReindexList(OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds, boolean force) throws Exception {
         // If the indexIds are empty or null, then it's not properly formed.
         if (indexIds == null || indexIds.isEmpty()) {
             throw new IllegalArgumentException("No indexIds sent to the $reindex list method");
@@ -2684,7 +2685,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.begin();
             try {
                 FHIRPersistenceContext persistenceContext = null;
-                result += persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, subListIndexIds, null);
+                result += persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, subListIndexIds, null, force);
             } catch (FHIRPersistenceDataAccessException x) {
                 // At this point, the transaction is marked for rollback
                 if (x.isTransactionRetryable() && ++attempt <= TX_ATTEMPTS) {
@@ -2722,10 +2723,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @param operationOutcomeResult
      * @param tstamp
      * @param resourceLogicalId
+     * @param force
      * @return
      * @throws Exception
      */
-    public int doReindexSingle(OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception {
+    public int doReindexSingle(OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId, boolean force) throws Exception {
         int result = 0;
         // handle some retries in case of deadlock exceptions
         final int TX_ATTEMPTS = 5;
@@ -2735,7 +2737,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.begin();
             try {
                 FHIRPersistenceContext persistenceContext = null;
-                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, null, resourceLogicalId);
+                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, null, resourceLogicalId, force);
                 attempt = TX_ATTEMPTS; // end the retry loop
             } catch (FHIRPersistenceDataAccessException x) {
                 if (x.isTransactionRetryable() && attempt < TX_ATTEMPTS) {

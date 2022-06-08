@@ -490,11 +490,12 @@ public interface FHIRResourceHelpers {
      * @param indexIds list of index IDs of resources to reindex, or null
      * @param resourceLogicalId resourceType (e.g. "Patient"), or resourceType/logicalId a specific resource (e.g. "Patient/abc123"), to reindex, or null;
      * this parameter is ignored if the indexIds parameter value is non-null
+     * @param force if true, ignore parameter hash and always replace the parameters
      * @return count of the number of resources reindexed by this call
      * @throws Exception
      */
     int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds,
-        String resourceLogicalId) throws Exception;
+        String resourceLogicalId, boolean force) throws Exception;
 
     /**
      * Invoke the FHIR Persistence erase operation for a specific instance of the erase.

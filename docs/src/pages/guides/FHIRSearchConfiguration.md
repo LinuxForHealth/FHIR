@@ -219,6 +219,7 @@ By default, the operation will select 10 resources and re-extract their search p
 |----|----|-----------|
 |`tstamp`|string|Reindex only resources not previously reindexed since this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.|
 |`resourceCount`|integer|The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail.|
+|`force`|boolean|Force the parameters to be replaced even if the parameter hash matches. This is only required following a schema migration which changes how the parameters are stored in the database.|
 
 The IBM FHIR Server tracks when a resource was last reindexed and only resources with a reindex_tstamp value less than the given tstamp parameter will be processed. When a resource is reindexed, its reindex_tstamp is set to the given tstamp value. In most cases, using the current date (for example "2020-10-27") is the best option for this value.
 

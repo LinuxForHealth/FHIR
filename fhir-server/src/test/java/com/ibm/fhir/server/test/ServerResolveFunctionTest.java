@@ -418,7 +418,8 @@ public class ServerResolveFunctionTest {
                 Builder operationOutcomeResult,
                 java.time.Instant tstamp,
                 List<Long> indexIds,
-                String resourceLogicalId) throws FHIRPersistenceException {
+                String resourceLogicalId,
+                boolean force) throws FHIRPersistenceException {
             throw new UnsupportedOperationException();
         }
 

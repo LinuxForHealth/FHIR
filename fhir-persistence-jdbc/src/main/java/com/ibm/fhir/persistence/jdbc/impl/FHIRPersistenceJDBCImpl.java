@@ -2607,7 +2607,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     @Override
     public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, List<Long> indexIds,
-        String resourceLogicalId) throws FHIRPersistenceException {
+        String resourceLogicalId, boolean force) throws FHIRPersistenceException {
         final String METHODNAME = "reindex";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -2679,7 +2679,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         rir.setDeleted(false); // just to be clear
                         Class<? extends Resource> resourceTypeClass = getResourceType(rir.getResourceType());
                         reindexDAO.setPersistenceContext(context);
-                        updateParameters(rir, resourceTypeClass, existingResourceDTO, reindexDAO, operationOutcomeResult);
+                        updateParameters(rir, resourceTypeClass, existingResourceDTO, reindexDAO, operationOutcomeResult, force);
 
                         // result is only 0 if getResourceToReindex doesn't give us anything because this indicates
                         // there's nothing left to do
@@ -2738,10 +2738,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param existingResourceDTO the existing resource DTO
      * @param reindexDAO the reindex resource DAO
      * @param operationOutcomeResult the operation outcome result
+     * @param force
      * @throws Exception
      */
     public <T extends Resource> void updateParameters(ResourceIndexRecord rir, Class<T> resourceTypeClass, com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO,
-        ReindexResourceDAO reindexDAO, OperationOutcome.Builder operationOutcomeResult) throws Exception {
+        ReindexResourceDAO reindexDAO, OperationOutcome.Builder operationOutcomeResult, boolean force) throws Exception {
         if (existingResourceDTO != null && !existingResourceDTO.isDeleted()) {
             T existingResource = this.convertResourceDTO(existingResourceDTO, resourceTypeClass, null);
 
@@ -2751,7 +2752,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Compare the hash of the extracted parameters with the hash in the index record.
             // If hash in the index record is not null and it matches the hash of the extracted parameters, then no need to replace the
             // extracted search parameters in the database tables for this resource, which helps with performance during reindex.
-            if (rir.getParameterHash() == null || !rir.getParameterHash().equals(searchParameters.getParameterHashB64())) {
+            if (force || rir.getParameterHash() == null || !rir.getParameterHash().equals(searchParameters.getParameterHashB64())) {
                 reindexDAO.updateParameters(rir.getResourceType(), searchParameters.getParameters(), searchParameters.getParameterHashB64(), rir.getLogicalId(), rir.getLogicalResourceId());
             } else {
                 log.fine(() -> "Skipping update of unchanged parameters for FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
