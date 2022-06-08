@@ -21,7 +21,7 @@ while [ "$not_ready" == "true" ]
 do
   EXIT_CODE="-1"
   java -jar schema/fhir-persistence-schema-*-cli.jar \
-    --prop-file db2.properties --schema-name FHIRDATA --create-schemas | tee -a ${TMP_FILE}
+    --db-type db2 --prop-file db2.properties --schema-name FHIRDATA --create-schemas | tee -a ${TMP_FILE}
   EXIT_CODE="${PIPESTATUS[0]}"
   LOG_OUT=`cat ${TMP_FILE}`
   if [[ "$EXIT_CODE" == "0" ]]
@@ -54,18 +54,18 @@ then
 fi
 
 java -jar schema/fhir-persistence-schema-*-cli.jar \
-  --prop-file db2.properties --schema-name FHIRDATA --update-schema --pool-size 2
+  --db-type db2 --prop-file db2.properties --schema-name FHIRDATA --update-schema --pool-size 2
 
 java -jar schema/fhir-persistence-schema-*-cli.jar \
-  --prop-file db2.properties --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 2
+  --db-type db2 --prop-file db2.properties --schema-name FHIRDATA --grant-to FHIRSERVER --pool-size 2
 
 java -jar schema/fhir-persistence-schema-*-cli.jar \
-  --prop-file db2.properties --schema-name FHIRDATA --allocate-tenant default --pool-size 2
+  --db-type db2 --prop-file db2.properties --schema-name FHIRDATA --allocate-tenant default --pool-size 2
 
 # The regex in the following command will output the capture group between "key=" and "]"
 # With GNU grep, the following would work as well:  grep -oP 'key=\K\S+(?=])'
 tenantKey=$(java -jar schema/fhir-persistence-schema-*-cli.jar \
-  --prop-file db2.properties --schema-name FHIRDATA --add-tenant-key default 2>&1 \
+  --db-type db2 --prop-file db2.properties --schema-name FHIRDATA --add-tenant-key default 2>&1 \
   | grep "key=" | sed -e 's/.*key\=\(.*\)\].*/\1/')
 
 # Creating a backup file is the easiest way to make in-place sed portable across OSX and Linux

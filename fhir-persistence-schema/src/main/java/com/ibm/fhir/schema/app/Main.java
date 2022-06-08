@@ -260,9 +260,9 @@ public class Main {
     // How many seconds to wait to obtain the update lease
     private int waitForUpdateLeaseSeconds = 10;
 
-    // The database type being populated (default: Db2)
-    private DbType dbType = DbType.DB2;
-    private IDatabaseTranslator translator = new Db2Translator();
+    // The database type being populated. Now a required parameter.
+    private DbType dbType;
+    private IDatabaseTranslator translator;
 
     // Optional subset of resource types (for faster schema builds when testing)
     private Set<String> resourceTypeSubset;
@@ -1137,7 +1137,7 @@ public class Main {
      * @return
      */
     protected boolean isMultitenant() {
-        return MULTITENANT_FEATURE_ENABLED.contains(this.dbType);
+        return dataSchemaType == SchemaType.MULTITENANT;
     }
 
     /**
@@ -2228,6 +2228,7 @@ public class Main {
                     dataSchemaType = SchemaType.DISTRIBUTED; // by default
                     break;
                 case DB2:
+                    translator = new Db2Translator();
                     dataSchemaType = SchemaType.MULTITENANT;
                     break;
                 default:
@@ -2266,6 +2267,10 @@ public class Main {
         if (this.maxConnectionPoolSize < threadPoolSize + FhirSchemaConstants.CONNECTION_POOL_HEADROOM) {
             this.maxConnectionPoolSize = threadPoolSize + FhirSchemaConstants.CONNECTION_POOL_HEADROOM;
             logger.warning("Connection pool size below minimum headroom. Setting it to " + this.maxConnectionPoolSize);
+        }
+
+        if (this.dbType == null) {
+            throw new IllegalArgumentException(DB_TYPE + " <type> is required");
         }
     }
 

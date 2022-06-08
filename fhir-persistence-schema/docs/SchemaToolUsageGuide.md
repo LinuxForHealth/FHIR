@@ -118,17 +118,18 @@ The following sections include common values for `OPTIONS`.
 For Db2:
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
 --create-schemas
 ```
 
 For PostgreSQL:
 
 ```
---prop-file postgresql.properties
---schema-name fhirdata
---create-schemas
+--prop-file postgresql.properties \
+--schema-name fhirdata \
+--create-schemas \
 --db-type postgresql
 ```
 
@@ -141,9 +142,10 @@ for the IBM FHIR Server to operate. The FHIRADMIN user should only be used
 for schema updates, not for IBM FHIR Server access.
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
---update-schema
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
+--update-schema \
 --grant-to FHIRSERVER
 ```
 
@@ -161,10 +163,10 @@ for the IBM FHIR Server to operate. The FHIRADMIN user should only be used
 for schema updates, not for IBM FHIR Server access.
 
 ```
---prop-file postgresql.properties
---schema-name FHIRDATA
---update-schema
---grant-to FHIRSERVER
+--prop-file postgresql.properties \
+--schema-name FHIRDATA \
+--update-schema \
+--grant-to FHIRSERVER \
 --db-type postgresql
 ```
 If the --grant-to is provided, the grants will be processed after the schema
@@ -178,16 +180,18 @@ When updating the postgres schema, the autovacuum settings are configured.
 ### Grant privileges to another data access user
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
 --grant-to FHIRSERVER
 ```
 
 ### Add a new tenant (e.g. default)  (Db2 only)
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
 --allocate-tenant default
 ```
 
@@ -209,6 +213,7 @@ After a schema update you must run the refresh-tenants command to ensure that an
 
 ```
     java -jar schema/fhir-persistence-schema-*-cli.jar \
+      --db-type db2 \
       --prop-file db2.properties --refresh-tenants
 ```
 
@@ -243,9 +248,10 @@ Edit `wlp/usr/servers/fhir-server/config/default/fhir-server-config.json` and ad
 ### Test a tenant (Db2 only)
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
---test-tenant default
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
+--test-tenant default \
 --tenant-key "<the-base64-tenant-key>"
 ```
 
@@ -255,8 +261,9 @@ Use `--tenant-key-file tenant.key` to read the tenant-key to a file. You do not 
 To add a tenant key for an existing tenant, replace FHIRDATA with your client schema, and change default to your tenant's name. 
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
 --add-tenant-key default
 ```
 
@@ -277,9 +284,9 @@ Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-
 To remove all tenant keys for an existing tenant, replace FHIRDATA with your client schema, and change default to your tenant's name. 
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
---db-type db2
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
 --revoke-all-tenant-keys default
 ```
 
@@ -295,10 +302,10 @@ To remove all tenant keys for an existing tenant, replace FHIRDATA with your cli
 To remove a tenant key for an existing tenant, replace FHIRDATA with your client schema, and change default to your tenant's name. 
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
---db-type db2
---revoke-tenant-key default
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
+--revoke-tenant-key default \
 --tenant-key rZ59TLyEpjU+FAKEtgVk8J44J0=
 ```
 
@@ -317,8 +324,9 @@ Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-
 For Db2:
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
 --update-proc
 ```
 
@@ -335,9 +343,10 @@ For PostgreSQL:
 For Db2:
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
---drop-schema-fhir
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
+--drop-schema-fhir \
 --confirm-drop
 ```
 
@@ -355,12 +364,13 @@ For PostgreSQL:
 For Db2:
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
---drop-schema-fhir
---drop-schema-batch
---drop-schema-oauth
---drop-admin
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
+--drop-schema-fhir \
+--drop-schema-batch \
+--drop-schema-oauth \
+--drop-admin \
 --confirm-drop
 ```
 
@@ -387,10 +397,11 @@ For those using multiple schemas for each customer, for instance, customer 2 nee
 
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
---prop-file db2.properties
---create-schemas
---create-schema-batch FHIR_JBATCH_2ND
---create-schema-oauth FHIR_OAUTH_2ND
+--db-type db2 \
+--prop-file db2.properties \
+--create-schemas \
+--create-schema-batch FHIR_JBATCH_2ND \
+--create-schema-oauth FHIR_OAUTH_2ND \
 --create-schema-fhir FHIRDATA_2ND
 ```
 
@@ -398,32 +409,36 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
---prop-file db2.properties
---schema-name FHIRDATA
---update-schema-batch FHIR_JBATCH_2ND
---update-schema-oauth FHIR_OAUTH_2ND
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
+--update-schema-batch FHIR_JBATCH_2ND \
+--update-schema-oauth FHIR_OAUTH_2ND \
 --update-schema-fhir FHIRDATA_2ND
 ```
 
 ### Grant privileges to data access user
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
---prop-file db2.properties
---grant-to FHIRSERVER
+--db-type db2 \
+--prop-file db2.properties \
+--grant-to FHIRSERVER \
 --target BATCH FHIR_JBATCH_2ND
 ```
 
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
---prop-file db2.properties
---grant-to FHIRSERVER
+--db-type db2 \
+--prop-file db2.properties \
+--grant-to FHIRSERVER \
 --target OAUTH FHIR_OAUTH_2ND
 ```
 
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
---prop-file db2.properties
---grant-to FHIRSERVER
+--db-type db2 \
+--prop-file db2.properties \
+--grant-to FHIRSERVER \
 --target DATA FHIRDATA_2ND
 ```
 
@@ -560,6 +575,7 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 
 ``` shell
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
+--db-type db2 \
 --prop-file fhiradmin.properties \
 --db-type db2 \
 --schema-name FHIRDATA \
@@ -597,7 +613,8 @@ and grants permission to the username|
 |--tenant-key|tenantKey|the tenant-key in the queries|
 |--tenant-key-file|tenant-key-file-location|sets the tenant key file location|
 |--list-tenants||fetches list of tenants and current status|
-|--db-type|dbType|Either derby, postgresql, db2|
+|--db-type|dbType|Either derby, postgresql, db2. Required.|
+|--schema-type|schemaType|Override the default schema type created for the configured database type. PostgresSQL->PLAIN, Derby->PLAIN, Db2->MULTITENANT, Citus->DISTRIBUTED |
 |--delete-tenant-meta|tenantName|deletes tenant metadata given the tenantName|
 |--drop-detached|tenantName|(phase 2) drops the detached tenant partition tables given the tenantName|
 |--freeze-tenant||Changes the tenant state to frozen, and subsequently (Db2 only)|
