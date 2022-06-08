@@ -2522,7 +2522,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
      *     identifier. The interpretation of a reference parameter is either:
      *         [1] [parameter]=[id] the logical [id] of a resource using a local reference (i.e. a relative reference)
      *         [2] [parameter]=[type]/[id] the logical [id] of a resource of a specified type using a local reference (i.e. a relative reference), for when the reference can point to different types of resources (e.g. Observation.subject)
-     *         [3] [parameter]=[url] where the [url] is an absolute URL - a reference to a resource by its absolute location, or by it's canonical URL
+     *         [3] [parameter]=[url] where the [url] is an absolute URL - a reference to a resource by its absolute location, or by its canonical URL
      * 
      * For [1], the target resource type isn't known. This shouldn't matter, because
      * we still look up the logical_resource_id by its logical_id. If there are
@@ -2548,7 +2548,6 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         // logical_id values stored in logical_resource_ident. Absolute references
         // are stored using a resource_type of "Resource" (similar to the default
         // code-system we used to use with common_token_values).
-        final int resourceTypeIdForResource = identityCache.getResourceTypeId("Resource");
 
         // Firstly we need to split the query parm values into separate lists
         List<Pair<String, String>> resourceTypesAndIds = new ArrayList<>(queryParm.getValues().size());
@@ -2557,7 +2556,6 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         }
 
         List<Long> logicalResourceIdList = new ArrayList<>();
-        List<ResourceReferenceValue> refValues = new ArrayList<>(queryParm.getValues().size());
         for (Pair<String, String> resourceTypeAndId : resourceTypesAndIds) {
             String targetResourceType = resourceTypeAndId.getLeft();
             String referenceValue = resourceTypeAndId.getRight();
@@ -2566,7 +2564,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                 Integer resourceTypeId = identityCache.getResourceTypeId(targetResourceType);
                 if (resourceTypeId != null) {
                     // It's a valid resource type, so we treat as a local reference
-                    logger.info(() -> "reference search value: type[local] value[" + targetResourceType + "/" + referenceValue + "]");
+                    logger.fine(() -> "reference search value: type[local] value[" + targetResourceType + "/" + referenceValue + "]");
                     Long logicalResourceId = identityCache.getLogicalResourceId(targetResourceType, referenceValue);
                     logicalResourceIdList.add(logicalResourceId != null ? logicalResourceId : -1);
                 } else {

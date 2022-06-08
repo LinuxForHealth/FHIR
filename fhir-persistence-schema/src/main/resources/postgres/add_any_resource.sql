@@ -8,6 +8,9 @@
 -- Procedure to add a resource version and its associated parameters. These
 -- parameters only ever point to the latest version of a resource, never to
 -- previous versions, which are kept to support history queries.
+-- From V0027, we now use a logical_resource_ident table for locking. Records
+-- can be created in this table either by this procedure, or as part of
+-- reference parameter processing.
 -- implNote - Conventions:
 --           p_... prefix used to represent input parameters
 --           v_... prefix used to represent declared variables
@@ -58,10 +61,11 @@
   v_new_resource            INT := 0;
   v_duplicate               INT := 0;
   v_current_version         INT := 0;
+  v_ghost_resource          INT := 0;
   v_change_type            CHAR(1) := NULL;
   
   -- Because we don't really update any existing key, so use NO KEY UPDATE to achieve better concurrence performance. 
-  lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id, parameter_hash, is_deleted FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
+  lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id FROM {{SCHEMA_NAME}}.logical_resource_ident WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
 
 BEGIN
   -- default value unless we hit If-None-Match
@@ -75,44 +79,77 @@ BEGIN
   -- Grab the new resource_id so that we can use it right away (and skip an update to xx_logical_resources later)
   SELECT NEXTVAL('{{SCHEMA_NAME}}.fhir_sequence') INTO v_resource_id;
 
-  -- Get a lock at the system-wide logical resource level
+  -- Get a lock on the logical resource identity record
   OPEN lock_cur(t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
-  FETCH lock_cur INTO v_logical_resource_id, o_current_parameter_hash, v_currently_deleted;
+  FETCH lock_cur INTO v_logical_resource_id;
   CLOSE lock_cur;
   
-  -- Create the resource if we don't have it already
+  -- Create the resource ident record if we don't have it already
   IF v_logical_resource_id IS NULL
   THEN
     SELECT nextval('{{SCHEMA_NAME}}.fhir_sequence') INTO v_logical_resource_id;
     -- remember that we have a concurrent system...so there is a possibility
-    -- that another thread snuck in before us and created the logical resource. This
-    -- is easy to handle, just turn around and read it
-    INSERT INTO {{SCHEMA_NAME}}.logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated, parameter_hash)
-         VALUES (v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01', p_is_deleted, p_last_updated, p_parameter_hash_b64) ON CONFLICT DO NOTHING;
-       
-      -- row exists, so we just need to obtain a lock on it. Because logical resource records are
-      -- never deleted, we don't need to worry about it disappearing again before we grab the row lock
-      OPEN lock_cur (t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
-      FETCH lock_cur INTO t_logical_resource_id, o_current_parameter_hash, v_currently_deleted;
-      CLOSE lock_cur;
+    -- that another thread snuck in before us and created the ident record. To
+    -- handle this in PostgreSQL, we INSERT...ON CONFLICT DO NOTHING, then turn
+    -- around and read again to check that the logical_resource_id in the table
+    -- matches the value we tried to insert.
+    INSERT INTO {{SCHEMA_NAME}}.logical_resource_ident (resource_type_id, logical_id, logical_resource_id)
+         VALUES (v_resource_type_id, p_logical_id, v_logical_resource_id) ON CONFLICT DO NOTHING;
 
-      -- Since the resource did not previously exist, set o_current_parameter_hash back to NULL
-      o_current_parameter_hash := NULL;
-      
+    -- Do a read so that we can verify that *we* did the insert
+    OPEN lock_cur(t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
+    FETCH lock_cur INTO t_logical_resource_id;
+    CLOSE lock_cur;
+
     IF v_logical_resource_id = t_logical_resource_id
     THEN
-      -- we created the logical resource and therefore we already own the lock. So now we can
-      -- safely create the corresponding record in the resource-type-specific logical_resources table
-      EXECUTE 'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (logical_resource_id, logical_id, is_deleted, last_updated, version_id, current_resource_id) '
-      || '     VALUES ($1, $2, $3, $4, $5, $6)' USING v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated, p_version, v_resource_id;
-      v_new_resource := 1;
+        -- we did the insert, so we know this is a new record
+        v_new_resource := 1;
     ELSE
-      v_logical_resource_id := t_logical_resource_id;
+      -- another thread created the resource.
+      -- New for V0027. Records in logical_resource_ident may be created because they
+      -- are the target of a reference. We therefore need to handle the case where
+      -- no logical_resources record exists.
+      SELECT logical_resource_id, parameter_hash, is_deleted 
+        INTO v_logical_resource_id, o_current_parameter_hash, v_currently_deleted
+        FROM {{SCHEMA_NAME}}.logical_resources 
+       WHERE logical_resource_id = t_logical_resource_id;
+       
+      IF (v_logical_resource_id IS NULL)
+      THEN
+        -- other thread only created the ident record, so we still need to treat
+        -- this as a new resource
+        v_logical_resource_id := t_logical_resource_id;
+        v_new_resource := 1;
+      END IF;
+    END IF;
+  ELSE
+    -- we have an ident record, but we still need to check if we have a logical_resources
+    -- record
+    SELECT logical_resource_id, parameter_hash, is_deleted 
+      INTO t_logical_resource_id, o_current_parameter_hash, v_currently_deleted
+      FROM {{SCHEMA_NAME}}.logical_resources 
+     WHERE logical_resource_id = v_logical_resource_id;
+    IF (t_logical_resource_id IS NULL)
+    THEN
+       v_new_resource := 1;
     END IF;
   END IF;
 
-  -- Remember everying is locked at the logical resource level, so we are thread-safe here
-  IF v_new_resource = 0 THEN
+  IF v_new_resource = 1
+  THEN
+    -- we already own the lock on the ident record, so we can safely create
+    -- the corresponding records in the logical_resources and resource-type-specific 
+    -- xx_logical_resources tables
+    INSERT INTO {{SCHEMA_NAME}}.logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated, parameter_hash)
+         VALUES (v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01', p_is_deleted, p_last_updated, p_parameter_hash_b64) ON CONFLICT DO NOTHING;
+
+    EXECUTE 'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (logical_resource_id, logical_id, is_deleted, last_updated, version_id, current_resource_id) '
+      || '     VALUES ($1, $2, $3, $4, $5, $6)' USING v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated, p_version, v_resource_id;
+
+    -- Since the resource did not previously exist, make sure o_current_parameter_hash is null
+    o_current_parameter_hash := NULL;
+  ELSE
     -- as this is an existing resource, we need to know the current resource id.
     -- This is only available at the resource-specific logical_resources level
     EXECUTE
@@ -153,18 +190,18 @@ BEGIN
 
     IF o_current_parameter_hash IS NULL OR p_parameter_hash_b64 != o_current_parameter_hash
     THEN
-	    -- existing resource, so need to delete all its parameters (select because it's a function, not a procedure)
-	    -- TODO patch parameter sets instead of all delete/all insert.
+        -- existing resource, so need to delete all its parameters (select because it's a function, not a procedure)
+        -- TODO patch parameter sets instead of all delete/all insert.
         EXECUTE 'SELECT {{SCHEMA_NAME}}.delete_resource_parameters($1, $2)'
         USING p_resource_type, v_logical_resource_id;
-	END IF; -- end if check parameter hash
+    END IF; -- end if check parameter hash
   END IF; -- end if existing resource
 
+  -- create the new resource version entry in xx_resources
   EXECUTE
          'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted, resource_payload_key) '
       || ' VALUES ($1, $2, $3, $4, $5, $6, $7)'
     USING v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted, p_resource_payload_key;
-
 
   IF v_new_resource = 0 THEN
     -- As this is an existing logical resource, we need to update the xx_logical_resource values to match
