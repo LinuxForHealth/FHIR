@@ -1,0 +1,78 @@
+{
+    "resourceType": "HealthcareService",
+    "id": "PharmChainCompService",
+    "meta": {
+        "lastUpdated": "2020-07-07T13:26:22.0314215+00:00",
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService|1.0.0"
+        ]
+    },
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "extension": [
+                {
+                    "url": "type",
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/DeliveryMethodCS",
+                                "code": "physical"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/delivery-method"
+        }
+    ],
+    "active": true,
+    "providedBy": {
+        "reference": "Organization/PharmChain"
+    },
+    "category": [
+        {
+            "coding": [
+                {
+                    "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/HealthcareServiceCategoryCS",
+                    "code": "pharm",
+                    "display": "Pharmacy"
+                }
+            ]
+        }
+    ],
+    "specialty": [
+        {
+            "coding": [
+                {
+                    "system": "http://nucc.org/provider-taxonomy",
+                    "code": "3336C0004X",
+                    "display": "Compounding Pharmacy"
+                }
+            ],
+            "text": "Compounding Pharmacy"
+        }
+    ],
+    "location": [
+        {
+            "reference": "Location/PharmLoc1"
+        }
+    ],
+    "name": "Compounding Pharmacy by OrgA",
+    "telecom": [
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/via-intermediary",
+                    "valueReference": {
+                        "reference": "Location/PharmLoc1"
+                    }
+                }
+            ]
+        }
+    ]
+}

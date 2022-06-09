@@ -1,0 +1,70 @@
+{
+    "resourceType": "Organization",
+    "id": "HamiltonClinic",
+    "meta": {
+        "lastUpdated": "2020-07-07T13:26:22.0314215+00:00",
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization|1.0.0"
+        ]
+    },
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "identifier": [
+        {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "NPI78"
+        }
+    ],
+    "active": true,
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/OrgTypeCS",
+                    "code": "fac",
+                    "display": "Facility"
+                }
+            ]
+        }
+    ],
+    "name": "Hamilton Clinic",
+    "telecom": [
+        {
+            "system": "phone",
+            "value": "(111)-222-3333",
+            "rank": 2
+        },
+        {
+            "system": "url",
+            "value": "https://www.hartfordgeneralhospital.com",
+            "rank": 1
+        }
+    ],
+    "address": [
+        {
+            "line": [
+                "123 Main Street"
+            ],
+            "city": "Anytown",
+            "state": "CT",
+            "postalCode": "00014-1234"
+        }
+    ],
+    "partOf": {
+        "reference": "Organization/Hospital"
+    },
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "(111)-222-3333",
+                    "rank": 1
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,90 @@
+{
+    "resourceType": "ValueSet",
+    "id": "EndpointUsecaseVS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointUsecaseVS",
+    "version": "1.0.0",
+    "name": "EndpointUsecaseVS",
+    "title": "Endpoint Usecases",
+    "status": "active",
+    "date": "2020-11-19T23:52:52+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes for documenting business use case by a general grouping by business area.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                "concept": [
+                    {
+                        "code": "TREAT",
+                        "display": "treatment"
+                    },
+                    {
+                        "code": "HPAYMT",
+                        "display": "healthcare payment"
+                    },
+                    {
+                        "code": "COC",
+                        "display": "coordination of care"
+                    },
+                    {
+                        "code": "COVERAGE",
+                        "display": "eligibility verification and determination"
+                    },
+                    {
+                        "code": "HOPERAT",
+                        "display": "healthcare operations"
+                    },
+                    {
+                        "code": "PUBHLTH",
+                        "display": "public health"
+                    },
+                    {
+                        "code": "HRESCH",
+                        "display": "healthcare research"
+                    },
+                    {
+                        "code": "ETREAT",
+                        "display": "emergency treatment"
+                    },
+                    {
+                        "code": "PATRQT",
+                        "display": "patient requested"
+                    },
+                    {
+                        "code": "HRESCH",
+                        "display": "healthcare research"
+                    }
+                ]
+            }
+        ]
+    }
+}

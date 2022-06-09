@@ -1,0 +1,890 @@
+{
+    "index-version": 1,
+    "files": [
+        {
+            "filename": "StructureDefinition-plannet-Endpoint.json",
+            "resourceType": "StructureDefinition",
+            "id": "plannet-Endpoint",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint",
+            "version": "1.1.0",
+            "kind": "resource",
+            "type": "Endpoint"
+        },
+        {
+            "filename": "SearchParameter-organizationaffiliation-specialty.json",
+            "resourceType": "SearchParameter",
+            "id": "organizationaffiliation-specialty",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-specialty",
+            "version": "1.1.0",
+            "type": "token"
+        },
+        {
+            "filename": "SearchParameter-location-endpoint.json",
+            "resourceType": "SearchParameter",
+            "id": "location-endpoint",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-endpoint",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "SearchParameter-organization-address.json",
+            "resourceType": "SearchParameter",
+            "id": "organization-address",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-address",
+            "version": "1.1.0",
+            "type": "string"
+        },
+        {
+            "filename": "ValueSet-EndpointUsecaseVS.json",
+            "resourceType": "ValueSet",
+            "id": "EndpointUsecaseVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointUsecaseVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-insuranceplan-plan-type.json",
+            "resourceType": "SearchParameter",
+            "id": "insuranceplan-plan-type",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-plan-type",
+            "version": "1.1.0",
+            "type": "token"
+        },
+        {
+            "filename": "SearchParameter-practitioner-given-name.json",
+            "resourceType": "SearchParameter",
+            "id": "practitioner-given-name",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitioner-given-name",
+            "version": "1.1.0",
+            "type": "string"
+        },
+        {
+            "filename": "SearchParameter-organization-name.json",
+            "resourceType": "SearchParameter",
+            "id": "organization-name",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-name",
+            "version": "1.1.0",
+            "type": "string"
+        },
+        {
+            "filename": "ValueSet-OrgTypeVS.json",
+            "resourceType": "ValueSet",
+            "id": "OrgTypeVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/OrgTypeVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-healthcareservice-location.json",
+            "resourceType": "SearchParameter",
+            "id": "healthcareservice-location",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-location",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "SearchParameter-organizationaffiliation-primary-organization.json",
+            "resourceType": "SearchParameter",
+            "id": "organizationaffiliation-primary-organization",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-primary-organization",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "SearchParameter-healthcareservice-name.json",
+            "resourceType": "SearchParameter",
+            "id": "healthcareservice-name",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-name",
+            "version": "1.1.0",
+            "type": "string"
+        },
+        {
+            "filename": "ValueSet-VirtualModalitiesVS.json",
+            "resourceType": "ValueSet",
+            "id": "VirtualModalitiesVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/VirtualModalitiesVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "ValueSet-EndpointPayloadTypeVS.json",
+            "resourceType": "ValueSet",
+            "id": "EndpointPayloadTypeVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointPayloadTypeVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-insuranceplan-coverage-area.json",
+            "resourceType": "SearchParameter",
+            "id": "insuranceplan-coverage-area",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-coverage-area",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "StructureDefinition-plannet-InsurancePlan.json",
+            "resourceType": "StructureDefinition",
+            "id": "plannet-InsurancePlan",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-InsurancePlan",
+            "version": "1.1.0",
+            "kind": "resource",
+            "type": "InsurancePlan"
+        },
+        {
+            "filename": "StructureDefinition-via-intermediary.json",
+            "resourceType": "StructureDefinition",
+            "id": "via-intermediary",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/via-intermediary",
+            "version": "1.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-org-description.json",
+            "resourceType": "StructureDefinition",
+            "id": "org-description",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/org-description",
+            "version": "1.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "SearchParameter-insuranceplan-owned-by.json",
+            "resourceType": "SearchParameter",
+            "id": "insuranceplan-owned-by",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-owned-by",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "CodeSystem-AccessibilityCS.json",
+            "resourceType": "CodeSystem",
+            "id": "AccessibilityCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/AccessibilityCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-location-organization.json",
+            "resourceType": "SearchParameter",
+            "id": "location-organization",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-organization",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "ValueSet-LanguageProficiencyVS.json",
+            "resourceType": "ValueSet",
+            "id": "LanguageProficiencyVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/LanguageProficiencyVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-practitionerrole-service.json",
+            "resourceType": "SearchParameter",
+            "id": "practitionerrole-service",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-service",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "ValueSet-DeliveryMethodVS.json",
+            "resourceType": "ValueSet",
+            "id": "DeliveryMethodVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/DeliveryMethodVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "StructureDefinition-plannet-PractitionerRole.json",
+            "resourceType": "StructureDefinition",
+            "id": "plannet-PractitionerRole",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-PractitionerRole",
+            "version": "1.1.0",
+            "kind": "resource",
+            "type": "PractitionerRole"
+        },
+        {
+            "filename": "CodeSystem-InsurancePlanTypeCS.json",
+            "resourceType": "CodeSystem",
+            "id": "InsurancePlanTypeCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/InsurancePlanTypeCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-insuranceplan-name.json",
+            "resourceType": "SearchParameter",
+            "id": "insuranceplan-name",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-name",
+            "version": "1.1.0",
+            "type": "string"
+        },
+        {
+            "filename": "ValueSet-InsurancePlanTypeVS.json",
+            "resourceType": "ValueSet",
+            "id": "InsurancePlanTypeVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/InsurancePlanTypeVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "StructureDefinition-practitioner-qualification.json",
+            "resourceType": "StructureDefinition",
+            "id": "practitioner-qualification",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/practitioner-qualification",
+            "version": "1.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "ValueSet-HealthcareServiceCategoryVS.json",
+            "resourceType": "ValueSet",
+            "id": "HealthcareServiceCategoryVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/HealthcareServiceCategoryVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "CodeSystem-HealthcareServiceCategoryCS.json",
+            "resourceType": "CodeSystem",
+            "id": "HealthcareServiceCategoryCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/HealthcareServiceCategoryCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "CodeSystem-EndpointConnectionTypeCS.json",
+            "resourceType": "CodeSystem",
+            "id": "EndpointConnectionTypeCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/EndpointConnectionTypeCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-insuranceplan-type.json",
+            "resourceType": "SearchParameter",
+            "id": "insuranceplan-type",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-type",
+            "version": "1.1.0",
+            "type": "token"
+        },
+        {
+            "filename": "ValueSet-AcceptingPatientsVS.json",
+            "resourceType": "ValueSet",
+            "id": "AcceptingPatientsVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/AcceptingPatientsVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "CodeSystem-OrgTypeCS.json",
+            "resourceType": "CodeSystem",
+            "id": "OrgTypeCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/OrgTypeCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-healthcareservice-coverage-area.json",
+            "resourceType": "SearchParameter",
+            "id": "healthcareservice-coverage-area",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-coverage-area",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "StructureDefinition-plannet-Organization.json",
+            "resourceType": "StructureDefinition",
+            "id": "plannet-Organization",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization",
+            "version": "1.1.0",
+            "kind": "resource",
+            "type": "Organization"
+        },
+        {
+            "filename": "SearchParameter-organizationaffiliation-endpoint.json",
+            "resourceType": "SearchParameter",
+            "id": "organizationaffiliation-endpoint",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-endpoint",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "ValueSet-EndpointConnectionTypeVS.json",
+            "resourceType": "ValueSet",
+            "id": "EndpointConnectionTypeVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/EndpointConnectionTypeVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-practitionerrole-endpoint.json",
+            "resourceType": "SearchParameter",
+            "id": "practitionerrole-endpoint",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-endpoint",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "SearchParameter-practitionerrole-specialty.json",
+            "resourceType": "SearchParameter",
+            "id": "practitionerrole-specialty",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-specialty",
+            "version": "1.1.0",
+            "type": "token"
+        },
+        {
+            "filename": "SearchParameter-practitionerrole-role.json",
+            "resourceType": "SearchParameter",
+            "id": "practitionerrole-role",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-role",
+            "version": "1.1.0",
+            "type": "token"
+        },
+        {
+            "filename": "CodeSystem-OrganizationAffiliationRoleCS.json",
+            "resourceType": "CodeSystem",
+            "id": "OrganizationAffiliationRoleCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/OrganizationAffiliationRoleCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "ValueSet-IndividualSpecialtyAndDegreeLicenseCertificateVS.json",
+            "resourceType": "ValueSet",
+            "id": "IndividualSpecialtyAndDegreeLicenseCertificateVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/IndividualSpecialtyAndDegreeLicenseCertificateVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-healthcareservice-service-type.json",
+            "resourceType": "SearchParameter",
+            "id": "healthcareservice-service-type",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-service-type",
+            "version": "1.1.0",
+            "type": "token"
+        },
+        {
+            "filename": "SearchParameter-organizationaffiliation-role.json",
+            "resourceType": "SearchParameter",
+            "id": "organizationaffiliation-role",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-role",
+            "version": "1.1.0",
+            "type": "token"
+        },
+        {
+            "filename": "SearchParameter-organizationaffiliation-period.json",
+            "resourceType": "SearchParameter",
+            "id": "organizationaffiliation-period",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-period",
+            "version": "1.1.0",
+            "type": "date"
+        },
+        {
+            "filename": "StructureDefinition-plannet-Location.json",
+            "resourceType": "StructureDefinition",
+            "id": "plannet-Location",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location",
+            "version": "1.1.0",
+            "kind": "resource",
+            "type": "Location"
+        },
+        {
+            "filename": "CodeSystem-QualificationStatusCS.json",
+            "resourceType": "CodeSystem",
+            "id": "QualificationStatusCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/QualificationStatusCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-practitionerrole-location.json",
+            "resourceType": "SearchParameter",
+            "id": "practitionerrole-location",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-location",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "ValueSet-InsuranceProductTypeVS.json",
+            "resourceType": "ValueSet",
+            "id": "InsuranceProductTypeVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/InsuranceProductTypeVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "ValueSet-MinEndpointConnectionTypeVS.json",
+            "resourceType": "ValueSet",
+            "id": "MinEndpointConnectionTypeVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/MinEndpointConnectionTypeVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-organizationaffiliation-service.json",
+            "resourceType": "SearchParameter",
+            "id": "organizationaffiliation-service",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-service",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "SearchParameter-practitioner-family-name.json",
+            "resourceType": "SearchParameter",
+            "id": "practitioner-family-name",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitioner-family-name",
+            "version": "1.1.0",
+            "type": "string"
+        },
+        {
+            "filename": "SearchParameter-practitionerrole-period.json",
+            "resourceType": "SearchParameter",
+            "id": "practitionerrole-period",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-period",
+            "version": "1.1.0",
+            "type": "date"
+        },
+        {
+            "filename": "ValueSet-QualificationStatusVS.json",
+            "resourceType": "ValueSet",
+            "id": "QualificationStatusVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/QualificationStatusVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-organizationaffiliation-location.json",
+            "resourceType": "SearchParameter",
+            "id": "organizationaffiliation-location",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-location",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "StructureDefinition-plannet-Practitioner.json",
+            "resourceType": "StructureDefinition",
+            "id": "plannet-Practitioner",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Practitioner",
+            "version": "1.1.0",
+            "kind": "resource",
+            "type": "Practitioner"
+        },
+        {
+            "filename": "SearchParameter-location-address.json",
+            "resourceType": "SearchParameter",
+            "id": "location-address",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-address",
+            "version": "1.1.0",
+            "type": "string"
+        },
+        {
+            "filename": "SearchParameter-endpoint-organization.json",
+            "resourceType": "SearchParameter",
+            "id": "endpoint-organization",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/endpoint-organization",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "ValueSet-SpecialtyAndDegreeLicenseCertificateVS.json",
+            "resourceType": "ValueSet",
+            "id": "SpecialtyAndDegreeLicenseCertificateVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/SpecialtyAndDegreeLicenseCertificateVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-organization-endpoint.json",
+            "resourceType": "SearchParameter",
+            "id": "organization-endpoint",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-endpoint",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "CodeSystem-InsuranceProductTypeCS.json",
+            "resourceType": "CodeSystem",
+            "id": "InsuranceProductTypeCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/InsuranceProductTypeCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-organization-coverage-area.json",
+            "resourceType": "SearchParameter",
+            "id": "organization-coverage-area",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-coverage-area",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "CodeSystem-LanguageProficiencyCS.json",
+            "resourceType": "CodeSystem",
+            "id": "LanguageProficiencyCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/LanguageProficiencyCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-organizationaffiliation-participating-organization.json",
+            "resourceType": "SearchParameter",
+            "id": "organizationaffiliation-participating-organization",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-participating-organization",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "ig-r4.json",
+            "resourceType": "ImplementationGuide",
+            "id": "hl7.fhir.us.davinci-pdex-plan-net",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ImplementationGuide/hl7.fhir.us.davinci-pdex-plan-net",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "ValueSet-SpecialtiesVS.json",
+            "resourceType": "ValueSet",
+            "id": "SpecialtiesVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/SpecialtiesVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-practitioner-name.json",
+            "resourceType": "SearchParameter",
+            "id": "practitioner-name",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitioner-name",
+            "version": "1.1.0",
+            "type": "string"
+        },
+        {
+            "filename": "SearchParameter-organization-partof.json",
+            "resourceType": "SearchParameter",
+            "id": "organization-partof",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-partof",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "SearchParameter-location-partof.json",
+            "resourceType": "SearchParameter",
+            "id": "location-partof",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-partof",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "SearchParameter-practitionerrole-organization.json",
+            "resourceType": "SearchParameter",
+            "id": "practitionerrole-organization",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-organization",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "ValueSet-HealthcareServiceTypeVS.json",
+            "resourceType": "ValueSet",
+            "id": "HealthcareServiceTypeVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/HealthcareServiceTypeVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "CodeSystem-DeliveryMethodCS.json",
+            "resourceType": "CodeSystem",
+            "id": "DeliveryMethodCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/DeliveryMethodCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "StructureDefinition-plannet-OrganizationAffiliation.json",
+            "resourceType": "StructureDefinition",
+            "id": "plannet-OrganizationAffiliation",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation",
+            "version": "1.1.0",
+            "kind": "resource",
+            "type": "OrganizationAffiliation"
+        },
+        {
+            "filename": "SearchParameter-practitionerrole-network.json",
+            "resourceType": "SearchParameter",
+            "id": "practitionerrole-network",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-network",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "StructureDefinition-endpoint-usecase.json",
+            "resourceType": "StructureDefinition",
+            "id": "endpoint-usecase",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/endpoint-usecase",
+            "version": "1.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "ImplementationGuide-hl7.fhir.us.davinci-pdex-plan-net.json",
+            "resourceType": "ImplementationGuide",
+            "id": "hl7.fhir.us.davinci-pdex-plan-net",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ImplementationGuide/hl7.fhir.us.davinci-pdex-plan-net",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-location-address-postalcode.json",
+            "resourceType": "SearchParameter",
+            "id": "location-address-postalcode",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-address-postalcode",
+            "version": "1.1.0",
+            "type": "string"
+        },
+        {
+            "filename": "SearchParameter-organization-type.json",
+            "resourceType": "SearchParameter",
+            "id": "organization-type",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-type",
+            "version": "1.1.0",
+            "type": "token"
+        },
+        {
+            "filename": "SearchParameter-location-address-state.json",
+            "resourceType": "SearchParameter",
+            "id": "location-address-state",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-address-state",
+            "version": "1.1.0",
+            "type": "string"
+        },
+        {
+            "filename": "ValueSet-PractitionerRoleVS.json",
+            "resourceType": "ValueSet",
+            "id": "PractitionerRoleVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/PractitionerRoleVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-healthcareservice-organization.json",
+            "resourceType": "SearchParameter",
+            "id": "healthcareservice-organization",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-organization",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "SearchParameter-location-address-city.json",
+            "resourceType": "SearchParameter",
+            "id": "location-address-city",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-address-city",
+            "version": "1.1.0",
+            "type": "string"
+        },
+        {
+            "filename": "SearchParameter-organizationaffiliation-network.json",
+            "resourceType": "SearchParameter",
+            "id": "organizationaffiliation-network",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organizationaffiliation-network",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "StructureDefinition-plannet-HealthcareService.json",
+            "resourceType": "StructureDefinition",
+            "id": "plannet-HealthcareService",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService",
+            "version": "1.1.0",
+            "kind": "resource",
+            "type": "HealthcareService"
+        },
+        {
+            "filename": "SearchParameter-location-type.json",
+            "resourceType": "SearchParameter",
+            "id": "location-type",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/location-type",
+            "version": "1.1.0",
+            "type": "token"
+        },
+        {
+            "filename": "StructureDefinition-network-reference.json",
+            "resourceType": "StructureDefinition",
+            "id": "network-reference",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/network-reference",
+            "version": "1.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "ValueSet-NetworkTypeVS.json",
+            "resourceType": "ValueSet",
+            "id": "NetworkTypeVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/NetworkTypeVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "StructureDefinition-newpatients.json",
+            "resourceType": "StructureDefinition",
+            "id": "newpatients",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/newpatients",
+            "version": "1.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "SearchParameter-healthcareservice-specialty.json",
+            "resourceType": "SearchParameter",
+            "id": "healthcareservice-specialty",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-specialty",
+            "version": "1.1.0",
+            "type": "token"
+        },
+        {
+            "filename": "SearchParameter-practitionerrole-practitioner.json",
+            "resourceType": "SearchParameter",
+            "id": "practitionerrole-practitioner",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-practitioner",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "CodeSystem-ProviderRoleCS.json",
+            "resourceType": "CodeSystem",
+            "id": "ProviderRoleCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/ProviderRoleCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "StructureDefinition-delivery-method.json",
+            "resourceType": "StructureDefinition",
+            "id": "delivery-method",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/delivery-method",
+            "version": "1.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-contactpoint-availabletime.json",
+            "resourceType": "StructureDefinition",
+            "id": "contactpoint-availabletime",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/contactpoint-availabletime",
+            "version": "1.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-communication-proficiency.json",
+            "resourceType": "StructureDefinition",
+            "id": "communication-proficiency",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/communication-proficiency",
+            "version": "1.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "SearchParameter-healthcareservice-endpoint.json",
+            "resourceType": "SearchParameter",
+            "id": "healthcareservice-endpoint",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-endpoint",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "ValueSet-IndividualAndGroupSpecialtiesVS.json",
+            "resourceType": "ValueSet",
+            "id": "IndividualAndGroupSpecialtiesVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/IndividualAndGroupSpecialtiesVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "CodeSystem-AcceptingPatientsCS.json",
+            "resourceType": "CodeSystem",
+            "id": "AcceptingPatientsCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/AcceptingPatientsCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "StructureDefinition-accessibility.json",
+            "resourceType": "StructureDefinition",
+            "id": "accessibility",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/accessibility",
+            "version": "1.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "CodeSystem-VirtualModalitiesCS.json",
+            "resourceType": "CodeSystem",
+            "id": "VirtualModalitiesCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/VirtualModalitiesCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "StructureDefinition-plannet-Network.json",
+            "resourceType": "StructureDefinition",
+            "id": "plannet-Network",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network",
+            "version": "1.1.0",
+            "kind": "resource",
+            "type": "Organization"
+        },
+        {
+            "filename": "SearchParameter-insuranceplan-administered-by.json",
+            "resourceType": "SearchParameter",
+            "id": "insuranceplan-administered-by",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-administered-by",
+            "version": "1.1.0",
+            "type": "reference"
+        },
+        {
+            "filename": "ValueSet-AccessibilityVS.json",
+            "resourceType": "ValueSet",
+            "id": "AccessibilityVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/AccessibilityVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "ValueSet-OrganizationAffiliationRoleVS.json",
+            "resourceType": "ValueSet",
+            "id": "OrganizationAffiliationRoleVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/OrganizationAffiliationRoleVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "CodeSystem-EndpointPayloadTypeCS.json",
+            "resourceType": "CodeSystem",
+            "id": "EndpointPayloadTypeCS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/EndpointPayloadTypeCS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "CapabilityStatement-plan-net.json",
+            "resourceType": "CapabilityStatement",
+            "id": "plan-net",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CapabilityStatement/plan-net",
+            "version": "1.1.0",
+            "kind": "requirements"
+        },
+        {
+            "filename": "StructureDefinition-qualification.json",
+            "resourceType": "StructureDefinition",
+            "id": "qualification",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/qualification",
+            "version": "1.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "StructureDefinition-location-reference.json",
+            "resourceType": "StructureDefinition",
+            "id": "location-reference",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/location-reference",
+            "version": "1.1.0",
+            "kind": "complex-type",
+            "type": "Extension"
+        },
+        {
+            "filename": "SearchParameter-healthcareservice-service-category.json",
+            "resourceType": "SearchParameter",
+            "id": "healthcareservice-service-category",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/healthcareservice-service-category",
+            "version": "1.1.0",
+            "type": "token"
+        },
+        {
+            "filename": "ValueSet-NonIndividualSpecialtiesVS.json",
+            "resourceType": "ValueSet",
+            "id": "NonIndividualSpecialtiesVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/NonIndividualSpecialtiesVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "ValueSet-NonIndividualSpecialtyAndDegreeLicenseCertificateVS.json",
+            "resourceType": "ValueSet",
+            "id": "NonIndividualSpecialtyAndDegreeLicenseCertificateVS",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/NonIndividualSpecialtyAndDegreeLicenseCertificateVS",
+            "version": "1.1.0"
+        },
+        {
+            "filename": "SearchParameter-insuranceplan-identifier.json",
+            "resourceType": "SearchParameter",
+            "id": "insuranceplan-identifier",
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/insuranceplan-identifier",
+            "version": "1.1.0",
+            "type": "token"
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "practitionerrole-practitioner",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitionerrole-practitioner",
+    "version": "1.0.0",
+    "name": "Plannet_sp_practitionerrole_practitioner",
+    "derivedFrom": "http://hl7.org/fhir/SearchParameter/PractitionerRole-practitioner",
+    "status": "active",
+    "date": "2018-05-23T00:00:00+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Select roles filled by the specified practitioner",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "practitioner",
+    "base": [
+        "PractitionerRole"
+    ],
+    "type": "reference",
+    "expression": "PractitionerRole.practitioner",
+    "target": [
+        "Practitioner"
+    ],
+    "multipleOr": true,
+    "multipleAnd": true,
+    "chain": [
+        "name"
+    ]
+}

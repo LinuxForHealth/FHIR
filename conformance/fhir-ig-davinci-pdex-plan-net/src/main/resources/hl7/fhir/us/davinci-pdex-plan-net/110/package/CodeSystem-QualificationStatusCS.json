@@ -1,0 +1,76 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "QualificationStatusCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/QualificationStatusCS",
+    "version": "1.1.0",
+    "name": "QualificationStatusCS",
+    "title": "Qualification Status",
+    "status": "active",
+    "date": "2022-04-04T14:02:01+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The state indicating if a qualification is currently valid.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "caseSensitive": true,
+    "content": "complete",
+    "count": 6,
+    "concept": [
+        {
+            "code": "active",
+            "display": "active",
+            "definition": "The credential may be considered valid for use."
+        },
+        {
+            "code": "inactive",
+            "display": "inactive",
+            "definition": "The credential may not be considered valid for use."
+        },
+        {
+            "code": "issiner",
+            "display": "issued in error",
+            "definition": "The credential was mistakenly assigned and should not be considered valid for use."
+        },
+        {
+            "code": "revoked",
+            "display": "revoked",
+            "definition": "The credential was revoked by the issuing organization and should not be considered valid for use."
+        },
+        {
+            "code": "pending",
+            "display": "pending",
+            "definition": "The credential has not been officially assigned. It may or may not be considered valid for use."
+        },
+        {
+            "code": "unknown",
+            "display": "unknown",
+            "definition": "The status of this credential is unknown. It may or may not be considered valid for use."
+        }
+    ]
+}
