@@ -207,17 +207,22 @@ The IBM FHIR server has built-in support for the following:
 
 ### Optional profile support
 
-The IBM FHIR server has additional implementation guides available in the fhir-validation-distribution.zip artifact, which may be downloaded from [https://github.com/IBM/FHIR/releases](releases). To load an additional implemenation guide, copy the implementation guide's jar (e.g. `fhir-ig-us-core-VERSION.jar`) from the fhir-validation-distribution.zip artifact into the IBM FHIR server's userlib directory to make it available to the server during startup.
+The IBM FHIR Server project includes modules for select FHIR implementation guides and makes versions of those available in both Maven Central and in the fhir-validation-distribution.zip artifact, which may be downloaded from [https://github.com/IBM/FHIR/releases](releases). To make an implemenation guide available to the server, copy the corresponding jar (e.g. `fhir-ig-us-core-VERSION.jar`) to the IBM FHIR Server's userlib directory before startup.
 
-The latest version of the fhir-validation-distribution.zip artifact includes the following implementation guides:
+In many cases, these modules wrap multiple versions of the corresponding implementation guide.
+By default, the server will use the latest version of given resource for validation purposes.
+See [Section 4.5.3 of the User's Guide](#453-profile-validation) for related configuration options.
 
-- US Core Implementation Guide (v3.1.1: STU3 Update) [http://hl7.org/fhir/us/core/STU3.1.1/](http://hl7.org/fhir/us/core/STU3.1.1/)
-- CARIN Consumer Directed Payer Data Exchange (CARIN IG for BlueButton®) Implementation Guide (v1.0.0 - STU1) [http://hl7.org/fhir/us/carin-bb/STU1](http://hl7.org/fhir/us/carin-bb/STU1)
-- HL7 FHIR Implementation Guide: minimal Common Oncology Data Elements (mCODE) Release 1 - US Realm | STU1 (v1.0.0 - STU1) [http://hl7.org/fhir/us/mcode/STU1](http://hl7.org/fhir/us/mcode/STU1)
-- Da Vinci Health Record Exchange (HREX) Implementation Guide (v1.0.0 - STU1) [https://hl7.org/fhir/us/davinci-hrex/STU1)
-- Da Vinci Payer Data Exchange (PDEX) Implementation Guide (v1.0.0 - STU1) [http://hl7.org/fhir/us/davinci-pdex/STU1](http://hl7.org/fhir/us/davinci-pdex/STU1)
-- Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide (v1.0.0 - STU1) [http://hl7.org/fhir/us/davinci-pdex-plan-net/STU1](http://hl7.org/fhir/us/davinci-pdex-plan-net/STU1)
-- Da Vinci Payer Data Exchange (PDex) US Drug Formulary (v1.0.1 - STU1.0.1) [http://hl7.org/fhir/us/davinci-drug-formulary/STU1.0.1](http://hl7.org/fhir/us/davinci-drug-formulary/STU1.0.1)
+Below is the list of implementation guides that are packaged as part of the project and which implementation guide versions they include:
+
+|Implementation Guide|Packaged Versions|
+|US Core|`3.1.1`, `4.0.0`, `5.0.0`|
+|CARIN Consumer Directed Payer Data Exchange (CARIN IG for BlueButton®)|`1.0.0`, `1.1.0`|
+|minimal Common Oncology Data Elements (mCODE)|`1.0.0`)
+|Da Vinci Health Record Exchange (HREX)|`1.0.0`|
+|Da Vinci Payer Data Exchange (PDEX)|`1.0.0`, `2.0.0`|
+|Da Vinci Payer Data Exchange (PDEX) Plan Net|`1.0.0`, `1.1.0`|
+|Da Vinci Payer Data Exchange (PDex) US Drug Formulary|`1.0.1`, `1.1.0`|
 
 ## The IBM FHIR Server $validate operation
 
