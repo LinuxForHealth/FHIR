@@ -246,7 +246,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         if (Boolean.FALSE.equals(outcome.getResult())) {
             generateIssue(outcome, evaluationContext, elementNode, strength);
             return false;
-        } else if (outcome.getMessage() != null){
+        } else if (outcome.getMessage() != null) {
             // this uses inside knowledge about the reason an outcome might come back true but with a message;
             // is there a cleaner way to get this supplemental detail back from the validateCode?
             generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.NOT_SUPPORTED, outcome.getMessage().getValue(), elementNode.path());
