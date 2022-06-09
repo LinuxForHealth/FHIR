@@ -65,6 +65,11 @@ public class PlainSchemaAdapter implements ISchemaAdapter {
     }
 
     @Override
+    public boolean useSessionVariable() {
+        return databaseAdapter.useSessionVariable();
+    }
+
+    @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey, IdentityDef identity,
         String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints, DistributionType distributionType, String distributionColumnName) {
         databaseAdapter.createTable(schemaName, name, tenantColumnName, columns, primaryKey, identity, tablespaceName, withs, checkConstraints, null);

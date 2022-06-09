@@ -479,12 +479,9 @@ public interface ISchemaAdapter {
     public boolean checkCompatibility(String adminSchema);
 
     /**
-     *
      * @return a false, if not used, or true if used with the persistence layer.
      */
-    public default boolean useSessionVariable() {
-        return false;
-    }
+    public boolean useSessionVariable();
 
     /**
      * creates or replaces the SQL function
