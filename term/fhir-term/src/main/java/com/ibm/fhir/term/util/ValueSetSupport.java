@@ -149,7 +149,7 @@ public final class ValueSetSupport {
      * Get the value set associated with the given url from the FHIR registry.
      *
      * @param url
-     *     the url of the value set
+     *     the url of the value set (with optional version postfix and optional fragment id for contained resources)
      * @return
      *     the value set associated with the given input parameter, or null if no such value set exists
      */

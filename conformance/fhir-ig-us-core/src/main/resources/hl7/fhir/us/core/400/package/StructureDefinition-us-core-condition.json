@@ -183,7 +183,7 @@
                         "key": "us-core-1",
                         "severity": "warning",
                         "human": "A code in Condition.category SHOULD be from US Core Condition Category Codes value set.",
-                        "expression": "category.where(memberOf('http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category')).exists()",
+                        "expression": "category.where(memberOf('http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category|4.0.0')).exists()",
                         "xpath": "(no xpath equivalent)"
                     }
                 ],
@@ -752,7 +752,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category|4.0.0"
                 },
                 "mapping": [
                     {
@@ -878,7 +878,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Valueset to describe the actual problem experienced by the patient",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-code"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-code|4.0.0"
                 },
                 "mapping": [
                     {
@@ -987,7 +987,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -2019,7 +2019,7 @@
                         "key": "us-core-1",
                         "severity": "warning",
                         "human": "A code in Condition.category SHOULD be from US Core Condition Category Codes value set.",
-                        "expression": "category.where(memberOf('http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category')).exists()",
+                        "expression": "category.where(memberOf('http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category|4.0.0')).exists()",
                         "xpath": "(no xpath equivalent)"
                     }
                 ],
@@ -2092,7 +2092,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-category|4.0.0"
                 },
                 "mapping": [
                     {
@@ -2115,7 +2115,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Valueset to describe the actual problem experienced by the patient",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-code"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-code|4.0.0"
                 },
                 "mapping": [
                     {
@@ -2133,7 +2133,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],

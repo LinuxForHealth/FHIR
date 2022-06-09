@@ -1274,7 +1274,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -3184,7 +3184,7 @@
                 "binding": {
                     "strength": "required",
                     "description": "Constrained value set of narrative statuses.",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-narrative-status"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-narrative-status|4.0.0"
                 },
                 "mapping": [
                     {
@@ -3309,7 +3309,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
