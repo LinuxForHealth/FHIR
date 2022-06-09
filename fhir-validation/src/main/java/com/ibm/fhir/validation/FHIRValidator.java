@@ -39,7 +39,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Constraint.FHIRPathConstraintValidator;
@@ -64,7 +63,6 @@ import com.ibm.fhir.path.util.DiagnosticsEvaluationListener;
 import com.ibm.fhir.path.visitor.FHIRPathDefaultNodeVisitor;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 import net.jcip.annotations.NotThreadSafe;
@@ -332,64 +330,73 @@ public class FHIRValidator {
                 constraints.addAll(ProfileSupport.getConstraints(profiles, resourceType));
             }
 
-            // add instance-specific extension constraints
-            PathAwareCollectingVisitor<Extension> extCollector = new PathAwareCollectingVisitor<Extension>(Extension.class);
-            resourceNode.resource().accept(extCollector);
-            Map<String, Extension> pathToExtension = extCollector.getResult();
+            // path (with array indices) -> Extension instance (which never have a url version suffix)
+            Map<String, Extension> pathToExtension = gatherInstanceExtensions(resourceNode);
+            // path (with no array indices) -> Extension URLs (with no version suffix)
+            Map<String, Set<String>> alreadyGeneratedExtensionConstraints = gatherExtensionConstraints(constraints);
 
-            // for option A below:  find all the versions of the extension in the registry
-            Map<String, Set<String>> profileVersions = collectProfileVersions(pathToExtension.values());
-
+            // for each extension in the resource instance
             for (Entry<String, Extension> entry : pathToExtension.entrySet()) {
                 String path = entry.getKey();
                 Extension e = entry.getValue();
                 String url = e.getUrl();
                 if (isAbsolute(url)) {
-                    // Option A:  find all versions of the extension and pass validation if the instance conforms to at least one
-                    // Option B:  introspect the existing constraints and only add this one if the extension is not covered by profile constraints
+                    // remove the array indices from the path
+                    String reducedPath = path.replaceAll("\\[[0-9]+\\]", "");
 
-                    // Option A:  conformance to any one version of the extension is sufficient
-                    if (profileVersions.containsKey(url)) {
-                        String constraint = profileVersions.get(url).stream()
-                            .map(v -> "conformsTo('" + url + "|" + v + "')")
-                            .collect(Collectors.joining(" or "));
+                    // if the profile validation already has this covered, then move on to the next extension
+                    if (alreadyGeneratedExtensionConstraints.containsKey(reducedPath)
+                            && alreadyGeneratedExtensionConstraints.get(reducedPath).contains(url)) {
+                        continue;
+                    }
 
-                        constraints.add(Constraint.Factory.createConstraint("generated-ext-1", Constraint.LEVEL_RULE, path,
-                                "Extension must conform to at least one definition of '" + url + "'", constraint, SOURCE_VALIDATOR, false, true));
+                    // otherwise generate the instance-specifc conformsTo constraint (or add a warning if we don't have a definition for it)
+                    if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
+                        constraints.add(Constraint.Factory.createConstraint("generated-ext~" + path + "<" + url + ">", Constraint.LEVEL_RULE, path,
+                                "Extension must conform to definition '" + url + "'",
+                                "conformsTo('" + url + "')", SOURCE_VALIDATOR, false, true));
                     } else {
                         issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", null, path));
                     }
-
-                    // Option B:  conditionally add a conformsTo constraint for the default/latest version of this extension
-//                    if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
-//                        constraints.add(Constraint.Factory.createConstraint("generated-ext-2", Constraint.LEVEL_RULE, path,
-//                                "Extension must conform to definition '" + url + "'",
-//                                "conformsTo('" + url + "')", SOURCE_VALIDATOR, false, true));
-//                    } else {
-//                        issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", null, path));
-//                    }
                 }
             }
 
             validate(resourceNode, constraints);
         }
 
-        private Map<String, Set<String>> collectProfileVersions(Collection<Extension> extensions) {
-            Map<String, Set<String>> profileVersions = new HashMap<>();
+        /**
+         * Collect all the extensions from the resource instance and index them by their simple FHIRPath paths
+         */
+        private Map<String, Extension> gatherInstanceExtensions(FHIRPathResourceNode resourceNode) {
+            PathAwareCollectingVisitor<Extension> extCollector = new PathAwareCollectingVisitor<Extension>(Extension.class);
+            resourceNode.resource().accept(extCollector);
+            Map<String, Extension> pathToExtension = extCollector.getResult();
+            return pathToExtension;
+        }
 
-            Set<String> uniqueExtensionUrls = extensions.stream()
-                    .map(e -> e.getUrl())
-                    .distinct()
-                    .collect(Collectors.toSet());
-
-            // RegistryResourceProviders have a method thats basically just what we want, but unfortunately the registry does not
-            for (FHIRRegistryResource rr : FHIRRegistry.getInstance().getRegistryResources(StructureDefinition.class)) {
-                if (uniqueExtensionUrls.contains(rr.getUrl()) && rr.getVersion() != null) {
-                    profileVersions.computeIfAbsent(rr.getUrl(), x -> new HashSet<>()).add(rr.getVersion().toString());
+        /**
+         * Gather all the constraint ids and process the specially-marked extension ones into a map
+         * from the paths to the set of corresponding extension URLs (with no version suffix).
+         */
+        private Map<String, Set<String>> gatherExtensionConstraints(List<Constraint> constraints) {
+            Map<String, Set<String>> alreadyGeneratedExtensionConstraints = new HashMap<>();
+            for (Constraint c : constraints) {
+                int urlMark = c.id().lastIndexOf("<");
+                if (urlMark <= 0 || !c.id().endsWith(">")) {
+                    continue;
                 }
-            }
 
-            return profileVersions;
+                String firstPart = c.id().substring(0, urlMark);
+                int pathMark = firstPart.lastIndexOf("~");
+                if (pathMark <= 0) {
+                    continue;
+                }
+                String path = firstPart.substring(pathMark + 1);
+
+                String url = c.id().substring(urlMark + 1, c.id().length() - 1);
+                alreadyGeneratedExtensionConstraints.computeIfAbsent(path, t -> new HashSet<>()).add(url);
+            }
+            return alreadyGeneratedExtensionConstraints;
         }
 
         private void validateProfileReferences(FHIRPathResourceNode resourceNode, List<String> profiles, boolean resourceAsserted) {
