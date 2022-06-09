@@ -164,6 +164,7 @@ import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.MigrateV0014LogicalResourceIsDeletedLastUpdated;
 import com.ibm.fhir.schema.control.MigrateV0021AbstractTypeRemoval;
 import com.ibm.fhir.schema.control.MigrateV0027LogicalResourceIdent;
+import com.ibm.fhir.schema.control.MigrateV0027LogicalResourceIdentMT;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
@@ -2598,8 +2599,13 @@ public class Main {
     private void dataMigrationForV0027(IDatabaseAdapter adapter, String schemaName) {
         GetLogicalResourceNeedsV0027Migration needsMigrating = new GetLogicalResourceNeedsV0027Migration(schemaName);
         if (adapter.runStatement(needsMigrating)) {
-            MigrateV0027LogicalResourceIdent cmd = new MigrateV0027LogicalResourceIdent(schemaName);
-            adapter.runStatement(cmd);
+            if (this.dataSchemaType == SchemaType.MULTITENANT) {
+                MigrateV0027LogicalResourceIdentMT cmd = new MigrateV0027LogicalResourceIdentMT(schemaName);
+                adapter.runStatement(cmd);
+            } else {
+                MigrateV0027LogicalResourceIdent cmd = new MigrateV0027LogicalResourceIdent(schemaName);
+                adapter.runStatement(cmd);
+            }
         }
     }
 

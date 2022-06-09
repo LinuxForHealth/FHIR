@@ -141,6 +141,14 @@ public class Table extends BaseObject {
     }
 
     /**
+     * Getter for the create flag
+     * @return
+     */
+    public boolean isCreate() {
+        return this.create;
+    }
+
+    /**
      * Getter for the table's distributionType
      * @return
      */
@@ -194,7 +202,7 @@ public class Table extends BaseObject {
                 step.migrateFrom(priorVersion).stream().forEachOrdered(target::runStatement);
             }
             // Re-apply tenant access control if required
-            if (this.accessControlVar != null) {
+            if (this.accessControlVar != null && this.create) {
                 // The accessControlVar represents a DB2 session variable. Programs must set this value
                 // for the current tenant when executing any SQL (both reads and writes) on
                 // tables with this access control enabled

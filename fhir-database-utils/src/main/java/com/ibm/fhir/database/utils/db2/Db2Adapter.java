@@ -22,6 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DistributionContext;
@@ -209,7 +210,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
      * @param newTenantId
      * @param tablespaceName
      */
-    public void addNewTenantPartitions(Collection<Table> tables, Map<String, PartitionInfo> partitionInfoMap, int newTenantId, String tablespaceName) {
+    public void addNewTenantPartitions(Collection<Table> allTables, Map<String, PartitionInfo> partitionInfoMap, int newTenantId, String tablespaceName) {
         // Thread pool for parallelizing requests
         int poolSize = connectionProvider.getPoolSize();
         if (poolSize == -1) {
@@ -219,6 +220,10 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         final ExecutorService pool = Executors.newFixedThreadPool(poolSize);
 
         final AtomicInteger taskCount = new AtomicInteger();
+
+        // Only process tables which have the create flag so we ignore tables which have been dropped
+        List<Table> tables = allTables.stream().filter(t->t.isCreate()).collect(Collectors.toList());
+
         for (Table t: tables) {
             String qualifiedName = t.getQualifiedName();
             PartitionInfo pi = partitionInfoMap.get(t.getObjectName());

@@ -835,7 +835,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
             // Make sure we include MT_ID in both the select list and join condition. It's needed
             // in the join condition to give the optimizer the best chance at finding a good nested
             // loop strategy
-            select.append("SELECT ref.").append(MT_ID);
+            select.append("SELECT ref.").append(MT_ID).append(", ");
             select.append("       ref.parameter_name_id, lri.resource_type_id, lri.logical_id, ref.logical_resource_id, ");
             select.append("       ref.ref_version_id, ref.ref_logical_resource_id, ref.composite_id, ");
             select.append("       lri.logical_id AS ref_value ");
