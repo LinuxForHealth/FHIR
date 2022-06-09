@@ -25,6 +25,7 @@ import com.ibm.fhir.model.resource.Bundle.Entry.Request;
 import com.ibm.fhir.model.resource.HealthcareService;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Organization;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
@@ -67,9 +68,30 @@ public class ResolveFunctionTest {
     }
 
     /**
+     * Resolve works when there are multiple elements in the input context
+     */
+    @Test
+    public void testResolveMultiple() throws Exception {
+        Patient patient = Patient.builder()
+                .generalPractitioner(Reference.builder()
+                        .reference("Practitioner/1")
+                        .build())
+                .generalPractitioner(Reference.builder()
+                        .reference("Practitioner/2")
+                        .build())
+                .generalPractitioner(Reference.builder()
+                        .display("display-only ref")
+                        .build())
+                .build();
+        Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(patient,
+                "Patient.generalPractitioner.resolve()");
+        assertEquals(result.size(), 3);
+    }
+
+    /**
      * The default resolve() implementation can resolve fragment references in both directions
      * <pre>
-     * containded -(#)-> container
+     * contained -(#)-> container
      * container -(#parentOrg)-> contained
      * </pre>
      */
