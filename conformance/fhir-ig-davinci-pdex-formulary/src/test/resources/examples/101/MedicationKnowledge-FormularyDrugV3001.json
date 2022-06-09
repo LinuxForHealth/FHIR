@@ -1,0 +1,59 @@
+{
+    "resourceType": "MedicationKnowledge",
+    "id": "FormularyDrugV3001",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug|1.0.1"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-DrugTierID-extension",
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-DrugTierCS",
+                        "code": "brand",
+                        "display": "Brand: Brand name drugs that cost more than ‘preferred brand’ drugs."
+                    }
+                ]
+            }
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PriorAuthorization-extension",
+            "valueBoolean": false
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-StepTherapyLimit-extension",
+            "valueBoolean": false
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-QuantityLimit-extension",
+            "valueBoolean": false
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PlanID-extension",
+            "valueString": "40308VA0240008"
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-DrugAlternatives-extension",
+            "valueReference": {
+                "reference": "MedicationKnowledge/FormularyDrugV3002",
+                "display": "Tylenol Extra Strength 500 MG Oral Tablet"
+            }
+        }
+    ],
+    "code": {
+        "coding": [
+            {
+                "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                "code": "1049640",
+                "display": "Percocet 5 MG / 325 MG Oral Tablet"
+            }
+        ]
+    }
+}

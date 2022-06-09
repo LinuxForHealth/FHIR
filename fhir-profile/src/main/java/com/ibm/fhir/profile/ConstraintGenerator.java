@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -368,7 +368,7 @@ public class ConstraintGenerator {
                         // optimization
                         if (hasProfileConstraint(elementDefinition)) {
                             Type type = getTypes(elementDefinition).get(0);
-                            String profile = getProfiles(type).get(0);
+                            String profile = getProfilesWithoutVersion(type).get(0);
                             sb.append("extension('").append(profile).append("')");
                         } else {
                             String url = getExtensionUrl(node);
@@ -490,13 +490,17 @@ public class ConstraintGenerator {
         return trace(node, sb.toString());
     }
 
+    /**
+     * Guard calls to this method with calls to {@link #hasExtensionConstraint(ElementDefinition)}
+     * to ensure that the node's ElementDefinition has a single type with a single profile.
+     */
     private String generateExtensionConstraint(Node node) {
         StringBuilder sb = new StringBuilder();
 
         ElementDefinition elementDefinition = node.elementDefinition;
 
         Type type = getTypes(elementDefinition).get(0);
-        String profile = getProfiles(type).get(0);
+        String profile = getProfilesWithoutVersion(type).get(0);
 
         sb.append("extension('").append(profile).append("')").append(cardinality(node, sb.toString()));
 
@@ -600,12 +604,18 @@ public class ConstraintGenerator {
         return sb.toString();
     }
 
+    /**
+     * Guard calls to this method with calls to {@link #hasProfileConstraint(ElementDefinition)}
+     * to ensure that the node's ElementDefinition has a single type with a single profile.
+     */
     private String generateProfileConstraint(Node node) {
         StringBuilder sb = new StringBuilder();
-
+        
         ElementDefinition elementDefinition = node.elementDefinition;
 
-        String profile = getProfiles(getTypes(elementDefinition).get(0)).get(0);
+        List<Type> types = getTypes(elementDefinition);
+        List<Canonical> profiles = types.get(0).getProfile();
+        String profile = profiles.get(0).getValue();
         sb.append("conformsTo('").append(profile).append("')");
 
         return sb.toString();
@@ -618,6 +628,10 @@ public class ConstraintGenerator {
         return sb.toString();
     }
 
+    /**
+     * Guard calls to this method with calls to {@link #hasReferenceTypeConstraint(ElementDefinition)}
+     * to ensure that the node's ElementDefinition has a single type.
+     */
     private String generateReferenceTypeConstraint(Node node) {
         StringBuilder sb = new StringBuilder();
 
@@ -709,11 +723,29 @@ public class ConstraintGenerator {
         return null;
     }
 
-    private List<String> getProfiles(Type type) {
+    /**
+     * Get the list of profiles referenced by the ElementDefinition.type.
+     * This method will strip any version or fragment suffixes from the canonical reference value.
+     */
+    private List<String> getProfilesWithoutVersion(Type type) {
         List<String> profiles = new ArrayList<>();
         for (Canonical profile : type.getProfile()) {
-            if (profile.getValue() != null) {
-                profiles.add(profile.getValue());
+            if (profile.hasValue()) {
+                String profileString = profile.getValue();
+
+                // First strip off any version suffix
+                int delIndex = profileString.lastIndexOf("|");
+                if (delIndex > 0) {
+                    profileString = profileString.substring(0, delIndex);
+                }
+
+                // If the version suffix didn't exist, we might have a fragment to strip
+                delIndex = profileString.lastIndexOf("#");
+                if (delIndex > 0) {
+                    profileString = profileString.substring(0, delIndex);
+                }
+
+                profiles.add(profileString);
             }
         }
         return profiles;
@@ -860,7 +892,7 @@ public class ConstraintGenerator {
     private boolean hasProfileConstraint(ElementDefinition elementDefinition) {
         List<Type> types = getTypes(elementDefinition);
         if (types.size() == 1) {
-            List<String> profiles = getProfiles(types.get(0));
+            List<String> profiles = getProfilesWithoutVersion(types.get(0));
             return (profiles.size() == 1) && !isQuantityProfile(profiles.get(0));
         }
         return false;

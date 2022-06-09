@@ -1,0 +1,70 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "usdf-CoinsuranceOptionCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CoinsuranceOptionCS",
+    "version": "1.1.0",
+    "name": "CoInsuranceOptionCS",
+    "title": "Code for qualifier for coinsurance rate",
+    "status": "active",
+    "date": "2021-10-15T15:48:08+00:00",
+    "publisher": "HL7 Pharmacy Working Group",
+    "contact": [
+        {
+            "name": "HL7 Pharmacy Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/medication"
+                },
+                {
+                    "system": "email",
+                    "value": "pharmacy@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Code for qualifier for coinsurance rate",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "content": "complete",
+    "count": 5,
+    "concept": [
+        {
+            "code": "after-deductible",
+            "display": "After Deductible",
+            "definition": "The consumer first pays the deductible, and after the deductible is met, the consumer pays the coinsurance portion of allowed charges (this indicates that this benefit is subject to the deductible)."
+        },
+        {
+            "code": "no-charge",
+            "display": "No Charge",
+            "definition": "No cost sharing is charged (this indicates that this benefit is not subject to the deductible)."
+        },
+        {
+            "code": "no-charge-after-deductible",
+            "display": "No Charge After Deductible",
+            "definition": "The consumer first pays the deductible, and after thedeductible is met, no coinsurance is charged (this indicates that this benefit is subject to the deductible)."
+        },
+        {
+            "code": "charge",
+            "display": "Charge",
+            "definition": "The consumer always pays just the coinsurance and the issuer pays the remainder of allowed charges (this indicates that this benefit is not subject to the deductible)."
+        },
+        {
+            "code": "not-applicable",
+            "display": "Not Applicable",
+            "definition": "The consumer pays only a copay. Note: When using Not Applicable for coinsurance, Not Applicable cannot also be used for copay (unless the drug tier type is Medical Service Drugs)."
+        }
+    ]
+}

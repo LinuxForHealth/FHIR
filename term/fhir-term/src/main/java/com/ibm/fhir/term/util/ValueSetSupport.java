@@ -460,10 +460,11 @@ public final class ValueSetSupport {
                 }
             }
         } else {
+            // coding didn't specify a version, so try them all
             java.lang.String prefix = system + "|";
             for (java.lang.String key : codeSetMap.keySet()) {
-                if (key.startsWith(prefix)) {
-                    return codeSetMap.get(key).contains(code);
+                if (key.startsWith(prefix) && codeSetMap.get(key).contains(code)) {
+                    return true;
                 }
             }
         }

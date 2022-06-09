@@ -1,0 +1,61 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "usdf-CopayOptionCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CopayOptionCS",
+    "version": "1.0.1",
+    "name": "CopayOptionCS",
+    "title": "Codes for qualifier of copay amount",
+    "status": "active",
+    "date": "2020-11-20T19:06:24+00:00",
+    "publisher": "HL7 Pharmacy Working Group",
+    "contact": [
+        {
+            "name": "HL7 Pharmacy Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/medication/"
+                },
+                {
+                    "system": "email",
+                    "value": "pharmacy@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes for qualifier of copay amount",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "content": "complete",
+    "count": 4,
+    "concept": [
+        {
+            "code": "after-deductible",
+            "display": "After Deductible: The consumer first pays the deductible, and after the deductible is met, the consumer is responsible only for the copay (this indicates that this benefit is subject to the deductible)."
+        },
+        {
+            "code": "before-deductible",
+            "display": "Before Deductible: The consumer first pays the copay, and any net remaining allowed charges accrue to the deductible (this indicates that this benefit is subject to the deductible)."
+        },
+        {
+            "code": "no-charge",
+            "display": "No Charge: No cost sharing is charged (this indicates that this benefit is not subject to the deductible)."
+        },
+        {
+            "code": "no-charge-after-deductible",
+            "display": "No Charge After Deductible: The consumer first pays the deductible, and after the deductible is met, no copayment is charged (this indicates that this benefit is subject to the deductible)."
+        }
+    ]
+}

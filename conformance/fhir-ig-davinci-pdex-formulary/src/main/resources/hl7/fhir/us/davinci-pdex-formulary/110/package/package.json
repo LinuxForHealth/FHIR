@@ -1,0 +1,32 @@
+{
+  "name": "hl7.fhir.us.davinci-drug-formulary",
+  "version": "1.1.0",
+  "tools-version": 3,
+  "type": "fhir.ig",
+  "date": "20211015154752",
+  "license": "CC0-1.0",
+  "canonical": "http://hl7.org/fhir/us/davinci-drug-formulary",
+  "url": "http://hl7.org/fhir/us/davinci-drug-formulary/STU1.1",
+  "title": "DaVinci Payer Data Exchange (PDex) US Drug Formulary",
+  "description": "Da Vinci Payer Data Exchange (PDex) US Drug Formulary STU 1.1.0 (built Fri, Oct 15, 2021 15:47+0000+00:00)",
+  "fhirVersions": [
+    "4.0.1"
+  ],
+  "dependencies": {
+    "hl7.fhir.r4.core": "4.0.1",
+    "hl7.fhir.us.core": "3.1.1"
+  },
+  "author": "HL7 Pharmacy Working Group",
+  "maintainers": [
+    {
+      "name": "HL7 Pharmacy Working Group",
+      "email": "pharmacy@lists.HL7.org",
+      "url": "http://www.hl7.org/Special/committees/medication"
+    }
+  ],
+  "directories": {
+    "lib": "package",
+    "example": "example"
+  },
+  "jurisdiction": "urn:iso:std:iso:3166#US"
+}

@@ -351,7 +351,14 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         for (Include include : compose.getInclude()) {
             if (include.getSystem().equals(system) &&
                     (include.getVersion() == null || version == null || include.getVersion().equals(version))) {
-                String url = (version != null && version.getValue() != null) ? system.getValue() + "|" + version.getValue() : system.getValue();
+
+                String url = system.getValue();
+                if (version != null && version.hasValue()) {
+                    url += "|" + version.getValue();
+                } else if (include.getVersion() != null && include.getVersion().hasValue()) {
+                    url += "|" + include.getVersion().getValue();
+                }
+
                 return CodeSystemSupport.getCodeSystem(url);
             }
         }

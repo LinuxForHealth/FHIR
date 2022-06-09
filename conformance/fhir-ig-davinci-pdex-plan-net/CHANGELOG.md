@@ -10,6 +10,7 @@ Corresponding to https://github.com/HL7/davinci-pdex-plan-net/commit/2c561128f86
 - Added version id to each valueSet binding target (e.g. `http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/InsuranceProductTypeVS` -> `http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/InsuranceProductTypeVS|1.0.0`)
 
 Note: the examples were subsequently retrieved from http://hl7.org/fhir/us/davinci-pdex-plan-net/STU1/package.tgz on May 19, 2022.
+- Added version id to the Meta.profile entry for each example
 
 ## PDEX PlanNet 1.1.0
 Source - http://hl7.org/fhir/us/davinci-pdex-plan-net/STU1.1/package.tgz retrieved on May 19, 2022.

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ package com.ibm.fhir.server.test.profiles;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -23,9 +24,10 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.MedicationKnowledge;
-import com.ibm.fhir.model.test.TestUtil;
 
 /**
  * Tests using http://hl7.org/fhir/us/davinci-drug-formulary/index.html#anticipated-client-queries and the given
@@ -48,11 +50,9 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
 
     @Override
     public List<String> getRequiredProfiles() {
-        //@formatter:off
         return Arrays.asList(
             "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan|1.0.1",
             "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug|1.0.1");
-        //@formatter:on
     }
 
     @Override
@@ -65,9 +65,10 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     }
 
     public void loadCoveragePlan1() throws Exception {
-        String resource = "json/profiles/fhir-ig-davinci-pdex-formulary/List-CoveragePlanV3001.json";
+        String resource = "examples/101/List-CoveragePlanV3001.json";
         WebTarget target = getWebTarget();
-        com.ibm.fhir.model.resource.List list = TestUtil.readExampleResource(resource);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resource);
+        com.ibm.fhir.model.resource.List list = FHIRParser.parser(Format.JSON).parse(inputStream);
         Entity<com.ibm.fhir.model.resource.List> entity = Entity.entity(list, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("List").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -78,9 +79,10 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     }
 
     public void loadCoveragePlan2() throws Exception {
-        String resource = "json/profiles/fhir-ig-davinci-pdex-formulary/List-CoveragePlanV3002.json";
+        String resource = "examples/101/List-CoveragePlanV3002.json";
         WebTarget target = getWebTarget();
-        com.ibm.fhir.model.resource.List list = TestUtil.readExampleResource(resource);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resource);
+        com.ibm.fhir.model.resource.List list = FHIRParser.parser(Format.JSON).parse(inputStream);
         Entity<com.ibm.fhir.model.resource.List> entity = Entity.entity(list, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("List").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -91,9 +93,10 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     }
 
     public void loadCoveragePlan3() throws Exception {
-        String resource = "json/profiles/fhir-ig-davinci-pdex-formulary/List-CoveragePlanV3004t.json";
+        String resource = "examples/101/List-CoveragePlanV3004t.json";
         WebTarget target = getWebTarget();
-        com.ibm.fhir.model.resource.List list = TestUtil.readExampleResource(resource);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resource);
+        com.ibm.fhir.model.resource.List list = FHIRParser.parser(Format.JSON).parse(inputStream);
         Entity<com.ibm.fhir.model.resource.List> entity = Entity.entity(list, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("List").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -104,9 +107,10 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     }
 
     public void loadCoveragePlan4() throws Exception {
-        String resource = "json/profiles/fhir-ig-davinci-pdex-formulary/List-covplanV1002.json";
+        String resource = "examples/101/List-covplanV1002.json";
         WebTarget target = getWebTarget();
-        com.ibm.fhir.model.resource.List list = TestUtil.readExampleResource(resource);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resource);
+        com.ibm.fhir.model.resource.List list = FHIRParser.parser(Format.JSON).parse(inputStream);
         Entity<com.ibm.fhir.model.resource.List> entity = Entity.entity(list, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("List").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -117,9 +121,10 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     }
 
     public void loadMedicationKnowledge1() throws Exception {
-        String resource = "json/profiles/fhir-ig-davinci-pdex-formulary/MedicationKnowledge-cmsip9.json";
+        String resource = "examples/101/MedicationKnowledge-cmsip9.json";
         WebTarget target = getWebTarget();
-        MedicationKnowledge mk = TestUtil.readExampleResource(resource);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resource);
+        MedicationKnowledge mk = FHIRParser.parser(Format.JSON).parse(inputStream);
         Entity<MedicationKnowledge> entity = Entity.entity(mk, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("MedicationKnowledge").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -130,9 +135,10 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     }
 
     public void loadMedicationKnowledge2() throws Exception {
-        String resource = "json/profiles/fhir-ig-davinci-pdex-formulary/MedicationKnowledge-formularydrugV1002.json";
+        String resource = "examples/101/MedicationKnowledge-formularydrugV1002.json";
         WebTarget target = getWebTarget();
-        MedicationKnowledge mk = TestUtil.readExampleResource(resource);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resource);
+        MedicationKnowledge mk = FHIRParser.parser(Format.JSON).parse(inputStream);
         Entity<MedicationKnowledge> entity = Entity.entity(mk, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("MedicationKnowledge").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -143,9 +149,10 @@ public class DavinciDrugFormularyTest extends ProfilesTestBase {
     }
 
     public void loadMedicationKnowledge3() throws Exception {
-        String resource = "json/profiles/fhir-ig-davinci-pdex-formulary/MedicationKnowledge-FormularyDrugV3001.json";
+        String resource = "examples/101/MedicationKnowledge-FormularyDrugV3001.json";
         WebTarget target = getWebTarget();
-        MedicationKnowledge mk = TestUtil.readExampleResource(resource);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(resource);
+        MedicationKnowledge mk = FHIRParser.parser(Format.JSON).parse(inputStream);
         Entity<MedicationKnowledge> entity = Entity.entity(mk, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("MedicationKnowledge").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
