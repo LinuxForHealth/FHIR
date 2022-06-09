@@ -100,7 +100,8 @@ public class MinimalDataCreator extends DataCreatorBase {
     }
 
     /**
-     * For the minimal data creator, we only count required elements
+     * @implNote For the minimal data creator, we only count required elements.
+     * @implNote `levelsDeep` isn't actually used here but we could add a check for it just to be safe
      */
     @Override
     protected int getMaxChoiceCount(Class<?> resourceOrElementClass, int maxChoiceCount, int levelsDeep) {
