@@ -87,7 +87,7 @@ public class VSACRegistryResourceProvider extends AbstractRegistryResourceProvid
 
     @Override
     public Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType) {
-        if (ValueSet.class != resourceType) {
+        if (client == null || ValueSet.class != resourceType) {
             return List.of();
         }
 
