@@ -670,7 +670,7 @@
             <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-storage-blob</artifactId>
-                <version>12.14.1</version>
+                <version>12.17.1</version>
             </dependency>
             <dependency>
                 <groupId>com.azure</groupId>
@@ -795,7 +795,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M5</version>
+                    <version>3.0.0-M6</version>
                     <configuration>
                         <trimStackTrace>false</trimStackTrace>
                     </configuration>
@@ -827,7 +827,7 @@
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
-                    <version>3.5.2</version>
+                    <version>3.6</version>
                 </plugin>
                 <plugin>
                     <groupId>com.spotify</groupId>
