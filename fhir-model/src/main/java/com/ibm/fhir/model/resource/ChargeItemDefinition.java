@@ -97,7 +97,7 @@ public class ChargeItemDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
     )
     @Required
     private final PublicationStatus status;
@@ -2318,7 +2318,7 @@ public class ChargeItemDefinition extends DomainResource {
                 bindingName = "ChargeItemDefinitionPriceComponentType",
                 strength = BindingStrength.Value.REQUIRED,
                 description = "Codes indicating the kind of the price component.",
-                valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.3.0-cibuild"
+                valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.3.0"
             )
             @Required
             private final ChargeItemDefinitionPriceComponentType type;

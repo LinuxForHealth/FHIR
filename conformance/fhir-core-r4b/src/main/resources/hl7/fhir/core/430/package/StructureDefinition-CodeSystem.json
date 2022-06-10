@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "CodeSystem",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Terminology"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "normative"
@@ -28,18 +32,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "vocab"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Terminology"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/CodeSystem",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CodeSystem",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Vocabulary)",
     "contact": [
         {
@@ -60,7 +60,7 @@
         }
     ],
     "description": "The CodeSystem resource is used to declare the existence of and describe a code system or code system supplement and its key properties, and optionally define a part or all of its content.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -768,7 +768,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1294,7 +1294,7 @@
                     ],
                     "strength": "required",
                     "description": "The meaning of the hierarchy of concepts in a code system.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.3.0"
                 }
             },
             {
@@ -1403,7 +1403,7 @@
                     ],
                     "strength": "required",
                     "description": "The extent of the content of the code system (the concepts and codes it defines) are represented in a code system resource.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.3.0"
                 }
             },
             {
@@ -1748,7 +1748,7 @@
                     ],
                     "strength": "required",
                     "description": "The kind of operation to perform as a part of a property based filter.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/filter-operator|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/filter-operator|4.3.0"
                 }
             },
             {
@@ -2093,7 +2093,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of a property value.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/concept-property-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/concept-property-type|4.3.0"
                 }
             },
             {
@@ -3149,7 +3149,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3495,7 +3495,7 @@
                     ],
                     "strength": "required",
                     "description": "The meaning of the hierarchy of concepts in a code system.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.3.0"
                 }
             },
             {
@@ -3559,7 +3559,7 @@
                     ],
                     "strength": "required",
                     "description": "The extent of the content of the code system (the concepts and codes it defines) are represented in a code system resource.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.3.0"
                 }
             },
             {
@@ -3678,7 +3678,7 @@
                     ],
                     "strength": "required",
                     "description": "The kind of operation to perform as a part of a property based filter.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/filter-operator|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/filter-operator|4.3.0"
                 }
             },
             {
@@ -3797,7 +3797,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of a property value.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/concept-property-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/concept-property-type|4.3.0"
                 }
             },
             {

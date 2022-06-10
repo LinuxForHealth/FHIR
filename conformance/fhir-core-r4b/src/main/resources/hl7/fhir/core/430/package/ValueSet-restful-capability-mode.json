@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "restful-capability-mode",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.176"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "RestfulCapabilityMode",
     "title": "RestfulCapabilityMode",
     "status": "active",
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:a6a9b549-bf4b-4e5f-938d-02f159a11c99",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:d85f72bf-1ab6-4371-9d70-aa94a25cc320",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 2,
         "parameter": [
             {
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/restful-capability-mode|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/restful-capability-mode|4.3.0"
             }
         ],
         "contains": [

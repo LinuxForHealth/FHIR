@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "composition-status",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.241"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CompositionStatus",
     "title": "CompositionStatus",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:30d0d139-97bb-43b0-a6ca-e688d6c03ad7",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:9de4d760-b4e5-4598-966c-1d302f8e1501",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 4,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/composition-status|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/composition-status|4.3.0"
             }
         ],
         "contains": [

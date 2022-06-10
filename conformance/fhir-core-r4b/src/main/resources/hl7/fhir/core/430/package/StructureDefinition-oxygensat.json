@@ -24,7 +24,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/oxygensat",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "observation-oxygensat",
     "title": "Observation Oxygen Saturation Profile",
     "status": "draft",
@@ -918,7 +918,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1059,7 +1059,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1534,7 +1534,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1735,7 +1735,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2627,7 +2627,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -2788,7 +2788,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0"
                 },
                 "mapping": [
                     {

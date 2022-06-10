@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-usageMode",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "usageMode",
     "status": "draft",
     "experimental": false,
@@ -115,7 +115,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

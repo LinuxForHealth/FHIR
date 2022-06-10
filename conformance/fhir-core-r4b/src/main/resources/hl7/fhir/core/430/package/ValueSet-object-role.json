@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "object-role",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.460"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "AuditEventEntityRole",
     "title": "AuditEventEntityRole",
     "status": "draft",
@@ -60,8 +60,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:d0627685-fed3-4283-bae6-3e22964fd2db",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:ce2be554-d949-4f00-ac72-30fd5da7ff55",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 24,
         "parameter": [
             {
@@ -74,7 +74,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/object-role|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/object-role|4.3.0"
             }
         ],
         "contains": [

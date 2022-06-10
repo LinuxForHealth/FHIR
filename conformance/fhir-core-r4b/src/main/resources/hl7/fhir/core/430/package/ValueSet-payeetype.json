@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "payeetype",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,12 +28,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.31"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Claim Payee Type Codes",
     "title": "PayeeType",
     "status": "draft",
     "experimental": true,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Financial Management",
     "contact": [
         {
@@ -56,8 +56,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:99bbe8a1-6967-4afb-b36c-85c127597241",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:9f8a0046-1f35-4754-ae73-7aedde300928",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 3,
         "parameter": [
             {
@@ -70,7 +70,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/payeetype|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/payeetype|4.3.0"
             }
         ],
         "contains": [

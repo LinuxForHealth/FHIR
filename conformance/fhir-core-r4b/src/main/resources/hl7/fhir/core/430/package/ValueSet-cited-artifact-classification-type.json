@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "cited-artifact-classification-type",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CitedArtifactClassificationType",
     "title": "CitedArtifactClassificationType",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:e325eaf1-0235-432f-90fa-88b0c19cdd13",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:4acb625a-b23a-4b07-9378-5193a828ccd0",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 11,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/cited-artifact-classification-type|4.3.0"
             }
         ],
         "contains": [

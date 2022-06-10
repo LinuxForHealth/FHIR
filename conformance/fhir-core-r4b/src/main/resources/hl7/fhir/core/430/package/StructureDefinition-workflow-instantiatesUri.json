@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/workflow-instantiatesUri",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "instantiatesUri",
     "title": "Definition",
     "status": "draft",
@@ -30,7 +30,7 @@
         }
     ],
     "description": "The URL pointing to an externally maintained protocol, guideline, orderset or other definition that is adhered to in whole or in part by the event or request resource.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -155,7 +155,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

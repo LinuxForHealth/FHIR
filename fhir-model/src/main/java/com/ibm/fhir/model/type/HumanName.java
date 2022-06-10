@@ -30,7 +30,7 @@ public class HumanName extends Element {
     @Binding(
         bindingName = "NameUse",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/name-use|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/name-use|4.3.0"
     )
     private final NameUse use;
     @Summary

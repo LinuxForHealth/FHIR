@@ -209,7 +209,7 @@ public class ElementDefinition extends BackboneElement {
     @com.ibm.fhir.model.annotation.Binding(
         bindingName = "PropertyRepresentation",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/property-representation|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/property-representation|4.3.0"
     )
     private final List<PropertyRepresentation> representation;
     @Summary
@@ -248,17 +248,17 @@ public class ElementDefinition extends BackboneElement {
     @Summary
     private final List<Type> type;
     @Summary
-    @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class })
+    @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
     private final Element defaultValue;
     @Summary
     private final Markdown meaningWhenMissing;
     @Summary
     private final String orderMeaning;
     @Summary
-    @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class })
+    @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
     private final Element fixed;
     @Summary
-    @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class })
+    @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
     private final Element pattern;
     @Summary
     private final List<Example> example;
@@ -524,12 +524,12 @@ public class ElementDefinition extends BackboneElement {
      *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
      *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
      *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
-     *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
-     *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
-     *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
-     *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
-     *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
-     *     or {@link Meta} that may be null.
+     *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link CodeableReference}, 
+     *     {@link Coding}, {@link ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link 
+     *     Identifier}, {@link Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link RatioRange}, {@link 
+     *     Reference}, {@link SampledData}, {@link Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link 
+     *     DataRequirement}, {@link Expression}, {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, 
+     *     {@link UsageContext} or {@link Dosage} that may be null.
      */
     public Element getDefaultValue() {
         return defaultValue;
@@ -566,12 +566,12 @@ public class ElementDefinition extends BackboneElement {
      *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
      *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
      *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
-     *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
-     *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
-     *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
-     *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
-     *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
-     *     or {@link Meta} that may be null.
+     *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link CodeableReference}, 
+     *     {@link Coding}, {@link ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link 
+     *     Identifier}, {@link Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link RatioRange}, {@link 
+     *     Reference}, {@link SampledData}, {@link Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link 
+     *     DataRequirement}, {@link Expression}, {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, 
+     *     {@link UsageContext} or {@link Dosage} that may be null.
      */
     public Element getFixed() {
         return fixed;
@@ -598,12 +598,12 @@ public class ElementDefinition extends BackboneElement {
      *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
      *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
      *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
-     *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
-     *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
-     *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
-     *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
-     *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
-     *     or {@link Meta} that may be null.
+     *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link CodeableReference}, 
+     *     {@link Coding}, {@link ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link 
+     *     Identifier}, {@link Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link RatioRange}, {@link 
+     *     Reference}, {@link SampledData}, {@link Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link 
+     *     DataRequirement}, {@link Expression}, {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, 
+     *     {@link UsageContext} or {@link Dosage} that may be null.
      */
     public Element getPattern() {
         return pattern;
@@ -1692,6 +1692,7 @@ public class ElementDefinition extends BackboneElement {
          * <li>{@link Annotation}</li>
          * <li>{@link Attachment}</li>
          * <li>{@link CodeableConcept}</li>
+         * <li>{@link CodeableReference}</li>
          * <li>{@link Coding}</li>
          * <li>{@link ContactPoint}</li>
          * <li>{@link Count}</li>
@@ -1704,6 +1705,7 @@ public class ElementDefinition extends BackboneElement {
          * <li>{@link Quantity}</li>
          * <li>{@link Range}</li>
          * <li>{@link Ratio}</li>
+         * <li>{@link RatioRange}</li>
          * <li>{@link Reference}</li>
          * <li>{@link SampledData}</li>
          * <li>{@link Signature}</li>
@@ -1717,7 +1719,6 @@ public class ElementDefinition extends BackboneElement {
          * <li>{@link TriggerDefinition}</li>
          * <li>{@link UsageContext}</li>
          * <li>{@link Dosage}</li>
-         * <li>{@link Meta}</li>
          * </ul>
          * 
          * @param defaultValue
@@ -1904,6 +1905,7 @@ public class ElementDefinition extends BackboneElement {
          * <li>{@link Annotation}</li>
          * <li>{@link Attachment}</li>
          * <li>{@link CodeableConcept}</li>
+         * <li>{@link CodeableReference}</li>
          * <li>{@link Coding}</li>
          * <li>{@link ContactPoint}</li>
          * <li>{@link Count}</li>
@@ -1916,6 +1918,7 @@ public class ElementDefinition extends BackboneElement {
          * <li>{@link Quantity}</li>
          * <li>{@link Range}</li>
          * <li>{@link Ratio}</li>
+         * <li>{@link RatioRange}</li>
          * <li>{@link Reference}</li>
          * <li>{@link SampledData}</li>
          * <li>{@link Signature}</li>
@@ -1929,7 +1932,6 @@ public class ElementDefinition extends BackboneElement {
          * <li>{@link TriggerDefinition}</li>
          * <li>{@link UsageContext}</li>
          * <li>{@link Dosage}</li>
-         * <li>{@link Meta}</li>
          * </ul>
          * 
          * @param fixed
@@ -2082,6 +2084,7 @@ public class ElementDefinition extends BackboneElement {
          * <li>{@link Annotation}</li>
          * <li>{@link Attachment}</li>
          * <li>{@link CodeableConcept}</li>
+         * <li>{@link CodeableReference}</li>
          * <li>{@link Coding}</li>
          * <li>{@link ContactPoint}</li>
          * <li>{@link Count}</li>
@@ -2094,6 +2097,7 @@ public class ElementDefinition extends BackboneElement {
          * <li>{@link Quantity}</li>
          * <li>{@link Range}</li>
          * <li>{@link Ratio}</li>
+         * <li>{@link RatioRange}</li>
          * <li>{@link Reference}</li>
          * <li>{@link SampledData}</li>
          * <li>{@link Signature}</li>
@@ -2107,7 +2111,6 @@ public class ElementDefinition extends BackboneElement {
          * <li>{@link TriggerDefinition}</li>
          * <li>{@link UsageContext}</li>
          * <li>{@link Dosage}</li>
-         * <li>{@link Meta}</li>
          * </ul>
          * 
          * @param pattern
@@ -2663,9 +2666,9 @@ public class ElementDefinition extends BackboneElement {
             ValidationSupport.checkList(elementDefinition.code, "code", Coding.class);
             ValidationSupport.checkList(elementDefinition.alias, "alias", String.class);
             ValidationSupport.checkList(elementDefinition.type, "type", Type.class);
-            ValidationSupport.choiceElement(elementDefinition.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
-            ValidationSupport.choiceElement(elementDefinition.fixed, "fixed", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
-            ValidationSupport.choiceElement(elementDefinition.pattern, "pattern", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+            ValidationSupport.choiceElement(elementDefinition.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
+            ValidationSupport.choiceElement(elementDefinition.fixed, "fixed", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
+            ValidationSupport.choiceElement(elementDefinition.pattern, "pattern", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
             ValidationSupport.checkList(elementDefinition.example, "example", Example.class);
             ValidationSupport.choiceElement(elementDefinition.minValue, "minValue", Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class);
             ValidationSupport.choiceElement(elementDefinition.maxValue, "maxValue", Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class);
@@ -2733,7 +2736,7 @@ public class ElementDefinition extends BackboneElement {
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "SlicingRules",
             strength = BindingStrength.Value.REQUIRED,
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0"
         )
         @Required
         private final SlicingRules rules;
@@ -3153,7 +3156,7 @@ public class ElementDefinition extends BackboneElement {
             @com.ibm.fhir.model.annotation.Binding(
                 bindingName = "DiscriminatorType",
                 strength = BindingStrength.Value.REQUIRED,
-                valueSet = "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-cibuild"
+                valueSet = "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0"
             )
             @Required
             private final DiscriminatorType type;
@@ -3855,14 +3858,14 @@ public class ElementDefinition extends BackboneElement {
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "AggregationMode",
             strength = BindingStrength.Value.REQUIRED,
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0"
         )
         private final List<AggregationMode> aggregation;
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "ReferenceVersionRules",
             strength = BindingStrength.Value.REQUIRED,
-            valueSet = "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0"
         )
         private final ReferenceVersionRules versioning;
 
@@ -4352,7 +4355,7 @@ public class ElementDefinition extends BackboneElement {
         @Required
         private final String label;
         @Summary
-        @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class })
+        @Choice({ Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class })
         @Required
         private final Element value;
 
@@ -4379,12 +4382,12 @@ public class ElementDefinition extends BackboneElement {
          *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
          *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
          *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
-         *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
-         *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
-         *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
-         *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
-         *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
-         *     or {@link Meta} that is non-null.
+         *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link CodeableReference}, 
+         *     {@link Coding}, {@link ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link 
+         *     Identifier}, {@link Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link RatioRange}, {@link 
+         *     Reference}, {@link SampledData}, {@link Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link 
+         *     DataRequirement}, {@link Expression}, {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, 
+         *     {@link UsageContext} or {@link Dosage} that is non-null.
          */
         public Element getValue() {
             return value;
@@ -4746,6 +4749,7 @@ public class ElementDefinition extends BackboneElement {
              * <li>{@link Annotation}</li>
              * <li>{@link Attachment}</li>
              * <li>{@link CodeableConcept}</li>
+             * <li>{@link CodeableReference}</li>
              * <li>{@link Coding}</li>
              * <li>{@link ContactPoint}</li>
              * <li>{@link Count}</li>
@@ -4758,6 +4762,7 @@ public class ElementDefinition extends BackboneElement {
              * <li>{@link Quantity}</li>
              * <li>{@link Range}</li>
              * <li>{@link Ratio}</li>
+             * <li>{@link RatioRange}</li>
              * <li>{@link Reference}</li>
              * <li>{@link SampledData}</li>
              * <li>{@link Signature}</li>
@@ -4771,7 +4776,6 @@ public class ElementDefinition extends BackboneElement {
              * <li>{@link TriggerDefinition}</li>
              * <li>{@link UsageContext}</li>
              * <li>{@link Dosage}</li>
-             * <li>{@link Meta}</li>
              * </ul>
              * 
              * @param value
@@ -4811,7 +4815,7 @@ public class ElementDefinition extends BackboneElement {
             protected void validate(Example example) {
                 super.validate(example);
                 ValidationSupport.requireNonNull(example.label, "label");
-                ValidationSupport.requireChoiceElement(example.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+                ValidationSupport.requireChoiceElement(example.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, CodeableReference.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, RatioRange.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class);
                 ValidationSupport.requireValueOrChildren(example);
             }
 
@@ -4838,7 +4842,7 @@ public class ElementDefinition extends BackboneElement {
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "ConstraintSeverity",
             strength = BindingStrength.Value.REQUIRED,
-            valueSet = "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0"
         )
         @Required
         private final ConstraintSeverity severity;
@@ -5368,7 +5372,7 @@ public class ElementDefinition extends BackboneElement {
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "BindingStrength",
             strength = BindingStrength.Value.REQUIRED,
-            valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0"
         )
         @Required
         private final BindingStrength strength;
@@ -5714,7 +5718,7 @@ public class ElementDefinition extends BackboneElement {
             bindingName = "MimeType",
             strength = BindingStrength.Value.REQUIRED,
             description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-            valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
         )
         private final Code language;
         @Summary

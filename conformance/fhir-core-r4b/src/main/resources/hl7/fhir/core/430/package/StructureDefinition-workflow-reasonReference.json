@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/workflow-reasonReference",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "reasonReference",
     "title": "Reason Reference",
     "status": "draft",
@@ -30,7 +30,7 @@
         }
     ],
     "description": "Indicates another resource whose existence justifies this event.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -142,7 +142,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

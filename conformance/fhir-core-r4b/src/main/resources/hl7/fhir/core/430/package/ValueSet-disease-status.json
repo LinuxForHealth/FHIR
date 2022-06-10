@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "disease-status",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1664"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "DiseaseStatus",
     "title": "DiseaseStatus",
     "status": "draft",
@@ -73,8 +73,8 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:7815b91b-9037-4a3b-a94c-ed50eba849b4",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:7006d525-ea88-42f4-9388-f26dc52b5274",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 35,
         "parameter": [
             {

@@ -97,7 +97,7 @@ public class RelatedPerson extends DomainResource {
         bindingName = "AdministrativeGender",
         strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
-        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0"
     )
     private final AdministrativeGender gender;
     @Summary

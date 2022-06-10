@@ -1705,7 +1705,7 @@ public class MessageHeader extends DomainResource {
             bindingName = "ResponseType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The kind of response to a message.",
-            valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.3.0"
         )
         @Required
         private final ResponseType code;

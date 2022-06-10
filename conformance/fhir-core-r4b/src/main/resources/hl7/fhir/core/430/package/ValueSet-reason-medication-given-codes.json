@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "reason-medication-given-codes",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.344"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ReasonMedicationGivenCodes",
     "title": "Reason Medication Given Codes",
     "status": "draft",
@@ -53,8 +53,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:eac6d5ba-31ea-4d61-9e4f-77098e71a749",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:e62c1f5f-de1b-48b6-922b-6f1c721207b7",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 3,
         "parameter": [
             {
@@ -67,7 +67,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/reason-medication-given|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/reason-medication-given|4.3.0"
             }
         ],
         "contains": [

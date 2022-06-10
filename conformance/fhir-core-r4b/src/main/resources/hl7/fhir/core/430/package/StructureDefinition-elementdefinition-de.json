@@ -16,7 +16,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-de",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "DataElement constraint on ElementDefinition data type",
     "status": "draft",
     "experimental": false,
@@ -33,7 +33,7 @@
         }
     ],
     "description": "Identifies how the ElementDefinition data type is used when it appears within a data element",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -246,7 +246,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -560,7 +560,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/property-representation|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/property-representation|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1109,7 +1109,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/discriminator-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1293,7 +1293,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2362,7 +2362,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2417,7 +2417,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/reference-version-rules|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2513,6 +2513,9 @@
                         "code": "CodeableConcept"
                     },
                     {
+                        "code": "CodeableReference"
+                    },
+                    {
                         "code": "Coding"
                     },
                     {
@@ -2547,6 +2550,9 @@
                     },
                     {
                         "code": "Ratio"
+                    },
+                    {
+                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -2586,9 +2592,6 @@
                     },
                     {
                         "code": "Dosage"
-                    },
-                    {
-                        "code": "Meta"
                     }
                 ],
                 "condition": [
@@ -2787,6 +2790,9 @@
                         "code": "CodeableConcept"
                     },
                     {
+                        "code": "CodeableReference"
+                    },
+                    {
                         "code": "Coding"
                     },
                     {
@@ -2821,6 +2827,9 @@
                     },
                     {
                         "code": "Ratio"
+                    },
+                    {
+                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -2860,9 +2869,6 @@
                     },
                     {
                         "code": "Dosage"
-                    },
-                    {
-                        "code": "Meta"
                     }
                 ],
                 "condition": [
@@ -2980,6 +2986,9 @@
                         "code": "CodeableConcept"
                     },
                     {
+                        "code": "CodeableReference"
+                    },
+                    {
                         "code": "Coding"
                     },
                     {
@@ -3014,6 +3023,9 @@
                     },
                     {
                         "code": "Ratio"
+                    },
+                    {
+                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -3053,9 +3065,6 @@
                     },
                     {
                         "code": "Dosage"
-                    },
-                    {
-                        "code": "Meta"
                     }
                 ],
                 "condition": [
@@ -3345,6 +3354,9 @@
                         "code": "CodeableConcept"
                     },
                     {
+                        "code": "CodeableReference"
+                    },
+                    {
                         "code": "Coding"
                     },
                     {
@@ -3379,6 +3391,9 @@
                     },
                     {
                         "code": "Ratio"
+                    },
+                    {
+                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -3418,9 +3433,6 @@
                     },
                     {
                         "code": "Dosage"
-                    },
-                    {
-                        "code": "Meta"
                     }
                 ],
                 "constraint": [
@@ -3914,7 +3926,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/constraint-severity|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4467,7 +4479,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/binding-strength|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4812,7 +4824,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 },
                 "mapping": [
                     {

@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "AdverseEvent",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Clinical.Summary"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "pc"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Clinical.Summary"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/AdverseEvent",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "AdverseEvent",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Patient Care)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "Actual or  potential/avoided event causing unintended physical injury resulting from or contributed to by medical care, a research study or other healthcare setting factors that requires additional monitoring, treatment, or hospitalization, or that results in death.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "w5",
@@ -562,7 +562,7 @@
                     ],
                     "strength": "required",
                     "description": "Overall nature of the adverse event, e.g. real or potential.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1011,7 +1011,7 @@
                     ],
                     "strength": "required",
                     "description": "The severity of the adverse event itself, in direct relation to the subject.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.3.0"
                 }
             },
             {
@@ -1053,7 +1053,7 @@
                     ],
                     "strength": "required",
                     "description": "TODO (and should this be required?).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.3.0"
                 }
             },
             {
@@ -1837,7 +1837,7 @@
                     ],
                     "strength": "required",
                     "description": "Overall nature of the adverse event, e.g. real or potential.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2121,7 +2121,7 @@
                     ],
                     "strength": "required",
                     "description": "The severity of the adverse event itself, in direct relation to the subject.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.3.0"
                 }
             },
             {
@@ -2148,7 +2148,7 @@
                     ],
                     "strength": "required",
                     "description": "TODO (and should this be required?).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.3.0"
                 }
             },
             {

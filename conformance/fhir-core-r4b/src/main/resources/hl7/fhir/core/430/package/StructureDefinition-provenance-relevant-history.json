@@ -20,7 +20,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/provenance-relevant-history",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Provenance Relevant History",
     "status": "draft",
     "experimental": false,
@@ -1942,7 +1942,7 @@
                     ],
                     "strength": "required",
                     "description": "How an entity was used in an activity.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.3.0"
                 },
                 "mapping": [
                     {

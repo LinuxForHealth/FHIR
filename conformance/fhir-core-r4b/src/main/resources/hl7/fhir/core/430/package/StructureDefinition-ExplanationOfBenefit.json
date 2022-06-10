@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "ExplanationOfBenefit",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Financial.General"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fm"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Financial.General"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/ExplanationOfBenefit",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ExplanationOfBenefit",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Financial Management)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "This resource provides: the claim details; adjudication details from the processing of a Claim; and optionally account balance information, for informing the subscriber of the benefits provided.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -587,7 +587,7 @@
                     ],
                     "strength": "required",
                     "description": "A code specifying the state of the resource instance.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -744,7 +744,7 @@
                     ],
                     "strength": "required",
                     "description": "Complete, proposed, exploratory, other.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/claim-use|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/claim-use|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1996,7 +1996,7 @@
                     ],
                     "strength": "required",
                     "description": "The result of the claim processing.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0"
                 }
             },
             {
@@ -9624,7 +9624,7 @@
                     ],
                     "strength": "required",
                     "description": "The presentation types of notes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/note-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/note-type|4.3.0"
                 }
             },
             {
@@ -10559,7 +10559,7 @@
                     ],
                     "strength": "required",
                     "description": "A code specifying the state of the resource instance.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -10671,7 +10671,7 @@
                     ],
                     "strength": "required",
                     "description": "Complete, proposed, exploratory, other.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/claim-use|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/claim-use|4.3.0"
                 },
                 "mapping": [
                     {
@@ -11306,7 +11306,7 @@
                     ],
                     "strength": "required",
                     "description": "The result of the claim processing.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0"
                 }
             },
             {
@@ -14598,7 +14598,7 @@
                     ],
                     "strength": "required",
                     "description": "The presentation types of notes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/note-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/note-type|4.3.0"
                 }
             },
             {

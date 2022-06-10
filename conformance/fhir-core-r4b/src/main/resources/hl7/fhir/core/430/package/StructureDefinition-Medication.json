@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "Medication",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Clinical.Medications"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "phx"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Clinical.Medications"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Medication",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Medication",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Pharmacy)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "This resource is primarily used for the identification and definition of a medication for the purposes of prescribing, dispensing, and administering a medication as well as for making statements about medication use.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "script10.6",
@@ -648,7 +648,7 @@
                     ],
                     "strength": "required",
                     "description": "A coded concept defining if the medication is in active use.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/medication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1507,7 +1507,7 @@
                     ],
                     "strength": "required",
                     "description": "A coded concept defining if the medication is in active use.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/medication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/medication-status|4.3.0"
                 },
                 "mapping": [
                     {

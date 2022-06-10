@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/cqf-relativeDateTime",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "relativeDateTime",
     "status": "draft",
     "experimental": false,
@@ -29,7 +29,7 @@
         }
     ],
     "description": "A date/time value that is determined based on a duration offset from a target event.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -105,7 +105,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -238,7 +238,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -431,7 +431,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -620,7 +620,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -755,7 +755,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -823,7 +823,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1079,6 +1079,9 @@
                         "code": "CodeableConcept"
                     },
                     {
+                        "code": "CodeableReference"
+                    },
+                    {
                         "code": "Coding"
                     },
                     {
@@ -1113,6 +1116,9 @@
                     },
                     {
                         "code": "Ratio"
+                    },
+                    {
+                        "code": "RatioRange"
                     },
                     {
                         "code": "Reference"
@@ -1152,9 +1158,6 @@
                     },
                     {
                         "code": "Dosage"
-                    },
-                    {
-                        "code": "Meta"
                     }
                 ],
                 "constraint": [
@@ -1320,7 +1323,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0"
                 }
             },
             {

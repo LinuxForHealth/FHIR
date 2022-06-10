@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "CodeableConcept",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
@@ -19,11 +19,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/CodeableConcept",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CodeableConcept",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -37,7 +37,7 @@
     ],
     "description": "Base StructureDefinition for CodeableConcept Type: A concept that may be defined by a formal reference to a terminology or ontology or may be provided by text.",
     "purpose": "This is a common pattern in healthcare - a concept that may be defined by one or more codes from formal definitions including LOINC and SNOMED CT, and/or defined by the provision of text that captures a human sense of the concept.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -138,7 +138,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

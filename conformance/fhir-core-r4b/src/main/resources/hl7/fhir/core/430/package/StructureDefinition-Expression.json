@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "Expression",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
@@ -15,11 +15,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Expression",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Expression",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -32,7 +32,7 @@
         }
     ],
     "description": "Base StructureDefinition for Expression Type: A expression that is evaluated in a specified context and returns a value. The context of use of the expression must specify the context in which the expression is evaluated, and how the result of the expression is used.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -114,7 +114,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

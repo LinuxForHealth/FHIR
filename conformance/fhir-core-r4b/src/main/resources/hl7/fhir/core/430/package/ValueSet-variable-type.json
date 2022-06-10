@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "variable-type",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1343"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "VariableType",
     "title": "VariableType",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:d72447f2-872a-40fc-90be-479bbe1fff17",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:dd31d7f6-f03c-4f29-8427-c9cbcb93ce99",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 3,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/variable-type|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/variable-type|4.3.0"
             }
         ],
         "contains": [

@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/iso21090-preferred",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "preferred",
     "status": "draft",
     "experimental": false,
@@ -29,7 +29,7 @@
         }
     ],
     "description": "Flag denoting whether parent item is preferred - e.g., a preferred address or telephone number.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -105,7 +105,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

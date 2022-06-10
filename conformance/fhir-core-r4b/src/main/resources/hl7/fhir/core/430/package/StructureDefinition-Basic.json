@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "Basic",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Other"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fhir"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Other"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Basic",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Basic",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -57,7 +57,7 @@
     ],
     "description": "Basic is used for handling concepts not yet defined in FHIR, narrative-only resources that don't map to an existing resource, and custom resources not appropriate for inclusion in the FHIR specification.",
     "purpose": "Need some way to safely (without breaking interoperability) allow implementers to exchange content not supported by the initial set of declared resources.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",

@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-allowedUnits",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "allowedUnits",
     "status": "draft",
     "experimental": false,
@@ -29,7 +29,7 @@
         }
     ],
     "description": "Identifies the units of measure in which the element should be captured or expressed.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -121,7 +121,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -268,7 +268,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/ucum-units|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ucum-units|4.3.0"
                 },
                 "mapping": [
                     {
@@ -337,7 +337,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/ucum-units|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/ucum-units|4.3.0"
                 }
             }
         ]

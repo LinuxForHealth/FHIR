@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetNameBase",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ADXP-streetNameBase",
     "status": "draft",
     "experimental": false,
@@ -29,7 +29,7 @@
         }
     ],
     "description": "The base name of a roadway or artery recognized by a municipality (excluding street type and direction).",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -111,7 +111,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

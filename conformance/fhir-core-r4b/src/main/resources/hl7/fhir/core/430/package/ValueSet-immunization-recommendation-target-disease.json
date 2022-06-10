@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "immunization-recommendation-target-disease",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.309"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ImmunizationRecommendationTargetDiseaseCodes",
     "title": "Immunization Recommendation Target Disease Codes",
     "status": "draft",
@@ -83,8 +83,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:52e34354-2a64-4647-8716-92b32d49eed1",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:fb17ba88-1d33-410e-a179-1ed561ec16df",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 9,
         "parameter": [
             {

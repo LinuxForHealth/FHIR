@@ -1,5 +1,5 @@
 ## IBM FHIR Server
-The IBM® FHIR® Server is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://www.hl7.org/fhir/r4/http.html) with a focus on performance and configurability.
+The IBM® FHIR® Server is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://hl7.org/fhir/R4B/http.html) with a focus on performance and configurability.
 
 For a detailed description of FHIR conformance, see https://ibm.github.io/FHIR/Conformance.
 
@@ -77,26 +77,30 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |------|-----------|----------|
 |fhir-parent|The parent project for all projects which make up the IBM FHIR Server|false|
 |fhir-core|Core helpers and utilities|false|
+|fhir-cache|Cache-related helpers and utilities|false|
 
 #### Model and Profile Support
 |Module|Description|Java API-stable|
 |------|-----------|----------|
-|fhir-model|An object model generated from the FHIR R4 specification and corresponding parsers and generators for XML and JSON|true|
-|fhir-registry|A resource registry, registry provider interfaces, and pre-registered resources shipped with the FHIR specification|false|
+|fhir-model|An object model generated from the FHIR R4B specification and corresponding parsers and generators for XML and JSON|true|
+|fhir-registry|A resource registry and registry provider interfaces for extending the registry|false|
 |term/fhir-term|A terminology service provider interface with a default implementation that implements terminology services from fully-defined CodeSystems in the registry|false|
-|term/fhir-term-graph|A terminology service provider that implements terminology services using JanusGraph|false|
-|term/fhir-term-graph-loader|Populates the terminology service backend when using JanusGraph|false|
+|term/fhir-term-graph|An expermental terminology service provider that implements terminology services using JanusGraph|false|
+|term/fhir-term-graph-loader|Utilities to populate the fhir-term-graph JanusGraph with concepts|false|
 |term/fhir-term-remote|A terminology service provider that connects to an external service using a REST client to access code system content|false|
 |fhir-profile|Helper methods for validating ValueSet membership and Profile conformance|false|
-|fhir-path|An implementation of version 2.0.0 of the FHIRPath specification assumed by FHIR R4|false|
-|fhir-validation|Validation utility for validating resource instances against the base specification and/or configured profiles|false|
-|fhir-ig-us-core|A packaging of the US Core Implementation Guide for extending the IBM FHIR Server with US Core Profile validation|false|
-|fhir-ig-mcode|A packaging of the minimal Common Oncology Data Elements for extending the IBM FHIR Server with minimal Common Oncology Data Elements Profile validation|false|
-|fhir-ig-carin-bb|A packaging of the Consumer-Directed Payer Data Exchange Guide for extending the IBM FHIR Server with  Consumer-Directed Payer Data Exchange Profile validation|false|
-|fhir-ig-davinci-pdex|A packaging of the Da Vinci Payer Data Exchange (PDEX) Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDEX) Profile validation|false|
-|fhir-ig-davinci-hrex|A packaging of the Da Vinci Health Record Exchange (HREX) Implementation Guide for extending the IBM FHIR Server with DaVinci Health Record Exchange (HREX) Profile validation|false|
-|fhir-ig-davinci-pdex-plan-net|A packaging of the Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDEX) Plan Net Profile validation|false|
-|fhir-ig-davinci-pdex-formulary|A packaging of the Da Vinci Payer Data Exchange (PDex) US Drug Formulary Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDex) US Drug Formulary validation|false|
+|fhir-path|An implementation of version 2.0.0 of the FHIRPath specification|false|
+|fhir-validation|Validation utility for validating resource instances against the base specification and configured profiles|false|
+|conformance/fhir-core-r4|Conformance artifacts for HL7 FHIR version 4.0.1|false|
+|conformance/fhir-core-r4b|Conformance artifacts for HL7 FHIR version 4.3.0|false|
+|conformance/fhir-hl7-terminology|CodeSystems and ValueSets from HL7 Terminology (THO) version 3.1.0|false|
+|conformance/fhir-ig-us-core|A packaging of the US Core Implementation Guide for extending the IBM FHIR Server with US Core profile validation|false|
+|conformance/fhir-ig-mcode|A packaging of the minimal Common Oncology Data Elements for extending the IBM FHIR Server with minimal Common Oncology Data Elements profile validation|false|
+|conformance/fhir-ig-carin-bb|A packaging of the Consumer-Directed Payer Data Exchange Guide for extending the IBM FHIR Server with  Consumer-Directed Payer Data Exchange profile validation|false|
+|conformance/fhir-ig-davinci-pdex|A packaging of the Da Vinci Payer Data Exchange (PDEX) Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDEX) profile validation|false|
+|conformance/fhir-ig-davinci-hrex|A packaging of the Da Vinci Health Record Exchange (HREX) Implementation Guide for extending the IBM FHIR Server with DaVinci Health Record Exchange (HREX) profile validation|false|
+|conformance/fhir-ig-davinci-pdex-plan-net|A packaging of the Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDEX) Plan Net profile validation|false|
+|conformance/fhir-ig-davinci-pdex-formulary|A packaging of the Da Vinci Payer Data Exchange (PDex) US Drug Formulary Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDex) US Drug Formulary validation|false|
 
 #### Server
 |Module|Description|Java API-stable|
@@ -119,16 +123,16 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 #### Extended Operations
 |Module|Description|Java API-stable|
 |------|-----------|----------|
-|fhir-operation-test|Sample operations for testing Extended Operations as describe at https://www.hl7.org/fhir/R4/operations.html |false|
+|fhir-operation-test|Sample operations for testing Extended Operations as describe at https://hl7.org/fhir/R4B/operations.html |false|
 |fhir-operation-bulkdata|`$import` and `$export` implementations which translate bulk data requests into JSR352 Java Batch jobs|false|
 |fhir-bulkdata-webapp|Standalone web application for serving bulk import and export requests via JSR352 Java Batch jobs|false|
-|fhir-operation-convert|A limited implementation of the FHIR [$convert operation](https://www.hl7.org/fhir/R4/resource-operation-convert.html), able to convert between JSON and XML but *not* between FHIR versions|false|
-|fhir-operation-document|Basic support for the Composition `$document` operation defined at https://www.hl7.org/fhir/operation-composition-document.html |false|
+|fhir-operation-convert|A limited implementation of the FHIR [$convert operation](https://hl7.org/fhir/R4B/resource-operation-convert.html), able to convert between JSON and XML but *not* between FHIR versions|false|
+|fhir-operation-document|Basic support for the Composition `$document` operation defined at https://hl7.org/fhir/R4B/operation-composition-document.html |false|
 |fhir-operation-healthcheck|The `$healthcheck` operation checks for a valid connection to the database and returns the server status|false|
-|fhir-operation-term|[Terminology service](https://www.hl7.org/fhir/terminology-service.html) operations which use the default fhir-term TerminologyServiceProvider to implement $expand, $lookup, $subsumes, $closure, $validate and $translate|false|
+|fhir-operation-term|[Terminology service](https://hl7.org/fhir/R4B/terminology-service.html) operations which use the default fhir-term TerminologyServiceProvider to implement $expand, $lookup, $subsumes, $closure, $validate and $translate|false|
 |fhir-operation-term-cache|Add-on module that provides operations for clearing the terminology subsystem caches for non-production scenarios|false|
-|fhir-operation-validate|An implementation of the FHIR resource [$validate operation](https://www.hl7.org/fhir/R4/operation-resource-validate.html)|false|
-|fhir-operation-everything|An implementation of the FHIR patient [`$everything`](https://www.hl7.org/fhir/operation-patient-everything.html) operation|false|
+|fhir-operation-validate|An implementation of the FHIR resource [$validate operation](https://hl7.org/fhir/R4B/operation-resource-validate.html)|false|
+|fhir-operation-everything|An implementation of the FHIR patient [`$everything`](https://hl7.org/fhir/R4B/operation-patient-everything.html) operation|false|
 |fhir-operation-erase|A hard delete operation for resource instances referred to as the `$erase` operation. See the [README.md](operation/fhir-operation-erase/README.md)|false|
 |fhir-operation-member-match|An extensible framework and reference implementation for Davinci HREX $member-match using the default IBM FHIR Server. See the [README.md](operation/fhir-operation-member-match/README.md) *experimental*|false|
 
@@ -147,7 +151,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |cql/fhir-quality-measure|FHIR Quality Measure evaluation logic|false|
 |cql/operation/fhir-operation-cpg|*Optional* module that implements CQL operations|false|
 |cql/operation/fhir-operation-cqf|*Optional* module that implements CQF operation|false|
-|cql/operation/fhir-operation-apply|A naive implementation of the `$apply` operation defined at https://www.hl7.org/fhir/operation-activitydefinition-apply.html |false|
+|cql/operation/fhir-operation-apply|A naive implementation of the `$apply` operation defined at https://hl7.org/fhir/R4B/operation-activitydefinition-apply.html |false|
 
 #### Tools and Utilities
 |Module|Description|Java API-stable|

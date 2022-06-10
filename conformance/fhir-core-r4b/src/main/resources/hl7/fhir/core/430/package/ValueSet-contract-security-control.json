@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "contract-security-control",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1222"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ContractResourceSecurityControlCodes",
     "title": "Contract Resource Security Control codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:8c33a7ba-1af8-41aa-8988-2121d6da139c",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:aa1c537a-b0f2-490f-ae3c-387310345277",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 1,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/contract-security-control|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/contract-security-control|4.3.0"
             }
         ],
         "contains": [

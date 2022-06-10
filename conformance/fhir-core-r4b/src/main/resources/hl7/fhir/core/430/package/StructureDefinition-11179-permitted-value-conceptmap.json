@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/11179-permitted-value-conceptmap",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "permitted-value-conceptmap",
     "title": "Permitted Values link",
     "status": "draft",
@@ -30,7 +30,7 @@
         }
     ],
     "description": "Expresses the linkage between the internal codes used for storage and the codes used for exchange.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -139,7 +139,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

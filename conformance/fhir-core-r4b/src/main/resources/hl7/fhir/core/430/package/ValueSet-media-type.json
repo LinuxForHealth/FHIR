@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "media-type",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1000"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "MediaType",
     "title": "Media Type",
     "status": "draft",
@@ -58,8 +58,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:a6adf5e5-1f72-471a-a0da-05ecb51a65ca",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:c29bbc73-3e80-4f1e-97f2-50d4795a1cac",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 3,
         "parameter": [
             {
@@ -72,7 +72,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/media-type|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/media-type|4.3.0"
             }
         ],
         "contains": [

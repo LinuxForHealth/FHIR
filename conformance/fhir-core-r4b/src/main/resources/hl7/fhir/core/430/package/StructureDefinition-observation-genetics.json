@@ -20,7 +20,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/observation-genetics",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Observation-genetics",
     "status": "draft",
     "experimental": false,
@@ -1220,7 +1220,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes providing the status of an observation.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0"
                 },
                 "mapping": [
                     {

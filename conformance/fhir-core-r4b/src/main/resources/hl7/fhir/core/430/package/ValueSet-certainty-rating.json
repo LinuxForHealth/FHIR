@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "certainty-rating",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1414"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "EvidenceCertaintyRating",
     "title": "EvidenceCertaintyRating",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:b4b29cbe-d19f-4fcc-a6cc-45cd53c1bb2c",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:8e1a4e81-14cf-48ed-af0f-72df1da7d478",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 16,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/certainty-rating|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/certainty-rating|4.3.0"
             }
         ],
         "contains": [

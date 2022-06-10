@@ -38,7 +38,7 @@ public class Identifier extends Element {
     @Binding(
         bindingName = "IdentifierUse",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.3.0"
     )
     private final IdentifierUse use;
     @Summary

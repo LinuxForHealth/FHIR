@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "NutritionOrder",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Clinical.Care Provision"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "oo"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Clinical.Care Provision"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/NutritionOrder",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "NutritionOrder",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Orders and Observations)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -756,7 +756,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes identifying the lifecycle stage of the nutrition order.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -822,7 +822,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes indicating the degree of authority/intentionality associated with a nutrition order.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3708,7 +3708,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes identifying the lifecycle stage of the nutrition order.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3759,7 +3759,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes indicating the degree of authority/intentionality associated with a nutrition order.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-intent|4.3.0"
                 },
                 "mapping": [
                     {

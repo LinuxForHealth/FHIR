@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "CarePlan",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Clinical.Care Provision"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "pc"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Clinical.Care Provision"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/CarePlan",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CarePlan",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Patient Care)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "Describes the intention of how one or more practitioners intend to deliver care for a particular patient, group or community for a period of time, possibly limited to care for a specific condition or set of conditions.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -832,7 +832,7 @@
                     ],
                     "strength": "required",
                     "description": "Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -895,7 +895,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes indicating the degree of authority/intentionality associated with a care plan.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-intent|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-intent|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2109,7 +2109,7 @@
                     ],
                     "strength": "required",
                     "description": "Resource types defined as part of FHIR that can be represented as in-line definitions of a care plan activity.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-activity-kind|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-activity-kind|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2444,7 +2444,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes that reflect the current state of a care plan activity within its overall life cycle.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3188,7 +3188,7 @@
                     ],
                     "strength": "required",
                     "description": "Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3236,7 +3236,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes indicating the degree of authority/intentionality associated with a care plan.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-intent|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-intent|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3880,7 +3880,7 @@
                     ],
                     "strength": "required",
                     "description": "Resource types defined as part of FHIR that can be represented as in-line definitions of a care plan activity.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-activity-kind|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-activity-kind|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4110,7 +4110,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes that reflect the current state of a care plan activity within its overall life cycle.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.3.0"
                 },
                 "mapping": [
                     {

@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "Signature",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
@@ -15,11 +15,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Signature",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Signature",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -33,7 +33,7 @@
     ],
     "description": "Base StructureDefinition for Signature Type: A signature along with supporting context. The signature may be a digital signature that is cryptographic in nature, or some other signature acceptable to the domain. This other signature may be as simple as a graphical image representing a hand-written signature, or a signature ceremony Different signature approaches have different utilities.",
     "purpose": "There are a number of places where content must be signed in healthcare.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -112,7 +112,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -388,7 +388,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 }
             },
             {
@@ -437,7 +437,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 }
             },
             {
@@ -617,7 +617,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 }
             },
             {
@@ -649,7 +649,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 }
             },
             {

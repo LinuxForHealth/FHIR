@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "encounter-diet",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.255"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Diet",
     "status": "draft",
     "experimental": true,
@@ -52,8 +52,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:5f5a83db-8c83-4b1c-b4c9-7bc626fa1328",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:7f8adbc4-5bb6-4dff-ac3d-27cf74036ed1",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 7,
         "parameter": [
             {
@@ -66,7 +66,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/diet|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/diet|4.3.0"
             }
         ],
         "contains": [

@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/cqf-initialValue",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "initialValue",
     "title": "initialValue",
     "status": "draft",
@@ -30,7 +30,7 @@
         }
     ],
     "description": "The name of an expression in a referenced library that determines an initial value.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -106,7 +106,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

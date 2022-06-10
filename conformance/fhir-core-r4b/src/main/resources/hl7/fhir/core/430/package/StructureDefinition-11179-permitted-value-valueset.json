@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/11179-permitted-value-valueset",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "permitted-value-valueset",
     "title": "Permitted Values",
     "status": "draft",
@@ -30,7 +30,7 @@
         }
     ],
     "description": "Allows expressing the value set that must be stored internally by the system (as distinct from the base value set which defines values for exchange).",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -139,7 +139,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

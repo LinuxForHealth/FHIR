@@ -2,7 +2,7 @@
     "resourceType": "OperationDefinition",
     "id": "StructureMap-transform",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
@@ -19,13 +19,13 @@
         }
     ],
     "url": "http://hl7.org/fhir/OperationDefinition/StructureMap-transform",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Transform",
     "title": "Model Instance Transformation",
     "status": "draft",
     "kind": "operation",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {

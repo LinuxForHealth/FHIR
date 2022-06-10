@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "EvidenceVariable",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Specialized.Evidence-Based Medicine"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "cds"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Specialized.Evidence-Based Medicine"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/EvidenceVariable",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "EvidenceVariable",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Clinical Decision Support)",
     "contact": [
         {
@@ -57,7 +57,7 @@
     ],
     "description": "The EvidenceVariable resource describes an element that knowledge (Evidence) is about.",
     "purpose": "Need to be able to define and reuse the definition of individual elements of a research question.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -824,7 +824,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1320,7 +1320,7 @@
                     ],
                     "strength": "required",
                     "description": "Logical grouping of characteristics.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/characteristic-combination|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/characteristic-combination|4.3.0"
                 }
             },
             {
@@ -2010,7 +2010,7 @@
                     ],
                     "strength": "required",
                     "description": "Possible group measure aggregates (E.g. Mean, Median).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0"
                 }
             },
             {
@@ -2052,7 +2052,7 @@
                     ],
                     "strength": "required",
                     "description": "The handling of the variable in statistical analysis for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/variable-handling|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/variable-handling|4.3.0"
                 }
             },
             {
@@ -2519,7 +2519,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2820,7 +2820,7 @@
                     ],
                     "strength": "required",
                     "description": "Logical grouping of characteristics.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/characteristic-combination|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/characteristic-combination|4.3.0"
                 }
             },
             {
@@ -3058,7 +3058,7 @@
                     ],
                     "strength": "required",
                     "description": "Possible group measure aggregates (E.g. Mean, Median).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/group-measure|4.3.0"
                 }
             },
             {
@@ -3085,7 +3085,7 @@
                     ],
                     "strength": "required",
                     "description": "The handling of the variable in statistical analysis for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/variable-handling|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/variable-handling|4.3.0"
                 }
             },
             {

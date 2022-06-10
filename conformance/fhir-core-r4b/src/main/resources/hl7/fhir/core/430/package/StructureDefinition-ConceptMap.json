@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "ConceptMap",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Terminology"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "vocab"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Terminology"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/ConceptMap",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ConceptMap",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Vocabulary)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "A statement of relationships from one set of concepts to one or more other concepts - either concepts in code systems, or data element/data element concepts, or classes in class models.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -756,7 +756,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2080,7 +2080,7 @@
                     ],
                     "strength": "required",
                     "description": "The degree of equivalence between concepts.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0"
                 }
             },
             {
@@ -2669,7 +2669,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines which action to take if there is no match in the group.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.3.0"
                 }
             },
             {
@@ -2967,7 +2967,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3540,7 +3540,7 @@
                     ],
                     "strength": "required",
                     "description": "The degree of equivalence between concepts.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.3.0"
                 }
             },
             {
@@ -3724,7 +3724,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines which action to take if there is no match in the group.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.3.0"
                 }
             },
             {

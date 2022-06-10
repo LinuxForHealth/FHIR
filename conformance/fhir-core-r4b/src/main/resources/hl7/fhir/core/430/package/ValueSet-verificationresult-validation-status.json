@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "verificationresult-validation-status",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -20,7 +20,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.894"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "validation-status",
     "status": "draft",
     "experimental": false,
@@ -50,8 +50,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:1036b1cb-7803-4124-85cb-526b79c0d5ff",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:03472376-44c9-4581-9366-db2fa13ae485",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 3,
         "parameter": [
             {

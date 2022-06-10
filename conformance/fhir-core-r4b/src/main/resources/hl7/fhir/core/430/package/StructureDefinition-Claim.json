@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "Claim",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Financial.Billing"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fm"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Financial.Billing"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Claim",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Claim",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Financial Management)",
     "contact": [
         {
@@ -57,7 +57,7 @@
     ],
     "description": "A provider issued list of professional services and products which have been provided, or are to be provided, to a patient which is sent to an insurer for reimbursement.",
     "purpose": "The Claim resource is used by providers to exchange services and products rendered to patients or planned to be rendered with insurers for reimbuserment. It is also used by insurers to exchange claims information with statutory reporting and data analytics firms.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -589,7 +589,7 @@
                     ],
                     "strength": "required",
                     "description": "A code specifying the state of the resource instance.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -742,7 +742,7 @@
                     ],
                     "strength": "required",
                     "description": "The purpose of the Claim: predetermination, preauthorization, claim.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/claim-use|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/claim-use|4.3.0"
                 },
                 "mapping": [
                     {
@@ -6359,7 +6359,7 @@
                     ],
                     "strength": "required",
                     "description": "A code specifying the state of the resource instance.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -6467,7 +6467,7 @@
                     ],
                     "strength": "required",
                     "description": "The purpose of the Claim: predetermination, preauthorization, claim.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/claim-use|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/claim-use|4.3.0"
                 },
                 "mapping": [
                     {

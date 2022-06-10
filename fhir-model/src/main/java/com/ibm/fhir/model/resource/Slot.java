@@ -106,7 +106,7 @@ public class Slot extends DomainResource {
         bindingName = "SlotStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The free/busy status of the slot.",
-        valueSet = "http://hl7.org/fhir/ValueSet/slotstatus|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/slotstatus|4.3.0"
     )
     @Required
     private final SlotStatus status;

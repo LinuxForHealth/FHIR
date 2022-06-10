@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "vaccine-code",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.3.88.12.80.22"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "VaccineAdministeredValueSet",
     "title": "Vaccine Administered Value Set",
     "status": "active",
@@ -56,8 +56,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:dc11e2b0-5be5-4a8f-a78a-de86ec74cd00",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:8dfade9d-c2c3-4b28-b8e2-e904117a4267",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 287,
         "parameter": [
             {

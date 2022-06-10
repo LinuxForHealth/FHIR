@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "CatalogEntry",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Documents"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "oo"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Documents"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/CatalogEntry",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CatalogEntry",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Orders and Observations)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "Catalog entries are wrappers that contextualize items included in a catalog.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "w5",
@@ -728,7 +728,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 }
             },
             {
@@ -1093,7 +1093,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of relations between entries.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/relation-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/relation-type|4.3.0"
                 }
             },
             {
@@ -1287,7 +1287,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 }
             },
             {
@@ -1411,7 +1411,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of relations between entries.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/relation-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/relation-type|4.3.0"
                 }
             },
             {

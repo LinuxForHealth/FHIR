@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "consent-category",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.751"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ConsentCategoryCodes",
     "title": "Consent Category Codes",
     "status": "draft",
@@ -80,8 +80,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:cddc9a1b-11f4-4ef6-927c-211650eb96e6",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:ed28c6b9-fba3-4880-a962-7a664cb30ee6",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 23,
         "parameter": [
             {
@@ -94,7 +94,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/consentcategorycodes|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/consentcategorycodes|4.3.0"
             },
             {
                 "name": "version",

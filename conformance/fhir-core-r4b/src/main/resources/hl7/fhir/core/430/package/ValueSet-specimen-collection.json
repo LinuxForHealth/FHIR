@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "specimen-collection",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1398"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "SpecimenCollection",
     "title": "Specimen collection methods",
     "status": "draft",
@@ -96,8 +96,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:69f92835-f862-4016-b3c9-805fda9407b9",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:5c1595b4-97eb-4650-944a-e6fd51adba6b",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 10,
         "parameter": [
             {

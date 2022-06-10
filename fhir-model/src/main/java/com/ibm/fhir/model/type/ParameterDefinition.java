@@ -32,7 +32,7 @@ public class ParameterDefinition extends Element {
     @Binding(
         bindingName = "ParameterUse",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.3.0"
     )
     @Required
     private final ParameterUse use;
@@ -46,7 +46,7 @@ public class ParameterDefinition extends Element {
     @Binding(
         bindingName = "FHIRAllTypes",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.3.0"
     )
     @Required
     private final FHIRAllTypes type;

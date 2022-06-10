@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "MessageDefinition",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Conformance"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "inm"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Conformance"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/MessageDefinition",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "MessageDefinition",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Infrastructure And Messaging)",
     "contact": [
         {
@@ -57,7 +57,7 @@
     ],
     "description": "Defines the characteristics of a message that can be shared between systems, including the type of event that initiates the message, the content to be transmitted and what response(s), if any, are permitted.",
     "purpose": "Allows messages to be defined once and re-used across systems.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -801,7 +801,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1363,7 +1363,7 @@
                     ],
                     "strength": "required",
                     "description": "The impact of the content of a message.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/message-significance-category|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/message-significance-category|4.3.0"
                 }
             },
             {
@@ -1585,7 +1585,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0"
                 }
             },
             {
@@ -1735,7 +1735,7 @@
                     ],
                     "strength": "required",
                     "description": "This enables the capability currently available through MSH-16 (Application Level acknowledgement) in HL7 Version 2 to declare at a message definition level whether a response is required or only upon error or success, or never.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2227,7 +2227,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2594,7 +2594,7 @@
                     ],
                     "strength": "required",
                     "description": "The impact of the content of a message.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/message-significance-category|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/message-significance-category|4.3.0"
                 }
             },
             {
@@ -2652,7 +2652,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0"
                 }
             },
             {
@@ -2742,7 +2742,7 @@
                     ],
                     "strength": "required",
                     "description": "This enables the capability currently available through MSH-16 (Application Level acknowledgement) in HL7 Version 2 to declare at a message definition level whether a response is required or only upon error or success, or never.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.3.0"
                 },
                 "mapping": [
                     {

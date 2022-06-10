@@ -58,7 +58,7 @@ public class PaymentReconciliation extends DomainResource {
         bindingName = "PaymentReconciliationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0"
     )
     @Required
     private final PaymentReconciliationStatus status;
@@ -78,7 +78,7 @@ public class PaymentReconciliation extends DomainResource {
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.Value.REQUIRED,
         description = "The outcome of the processing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0"
     )
     private final RemittanceOutcome outcome;
     private final String disposition;
@@ -1634,7 +1634,7 @@ public class PaymentReconciliation extends DomainResource {
             bindingName = "NoteType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The presentation types of notes.",
-            valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.3.0"
         )
         private final NoteType type;
         private final String text;

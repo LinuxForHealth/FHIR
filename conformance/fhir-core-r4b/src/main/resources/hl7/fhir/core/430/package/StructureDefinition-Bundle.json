@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "Bundle",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Other"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "normative"
@@ -28,18 +32,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fhir"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Other"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Bundle",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Bundle",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -60,7 +60,7 @@
         }
     ],
     "description": "A container for a collection of resources.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -427,7 +427,7 @@
                     ],
                     "strength": "required",
                     "description": "Indicates the purpose of a bundle - how it is intended to be used.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/bundle-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1217,7 +1217,7 @@
                     ],
                     "strength": "required",
                     "description": "Why an entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0"
                 }
             },
             {
@@ -1461,7 +1461,7 @@
                     ],
                     "strength": "required",
                     "description": "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/http-verb|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/http-verb|4.3.0"
                 }
             },
             {
@@ -2135,7 +2135,7 @@
                     ],
                     "strength": "required",
                     "description": "Indicates the purpose of a bundle - how it is intended to be used.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/bundle-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/bundle-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2364,7 +2364,7 @@
                     ],
                     "strength": "required",
                     "description": "Why an entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/search-entry-mode|4.3.0"
                 }
             },
             {
@@ -2427,7 +2427,7 @@
                     ],
                     "strength": "required",
                     "description": "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/http-verb|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/http-verb|4.3.0"
                 }
             },
             {

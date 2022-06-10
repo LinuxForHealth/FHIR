@@ -470,11 +470,11 @@
           </extension>
         </versioning>
       </type>
-      <defaultValueUnsignedInt>
+      <defaultValueUri>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </defaultValueUnsignedInt>
+      </defaultValueUri>
       <meaningWhenMissing>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
@@ -485,27 +485,27 @@
           <valueCode value="unknown"/>
         </extension>
       </orderMeaning>
-      <fixedUnsignedInt>
+      <fixedUri>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </fixedUnsignedInt>
-      <patternUnsignedInt>
+      </fixedUri>
+      <patternUri>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </patternUnsignedInt>
+      </patternUri>
       <example>
         <label>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
         </label>
-        <valueUnsignedInt>
+        <valueUri>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
-        </valueUnsignedInt>
+        </valueUri>
       </example>
       <minValueQuantity>
         <value>
@@ -814,11 +814,11 @@
           </extension>
         </versioning>
       </type>
-      <defaultValueUnsignedInt>
+      <defaultValueUri>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </defaultValueUnsignedInt>
+      </defaultValueUri>
       <meaningWhenMissing>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
@@ -829,27 +829,27 @@
           <valueCode value="unknown"/>
         </extension>
       </orderMeaning>
-      <fixedUnsignedInt>
+      <fixedUri>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </fixedUnsignedInt>
-      <patternUnsignedInt>
+      </fixedUri>
+      <patternUri>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </patternUnsignedInt>
+      </patternUri>
       <example>
         <label>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
         </label>
-        <valueUnsignedInt>
+        <valueUri>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
-        </valueUnsignedInt>
+        </valueUri>
       </example>
       <minValueQuantity>
         <value>

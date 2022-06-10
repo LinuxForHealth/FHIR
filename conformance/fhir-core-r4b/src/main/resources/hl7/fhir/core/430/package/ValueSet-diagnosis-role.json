@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "diagnosis-role",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -20,12 +20,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.49"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "DiagnosisRole",
     "title": "DiagnosisRole",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -47,8 +47,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:364e3c7a-919c-4d5c-9ea6-27a541227be0",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:b993b936-49f5-4718-9056-f2f753fda7e8",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 7,
         "parameter": [
             {
@@ -61,7 +61,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/diagnosis-role|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/diagnosis-role|4.3.0"
             }
         ],
         "contains": [

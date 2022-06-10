@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "goal-achievement",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -20,7 +20,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1374"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "GoalAchievementStatus",
     "status": "draft",
     "experimental": false,
@@ -44,8 +44,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:7094f2ab-b819-4f21-bd4f-17136f326ab9",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:d4d70bf3-b137-49fa-8066-18864da3cd97",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 9,
         "parameter": [
             {
@@ -58,7 +58,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/goal-achievement|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/goal-achievement|4.3.0"
             }
         ],
         "contains": [

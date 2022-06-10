@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "product-category",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.900"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "BiologicallyDerivedProductCategory",
     "title": "BiologicallyDerivedProductCategory",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:1f4579e3-faf1-48da-ac33-7ff0674c0491",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:c4e508d8-9f97-4bef-bdd3-af3efbbffab2",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 5,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/product-category|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/product-category|4.3.0"
             }
         ],
         "contains": [

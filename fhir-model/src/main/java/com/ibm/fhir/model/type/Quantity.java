@@ -39,7 +39,7 @@ public class Quantity extends Element {
     @Binding(
         bindingName = "QuantityComparator",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0"
     )
     protected final QuantityComparator comparator;
     @Summary

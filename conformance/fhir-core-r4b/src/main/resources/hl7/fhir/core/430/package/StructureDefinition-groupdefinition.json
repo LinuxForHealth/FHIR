@@ -20,7 +20,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/groupdefinition",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Group Definition",
     "status": "draft",
     "experimental": false,
@@ -596,7 +596,7 @@
                     ],
                     "strength": "required",
                     "description": "Types of resources that are part of group.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/group-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/group-type|4.3.0"
                 },
                 "mapping": [
                     {

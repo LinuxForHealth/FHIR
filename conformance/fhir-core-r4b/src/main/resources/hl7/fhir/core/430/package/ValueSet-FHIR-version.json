@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "FHIR-version",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1309"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "FHIRVersion",
     "title": "FHIRVersion",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -63,9 +63,9 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:05b79c73-e6f2-4568-a79c-329f680aa992",
-        "timestamp": "2022-04-23T22:23:07Z",
-        "total": 25,
+        "identifier": "urn:uuid:bf14765f-186b-41bd-9942-78715655e839",
+        "timestamp": "2022-05-28T12:49:05+10:00",
+        "total": 27,
         "parameter": [
             {
                 "name": "excludeNested",
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/FHIR-version|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/FHIR-version|4.3.0"
             }
         ],
         "contains": [
@@ -205,6 +205,16 @@
                 "system": "http://hl7.org/fhir/FHIR-version",
                 "code": "4.3.0-cibuild",
                 "display": "4.3.0-cibuild"
+            },
+            {
+                "system": "http://hl7.org/fhir/FHIR-version",
+                "code": "4.3.0-snapshot1",
+                "display": "4.3.0-snapshot1"
+            },
+            {
+                "system": "http://hl7.org/fhir/FHIR-version",
+                "code": "4.3.0",
+                "display": "4.3.0"
             }
         ]
     }

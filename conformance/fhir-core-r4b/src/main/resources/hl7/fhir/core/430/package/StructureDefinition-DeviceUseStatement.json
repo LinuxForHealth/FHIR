@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "DeviceUseStatement",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Clinical.Request &amp; Response"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "oo"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Clinical.Request &amp; Response"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/DeviceUseStatement",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "DeviceUseStatement",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Orders and Observations)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "A record of a device being used by a patient where the record is the result of a report from the patient or another clinician.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -647,7 +647,7 @@
                     ],
                     "strength": "required",
                     "description": "A coded concept indicating the current status of the Device Usage.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/device-statement-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/device-statement-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1260,7 +1260,7 @@
                     ],
                     "strength": "required",
                     "description": "A coded concept indicating the current status of the Device Usage.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/device-statement-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/device-statement-status|4.3.0"
                 },
                 "mapping": [
                     {

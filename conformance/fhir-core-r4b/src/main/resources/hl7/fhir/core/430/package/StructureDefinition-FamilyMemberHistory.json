@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "FamilyMemberHistory",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Clinical.Summary"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "pc"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Clinical.Summary"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/FamilyMemberHistory",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "FamilyMemberHistory",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Patient Care)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "Significant health conditions for a person related to the patient relevant in the context of care for the patient.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -702,7 +702,7 @@
                     ],
                     "strength": "required",
                     "description": "A code that identifies the status of the family history record.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/history-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/history-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1880,7 +1880,7 @@
                     ],
                     "strength": "required",
                     "description": "A code that identifies the status of the family history record.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/history-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/history-status|4.3.0"
                 },
                 "mapping": [
                     {

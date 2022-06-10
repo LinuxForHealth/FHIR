@@ -71,7 +71,7 @@ public class AdministrableProductDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
     )
     @Required
     private final PublicationStatus status;
@@ -1019,7 +1019,7 @@ public class AdministrableProductDefinition extends DomainResource {
             bindingName = "PublicationStatus",
             strength = BindingStrength.Value.REQUIRED,
             description = "The lifecycle status of an artifact.",
-            valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
         )
         private final CodeableConcept status;
 

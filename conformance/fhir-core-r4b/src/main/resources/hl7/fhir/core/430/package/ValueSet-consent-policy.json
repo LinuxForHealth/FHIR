@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "consent-policy",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1014"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ConsentPolicyRuleCodes",
     "title": "Consent PolicyRule Codes",
     "status": "draft",
@@ -53,8 +53,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:36097485-69fb-4f70-a0ea-002188af56d8",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:8b79e351-29dc-4523-aba5-2edd5ad88258",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 26,
         "parameter": [
             {
@@ -67,7 +67,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/consentpolicycodes|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/consentpolicycodes|4.3.0"
             }
         ],
         "contains": [

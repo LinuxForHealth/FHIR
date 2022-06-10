@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "reference-handling-policy",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.202"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ReferenceHandlingPolicy",
     "title": "ReferenceHandlingPolicy",
     "status": "active",
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:d562aca1-0c89-4c9f-a24b-0ba50e0f81b2",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:2585b5cd-5741-4958-a1f3-08b643b6ba18",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 5,
         "parameter": [
             {
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/reference-handling-policy|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/reference-handling-policy|4.3.0"
             }
         ],
         "contains": [

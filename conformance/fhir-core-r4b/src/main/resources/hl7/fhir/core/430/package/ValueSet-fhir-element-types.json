@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "fhir-element-types",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ElementTypes",
     "title": "Common Tags",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:55156690-a430-4742-b415-e3bece8149fa",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:693cb320-0ec6-416b-af11-e9aaff897f12",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 214,
         "parameter": [
             {
@@ -77,19 +77,19 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/CodeSystem/fhirpath-types|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/CodeSystem/fhirpath-types|4.3.0"
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/ValueSet/defined-types|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/ValueSet/defined-types|4.3.0"
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/data-types|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/data-types|4.3.0"
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/resource-types|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/resource-types|4.3.0"
             }
         ],
         "contains": [

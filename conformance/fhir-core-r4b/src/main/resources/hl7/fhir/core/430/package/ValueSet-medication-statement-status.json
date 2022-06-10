@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "medication-statement-status",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,8 +28,8 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.367"
         }
     ],
-    "version": "4.3.0-cibuild",
-    "name": "Medication Status Codes",
+    "version": "4.3.0",
+    "name": "MedicationStatement Status Codes",
     "status": "draft",
     "experimental": false,
     "publisher": "FHIR Project team",
@@ -43,7 +43,7 @@
             ]
         }
     ],
-    "description": "Medication Status Codes",
+    "description": "MedicationStatement Status Codes",
     "compose": {
         "include": [
             {
@@ -52,8 +52,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:d929acb2-008c-4230-9efb-a37093ffc509",
-        "timestamp": "2022-04-23T22:23:08Z",
+        "identifier": "urn:uuid:207c4868-02fd-4c2c-b984-e3709bb6a073",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 8,
         "parameter": [
             {
@@ -66,7 +66,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/CodeSystem/medication-statement-status|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/CodeSystem/medication-statement-status|4.3.0"
             }
         ],
         "contains": [

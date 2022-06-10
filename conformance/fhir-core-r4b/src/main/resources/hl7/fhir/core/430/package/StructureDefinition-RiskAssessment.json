@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "RiskAssessment",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Clinical.Care Provision"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "cds"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Clinical.Care Provision"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/RiskAssessment",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "RiskAssessment",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Clinical Decision Support)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -688,7 +688,7 @@
                     ],
                     "strength": "required",
                     "description": "The status of the risk assessment; e.g. preliminary, final, amended, etc.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1844,7 +1844,7 @@
                     ],
                     "strength": "required",
                     "description": "The status of the risk assessment; e.g. preliminary, final, amended, etc.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0"
                 },
                 "mapping": [
                     {

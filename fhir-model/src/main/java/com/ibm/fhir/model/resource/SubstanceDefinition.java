@@ -5940,7 +5940,7 @@ public class SubstanceDefinition extends DomainResource {
             bindingName = "Country",
             strength = BindingStrength.Value.REQUIRED,
             description = "Jurisdiction codes",
-            valueSet = "http://hl7.org/fhir/ValueSet/country|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/country|4.3.0"
         )
         private final List<CodeableConcept> countryOfOrigin;
 

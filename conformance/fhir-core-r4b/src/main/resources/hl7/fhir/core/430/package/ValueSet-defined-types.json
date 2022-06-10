@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "defined-types",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -36,12 +36,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.24"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "FHIRDefinedType",
     "title": "FHIRDefinedType",
     "status": "active",
     "experimental": true,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -69,8 +69,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:57586e2f-08af-497d-bf0b-9c7fc305e5f6",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:f629147e-cd58-404a-936b-67fba03c222a",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 207,
         "parameter": [
             {
@@ -83,11 +83,11 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/data-types|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/data-types|4.3.0"
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/resource-types|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/resource-types|4.3.0"
             }
         ],
         "contains": [

@@ -121,7 +121,7 @@ public class VerificationResult extends DomainResource {
         bindingName = "status",
         strength = BindingStrength.Value.REQUIRED,
         description = "The validation status of the target.",
-        valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-status|4.3.0"
     )
     @Required
     private final Status status;

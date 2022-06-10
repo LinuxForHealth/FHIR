@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "map-input-mode",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.677"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "StructureMapInputMode",
     "title": "StructureMapInputMode",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:738a95ee-6dcd-4a02-8f87-71b57444710d",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:a5c604f1-d140-430e-9cd0-5750f38a33e4",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 2,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/map-input-mode|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/map-input-mode|4.3.0"
             }
         ],
         "contains": [

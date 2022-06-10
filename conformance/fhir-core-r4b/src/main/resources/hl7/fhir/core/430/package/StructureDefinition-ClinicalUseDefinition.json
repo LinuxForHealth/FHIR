@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "ClinicalUseDefinition",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Specialized.Medication Definition"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "brr"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Specialized.Medication Definition"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/ClinicalUseDefinition",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ClinicalUseDefinition",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Biomedical Research and Regulation)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "A single issue - either an indication, contraindication, interaction or an undesirable effect for a medicinal product, medication, device or procedure.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "idmp",
@@ -579,7 +579,7 @@
                     ],
                     "strength": "required",
                     "description": "Overall defining type of this clinical use definition.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3162,7 +3162,7 @@
                     ],
                     "strength": "required",
                     "description": "Overall defining type of this clinical use definition.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/clinical-use-definition-type|4.3.0"
                 },
                 "mapping": [
                     {

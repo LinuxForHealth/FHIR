@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "DomainResource",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
@@ -27,11 +27,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/DomainResource",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "DomainResource",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -52,7 +52,7 @@
         }
     ],
     "description": "A resource that includes narrative, extensions, and contained resources.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",

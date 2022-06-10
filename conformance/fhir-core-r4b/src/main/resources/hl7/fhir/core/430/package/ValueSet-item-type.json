@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "item-type",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.444"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "QuestionnaireItemType",
     "title": "QuestionnaireItemType",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:ae182f24-1370-4210-a450-b6f0171776a8",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:4d3df360-4742-43d0-a67c-55d5958ffa52",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 17,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/item-type|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/item-type|4.3.0"
             }
         ],
         "contains": [

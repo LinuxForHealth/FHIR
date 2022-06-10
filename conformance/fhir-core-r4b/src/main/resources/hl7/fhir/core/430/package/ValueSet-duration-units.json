@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "duration-units",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.61"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CommonUCUMCodesForDuration",
     "title": "Common UCUM Codes for Duration",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "FHIR Project team",
     "contact": [
         {
@@ -93,8 +93,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:b59af079-c506-42fa-8eaa-ab95ffbc1533",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:7a4d4178-2c60-48c5-b86a-3bf9477b5fe5",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 8,
         "parameter": [
             {

@@ -41,7 +41,7 @@ public class Binary extends Resource {
         bindingName = "MimeType",
         strength = BindingStrength.Value.REQUIRED,
         description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
     )
     @Required
     private final Code contentType;
