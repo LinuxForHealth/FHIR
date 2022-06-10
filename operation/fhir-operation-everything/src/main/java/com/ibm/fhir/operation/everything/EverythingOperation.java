@@ -183,11 +183,11 @@ public class EverythingOperation extends AbstractOperation {
         List<Entry> allEntries = new ArrayList<>(maxPageSize);
         Set<String> resourceIds = new HashSet<>();
         // Look up which extra resources should be returned
-        List<String> extraResources = new ArrayList<String>();
+        Set<String> extraResourceTypes = new HashSet<>();
         try {
             PropertyGroup parentResourcePropGroup = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_OPERATIONS_EVERYTHING);
             if (parentResourcePropGroup != null) {
-                extraResources = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_OPERATIONS_EVERYTHING_INCLUDE_TYPES);
+                extraResourceTypes.addAll(parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_OPERATIONS_EVERYTHING_INCLUDE_TYPES));
             }
         } catch (Exception e) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving configuration of $everything ",
@@ -216,7 +216,7 @@ public class EverythingOperation extends AbstractOperation {
             resourceTypes = defaultResourceTypes;
         }
 
-        boolean retrieveAdditionalResources = extraResources != null && !extraResources.isEmpty();
+        boolean retrieveAdditionalResources = extraResourceTypes != null && !extraResourceTypes.isEmpty();
         for (String compartmentMemberType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
             if (startOrEndProvided  && !SUPPORT_CLINICAL_DATE_QUERY.contains(compartmentMemberType)) {
@@ -235,12 +235,12 @@ public class EverythingOperation extends AbstractOperation {
             try {
                 // Don't need to add more search parameters if the config section isn't there or is empty
                 if (retrieveAdditionalResources) {
-                    List<String> includes = IncludesUtil.computeIncludesParamValues(compartmentMemberType, extraResources, searchHelper);
+                    List<String> includes = IncludesUtil.computeIncludesParamValues(compartmentMemberType, extraResourceTypes, searchHelper);
                     tempSearchParameters.addAll(SearchConstants.INCLUDE, includes);
                 }
                 results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null);
                 int countBeforeAddingNewResources = allEntries.size();
-                processResults(results, compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
+                processResults(results, compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResourceTypes, retrieveAdditionalResources);
                 currentResourceCount = results.getTotal().getValue();
                 if (LOG.isLoggable(Level.FINEST)) {
                     LOG.finest("Got " + compartmentMemberType + " resources " + (allEntries.size() - countBeforeAddingNewResources) + " for a total of " + allEntries.size());
@@ -271,7 +271,7 @@ public class EverythingOperation extends AbstractOperation {
                     try {
                         tempSearchParameters.putSingle(SearchConstants.PAGE, page++ + "");
                         results = resourceHelper.doSearch(compartmentMemberType, PATIENT, logicalId, tempSearchParameters, null);
-                        processResults(results, compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources, retrieveAdditionalResources);
+                        processResults(results, compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResourceTypes, retrieveAdditionalResources);
                     } catch (Exception e) {
                         FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving "
                                 + "$everything resources page '" + page + "' of type '" + compartmentMemberType + "' "
@@ -436,13 +436,14 @@ public class EverythingOperation extends AbstractOperation {
      * @param allEntries a list of all entries that have been found so far (minus duplicates)
      * @param resourceIds the set of external resource ids ("resourceType/id") to be included in the result (to avoid duplicates)
      * @param resourceHelper an instance of FHIRResourceHelpers to use to make the calls
-     * @param extraResources a list of "extra" resource types configured for this server
+     * @param extraResourceTypes extra resource types to include in the response
+     *        when they are referenced from a compartment resource being returned
      * @implNote this method adds to both the allEntries list and the resourceIds set in-place
      */
     private void readsOfAdditionalAssociatedResources(String compartmentMemberType, List<Entry> newEntries,
-            List<Entry> allEntries, Set<String> resourceIds, FHIRResourceHelpers resourceHelper, List<String> extraResources)
+            List<Entry> allEntries, Set<String> resourceIds, FHIRResourceHelpers resourceHelper, Set<String> extraResourceTypes)
             throws Exception {
-        if (extraResources == null || extraResources.isEmpty()) {
+        if (extraResourceTypes == null || extraResourceTypes.isEmpty()) {
             return;
         }
         Bundle.Builder requestBundleBuilder = Bundle.builder().type(BundleType.BATCH);
@@ -457,7 +458,7 @@ public class EverythingOperation extends AbstractOperation {
                     String type = referenceValue.getTargetResourceType();
                     String value = referenceValue.getValue();
                     String resourceId = type + "/" + value;
-                    if (!resourceIds.contains(resourceId) && extraResources.contains(type)) {
+                    if (!resourceIds.contains(resourceId) && extraResourceTypes.contains(type)) {
                         // Bundle up the requests so we can send them as a batch
                         addRequestToBundle(requestBundleBuilder, HTTPVerb.GET, resourceId, null);
                         resourceIds.add(resourceId);
@@ -494,11 +495,12 @@ public class EverythingOperation extends AbstractOperation {
      * @param allEntries a list of all entries that have been found so far (minus duplicates)
      * @param resourceIds a list of all the resource ids already added to the results
      * @param resourceHelper an instance of FHIRResourceHelpers to use to make the calls
-     * @param extraResources a list of "extra" resource types configured for this server
+     * @param extraResourceTypes extra resource types to include in the response
+     *        when they are referenced from a compartment resource being returned
      * @param retrieveAdditionalResources whether the server config has specified to retrieve additional resources
      */
     private void processResults(Bundle results, String compartmentMemberType, List<Entry> newEntries,
-                List<Entry> allEntries, Set<String> resourceIds, FHIRResourceHelpers resourceHelper, List<String> extraResources,
+                List<Entry> allEntries, Set<String> resourceIds, FHIRResourceHelpers resourceHelper, Set<String> extraResourceTypes,
                 boolean retrieveAdditionalResources) throws Exception {
         // Only add resources we don't already have and keep track of what we've found so far,
         // otherwise, we were getting duplicate entries from the _includes
@@ -510,7 +512,7 @@ public class EverythingOperation extends AbstractOperation {
             }
         }
         if (retrieveAdditionalResources) {
-            readsOfAdditionalAssociatedResources(compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResources);
+            readsOfAdditionalAssociatedResources(compartmentMemberType, results.getEntry(), allEntries, resourceIds, resourceHelper, extraResourceTypes);
         }
     }
 

@@ -7,8 +7,10 @@ package com.ibm.fhir.search.parameters;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,7 +25,7 @@ public class IncludesUtil {
     private static final Logger LOG = java.util.logging.Logger.getLogger(IncludesUtil.class.getName());
 
     /**
-     * Computes the list of supported include parameter values that target resource types from the passed resourcesToInclude list.
+     * Computes the list of supported include parameter values that target resource types from the passed set of resourceTypesToInclude.
      *
      * @param baseResourceType
      * @param resourceTypesToInclude
@@ -31,11 +33,13 @@ public class IncludesUtil {
      * @return The list of values to use for the _include search parameter.
      * @throws Exception
      */
-    public static List<String> computeIncludesParamValues(String baseResourceType, List<String> resourceTypesToInclude, SearchHelper searchHelper)
+    public static List<String> computeIncludesParamValues(String baseResourceType, Set<String> resourceTypesToInclude, SearchHelper searchHelper)
             throws Exception {
         List<String> result = new ArrayList<>();
 
-        List<String> allowedIncludes = FHIRConfigHelper.getSearchPropertyRestrictions(baseResourceType, FHIRConfigHelper.SEARCH_PROPERTY_TYPE_INCLUDE);
+        List<String> allowedIncludesList = FHIRConfigHelper.getSearchPropertyRestrictions(baseResourceType, FHIRConfigHelper.SEARCH_PROPERTY_TYPE_INCLUDE);
+        Set<String> allowedIncludes = (allowedIncludesList == null) ? null : new HashSet<>(allowedIncludesList);
+
         Map<ResourceType, List<String>> codesByType = IncludesUtil.getSearchCodesByType(baseResourceType, searchHelper);
 
         for (Map.Entry<ResourceType, List<String>> entry : codesByType.entrySet()) {
@@ -86,13 +90,13 @@ public class IncludesUtil {
     /**
      * @param compartmentMemberType the resource type that is the source of the includes
      * @param subResourceType the target resource type of the includes; null
-     * @param allowedIncludes the list of include parameter values to allow
+     * @param allowedIncludes the set of include parameter values to allow
      * @param codes the search parameter codes to include on
      * @return A list of parameter values to use for the _include query parameter.
      * @throws Exception
      */
     private static List<String> computeIncludes(String compartmentMemberType, ResourceType subResourceType,
-            List<String> allowedIncludes, List<String> codes) throws Exception {
+            Set<String> allowedIncludes, List<String> codes) throws Exception {
         List<String> includes = new ArrayList<>();
 
         for (String code : codes) {
