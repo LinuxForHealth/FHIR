@@ -33,6 +33,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Group;
@@ -281,42 +282,42 @@ public class BulkDataExportUtilTest {
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypesEmpty() throws FHIROperationException {
         List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value(string("1")).build());
-        util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
+        util.checkAndValidateTypes(ExportType.SYSTEM, FHIRVersionParam.VERSION_43, parameters);
         fail();
     }
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypesNull() throws FHIROperationException {
         List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value((Element)null).build());
-        util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
+        util.checkAndValidateTypes(ExportType.SYSTEM, FHIRVersionParam.VERSION_43, parameters);
         fail();
     }
 
     @Test(expectedExceptions = { com.ibm.fhir.exception.FHIROperationException.class })
     public void testCheckAndValidateTypesNullQPS() throws FHIROperationException {
         List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value((Element) null).build());
-        util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
+        util.checkAndValidateTypes(ExportType.SYSTEM, FHIRVersionParam.VERSION_43, parameters);
         fail();
     }
 
     @Test
     public void testCheckAndValidateTypesPatientWithoutComma() throws FHIROperationException {
         List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value(string("Patient")).build());
-        Set<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
+        Set<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, FHIRVersionParam.VERSION_43, parameters);
         assertNotNull(types);
     }
 
     @Test
     public void testCheckAndValidateTypesPatientWithComma() throws FHIROperationException {
         List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value(string("Patient,")).build());
-        Set<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
+        Set<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, FHIRVersionParam.VERSION_43, parameters);
         assertNotNull(types);
     }
 
     @Test
     public void testCheckAndValidateTypesPatientMedicationWithComma() throws FHIROperationException {
         List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value(string("Patient,Medication")).build());
-        Set<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
+        Set<String> types = util.checkAndValidateTypes(ExportType.SYSTEM, FHIRVersionParam.VERSION_43, parameters);
         assertNotNull(types);
     }
 
@@ -324,7 +325,7 @@ public class BulkDataExportUtilTest {
     public void testCheckAndValidateTypesPatientMedicationWithExtraComma() throws FHIROperationException {
         // parameters
         List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value(string("Patient,,Medication")).build());
-        util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
+        util.checkAndValidateTypes(ExportType.SYSTEM, FHIRVersionParam.VERSION_43, parameters);
         fail();
     }
 
@@ -332,7 +333,7 @@ public class BulkDataExportUtilTest {
     public void testCheckAndValidateTypesWithExtraComma() throws FHIROperationException {
         // parameters
         List<Parameter> parameters = List.of(Parameter.builder().name(string("_type")).value(string(",,")).build());
-        Set<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
+        Set<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, FHIRVersionParam.VERSION_43, parameters);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
@@ -341,14 +342,14 @@ public class BulkDataExportUtilTest {
     public void testCheckAndValidateTypesNoParameters() throws FHIROperationException {
         // parameters
         List<Parameter> parameters = List.of(Parameter.builder().name(string("french")).value(string("Patient,,Medication")).build());
-        Set<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, parameters);
+        Set<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, FHIRVersionParam.VERSION_43, parameters);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }
 
     @Test
     public void testCheckAndValidateTypesEmptyParameters() throws FHIROperationException {
-        Set<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, null);
+        Set<String> result = util.checkAndValidateTypes(ExportType.SYSTEM, FHIRVersionParam.VERSION_43, null);
         assertNotNull(result);
         assertFalse(result.isEmpty());
     }

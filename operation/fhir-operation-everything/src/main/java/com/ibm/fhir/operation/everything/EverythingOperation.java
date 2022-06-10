@@ -46,7 +46,6 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceFinder;
 import com.ibm.fhir.registry.FHIRRegistry;
@@ -205,7 +204,7 @@ public class EverythingOperation extends AbstractOperation {
         MultivaluedMap<String, String> queryParametersWithoutDates = new MultivaluedHashMap<String,String>(queryParameters);
         boolean startOrEndProvided = queryParametersWithoutDates.remove(DATE_QUERY_PARAMETER) != null;
 
-        List<String> defaultResourceTypes = new ArrayList<String>(0);
+        List<String> defaultResourceTypes;
         try {
             FHIRVersionParam fhirVersion = (FHIRVersionParam) operationContext.getProperty(FHIROperationContext.PROPNAME_FHIR_VERSION);
             defaultResourceTypes = getDefaultIncludedResourceTypes(resourceHelper, fhirVersion);

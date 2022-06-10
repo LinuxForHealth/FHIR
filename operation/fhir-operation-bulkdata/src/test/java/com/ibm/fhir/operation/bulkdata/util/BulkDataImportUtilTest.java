@@ -32,6 +32,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
@@ -66,8 +67,8 @@ public class BulkDataImportUtilTest {
         FHIRRequestContext.set(context);
         context.setTenantId("not-config");
         BulkDataImportUtil util = new BulkDataImportUtil(getContext(), loadTestFile("/testdata/import/import-demo.json"));
-        assertFalse(util.retrieveInputs().isEmpty());
-        assertEquals(util.retrieveInputs().size(), 2);
+        assertFalse(util.retrieveInputs(FHIRVersionParam.VERSION_43).isEmpty());
+        assertEquals(util.retrieveInputs(FHIRVersionParam.VERSION_43).size(), 2);
     }
 
     @Test
@@ -160,7 +161,7 @@ public class BulkDataImportUtilTest {
         FHIRRequestContext.set(context);
         context.setTenantId("config");
         BulkDataImportUtil util = new BulkDataImportUtil(getContext(), loadTestFile("/testdata/import/import-demo-config.json"));
-        util.retrieveInputs();
+        util.retrieveInputs(FHIRVersionParam.VERSION_43);
     }
 
     @Test(expectedExceptions = { FHIROperationException.class })
@@ -169,7 +170,7 @@ public class BulkDataImportUtilTest {
         FHIRRequestContext.set(context);
         context.setTenantId("not-config");
         BulkDataImportUtil util = new BulkDataImportUtil(getContext(), loadTestFile("/testdata/import/import-demo-not-config.json"));
-        util.retrieveInputs();
+        util.retrieveInputs(FHIRVersionParam.VERSION_43);
     }
 
     public Parameters loadTestFile(String file) throws FHIRParserException, IOException {

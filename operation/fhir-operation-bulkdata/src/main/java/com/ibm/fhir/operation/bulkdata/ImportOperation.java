@@ -9,6 +9,7 @@ package com.ibm.fhir.operation.bulkdata;
 import java.io.InputStream;
 import java.util.List;
 
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -70,7 +71,8 @@ public class ImportOperation extends AbstractOperation {
         String inputSource = util.retrieveInputSource();
 
         // Parameter: input
-        List<Input> inputs = util.retrieveInputs();
+        FHIRVersionParam fhirVersion = (FHIRVersionParam) operationContext.getProperty(FHIROperationContext.PROPNAME_FHIR_VERSION);
+        List<Input> inputs = util.retrieveInputs(fhirVersion);
 
         // Parameter: storageDetail
         StorageDetail storageDetail = util.retrieveStorageDetails();
@@ -86,7 +88,7 @@ public class ImportOperation extends AbstractOperation {
         // Check Import Type is System.  We only support system right now.
 
         if (!FHIROperationContext.Type.SYSTEM.equals(type)) {
-            throw buildExceptionWithIssue("Invalid call $import operation call only system is allowed",
+            throw buildExceptionWithIssue("Invalid call; $import can only be invoked at the system level",
                     IssueType.INVALID);
         }
     }
