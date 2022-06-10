@@ -1352,7 +1352,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provenance-participant-type"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provenance-participant-type|4.0.0"
                 },
                 "mapping": [
                     {
@@ -1442,10 +1442,10 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
                             "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
                             "http://hl7.org/fhir/StructureDefinition/Device"
                         ],
@@ -1531,7 +1531,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0"
                         ]
                     }
                 ],
@@ -2821,7 +2821,7 @@
                 "isModifier": false,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provenance-participant-type"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provenance-participant-type|4.0.0"
                 }
             },
             {
@@ -2833,10 +2833,10 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
                             "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
                             "http://hl7.org/fhir/StructureDefinition/Device"
                         ],
@@ -2889,7 +2889,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0"
                         ]
                     }
                 ],

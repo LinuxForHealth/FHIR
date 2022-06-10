@@ -899,7 +899,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Codes describing the type of  Procedure",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-procedure-code"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-procedure-code|4.0.0"
                 },
                 "mapping": [
                     {
@@ -943,7 +943,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -2406,7 +2406,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Codes describing the type of  Procedure",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-procedure-code"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-procedure-code|4.0.0"
                 },
                 "mapping": [
                     {
@@ -2424,7 +2424,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],

@@ -79,12 +79,12 @@ public class CodeSystemClearCacheOperationTest extends TerminologyOperationTestB
         parameters = validateCode(SNOMED_CT, "K");
         assertEquals(getBooleanParameterValue(parameters, "result"), Boolean.TRUE);
 
-        // Update the resource
+        // Updating the CodeSystem resource makes the cache stale
         response = doPut("CodeSystem", CODE_SYSTEM_ID, "testdata/CodeSystem-test-updated.json");
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
 
         parameters = validateCode(SNOMED_CT, "K");
-        assertEquals(getBooleanParameterValue(parameters, "result"), Boolean.TRUE);
+        assertEquals(getBooleanParameterValue(parameters, "result"), Boolean.FALSE);
 
         // After cache is cleared, subsumes outcome should be updated
         clearCache();

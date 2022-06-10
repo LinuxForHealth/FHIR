@@ -12,6 +12,7 @@ services:
       BATCH_DB_SSL: "false"
       BATCH_DB_USER: fhirserver
       BATCH_DB_PASS: change-password
+      TRACE_SPEC: com.ibm.fhir.*=info
     volumes:
       - type: bind
         source: ./fhir-server/volumes/config

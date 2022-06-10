@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,7 @@ import java.io.Reader;
 import java.util.Collection;
 import java.util.List;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.format.Format;
@@ -46,6 +47,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.validation.FHIRValidator;
 
 public class ConformanceTest {
+    private static final String US_CORE_PATIENT = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1";
 
     @Test
     public void testConformsToWithEmptyContext() throws Exception {
@@ -282,7 +284,7 @@ public class ConformanceTest {
                 .build();
 
         FHIRValidator validator = FHIRValidator.validator();
-        List<Issue> issues = validator.validate(patient, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1");
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
 
         issues.forEach(System.out::println);
 
@@ -335,13 +337,15 @@ public class ConformanceTest {
                 .build();
 
         FHIRValidator validator = FHIRValidator.validator();
-        List<Issue> issues = validator.validate(patient, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1");
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
 
         issues.forEach(System.out::println);
 
-        assertEquals(countWarnings(issues), 0);
-        assertEquals(countErrors(issues), 2);
-        assertEquals(countInformation(issues), 1);
+        // one for generated-us-core-patient-Patient.extension<http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity>
+        // and one for the corresponding "not a valid member of ValueSet http://hl7.org/fhir/us/core/ValueSet/detailed-ethnicity|3.1.1"
+        Assert.assertEquals(countErrors(issues), 2);
+        Assert.assertEquals(countWarnings(issues), 0);
+        Assert.assertEquals(countInformation(issues), 1);
     }
 
     /**
@@ -469,7 +473,7 @@ public class ConformanceTest {
                 .build();
 
         FHIRValidator validator = FHIRValidator.validator();
-        List<Issue> issues = validator.validate(patient, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient");
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
 
         issues.forEach(System.out::println);
 
@@ -518,13 +522,15 @@ public class ConformanceTest {
                 .build();
 
         FHIRValidator validator = FHIRValidator.validator();
-        List<Issue> issues = validator.validate(patient, "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient");
+        List<Issue> issues = validator.validate(patient, US_CORE_PATIENT);
 
         issues.forEach(System.out::println);
 
-        assertEquals(countWarnings(issues), 1);
-        assertEquals(countErrors(issues), 2);
-        assertEquals(countInformation(issues), 1);
+        // one for generated-us-core-patient-Patient.extension<http://hl7.org/fhir/us/core/StructureDefinition/us-core-race>
+        // and one for the corresponding "not a valid member of ValueSet http://hl7.org/fhir/us/core/ValueSet/detailed-race|3.1.1"
+        Assert.assertEquals(countErrors(issues), 2);
+        Assert.assertEquals(countWarnings(issues), 1);
+        Assert.assertEquals(countInformation(issues), 1);
     }
 
 }

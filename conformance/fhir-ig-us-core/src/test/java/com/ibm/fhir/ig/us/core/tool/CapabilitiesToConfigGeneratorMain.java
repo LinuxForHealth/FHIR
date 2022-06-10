@@ -40,7 +40,7 @@ public class CapabilitiesToConfigGeneratorMain {
      * @return
      */
     public String[] versions() {
-        return new String[] { "311", "400" };
+        return new String[] { "311", "400", "500" };
     }
 
     public JsonObject adaptCapabilityStatement(CapabilityStatement statement, String version) {

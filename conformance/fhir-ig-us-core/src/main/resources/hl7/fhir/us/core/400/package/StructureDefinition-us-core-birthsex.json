@@ -312,7 +312,7 @@
                 "binding": {
                     "strength": "required",
                     "description": "Code for sex assigned at birth",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/birthsex"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/birthsex|4.0.0"
                 },
                 "mapping": [
                     {
@@ -362,7 +362,7 @@
                 "binding": {
                     "strength": "required",
                     "description": "Code for sex assigned at birth",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/birthsex"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/birthsex|4.0.0"
                 }
             }
         ]

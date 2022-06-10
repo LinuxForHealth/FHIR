@@ -253,9 +253,14 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         } else {
             outcome = service.validateCode(valueSet, codeableConcept);
         }
+
         if (Boolean.FALSE.equals(outcome.getResult())) {
             generateIssue(outcome, evaluationContext, elementNode, strength);
             return false;
+        } else if (outcome.getMessage() != null) {
+            // this uses inside knowledge about the reason an outcome might come back true but with a message;
+            // is there a cleaner way to get this supplemental detail back from the validateCode?
+            generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.NOT_SUPPORTED, outcome.getMessage().getValue(), elementNode.path());
         }
         return true;
     }
@@ -351,7 +356,14 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         for (Include include : compose.getInclude()) {
             if (include.getSystem().equals(system) &&
                     (include.getVersion() == null || version == null || include.getVersion().equals(version))) {
-                String url = (version != null && version.getValue() != null) ? system.getValue() + "|" + version.getValue() : system.getValue();
+
+                String url = system.getValue();
+                if (version != null && version.hasValue()) {
+                    url += "|" + version.getValue();
+                } else if (include.getVersion() != null && include.getVersion().hasValue()) {
+                    url += "|" + include.getVersion().getValue();
+                }
+
                 return CodeSystemSupport.getCodeSystem(url);
             }
         }

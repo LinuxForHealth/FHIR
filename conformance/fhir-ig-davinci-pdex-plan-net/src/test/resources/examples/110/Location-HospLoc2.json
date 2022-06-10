@@ -1,0 +1,131 @@
+{
+    "resourceType": "Location",
+    "id": "HospLoc2",
+    "meta": {
+        "lastUpdated": "2020-07-07T13:26:22.0314215+00:00",
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+        ]
+    },
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/accessibility",
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/AccessibilityCS",
+                        "code": "adacomp"
+                    }
+                ]
+            }
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/accessibility",
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/AccessibilityCS",
+                        "code": "pubtrans"
+                    }
+                ]
+            }
+        }
+    ],
+    "status": "active",
+    "name": "Hartford Hospital Location 2",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                    "code": "HOSP"
+                }
+            ]
+        }
+    ],
+    "telecom": [
+        {
+            "extension": [
+                {
+                    "extension": [
+                        {
+                            "url": "daysOfWeek",
+                            "valueCode": "mon"
+                        },
+                        {
+                            "url": "daysOfWeek",
+                            "valueCode": "tue"
+                        },
+                        {
+                            "url": "daysOfWeek",
+                            "valueCode": "wed"
+                        },
+                        {
+                            "url": "daysOfWeek",
+                            "valueCode": "thu"
+                        },
+                        {
+                            "url": "daysOfWeek",
+                            "valueCode": "fri"
+                        },
+                        {
+                            "url": "allDay",
+                            "valueBoolean": true
+                        },
+                        {
+                            "url": "daysOfWeek",
+                            "valueCode": "sat"
+                        },
+                        {
+                            "url": "daysOfWeek",
+                            "valueCode": "sun"
+                        }
+                    ],
+                    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/contactpoint-availabletime"
+                }
+            ],
+            "system": "phone",
+            "value": "(111)-222-3333",
+            "rank": 2
+        },
+        {
+            "system": "url",
+            "value": "https://www.hgh.com",
+            "rank": 1
+        }
+    ],
+    "address": {
+        "line": [
+            "123 Main Street"
+        ],
+        "city": "Anytown",
+        "state": "CT",
+        "postalCode": "00014-1234"
+    },
+    "position": {
+        "longitude": 3,
+        "latitude": 15
+    },
+    "managingOrganization": {
+        "reference": "Organization/Hospital"
+    },
+    "hoursOfOperation": [
+        {
+            "daysOfWeek": [
+                "mon",
+                "tue",
+                "wed",
+                "thu",
+                "fri",
+                "sat",
+                "sun"
+            ],
+            "allDay": true
+        }
+    ]
+}

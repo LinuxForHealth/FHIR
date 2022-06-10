@@ -1,0 +1,56 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "EndpointConnectionTypeCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/EndpointConnectionTypeCS",
+    "version": "1.1.0",
+    "name": "EndpointConnectionTypeCS",
+    "title": "Endpoint Connection Types (additional)",
+    "status": "active",
+    "date": "2022-04-04T14:02:01+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Extension codes for http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "caseSensitive": true,
+    "content": "complete",
+    "count": 2,
+    "concept": [
+        {
+            "code": "hl7-fhir-opn",
+            "display": "HL7 FHIR Operation",
+            "definition": "Interact with a FHIR server interface using FHIR's RESTful interface using an operation other than messaging. For details on its version/capabilities you should connect the value in Endpoint.address and retrieve the FHIR CapabilityStatement."
+        },
+        {
+            "code": "rest-non-fhir",
+            "display": "REST (not FHIR)",
+            "definition": "Interact with a server using HTTP/REST but not FHIR.  Should be used for web portals."
+        }
+    ]
+}

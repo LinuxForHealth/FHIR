@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -168,12 +169,14 @@ public class ImportOperationTest extends FHIRServerTestBase {
         Response response = null;
         System.out.println("Started Checking");
         while (Response.Status.ACCEPTED.getStatusCode() == status) {
-            response = doGet(statusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
+            response = doGet(statusUrl, MediaType.APPLICATION_JSON);
             // 202 accept means the request is still under processing
             // 200 mean export is finished
             status = response.getStatus();
 
-            assertTrue(status == Response.Status.OK.getStatusCode() || status == Response.Status.ACCEPTED.getStatusCode());
+            if (status != Response.Status.OK.getStatusCode() && status != Response.Status.ACCEPTED.getStatusCode()) {
+                fail("Unexpected " + status + " response from " + statusUrl + ": " + response.readEntity(String.class));
+            }
 
             Thread.sleep(5000);
             totalTime += 5000;

@@ -1,0 +1,50 @@
+{
+    "resourceType": "OrganizationAffiliation",
+    "id": "PharmChainAffil3",
+    "meta": {
+        "lastUpdated": "2020-07-07T13:26:22.0314215+00:00",
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation|1.0.0"
+        ]
+    },
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "active": true,
+    "participatingOrganization": {
+        "reference": "Organization/PharmChain"
+    },
+    "network": [
+        {
+            "reference": "Organization/AcmeofCTStdNet"
+        }
+    ],
+    "code": [
+        {
+            "coding": [
+                {
+                    "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/OrganizationAffiliationRoleCS",
+                    "code": "pharmacy"
+                }
+            ]
+        }
+    ],
+    "specialty": [
+        {
+            "coding": [
+                {
+                    "system": "http://nucc.org/provider-taxonomy",
+                    "code": "3336M0002X",
+                    "display": "Mail Order Pharmacy"
+                }
+            ]
+        }
+    ],
+    "healthcareService": [
+        {
+            "reference": "HealthcareService/PharmChainMailService"
+        }
+    ]
+}

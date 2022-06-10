@@ -56,7 +56,7 @@ import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 public class ConformanceTest {
-    private static final String US_CORE_PATIENT = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient";
+    private static final String US_CORE_PATIENT = "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0";
 
     @Test
     public void testConformsToWithEmptyContext() throws Exception {
@@ -333,8 +333,10 @@ public class ConformanceTest {
 
         issues.forEach(System.out::println);
 
-        Assert.assertEquals(countWarnings(issues), 1);
+        // one for generated-us-core-patient-Patient.extension<http://hl7.org/fhir/us/core/StructureDefinition/us-core-ethnicity>
+        // and one for the corresponding "not a valid member of ValueSet http://hl7.org/fhir/us/core/ValueSet/detailed-ethnicity|4.0.0"
         Assert.assertEquals(countErrors(issues), 2);
+        Assert.assertEquals(countWarnings(issues), 1);
         Assert.assertEquals(countInformation(issues), 1);
     }
 
@@ -516,8 +518,10 @@ public class ConformanceTest {
 
         issues.forEach(System.out::println);
 
-        Assert.assertEquals(countWarnings(issues), 1);
+        // one for generated-us-core-patient-Patient.extension<http://hl7.org/fhir/us/core/StructureDefinition/us-core-race>
+        // and one for the corresponding "not a valid member of ValueSet http://hl7.org/fhir/us/core/ValueSet/detailed-race|4.0.0"
         Assert.assertEquals(countErrors(issues), 2);
+        Assert.assertEquals(countWarnings(issues), 1);
         Assert.assertEquals(countInformation(issues), 1);
     }
 

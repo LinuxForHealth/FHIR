@@ -1,0 +1,66 @@
+{
+  "id": "99274e87-db14-43fa-9ada-2fcb6c1d68a6",
+  "meta": {
+    "profile": [
+      "http://hl7.org/fhir/StructureDefinition/vitalspanel",
+      "http://hl7.org/fhir/StructureDefinition/vitalsigns"
+    ]
+  },
+  "status": "final",
+  "category": [
+    {
+      "coding": [
+        {
+          "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+          "code": "vital-signs",
+          "display": "vital-signs"
+        }
+      ]
+    }
+  ],
+  "code": {
+    "coding": [
+      {
+        "system": "http://loinc",
+        "code": "85353-1",
+        "display": "Vital signs, weight, height, head circumference, oxygen saturation and BMI panel"
+      }
+    ],
+    "text": "Vital signs, weight, height, head circumference, oxygen saturation and BMI panel"
+  },
+  "subject": {
+    "reference": "urn:uuid:9b3f6160-285d-4319-8d15-ac07ee3d3a8e"
+  },
+  "encounter": {
+    "reference": "urn:uuid:bca861e1-0519-46f1-b71c-e8690d5ace99"
+  },
+  "effectiveDateTime": "1939-06-02T19:11:47-04:00",
+  "issued": "1939-06-02T19:11:47.969-04:00",
+  "hasMember": [
+    {
+      "reference": "urn:uuid:85e12b36-8409-465e-afa5-cfef461870c0",
+      "display": "Body Height"
+    },
+    {
+      "reference": "urn:uuid:b470f98f-a956-4437-b31f-c0ffbee9f724",
+      "display": "Body Weight"
+    },
+    {
+      "reference": "urn:uuid:95330314-db42-4292-925b-18107a4acafe",
+      "display": "Head Occipital-frontal circumference"
+    },
+    {
+      "reference": "urn:uuid:e9ddb88c-f9aa-4395-a182-21a061a97d82",
+      "display": "Blood Pressure"
+    },
+    {
+      "reference": "urn:uuid:398aa985-2783-44f6-aefd-24cdd9974341",
+      "display": "Heart rate"
+    },
+    {
+      "reference": "urn:uuid:e14b1c26-e6ae-4eaf-8518-3464225237ea",
+      "display": "Respiratory rate"
+    }
+  ],
+  "resourceType": "Observation"
+}

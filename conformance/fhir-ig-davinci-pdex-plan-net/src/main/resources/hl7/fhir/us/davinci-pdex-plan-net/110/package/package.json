@@ -1,0 +1,32 @@
+{
+    "name": "hl7.fhir.us.davinci-pdex-plan-net",
+    "version": "1.1.0",
+    "tools-version": 3,
+    "type": "IG",
+    "date": "20220404140137",
+    "license": "CC0-1.0",
+    "canonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net",
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/STU1.1",
+    "title": "DaVinci PDEX Plan Net",
+    "description": "Davinci PDEX Plan Net (built Mon, Apr 4, 2022 14:01+0000+00:00)",
+    "fhirVersions": [
+        "4.0.1"
+    ],
+    "dependencies": {
+        "hl7.fhir.r4.core": "4.0.1",
+        "hl7.fhir.us.core": "3.1.1"
+    },
+    "author": "HL7 Financial Management Working Group",
+    "maintainers": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "email": "fm@lists.HL7.org",
+            "url": "http://www.hl7.org/Special/committees/fm"
+        }
+    ],
+    "directories": {
+        "lib": "package",
+        "example": "example"
+    },
+    "jurisdiction": "urn:iso:std:iso:3166#US"
+}

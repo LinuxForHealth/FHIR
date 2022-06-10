@@ -1591,7 +1591,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Valueset to describe the Encounter Type",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-encounter-type"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-encounter-type|4.0.0"
                 },
                 "mapping": [
                     {
@@ -1742,7 +1742,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -2174,8 +2174,8 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
                             "http://hl7.org/fhir/StructureDefinition/RelatedPerson"
                         ],
                         "_targetProfile": [
@@ -2466,8 +2466,8 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure|4.0.0",
                             "http://hl7.org/fhir/StructureDefinition/Observation",
                             "http://hl7.org/fhir/StructureDefinition/ImmunizationRecommendation"
                         ],
@@ -3877,7 +3877,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0"
                         ]
                     }
                 ],
@@ -4046,7 +4046,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Valueset to describe the Encounter Type",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-encounter-type"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-encounter-type|4.0.0"
                 }
             },
             {
@@ -4061,7 +4061,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -4107,8 +4107,8 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
                             "http://hl7.org/fhir/StructureDefinition/RelatedPerson"
                         ],
                         "_targetProfile": [
@@ -4178,8 +4178,8 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-condition|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-procedure|4.0.0",
                             "http://hl7.org/fhir/StructureDefinition/Observation",
                             "http://hl7.org/fhir/StructureDefinition/ImmunizationRecommendation"
                         ],
@@ -4271,7 +4271,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0"
                         ]
                     }
                 ],

@@ -1,0 +1,55 @@
+{
+    "resourceType": "ValueSet",
+    "id": "SpecialtiesVS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/SpecialtiesVS",
+    "version": "1.0.0",
+    "name": "SpecialtiesVS",
+    "title": "Specialties",
+    "status": "active",
+    "date": "2020-11-19T23:52:52+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Specialties value set based on National Uniform Claim Committee (NUCC) Health Care Provider Taxonomy code set.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "valueSet": [
+                    "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/IndividualAndGroupSpecialtiesVS"
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/NonIndividualSpecialtiesVS"
+                ]
+            }
+        ]
+    }
+}

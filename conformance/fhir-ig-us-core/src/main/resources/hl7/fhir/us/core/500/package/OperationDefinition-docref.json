@@ -1,0 +1,101 @@
+{
+    "resourceType": "OperationDefinition",
+    "id": "docref",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/OperationDefinition/docref",
+    "version": "5.0.0",
+    "name": "USCoreFetchDocumentReference",
+    "title": "US Core Fetch DocumentReference",
+    "status": "active",
+    "kind": "operation",
+    "date": "2019-05-21",
+    "publisher": "HL7 International - Cross-Group Projects",
+    "contact": [
+        {
+            "name": "HL7 International - Cross-Group Projects",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/cgp"
+                },
+                {
+                    "system": "email",
+                    "value": "cgp@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "This operation is used to return all the references to documents related to a patient. \n\n The operation requires a patient id and takes the optional input parameters: \n  - start date\n  - end date\n  - document type \n\n and returns a [Bundle](http://hl7.org/fhir/bundle.html) of type \"searchset\" containing [DocumentReference](http://hl7.org/fhir/documentreference.html) resources for the patient. The DocumentReference resources **SHOULD** conform to the [US Core DocumentReference\n Profiles](http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference). If the server has or can create documents that are related to the patient, and that are available for the given user, the server returns the DocumentReference resources needed to support the records.  The principle intended use for this operation is to provide a provider or patient with access to their available document information. \n\n This operation is *different* from a search by patient and type and date range because: \n\n 1. It is used to request a server *generate* a document based on the specified parameters. \n\n 1. If no parameters are specified, the server SHALL return a DocumentReference to the patient's most current CCD \n\n 1. If the server cannot *generate* a document based on the specified parameters, the operation will return an empty search bundle. \n\n This operation is the *same* as a FHIR RESTful search by patient,type and date range because: \n\n 1. References for *existing* documents that meet the requirements of the request SHOULD also be returned unless the client indicates they are only interested in 'on-demand' documents using the *on-demand* parameter.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "docref",
+    "comment": " - The server is responsible for determining what resources, if any, to return as [included](http://hl7.org/fhir/R4/search.html#revinclude) resources rather than the client specifying which ones. This frees the client from needing to determine what it could or should ask for. For example, the server may return the referenced document as an included FHIR Binary resource within the return bundle. The server's CapabilityStatement should document this behavior. \n\n - The document itself can be subsequently retrieved using the link provided  in the `DocumentReference.content.attachment.url element`. The link could be a FHIR endpoint to a [Binary](http://hl7.org/fhir/R4/binary.html) Resource or some other document repository. \n\n - It is assumed that the server has identified and secured the context appropriately, and can either associate the authorization context with a single patient, or determine whether the context has the rights to the nominated patient, if there is one. If there is no nominated patient (e.g. the operation is invoked at the system level) and the context is not associated with a single patient record, then the server should return an error. Specifying the relationship between the context, a user and patient records is outside the scope of this specification",
+    "system": false,
+    "type": true,
+    "instance": false,
+    "parameter": [
+        {
+            "name": "patient",
+            "use": "in",
+            "min": 1,
+            "max": "1",
+            "documentation": "The id of the patient resource located on the server on which this operation is executed.  If there is no match, an empty Bundle is returned",
+            "type": "id"
+        },
+        {
+            "name": "start",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "The date range relates to care dates, not record currency dates - e.g. all records relating to care provided in a certain date range. If no start date is provided, all documents prior to the end date are in scope.  If neither a start date nor an end date is provided, the most recent or current document is in scope.  The client **SHOULD** provide values precise to the second + time offset.",
+            "type": "dateTime"
+        },
+        {
+            "name": "end",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "The date range relates to care dates, not record currency dates - e.g. all records relating to care provided in a certain date range. If no end date is provided, all documents subsequent to the start date are in scope. If neither a start date nor an end date is provided, the most recent or current document is in scope.  The client **SHOULD** provide values precise to the second + time offset.",
+            "type": "dateTime"
+        },
+        {
+            "name": "type",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "The type relates to document type e.g. for the LOINC code for a C-CDA Clinical Summary of Care (CCD) is 34133-9 (Summary of episode note). If no type is provided, the CCD document, if available, SHALL be in scope and all other document types MAY be in scope",
+            "type": "CodeableConcept",
+            "binding": {
+                "strength": "required",
+                "valueSet": "http://hl7.org/fhir/ValueSet/c80-doc-typecodes"
+            }
+        },
+        {
+            "name": "on-demand",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "This on-demand parameter allows client to dictate whether they are requesting only ‘on-demand’ or both ‘on-demand’ and 'stable' documents (or delayed/deferred assembly) that meet the query parameters",
+            "type": "boolean"
+        },
+        {
+            "name": "return",
+            "use": "out",
+            "min": 1,
+            "max": "1",
+            "documentation": "The bundle type is \"searchset\"containing [DocumentReference](http://hl7.org/fhir/documentreference.html) resources which **SHOULD** conform to the [US Core DocumentReference Profiles](http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference)",
+            "type": "Bundle"
+        }
+    ]
+}

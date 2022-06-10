@@ -1,0 +1,100 @@
+{
+    "resourceType": "HealthcareService",
+    "id": "VirtualCounselService",
+    "meta": {
+        "lastUpdated": "2020-07-07T13:26:22.0314215+00:00",
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService|1.0.0"
+        ]
+    },
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "extension": [
+                {
+                    "url": "type",
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/DeliveryMethodCS",
+                                "code": "virtual"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "url": "virtualModalities",
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/VirtualModalitiesCS",
+                                "code": "web"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "url": "virtualModalities",
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/VirtualModalitiesCS",
+                                "code": "app"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "url": "virtualModalities",
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/VirtualModalitiesCS",
+                                "code": "tdd"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "url": "virtualModalities",
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/VirtualModalitiesCS",
+                                "code": "phone"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/delivery-method"
+        }
+    ],
+    "active": true,
+    "category": [
+        {
+            "coding": [
+                {
+                    "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/HealthcareServiceCategoryCS",
+                    "code": "prov",
+                    "display": "Medical Provider"
+                }
+            ]
+        }
+    ],
+    "specialty": [
+        {
+            "coding": [
+                {
+                    "system": "http://nucc.org/provider-taxonomy",
+                    "code": "101YP2500X",
+                    "display": "Professional"
+                }
+            ]
+        }
+    ]
+}

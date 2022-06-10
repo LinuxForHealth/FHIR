@@ -1,0 +1,74 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "us-core-diagnosticreport-status",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://ibm.com/fhir/extension/implicit-system",
+            "valueUri": "http://hl7.org/fhir/diagnostic-report-status"
+        }
+    ],
+    "url": "http://hl7.org/fhir/us/core/SearchParameter/us-core-diagnosticreport-status",
+    "version": "5.0.0",
+    "name": "USCoreDiagnosticreportStatus",
+    "derivedFrom": "http://hl7.org/fhir/SearchParameter/DiagnosticReport-status",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-04-14",
+    "publisher": "HL7 International - Cross-Group Projects",
+    "contact": [
+        {
+            "name": "HL7 International - Cross-Group Projects",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/cgp"
+                },
+                {
+                    "system": "email",
+                    "value": "cgp@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "**The status of the report**  \n**NOTE**: This US Core SearchParameter definition extends the usage context of the\n[Conformance expectation extension](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "status",
+    "base": [
+        "DiagnosticReport"
+    ],
+    "type": "token",
+    "expression": "DiagnosticReport.status",
+    "xpath": "f:DiagnosticReport/f:status",
+    "xpathUsage": "normal",
+    "multipleOr": true,
+    "_multipleOr": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "SHALL"
+            }
+        ]
+    },
+    "multipleAnd": true,
+    "_multipleAnd": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "MAY"
+            }
+        ]
+    }
+}

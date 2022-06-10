@@ -800,10 +800,10 @@ For example, you can configure a set of FHIRPath Constraints to run for resource
 ```
 
 The following configuration parameters can be used to specify rules relating to the set of profiles that are specified in a resource's `meta.profile` element:
-* `fhirServer/resources/<resourceType>/profiles/atLeastOne` - this configuration parameter is used to specify a set of profiles, at least one of which a resource must claim conformance to and be successfully validated against in order to be persisted to the FHIR server.
-* `fhirServer/resources/<resourceType>/profiles/notAllowed` - this configuration parameter is used to specify a set of profiles to which a resource is *not allowed* to claim conformance.
-* `fhirServer/resources/<resourceType>/profiles/allowUnknown` - this configuration parameter is used to indicate whether a warning or an error is issued if a profile specified in a resource's `meta.profile` element is not loaded in the FHIR server. The default value is `true`, meaning unknown profiles are allowed to be specified. The profile will be ignored and just a warning will be returned. If set to `false`, this means unknown profiles are not allowed to be specified. An error will be returned and resource validation will fail.
-* `fhirServer/resources/<resourceType>/profiles/defaultVersions` - this configuration parameter is used to specify which version of a profile will be used during resource validation if the profile specified in a resource's `meta.profile` element does not contain a version. If a default profile version is not configured using this configuration parameter for an asserted profile, the FHIR server will determine the default version to use for validation.
+* `fhirServer/resources/<resourceType>/profiles/atLeastOne` - to specify a set of profiles, at least one of which a resource must claim conformance to and be successfully validated against in order to be persisted to the FHIR server.
+* `fhirServer/resources/<resourceType>/profiles/notAllowed` - to specify a set of profiles to which a resource is *not allowed* to claim conformance.
+* `fhirServer/resources/<resourceType>/profiles/allowUnknown` - to indicate whether a warning or an error is issued if a profile specified in a resource's `meta.profile` element is not loaded in the FHIR server. The default value is `true`, meaning unknown profiles are allowed to be specified. The profile will be ignored and just a warning will be returned. If set to `false`, this means unknown profiles are not allowed to be specified. An error will be returned and resource validation will fail.
+* `fhirServer/resources/<resourceType>/profiles/defaultVersions` - to specify which version of a profile will be used during resource validation if the profile specified in a resource's `meta.profile` element does not contain a version. If a default profile version is not configured using this configuration parameter for an asserted profile, the FHIR server will determine the default version to use for validation.
 
 Before calling the FHIR validator to validate a resource against the set of profiles specified in its `meta.profile` element that it is claiming conformance to, the following pre-validation will be performed for that set of profiles based on the configuration parameters listed above:
 1. If any specified profile does not contain a version, and that profile is in the set of profiles configured to have a default version via the `fhirServer/resources/<resourceType>/profiles/defaultVersions` configuration parameter, the default version for that profile will be appended to the profile name, and it is this new profile name containing the version which will be evaluated against in the following steps.
@@ -897,7 +897,7 @@ The set of search parameters can filtered / refined via `fhirServer/resources/[r
 ## 4.7 FHIR client API
 
 ### 4.7.1 Overview
-In addition to the server, we also offer a Java API for invoking the FHIR REST APIs. The IBM FHIR Client API is based on the JAX-RS 2.0 standard and provides a simple properties-driven client that can be easily configured for a given endpoint, mutual authentication, request/response logging, and more.
+In addition to the server, we also offer a Java API for invoking FHIR REST APIs. The IBM FHIR Client is built on JAX-RS 2.1 and provides a simple properties-driven client that can be configured for a given endpoint, mutual authentication, request/response logging, and more.
 
 ### 4.7.2 Maven coordinates
 To use the FHIR Client from your application, specify the `fhir-client` artifact as a dependency within your `pom.xml` file, as in the following example:
@@ -910,7 +910,28 @@ To use the FHIR Client from your application, specify the `fhir-client` artifact
         </dependency>
 ```
 
-### 4.7.3 Sample usage
+### 4.7.3 Client properties
+Applicable client properties are documented in the FHIRClient interface.
+Below is a summary of the most pertinent ones:
+
+| Property | Default | Description |
+| -------- | ------- | ----------- |
+| fhirclient.rest.base.url<sup>*</sup> | | The target FHIR Server's [base URL](https://hl7.org/fhir/R4B/http.html#root) |
+| fhirclient.default.mimetype | application/fhir+json; fhirVersion=4.3 | The value to use in the HTTP headers (Accept and Content-Type) passed to the FHIR Server. |
+| fhirclient.truststore.location | | The client truststore's filename. The client truststore contains the server's public key certificates and is used to verify the server's identity. |
+| fhirclient.truststore.password | | The client truststore's password. |
+| fhirclient.hostnameVerification.enabled | true | Indicates whether or not to enable hostname verification when connecting over TLS. |
+| fhirclient.basicauth.enabled | false | Indicates whether Basic Authentication should be used. If enabled, then the username and password properties are required. |
+| fhirclient.basicauth.username | | The username to use with Basic Authentication. |
+| fhirclient.basicauth.password | | The password to use with Basic Authentication. |
+| fhirclient.clientauth.enabled | false | Indicates whether mutual TLS certificate-based authentication should be used. If enabled, then keystore properties are required. |
+| fhirclient.keystore.location | | The client keystore's filename. The client keystore constains the client's public/private key pair. When using client certificate-based authentication, this is now the client supplies its identity to the server|
+| fhirclient.keystore.password | | The client keystore's password. |
+| fhirclient.keystore.key.password | | The password associated with the client's certificate within the keystore. |
+| fhirclient.logging.enabled | false | Whether to enable request/response logging (useful for debug). |
+| fhirclient.http.receive.timeout | 130000 (130 seconds) | The time, in seconds, to wait for a server response. |
+
+### 4.7.4 Sample usage
 For examples on how to use the IBM FHIR Client, look for tests like `com.ibm.fhir.client.test.mains.FHIRClientSample` from the `fhir-client` project in git. Additionally, the FHIR Client is heavilly used from our integration tests in `fhir-server-test`.
 
 ## 4.8 Using local references within request bundles

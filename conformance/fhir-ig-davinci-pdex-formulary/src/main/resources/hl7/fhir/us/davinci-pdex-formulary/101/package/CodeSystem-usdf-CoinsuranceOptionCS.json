@@ -1,0 +1,57 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "usdf-CoinsuranceOptionCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CoinsuranceOptionCS",
+    "version": "1.0.1",
+    "name": "CoInsuranceOptionCS",
+    "title": "Code for qualifier for coinsurance rate",
+    "status": "active",
+    "date": "2020-11-20T19:06:24+00:00",
+    "publisher": "HL7 Pharmacy Working Group",
+    "contact": [
+        {
+            "name": "HL7 Pharmacy Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/medication/"
+                },
+                {
+                    "system": "email",
+                    "value": "pharmacy@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Code for qualifier for coinsurance rate",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "content": "complete",
+    "count": 3,
+    "concept": [
+        {
+            "code": "after-deductible",
+            "display": "After Deductible: The consumer first pays the deductible, and after the deductible is met, the consumer pays the coinsurance portion of allowed charges (this indicates that this benefit is subject to the deductible)."
+        },
+        {
+            "code": "no-charge",
+            "display": "No Charge: No cost sharing is charged (this indicates that this benefit is not subject to the deductible)."
+        },
+        {
+            "code": "no-charge-after-deductible",
+            "display": "No Charge After Deductible: The consumer first pays the deductible, and after thedeductible is met, no coinsurance is charged (this indicates that this benefit is subject to the deductible)"
+        }
+    ]
+}

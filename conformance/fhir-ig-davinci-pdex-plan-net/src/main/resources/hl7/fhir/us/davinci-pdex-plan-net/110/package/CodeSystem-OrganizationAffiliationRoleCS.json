@@ -1,0 +1,131 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "OrganizationAffiliationRoleCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/OrganizationAffiliationRoleCS",
+    "version": "1.1.0",
+    "name": "OrganizationAffiliationRoleCS",
+    "title": "Organization Affiliation Role",
+    "status": "active",
+    "date": "2022-04-04T14:02:01+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes For Organization Affiliation Role",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "caseSensitive": true,
+    "content": "complete",
+    "count": 17,
+    "concept": [
+        {
+            "code": "behavioral",
+            "display": "Outpatient Behavioral Health Provider",
+            "definition": "Provider of services related to the promotion of mental health, resilience and wellbeing; the treatment of mental and substance use disorders; and the support of those who experience and/or are in recovery from these conditions, along with their families and communities."
+        },
+        {
+            "code": "bt",
+            "display": "Member Of",
+            "definition": "Has a relationship of participation with.  This does NOT represent a member of an insurance plan, but other types of membership such as membership of a hospital in an HIE"
+        },
+        {
+            "code": "dme",
+            "display": "DME/Medical Supplier",
+            "definition": "Supplier of health care consumables or equipments supplied to patients."
+        },
+        {
+            "code": "group",
+            "display": "Medical Group",
+            "definition": "A group of people, e.g. a group of Physicians, who render health care services."
+        },
+        {
+            "code": "home",
+            "display": "Home Health Provider",
+            "definition": "Provider of health care services delivered to patients within their residence rather than a clinical setting; usually provided by nurses, home health aides, and other professionals on a regularly scheduled visit."
+        },
+        {
+            "code": "hospital",
+            "display": "Hospital",
+            "definition": "An inpatient facility, other than long-term care, providng patient treatment with specialzed medical and nursing staff and medical equipment."
+        },
+        {
+            "code": "laboratory",
+            "display": "Laboratory",
+            "definition": "Pathology and laboratory testing on clinical specimenst to obtain informaion about the health of a paeint to aid in diagnosis, treatment and prevention of disease."
+        },
+        {
+            "code": "other",
+            "display": "Other",
+            "definition": "A provider of heatlh care services not otherwise listed in this value set."
+        },
+        {
+            "code": "outpatient",
+            "display": "Clinic or Outpatient Facility",
+            "definition": "An outpatient facility providing patient services, e.g. medical procedures, surgeries, etc."
+        },
+        {
+            "code": "pharmacy",
+            "display": "Pharmacy",
+            "definition": "An entity which provider services related to the storage, compounding, dispensing and sale of drugs."
+        },
+        {
+            "code": "transport",
+            "display": "Transporation Provider",
+            "definition": "A provider which transports patients to or from a medical facility, e.g., ambulance."
+        },
+        {
+            "code": "urgent",
+            "display": "Urgent Care Center",
+            "definition": "A center in which unscheduled health care services are provided for point-in-time evaluation or treatment of a non-life-threatening medical condition."
+        },
+        {
+            "code": "hospice",
+            "display": "Hospice",
+            "definition": "Hospice"
+        },
+        {
+            "code": "nurseCustodial",
+            "display": "Nursing and Custodial Care Facility",
+            "definition": "Nursing and Custodial Care Facility"
+        },
+        {
+            "code": "residential",
+            "display": "Residential Treatment Facility",
+            "definition": "Residential Treatment Facility"
+        },
+        {
+            "code": "respite",
+            "display": "Respite Care Facility",
+            "definition": "Respite Care Facility"
+        },
+        {
+            "code": "retail",
+            "display": "Retail Health Center",
+            "definition": "Retail Health Center"
+        }
+    ]
+}

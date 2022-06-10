@@ -11,10 +11,11 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import org.owasp.encoder.Encode;
+
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
-import org.owasp.encoder.Encode;
 
 /**
  * XHTML
@@ -22,7 +23,6 @@ import org.owasp.encoder.Encode;
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Xhtml extends Element {
     public static final java.lang.String DIV_OPEN = "<div xmlns=\"http://www.w3.org/1999/xhtml\">";
-
     public static final java.lang.String DIV_CLOSE = "</div>";
 
     @Required

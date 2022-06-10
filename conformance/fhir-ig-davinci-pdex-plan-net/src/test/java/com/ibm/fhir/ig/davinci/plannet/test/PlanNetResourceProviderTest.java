@@ -13,14 +13,26 @@ import java.util.Collection;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.ig.davinci.pdex.plannet.PlanNetResourceProvider;
+import com.ibm.fhir.ig.davinci.pdex.plannet.PlanNet100ResourceProvider;
+import com.ibm.fhir.ig.davinci.pdex.plannet.PlanNet110ResourceProvider;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 public class PlanNetResourceProviderTest {
     @Test
-    public void testGetResources() {
-        FHIRRegistryResourceProvider provider = new PlanNetResourceProvider();
+    public void testGetPlanNet100Resources() {
+        FHIRRegistryResourceProvider provider = new PlanNet100ResourceProvider();
+        Collection<FHIRRegistryResource> registryResources = provider.getRegistryResources();
+        assertNotNull(registryResources);
+        assertTrue(!registryResources.isEmpty());
+        for (FHIRRegistryResource fhirRegistryResource : registryResources) {
+            assertNotNull(fhirRegistryResource.getResource());
+        }
+    }
+
+    @Test
+    public void testGetPlanNet110Resources() {
+        FHIRRegistryResourceProvider provider = new PlanNet110ResourceProvider();
         Collection<FHIRRegistryResource> registryResources = provider.getRegistryResources();
         assertNotNull(registryResources);
         assertTrue(!registryResources.isEmpty());

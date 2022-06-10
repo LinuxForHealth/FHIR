@@ -755,12 +755,12 @@
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-minValueSet",
-                            "valueCanonical": "http://hl7.org/fhir/us/core/ValueSet/us-core-clinical-note-type"
+                            "valueCanonical": "http://hl7.org/fhir/us/core/ValueSet/us-core-clinical-note-type|4.0.0"
                         }
                     ],
                     "strength": "required",
                     "description": "All LOINC  values whose SCALE is DOC in the LOINC database and the HL7 v3 Code System NullFlavor concept 'unknown'",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-documentreference-type"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-documentreference-type|4.0.0"
                 },
                 "mapping": [
                     {
@@ -830,7 +830,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "The US Core DocumentReferences Type Value Set is a &#39;starter set&#39; of categories supported for fetching and storing clinical notes.",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-documentreference-category"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-documentreference-category|4.0.0"
                 },
                 "mapping": [
                     {
@@ -871,7 +871,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -993,10 +993,10 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
                             "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
                             "http://hl7.org/fhir/StructureDefinition/Device"
                         ],
@@ -2565,7 +2565,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter|4.0.0"
                         ]
                     }
                 ],
@@ -2967,12 +2967,12 @@
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-minValueSet",
-                            "valueCanonical": "http://hl7.org/fhir/us/core/ValueSet/us-core-clinical-note-type"
+                            "valueCanonical": "http://hl7.org/fhir/us/core/ValueSet/us-core-clinical-note-type|4.0.0"
                         }
                     ],
                     "strength": "required",
                     "description": "All LOINC  values whose SCALE is DOC in the LOINC database and the HL7 v3 Code System NullFlavor concept 'unknown'",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-documentreference-type"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-documentreference-type|4.0.0"
                 }
             },
             {
@@ -2984,7 +2984,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "The US Core DocumentReferences Type Value Set is a &#39;starter set&#39; of categories supported for fetching and storing clinical notes.",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-documentreference-category"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-documentreference-category|4.0.0"
                 }
             },
             {
@@ -2996,7 +2996,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -3018,10 +3018,10 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
                             "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
                             "http://hl7.org/fhir/StructureDefinition/Device"
                         ],
@@ -3156,7 +3156,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter|4.0.0"
                         ]
                     }
                 ],

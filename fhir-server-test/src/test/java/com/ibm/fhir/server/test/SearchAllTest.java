@@ -846,7 +846,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         List<Link> links = bundle.getLink();
 
         /*
-         * Runs through the links and checks for self and rel.
+         * Runs through the links and checks for self and next.
          * It subsequently connects to the self to verify it's 200.
          */
         boolean validSelf = false;

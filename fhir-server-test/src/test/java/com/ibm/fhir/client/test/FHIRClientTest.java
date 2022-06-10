@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Properties;
 
-import jakarta.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
@@ -29,6 +28,7 @@ import com.ibm.fhir.client.FHIRParameters.ValuePrefix;
 import com.ibm.fhir.client.FHIRRequestHeader;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -45,23 +45,25 @@ import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.util.JsonSupport;
 
+import jakarta.json.JsonObject;
+
 /**
  * Basic tests related to the FHIR Client API.
  */
 public class FHIRClientTest extends FHIRClientTestBase {
-    private static final String MIMETYPE_JSON = FHIRMediaType.APPLICATION_FHIR_JSON;
+    private static final String MIMETYPE_JSON_43 = FHIRMediaType.APPLICATION_FHIR_JSON + "; fhirVersion=" + FHIRVersionParam.VERSION_43.value();
     private static final String MIMETYPE_XML = FHIRMediaType.APPLICATION_FHIR_XML;
     private static final String BULKDATA_URI = "http://hl7.org/fhir/uv/bulkdata/CapabilityStatement/bulk-data|1.0.0";
-    
+
     private Patient createdPatient = null;
     private Patient updatedPatient = null;
-    
+
     @Test
     public void testFHIRClientCtorProperties1() throws Exception {
         // by default, our testcase creates a FHIRClient instance using test.properties
         // so this test will just verify that the default mimetype is present.
         assertNotNull(client);
-        assertEquals(MIMETYPE_JSON, client.getDefaultMimeType());
+        assertEquals(MIMETYPE_JSON_43, client.getDefaultMimeType());
     }
 
     @Test
@@ -69,10 +71,10 @@ public class FHIRClientTest extends FHIRClientTestBase {
         // Clone our "testProperties" field.
         Properties props = new Properties();
         props.putAll(testProperties);
-        
+
         // Set the mimetype we want to test with.
         props.setProperty(FHIRClient.PROPNAME_DEFAULT_MIMETYPE, MIMETYPE_XML);
-        
+
         FHIRClient c = FHIRClientFactory.getClient(props);
         assertNotNull(c);
         assertEquals(MIMETYPE_XML, c.getDefaultMimeType());
@@ -187,7 +189,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
 
         FHIRRequestHeader preferHeader;
         FHIRResponse response;
-        
+
         // Create the patient with return=minimal and then validate the response.
         preferHeader = new FHIRRequestHeader("Prefer", "return=minimal");
         response = client.create(patient, preferHeader);
@@ -198,7 +200,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertNotNull(response.getLocationURI());
         assertNotNull(response.getETag());
         assertNotNull(response.getLastModified());
-        
+
         // Create the patient with return=representation and then validate the response.
         preferHeader = new FHIRRequestHeader("Prefer", "return=representation");
         response = client.create(patient, preferHeader);
@@ -226,7 +228,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test(dependsOnMethods = {"testCreatePatient"})
     public void testUpdatePatient() throws Exception {
         assertNotNull(createdPatient);
-        
+
         // Read the patient, then modify it.
         FHIRResponse response = client.read("Patient", createdPatient.getId());
         assertNotNull(response);
@@ -234,12 +236,12 @@ public class FHIRClientTest extends FHIRClientTestBase {
         Patient patient = response.getResource(Patient.class);
         assertNotNull(patient);
 
-        // Next, add an additional contact phone number       
+        // Next, add an additional contact phone number
         patient = patient.toBuilder().contact(Contact.builder()
                 .telecom(ContactPoint.builder().system(ContactPointSystem.PHONE)
                         .use(ContactPointUse.MOBILE)
-                        .value(string("800-328-7448")).build()).build()).build();      
-               
+                        .value(string("800-328-7448")).build()).build()).build();
+
         String ifMatchValue = "W/\"" + patient.getMeta().getVersionId().getValue() + "\"";
 
         // Update the patient and then validate the response.
@@ -260,11 +262,11 @@ public class FHIRClientTest extends FHIRClientTestBase {
         updatedPatient = response.getResource(Patient.class);
         assertNotNull(updatedPatient);
     }
-    
+
     @Test(dependsOnMethods = {"testCreatePatient"})
     public void testUpdatePatientJsonObject() throws Exception {
         assertNotNull(createdPatient);
-        
+
         // Read the patient, then modify it.
         FHIRResponse response = client.read("Patient", createdPatient.getId());
         assertNotNull(response);
@@ -276,8 +278,8 @@ public class FHIRClientTest extends FHIRClientTestBase {
         patient = patient.toBuilder().contact(Contact.builder()
                 .telecom(ContactPoint.builder().system(ContactPointSystem.PHONE)
                         .use(ContactPointUse.WORK)
-                        .value(string("408-400-7448")).build()).build()).build();     
-        
+                        .value(string("408-400-7448")).build()).build()).build();
+
         JsonObject jsonObj = JsonSupport.toJsonObject(patient);
 
         // Update the patient and then validate the response.
@@ -315,7 +317,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         FHIRResponse response = client.read("Patient", "INVALID_ID");
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.NOT_FOUND.getStatusCode());
-        
+
         OperationOutcome oo = response.getResource(OperationOutcome.class);
         assertNotNull(oo);
     }
@@ -335,7 +337,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         FHIRResponse response = client.history("Patient", updatedPatient.getId(), null);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
@@ -348,7 +350,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         FHIRResponse response = client.history("Patient", updatedPatient.getId(), parameters);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
@@ -362,7 +364,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         FHIRResponse response = client.history("Patient", updatedPatient.getId(), parameters);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
@@ -374,7 +376,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         FHIRResponse response = client.search("Patient", null);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
@@ -384,11 +386,11 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test(dependsOnMethods = { "testUpdatePatient" })
     public void testSearchPatientNoResults() throws Exception {
         FHIRParameters parameters = new FHIRParameters().searchParam("name", "NOT_A_PATIENT");
-                
+
         FHIRResponse response = client.search("Patient", parameters);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
@@ -398,11 +400,11 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test(dependsOnMethods = { "testUpdatePatient" })
     public void testSearchPatientWithParams1() throws Exception {
         FHIRParameters parameters = new FHIRParameters().searchParam("name", "Doe");
-                
+
         FHIRResponse response = client.search("Patient", parameters);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
@@ -414,11 +416,11 @@ public class FHIRClientTest extends FHIRClientTestBase {
         FHIRParameters parameters = new FHIRParameters()
                 .searchParam("birthdate", ValuePrefix.LE, "1950-01-01")
                 .searchParam("_id", updatedPatient.getId());
-                
+
         FHIRResponse response = client.search("Patient", parameters);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
@@ -430,11 +432,11 @@ public class FHIRClientTest extends FHIRClientTestBase {
         FHIRParameters parameters = new FHIRParameters()
                 .searchParam("birthdate", ValuePrefix.GE, "1970-01-01")
                 .searchParam("_id", updatedPatient.getId());
-                
+
         FHIRResponse response = client.search("Patient", parameters);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
@@ -444,11 +446,11 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test(dependsOnMethods = { "testUpdatePatient" })
     public void testSearchPatientWithParams2() throws Exception {
         FHIRParameters parameters = new FHIRParameters().searchParam("name", Modifier.CONTAINS, "Doe");
-                
+
         FHIRResponse response = client.search("Patient", parameters);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
@@ -463,7 +465,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         FHIRResponse response = client.search("Patient", parameters, preferHeader);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         Bundle responseBundle = response.getResource(Bundle.class);
         assertNotNull(responseBundle);
         assertTrue(responseBundle.getEntry().size() > 0);
@@ -477,7 +479,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         FHIRResponse response = client.search("Patient", parameters, preferHeader);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
-        
+
         OperationOutcome oo = response.getResource(OperationOutcome.class);
         assertNotNull(oo);
     }
@@ -491,7 +493,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         FHIRResponse response = client.validate(patient);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         OperationOutcome oo = response.getResource(OperationOutcome.class);
         assertNotNull(oo);
     }
@@ -505,7 +507,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         FHIRResponse response = client.validate(jsonObj);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         OperationOutcome oo = response.getResource(OperationOutcome.class);
         assertNotNull(oo);
     }
@@ -513,7 +515,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
     @Test(dependsOnMethods = { "testUpdatePatient" })
     public void testBatch() throws Exception {
         Bundle requestBundle = Bundle.builder().type(BundleType.BATCH).build();
-        
+
         // read
         requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + createdPatient.getId(), null);
         // vread
@@ -522,12 +524,12 @@ public class FHIRClientTest extends FHIRClientTestBase {
         requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId() + "/_history", null);
         // search
         requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient?family=Doe&_count=3", null);
-        
+
         FHIRResponse response = client.batch(requestBundle);
         assertNotNull(response);
         assertNotNull(response.getResponse());
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         Bundle responseBundle = response.getResource(Bundle.class);
         assertNotNull(responseBundle);
         assertNotNull(responseBundle.getEntry());
@@ -547,12 +549,12 @@ public class FHIRClientTest extends FHIRClientTestBase {
         requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient/" + updatedPatient.getId() + "/_history", null);
         // search
         requestBundle = addRequestToBundle(requestBundle, HTTPVerb.GET, "Patient?family=Doe&_count=3", null);
-        
+
         FHIRResponse response = client.transaction(requestBundle);
         assertNotNull(response);
         assertNotNull(response.getResponse());
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
-        
+
         Bundle responseBundle = response.getResource(Bundle.class);
         assertNotNull(responseBundle);
         assertNotNull(responseBundle.getEntry());
@@ -560,12 +562,12 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertEquals(BundleType.TRANSACTION_RESPONSE.getValue(), responseBundle.getType().getValue());
     }
 
-    
+
     private Bundle addRequestToBundle(Bundle bundle, HTTPVerb method, String url, Resource resource) throws Exception {
-          
-        Bundle.Entry.Request request = Bundle.Entry.Request.builder().method(method).url(Uri.of(url)).build();   
+
+        Bundle.Entry.Request request = Bundle.Entry.Request.builder().method(method).url(Uri.of(url)).build();
         Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder().request(request);
-             
+
         if (resource != null) {
             entryBuilder.resource(resource);
         }
