@@ -204,7 +204,7 @@ public class EverythingOperation extends AbstractOperation {
         MultivaluedMap<String, String> queryParametersWithoutDates = new MultivaluedHashMap<String,String>(queryParameters);
         boolean startOrEndProvided = queryParametersWithoutDates.remove(DATE_QUERY_PARAMETER) != null;
 
-        List<String> defaultResourceTypes = new ArrayList<String>();
+        List<String> defaultResourceTypes;
         try {
             FHIRVersionParam fhirVersion = (FHIRVersionParam) operationContext.getProperty(FHIROperationContext.PROPNAME_FHIR_VERSION);
             defaultResourceTypes = getDefaultIncludedResourceTypes(resourceHelper, fhirVersion);
