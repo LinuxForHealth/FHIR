@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "event-resource-types",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -20,12 +20,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1060"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "EventResourceType",
     "title": "EventResourceType",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -51,8 +51,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:b90809ae-2940-4f08-8cdc-8d29b76aa406",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:fda709e0-6e3b-44d4-bc38-87ff6ce16a27",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 34,
         "parameter": [
             {
@@ -65,7 +65,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/event-resource-types|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/event-resource-types|4.3.0"
             }
         ],
         "contains": [

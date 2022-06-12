@@ -1,0 +1,75 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "LanguageProficiencyCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/LanguageProficiencyCS",
+    "version": "1.0.0",
+    "name": "LanguageProficiencyCS",
+    "title": "Language Proficiency",
+    "status": "active",
+    "date": "2020-11-19T23:52:52+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes for documenting spoken language proficiency based on the Interagency Language Roundtable scale of abilities to communicate in a language.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "content": "complete",
+    "count": 6,
+    "concept": [
+        {
+            "code": "00",
+            "display": "No proficiency",
+            "definition": "Unable to function in the spoken language."
+        },
+        {
+            "code": "10",
+            "display": "Elementary proficiency",
+            "definition": "Able to satisfy minimum courtesy requirements and maintain very simple face-to-face conversations on familiar topics. A native speaker must often use slowed speech, repetition, paraphrase, or a combination of these to be understood by this individual."
+        },
+        {
+            "code": "20",
+            "display": "Limited working proficiency",
+            "definition": "Able to satisfy routine social demands and limited work requirements."
+        },
+        {
+            "code": "30",
+            "display": "General professional proficiency",
+            "definition": "Able to speak the language with sufficient structural accuracy and vocabulary to participate effectively in most formal and informal conversations in practical, social and professional topics."
+        },
+        {
+            "code": "40",
+            "display": "Advanced professional proficiency",
+            "definition": "Able to use the language fluently and accurately on all levels normally pertinent to professional needs."
+        },
+        {
+            "code": "50",
+            "display": "Functional native proficiency",
+            "definition": "Speaking proficiency is functionally equivalent to that of a highly articulate well-educated native speaker and reflects the cultural standards of the country where the language is natively spoken."
+        }
+    ]
+}

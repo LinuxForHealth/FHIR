@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "reference-version-rules",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.89"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ReferenceVersionRules",
     "title": "ReferenceVersionRules",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:4b1994a6-371c-4e4a-a09b-4042e8b729b6",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:e00ad86f-8f5c-41e9-b72f-258c5c62e71e",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 3,
         "parameter": [
             {
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/reference-version-rules|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/reference-version-rules|4.3.0"
             }
         ],
         "contains": [

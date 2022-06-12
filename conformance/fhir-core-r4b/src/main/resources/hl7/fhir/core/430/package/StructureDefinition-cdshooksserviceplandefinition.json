@@ -20,7 +20,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/cdshooksserviceplandefinition",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CDS Hooks Service PlanDefinition",
     "status": "draft",
     "experimental": false,
@@ -885,7 +885,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2986,7 +2986,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the level of importance to be assigned to actioning the request.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3481,7 +3481,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines the kinds of conditions that can appear on actions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-condition-kind|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-condition-kind|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3852,7 +3852,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines the types of relationships between actions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-relationship-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4165,7 +4165,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of participant for the action.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-participant-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4309,7 +4309,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines organization behavior of a group.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4357,7 +4357,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines selection behavior of a group.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-selection-behavior|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-selection-behavior|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4405,7 +4405,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines expectations around whether an action or action group is required.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-required-behavior|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-required-behavior|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4453,7 +4453,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines selection frequency behavior for an action or group.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.3.0"
                 },
                 "mapping": [
                     {
@@ -4501,7 +4501,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines behavior for an action or a group for how many times that item may be repeated.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.3.0"
                 },
                 "mapping": [
                     {

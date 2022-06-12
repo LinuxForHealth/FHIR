@@ -1,0 +1,75 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "VirtualModalitiesCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/VirtualModalitiesCS",
+    "version": "1.0.0",
+    "name": "VirtualModalitiesCS",
+    "title": "Virtual Modalities",
+    "status": "active",
+    "date": "2020-11-19T23:52:52+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Categories of virtual service delivery modalities.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "content": "complete",
+    "count": 6,
+    "concept": [
+        {
+            "code": "phone",
+            "display": "phone",
+            "definition": "Voice Telephone"
+        },
+        {
+            "code": "video",
+            "display": "video chat",
+            "definition": "Video Chat"
+        },
+        {
+            "code": "tdd",
+            "display": "TDD",
+            "definition": "Telecommunications Device for the Deaf"
+        },
+        {
+            "code": "sms",
+            "display": "SMS",
+            "definition": "SMS Text Messaging"
+        },
+        {
+            "code": "app",
+            "display": "App",
+            "definition": "Mobile Application"
+        },
+        {
+            "code": "web",
+            "display": "Website",
+            "definition": "Website accessed through browser"
+        }
+    ]
+}

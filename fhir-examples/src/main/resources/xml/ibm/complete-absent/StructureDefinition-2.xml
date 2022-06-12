@@ -444,11 +444,11 @@
           </extension>
         </versioning>
       </type>
-      <defaultValueBoolean>
+      <defaultValueBase64Binary>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </defaultValueBoolean>
+      </defaultValueBase64Binary>
       <meaningWhenMissing>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
@@ -459,27 +459,27 @@
           <valueCode value="unknown"/>
         </extension>
       </orderMeaning>
-      <fixedBoolean>
+      <fixedBase64Binary>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </fixedBoolean>
-      <patternBoolean>
+      </fixedBase64Binary>
+      <patternBase64Binary>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </patternBoolean>
+      </patternBase64Binary>
       <example>
         <label>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
         </label>
-        <valueBoolean>
+        <valueBase64Binary>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
-        </valueBoolean>
+        </valueBase64Binary>
       </example>
       <minValueDate>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
@@ -744,11 +744,11 @@
           </extension>
         </versioning>
       </type>
-      <defaultValueBoolean>
+      <defaultValueBase64Binary>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </defaultValueBoolean>
+      </defaultValueBase64Binary>
       <meaningWhenMissing>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
@@ -759,27 +759,27 @@
           <valueCode value="unknown"/>
         </extension>
       </orderMeaning>
-      <fixedBoolean>
+      <fixedBase64Binary>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </fixedBoolean>
-      <patternBoolean>
+      </fixedBase64Binary>
+      <patternBase64Binary>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </patternBoolean>
+      </patternBase64Binary>
       <example>
         <label>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
         </label>
-        <valueBoolean>
+        <valueBase64Binary>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>
           </extension>
-        </valueBoolean>
+        </valueBase64Binary>
       </example>
       <minValueDate>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">

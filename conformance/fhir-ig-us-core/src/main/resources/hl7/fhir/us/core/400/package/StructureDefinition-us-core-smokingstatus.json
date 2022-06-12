@@ -710,7 +710,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smoking-status-status"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smoking-status-status|4.0.0"
                 },
                 "mapping": [
                     {
@@ -902,7 +902,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-smoking-status-observation-codes"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-smoking-status-observation-codes|4.0.0"
                 },
                 "mapping": [
                     {
@@ -953,7 +953,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -1438,7 +1438,7 @@
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet",
-                            "valueCanonical": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smokingstatus-max"
+                            "valueCanonical": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smokingstatus-max|4.0.0"
                         }
                     ],
                     "strength": "preferred",
@@ -2915,7 +2915,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smoking-status-status"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smoking-status-status|4.0.0"
                 },
                 "mapping": [
                     {
@@ -2980,7 +2980,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-smoking-status-observation-codes"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-smoking-status-observation-codes|4.0.0"
                 },
                 "mapping": [
                     {
@@ -2998,7 +2998,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -3039,7 +3039,7 @@
                     "extension": [
                         {
                             "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-maxValueSet",
-                            "valueCanonical": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smokingstatus-max"
+                            "valueCanonical": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smokingstatus-max|4.0.0"
                         }
                     ],
                     "strength": "preferred",

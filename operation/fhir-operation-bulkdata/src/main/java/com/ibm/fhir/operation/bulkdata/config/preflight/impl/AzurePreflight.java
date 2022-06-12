@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -41,13 +41,13 @@ public class AzurePreflight extends NopPreflight {
     /**
      * validates the azure provider is properly configured.
      *
-     * @param source
+     * @param storageProvider
      * @throws FHIROperationException
      */
-    public void validate(String source) throws FHIROperationException {
+    public void validate(String storageProvider) throws FHIROperationException {
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
-        if (adapter.isStorageProviderAuthTypeConnectionString(source)) {
-            String conn = adapter.getStorageProviderAuthTypeConnectionString(source);
+        if (adapter.isStorageProviderAuthTypeConnectionString(storageProvider)) {
+            String conn = adapter.getStorageProviderAuthTypeConnectionString(storageProvider);
             if (conn == null || conn.isEmpty()) {
                 throw export.buildOperationException("bad configuration for the Azure Blob Container's connection configuration", IssueType.EXCEPTION);
             }
@@ -56,7 +56,7 @@ public class AzurePreflight extends NopPreflight {
         }
 
         // Used to get the Azure Container
-        if (adapter.getStorageProviderBucketName(source) == null || adapter.getStorageProviderBucketName(source).isEmpty()) {
+        if (adapter.getStorageProviderBucketName(storageProvider) == null || adapter.getStorageProviderBucketName(storageProvider).isEmpty()) {
             throw export.buildOperationException("bad configuration for the basic configuration with bucketname", IssueType.EXCEPTION);
         }
     }

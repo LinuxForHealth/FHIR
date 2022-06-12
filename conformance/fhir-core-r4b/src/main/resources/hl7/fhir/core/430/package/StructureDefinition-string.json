@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "string",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
@@ -19,11 +19,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/string",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "string",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -36,7 +36,7 @@
         }
     ],
     "description": "Base StructureDefinition for string Type: A sequence of Unicode characters",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "kind": "primitive-type",
     "abstract": false,
     "type": "string",

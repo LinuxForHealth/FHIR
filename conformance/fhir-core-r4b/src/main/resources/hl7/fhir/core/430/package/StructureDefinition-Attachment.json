@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "Attachment",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
@@ -19,11 +19,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Attachment",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Attachment",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -37,7 +37,7 @@
     ],
     "description": "Base StructureDefinition for Attachment Type: For referring to data content defined in other formats.",
     "purpose": "Many models need to include data defined in other specifications that is complex and opaque to the healthcare model. This includes documents, media recordings, structured data, etc.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -137,7 +137,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -264,7 +264,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 },
                 "mapping": [
                     {
@@ -679,7 +679,7 @@
                     ],
                     "strength": "required",
                     "description": "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
                 },
                 "mapping": [
                     {

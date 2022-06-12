@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "clinical-use-definition-category",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1646"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ClinicalUseDefinitionCategory",
     "title": "ClinicalUseDefinitionCategory",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:25d9fa6b-2de1-41f2-880c-5f652f32542d",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:9e4145fd-7eb2-4766-aaf3-f44aaeee2243",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 3,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/clinical-use-definition-category|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/clinical-use-definition-category|4.3.0"
             }
         ],
         "contains": [

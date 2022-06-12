@@ -1,0 +1,121 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "HealthcareServiceCategoryCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/HealthcareServiceCategoryCS",
+    "version": "1.1.0",
+    "name": "HealthcareServiceCategoryCS",
+    "title": "Healthcare Service Category",
+    "status": "active",
+    "date": "2022-04-04T14:02:01+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Broad categories of healthcare services being performed or delivered",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "caseSensitive": true,
+    "content": "complete",
+    "count": 15,
+    "concept": [
+        {
+            "code": "behav",
+            "display": "Behavioral Health",
+            "definition": "Services related to the promotion of mental health, resilience and wellbeing; the treatment of mental and substance use disorders; and the support of those who experience and/or are in recovery from these conditions, along with their families and communities."
+        },
+        {
+            "code": "dent",
+            "display": "Dental",
+            "definition": "Services related to the study, diagnosis, prevention, and treatment of diseases, disorders, and conditions of the mouth."
+        },
+        {
+            "code": "dme",
+            "display": "DME/Medical Supplies",
+            "definition": "Health care consumables or equipments supplied to patients"
+        },
+        {
+            "code": "emerg",
+            "display": "Emergency care",
+            "definition": "Health care services rendered within a designated emergency care facility, for point-in-time evaluation and/or treatment any medical condition such that a prudent layperson possessing an average knowledge of medicine and health, believes that immediate unscheduled medical care is required."
+        },
+        {
+            "code": "group",
+            "display": "Medical Group",
+            "definition": "Health care services rendered by a group of people, e.g. a group of Physicians."
+        },
+        {
+            "code": "home",
+            "display": "Home Health",
+            "definition": "Health care services delivered to patients within their residence rather than a clinical setting; usually provided by nurses, home health aides, and other professionals on a regularly scheduled visit."
+        },
+        {
+            "code": "hosp",
+            "display": "Hospital",
+            "definition": "Health care services rendered within a hospital or other inpatient setting providng patient treatment with specialzed medical and nursing staff and medical equipment."
+        },
+        {
+            "code": "lab",
+            "display": "Laboratory",
+            "definition": "Pathology and laboratory testing on clinical specimenst to obtain informaion about the health of a paeint to aid in diagnosis, treatment and prevention of disease."
+        },
+        {
+            "code": "other",
+            "display": "Other",
+            "definition": "Other"
+        },
+        {
+            "code": "outpat",
+            "display": "Clinic or Outpatient Facility",
+            "definition": "Health care services rendered in an outpatient facility, e.g. medical procedures, surgeries, etc."
+        },
+        {
+            "code": "prov",
+            "display": "Medical Provider",
+            "definition": "Health care services rendered by a person, e.g. Physician."
+        },
+        {
+            "code": "pharm",
+            "display": "Pharmacy",
+            "definition": "Services related to the storage, compounding, dispensing and sale of drugs."
+        },
+        {
+            "code": "trans",
+            "display": "Transportation",
+            "definition": "Services which transport patients to or from a medical facility, e.g., ambulance."
+        },
+        {
+            "code": "urg",
+            "display": "Urgent Care",
+            "definition": "Unscheduled health care services which provide for point-in-time evaluation or treatment of a non-life-threatening medical condition."
+        },
+        {
+            "code": "vis",
+            "display": "Vision",
+            "definition": "Services related to the study, diagnosis, prevention, and treatment of diseases, disorders, and conditions of the eyes."
+        }
+    ]
+}

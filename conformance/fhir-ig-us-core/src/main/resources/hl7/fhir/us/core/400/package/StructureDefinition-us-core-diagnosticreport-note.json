@@ -683,7 +683,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-category"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-category|4.0.0"
                 },
                 "mapping": [
                     {
@@ -737,7 +737,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "LOINC codes",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-report-and-note-codes"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-report-and-note-codes|4.0.0"
                 },
                 "mapping": [
                     {
@@ -778,7 +778,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -839,7 +839,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter|4.0.0"
                         ]
                     }
                 ],
@@ -1019,10 +1019,10 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam|4.0.0"
                         ],
                         "_targetProfile": [
                             {
@@ -1742,7 +1742,7 @@
                 "isModifier": false,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-category"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-category|4.0.0"
                 }
             },
             {
@@ -1763,7 +1763,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "LOINC codes",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-report-and-note-codes"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-report-and-note-codes|4.0.0"
                 }
             },
             {
@@ -1786,7 +1786,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -1801,7 +1801,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter|4.0.0"
                         ]
                     }
                 ],
@@ -1852,10 +1852,10 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam|4.0.0"
                         ],
                         "_targetProfile": [
                             {

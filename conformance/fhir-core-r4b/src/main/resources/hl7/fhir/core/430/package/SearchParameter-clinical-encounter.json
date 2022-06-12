@@ -8,11 +8,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/SearchParameter/clinical-encounter",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "encounter",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Structured Documents)",
     "contact": [
         {
@@ -53,7 +53,6 @@
     "xpath": "f:Composition/f:encounter | f:DeviceRequest/f:encounter | f:DiagnosticReport/f:encounter | f:DocumentReference/f:context/f:encounter | f:Flag/f:encounter | f:List/f:encounter | f:NutritionOrder/f:encounter | f:Observation/f:encounter | f:Procedure/f:encounter | f:RiskAssessment/f:encounter | f:ServiceRequest/f:encounter | f:VisionPrescription/f:encounter",
     "xpathUsage": "normal",
     "target": [
-        "Encounter",
-        "EpisodeOfCare"
+        "Encounter"
     ]
 }

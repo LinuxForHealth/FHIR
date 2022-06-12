@@ -79,7 +79,7 @@ public class Immunization extends DomainResource {
         bindingName = "ImmunizationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "x",
-        valueSet = "http://hl7.org/fhir/ValueSet/immunization-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/immunization-status|4.3.0"
     )
     @Required
     private final ImmunizationStatus status;

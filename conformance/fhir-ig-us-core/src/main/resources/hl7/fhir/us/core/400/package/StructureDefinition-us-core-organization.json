@@ -2207,7 +2207,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Two letter USPS alphabetic codes.",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state|4.0.0"
                 },
                 "mapping": [
                     {
@@ -3054,7 +3054,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Two letter USPS alphabetic codes.",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state|4.0.0"
                 },
                 "mapping": [
                     {

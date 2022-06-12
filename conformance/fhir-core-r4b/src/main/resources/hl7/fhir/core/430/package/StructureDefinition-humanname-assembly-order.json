@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/humanname-assembly-order",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "assembly-order",
     "status": "draft",
     "experimental": false,
@@ -29,7 +29,7 @@
         }
     ],
     "description": "A code that represents the preferred display order of the components of this human name.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -105,7 +105,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -246,7 +246,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/name-assembly-order|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/name-assembly-order|4.3.0"
                 },
                 "mapping": [
                     {
@@ -298,7 +298,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/name-assembly-order|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/name-assembly-order|4.3.0"
                 }
             }
         ]

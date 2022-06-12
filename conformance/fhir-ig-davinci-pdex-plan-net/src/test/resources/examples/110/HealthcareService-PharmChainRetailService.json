@@ -1,0 +1,108 @@
+{
+    "resourceType": "HealthcareService",
+    "id": "PharmChainRetailService",
+    "meta": {
+        "lastUpdated": "2020-07-07T13:26:22.0314215+00:00",
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+        ]
+    },
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "extension": [
+                {
+                    "url": "type",
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/DeliveryMethodCS",
+                                "code": "physical"
+                            }
+                        ]
+                    }
+                }
+            ],
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/delivery-method"
+        },
+        {
+            "extension": [
+                {
+                    "url": "acceptingPatients",
+                    "valueCodeableConcept": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/AcceptingPatientsCS",
+                                "code": "existptonly"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "url": "fromNetwork",
+                    "valueReference": {
+                        "reference": "Organization/AcmeofCTStdNet"
+                    }
+                }
+            ],
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/newpatients"
+        }
+    ],
+    "active": true,
+    "providedBy": {
+        "reference": "Organization/PharmChain"
+    },
+    "category": [
+        {
+            "coding": [
+                {
+                    "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/HealthcareServiceCategoryCS",
+                    "code": "pharm",
+                    "display": "Pharmacy"
+                }
+            ]
+        }
+    ],
+    "specialty": [
+        {
+            "coding": [
+                {
+                    "system": "http://nucc.org/provider-taxonomy",
+                    "code": "3336C0003X",
+                    "display": "Community/Retail Pharmacy"
+                }
+            ]
+        }
+    ],
+    "location": [
+        {
+            "reference": "Location/PharmLoc1"
+        },
+        {
+            "reference": "Location/PharmLoc2"
+        },
+        {
+            "reference": "Location/PharmLoc3"
+        },
+        {
+            "reference": "Location/PharmLoc4"
+        }
+    ],
+    "name": "Pharmacy by PharmChain",
+    "telecom": [
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/via-intermediary",
+                    "valueReference": {
+                        "reference": "Organization/PharmChain"
+                    }
+                }
+            ]
+        }
+    ]
+}

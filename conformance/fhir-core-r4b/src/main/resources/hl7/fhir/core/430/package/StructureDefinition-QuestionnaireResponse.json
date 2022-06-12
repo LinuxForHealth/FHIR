@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "QuestionnaireResponse",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Clinical.Diagnostics"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fhir"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Clinical.Diagnostics"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "QuestionnaireResponse",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -57,7 +57,7 @@
     ],
     "description": "A structured set of questions and their answers. The questions are ordered and grouped into coherent subsets, corresponding to the structure of the grouping of the questionnaire being responded to.",
     "purpose": "To support structured, hierarchical reporting of data gathered using digital forms and other questionnaires.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -737,7 +737,7 @@
                     ],
                     "strength": "required",
                     "description": "Lifecycle status of the questionnaire response.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1842,7 +1842,7 @@
                     ],
                     "strength": "required",
                     "description": "Lifecycle status of the questionnaire response.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.3.0"
                 },
                 "mapping": [
                     {

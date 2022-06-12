@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "procedure-outcome",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.428"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ProcedureOutcomeCodes(SNOMEDCT)",
     "title": "Procedure Outcome Codes (SNOMED CT)",
     "status": "draft",
@@ -65,8 +65,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:8caf3b9d-df71-45e4-b838-a11cdac4b04a",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:bd024028-b668-4bb4-a0d5-bb41496ddd15",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 3,
         "parameter": [
             {

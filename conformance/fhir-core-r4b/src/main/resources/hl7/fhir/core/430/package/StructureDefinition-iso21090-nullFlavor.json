@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/iso21090-nullFlavor",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "nullFlavor",
     "status": "draft",
     "experimental": false,
@@ -29,7 +29,7 @@
         }
     ],
     "description": "If the value is not a proper value, indicates the reason.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -121,7 +121,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -262,7 +262,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.3.0-cibuild"
+                    "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.3.0"
                 },
                 "mapping": [
                     {
@@ -325,7 +325,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.3.0-cibuild"
+                    "valueSet": "http://terminology.hl7.org/ValueSet/v3-NullFlavor|4.3.0"
                 }
             }
         ]

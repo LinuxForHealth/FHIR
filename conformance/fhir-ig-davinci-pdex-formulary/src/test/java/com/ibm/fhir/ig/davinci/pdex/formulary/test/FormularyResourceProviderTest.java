@@ -13,14 +13,25 @@ import java.util.Collection;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.ig.davinci.pdex.formulary.FormularyResourceProvider;
+import com.ibm.fhir.ig.davinci.pdex.formulary.Formulary101ResourceProvider;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 public class FormularyResourceProviderTest {
     @Test
-    public void testGetResources() {
-        FHIRRegistryResourceProvider provider = new FormularyResourceProvider();
+    public void testGetFormulary101Resources() {
+        FHIRRegistryResourceProvider provider = new Formulary101ResourceProvider();
+        Collection<FHIRRegistryResource> registryResources = provider.getRegistryResources();
+        assertNotNull(registryResources);
+        assertTrue(!registryResources.isEmpty());
+        for (FHIRRegistryResource fhirRegistryResource : registryResources) {
+            assertNotNull(fhirRegistryResource.getResource());
+        }
+    }
+
+    @Test
+    public void testGetFormulary110Resources() {
+        FHIRRegistryResourceProvider provider = new Formulary101ResourceProvider();
         Collection<FHIRRegistryResource> registryResources = provider.getRegistryResources();
         assertNotNull(registryResources);
         assertTrue(!registryResources.isEmpty());

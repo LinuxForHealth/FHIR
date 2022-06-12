@@ -1,0 +1,57 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "organization-partof",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/organization-partof",
+    "version": "1.1.0",
+    "name": "Plannet_sp_organization_partof",
+    "derivedFrom": "http://hl7.org/fhir/SearchParameter/Organization-partof",
+    "status": "active",
+    "date": "2018-05-23T00:00:00+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Select Organizations that are part of the specified organization",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "partof",
+    "base": [
+        "Organization"
+    ],
+    "type": "reference",
+    "expression": "Organization.partOf",
+    "target": [
+        "Organization"
+    ],
+    "multipleOr": true,
+    "multipleAnd": true,
+    "chain": [
+        "name",
+        "address",
+        "type"
+    ]
+}

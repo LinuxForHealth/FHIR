@@ -824,7 +824,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "LOINC codes",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-lab-codes"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-lab-codes|4.0.0"
                 },
                 "mapping": [
                     {
@@ -865,7 +865,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -1105,10 +1105,10 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0"
                         ],
                         "_targetProfile": [
                             {
@@ -1312,7 +1312,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab|4.0.0"
                         ]
                     }
                 ],
@@ -1870,7 +1870,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "LOINC codes",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-lab-codes"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-diagnosticreport-lab-codes|4.0.0"
                 }
             },
             {
@@ -1882,7 +1882,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -1933,10 +1933,10 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0"
                         ],
                         "_targetProfile": [
                             {
@@ -1986,7 +1986,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-lab|4.0.0"
                         ]
                     }
                 ],

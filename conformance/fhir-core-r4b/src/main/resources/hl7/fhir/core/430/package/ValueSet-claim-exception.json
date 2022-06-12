@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "claim-exception",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.580"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ExceptionCodes",
     "title": "Exception Codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:44ae6265-e3b5-4556-b884-10190b18311d",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:4991f98f-7dda-4901-81a0-5c51fa30955c",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 2,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/claim-exception|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/claim-exception|4.3.0"
             }
         ],
         "contains": [

@@ -5,18 +5,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
-        },
-        {
-            "url": "http://ibm.com/fhir/extension/implicit-system",
-            "valueUri": "http://hl7.org/fhir/restful-capability-mode"
         }
     ],
     "url": "http://hl7.org/fhir/SearchParameter/CapabilityStatement-mode",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "mode",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {

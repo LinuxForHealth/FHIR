@@ -875,10 +875,10 @@
                         ],
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
                             "http://hl7.org/fhir/StructureDefinition/RelatedPerson"
                         ],
                         "_targetProfile": [
@@ -969,7 +969,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication|4.0.0"
                         ]
                     }
                 ],
@@ -1034,7 +1034,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -1099,7 +1099,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter|4.0.0"
                         ]
                     }
                 ],
@@ -1263,10 +1263,10 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
                             "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
                             "http://hl7.org/fhir/StructureDefinition/Device"
                         ],
@@ -4131,10 +4131,10 @@
                         ],
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
                             "http://hl7.org/fhir/StructureDefinition/RelatedPerson"
                         ],
                         "_targetProfile": [
@@ -4201,7 +4201,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication|4.0.0"
                         ]
                     }
                 ],
@@ -4226,7 +4226,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -4247,7 +4247,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter|4.0.0"
                         ]
                     }
                 ],
@@ -4281,10 +4281,10 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|4.0.0",
                             "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
                             "http://hl7.org/fhir/StructureDefinition/Device"
                         ],

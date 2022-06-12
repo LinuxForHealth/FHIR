@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "RelatedPerson",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Base.Individuals"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "pa"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Base.Individuals"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "RelatedPerson",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Patient Administration)",
     "contact": [
         {
@@ -57,7 +57,7 @@
     ],
     "description": "Information about a person that is involved in the care for a patient, but who is not the target of healthcare, nor has a formal responsibility in the care process.",
     "purpose": "Need to track persons related to the patient or the healthcare process.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -818,7 +818,7 @@
                     ],
                     "strength": "required",
                     "description": "The gender of a person used for administrative purposes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1506,7 +1506,7 @@
                     ],
                     "strength": "required",
                     "description": "The gender of a person used for administrative purposes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/administrative-gender|4.3.0"
                 },
                 "mapping": [
                     {

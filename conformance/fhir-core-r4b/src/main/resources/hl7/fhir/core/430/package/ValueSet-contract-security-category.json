@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "contract-security-category",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1220"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ContractResourceScopeCodes",
     "title": "Contract Resource Scope codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:ed8bff37-a72d-4286-918b-17500ee1ed6e",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:74d30dfe-d8c0-4e32-be02-9ef44ae5c4a4",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 1,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/contract-security-category|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/contract-security-category|4.3.0"
             }
         ],
         "contains": [

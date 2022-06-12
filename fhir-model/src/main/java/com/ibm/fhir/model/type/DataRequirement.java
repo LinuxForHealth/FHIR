@@ -61,7 +61,7 @@ public class DataRequirement extends Element {
     @Binding(
         bindingName = "FHIRAllTypes",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.3.0"
     )
     @Required
     private final FHIRAllTypes type;
@@ -1485,7 +1485,7 @@ public class DataRequirement extends Element {
         @Binding(
             bindingName = "SortDirection",
             strength = BindingStrength.Value.REQUIRED,
-            valueSet = "http://hl7.org/fhir/ValueSet/sort-direction|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/sort-direction|4.3.0"
         )
         @Required
         private final SortDirection direction;

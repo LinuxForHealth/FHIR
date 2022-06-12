@@ -51,7 +51,7 @@ public class EnrollmentResponse extends DomainResource {
         bindingName = "EnrollmentResponseStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0"
     )
     private final EnrollmentResponseStatus status;
     @ReferenceTarget({ "EnrollmentRequest" })
@@ -60,7 +60,7 @@ public class EnrollmentResponse extends DomainResource {
         bindingName = "RemittanceOutcome",
         strength = BindingStrength.Value.REQUIRED,
         description = "The outcome of the processing.",
-        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.3.0"
     )
     private final RemittanceOutcome outcome;
     private final String disposition;

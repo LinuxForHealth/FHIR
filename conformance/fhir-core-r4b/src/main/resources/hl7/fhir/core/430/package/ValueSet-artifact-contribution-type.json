@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "artifact-contribution-type",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1504"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ArtifactContributionType",
     "title": "ArtifactContributionType",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:6f60ac83-60d9-4844-9ec8-94e08ffc0147",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:8e645829-1f94-4ab6-968f-31f0ef174495",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 14,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/artifact-contribution-type|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/artifact-contribution-type|4.3.0"
             }
         ],
         "contains": [

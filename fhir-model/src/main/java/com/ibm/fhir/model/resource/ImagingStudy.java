@@ -107,7 +107,7 @@ public class ImagingStudy extends DomainResource {
         bindingName = "ImagingStudyStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the ImagingStudy.",
-        valueSet = "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.3.0"
     )
     @Required
     private final ImagingStudyStatus status;

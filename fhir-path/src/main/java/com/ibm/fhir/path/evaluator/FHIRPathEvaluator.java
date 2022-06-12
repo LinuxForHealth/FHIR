@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -313,6 +313,9 @@ public class FHIRPathEvaluator {
             indentLevel = 0;
         }
 
+        /**
+         * https://hl7.org/fhirpath/N1/#allcriteria-expression-boolean
+         */
         private Collection<FHIRPathNode> all(List<ExpressionContext> arguments) {
             if (arguments.size() != 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "all");
@@ -330,6 +333,10 @@ public class FHIRPathEvaluator {
             return SINGLETON_TRUE;
         }
 
+        /**
+         * https://hl7.org/fhirpath/N1/#as-type-specifier
+         * https://hl7.org/fhirpath/N1/#astype-type-specifier
+         */
         private Collection<FHIRPathNode> as(List<ExpressionContext> arguments) {
             if (arguments.size() != 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "as");
@@ -366,6 +373,9 @@ public class FHIRPathEvaluator {
             return closure;
         }
 
+        /**
+         * https://hl7.org/fhirpath/N1/#existscriteria-expression-boolean
+         */
         private Collection<FHIRPathNode> exists(List<ExpressionContext> arguments) {
             if (arguments.size() < 0 || arguments.size() > 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "exists");
@@ -393,6 +403,9 @@ public class FHIRPathEvaluator {
             return empty();
         }
 
+        /**
+         * https://hl7.org/fhirpath/N1/#iifcriterion-expression-true-result-collection-otherwise-result-collection-collection
+         */
         private Collection<FHIRPathNode> iif(List<ExpressionContext> arguments) {
             if (arguments.size() < 2 || arguments.size() > 3) {
                 throw unexpectedNumberOfArguments(arguments.size(), "iif");
@@ -412,6 +425,10 @@ public class FHIRPathEvaluator {
             return empty();
         }
 
+        /**
+         * https://hl7.org/fhirpath/N1/#is-type-specifier
+         * https://hl7.org/fhirpath/N1/#istype-type-specifier
+         */
         private Collection<FHIRPathNode> is(Collection<ExpressionContext> arguments) {
             if (arguments.size() != 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "is");
@@ -434,6 +451,9 @@ public class FHIRPathEvaluator {
             return type.isAssignableFrom(node.type()) ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
 
+        /**
+         * https://hl7.org/fhirpath/N1/#oftypetype-type-specifier-collection
+         */
         private Collection<FHIRPathNode> ofType(List<ExpressionContext> arguments) {
             if (arguments.size() != 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "ofType");
@@ -470,6 +490,26 @@ public class FHIRPathEvaluator {
             }
         }
 
+        /**
+         * https://hl7.org/fhirpath/N1/#repeatprojection-expression-collection
+         */
+        private Collection<FHIRPathNode> repeat(List<ExpressionContext> arguments) {
+            if (arguments.size() != 1) {
+                throw unexpectedNumberOfArguments(arguments.size(), "repeat");
+            }
+            Collection<FHIRPathNode> result = new ArrayList<>();
+            Collection<FHIRPathNode> selectedNodes = select(arguments);
+            while (result.addAll(selectedNodes)) {
+                pushContext(selectedNodes);
+                selectedNodes = select(arguments);
+                popContext();
+            }
+            return result;
+        }
+
+        /**
+         * https://hl7.org/fhirpath/N1/#selectprojection-expression-collection
+         */
         private Collection<FHIRPathNode> select(List<ExpressionContext> arguments) {
             if (arguments.size() != 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "select");
@@ -484,6 +524,9 @@ public class FHIRPathEvaluator {
             return result;
         }
 
+        /**
+         * https://hl7.org/fhirpath/N1/#tracename-string-projection-expression-collection
+         */
         private Collection<FHIRPathNode> trace(List<ExpressionContext> arguments) {
             if (arguments.size() < 1 || arguments.size() > 2) {
                 throw unexpectedNumberOfArguments(arguments.size(), "trace");
@@ -503,6 +546,9 @@ public class FHIRPathEvaluator {
             return new IllegalArgumentException(String.format("Unexpected number of arguments: %d for function: '%s'", arity, functionName));
         }
 
+        /**
+         * https://hl7.org/fhirpath/N1/#wherecriteria-expression-collection
+         */
         private Collection<FHIRPathNode> where(List<ExpressionContext> arguments) {
             if (arguments.size() != 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "where");
@@ -1161,6 +1207,8 @@ public class FHIRPathEvaluator {
 
             Collection<FHIRPathNode> currentContext = getCurrentContext();
 
+            // some built-in functions are implemented right here in the visitor;
+            // others are looked up in the registry (the "default" case)
             switch (functionName) {
             case "all":
                 result = all(arguments);
@@ -1179,6 +1227,9 @@ public class FHIRPathEvaluator {
                 break;
             case "ofType":
                 result = ofType(arguments);
+                break;
+            case "repeat":
+                result = repeat(arguments);
                 break;
             case "select":
                 result = select(arguments);

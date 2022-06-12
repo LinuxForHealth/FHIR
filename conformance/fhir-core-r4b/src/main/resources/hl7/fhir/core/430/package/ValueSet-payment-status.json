@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "payment-status",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.643"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "PaymentStatusCodes",
     "title": "Payment Status Codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:3612513a-40be-4576-a449-b82d4aa1b5de",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:003c805a-0769-4b67-a0ff-10ef9d6f4dda",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 2,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/paymentstatus|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/paymentstatus|4.3.0"
             }
         ],
         "contains": [

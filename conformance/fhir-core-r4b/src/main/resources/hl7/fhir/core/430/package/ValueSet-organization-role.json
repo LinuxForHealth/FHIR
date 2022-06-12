@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "organization-role",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.880"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "OrganizationAffiliationRole",
     "title": "Organization Affiliation Role",
     "status": "draft",
@@ -53,8 +53,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:45a4d27c-6215-42f5-baa1-f66da8c38ebc",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:a325ae1d-7c58-4e43-9b03-a4fac126dd1a",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 8,
         "parameter": [
             {
@@ -67,7 +67,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/organization-role|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/organization-role|4.3.0"
             }
         ],
         "contains": [

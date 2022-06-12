@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "subscriber-relationship",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1385"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "SubscriberRelationshipCodes",
     "title": "SubscriberPolicyholder Relationship Codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:6ffd73ea-88c5-4860-814b-5e2c7273d568",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:6baba89e-c887-45a3-8e4a-dbd4337bb67f",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 7,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/subscriber-relationship|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/subscriber-relationship|4.3.0"
             }
         ],
         "contains": [

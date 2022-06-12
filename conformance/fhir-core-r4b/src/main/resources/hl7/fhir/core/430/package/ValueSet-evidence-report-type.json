@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "evidence-report-type",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "EvidenceReportType",
     "title": "EvidenceReportType",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:d7689017-9f1e-4130-9fd1-8b39557f8565",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:785d082f-a484-444c-a6f8-20dcff8f456d",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 4,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/evidence-report-type|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/evidence-report-type|4.3.0"
             }
         ],
         "contains": [

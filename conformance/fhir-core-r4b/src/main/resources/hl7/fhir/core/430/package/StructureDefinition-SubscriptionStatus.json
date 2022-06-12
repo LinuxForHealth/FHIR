@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "SubscriptionStatus",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Other"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "draft"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fhir"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Other"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/SubscriptionStatus",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "SubscriptionStatus",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "The SubscriptionStatus resource describes the state of a Subscription during notifications.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -537,7 +537,7 @@
                     ],
                     "strength": "required",
                     "description": "The status of a subscription at the time this notification was generated.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -586,7 +586,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of notification represented by the status message.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-notification-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-notification-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1099,7 +1099,7 @@
                     ],
                     "strength": "required",
                     "description": "The status of a subscription at the time this notification was generated.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1133,7 +1133,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of notification represented by the status message.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-notification-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/subscription-notification-type|4.3.0"
                 },
                 "mapping": [
                     {

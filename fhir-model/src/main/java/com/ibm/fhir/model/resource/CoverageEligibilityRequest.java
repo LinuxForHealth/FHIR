@@ -64,7 +64,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         bindingName = "EligibilityRequestStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
-        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.3.0"
     )
     @Required
     private final EligibilityRequestStatus status;
@@ -80,7 +80,7 @@ public class CoverageEligibilityRequest extends DomainResource {
         bindingName = "EligibilityRequestPurpose",
         strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the types of information being requested.",
-        valueSet = "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.3.0"
     )
     @Required
     private final List<EligibilityRequestPurpose> purpose;

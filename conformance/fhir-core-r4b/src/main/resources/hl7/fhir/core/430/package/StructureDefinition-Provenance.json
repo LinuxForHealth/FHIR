@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "Provenance",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Security"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "sec"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Security"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Provenance",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Provenance",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Security)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "Provenance of a resource is a record that describes entities and processes involved in producing and delivering or otherwise influencing that resource. Provenance provides a critical foundation for assessing authenticity, enabling trust, and allowing reproducibility. Provenance assertions are a form of contextual metadata and can themselves become important records with their own provenance. Provenance statement indicates clinical significance in terms of confidence in authenticity, reliability, and trustworthiness, integrity, and stage in lifecycle (e.g. Document Completion - has the artifact been legally authenticated), all of which may impact security, privacy, and trust policies.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -1526,7 +1526,7 @@
                     ],
                     "strength": "required",
                     "description": "How an entity was used in an activity.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2226,7 +2226,7 @@
                     ],
                     "strength": "required",
                     "description": "How an entity was used in an activity.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.3.0"
                 },
                 "mapping": [
                     {

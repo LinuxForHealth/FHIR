@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "Task",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Base.Workflow"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "oo"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Base.Workflow"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/Task",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Task",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Orders and Observations)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "A task to be performed.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -817,7 +817,7 @@
                     ],
                     "strength": "required",
                     "description": "The current status of the task.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/task-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/task-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -970,7 +970,7 @@
                     ],
                     "strength": "required",
                     "description": "Distinguishes whether the task is a proposal, plan or full order.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/task-intent|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/task-intent|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1028,7 +1028,7 @@
                     ],
                     "strength": "required",
                     "description": "The priority of a task (may affect service level applied to the task).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3262,7 +3262,7 @@
                     ],
                     "strength": "required",
                     "description": "The current status of the task.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/task-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/task-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3370,7 +3370,7 @@
                     ],
                     "strength": "required",
                     "description": "Distinguishes whether the task is a proposal, plan or full order.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/task-intent|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/task-intent|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3413,7 +3413,7 @@
                     ],
                     "strength": "required",
                     "description": "The priority of a task (may affect service level applied to the task).",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/request-priority|4.3.0"
                 },
                 "mapping": [
                     {

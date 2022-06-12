@@ -66,7 +66,7 @@ public class AdverseEvent extends DomainResource {
         bindingName = "AdverseEventActuality",
         strength = BindingStrength.Value.REQUIRED,
         description = "Overall nature of the adverse event, e.g. real or potential.",
-        valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.3.0"
     )
     @Required
     private final AdverseEventActuality actuality;
@@ -118,7 +118,7 @@ public class AdverseEvent extends DomainResource {
         bindingName = "AdverseEventSeverity",
         strength = BindingStrength.Value.REQUIRED,
         description = "The severity of the adverse event itself, in direct relation to the subject.",
-        valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.3.0"
     )
     private final CodeableConcept severity;
     @Summary
@@ -126,7 +126,7 @@ public class AdverseEvent extends DomainResource {
         bindingName = "AdverseEventOutcome",
         strength = BindingStrength.Value.REQUIRED,
         description = "TODO (and should this be required?).",
-        valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.3.0"
     )
     private final CodeableConcept outcome;
     @Summary

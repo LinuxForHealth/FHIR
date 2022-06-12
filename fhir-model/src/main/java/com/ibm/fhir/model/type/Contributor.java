@@ -31,7 +31,7 @@ public class Contributor extends Element {
     @Binding(
         bindingName = "ContributorType",
         strength = BindingStrength.Value.REQUIRED,
-        valueSet = "http://hl7.org/fhir/ValueSet/contributor-type|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/contributor-type|4.3.0"
     )
     @Required
     private final ContributorType type;

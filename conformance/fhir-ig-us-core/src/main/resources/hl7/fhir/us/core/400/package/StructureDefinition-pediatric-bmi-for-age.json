@@ -72,7 +72,7 @@
     "kind": "resource",
     "abstract": false,
     "type": "Observation",
-    "baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-vital-signs",
+    "baseDefinition": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-vital-signs|4.0.0",
     "derivation": "constraint",
     "snapshot": {
         "element": [
@@ -1437,7 +1437,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "The vital sign codes from the base FHIR and US Core Vital Signs.",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-vital-signs"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-vital-signs|4.0.0"
                 },
                 "mapping": [
                     {
@@ -1484,7 +1484,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0"
                         ]
                     }
                 ],
@@ -3441,7 +3441,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "The vital sign codes from the base FHIR and US Core Vital Signs.",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-vital-signs"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-vital-signs|4.0.0"
                 },
                 "mapping": [
                     {

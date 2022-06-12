@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "product-intended-use",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1640"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ProductIntendedUse",
     "title": "ProductIntendedUse",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:0c038dd6-526d-4853-bc02-a3b07ea00451",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:5444c692-0583-4780-a786-b43efc507437",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 5,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/product-intended-use|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/product-intended-use|4.3.0"
             }
         ],
         "contains": [

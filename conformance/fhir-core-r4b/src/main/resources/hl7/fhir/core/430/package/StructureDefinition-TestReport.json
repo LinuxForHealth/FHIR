@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "TestReport",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Specialized.Quality Reporting &amp; Testing"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fhir"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Specialized.Quality Reporting &amp; Testing"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/TestReport",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "TestReport",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "A summary of information based on the results of executing a TestScript.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -615,7 +615,7 @@
                     ],
                     "strength": "required",
                     "description": "The current status of the test script execution.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-status-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-status-codes|4.3.0"
                 },
                 "mapping": [
                     {
@@ -698,7 +698,7 @@
                     ],
                     "strength": "required",
                     "description": "The overall execution result of the TestScript.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-result-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-result-codes|4.3.0"
                 }
             },
             {
@@ -1013,7 +1013,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of participant.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-participant-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-participant-type|4.3.0"
                 }
             },
             {
@@ -1633,7 +1633,7 @@
                     ],
                     "strength": "required",
                     "description": "The result of the execution of an individual action.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0"
                 }
             },
             {
@@ -1904,7 +1904,7 @@
                     ],
                     "strength": "required",
                     "description": "The result of the execution of an individual action.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0"
                 }
             },
             {
@@ -2901,7 +2901,7 @@
                     ],
                     "strength": "required",
                     "description": "The current status of the test script execution.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-status-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-status-codes|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2954,7 +2954,7 @@
                     ],
                     "strength": "required",
                     "description": "The overall execution result of the TestScript.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-result-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-result-codes|4.3.0"
                 }
             },
             {
@@ -3058,7 +3058,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of participant.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-participant-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-participant-type|4.3.0"
                 }
             },
             {
@@ -3182,7 +3182,7 @@
                     ],
                     "strength": "required",
                     "description": "The result of the execution of an individual action.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0"
                 }
             },
             {
@@ -3257,7 +3257,7 @@
                     ],
                     "strength": "required",
                     "description": "The result of the execution of an individual action.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.3.0"
                 }
             },
             {

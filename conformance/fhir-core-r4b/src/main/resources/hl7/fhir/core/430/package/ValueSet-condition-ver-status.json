@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "condition-ver-status",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.166"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ConditionVerificationStatus",
     "title": "ConditionVerificationStatus",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:a90b539b-d200-47a6-b5be-8c867764cb23",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:6b0d768a-dfcc-43e5-ad3f-f97d82395842",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 6,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/condition-ver-status|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/condition-ver-status|4.3.0"
             }
         ],
         "contains": [

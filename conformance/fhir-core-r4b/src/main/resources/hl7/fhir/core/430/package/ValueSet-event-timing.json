@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "event-timing",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,12 +32,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.75"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "EventTiming",
     "title": "EventTiming",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 (FHIR Project)",
     "contact": [
         {
@@ -194,8 +194,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:1308d555-4522-4751-b53a-a901077261af",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:a2e53dfe-cf57-4dcc-abd1-0cd7296ee6aa",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 26,
         "parameter": [
             {
@@ -208,7 +208,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/event-timing|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/event-timing|4.3.0"
             },
             {
                 "name": "version",

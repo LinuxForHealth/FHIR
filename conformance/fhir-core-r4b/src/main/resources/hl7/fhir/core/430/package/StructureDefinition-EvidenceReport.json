@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "EvidenceReport",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Specialized.Evidence-Based Medicine"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "cds"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Specialized.Evidence-Based Medicine"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/EvidenceReport",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "EvidenceReport",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Clinical Decision Support)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "The EvidenceReport Resource is a specialized container for a collection of resources and codable concepts, adapted to support compositions of Evidence, EvidenceVariable, and Citation resources and related concepts.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "w5",
@@ -593,7 +593,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1803,7 +1803,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of relationship between reports.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-relation-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-relation-type|4.3.0"
                 }
             },
             {
@@ -2243,7 +2243,7 @@
                     ],
                     "strength": "required",
                     "description": "The processing mode that applies to this section.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.3.0"
                 }
             },
             {
@@ -2560,7 +2560,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3032,7 +3032,7 @@
                     ],
                     "strength": "required",
                     "description": "The type of relationship between reports.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/report-relation-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/report-relation-type|4.3.0"
                 }
             },
             {
@@ -3216,7 +3216,7 @@
                     ],
                     "strength": "required",
                     "description": "The processing mode that applies to this section.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/list-mode|4.3.0"
                 }
             },
             {

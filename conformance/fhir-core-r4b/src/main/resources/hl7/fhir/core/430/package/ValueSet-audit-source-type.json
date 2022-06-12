@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "audit-source-type",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.466"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "AuditEventSourceType",
     "title": "Audit Event Source Type",
     "status": "active",
@@ -44,8 +44,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:e1ddc71b-d313-4b07-8efe-3aafcf9bec09",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:c52a0cb6-76b8-468b-a7e9-b011f2feacd6",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 9,
         "parameter": [
             {
@@ -58,7 +58,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/security-source-type|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/security-source-type|4.3.0"
             }
         ],
         "contains": [

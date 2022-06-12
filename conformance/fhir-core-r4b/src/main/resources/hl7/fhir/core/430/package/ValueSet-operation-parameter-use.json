@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "operation-parameter-use",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.508"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "OperationParameterUse",
     "title": "OperationParameterUse",
     "status": "active",
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:7ca1280c-6f4b-4b87-937d-2663f77a6ca4",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:baaf432c-4c5a-4965-968b-755b94e0a688",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 2,
         "parameter": [
             {
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/operation-parameter-use|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/operation-parameter-use|4.3.0"
             }
         ],
         "contains": [

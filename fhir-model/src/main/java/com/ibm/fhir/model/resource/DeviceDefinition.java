@@ -1892,7 +1892,7 @@ public class DeviceDefinition extends DomainResource {
             bindingName = "DeviceNameType",
             strength = BindingStrength.Value.REQUIRED,
             description = "The type of name the device is referred by.",
-            valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.3.0"
         )
         @Required
         private final DeviceNameType type;

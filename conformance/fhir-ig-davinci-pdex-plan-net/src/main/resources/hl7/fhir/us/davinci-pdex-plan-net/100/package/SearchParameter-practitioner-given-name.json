@@ -1,0 +1,52 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "practitioner-given-name",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/SearchParameter/practitioner-given-name",
+    "version": "1.0.0",
+    "name": "Plannet_sp_practitioner_given_name",
+    "derivedFrom": "http://hl7.org/fhir/SearchParameter/individual-given",
+    "status": "active",
+    "date": "2018-05-23T00:00:00+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Select Practitioners with the specified given name",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "given",
+    "base": [
+        "Practitioner"
+    ],
+    "type": "string",
+    "expression": "Practitioner.name.given",
+    "multipleOr": true,
+    "multipleAnd": true,
+    "modifier": [
+        "exact"
+    ]
+}

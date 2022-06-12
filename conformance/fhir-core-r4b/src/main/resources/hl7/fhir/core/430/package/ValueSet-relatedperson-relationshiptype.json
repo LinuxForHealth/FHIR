@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "relatedperson-relationshiptype",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -20,7 +20,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.449"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "PatientRelationshipType",
     "status": "draft",
     "experimental": false,
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:f56ff787-48af-4687-bd24-9c8b65e2c339",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:04da8f86-1c19-4807-9b79-1deb7a2028a9",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 124,
         "parameter": [
             {

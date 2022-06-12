@@ -64,7 +64,7 @@ public class ResourceProcessor {
 
                 if (!jsonObject.containsKey("version")) {
                     System.out.println("file: " + file + " does not have a version");
-                    jsonObjectBuilder.add("version", "4.1.0");
+                    jsonObjectBuilder.add("version", "4.3.0");
                 }
 
                 jsonObject = jsonObjectBuilder.build();

@@ -1,0 +1,2734 @@
+{
+    "resourceType": "ValueSet",
+    "id": "IndividualAndGroupSpecialtiesVS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/IndividualAndGroupSpecialtiesVS",
+    "version": "1.1.0",
+    "name": "IndividualAndGroupSpecialtiesVS",
+    "title": "Individual and Group Specialties",
+    "status": "active",
+    "date": "2022-04-04T14:02:01+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Individual and Group Specialties from National Uniform Claim Committee (NUCC) Health Care Provider Taxonomy code set.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "system": "http://nucc.org/provider-taxonomy",
+                "concept": [
+                    {
+                        "code": "101200000X",
+                        "display": "Drama Therapist"
+                    },
+                    {
+                        "code": "101Y00000X",
+                        "display": "Counselor"
+                    },
+                    {
+                        "code": "101YA0400X",
+                        "display": "Addiction (Substance Use Disorder) Counselor"
+                    },
+                    {
+                        "code": "101YM0800X",
+                        "display": "Mental Health Counselor"
+                    },
+                    {
+                        "code": "101YP1600X",
+                        "display": "Pastoral Counselor"
+                    },
+                    {
+                        "code": "101YP2500X",
+                        "display": "Professional Counselor"
+                    },
+                    {
+                        "code": "101YS0200X",
+                        "display": "School Counselor"
+                    },
+                    {
+                        "code": "102L00000X",
+                        "display": "Psychoanalyst"
+                    },
+                    {
+                        "code": "102X00000X",
+                        "display": "Poetry Therapist"
+                    },
+                    {
+                        "code": "103G00000X",
+                        "display": "Clinical Neuropsychologist"
+                    },
+                    {
+                        "code": "103K00000X",
+                        "display": "Behavioral Analyst"
+                    },
+                    {
+                        "code": "103T00000X",
+                        "display": "Psychologist"
+                    },
+                    {
+                        "code": "103TA0400X",
+                        "display": "Addiction (Substance Use Disorder) Psychologist"
+                    },
+                    {
+                        "code": "103TA0700X",
+                        "display": "Adult Development & Aging Psychologist"
+                    },
+                    {
+                        "code": "103TB0200X",
+                        "display": "Cognitive & Behavioral Psychologist"
+                    },
+                    {
+                        "code": "103TC0700X",
+                        "display": "Clinical Psychologist"
+                    },
+                    {
+                        "code": "103TC1900X",
+                        "display": "Counseling Psychologist"
+                    },
+                    {
+                        "code": "103TC2200X",
+                        "display": "Clinical Child & Adolescent Psychologist"
+                    },
+                    {
+                        "code": "103TE1100X",
+                        "display": "Exercise & Sports Psychologist"
+                    },
+                    {
+                        "code": "103TF0000X",
+                        "display": "Family Psychologist"
+                    },
+                    {
+                        "code": "103TF0200X",
+                        "display": "Forensic Psychologist"
+                    },
+                    {
+                        "code": "103TH0004X",
+                        "display": "Health Psychologist"
+                    },
+                    {
+                        "code": "103TH0100X",
+                        "display": "Health Service Psychologist"
+                    },
+                    {
+                        "code": "103TM1800X",
+                        "display": "Intellectual & Developmental Disabilities Psychologist"
+                    },
+                    {
+                        "code": "103TP0016X",
+                        "display": "Prescribing (Medical) Psychologist"
+                    },
+                    {
+                        "code": "103TP0814X",
+                        "display": "Psychoanalysis Psychologist"
+                    },
+                    {
+                        "code": "103TP2701X",
+                        "display": "Group Psychotherapy Psychologist"
+                    },
+                    {
+                        "code": "103TR0400X",
+                        "display": "Rehabilitation Psychologist"
+                    },
+                    {
+                        "code": "103TS0200X",
+                        "display": "School Psychologist"
+                    },
+                    {
+                        "code": "104100000X",
+                        "display": "Social Worker"
+                    },
+                    {
+                        "code": "1041C0700X",
+                        "display": "Clinical Social Worker"
+                    },
+                    {
+                        "code": "1041S0200X",
+                        "display": "School Social Worker"
+                    },
+                    {
+                        "code": "106E00000X",
+                        "display": "Assistant Behavior Analyst"
+                    },
+                    {
+                        "code": "106H00000X",
+                        "display": "Marriage & Family Therapist"
+                    },
+                    {
+                        "code": "106S00000X",
+                        "display": "Behavior Technician"
+                    },
+                    {
+                        "code": "111N00000X",
+                        "display": "Chiropractor"
+                    },
+                    {
+                        "code": "111NI0013X",
+                        "display": "Independent Medical Examiner Chiropractor"
+                    },
+                    {
+                        "code": "111NI0900X",
+                        "display": "Internist Chiropractor"
+                    },
+                    {
+                        "code": "111NN0400X",
+                        "display": "Neurology Chiropractor"
+                    },
+                    {
+                        "code": "111NN1001X",
+                        "display": "Nutrition Chiropractor"
+                    },
+                    {
+                        "code": "111NP0017X",
+                        "display": "Pediatric Chiropractor"
+                    },
+                    {
+                        "code": "111NR0200X",
+                        "display": "Radiology Chiropractor"
+                    },
+                    {
+                        "code": "111NR0400X",
+                        "display": "Rehabilitation Chiropractor"
+                    },
+                    {
+                        "code": "111NS0005X",
+                        "display": "Sports Physician Chiropractor"
+                    },
+                    {
+                        "code": "111NT0100X",
+                        "display": "Thermography Chiropractor"
+                    },
+                    {
+                        "code": "111NX0100X",
+                        "display": "Occupational Health Chiropractor"
+                    },
+                    {
+                        "code": "111NX0800X",
+                        "display": "Orthopedic Chiropractor"
+                    },
+                    {
+                        "code": "122300000X",
+                        "display": "Dentist"
+                    },
+                    {
+                        "code": "1223D0001X",
+                        "display": "Public Health Dentist"
+                    },
+                    {
+                        "code": "1223D0004X",
+                        "display": "Dentist Anesthesiologist"
+                    },
+                    {
+                        "code": "1223E0200X",
+                        "display": "Endodontist"
+                    },
+                    {
+                        "code": "1223G0001X",
+                        "display": "General Practice Dentistry"
+                    },
+                    {
+                        "code": "1223P0106X",
+                        "display": "Oral and Maxillofacial Pathology Dentist"
+                    },
+                    {
+                        "code": "1223P0221X",
+                        "display": "Pediatric Dentist"
+                    },
+                    {
+                        "code": "1223P0300X",
+                        "display": "Periodontist"
+                    },
+                    {
+                        "code": "1223P0700X",
+                        "display": "Prosthodontist"
+                    },
+                    {
+                        "code": "1223S0112X",
+                        "display": "Oral and Maxillofacial Surgery (Dentist)"
+                    },
+                    {
+                        "code": "1223X0008X",
+                        "display": "Oral and Maxillofacial Radiology Dentist"
+                    },
+                    {
+                        "code": "1223X0400X",
+                        "display": "Orthodontics and Dentofacial Orthopedic Dentist"
+                    },
+                    {
+                        "code": "1223X2210X",
+                        "display": "Orofacial Pain Dentist"
+                    },
+                    {
+                        "code": "122400000X",
+                        "display": "Denturist"
+                    },
+                    {
+                        "code": "124Q00000X",
+                        "display": "Dental Hygienist"
+                    },
+                    {
+                        "code": "125J00000X",
+                        "display": "Dental Therapist"
+                    },
+                    {
+                        "code": "125K00000X",
+                        "display": "Advanced Practice Dental Therapist"
+                    },
+                    {
+                        "code": "125Q00000X",
+                        "display": "Oral Medicinist"
+                    },
+                    {
+                        "code": "126800000X",
+                        "display": "Dental Assistant"
+                    },
+                    {
+                        "code": "126900000X",
+                        "display": "Dental Laboratory Technician"
+                    },
+                    {
+                        "code": "132700000X",
+                        "display": "Dietary Manager"
+                    },
+                    {
+                        "code": "133N00000X",
+                        "display": "Nutritionist"
+                    },
+                    {
+                        "code": "133NN1002X",
+                        "display": "Nutrition Education Nutritionist"
+                    },
+                    {
+                        "code": "133V00000X",
+                        "display": "Registered Dietitian"
+                    },
+                    {
+                        "code": "133VN1004X",
+                        "display": "Pediatric Nutrition Registered Dietitian"
+                    },
+                    {
+                        "code": "133VN1005X",
+                        "display": "Renal Nutrition Registered Dietitian"
+                    },
+                    {
+                        "code": "133VN1006X",
+                        "display": "Metabolic Nutrition Registered Dietitian"
+                    },
+                    {
+                        "code": "133VN1101X",
+                        "display": "Gerontological Nutrition Registered Dietitian"
+                    },
+                    {
+                        "code": "133VN1201X",
+                        "display": "Obesity and Weight Management Nutrition Registered Dietitian"
+                    },
+                    {
+                        "code": "133VN1301X",
+                        "display": "Oncology Nutrition Registered Dietitian"
+                    },
+                    {
+                        "code": "133VN1401X",
+                        "display": "Pediatric Critical Care Nutrition Registered Dietitian"
+                    },
+                    {
+                        "code": "133VN1501X",
+                        "display": "Sports Dietetics Nutrition Registered Dietitian"
+                    },
+                    {
+                        "code": "136A00000X",
+                        "display": "Registered Dietetic Technician"
+                    },
+                    {
+                        "code": "146D00000X",
+                        "display": "Personal Emergency Response Attendant"
+                    },
+                    {
+                        "code": "146L00000X",
+                        "display": "Paramedic"
+                    },
+                    {
+                        "code": "146M00000X",
+                        "display": "Intermediate Emergency Medical Technician"
+                    },
+                    {
+                        "code": "146N00000X",
+                        "display": "Basic Emergency Medical Technician"
+                    },
+                    {
+                        "code": "152W00000X",
+                        "display": "Optometrist"
+                    },
+                    {
+                        "code": "152WC0802X",
+                        "display": "Corneal and Contact Management Optometrist"
+                    },
+                    {
+                        "code": "152WL0500X",
+                        "display": "Low Vision Rehabilitation Optometrist"
+                    },
+                    {
+                        "code": "152WP0200X",
+                        "display": "Pediatric Optometrist"
+                    },
+                    {
+                        "code": "152WS0006X",
+                        "display": "Sports Vision Optometrist"
+                    },
+                    {
+                        "code": "152WV0400X",
+                        "display": "Vision Therapy Optometrist"
+                    },
+                    {
+                        "code": "152WX0102X",
+                        "display": "Occupational Vision Optometrist"
+                    },
+                    {
+                        "code": "156F00000X",
+                        "display": "Technician/Technologist"
+                    },
+                    {
+                        "code": "156FC0800X",
+                        "display": "Contact Lens Technician/Technologist"
+                    },
+                    {
+                        "code": "156FC0801X",
+                        "display": "Contact Lens Fitter"
+                    },
+                    {
+                        "code": "156FX1100X",
+                        "display": "Ophthalmic Technician/Technologist"
+                    },
+                    {
+                        "code": "156FX1101X",
+                        "display": "Ophthalmic Assistant"
+                    },
+                    {
+                        "code": "156FX1201X",
+                        "display": "Optometric Assistant Technician"
+                    },
+                    {
+                        "code": "156FX1202X",
+                        "display": "Optometric Technician"
+                    },
+                    {
+                        "code": "156FX1700X",
+                        "display": "Ocularist"
+                    },
+                    {
+                        "code": "156FX1800X",
+                        "display": "Optician"
+                    },
+                    {
+                        "code": "156FX1900X",
+                        "display": "Orthoptist"
+                    },
+                    {
+                        "code": "163W00000X",
+                        "display": "Registered Nurse"
+                    },
+                    {
+                        "code": "163WA0400X",
+                        "display": "Addiction (Substance Use Disorder) Registered Nurse"
+                    },
+                    {
+                        "code": "163WA2000X",
+                        "display": "Administrator Registered Nurse"
+                    },
+                    {
+                        "code": "163WC0200X",
+                        "display": "Critical Care Medicine Registered Nurse"
+                    },
+                    {
+                        "code": "163WC0400X",
+                        "display": "Case Management Registered Nurse"
+                    },
+                    {
+                        "code": "163WC1400X",
+                        "display": "College Health Registered Nurse"
+                    },
+                    {
+                        "code": "163WC1500X",
+                        "display": "Community Health Registered Nurse"
+                    },
+                    {
+                        "code": "163WC1600X",
+                        "display": "Continuing Education/Staff Development Registered Nurse"
+                    },
+                    {
+                        "code": "163WC2100X",
+                        "display": "Continence Care Registered Nurse"
+                    },
+                    {
+                        "code": "163WC3500X",
+                        "display": "Cardiac Rehabilitation Registered Nurse"
+                    },
+                    {
+                        "code": "163WD0400X",
+                        "display": "Diabetes Educator Registered Nurse"
+                    },
+                    {
+                        "code": "163WD1100X",
+                        "display": "Peritoneal Dialysis Registered Nurse"
+                    },
+                    {
+                        "code": "163WE0003X",
+                        "display": "Emergency Registered Nurse"
+                    },
+                    {
+                        "code": "163WE0900X",
+                        "display": "Enterostomal Therapy Registered Nurse"
+                    },
+                    {
+                        "code": "163WF0300X",
+                        "display": "Flight Registered Nurse"
+                    },
+                    {
+                        "code": "163WG0000X",
+                        "display": "General Practice Registered Nurse"
+                    },
+                    {
+                        "code": "163WG0100X",
+                        "display": "Gastroenterology Registered Nurse"
+                    },
+                    {
+                        "code": "163WG0600X",
+                        "display": "Gerontology Registered Nurse"
+                    },
+                    {
+                        "code": "163WH0200X",
+                        "display": "Home Health Registered Nurse"
+                    },
+                    {
+                        "code": "163WH0500X",
+                        "display": "Hemodialysis Registered Nurse"
+                    },
+                    {
+                        "code": "163WH1000X",
+                        "display": "Hospice Registered Nurse"
+                    },
+                    {
+                        "code": "163WI0500X",
+                        "display": "Infusion Therapy Registered Nurse"
+                    },
+                    {
+                        "code": "163WI0600X",
+                        "display": "Infection Control Registered Nurse"
+                    },
+                    {
+                        "code": "163WL0100X",
+                        "display": "Lactation Consultant (Registered Nurse)"
+                    },
+                    {
+                        "code": "163WM0102X",
+                        "display": "Maternal Newborn Registered Nurse"
+                    },
+                    {
+                        "code": "163WM0705X",
+                        "display": "Medical-Surgical Registered Nurse"
+                    },
+                    {
+                        "code": "163WM1400X",
+                        "display": "Nurse Massage Therapist (NMT)"
+                    },
+                    {
+                        "code": "163WN0002X",
+                        "display": "Neonatal Intensive Care Registered Nurse"
+                    },
+                    {
+                        "code": "163WN0003X",
+                        "display": "Low-Risk Neonatal Registered Nurse"
+                    },
+                    {
+                        "code": "163WN0300X",
+                        "display": "Nephrology Registered Nurse"
+                    },
+                    {
+                        "code": "163WN0800X",
+                        "display": "Neuroscience Registered Nurse"
+                    },
+                    {
+                        "code": "163WN1003X",
+                        "display": "Nutrition Support Registered Nurse"
+                    },
+                    {
+                        "code": "163WP0000X",
+                        "display": "Pain Management Registered Nurse"
+                    },
+                    {
+                        "code": "163WP0200X",
+                        "display": "Pediatric Registered Nurse"
+                    },
+                    {
+                        "code": "163WP0218X",
+                        "display": "Pediatric Oncology Registered Nurse"
+                    },
+                    {
+                        "code": "163WP0807X",
+                        "display": "Child & Adolescent Psychiatric/Mental Health Registered Nurse"
+                    },
+                    {
+                        "code": "163WP0808X",
+                        "display": "Psychiatric/Mental Health Registered Nurse"
+                    },
+                    {
+                        "code": "163WP0809X",
+                        "display": "Adult Psychiatric/Mental Health Registered Nurse"
+                    },
+                    {
+                        "code": "163WP1700X",
+                        "display": "Perinatal Registered Nurse"
+                    },
+                    {
+                        "code": "163WP2201X",
+                        "display": "Ambulatory Care Registered Nurse"
+                    },
+                    {
+                        "code": "163WR0006X",
+                        "display": "Registered Nurse First Assistant"
+                    },
+                    {
+                        "code": "163WR0400X",
+                        "display": "Rehabilitation Registered Nurse"
+                    },
+                    {
+                        "code": "163WR1000X",
+                        "display": "Reproductive Endocrinology/Infertility Registered Nurse"
+                    },
+                    {
+                        "code": "163WS0121X",
+                        "display": "Plastic Surgery Registered Nurse"
+                    },
+                    {
+                        "code": "163WS0200X",
+                        "display": "School Registered Nurse"
+                    },
+                    {
+                        "code": "163WU0100X",
+                        "display": "Urology Registered Nurse"
+                    },
+                    {
+                        "code": "163WW0000X",
+                        "display": "Wound Care Registered Nurse"
+                    },
+                    {
+                        "code": "163WW0101X",
+                        "display": "Ambulatory Women's Health Care Registered Nurse"
+                    },
+                    {
+                        "code": "163WX0002X",
+                        "display": "High-Risk Obstetric Registered Nurse"
+                    },
+                    {
+                        "code": "163WX0003X",
+                        "display": "Inpatient Obstetric Registered Nurse"
+                    },
+                    {
+                        "code": "163WX0106X",
+                        "display": "Occupational Health Registered Nurse"
+                    },
+                    {
+                        "code": "163WX0200X",
+                        "display": "Oncology Registered Nurse"
+                    },
+                    {
+                        "code": "163WX0601X",
+                        "display": "Otorhinolaryngology & Head-Neck Registered Nurse"
+                    },
+                    {
+                        "code": "163WX0800X",
+                        "display": "Orthopedic Registered Nurse"
+                    },
+                    {
+                        "code": "163WX1100X",
+                        "display": "Ophthalmic Registered Nurse"
+                    },
+                    {
+                        "code": "163WX1500X",
+                        "display": "Ostomy Care Registered Nurse"
+                    },
+                    {
+                        "code": "164W00000X",
+                        "display": "Licensed Practical Nurse"
+                    },
+                    {
+                        "code": "164X00000X",
+                        "display": "Licensed Vocational Nurse"
+                    },
+                    {
+                        "code": "167G00000X",
+                        "display": "Licensed Psychiatric Technician"
+                    },
+                    {
+                        "code": "170100000X",
+                        "display": "Ph.D. Medical Genetics"
+                    },
+                    {
+                        "code": "170300000X",
+                        "display": "Genetic Counselor (M.S.)"
+                    },
+                    {
+                        "code": "171000000X",
+                        "display": "Military Health Care Provider"
+                    },
+                    {
+                        "code": "1710I1002X",
+                        "display": "Independent Duty Corpsman"
+                    },
+                    {
+                        "code": "1710I1003X",
+                        "display": "Independent Duty Medical Technicians"
+                    },
+                    {
+                        "code": "171100000X",
+                        "display": "Acupuncturist"
+                    },
+                    {
+                        "code": "171400000X",
+                        "display": "Health & Wellness Coach"
+                    },
+                    {
+                        "code": "171M00000X",
+                        "display": "Case Manager/Care Coordinator"
+                    },
+                    {
+                        "code": "171R00000X",
+                        "display": "Interpreter"
+                    },
+                    {
+                        "code": "171W00000X",
+                        "display": "Contractor"
+                    },
+                    {
+                        "code": "171WH0202X",
+                        "display": "Home Modifications Contractor"
+                    },
+                    {
+                        "code": "171WV0202X",
+                        "display": "Vehicle Modifications Contractor"
+                    },
+                    {
+                        "code": "172A00000X",
+                        "display": "Driver"
+                    },
+                    {
+                        "code": "172M00000X",
+                        "display": "Mechanotherapist"
+                    },
+                    {
+                        "code": "172P00000X",
+                        "display": "Naprapath"
+                    },
+                    {
+                        "code": "172V00000X",
+                        "display": "Community Health Worker"
+                    },
+                    {
+                        "code": "173000000X",
+                        "display": "Legal Medicine"
+                    },
+                    {
+                        "code": "173C00000X",
+                        "display": "Reflexologist"
+                    },
+                    {
+                        "code": "173F00000X",
+                        "display": "Sleep Specialist (PhD)"
+                    },
+                    {
+                        "code": "174400000X",
+                        "display": "Specialist"
+                    },
+                    {
+                        "code": "1744G0900X",
+                        "display": "Graphics Designer"
+                    },
+                    {
+                        "code": "1744P3200X",
+                        "display": "Prosthetics Case Management"
+                    },
+                    {
+                        "code": "1744R1102X",
+                        "display": "Research Study Specialist"
+                    },
+                    {
+                        "code": "1744R1103X",
+                        "display": "Research Study Abstracter/Coder"
+                    },
+                    {
+                        "code": "174H00000X",
+                        "display": "Health Educator"
+                    },
+                    {
+                        "code": "174M00000X",
+                        "display": "Veterinarian"
+                    },
+                    {
+                        "code": "174MM1900X",
+                        "display": "Medical Research Veterinarian"
+                    },
+                    {
+                        "code": "174N00000X",
+                        "display": "Lactation Consultant (Non-RN)"
+                    },
+                    {
+                        "code": "174V00000X",
+                        "display": "Clinical Ethicist"
+                    },
+                    {
+                        "code": "175F00000X",
+                        "display": "Naturopath"
+                    },
+                    {
+                        "code": "175L00000X",
+                        "display": "Homeopath"
+                    },
+                    {
+                        "code": "175M00000X",
+                        "display": "Lay Midwife"
+                    },
+                    {
+                        "code": "175T00000X",
+                        "display": "Peer Specialist"
+                    },
+                    {
+                        "code": "176B00000X",
+                        "display": "Midwife"
+                    },
+                    {
+                        "code": "176P00000X",
+                        "display": "Funeral Director"
+                    },
+                    {
+                        "code": "183500000X",
+                        "display": "Pharmacist"
+                    },
+                    {
+                        "code": "1835C0205X",
+                        "display": "Critical Care Pharmacist"
+                    },
+                    {
+                        "code": "1835G0303X",
+                        "display": "Geriatric Pharmacist"
+                    },
+                    {
+                        "code": "1835N0905X",
+                        "display": "Nuclear Pharmacist"
+                    },
+                    {
+                        "code": "1835N1003X",
+                        "display": "Nutrition Support Pharmacist"
+                    },
+                    {
+                        "code": "1835P0018X",
+                        "display": "Pharmacist Clinician (PhC)/ Clinical Pharmacy Specialist"
+                    },
+                    {
+                        "code": "1835P0200X",
+                        "display": "Pediatric Pharmacist"
+                    },
+                    {
+                        "code": "1835P1200X",
+                        "display": "Pharmacotherapy Pharmacist"
+                    },
+                    {
+                        "code": "1835P1300X",
+                        "display": "Psychiatric Pharmacist"
+                    },
+                    {
+                        "code": "1835P2201X",
+                        "display": "Ambulatory Care Pharmacist"
+                    },
+                    {
+                        "code": "1835X0200X",
+                        "display": "Oncology Pharmacist"
+                    },
+                    {
+                        "code": "183700000X",
+                        "display": "Pharmacy Technician"
+                    },
+                    {
+                        "code": "193200000X",
+                        "display": "Multi-Specialty Group"
+                    },
+                    {
+                        "code": "202C00000X",
+                        "display": "Independent Medical Examiner Physician"
+                    },
+                    {
+                        "code": "202K00000X",
+                        "display": "Phlebology Physician"
+                    },
+                    {
+                        "code": "204C00000X",
+                        "display": "Sports Medicine (Neuromusculoskeletal Medicine) Physician"
+                    },
+                    {
+                        "code": "204D00000X",
+                        "display": "Neuromusculoskeletal Medicine & OMM Physician"
+                    },
+                    {
+                        "code": "204E00000X",
+                        "display": "Oral & Maxillofacial Surgery (D.M.D.) Physician"
+                    },
+                    {
+                        "code": "204F00000X",
+                        "display": "Transplant Surgery Physician"
+                    },
+                    {
+                        "code": "204R00000X",
+                        "display": "Electrodiagnostic Medicine Physician"
+                    },
+                    {
+                        "code": "207K00000X",
+                        "display": "Allergy & Immunology Physician"
+                    },
+                    {
+                        "code": "207KA0200X",
+                        "display": "Allergy Physician"
+                    },
+                    {
+                        "code": "207KI0005X",
+                        "display": "Clinical & Laboratory Immunology (Allergy & Immunology) Physician"
+                    },
+                    {
+                        "code": "207L00000X",
+                        "display": "Anesthesiology Physician"
+                    },
+                    {
+                        "code": "207LA0401X",
+                        "display": "Addiction Medicine (Anesthesiology) Physician"
+                    },
+                    {
+                        "code": "207LC0200X",
+                        "display": "Critical Care Medicine (Anesthesiology) Physician"
+                    },
+                    {
+                        "code": "207LH0002X",
+                        "display": "Hospice and Palliative Medicine (Anesthesiology) Physician"
+                    },
+                    {
+                        "code": "207LP2900X",
+                        "display": "Pain Medicine (Anesthesiology) Physician"
+                    },
+                    {
+                        "code": "207LP3000X",
+                        "display": "Pediatric Anesthesiology Physician"
+                    },
+                    {
+                        "code": "207N00000X",
+                        "display": "Dermatology Physician"
+                    },
+                    {
+                        "code": "207ND0101X",
+                        "display": "MOHS-Micrographic Surgery Physician"
+                    },
+                    {
+                        "code": "207ND0900X",
+                        "display": "Dermatopathology Physician"
+                    },
+                    {
+                        "code": "207NI0002X",
+                        "display": "Clinical & Laboratory Dermatological Immunology Physician"
+                    },
+                    {
+                        "code": "207NP0225X",
+                        "display": "Pediatric Dermatology Physician"
+                    },
+                    {
+                        "code": "207NS0135X",
+                        "display": "Procedural Dermatology Physician"
+                    },
+                    {
+                        "code": "207P00000X",
+                        "display": "Emergency Medicine Physician"
+                    },
+                    {
+                        "code": "207PE0004X",
+                        "display": "Emergency Medical Services (Emergency Medicine) Physician"
+                    },
+                    {
+                        "code": "207PE0005X",
+                        "display": "Undersea and Hyperbaric Medicine (Emergency Medicine) Physician"
+                    },
+                    {
+                        "code": "207PH0002X",
+                        "display": "Hospice and Palliative Medicine (Emergency Medicine) Physician"
+                    },
+                    {
+                        "code": "207PP0204X",
+                        "display": "Pediatric Emergency Medicine (Emergency Medicine) Physician"
+                    },
+                    {
+                        "code": "207PS0010X",
+                        "display": "Sports Medicine (Emergency Medicine) Physician"
+                    },
+                    {
+                        "code": "207PT0002X",
+                        "display": "Medical Toxicology (Emergency Medicine) Physician"
+                    },
+                    {
+                        "code": "207Q00000X",
+                        "display": "Family Medicine Physician"
+                    },
+                    {
+                        "code": "207QA0000X",
+                        "display": "Adolescent Medicine (Family Medicine) Physician"
+                    },
+                    {
+                        "code": "207QA0401X",
+                        "display": "Addiction Medicine (Family Medicine) Physician"
+                    },
+                    {
+                        "code": "207QA0505X",
+                        "display": "Adult Medicine Physician"
+                    },
+                    {
+                        "code": "207QB0002X",
+                        "display": "Obesity Medicine (Family Medicine) Physician"
+                    },
+                    {
+                        "code": "207QG0300X",
+                        "display": "Geriatric Medicine (Family Medicine) Physician"
+                    },
+                    {
+                        "code": "207QH0002X",
+                        "display": "Hospice and Palliative Medicine (Family Medicine) Physician"
+                    },
+                    {
+                        "code": "207QS0010X",
+                        "display": "Sports Medicine (Family Medicine) Physician"
+                    },
+                    {
+                        "code": "207QS1201X",
+                        "display": "Sleep Medicine (Family Medicine) Physician"
+                    },
+                    {
+                        "code": "207R00000X",
+                        "display": "Internal Medicine Physician"
+                    },
+                    {
+                        "code": "207RA0000X",
+                        "display": "Adolescent Medicine (Internal Medicine) Physician"
+                    },
+                    {
+                        "code": "207RA0001X",
+                        "display": "Advanced Heart Failure and Transplant Cardiology Physician"
+                    },
+                    {
+                        "code": "207RA0002X",
+                        "display": "Adult Congenital Heart Disease Physician"
+                    },
+                    {
+                        "code": "207RA0201X",
+                        "display": "Allergy & Immunology (Internal Medicine) Physician"
+                    },
+                    {
+                        "code": "207RA0401X",
+                        "display": "Addiction Medicine (Internal Medicine) Physician"
+                    },
+                    {
+                        "code": "207RB0002X",
+                        "display": "Obesity Medicine (Internal Medicine) Physician"
+                    },
+                    {
+                        "code": "207RC0000X",
+                        "display": "Cardiovascular Disease Physician"
+                    },
+                    {
+                        "code": "207RC0001X",
+                        "display": "Clinical Cardiac Electrophysiology Physician"
+                    },
+                    {
+                        "code": "207RC0200X",
+                        "display": "Critical Care Medicine (Internal Medicine) Physician"
+                    },
+                    {
+                        "code": "207RE0101X",
+                        "display": "Endocrinology, Diabetes & Metabolism Physician"
+                    },
+                    {
+                        "code": "207RG0100X",
+                        "display": "Gastroenterology Physician"
+                    },
+                    {
+                        "code": "207RG0300X",
+                        "display": "Geriatric Medicine (Internal Medicine) Physician"
+                    },
+                    {
+                        "code": "207RH0000X",
+                        "display": "Hematology (Internal Medicine) Physician"
+                    },
+                    {
+                        "code": "207RH0002X",
+                        "display": "Hospice and Palliative Medicine (Internal Medicine) Physician"
+                    },
+                    {
+                        "code": "207RH0003X",
+                        "display": "Hematology & Oncology Physician"
+                    },
+                    {
+                        "code": "207RH0005X",
+                        "display": "Hypertension Specialist Physician"
+                    },
+                    {
+                        "code": "207RI0001X",
+                        "display": "Clinical & Laboratory Immunology (Internal Medicine) Physician"
+                    },
+                    {
+                        "code": "207RI0008X",
+                        "display": "Hepatology Physician"
+                    },
+                    {
+                        "code": "207RI0011X",
+                        "display": "Interventional Cardiology Physician"
+                    },
+                    {
+                        "code": "207RI0200X",
+                        "display": "Infectious Disease Physician"
+                    },
+                    {
+                        "code": "207RM1200X",
+                        "display": "Magnetic Resonance Imaging (MRI) Internal Medicine Physician"
+                    },
+                    {
+                        "code": "207RN0300X",
+                        "display": "Nephrology Physician"
+                    },
+                    {
+                        "code": "207RP1001X",
+                        "display": "Pulmonary Disease Physician"
+                    },
+                    {
+                        "code": "207RR0500X",
+                        "display": "Rheumatology Physician"
+                    },
+                    {
+                        "code": "207RS0010X",
+                        "display": "Sports Medicine (Internal Medicine) Physician"
+                    },
+                    {
+                        "code": "207RS0012X",
+                        "display": "Sleep Medicine (Internal Medicine) Physician"
+                    },
+                    {
+                        "code": "207RT0003X",
+                        "display": "Transplant Hepatology Physician"
+                    },
+                    {
+                        "code": "207RX0202X",
+                        "display": "Medical Oncology Physician"
+                    },
+                    {
+                        "code": "207SC0300X",
+                        "display": "Clinical Cytogenetics Physician"
+                    },
+                    {
+                        "code": "207SG0201X",
+                        "display": "Clinical Genetics (M.D.) Physician"
+                    },
+                    {
+                        "code": "207SG0202X",
+                        "display": "Clinical Biochemical Genetics Physician"
+                    },
+                    {
+                        "code": "207SG0203X",
+                        "display": "Clinical Molecular Genetics Physician"
+                    },
+                    {
+                        "code": "207SG0205X",
+                        "display": "Ph.D. Medical Genetics Physician"
+                    },
+                    {
+                        "code": "207SM0001X",
+                        "display": "Molecular Genetic Pathology (Medical Genetics) Physician"
+                    },
+                    {
+                        "code": "207T00000X",
+                        "display": "Neurological Surgery Physician"
+                    },
+                    {
+                        "code": "207U00000X",
+                        "display": "Nuclear Medicine Physician"
+                    },
+                    {
+                        "code": "207UN0901X",
+                        "display": "Nuclear Cardiology Physician"
+                    },
+                    {
+                        "code": "207UN0902X",
+                        "display": "Nuclear Imaging & Therapy Physician"
+                    },
+                    {
+                        "code": "207UN0903X",
+                        "display": "In Vivo & In Vitro Nuclear Medicine Physician"
+                    },
+                    {
+                        "code": "207V00000X",
+                        "display": "Obstetrics & Gynecology Physician"
+                    },
+                    {
+                        "code": "207VB0002X",
+                        "display": "Obesity Medicine (Obstetrics & Gynecology) Physician"
+                    },
+                    {
+                        "code": "207VC0200X",
+                        "display": "Critical Care Medicine (Obstetrics & Gynecology) Physician"
+                    },
+                    {
+                        "code": "207VE0102X",
+                        "display": "Reproductive Endocrinology Physician"
+                    },
+                    {
+                        "code": "207VF0040X",
+                        "display": "Female Pelvic Medicine and Reconstructive Surgery (Obstetrics & Gynecology) Physician"
+                    },
+                    {
+                        "code": "207VG0400X",
+                        "display": "Gynecology Physician"
+                    },
+                    {
+                        "code": "207VH0002X",
+                        "display": "Hospice and Palliative Medicine (Obstetrics & Gynecology) Physician"
+                    },
+                    {
+                        "code": "207VM0101X",
+                        "display": "Maternal & Fetal Medicine Physician"
+                    },
+                    {
+                        "code": "207VX0000X",
+                        "display": "Obstetrics Physician"
+                    },
+                    {
+                        "code": "207VX0201X",
+                        "display": "Gynecologic Oncology Physician"
+                    },
+                    {
+                        "code": "207W00000X",
+                        "display": "Ophthalmology Physician"
+                    },
+                    {
+                        "code": "207WX0009X",
+                        "display": "Glaucoma Specialist (Ophthalmology) Physician"
+                    },
+                    {
+                        "code": "207WX0107X",
+                        "display": "Retina Specialist (Ophthalmology) Physician"
+                    },
+                    {
+                        "code": "207WX0108X",
+                        "display": "Uveitis and Ocular Inflammatory Disease (Ophthalmology) Physician"
+                    },
+                    {
+                        "code": "207WX0109X",
+                        "display": "Neuro-ophthalmology Physician"
+                    },
+                    {
+                        "code": "207WX0110X",
+                        "display": "Pediatric Ophthalmology and Strabismus Specialist Physician"
+                    },
+                    {
+                        "code": "207WX0120X",
+                        "display": "Cornea and External Diseases Specialist Physician"
+                    },
+                    {
+                        "code": "207WX0200X",
+                        "display": "Ophthalmic Plastic and Reconstructive Surgery Physician"
+                    },
+                    {
+                        "code": "207X00000X",
+                        "display": "Orthopaedic Surgery Physician"
+                    },
+                    {
+                        "code": "207XP3100X",
+                        "display": "Pediatric Orthopaedic Surgery Physician"
+                    },
+                    {
+                        "code": "207XS0106X",
+                        "display": "Orthopaedic Hand Surgery Physician"
+                    },
+                    {
+                        "code": "207XS0114X",
+                        "display": "Adult Reconstructive Orthopaedic Surgery Physician"
+                    },
+                    {
+                        "code": "207XS0117X",
+                        "display": "Orthopaedic Surgery of the Spine Physician"
+                    },
+                    {
+                        "code": "207XX0004X",
+                        "display": "Orthopaedic Foot and Ankle Surgery Physician"
+                    },
+                    {
+                        "code": "207XX0005X",
+                        "display": "Sports Medicine (Orthopaedic Surgery) Physician"
+                    },
+                    {
+                        "code": "207XX0801X",
+                        "display": "Orthopaedic Trauma Physician"
+                    },
+                    {
+                        "code": "207Y00000X",
+                        "display": "Otolaryngology Physician"
+                    },
+                    {
+                        "code": "207YP0228X",
+                        "display": "Pediatric Otolaryngology Physician"
+                    },
+                    {
+                        "code": "207YS0012X",
+                        "display": "Sleep Medicine (Otolaryngology) Physician"
+                    },
+                    {
+                        "code": "207YS0123X",
+                        "display": "Facial Plastic Surgery Physician"
+                    },
+                    {
+                        "code": "207YX0007X",
+                        "display": "Plastic Surgery within the Head & Neck (Otolaryngology) Physician"
+                    },
+                    {
+                        "code": "207YX0602X",
+                        "display": "Otolaryngic Allergy Physician"
+                    },
+                    {
+                        "code": "207YX0901X",
+                        "display": "Otology & Neurotology Physician"
+                    },
+                    {
+                        "code": "207YX0905X",
+                        "display": "Otolaryngology/Facial Plastic Surgery Physician"
+                    },
+                    {
+                        "code": "207ZB0001X",
+                        "display": "Blood Banking & Transfusion Medicine Physician"
+                    },
+                    {
+                        "code": "207ZC0006X",
+                        "display": "Clinical Pathology Physician"
+                    },
+                    {
+                        "code": "207ZC0008X",
+                        "display": "Clinical Informatics (Pathology) Physician"
+                    },
+                    {
+                        "code": "207ZC0500X",
+                        "display": "Cytopathology Physician"
+                    },
+                    {
+                        "code": "207ZD0900X",
+                        "display": "Dermatopathology (Pathology) Physician"
+                    },
+                    {
+                        "code": "207ZF0201X",
+                        "display": "Forensic Pathology Physician"
+                    },
+                    {
+                        "code": "207ZH0000X",
+                        "display": "Hematology (Pathology) Physician"
+                    },
+                    {
+                        "code": "207ZI0100X",
+                        "display": "Immunopathology Physician"
+                    },
+                    {
+                        "code": "207ZM0300X",
+                        "display": "Medical Microbiology Physician"
+                    },
+                    {
+                        "code": "207ZN0500X",
+                        "display": "Neuropathology Physician"
+                    },
+                    {
+                        "code": "207ZP0007X",
+                        "display": "Molecular Genetic Pathology (Pathology) Physician"
+                    },
+                    {
+                        "code": "207ZP0101X",
+                        "display": "Anatomic Pathology Physician"
+                    },
+                    {
+                        "code": "207ZP0102X",
+                        "display": "Anatomic Pathology & Clinical Pathology Physician"
+                    },
+                    {
+                        "code": "207ZP0104X",
+                        "display": "Chemical Pathology Physician"
+                    },
+                    {
+                        "code": "207ZP0105X",
+                        "display": "Clinical Pathology/Laboratory Medicine Physician"
+                    },
+                    {
+                        "code": "207ZP0213X",
+                        "display": "Pediatric Pathology Physician"
+                    },
+                    {
+                        "code": "208000000X",
+                        "display": "Pediatrics Physician"
+                    },
+                    {
+                        "code": "2080A0000X",
+                        "display": "Pediatric Adolescent Medicine Physician"
+                    },
+                    {
+                        "code": "2080B0002X",
+                        "display": "Pediatric Obesity Medicine Physician"
+                    },
+                    {
+                        "code": "2080C0008X",
+                        "display": "Child Abuse Pediatrics Physician"
+                    },
+                    {
+                        "code": "2080H0002X",
+                        "display": "Pediatric Hospice and Palliative Medicine Physician"
+                    },
+                    {
+                        "code": "2080I0007X",
+                        "display": "Pediatric Clinical & Laboratory Immunology Physician"
+                    },
+                    {
+                        "code": "2080N0001X",
+                        "display": "Neonatal-Perinatal Medicine Physician"
+                    },
+                    {
+                        "code": "2080P0006X",
+                        "display": "Developmental – Behavioral Pediatrics Physician"
+                    },
+                    {
+                        "code": "2080P0008X",
+                        "display": "Pediatric Neurodevelopmental Disabilities Physician"
+                    },
+                    {
+                        "code": "2080P0201X",
+                        "display": "Pediatric Allergy/Immunology Physician"
+                    },
+                    {
+                        "code": "2080P0202X",
+                        "display": "Pediatric Cardiology Physician"
+                    },
+                    {
+                        "code": "2080P0203X",
+                        "display": "Pediatric Critical Care Medicine Physician"
+                    },
+                    {
+                        "code": "2080P0204X",
+                        "display": "Pediatric Emergency Medicine (Pediatrics) Physician"
+                    },
+                    {
+                        "code": "2080P0205X",
+                        "display": "Pediatric Endocrinology Physician"
+                    },
+                    {
+                        "code": "2080P0206X",
+                        "display": "Pediatric Gastroenterology Physician"
+                    },
+                    {
+                        "code": "2080P0207X",
+                        "display": "Pediatric Hematology & Oncology Physician"
+                    },
+                    {
+                        "code": "2080P0208X",
+                        "display": "Pediatric Infectious Diseases Physician"
+                    },
+                    {
+                        "code": "2080P0210X",
+                        "display": "Pediatric Nephrology Physician"
+                    },
+                    {
+                        "code": "2080P0214X",
+                        "display": "Pediatric Pulmonology Physician"
+                    },
+                    {
+                        "code": "2080P0216X",
+                        "display": "Pediatric Rheumatology Physician"
+                    },
+                    {
+                        "code": "2080S0010X",
+                        "display": "Pediatric Sports Medicine Physician"
+                    },
+                    {
+                        "code": "2080S0012X",
+                        "display": "Pediatric Sleep Medicine Physician"
+                    },
+                    {
+                        "code": "2080T0002X",
+                        "display": "Pediatric Medical Toxicology Physician"
+                    },
+                    {
+                        "code": "2080T0004X",
+                        "display": "Pediatric Transplant Hepatology Physician"
+                    },
+                    {
+                        "code": "208100000X",
+                        "display": "Physical Medicine & Rehabilitation Physician"
+                    },
+                    {
+                        "code": "2081H0002X",
+                        "display": "Hospice and Palliative Medicine (Physical Medicine & Rehabilitation) Physician"
+                    },
+                    {
+                        "code": "2081N0008X",
+                        "display": "Neuromuscular Medicine (Physical Medicine & Rehabilitation) Physician"
+                    },
+                    {
+                        "code": "2081P0004X",
+                        "display": "Spinal Cord Injury Medicine Physician"
+                    },
+                    {
+                        "code": "2081P0010X",
+                        "display": "Pediatric Rehabilitation Medicine Physician"
+                    },
+                    {
+                        "code": "2081P0301X",
+                        "display": "Brain Injury Medicine (Physical Medicine & Rehabilitation) Physician"
+                    },
+                    {
+                        "code": "2081P2900X",
+                        "display": "Pain Medicine (Physical Medicine & Rehabilitation) Physician"
+                    },
+                    {
+                        "code": "2081S0010X",
+                        "display": "Sports Medicine (Physical Medicine & Rehabilitation) Physician"
+                    },
+                    {
+                        "code": "208200000X",
+                        "display": "Plastic Surgery Physician"
+                    },
+                    {
+                        "code": "2082S0099X",
+                        "display": "Plastic Surgery Within the Head and Neck (Plastic Surgery) Physician"
+                    },
+                    {
+                        "code": "2082S0105X",
+                        "display": "Surgery of the Hand (Plastic Surgery) Physician"
+                    },
+                    {
+                        "code": "2083A0100X",
+                        "display": "Aerospace Medicine Physician"
+                    },
+                    {
+                        "code": "2083A0300X",
+                        "display": "Addiction Medicine (Preventive Medicine) Physician"
+                    },
+                    {
+                        "code": "2083B0002X",
+                        "display": "Obesity Medicine (Preventive Medicine) Physician"
+                    },
+                    {
+                        "code": "2083C0008X",
+                        "display": "Clinical Informatics Physician"
+                    },
+                    {
+                        "code": "2083P0011X",
+                        "display": "Undersea and Hyperbaric Medicine (Preventive Medicine) Physician"
+                    },
+                    {
+                        "code": "2083P0500X",
+                        "display": "Preventive Medicine/Occupational Environmental Medicine Physician"
+                    },
+                    {
+                        "code": "2083P0901X",
+                        "display": "Public Health & General Preventive Medicine Physician"
+                    },
+                    {
+                        "code": "2083S0010X",
+                        "display": "Sports Medicine (Preventive Medicine) Physician"
+                    },
+                    {
+                        "code": "2083T0002X",
+                        "display": "Medical Toxicology (Preventive Medicine) Physician"
+                    },
+                    {
+                        "code": "2083X0100X",
+                        "display": "Occupational Medicine Physician"
+                    },
+                    {
+                        "code": "2084A0401X",
+                        "display": "Addiction Medicine (Psychiatry & Neurology) Physician"
+                    },
+                    {
+                        "code": "2084A2900X",
+                        "display": "Neurocritical Care Physician"
+                    },
+                    {
+                        "code": "2084B0002X",
+                        "display": "Obesity Medicine (Psychiatry & Neurology) Physician"
+                    },
+                    {
+                        "code": "2084B0040X",
+                        "display": "Behavioral Neurology & Neuropsychiatry Physician"
+                    },
+                    {
+                        "code": "2084D0003X",
+                        "display": "Diagnostic Neuroimaging (Psychiatry & Neurology) Physician"
+                    },
+                    {
+                        "code": "2084F0202X",
+                        "display": "Forensic Psychiatry Physician"
+                    },
+                    {
+                        "code": "2084H0002X",
+                        "display": "Hospice and Palliative Medicine (Psychiatry & Neurology) Physician"
+                    },
+                    {
+                        "code": "2084N0008X",
+                        "display": "Neuromuscular Medicine (Psychiatry & Neurology) Physician"
+                    },
+                    {
+                        "code": "2084N0400X",
+                        "display": "Neurology Physician"
+                    },
+                    {
+                        "code": "2084N0402X",
+                        "display": "Neurology with Special Qualifications in Child Neurology Physician"
+                    },
+                    {
+                        "code": "2084N0600X",
+                        "display": "Clinical Neurophysiology Physician"
+                    },
+                    {
+                        "code": "2084P0005X",
+                        "display": "Neurodevelopmental Disabilities Physician"
+                    },
+                    {
+                        "code": "2084P0015X",
+                        "display": "Psychosomatic Medicine Physician"
+                    },
+                    {
+                        "code": "2084P0301X",
+                        "display": "Brain Injury Medicine (Psychiatry & Neurology) Physician"
+                    },
+                    {
+                        "code": "2084P0800X",
+                        "display": "Psychiatry Physician"
+                    },
+                    {
+                        "code": "2084P0802X",
+                        "display": "Addiction Psychiatry Physician"
+                    },
+                    {
+                        "code": "2084P0804X",
+                        "display": "Child & Adolescent Psychiatry Physician"
+                    },
+                    {
+                        "code": "2084P0805X",
+                        "display": "Geriatric Psychiatry Physician"
+                    },
+                    {
+                        "code": "2084P2900X",
+                        "display": "Pain Medicine (Psychiatry & Neurology) Physician"
+                    },
+                    {
+                        "code": "2084S0010X",
+                        "display": "Sports Medicine (Psychiatry & Neurology) Physician"
+                    },
+                    {
+                        "code": "2084S0012X",
+                        "display": "Sleep Medicine (Psychiatry & Neurology) Physician"
+                    },
+                    {
+                        "code": "2084V0102X",
+                        "display": "Vascular Neurology Physician"
+                    },
+                    {
+                        "code": "2085B0100X",
+                        "display": "Body Imaging Physician"
+                    },
+                    {
+                        "code": "2085D0003X",
+                        "display": "Diagnostic Neuroimaging (Radiology) Physician"
+                    },
+                    {
+                        "code": "2085H0002X",
+                        "display": "Hospice and Palliative Medicine (Radiology) Physician"
+                    },
+                    {
+                        "code": "2085N0700X",
+                        "display": "Neuroradiology Physician"
+                    },
+                    {
+                        "code": "2085N0904X",
+                        "display": "Nuclear Radiology Physician"
+                    },
+                    {
+                        "code": "2085P0229X",
+                        "display": "Pediatric Radiology Physician"
+                    },
+                    {
+                        "code": "2085R0001X",
+                        "display": "Radiation Oncology Physician"
+                    },
+                    {
+                        "code": "2085R0202X",
+                        "display": "Diagnostic Radiology Physician"
+                    },
+                    {
+                        "code": "2085R0203X",
+                        "display": "Therapeutic Radiology Physician"
+                    },
+                    {
+                        "code": "2085R0204X",
+                        "display": "Vascular & Interventional Radiology Physician"
+                    },
+                    {
+                        "code": "2085R0205X",
+                        "display": "Radiological Physics Physician"
+                    },
+                    {
+                        "code": "2085U0001X",
+                        "display": "Diagnostic Ultrasound Physician"
+                    },
+                    {
+                        "code": "208600000X",
+                        "display": "Surgery Physician"
+                    },
+                    {
+                        "code": "2086H0002X",
+                        "display": "Hospice and Palliative Medicine (Surgery) Physician"
+                    },
+                    {
+                        "code": "2086S0102X",
+                        "display": "Surgical Critical Care Physician"
+                    },
+                    {
+                        "code": "2086S0105X",
+                        "display": "Surgery of the Hand (Surgery) Physician"
+                    },
+                    {
+                        "code": "2086S0120X",
+                        "display": "Pediatric Surgery Physician"
+                    },
+                    {
+                        "code": "2086S0122X",
+                        "display": "Plastic and Reconstructive Surgery Physician"
+                    },
+                    {
+                        "code": "2086S0127X",
+                        "display": "Trauma Surgery Physician"
+                    },
+                    {
+                        "code": "2086S0129X",
+                        "display": "Vascular Surgery Physician"
+                    },
+                    {
+                        "code": "2086X0206X",
+                        "display": "Surgical Oncology Physician"
+                    },
+                    {
+                        "code": "208800000X",
+                        "display": "Urology Physician"
+                    },
+                    {
+                        "code": "2088F0040X",
+                        "display": "Female Pelvic Medicine and Reconstructive Surgery (Urology) Physician"
+                    },
+                    {
+                        "code": "2088P0231X",
+                        "display": "Pediatric Urology Physician"
+                    },
+                    {
+                        "code": "208C00000X",
+                        "display": "Colon & Rectal Surgery Physician"
+                    },
+                    {
+                        "code": "208D00000X",
+                        "display": "General Practice Physician"
+                    },
+                    {
+                        "code": "208G00000X",
+                        "display": "Thoracic Surgery (Cardiothoracic Vascular Surgery) Physician"
+                    },
+                    {
+                        "code": "208M00000X",
+                        "display": "Hospitalist Physician"
+                    },
+                    {
+                        "code": "208U00000X",
+                        "display": "Clinical Pharmacology Physician"
+                    },
+                    {
+                        "code": "208VP0000X",
+                        "display": "Pain Medicine Physician"
+                    },
+                    {
+                        "code": "208VP0014X",
+                        "display": "Interventional Pain Medicine Physician"
+                    },
+                    {
+                        "code": "209800000X",
+                        "display": "Legal Medicine (M.D./D.O.) Physician"
+                    },
+                    {
+                        "code": "211D00000X",
+                        "display": "Podiatric Assistant"
+                    },
+                    {
+                        "code": "213E00000X",
+                        "display": "Podiatrist"
+                    },
+                    {
+                        "code": "213EP0504X",
+                        "display": "Public Medicine Podiatrist"
+                    },
+                    {
+                        "code": "213EP1101X",
+                        "display": "Primary Podiatric Medicine Podiatrist"
+                    },
+                    {
+                        "code": "213ER0200X",
+                        "display": "Radiology Podiatrist"
+                    },
+                    {
+                        "code": "213ES0000X",
+                        "display": "Sports Medicine Podiatrist"
+                    },
+                    {
+                        "code": "213ES0103X",
+                        "display": "Foot & Ankle Surgery Podiatrist"
+                    },
+                    {
+                        "code": "213ES0131X",
+                        "display": "Foot Surgery Podiatrist"
+                    },
+                    {
+                        "code": "221700000X",
+                        "display": "Art Therapist"
+                    },
+                    {
+                        "code": "222Q00000X",
+                        "display": "Developmental Therapist"
+                    },
+                    {
+                        "code": "222Z00000X",
+                        "display": "Orthotist"
+                    },
+                    {
+                        "code": "224900000X",
+                        "display": "Mastectomy Fitter"
+                    },
+                    {
+                        "code": "224L00000X",
+                        "display": "Pedorthist"
+                    },
+                    {
+                        "code": "224P00000X",
+                        "display": "Prosthetist"
+                    },
+                    {
+                        "code": "224Y00000X",
+                        "display": "Clinical Exercise Physiologist"
+                    },
+                    {
+                        "code": "224Z00000X",
+                        "display": "Occupational Therapy Assistant"
+                    },
+                    {
+                        "code": "224ZE0001X",
+                        "display": "Environmental Modification Occupational Therapy Assistant"
+                    },
+                    {
+                        "code": "224ZF0002X",
+                        "display": "Feeding, Eating & Swallowing Occupational Therapy Assistant"
+                    },
+                    {
+                        "code": "224ZL0004X",
+                        "display": "Low Vision Occupational Therapy Assistant"
+                    },
+                    {
+                        "code": "224ZR0403X",
+                        "display": "Driving and Community Mobility Occupational Therapy Assistant"
+                    },
+                    {
+                        "code": "225000000X",
+                        "display": "Orthotic Fitter"
+                    },
+                    {
+                        "code": "225100000X",
+                        "display": "Physical Therapist"
+                    },
+                    {
+                        "code": "2251C2600X",
+                        "display": "Cardiopulmonary Physical Therapist"
+                    },
+                    {
+                        "code": "2251E1200X",
+                        "display": "Ergonomics Physical Therapist"
+                    },
+                    {
+                        "code": "2251E1300X",
+                        "display": "Clinical Electrophysiology Physical Therapist"
+                    },
+                    {
+                        "code": "2251G0304X",
+                        "display": "Geriatric Physical Therapist"
+                    },
+                    {
+                        "code": "2251H1200X",
+                        "display": "Hand Physical Therapist"
+                    },
+                    {
+                        "code": "2251H1300X",
+                        "display": "Human Factors Physical Therapist"
+                    },
+                    {
+                        "code": "2251N0400X",
+                        "display": "Neurology Physical Therapist"
+                    },
+                    {
+                        "code": "2251P0200X",
+                        "display": "Pediatric Physical Therapist"
+                    },
+                    {
+                        "code": "2251S0007X",
+                        "display": "Sports Physical Therapist"
+                    },
+                    {
+                        "code": "2251X0800X",
+                        "display": "Orthopedic Physical Therapist"
+                    },
+                    {
+                        "code": "225200000X",
+                        "display": "Physical Therapy Assistant"
+                    },
+                    {
+                        "code": "225400000X",
+                        "display": "Rehabilitation Practitioner"
+                    },
+                    {
+                        "code": "225500000X",
+                        "display": "Respiratory/Developmental/Rehabilitative Specialist/Technologist"
+                    },
+                    {
+                        "code": "2255A2300X",
+                        "display": "Athletic Trainer"
+                    },
+                    {
+                        "code": "2255R0406X",
+                        "display": "Blind Rehabilitation Specialist/Technologist"
+                    },
+                    {
+                        "code": "225600000X",
+                        "display": "Dance Therapist"
+                    },
+                    {
+                        "code": "225700000X",
+                        "display": "Massage Therapist"
+                    },
+                    {
+                        "code": "225800000X",
+                        "display": "Recreation Therapist"
+                    },
+                    {
+                        "code": "225A00000X",
+                        "display": "Music Therapist"
+                    },
+                    {
+                        "code": "225B00000X",
+                        "display": "Pulmonary Function Technologist"
+                    },
+                    {
+                        "code": "225C00000X",
+                        "display": "Rehabilitation Counselor"
+                    },
+                    {
+                        "code": "225CA2400X",
+                        "display": "Assistive Technology Practitioner Rehabilitation Counselor"
+                    },
+                    {
+                        "code": "225CA2500X",
+                        "display": "Assistive Technology Supplier Rehabilitation Counselor"
+                    },
+                    {
+                        "code": "225CX0006X",
+                        "display": "Orientation and Mobility Training Rehabilitation Counselor"
+                    },
+                    {
+                        "code": "225X00000X",
+                        "display": "Occupational Therapist"
+                    },
+                    {
+                        "code": "225XE0001X",
+                        "display": "Environmental Modification Occupational Therapist"
+                    },
+                    {
+                        "code": "225XE1200X",
+                        "display": "Ergonomics Occupational Therapist"
+                    },
+                    {
+                        "code": "225XF0002X",
+                        "display": "Feeding, Eating & Swallowing Occupational Therapist"
+                    },
+                    {
+                        "code": "225XG0600X",
+                        "display": "Gerontology Occupational Therapist"
+                    },
+                    {
+                        "code": "225XH1200X",
+                        "display": "Hand Occupational Therapist"
+                    },
+                    {
+                        "code": "225XH1300X",
+                        "display": "Human Factors Occupational Therapist"
+                    },
+                    {
+                        "code": "225XL0004X",
+                        "display": "Low Vision Occupational Therapist"
+                    },
+                    {
+                        "code": "225XM0800X",
+                        "display": "Mental Health Occupational Therapist"
+                    },
+                    {
+                        "code": "225XN1300X",
+                        "display": "Neurorehabilitation Occupational Therapist"
+                    },
+                    {
+                        "code": "225XP0019X",
+                        "display": "Physical Rehabilitation Occupational Therapist"
+                    },
+                    {
+                        "code": "225XP0200X",
+                        "display": "Pediatric Occupational Therapist"
+                    },
+                    {
+                        "code": "225XR0403X",
+                        "display": "Driving and Community Mobility Occupational Therapist"
+                    },
+                    {
+                        "code": "226000000X",
+                        "display": "Recreational Therapist Assistant"
+                    },
+                    {
+                        "code": "226300000X",
+                        "display": "Kinesiotherapist"
+                    },
+                    {
+                        "code": "227800000X",
+                        "display": "Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278C0205X",
+                        "display": "Critical Care Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278E0002X",
+                        "display": "Emergency Care Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278E1000X",
+                        "display": "Educational Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278G0305X",
+                        "display": "Geriatric Care Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278G1100X",
+                        "display": "General Care Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278H0200X",
+                        "display": "Home Health Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278P1004X",
+                        "display": "Pulmonary Diagnostics Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278P1005X",
+                        "display": "Pulmonary Rehabilitation Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278P1006X",
+                        "display": "Pulmonary Function Technologist Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278P3800X",
+                        "display": "Palliative/Hospice Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278P3900X",
+                        "display": "Neonatal/Pediatric Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278P4000X",
+                        "display": "Patient Transport Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "2278S1500X",
+                        "display": "SNF/Subacute Care Certified Respiratory Therapist"
+                    },
+                    {
+                        "code": "227900000X",
+                        "display": "Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279C0205X",
+                        "display": "Critical Care Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279E0002X",
+                        "display": "Emergency Care Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279E1000X",
+                        "display": "Educational Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279G0305X",
+                        "display": "Geriatric Care Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279G1100X",
+                        "display": "General Care Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279H0200X",
+                        "display": "Home Health Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279P1004X",
+                        "display": "Pulmonary Diagnostics Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279P1005X",
+                        "display": "Pulmonary Rehabilitation Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279P1006X",
+                        "display": "Pulmonary Function Technologist Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279P3800X",
+                        "display": "Palliative/Hospice Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279P3900X",
+                        "display": "Neonatal/Pediatric Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279P4000X",
+                        "display": "Patient Transport Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "2279S1500X",
+                        "display": "SNF/Subacute Care Registered Respiratory Therapist"
+                    },
+                    {
+                        "code": "229N00000X",
+                        "display": "Anaplastologist"
+                    },
+                    {
+                        "code": "231H00000X",
+                        "display": "Audiologist"
+                    },
+                    {
+                        "code": "231HA2400X",
+                        "display": "Assistive Technology Practitioner Audiologist"
+                    },
+                    {
+                        "code": "231HA2500X",
+                        "display": "Assistive Technology Supplier Audiologist"
+                    },
+                    {
+                        "code": "235500000X",
+                        "display": "Speech/Language/Hearing Specialist/Technologist"
+                    },
+                    {
+                        "code": "2355A2700X",
+                        "display": "Audiology Assistant"
+                    },
+                    {
+                        "code": "2355S0801X",
+                        "display": "Speech-Language Assistant"
+                    },
+                    {
+                        "code": "235Z00000X",
+                        "display": "Speech-Language Pathologist"
+                    },
+                    {
+                        "code": "237600000X",
+                        "display": "Audiologist-Hearing Aid Fitter"
+                    },
+                    {
+                        "code": "237700000X",
+                        "display": "Hearing Instrument Specialist"
+                    },
+                    {
+                        "code": "242T00000X",
+                        "display": "Perfusionist"
+                    },
+                    {
+                        "code": "243U00000X",
+                        "display": "Radiology Practitioner Assistant"
+                    },
+                    {
+                        "code": "246Q00000X",
+                        "display": "Pathology Specialist/Technologist"
+                    },
+                    {
+                        "code": "246QB0000X",
+                        "display": "Blood Banking Specialist/Technologist"
+                    },
+                    {
+                        "code": "246QC1000X",
+                        "display": "Chemistry Pathology Specialist/Technologist"
+                    },
+                    {
+                        "code": "246QC2700X",
+                        "display": "Cytotechnology Specialist/Technologist"
+                    },
+                    {
+                        "code": "246QH0000X",
+                        "display": "Hematology Specialist/Technologist"
+                    },
+                    {
+                        "code": "246QH0401X",
+                        "display": "Hemapheresis Practitioner"
+                    },
+                    {
+                        "code": "246QH0600X",
+                        "display": "Histology Specialist/Technologist"
+                    },
+                    {
+                        "code": "246QI0000X",
+                        "display": "Immunology Pathology Specialist/Technologist"
+                    },
+                    {
+                        "code": "246QL0900X",
+                        "display": "Laboratory Management Specialist/Technologist"
+                    },
+                    {
+                        "code": "246QL0901X",
+                        "display": "Diplomate Laboratory Management Specialist/Technologist"
+                    },
+                    {
+                        "code": "246QM0706X",
+                        "display": "Medical Technologist"
+                    },
+                    {
+                        "code": "246QM0900X",
+                        "display": "Microbiology Specialist/Technologist"
+                    },
+                    {
+                        "code": "246R00000X",
+                        "display": "Pathology Technician"
+                    },
+                    {
+                        "code": "246RH0600X",
+                        "display": "Histology Technician"
+                    },
+                    {
+                        "code": "246RM2200X",
+                        "display": "Medical Laboratory Technician"
+                    },
+                    {
+                        "code": "246RP1900X",
+                        "display": "Phlebotomy Technician"
+                    },
+                    {
+                        "code": "246W00000X",
+                        "display": "Cardiology Technician"
+                    },
+                    {
+                        "code": "246X00000X",
+                        "display": "Cardiovascular Specialist/Technologist"
+                    },
+                    {
+                        "code": "246XC2901X",
+                        "display": "Cardiovascular Invasive Specialist/Technologist"
+                    },
+                    {
+                        "code": "246XC2903X",
+                        "display": "Vascular Specialist/Technologist"
+                    },
+                    {
+                        "code": "246XS1301X",
+                        "display": "Sonography Specialist/Technologist"
+                    },
+                    {
+                        "code": "246Y00000X",
+                        "display": "Health Information Specialist/Technologist"
+                    },
+                    {
+                        "code": "246YC3301X",
+                        "display": "Hospital Based Coding Specialist"
+                    },
+                    {
+                        "code": "246YC3302X",
+                        "display": "Physician Office Based Coding Specialist"
+                    },
+                    {
+                        "code": "246YR1600X",
+                        "display": "Registered Record Administrator"
+                    },
+                    {
+                        "code": "246Z00000X",
+                        "display": "Other Specialist/Technologist"
+                    },
+                    {
+                        "code": "246ZA2600X",
+                        "display": "Medical Art Specialist/Technologist"
+                    },
+                    {
+                        "code": "246ZB0301X",
+                        "display": "Biomedical Engineer"
+                    },
+                    {
+                        "code": "246ZB0302X",
+                        "display": "Biomedical Photographer"
+                    },
+                    {
+                        "code": "246ZB0500X",
+                        "display": "Biochemist"
+                    },
+                    {
+                        "code": "246ZB0600X",
+                        "display": "Biostatiscian"
+                    },
+                    {
+                        "code": "246ZC0007X",
+                        "display": "Surgical Assistant"
+                    },
+                    {
+                        "code": "246ZE0500X",
+                        "display": "EEG Specialist/Technologist"
+                    },
+                    {
+                        "code": "246ZE0600X",
+                        "display": "Electroneurodiagnostic Specialist/Technologist"
+                    },
+                    {
+                        "code": "246ZG0701X",
+                        "display": "Graphics Methods Specialist/Technologist"
+                    },
+                    {
+                        "code": "246ZG1000X",
+                        "display": "Medical Geneticist (PhD) Specialist/Technologist"
+                    },
+                    {
+                        "code": "246ZI1000X",
+                        "display": "Medical Illustrator"
+                    },
+                    {
+                        "code": "246ZN0300X",
+                        "display": "Nephrology Specialist/Technologist"
+                    },
+                    {
+                        "code": "246ZS0410X",
+                        "display": "Surgical Technologist"
+                    },
+                    {
+                        "code": "246ZX2200X",
+                        "display": "Orthopedic Assistant"
+                    },
+                    {
+                        "code": "247000000X",
+                        "display": "Health Information Technician"
+                    },
+                    {
+                        "code": "2470A2800X",
+                        "display": "Assistant Health Information Record Technician"
+                    },
+                    {
+                        "code": "247100000X",
+                        "display": "Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471B0102X",
+                        "display": "Bone Densitometry Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471C1101X",
+                        "display": "Cardiovascular-Interventional Technology Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471C1106X",
+                        "display": "Cardiac-Interventional Technology Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471C3401X",
+                        "display": "Computed Tomography Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471C3402X",
+                        "display": "Radiography Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471M1202X",
+                        "display": "Magnetic Resonance Imaging Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471M2300X",
+                        "display": "Mammography Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471N0900X",
+                        "display": "Nuclear Medicine Technology Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471Q0001X",
+                        "display": "Quality Management Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471R0002X",
+                        "display": "Radiation Therapy Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471S1302X",
+                        "display": "Sonography Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471V0105X",
+                        "display": "Vascular Sonography Radiologic Technologist"
+                    },
+                    {
+                        "code": "2471V0106X",
+                        "display": "Vascular-Interventional Technology Radiologic Technologist"
+                    },
+                    {
+                        "code": "247200000X",
+                        "display": "Other Technician"
+                    },
+                    {
+                        "code": "2472B0301X",
+                        "display": "Biomedical Engineering Technician"
+                    },
+                    {
+                        "code": "2472D0500X",
+                        "display": "Darkroom Technician"
+                    },
+                    {
+                        "code": "2472E0500X",
+                        "display": "EEG Technician"
+                    },
+                    {
+                        "code": "2472R0900X",
+                        "display": "Renal Dialysis Technician"
+                    },
+                    {
+                        "code": "2472V0600X",
+                        "display": "Veterinary Technician"
+                    },
+                    {
+                        "code": "247ZC0005X",
+                        "display": "Clinical Laboratory Director (Non-physician)"
+                    },
+                    {
+                        "code": "363A00000X",
+                        "display": "Physician Assistant"
+                    },
+                    {
+                        "code": "363AM0700X",
+                        "display": "Medical Physician Assistant"
+                    },
+                    {
+                        "code": "363AS0400X",
+                        "display": "Surgical Physician Assistant"
+                    },
+                    {
+                        "code": "363L00000X",
+                        "display": "Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LA2100X",
+                        "display": "Acute Care Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LA2200X",
+                        "display": "Adult Health Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LC0200X",
+                        "display": "Critical Care Medicine Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LC1500X",
+                        "display": "Community Health Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LF0000X",
+                        "display": "Family Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LG0600X",
+                        "display": "Gerontology Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LN0000X",
+                        "display": "Neonatal Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LN0005X",
+                        "display": "Critical Care Neonatal Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LP0200X",
+                        "display": "Pediatric Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LP0222X",
+                        "display": "Critical Care Pediatric Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LP0808X",
+                        "display": "Psychiatric/Mental Health Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LP1700X",
+                        "display": "Perinatal Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LP2300X",
+                        "display": "Primary Care Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LS0200X",
+                        "display": "School Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LW0102X",
+                        "display": "Women's Health Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LX0001X",
+                        "display": "Obstetrics & Gynecology Nurse Practitioner"
+                    },
+                    {
+                        "code": "363LX0106X",
+                        "display": "Occupational Health Nurse Practitioner"
+                    },
+                    {
+                        "code": "364S00000X",
+                        "display": "Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SA2100X",
+                        "display": "Acute Care Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SA2200X",
+                        "display": "Adult Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SC0200X",
+                        "display": "Critical Care Medicine Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SC1501X",
+                        "display": "Community Health/Public Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SC2300X",
+                        "display": "Chronic Care Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SE0003X",
+                        "display": "Emergency Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SE1400X",
+                        "display": "Ethics Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SF0001X",
+                        "display": "Family Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SG0600X",
+                        "display": "Gerontology Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SH0200X",
+                        "display": "Home Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SH1100X",
+                        "display": "Holistic Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SI0800X",
+                        "display": "Informatics Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SL0600X",
+                        "display": "Long-Term Care Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SM0705X",
+                        "display": "Medical-Surgical Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SN0000X",
+                        "display": "Neonatal Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SN0800X",
+                        "display": "Neuroscience Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SP0200X",
+                        "display": "Pediatric Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SP0807X",
+                        "display": "Child & Adolescent Psychiatric/Mental Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SP0808X",
+                        "display": "Psychiatric/Mental Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SP0809X",
+                        "display": "Adult Psychiatric/Mental Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SP0810X",
+                        "display": "Child & Family Psychiatric/Mental Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SP0811X",
+                        "display": "Chronically Ill Psychiatric/Mental Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SP0812X",
+                        "display": "Community Psychiatric/Mental Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SP0813X",
+                        "display": "Geropsychiatric Psychiatric/Mental Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SP1700X",
+                        "display": "Perinatal Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SP2800X",
+                        "display": "Perioperative Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SR0400X",
+                        "display": "Rehabilitation Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SS0200X",
+                        "display": "School Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364ST0500X",
+                        "display": "Transplantation Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SW0102X",
+                        "display": "Women's Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SX0106X",
+                        "display": "Occupational Health Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SX0200X",
+                        "display": "Oncology Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "364SX0204X",
+                        "display": "Pediatric Oncology Clinical Nurse Specialist"
+                    },
+                    {
+                        "code": "367500000X",
+                        "display": "Certified Registered Nurse Anesthetist"
+                    },
+                    {
+                        "code": "367A00000X",
+                        "display": "Advanced Practice Midwife"
+                    },
+                    {
+                        "code": "367H00000X",
+                        "display": "Anesthesiologist Assistant"
+                    },
+                    {
+                        "code": "372500000X",
+                        "display": "Chore Provider"
+                    },
+                    {
+                        "code": "372600000X",
+                        "display": "Adult Companion"
+                    },
+                    {
+                        "code": "373H00000X",
+                        "display": "Day Training/Habilitation Specialist"
+                    },
+                    {
+                        "code": "374700000X",
+                        "display": "Technician"
+                    },
+                    {
+                        "code": "3747A0650X",
+                        "display": "Attendant Care Provider"
+                    },
+                    {
+                        "code": "3747P1801X",
+                        "display": "Personal Care Attendant"
+                    },
+                    {
+                        "code": "374J00000X",
+                        "display": "Doula"
+                    },
+                    {
+                        "code": "374K00000X",
+                        "display": "Religious Nonmedical Practitioner"
+                    },
+                    {
+                        "code": "374T00000X",
+                        "display": "Religious Nonmedical Nursing Personnel"
+                    },
+                    {
+                        "code": "374U00000X",
+                        "display": "Home Health Aide"
+                    },
+                    {
+                        "code": "376G00000X",
+                        "display": "Nursing Home Administrator"
+                    },
+                    {
+                        "code": "376J00000X",
+                        "display": "Homemaker"
+                    },
+                    {
+                        "code": "376K00000X",
+                        "display": "Nurse's Aide"
+                    },
+                    {
+                        "code": "405300000X",
+                        "display": "Prevention Professional"
+                    }
+                ]
+            }
+        ]
+    }
+}

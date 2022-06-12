@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "research-study-phase",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.821"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ResearchStudyPhase",
     "title": "ResearchStudyPhase",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:b80ba2a3-7722-4bf6-8c17-4a3a3a3ab3fc",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:60cc858b-267e-46b0-b127-3b1478e32b42",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 8,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/research-study-phase|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/research-study-phase|4.3.0"
             }
         ],
         "contains": [

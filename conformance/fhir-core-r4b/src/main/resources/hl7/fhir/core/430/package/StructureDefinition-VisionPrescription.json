@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "VisionPrescription",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Clinical.Care Provision"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fm"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Clinical.Care Provision"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/VisionPrescription",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "VisionPrescription",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Financial Management)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "An authorization for the provision of glasses and/or contact lenses to a patient.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -596,7 +596,7 @@
                     ],
                     "strength": "required",
                     "description": "A code specifying the state of the resource instance.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1127,7 +1127,7 @@
                     ],
                     "strength": "required",
                     "description": "A coded concept listing the eye codes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/vision-eye-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/vision-eye-codes|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1504,7 +1504,7 @@
                     ],
                     "strength": "required",
                     "description": "A coded concept listing the base codes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/vision-base-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/vision-base-codes|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1910,7 +1910,7 @@
                     ],
                     "strength": "required",
                     "description": "A code specifying the state of the resource instance.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2185,7 +2185,7 @@
                     ],
                     "strength": "required",
                     "description": "A coded concept listing the eye codes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/vision-eye-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/vision-eye-codes|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2336,7 +2336,7 @@
                     ],
                     "strength": "required",
                     "description": "A coded concept listing the base codes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/vision-base-codes|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/vision-base-codes|4.3.0"
                 },
                 "mapping": [
                     {

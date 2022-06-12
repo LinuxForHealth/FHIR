@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "action-reason-code",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.0"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ActionReasonCode",
     "title": "ActionReasonCode",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:5f22f8a8-bcf4-42df-820e-289c9d7cbf45",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:1aeb0143-20df-4ae7-a13d-b10ea5e166b5",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 5,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/action-reason-code|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/action-reason-code|4.3.0"
             }
         ],
         "contains": [

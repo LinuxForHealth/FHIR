@@ -2,15 +2,15 @@
     "resourceType": "StructureDefinition",
     "id": "de-Narrative.status",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "url": "http://hl7.org/fhir/StructureDefinition/de-Narrative.status",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Narrative.status",
     "title": "Narrative.status",
     "status": "draft",
     "experimental": true,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -24,7 +24,7 @@
     ],
     "description": "Data Element for Narrative.status",
     "purpose": "Data Elements are defined for each element to assist in questionnaire construction etc",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -70,7 +70,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/narrative-status|4.3.0"
                 },
                 "mapping": [
                     {

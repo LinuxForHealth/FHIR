@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "CoverageEligibilityRequest",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Financial.Support"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fm"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Financial.Support"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/CoverageEligibilityRequest",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CoverageEligibilityRequest",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Financial Management)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "The CoverageEligibilityRequest provides patient and insurance coverage information to an insurer for them to respond, in the form of an CoverageEligibilityResponse, with information regarding whether the stated coverage is valid and in-force and optionally to provide the insurance details of the policy.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -584,7 +584,7 @@
                     ],
                     "strength": "required",
                     "description": "A code specifying the state of the resource instance.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -690,7 +690,7 @@
                     ],
                     "strength": "required",
                     "description": "A code specifying the types of information being requested.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2387,7 +2387,7 @@
                     ],
                     "strength": "required",
                     "description": "A code specifying the state of the resource instance.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/fm-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2463,7 +2463,7 @@
                     ],
                     "strength": "required",
                     "description": "A code specifying the types of information being requested.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.3.0"
                 },
                 "mapping": [
                     {

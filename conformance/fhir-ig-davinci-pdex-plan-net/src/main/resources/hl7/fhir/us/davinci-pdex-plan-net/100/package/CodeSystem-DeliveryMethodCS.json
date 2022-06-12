@@ -1,0 +1,55 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "DeliveryMethodCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/DeliveryMethodCS",
+    "version": "1.0.0",
+    "name": "DeliveryMethodCS",
+    "title": "Delivery Methods",
+    "status": "active",
+    "date": "2020-11-19T23:52:52+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm/index.cfm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Categories of healthcare service delivery methods.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "content": "complete",
+    "count": 2,
+    "concept": [
+        {
+            "code": "virtual",
+            "display": "Virtual",
+            "definition": "Delivery not requiring provider and patient to be physically co-located, such as tele-medicine"
+        },
+        {
+            "code": "physical",
+            "display": "Physical",
+            "definition": "Traditional delivery requiring provider and patient to be physically co-located."
+        }
+    ]
+}

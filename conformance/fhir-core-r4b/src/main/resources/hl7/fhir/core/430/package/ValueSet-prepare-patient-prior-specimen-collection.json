@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "prepare-patient-prior-specimen-collection",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1399"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "PreparePatient",
     "title": "Patient preparation prior specimen collection",
     "status": "draft",
@@ -67,8 +67,8 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:25a23d3c-6234-46f6-af74-7d54b0b865dc",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:fcc3a018-2dc1-4d89-a4b3-bab15655cb39",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 98,
         "parameter": [
             {

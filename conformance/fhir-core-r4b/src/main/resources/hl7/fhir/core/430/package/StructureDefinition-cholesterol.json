@@ -20,7 +20,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/cholesterol",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "Example Lipid Profile",
     "status": "draft",
     "experimental": true,
@@ -738,7 +738,7 @@
                     ],
                     "strength": "required",
                     "description": "Codes providing the status of an observation.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/observation-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1387,7 +1387,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -1549,7 +1549,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.3.0"
                 },
                 "mapping": [
                     {

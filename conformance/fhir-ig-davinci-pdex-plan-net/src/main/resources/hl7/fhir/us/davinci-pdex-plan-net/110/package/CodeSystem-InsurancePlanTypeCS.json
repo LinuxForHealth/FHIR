@@ -1,0 +1,86 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "InsurancePlanTypeCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/InsurancePlanTypeCS",
+    "version": "1.1.0",
+    "name": "InsurancePlanTypeCS",
+    "title": "Insurance Plan Type",
+    "status": "active",
+    "date": "2022-04-04T14:02:01+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Categories of cost-sharing used by plans",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "caseSensitive": true,
+    "content": "complete",
+    "count": 8,
+    "concept": [
+        {
+            "code": "platinum",
+            "display": "Platinum-QHP",
+            "definition": "Plan with highest monthly premium and lowest costs when you need care\tA Qualified Health Plan with the highest monthly premiums and smallest out-of-pocket costs for the member in comparison to other metal-category plans"
+        },
+        {
+            "code": "gold",
+            "display": "Gold-QHP",
+            "definition": "Plan with high monthly premium and low costs when you need care\tA Qualified Health Plan with the higher monthly premiums and smaller out-of-pocket costs for the member in comparison to other metal-category plans"
+        },
+        {
+            "code": "silver",
+            "display": "Silver-QHP",
+            "definition": "Plan with moderate monthly premium and moderate costs when you need care\tA Qualified Health Plan with the lower monthly premiums and larger out-of-pocket costs for the member in comparison to other metal-category plans"
+        },
+        {
+            "code": "bronze",
+            "display": "Bronze-QHP",
+            "definition": "Plan with lowest monthly premium and highest costs when you need care\tA Qualified Health Plan with the lowest monthly premiums and largest out-of-pocket costs for the member in comparison to other metal-category plans"
+        },
+        {
+            "code": "catastrophic",
+            "display": "Catastrophic-QHP",
+            "definition": "A plan with low monthly premiums and very high deductibles and are available only to those under 30 or with certain special exemptions."
+        },
+        {
+            "code": "lowdeductible",
+            "display": "Low Deductible",
+            "definition": "A plan that requires the insured to pay out of pocket a smaller proportion of incurred health care costs than a traditional insurance plan."
+        },
+        {
+            "code": "highdeductible",
+            "display": "High Deductible",
+            "definition": "A plan that requires the insured to pay out of pocket a larger proportion of incurred health care costs than a traditional insurance plan."
+        },
+        {
+            "code": "catastrophicplan",
+            "display": "Catastrophic Plan",
+            "definition": "A plan that requires the insured to pay out of pocket a much larger proportion of incurred health care costs than a traditional insurance plan."
+        }
+    ]
+}

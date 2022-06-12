@@ -131,7 +131,7 @@ public class Encounter extends DomainResource {
         bindingName = "EncounterStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "Current state of the encounter.",
-        valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.3.0"
     )
     @Required
     private final EncounterStatus status;
@@ -1720,7 +1720,7 @@ public class Encounter extends DomainResource {
             bindingName = "EncounterStatus",
             strength = BindingStrength.Value.REQUIRED,
             description = "Current state of the encounter.",
-            valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.3.0"
         )
         @Required
         private final EncounterStatus status;
@@ -3647,7 +3647,7 @@ public class Encounter extends DomainResource {
             bindingName = "EncounterLocationStatus",
             strength = BindingStrength.Value.REQUIRED,
             description = "The status of the location.",
-            valueSet = "http://hl7.org/fhir/ValueSet/encounter-location-status|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/encounter-location-status|4.3.0"
         )
         private final EncounterLocationStatus status;
         @Binding(

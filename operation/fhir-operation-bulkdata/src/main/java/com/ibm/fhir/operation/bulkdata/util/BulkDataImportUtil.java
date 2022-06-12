@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.operation.bulkdata.util;
 
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 import static com.ibm.fhir.operation.bulkdata.util.CommonUtil.buildExceptionWithIssue;
 
 import java.util.ArrayList;
@@ -16,8 +17,10 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
@@ -95,7 +98,7 @@ public class BulkDataImportUtil {
             Iterator<FHIRPathNode> iter = result.iterator();
             while (iter.hasNext()) {
                 FHIRPathElementNode node = (FHIRPathElementNode) iter.next();
-                return node.asElementNode().element().as(com.ibm.fhir.model.type.Uri.class).getValue();
+                return node.asElementNode().element().as(Uri.class).getValue();
             }
         } catch (NoSuchElementException | ClassCastException | FHIRPathException e) {
             throw buildExceptionWithIssue("invalid $import parameter value in 'inputSource'", e, IssueType.INVALID);
@@ -105,17 +108,18 @@ public class BulkDataImportUtil {
     }
 
     /**
-     * processes the retrieve inputs from the Parameters object and evaluationContext.
+     * Validate and retrieve the inputs from the Parameters object.
      *
+     * @param fhirVersion
      * @return
      * @throws FHIROperationException
      */
-    public List<Input> retrieveInputs() throws FHIROperationException {
+    public List<Input> retrieveInputs(FHIRVersionParam fhirVersion) throws FHIROperationException {
         // Parameter: input (required)
         List<Input> inputs = new ArrayList<>();
 
         try {
-            Set<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
+            Set<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes(fhirVersion);
             Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "parameter.where(name = 'input')");
 
             Iterator<FHIRPathNode> iter = result.iterator();
@@ -230,7 +234,7 @@ public class BulkDataImportUtil {
                 EvaluationContext evaluationContextPartType = new EvaluationContext(node.element());
                 Collection<FHIRPathNode> resultPartType = evaluator.evaluate(evaluationContextPartType, "value");
                 String type =
-                        ((FHIRPathElementNode) resultPartType.iterator().next()).element().as(com.ibm.fhir.model.type.String.class).getValue();
+                        ((FHIRPathElementNode) resultPartType.iterator().next()).element().as(FHIR_STRING).getValue();
 
                 // Checks if not valid, and throws exception
                 if (!OperationConstants.STORAGE_TYPES.contains(type)) {

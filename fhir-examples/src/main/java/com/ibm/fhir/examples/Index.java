@@ -66,23 +66,6 @@ public enum Index {
     IBM_XML("/ibm-xml.txt"),
 
     /**
-     * Implementation Guides examples in JSON
-     */
-    PROFILES_PDEX_FORMULARY_JSON("/profiles-pdex-formulary-json.txt"),
-
-    /**
-     * Implementation Guides examples in JSON
-     */
-    PROFILES_PDEX_PLAN_NET_JSON("/profiles-pdex-plan-net-json.txt"),
-
-    /**
-     * Implementation Guides examples in JSON
-     */
-    ALL_PROFILES_JSON(
-        "/profiles-pdex-formulary-json.txt",
-        "/profiles-pdex-plan-net-json.txt"),
-
-    /**
      * Bulk Data Location examples in JSON
      */
     BULKDATA_LOCATION_JSON("/ibm-json-bulk-data-location.txt"),
@@ -99,7 +82,7 @@ public enum Index {
     }
 
     /**
-     * @return the String path for this index file
+     * @return the String path for each index file in this conceptual index
      */
     public List<String> paths() {
         return paths;

@@ -2,7 +2,7 @@
     "resourceType": "CodeSystem",
     "id": "search-param-type",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
@@ -33,12 +33,12 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.1.12"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "SearchParamType",
     "title": "SearchParamType",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "description": "Data types allowed to be used for search parameters.",
     "caseSensitive": true,
     "valueSet": "http://hl7.org/fhir/ValueSet/search-param-type",

@@ -194,6 +194,20 @@ public class FHIRVersion extends Code {
      */
     public static final FHIRVersion VERSION_4_3_0_CIBUILD = FHIRVersion.builder().value(Value.VERSION_4_3_0_CIBUILD).build();
 
+    /**
+     * 4.3.0-snapshot1
+     * 
+     * <p>FHIR Release 4B Snapshot #1.
+     */
+    public static final FHIRVersion VERSION_4_3_0_SNAPSHOT1 = FHIRVersion.builder().value(Value.VERSION_4_3_0_SNAPSHOT1).build();
+
+    /**
+     * 4.3.0
+     * 
+     * <p>FHIR Release 4B.
+     */
+    public static final FHIRVersion VERSION_4_3_0 = FHIRVersion.builder().value(Value.VERSION_4_3_0).build();
+
     private volatile int hashCode;
 
     private FHIRVersion(Builder builder) {
@@ -262,6 +276,10 @@ public class FHIRVersion extends Code {
             return VERSION_4_1_0;
         case VERSION_4_3_0_CIBUILD:
             return VERSION_4_3_0_CIBUILD;
+        case VERSION_4_3_0_SNAPSHOT1:
+            return VERSION_4_3_0_SNAPSHOT1;
+        case VERSION_4_3_0:
+            return VERSION_4_3_0;
         default:
             throw new IllegalStateException(value.name());
         }
@@ -567,7 +585,21 @@ public class FHIRVersion extends Code {
          * 
          * <p>FHIR Release 4B CI-Build.
          */
-        VERSION_4_3_0_CIBUILD("4.3.0-cibuild");
+        VERSION_4_3_0_CIBUILD("4.3.0-cibuild"),
+
+        /**
+         * 4.3.0-snapshot1
+         * 
+         * <p>FHIR Release 4B Snapshot #1.
+         */
+        VERSION_4_3_0_SNAPSHOT1("4.3.0-snapshot1"),
+
+        /**
+         * 4.3.0
+         * 
+         * <p>FHIR Release 4B.
+         */
+        VERSION_4_3_0("4.3.0");
 
         private final java.lang.String value;
 
@@ -648,6 +680,10 @@ public class FHIRVersion extends Code {
                 return VERSION_4_1_0;
             case "4.3.0-cibuild":
                 return VERSION_4_3_0_CIBUILD;
+            case "4.3.0-snapshot1":
+                return VERSION_4_3_0_SNAPSHOT1;
+            case "4.3.0":
+                return VERSION_4_3_0;
             default:
                 throw new IllegalArgumentException(value);
             }

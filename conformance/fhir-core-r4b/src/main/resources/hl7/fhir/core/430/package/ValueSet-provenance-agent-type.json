@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "provenance-agent-type",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1003"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ProvenanceParticipantType",
     "status": "draft",
     "experimental": false,
@@ -61,8 +61,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:e702f4c2-b3b9-47c5-b3fb-d24b2f5d674e",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:42c3008a-d4d1-4caf-957e-a2e85aff12bb",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 10,
         "parameter": [
             {
@@ -75,7 +75,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/provenance-participant-type|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/provenance-participant-type|4.3.0"
             }
         ],
         "contains": [

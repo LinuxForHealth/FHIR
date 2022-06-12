@@ -8,7 +8,7 @@ permalink: /FHIRClinicalReasoningGuide/
 
 # Overview
 
-(Experimental) IBM FHIR Server added initial support for the [Clinical Quality Language (CQL)](https://cql.hl7.org/) and FHIR operations defined in the [Clinical Practice Guidelines (CPG) ](https://build.fhir.org/ig/HL7/cqf-recommendations/) and [Quality Measure (cqf-measures)](http://hl7.org/fhir/us/cqfmeasures/stu2/) Implementation Guides (IG) that leverage CQL. These IGs build upon the resources and operations defined in the [FHIR Clinical Reasoning Module](http://www.hl7.org/FHIR/clinicalreasoning-module.html). 
+(Experimental) IBM FHIR Server added initial support for the [Clinical Quality Language (CQL)](https://cql.hl7.org/) and FHIR operations defined in the [Clinical Practice Guidelines (CPG) ](https://build.fhir.org/ig/HL7/cqf-recommendations/) and [Quality Measure (cqf-measures)](http://hl7.org/fhir/us/cqfmeasures/stu2/) Implementation Guides (IG) that leverage CQL. These IGs build upon the resources and operations defined in the [FHIR Clinical Reasoning Module](http://hl7.org/fhir/R4B/clinicalreasoning-module.html).
 
 The IBM FHIR Server's module builds upon the work of other open source projects including [cqframework/clinical_quality_language](https://github.com/cqframework/clinical_quality_language/), [DBCG/cql_engine](https://github.com/DBCG/cql_engine/), and [DBCG/cql-evaluator](https://github.com/DBCG/cql-evaluator/) projects and much of the work is to expose these functions with the necessary hooks to perform CQL to ELM translation and ELM evaluation natively inside the IBM FHIR server or externally using an IBM FHIR Server client and model objects. Additionally, support is provided for evaluating and reporting on clinical quality measures and care gaps.
 
@@ -21,12 +21,12 @@ There was some prior work done on `ActivityDefinition/$apply` and `PlanDefinitio
 The CPG IG defines operations that work directly with CQL either as ad-hoc queries via the `/$cql` operation or via Library resources stored in the FHIR Registry (`/Library/$evaluate` and `/Library/[id]/$evaluate`). These operations are exposed by the *optional* module operation/fhir-operation-cpg. In order to make these operations available to the server, you must build the fhir-operation-cpg module and copy the target/fhir-operation-cpg-X.X.X-shaded.jar into the userlib directory of your FHIR server installation.
 
 * /$cql
-* /Library/$evaluate 
+* /Library/$evaluate
 * /Library/[id]/$evaluate
 
 # CQF Operations
 
-The cqf-measures IG builds upon the resources and operations defined in the [FHIR Clincial Reasoning Module](http://www.hl7.org/FHIR/clinicalreasoning-module.html) to define a workflow of operations that support electronic Clinical Quality Measures (eCQMs) and reporting. These operations are exposed by the *optional* module operation/fhir-operation-cqf. In order to make these operations available to the server, you must build the fhir-operation-cqf module and copy the target/fhir-operation-cqf-X.X.X-shaded.jar into the userlib directory of your FHIR server installation.
+The cqf-measures IG builds upon the resources and operations defined in the [FHIR Clincial Reasoning Module](http://hl7.org/fhir/R4B/clinicalreasoning-module.html) to define a workflow of operations that support electronic Clinical Quality Measures (eCQMs) and reporting. These operations are exposed by the *optional* module operation/fhir-operation-cqf. In order to make these operations available to the server, you must build the fhir-operation-cqf module and copy the target/fhir-operation-cqf-X.X.X-shaded.jar into the userlib directory of your FHIR server installation.
 
 * /Library/$data-requirements
 * /Measure/[id]/$data-requirements
@@ -48,4 +48,3 @@ The cqf-measures IG builds upon the resources and operations defined in the [FHI
 |fhir-quality-measure|FHIR Quality Measure evaluation logic|
 |operation/fhir-operation-cpg|*Optional* module that implements CQL operations|
 |operation/fhir-operation-cqf|*Optional* module that implements CQF operations|
-

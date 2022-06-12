@@ -1,0 +1,2397 @@
+{
+    "resourceType": "ImplementationGuide",
+    "id": "hl7.fhir.us.davinci-pdex-plan-net",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ImplementationGuide/hl7.fhir.us.davinci-pdex-plan-net",
+    "version": "1.1.0",
+    "name": "DaVinciPDEXPlanNet",
+    "title": "DaVinci PDEX Plan Net",
+    "status": "active",
+    "date": "2022-04-04T14:02:01+00:00",
+    "publisher": "HL7 Financial Management Working Group",
+    "contact": [
+        {
+            "name": "HL7 Financial Management Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/fm"
+                },
+                {
+                    "system": "email",
+                    "value": "fm@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Davinci PDEX Plan Net",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "packageId": "hl7.fhir.us.davinci-pdex-plan-net",
+    "license": "CC0-1.0",
+    "fhirVersion": [
+        "4.0.1"
+    ],
+    "dependsOn": [
+        {
+            "id": "hl7_fhir_us_core",
+            "uri": "http://hl7.org/fhir/us/core/ImplementationGuide/hl7.fhir.us.core",
+            "packageId": "hl7.fhir.us.core",
+            "version": "3.1.1"
+        }
+    ],
+    "definition": {
+        "resource": [
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/plannet-Endpoint"
+                },
+                "name": "Plan-Net Endpoint",
+                "description": "The technical details of an endpoint that can be used for electronic services, such as a portal or FHIR REST services, messaging or operations, or DIRECT messaging.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/plannet-HealthcareService"
+                },
+                "name": "Plan-Net HealthcareService",
+                "description": "The HealthCareService resource typically describes services offered by an organization/practitioner at a location. The resource may be used to encompass a variety of services covering the entire healthcare spectrum, including promotion, prevention, diagnostics, pharmacy, hospital and ambulatory care, home care, long-term care, and other health-related and community services.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/plannet-InsurancePlan"
+                },
+                "name": "Plan-Net InsurancePlan",
+                "description": "An InsurancePlan is a discrete package of health insurance coverage benefits that are offered under a particular network type. A given payer’s products typically differ by network type and/or covered benefits. A plan pairs a product’s covered benefits with the particular cost sharing structure offered to a consumer. A given product may comprise multiple plans (i.e. each plan offers different cost sharing requirements for the same set of covered benefits).\n\nInsurancePlan describes a health insurance offering comprised of a list of covered benefits (i.e. the product), costs associated with those benefits (i.e. the plan), and additional information about the offering, such as who it is owned and administered by, a coverage area, contact information, etc.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/plannet-Location"
+                },
+                "name": "Plan-Net Location",
+                "description": "A Location is the physical place where healthcare services are provided, practitioners are employed, \n                 organizations are based, etc. Locations can range in scope from a room in a building to a geographic region/area.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/plannet-Network"
+                },
+                "name": "Plan-Net Network",
+                "description": "A Network refers to a healthcare provider insurance network. A healthcare provider insurance network is an aggregation of organizations and individuals that deliver a set of services across a geography through health insurance products/plans. A network is typically owned by a payer.\n\nIn the PlanNet IG, individuals and organizations are represented as participants in a PLan-Net Network through the practitionerRole and Plan-Net-organizationAffiliation resources, respectively.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/plannet-Organization"
+                },
+                "name": "Plan-Net Organization",
+                "description": "An organization is a formal or informal grouping of people or organizations with a common purpose, such as a company, institution, corporation, community group, or healthcare practice.\nGuidance:   When the contact is a department name, rather than a human (e.g., patient help line), include a blank family and given name, and provide the department name in contact.name.text",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/plannet-OrganizationAffiliation"
+                },
+                "name": "Plan-Net OrganizationAffiliation",
+                "description": "The OrganizationAffiliation resource describes relationships between two or more organizations, including the services one organization provides another, the location(s) where they provide services, the availability of those services, electronic endpoints, and other relevant information.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/plannet-Practitioner"
+                },
+                "name": "Plan-Net Practitioner",
+                "description": "Practitioner is a person who is directly or indirectly involved in the provisioning of healthcare.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/plannet-PractitionerRole"
+                },
+                "name": "Plan-Net PractitionerRole",
+                "description": "PractionerRole describes details about a provider, which can be a practitioner or an organization. When the provider is a practitioner, \nthere may be a relationship to an organization. A provider renders services to patients at a location. When the provider is a practitioner, there may also \nbe a relationship to an organization. Practitioner participation in healthcare provider insurance networks may be direct or through their role at an organization.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/accessibility"
+                },
+                "name": "Accessibility",
+                "description": "An extension to describe accessibility options offered by a practitioner or at a location.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/communication-proficiency"
+                },
+                "name": "Communication Proficiency",
+                "description": "An extension to express a practitioner’s spoken proficiency with the language indicated in practitioner.communication.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/contactpoint-availabletime"
+                },
+                "name": "Contactpoint Availabletime",
+                "description": "An extension representing the days and times a contact point is available",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/delivery-method"
+                },
+                "name": "Delivery Method",
+                "description": "An extension describing the service delivery method.   If service delivery is virtual, one or more delivery modalities should be specified.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/endpoint-usecase"
+                },
+                "name": "Endpoint Usecase",
+                "description": "EndpointUseCase is an enumeration of the specific use cases (service descriptions) supported by the endpoint",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/location-reference"
+                },
+                "name": "Location Reference",
+                "description": "A reference to a Location resource (plannet-Location) defining the coverage area of a health insurance provider network",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/network-reference"
+                },
+                "name": "Network Reference",
+                "description": "A reference to the healthcare provider insurance networks (plannet-Network) the practitioner participates in through their role",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/newpatients"
+                },
+                "name": "New Patients",
+                "description": "New Patients indicates whether new patients are being accepted in general, or from a specific network.   \n              This extension is included in the PractitionerRole, HealthcareService, and Location profiles.  \n              This provides needed flexibility for specifying whether a provider accepts new patients by location and network.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/org-description"
+                },
+                "name": "Org Description",
+                "description": "An extension to provide a human-readable description of an organization.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/practitioner-qualification"
+                },
+                "name": "Practitioner Qualification",
+                "description": "An extension to add status and whereValid elements to a practitioner’s qualifications.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/qualification"
+                },
+                "name": "Qualification",
+                "description": "An extension to add qualifications for an organization (e.g. accreditation) or practitionerRole (e.g. registered to prescribe controlled substances).",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/via-intermediary"
+                },
+                "name": "Via Intermediary",
+                "description": "A reference to an alternative point of contact (plannet-PractitionerRole, plannet-Organization, plannet-OrganizationAffiliation, or plannet-Location) for this organization",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/AcceptingPatientsVS"
+                },
+                "name": "Accepting Patients Codes VS",
+                "description": "Codes to identify if the practice is accepting new patients",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/AccessibilityVS"
+                },
+                "name": "Accessibility VS",
+                "description": "Codes for documenting general categories of accommodations available.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/DeliveryMethodVS"
+                },
+                "name": "Delivery Methods VS",
+                "description": "Codes for documenting delivery methods.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/EndpointConnectionTypeVS"
+                },
+                "name": "Endpoint Connection Types VS",
+                "description": "Endpoint Connection Types",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/EndpointPayloadTypeVS"
+                },
+                "name": "Endpoint Payload Types VS",
+                "description": "Endpoint Payload Types are constrained to NA (Not Applicable) as part of this IG",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/EndpointUsecaseVS"
+                },
+                "name": "Endpoint Usecases VS",
+                "description": "Codes for documenting business use case by a general grouping by business area.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/HealthcareServiceCategoryVS"
+                },
+                "name": "Healthcare Service CategoryVS",
+                "description": "Broad categories of healthcare services being performed or delivered.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/HealthcareServiceTypeVS"
+                },
+                "name": "HealthcareService Types VS",
+                "description": "Valueset for HealthCareService type",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/IndividualAndGroupSpecialtiesVS"
+                },
+                "name": "Individual and Group Specialties",
+                "description": "Individual and Group Specialties from National Uniform Claim Committee (NUCC) Health Care Provider Taxonomy code set.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/IndividualSpecialtyAndDegreeLicenseCertificateVS"
+                },
+                "name": "Individual Specialties, Degrees, Licenses, and Certificates VS",
+                "description": "Individual Specialties, Degrees, Licenses, and Certificates",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/InsurancePlanTypeVS"
+                },
+                "name": "Insurance Plan TypeVS",
+                "description": "Categories of cost-sharing used by plans.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/InsuranceProductTypeVS"
+                },
+                "name": "Insurance Product Type VS",
+                "description": "A distinct package of health insurance coverage benefits that are offered using a particular product network type.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/LanguageProficiencyVS"
+                },
+                "name": "Language Proficiency VS",
+                "description": "Codes for documenting spoken language proficiency based on the Interagency Language Roundtable scale of abilities to communicate in a language.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/MinEndpointConnectionTypeVS"
+                },
+                "name": "Minimum Endpoint Connection Types VS",
+                "description": "Minimum Endpoint Connection Types",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/NetworkTypeVS"
+                },
+                "name": "Network Type VS",
+                "description": "Single value describing networks.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/NonIndividualSpecialtiesVS"
+                },
+                "name": "Non-Individual Specialties",
+                "description": "Non-Individual Specialties from National Uniform Claim Committee (NUCC) Health Care Provider Taxonomy code set.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/NonIndividualSpecialtyAndDegreeLicenseCertificateVS"
+                },
+                "name": "Non-Individual Specialties, Degrees, Licenses, and Certificates VS",
+                "description": "Non-Individual Specialties, Degrees, Licenses, and Certificates",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/OrgTypeVS"
+                },
+                "name": "Organization Type VS",
+                "description": "Categories of organizations based on criteria in provider directories.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/OrganizationAffiliationRoleVS"
+                },
+                "name": "OrganizationAffiliation Roles",
+                "description": "Value Set for Organization Affiliation Roles",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/PractitionerRoleVS"
+                },
+                "name": "PractitionerRole Code VS",
+                "description": "Codes for the capabilities that an individual, group, or organization is acknowledged to have in a payer network, including general codes from the HL7 PractitionerRole Code System.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/QualificationStatusVS"
+                },
+                "name": "Qualification Status VS",
+                "description": "The state indicating if a qualification is currently valid.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/SpecialtiesVS"
+                },
+                "name": "Specialties VS",
+                "description": "Specialties value set based on National Uniform Claim Committee (NUCC) Health Care Provider Taxonomy code set.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/SpecialtyAndDegreeLicenseCertificateVS"
+                },
+                "name": "Specialties, Degrees, Licenses, and Certificates VS",
+                "description": "Specialties and Degree License and Certificates",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/VirtualModalitiesVS"
+                },
+                "name": "Virtual Modalities VS",
+                "description": "Codes for virtual service delivery modalities .",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/AcceptingPatientsCS"
+                },
+                "name": "Accepting Patients Codes",
+                "description": "Codes to identify if the practice is accepting new patients",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/AccessibilityCS"
+                },
+                "name": "Accessibility CS",
+                "description": "General categories of accommodations available.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/DeliveryMethodCS"
+                },
+                "name": "Delivery Methods",
+                "description": "Categories of healthcare service delivery methods.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/EndpointConnectionTypeCS"
+                },
+                "name": "Endpoint Connection Types (additional)",
+                "description": "Extension codes for http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/EndpointPayloadTypeCS"
+                },
+                "name": "Endpoint Payload Types",
+                "description": "Endpoint Payload Types are constrained to NA (Not Applicable) as part of this IG",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/HealthcareServiceCategoryCS"
+                },
+                "name": "Healthcare Service Category",
+                "description": "Broad categories of healthcare services being performed or delivered",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/InsurancePlanTypeCS"
+                },
+                "name": "Insurance Plan Type",
+                "description": "Categories of cost-sharing used by plans",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/InsuranceProductTypeCS"
+                },
+                "name": "Insurance Product Type",
+                "description": "A distinct package of health insurance coverage benefits that are offered using a particular product network type.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/LanguageProficiencyCS"
+                },
+                "name": "Language Proficiency CS",
+                "description": "Codes for documenting spoken language proficiency based on the Interagency Language Roundtable scale of abilities to communicate in a language.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/OrgTypeCS"
+                },
+                "name": "Organization Type",
+                "description": "Categories of organizations based on criteria in provider directories.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/OrganizationAffiliationRoleCS"
+                },
+                "name": "Organization Affiliation Role",
+                "description": "Codes For Organization Affiliation Role",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/ProviderRoleCS"
+                },
+                "name": "Provider Role Codes",
+                "description": "A capability that an individual, group, or organization is acknowledged to have in a payer network.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/QualificationStatusCS"
+                },
+                "name": "Qualification Status",
+                "description": "The state indicating if a qualification is currently valid.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/VirtualModalitiesCS"
+                },
+                "name": "Virtual Modalities",
+                "description": "Categories of virtual service delivery modalities.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Organization"
+                    }
+                ],
+                "reference": {
+                    "reference": "Organization/Acme"
+                },
+                "name": "Acme",
+                "description": "Payer Organization",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Endpoint"
+                    }
+                ],
+                "reference": {
+                    "reference": "Endpoint/AcmeOfCTPortalEndpoint"
+                },
+                "name": "AcmeOfCTPortalEndpoint",
+                "description": "Endpoint for Acme of CT Portal",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "InsurancePlan"
+                    }
+                ],
+                "reference": {
+                    "reference": "InsurancePlan/AcmeQHPBronze"
+                },
+                "name": "AcmeQHPBronze",
+                "description": "Acme of CT QHP Bronze Plan",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-InsurancePlan"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "InsurancePlan"
+                    }
+                ],
+                "reference": {
+                    "reference": "InsurancePlan/AcmeQHPGold"
+                },
+                "name": "AcmeQHPGold",
+                "description": "Acme of CT QHP Gold Plan",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-InsurancePlan"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Organization"
+                    }
+                ],
+                "reference": {
+                    "reference": "Organization/AcmeofCTPremNet"
+                },
+                "name": "AcmeofCTPremNet",
+                "description": "Acme of CT Premium Premium Network",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Organization"
+                    }
+                ],
+                "reference": {
+                    "reference": "Organization/AcmeofCTStdNet"
+                },
+                "name": "AcmeofCTStdNet",
+                "description": "Acme of CT Standard Network",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Network"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "PractitionerRole"
+                    }
+                ],
+                "reference": {
+                    "reference": "PractitionerRole/AnonRole"
+                },
+                "name": "AnonRole",
+                "description": "Practitioner role that doesn't refer to a specific practitioner",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-PractitionerRole"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Organization"
+                    }
+                ],
+                "reference": {
+                    "reference": "Organization/BigBox"
+                },
+                "name": "BigBox",
+                "description": "Organization that Manages 2 of PharmChain's pharmacies",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Organization"
+                    }
+                ],
+                "reference": {
+                    "reference": "Organization/BurrClinic"
+                },
+                "name": "BurrClinic",
+                "description": "Burr Clinic provides service to Hartford Hospital",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "OrganizationAffiliation"
+                    }
+                ],
+                "reference": {
+                    "reference": "OrganizationAffiliation/BurrClinicAffil"
+                },
+                "name": "BurrClinicAffil",
+                "description": "Burr Clinic's affiliation with Acme of CT Provider Network and Hartford General Hospital",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "HealthcareService"
+                    }
+                ],
+                "reference": {
+                    "reference": "HealthcareService/BurrClinicServices"
+                },
+                "name": "BurrClinicServices",
+                "description": "Burr Clinic Services",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Organization"
+                    }
+                ],
+                "reference": {
+                    "reference": "Organization/CancerClinic"
+                },
+                "name": "CancerClinic",
+                "description": "HartfordCancerClinicLLC",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Location"
+                    }
+                ],
+                "reference": {
+                    "reference": "Location/CancerClinicLoc"
+                },
+                "name": "CancerClinicLoc",
+                "description": "Location1 of Cancer Clinic",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "HealthcareService"
+                    }
+                ],
+                "reference": {
+                    "reference": "HealthcareService/CancerClinicService"
+                },
+                "name": "CancerClinicService",
+                "description": "Cancer Clinic Services",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Organization"
+                    }
+                ],
+                "reference": {
+                    "reference": "Organization/ConnHIE"
+                },
+                "name": "ConnHIE",
+                "description": "Connecticut HIE",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "OrganizationAffiliation"
+                    }
+                ],
+                "reference": {
+                    "reference": "OrganizationAffiliation/ConnHIEAffil"
+                },
+                "name": "ConnHIEAffil",
+                "description": "Burr Clinic's affiliation with Conn HIE",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Practitioner"
+                    }
+                ],
+                "reference": {
+                    "reference": "Practitioner/Counselor"
+                },
+                "name": "Counselor",
+                "description": "Counselor Susie Smith",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Practitioner"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "PractitionerRole"
+                    }
+                ],
+                "reference": {
+                    "reference": "PractitionerRole/CounselorRole1"
+                },
+                "name": "CounselorRole1",
+                "description": "Susie  Smith is a counselor via Telemedicine",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-PractitionerRole"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Organization"
+                    }
+                ],
+                "reference": {
+                    "reference": "Organization/HamiltonClinic"
+                },
+                "name": "HamiltonClinic",
+                "description": "Hamilton Clinic (a Division of Hartford Hospital)",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "OrganizationAffiliation"
+                    }
+                ],
+                "reference": {
+                    "reference": "OrganizationAffiliation/HamiltonClinicAffil"
+                },
+                "name": "HamiltonClinicAffil",
+                "description": "Hamilton Clinic's affiliation with Acme of CT Provider Network and Hartford General Hospital",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "HealthcareService"
+                    }
+                ],
+                "reference": {
+                    "reference": "HealthcareService/HamiltonClinicServices"
+                },
+                "name": "HamiltonClinicServices",
+                "description": "Hamilton Clinic Services",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Practitioner"
+                    }
+                ],
+                "reference": {
+                    "reference": "Practitioner/HansSolo"
+                },
+                "name": "HansSolo",
+                "description": "Solo Practitioner Hans Solo",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Practitioner"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Location"
+                    }
+                ],
+                "reference": {
+                    "reference": "Location/HansSoloClinic"
+                },
+                "name": "HansSoloClinic",
+                "description": "Location of Hans Solo's clinic",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "PractitionerRole"
+                    }
+                ],
+                "reference": {
+                    "reference": "PractitionerRole/HansSoloRole1"
+                },
+                "name": "HansSoloRole1",
+                "description": "Hans Solo is a solo practitioner",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-PractitionerRole"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "HealthcareService"
+                    }
+                ],
+                "reference": {
+                    "reference": "HealthcareService/HansSoloService"
+                },
+                "name": "HansSoloService",
+                "description": "Hans Solo Services",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "OrganizationAffiliation"
+                    }
+                ],
+                "reference": {
+                    "reference": "OrganizationAffiliation/HartfordOrthopedicAffil"
+                },
+                "name": "HartfordOrthopedicAffil",
+                "description": "Hartford Orthopedic Services affiliation with Acme of CT Provider Network and Hartford General Hospital",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "HealthcareService"
+                    }
+                ],
+                "reference": {
+                    "reference": "HealthcareService/HartfordOrthopedicServices"
+                },
+                "name": "HartfordOrthopedicServices",
+                "description": "Hartford Orthopedic Services",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Organization"
+                    }
+                ],
+                "reference": {
+                    "reference": "Organization/HartfordOrthopedics"
+                },
+                "name": "HartfordOrthopedics",
+                "description": "Hartford Orthpedic Services is a group providing Orthpods for Acme of CT at Hartford General Hospital",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "HealthcareService"
+                    }
+                ],
+                "reference": {
+                    "reference": "HealthcareService/HospERService"
+                },
+                "name": "HospERService",
+                "description": "Hartford General Hospital ER",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Location"
+                    }
+                ],
+                "reference": {
+                    "reference": "Location/HospLoc1"
+                },
+                "name": "HospLoc1",
+                "description": "Location1 of Hartford Hospital",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Location"
+                    }
+                ],
+                "reference": {
+                    "reference": "Location/HospLoc2"
+                },
+                "name": "HospLoc2",
+                "description": "Location2 of Hartford Hospital",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Organization"
+                    }
+                ],
+                "reference": {
+                    "reference": "Organization/Hospital"
+                },
+                "name": "Hospital",
+                "description": "Hartford General Hospital",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Practitioner"
+                    }
+                ],
+                "reference": {
+                    "reference": "Practitioner/JoeSmith"
+                },
+                "name": "JoeSmith",
+                "description": "Practitioner Dr Joe Smith",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Practitioner"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "PractitionerRole"
+                    }
+                ],
+                "reference": {
+                    "reference": "PractitionerRole/JoeSmithRole1"
+                },
+                "name": "JoeSmithRole1",
+                "description": "Dr Smith moonlighting as ER Doc at Hartford Hospital",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-PractitionerRole"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "PractitionerRole"
+                    }
+                ],
+                "reference": {
+                    "reference": "PractitionerRole/JoeSmithRole2"
+                },
+                "name": "JoeSmithRole2",
+                "description": "Dr Smith Internal Medicine at Burr Clinic",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-PractitionerRole"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "PractitionerRole"
+                    }
+                ],
+                "reference": {
+                    "reference": "PractitionerRole/JoeSmithRole3"
+                },
+                "name": "JoeSmithRole3",
+                "description": "Dr Smith Admitting Privileges at Hartford General",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-PractitionerRole"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Organization"
+                    }
+                ],
+                "reference": {
+                    "reference": "Organization/PharmChain"
+                },
+                "name": "PharmChain",
+                "description": "Organization that Provides Pharmacy Services",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "OrganizationAffiliation"
+                    }
+                ],
+                "reference": {
+                    "reference": "OrganizationAffiliation/PharmChainAffil1"
+                },
+                "name": "PharmChainAffil1",
+                "description": "Organization Affiliation for PharmChain (Retail)",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "OrganizationAffiliation"
+                    }
+                ],
+                "reference": {
+                    "reference": "OrganizationAffiliation/PharmChainAffil2"
+                },
+                "name": "PharmChainAffil2",
+                "description": "Organization Affiliation for PharmChain (Compounding)",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "OrganizationAffiliation"
+                    }
+                ],
+                "reference": {
+                    "reference": "OrganizationAffiliation/PharmChainAffil3"
+                },
+                "name": "PharmChainAffil3",
+                "description": "Organization Affiliation for PharmChain (MailOrder)",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-OrganizationAffiliation"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "HealthcareService"
+                    }
+                ],
+                "reference": {
+                    "reference": "HealthcareService/PharmChainCompService"
+                },
+                "name": "PharmChainCompService",
+                "description": "Compound Pharmacy Service provided by PharmacyOrganization A",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "HealthcareService"
+                    }
+                ],
+                "reference": {
+                    "reference": "HealthcareService/PharmChainMailService"
+                },
+                "name": "PharmChainMailService",
+                "description": "Mail Order Pharmacy Service provided by PharmacyOrganization A",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "HealthcareService"
+                    }
+                ],
+                "reference": {
+                    "reference": "HealthcareService/PharmChainRetailService"
+                },
+                "name": "PharmChainRetailService",
+                "description": "Pharmacy Service provided by PharmChain",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Location"
+                    }
+                ],
+                "reference": {
+                    "reference": "Location/PharmLoc1"
+                },
+                "name": "PharmLoc1",
+                "description": "Location of Pharmacy1 in PharmChain's network",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Location"
+                    }
+                ],
+                "reference": {
+                    "reference": "Location/PharmLoc2"
+                },
+                "name": "PharmLoc2",
+                "description": "Location of Pharmacy2 in PharmChain's network",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Location"
+                    }
+                ],
+                "reference": {
+                    "reference": "Location/PharmLoc3"
+                },
+                "name": "PharmLoc3",
+                "description": "Location of Pharmacy3 in PharmChain's network",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Location"
+                    }
+                ],
+                "reference": {
+                    "reference": "Location/PharmLoc4"
+                },
+                "name": "PharmLoc4",
+                "description": "Location of Pharmacy4 in PharmChain's network",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Location"
+                    }
+                ],
+                "reference": {
+                    "reference": "Location/StateOfCTLocation"
+                },
+                "name": "StateOfCTLocation",
+                "description": "State of CT Area",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "HealthcareService"
+                    }
+                ],
+                "reference": {
+                    "reference": "HealthcareService/VirtualCounselService"
+                },
+                "name": "VirtualCounselService",
+                "description": "Virtual Counseling Service",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-HealthcareService"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CapabilityStatement"
+                    }
+                ],
+                "reference": {
+                    "reference": "CapabilityStatement/plan-net"
+                },
+                "name": "Plan-Net CapabilityStatement",
+                "description": "This Section describes the expected capabilities of the Plan-Net Server actor which is responsible for providing responses to the queries submitted by the Plan-Net Requestors. The complete list of FHIR profiles, RESTful operations, and search parameters supported by Plan-Net Servers are defined. Systems implementing this capability statement should meet the CMS FInal Rule requirement for provider directory access.  Plan-Net  Clients can use the required capabilities to access necessary data based on their local use cases and other contextual requirements.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/endpoint-organization"
+                },
+                "name": "Plannet_sp_endpoint_organization",
+                "description": "Select Endpoints managed by the specified organization",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/healthcareservice-coverage-area"
+                },
+                "name": "Plannet_sp_healthcareservice_coverage_area",
+                "description": "Select services available in a region described by the specified location",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/healthcareservice-organization"
+                },
+                "name": "Plannet_sp_healthcareservice_organization",
+                "description": "Select HealthcareServices provided by the specified organization",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/healthcareservice-endpoint"
+                },
+                "name": "Plannet_sp_healthcareservice_endpoint",
+                "description": "Select HealthcareServices with the specified endpoint",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/healthcareservice-location"
+                },
+                "name": "Plannet_sp_healthcareservice_location",
+                "description": "Select HealthcareServices available at the specified location",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/healthcareservice-name"
+                },
+                "name": "Plannet_sp_healthcareservice_name",
+                "description": "Select HealthcareServices with the specified name",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/healthcareservice-service-category"
+                },
+                "name": "Plannet_sp_healthcareservice_category",
+                "description": "Select HealthcareServices providing the specified category of services",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/healthcareservice-service-type"
+                },
+                "name": "Plannet_sp_healthcareservice_type",
+                "description": "Select HealthcareServices of the specified type",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/healthcareservice-specialty"
+                },
+                "name": "Plannet_sp_healthcareservice_specialty",
+                "description": "Select services associated with the specified specialty",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/insuranceplan-administered-by"
+                },
+                "name": "Plannet_sp_insuranceplan_administered_by",
+                "description": "Select products that are administered by the specified organization",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/insuranceplan-coverage-area"
+                },
+                "name": "Plannet_sp_insuranceplan_coverage_area",
+                "description": "Select products that are offered in the specified location",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/insuranceplan-identifier"
+                },
+                "name": "Plannet_sp_insuranceplan_identifier",
+                "description": "Select products with the specified identifier",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/insuranceplan-name"
+                },
+                "name": "Plannet_sp_insuranceplan_name",
+                "description": "Select products with the specified name",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/insuranceplan-owned-by"
+                },
+                "name": "Plannet_sp_insuranceplan_owned_by",
+                "description": "Select products that are owned by the specified organization",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/insuranceplan-plan-type"
+                },
+                "name": "Plannet_sp_insuranceplan_plan_type",
+                "description": "Select plans of the specified type",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/insuranceplan-type"
+                },
+                "name": "Plannet_sp_insuranceplan_type",
+                "description": "Select insurance plans of the specified type",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/location-address-city"
+                },
+                "name": "Plannet_sp_location_address_city",
+                "description": "Select Locations with the specified address.city",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/location-address-postalcode"
+                },
+                "name": "Plannet_sp_location_address_postalcode",
+                "description": "Select Locations with the specified address",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/location-address-state"
+                },
+                "name": "Plannet_sp_location_address_state",
+                "description": "Select Locations with the specified address.state",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/location-address"
+                },
+                "name": "Plannet_sp_location_address",
+                "description": "Select Locations with the specified address",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/location-endpoint"
+                },
+                "name": "Plannet_sp_location_endpoint",
+                "description": "Select Locations with the specified endpoint",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/location-organization"
+                },
+                "name": "Plannet_sp_location_organization",
+                "description": "Select Locations managed by the specified organization",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/location-partof"
+                },
+                "name": "Plannet_sp_location_partof",
+                "description": "Select Locations that are part of the specified location",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/location-type"
+                },
+                "name": "Plannet_sp_location_type",
+                "description": "Select Locations of the specified type",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organization-address"
+                },
+                "name": "Plannet_sp_organization_address",
+                "description": "Select organizations with the specified address (matches any of the string elements of an address)",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organization-coverage-area"
+                },
+                "name": "Plannet_sp_network_coverage_area",
+                "description": "Select health insurance provider networks available in a region described by the specified location",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organization-endpoint"
+                },
+                "name": "Plannet_sp_organization_endpoint",
+                "description": "Select Organizations with the specified endpoint",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organization-name"
+                },
+                "name": "Plannet_sp_organization_name",
+                "description": "Select Organizations with the specified name",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organization-partof"
+                },
+                "name": "Plannet_sp_organization_partof",
+                "description": "Select Organizations that are part of the specified organization",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organization-type"
+                },
+                "name": "Plannet_sp_organization_type",
+                "description": "Select Organizations of the specified type",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organizationaffiliation-endpoint"
+                },
+                "name": "Plannet_sp_organizationaffiliation_endpoint",
+                "description": "Select OrganizationAffiliations with the specified endpoint",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organizationaffiliation-location"
+                },
+                "name": "Plannet_sp_organizationaffiliation_location",
+                "description": "Select OrganizationAffiliations available at the specified location",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organizationaffiliation-network"
+                },
+                "name": "Plannet_sp_organizationaffiliation_network",
+                "description": "Select roles where the organization is a member of the specified health insurance provider network",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organizationaffiliation-participating-organization"
+                },
+                "name": "Plannet_sp_organizationaffiliation_participating_organization",
+                "description": "Select roles filled by the specified organization",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organizationaffiliation-period"
+                },
+                "name": "Plannet_sp_organizationaffiliation_period",
+                "description": "Select Organization Affiliations available in the specified period",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organizationaffiliation-primary-organization"
+                },
+                "name": "Plannet_sp_organizationaffiliation_primary_organization",
+                "description": "Select roles offered by the specified organization",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organizationaffiliation-role"
+                },
+                "name": "Plannet_sp_organizationaffiliation_role",
+                "description": "Select OrganizationAffiliations with the specified role",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organizationaffiliation-service"
+                },
+                "name": "Plannet_sp_organizationaffiliation_service",
+                "description": "Select OrganizationAffiliations providing the specified service",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/organizationaffiliation-specialty"
+                },
+                "name": "Plannet_sp_organizationaffiliation_specialty",
+                "description": "Select OrganizationAffiliations associated with the specified specialty",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/practitioner-family-name"
+                },
+                "name": "Plannet_sp_practitioner_family_name",
+                "description": "Select Practitioners with the specified family name",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/practitioner-given-name"
+                },
+                "name": "Plannet_sp_practitioner_given_name",
+                "description": "Select Practitioners with the specified given name",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/practitioner-name"
+                },
+                "name": "Plannet_sp_practitioner_name",
+                "description": "Select Practitioners with the specified name (matches against any of the elements in the HumanName data type)",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/practitionerrole-endpoint"
+                },
+                "name": "Plannet_sp_practitionerrole_endpoint",
+                "description": "Select PractitionerRoles with the specified endpoint",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/practitionerrole-location"
+                },
+                "name": "Plannet_sp_practitionerrole_location",
+                "description": "Select PractitionerRoles available at the specified location",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/practitionerrole-network"
+                },
+                "name": "Plannet_sp_practitionerrole_network",
+                "description": "Select roles where the practitioner is a member of the specified health insurance provider network",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/practitionerrole-organization"
+                },
+                "name": "Plannet_sp_practitionerrole_organization",
+                "description": "Select PractitionerRoles available at the specified organization",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/practitionerrole-period"
+                },
+                "name": "Plannet_sp_practitionerrole_period",
+                "description": "Select PractitionerRoles available in the specified period",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/practitionerrole-practitioner"
+                },
+                "name": "Plannet_sp_practitionerrole_practitioner",
+                "description": "Select roles filled by the specified practitioner",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/practitionerrole-role"
+                },
+                "name": "Plannet_sp_practitionerrole_role",
+                "description": "Select PractitionerRoles with the specified role",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/practitionerrole-service"
+                },
+                "name": "Plannet_sp_practitionerrole_service",
+                "description": "Select PractitionerRoles providing the specified service",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/practitionerrole-specialty"
+                },
+                "name": "Plannet_sp_practitionerrole_specialty",
+                "description": "Select PractitionerRoles associated with the specified specialty",
+                "exampleBoolean": false
+            }
+        ],
+        "page": {
+            "nameUrl": "toc.html",
+            "title": "Table of Contents",
+            "generation": "html",
+            "page": [
+                {
+                    "nameUrl": "index.html",
+                    "title": "Home",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "ChangeHistory.html",
+                    "title": "Change History",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "downloads.html",
+                    "title": "Downloads",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "examples.html",
+                    "title": "Examples",
+                    "generation": "html"
+                },
+                {
+                    "nameUrl": "implementation.html",
+                    "title": "Implementation",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "profiles.html",
+                    "title": "Profiles",
+                    "generation": "markdown"
+                }
+            ]
+        },
+        "parameter": [
+            {
+                "code": "path-resource",
+                "value": "input/capabilities"
+            },
+            {
+                "code": "path-resource",
+                "value": "input/examples"
+            },
+            {
+                "code": "path-resource",
+                "value": "input/extensions"
+            },
+            {
+                "code": "path-resource",
+                "value": "input/models"
+            },
+            {
+                "code": "path-resource",
+                "value": "input/operations"
+            },
+            {
+                "code": "path-resource",
+                "value": "input/profiles"
+            },
+            {
+                "code": "path-resource",
+                "value": "input/resources"
+            },
+            {
+                "code": "path-resource",
+                "value": "input/vocabulary"
+            },
+            {
+                "code": "path-resource",
+                "value": "input/maps"
+            },
+            {
+                "code": "path-resource",
+                "value": "input/testing"
+            },
+            {
+                "code": "path-resource",
+                "value": "input/history"
+            },
+            {
+                "code": "path-resource",
+                "value": "fsh-generated/resources"
+            },
+            {
+                "code": "path-pages",
+                "value": "template/config"
+            },
+            {
+                "code": "path-pages",
+                "value": "input/images"
+            },
+            {
+                "code": "path-tx-cache",
+                "value": "input-cache/txcache"
+            }
+        ]
+    }
+}

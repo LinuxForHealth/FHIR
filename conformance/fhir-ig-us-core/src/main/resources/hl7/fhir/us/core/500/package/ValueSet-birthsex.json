@@ -1,0 +1,92 @@
+{
+    "resourceType": "ValueSet",
+    "id": "birthsex",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/ValueSet/birthsex",
+    "version": "5.0.0",
+    "name": "BirthSex",
+    "title": "Birth Sex",
+    "status": "active",
+    "date": "2021-12-08",
+    "publisher": "HL7 International - Cross-Group Projects",
+    "contact": [
+        {
+            "name": "HL7 International - Cross-Group Projects",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/cgp"
+                },
+                {
+                    "system": "email",
+                    "value": "cgp@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes for assigning sex at birth as specified by the [Office of the National Coordinator for Health IT (ONC)](https://www.healthit.gov/newsroom/about-onc)",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "copyright": "Used by permission of HL7 International, all rights reserved Creative Commons License",
+    "compose": {
+        "include": [
+            {
+                "valueSet": [
+                    "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1"
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1021.103"
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "timestamp": "2022-05-18T05:56:23.502731Z",
+        "total": 5,
+        "contains": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-AdministrativeGender",
+                "version": "20210301",
+                "code": "F",
+                "display": "Female"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-AdministrativeGender",
+                "version": "20210301",
+                "code": "M",
+                "display": "Male"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                "version": "20210301",
+                "code": "ASKU",
+                "display": "asked but unknown"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                "version": "20210301",
+                "code": "OTH",
+                "display": "other"
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-NullFlavor",
+                "version": "20210301",
+                "code": "UNK",
+                "display": "unknown"
+            }
+        ]
+    }
+}

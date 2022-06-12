@@ -17,6 +17,9 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -41,9 +44,6 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
 
 public class FHIRValidatorTest {
     @Test
@@ -99,9 +99,17 @@ public class FHIRValidatorTest {
         }
         assertEquals(issues.size(), 3);
         assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
-        assertTrue(issues.get(0).getDetails().getText().getValue().contains("dom-6: A resource should have narrative for robust management"));
+        assertTrue(issues.get(0).getDetails().getText().getValue().contains("Extension definition 'http://www.ibm.com/someExtension' is not supported"));
         assertTrue(issues.get(0).getExpression().size() == 1);
-        assertTrue(issues.get(0).getExpression().get(0).getValue().equals("Patient"));
+        assertTrue(issues.get(0).getExpression().get(0).getValue().equals("Patient.name[0].given[0].extension[0]"));
+        assertEquals(issues.get(1).getSeverity(), IssueSeverity.WARNING);
+        assertTrue(issues.get(1).getDetails().getText().getValue().contains("Extension definition 'http://www.ibm.com/someExtension' is not supported"));
+        assertTrue(issues.get(1).getExpression().size() == 1);
+        assertTrue(issues.get(1).getExpression().get(0).getValue().equals("Patient.name[0].given[1].extension[0]"));
+        assertEquals(issues.get(2).getSeverity(), IssueSeverity.WARNING);
+        assertTrue(issues.get(2).getDetails().getText().getValue().contains("dom-6: A resource should have narrative for robust management"));
+        assertTrue(issues.get(2).getExpression().size() == 1);
+        assertTrue(issues.get(2).getExpression().get(0).getValue().equals("Patient"));
     }
 
     @Test
@@ -205,9 +213,9 @@ public class FHIRValidatorTest {
         List<Issue> issues = FHIRValidator.validator().validate(endpoint);
         // 1. Profile 'http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint' is not supported
         // 2. dom-6: A resource should have narrative for robust management
-        // 3. Code 'hl7-fhir-opn' in system 'http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/EndpointConnectionTypeCS' 
+        // 3. Code 'hl7-fhir-opn' in system 'http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/EndpointConnectionTypeCS'
         //    is not a valid member of ValueSet with URL=http://hl7.org/fhir/ValueSet/endpoint-connection-type and version=4.0.1
-        // 4. endpoint-0: The concept in this element must be from the specified value set 
+        // 4. endpoint-0: The concept in this element must be from the specified value set
         //    'http://hl7.org/fhir/ValueSet/endpoint-connection-type' if possible
         assertEquals(issues.size(), 4, "number of issues");
     }

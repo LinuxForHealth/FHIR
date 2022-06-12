@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/event-basedOn",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "basedOn",
     "title": "Based On",
     "status": "draft",
@@ -30,7 +30,7 @@
         }
     ],
     "description": "A plan, proposal or order that is fulfilled in whole or in part by this event.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "workflow",
@@ -130,7 +130,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

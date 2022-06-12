@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "reaction-event-severity",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.135"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "AllergyIntoleranceSeverity",
     "title": "AllergyIntoleranceSeverity",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:3503c8a7-8d9b-4133-8d71-cb8fd7eb5047",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:4377053b-3924-4dc8-a335-12953b26e101",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 3,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/reaction-event-severity|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/reaction-event-severity|4.3.0"
             }
         ],
         "contains": [

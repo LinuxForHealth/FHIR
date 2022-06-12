@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "specimen-collection-method",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.468"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "FHIRSpecimenCollectionMethod",
     "title": "FHIR Specimen Collection Method",
     "status": "draft",
@@ -96,8 +96,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:06e245d1-0463-47b9-986a-0caf2cfcce02",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:3509a555-555c-41e8-8536-4e7fad721b4e",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 10,
         "parameter": [
             {

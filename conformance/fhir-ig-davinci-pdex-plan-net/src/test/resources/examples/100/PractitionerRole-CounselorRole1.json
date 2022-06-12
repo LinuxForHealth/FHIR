@@ -1,0 +1,54 @@
+{
+    "resourceType": "PractitionerRole",
+    "id": "CounselorRole1",
+    "meta": {
+        "lastUpdated": "2020-07-07T13:26:22.0314215+00:00",
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-PractitionerRole|1.0.0"
+        ]
+    },
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/network-reference",
+            "valueReference": {
+                "reference": "Organization/AcmeofCTStdNet"
+            }
+        }
+    ],
+    "active": true,
+    "practitioner": {
+        "reference": "Practitioner/Counselor"
+    },
+    "code": [
+        {
+            "coding": [
+                {
+                    "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/ProviderRoleCS",
+                    "code": "co",
+                    "display": "Counselor"
+                }
+            ]
+        }
+    ],
+    "specialty": [
+        {
+            "coding": [
+                {
+                    "system": "http://nucc.org/provider-taxonomy",
+                    "code": "101YP2500X",
+                    "display": "Professional Counselor"
+                }
+            ]
+        }
+    ],
+    "healthcareService": [
+        {
+            "reference": "HealthcareService/VirtualCounselService"
+        }
+    ]
+}

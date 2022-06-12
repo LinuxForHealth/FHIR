@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,6 +33,9 @@ public class FHIRClientSample {
         // Create properties to be used to configure the client.
         Properties clientProperties = new Properties();
         clientProperties.setProperty(FHIRClient.PROPNAME_BASE_URL, "https://localhost:9443/fhir-server/api/v4");
+        clientProperties.setProperty(FHIRClient.PROPNAME_TRUSTSTORE_LOCATION, "src/test/resources/fhirClientTrustStore.p12");
+        clientProperties.setProperty(FHIRClient.PROPNAME_TRUSTSTORE_PASSWORD, "change-password");
+        clientProperties.setProperty(FHIRClient.PROPNAME_LOGGING_ENABLED, "false");
 
         // Retrieve an instance of the FHIRClient interface.
         FHIRClient client = FHIRClientFactory.getClient(clientProperties);

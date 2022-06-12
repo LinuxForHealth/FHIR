@@ -22,6 +22,7 @@ import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
@@ -161,11 +162,13 @@ public class BulkDataExportUtil {
      * processes both the Parameters object and the query parameters
      *
      * @param exportType
+     * @param fhirVersion
      * @param parameters
      * @return
      * @throws FHIROperationException
      */
-    public Set<String> checkAndValidateTypes(OperationConstants.ExportType exportType, List<Parameter> parameters) throws FHIROperationException {
+    public Set<String> checkAndValidateTypes(OperationConstants.ExportType exportType, FHIRVersionParam fhirVersion, List<Parameter> parameters)
+            throws FHIROperationException {
         /*
          * Only resources of the specified resource types(s) SHALL be included in the response. If this parameter is
          * omitted, the server SHALL return all supported resources within the scope of the client authorization. For
@@ -179,7 +182,7 @@ public class BulkDataExportUtil {
          * within the file set. For example _type=Practitioner could be used to bulk data extract all Practitioner
          * resources from a FHIR endpoint.
          */
-        Set<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes();
+        Set<String> supportedResourceTypes = FHIRConfigHelper.getSupportedResourceTypes(fhirVersion);
         Set<String> result = new HashSet<>();
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters) {
@@ -203,7 +206,7 @@ public class BulkDataExportUtil {
             }
         }
 
-        // The case where no resourceTypes are specified, inlining only the supported ResourceTypes
+        // The case where no resourceTypes are specified on a system export, inlining only the supported ResourceTypes
         if (result.isEmpty() && ExportType.SYSTEM.equals(exportType)) {
             result = new HashSet<>(supportedResourceTypes);
         } else if (ExportType.PATIENT.equals(exportType) || ExportType.GROUP.equals(exportType)) {
@@ -234,7 +237,7 @@ public class BulkDataExportUtil {
                 result.add(resourceType);
             } else {
                 LOG.info("Requested type '" + Encode.forHtml(resourceType) + "' cannot be in the Patient compartment;"
-                        + "this is not supported for Patient/Group export and so this type will be skipped");
+                        + " this is not supported for Patient/Group export and so this type will be skipped");
             }
         }
 

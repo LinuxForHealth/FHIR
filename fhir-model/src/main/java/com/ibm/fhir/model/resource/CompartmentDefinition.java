@@ -71,7 +71,7 @@ public class CompartmentDefinition extends DomainResource {
         bindingName = "PublicationStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
-        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
     )
     @Required
     private final PublicationStatus status;
@@ -92,7 +92,7 @@ public class CompartmentDefinition extends DomainResource {
         bindingName = "CompartmentType",
         strength = BindingStrength.Value.REQUIRED,
         description = "Which type a compartment definition describes.",
-        valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0"
     )
     @Required
     private final CompartmentType code;
@@ -1080,7 +1080,7 @@ public class CompartmentDefinition extends DomainResource {
             bindingName = "ResourceType",
             strength = BindingStrength.Value.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
-            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
+            valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.3.0"
         )
         @Required
         private final ResourceTypeCode code;

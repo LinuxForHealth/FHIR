@@ -67,7 +67,7 @@ public class Endpoint extends DomainResource {
         bindingName = "EndpointStatus",
         strength = BindingStrength.Value.REQUIRED,
         description = "The status of the endpoint.",
-        valueSet = "http://hl7.org/fhir/ValueSet/endpoint-status|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/endpoint-status|4.3.0"
     )
     @Required
     private final EndpointStatus status;
@@ -100,7 +100,7 @@ public class Endpoint extends DomainResource {
         bindingName = "MimeType",
         strength = BindingStrength.Value.REQUIRED,
         description = "BCP 13 (RFCs 2045, 2046, 2047, 4288, 4289 and 2049)",
-        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0-cibuild"
+        valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.3.0"
     )
     private final List<Code> payloadMimeType;
     @Summary

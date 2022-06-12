@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "filter-operator",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -32,7 +32,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.478"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "FilterOperator",
     "title": "FilterOperator",
     "status": "active",
@@ -63,8 +63,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:50faa1d0-5aa8-4d9c-a878-79ecc033041d",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:081699ef-841f-439e-b8cc-54d4e9b68555",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 9,
         "parameter": [
             {
@@ -77,7 +77,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/filter-operator|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/filter-operator|4.3.0"
             }
         ],
         "contains": [

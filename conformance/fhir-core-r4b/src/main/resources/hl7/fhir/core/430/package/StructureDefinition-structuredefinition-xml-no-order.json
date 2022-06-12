@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-xml-no-order",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "xml-no-order",
     "title": "No Order in XML",
     "status": "draft",
@@ -107,7 +107,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"

@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "CompartmentDefinition",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Conformance"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fhir"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Conformance"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/CompartmentDefinition",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "CompartmentDefinition",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "A compartment definition that defines how resources are accessed on a server.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -681,7 +681,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1026,7 +1026,7 @@
                     ],
                     "strength": "required",
                     "description": "Which type a compartment definition describes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0"
                 }
             },
             {
@@ -1271,7 +1271,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0"
                 }
             },
             {
@@ -1479,7 +1479,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1704,7 +1704,7 @@
                     ],
                     "strength": "required",
                     "description": "Which type a compartment definition describes.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/compartment-type|4.3.0"
                 }
             },
             {
@@ -1768,7 +1768,7 @@
                     ],
                     "strength": "required",
                     "description": "One of the resource types defined as part of this version of FHIR.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/resource-types|4.3.0"
                 }
             },
             {

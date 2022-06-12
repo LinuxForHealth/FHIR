@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "StructureDefinition",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Conformance"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "normative"
@@ -28,18 +32,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "fhir"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Conformance"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/StructureDefinition",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "StructureDefinition",
     "status": "active",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (FHIR Infrastructure)",
     "contact": [
         {
@@ -60,7 +60,7 @@
         }
     ],
     "description": "A definition of a FHIR structure. This resource is used to describe the underlying resources, data types defined in FHIR, and also for describing extensions and constraints on resources and data types.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -924,7 +924,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1439,7 +1439,7 @@
                     ],
                     "strength": "required",
                     "description": "All published FHIR Versions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0"
                 }
             },
             {
@@ -1788,7 +1788,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines the type of structure that a definition is describing.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.3.0"
                 }
             },
             {
@@ -2032,7 +2032,7 @@
                     ],
                     "strength": "required",
                     "description": "How an extension context is interpreted.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/extension-context-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/extension-context-type|4.3.0"
                 }
             },
             {
@@ -2235,7 +2235,7 @@
                     ],
                     "strength": "required",
                     "description": "How a type relates to its baseDefinition.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.3.0"
                 }
             },
             {
@@ -3072,7 +3072,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -3422,7 +3422,7 @@
                     ],
                     "strength": "required",
                     "description": "All published FHIR Versions.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/FHIR-version|4.3.0"
                 }
             },
             {
@@ -3547,7 +3547,7 @@
                     ],
                     "strength": "required",
                     "description": "Defines the type of structure that a definition is describing.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.3.0"
                 }
             },
             {
@@ -3610,7 +3610,7 @@
                     ],
                     "strength": "required",
                     "description": "How an extension context is interpreted.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/extension-context-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/extension-context-type|4.3.0"
                 }
             },
             {
@@ -3738,7 +3738,7 @@
                     ],
                     "strength": "required",
                     "description": "How a type relates to its baseDefinition.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.3.0"
                 }
             },
             {

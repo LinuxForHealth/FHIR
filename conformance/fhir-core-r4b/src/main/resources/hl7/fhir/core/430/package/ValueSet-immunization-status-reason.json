@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "immunization-status-reason",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.992"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ImmunizationStatusReasonCodes",
     "title": "Immunization Status Reason Codes",
     "status": "draft",
@@ -84,8 +84,8 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:fde00df1-380b-47fe-a28d-653058761662",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:44efb2c8-3de4-4a7d-aefd-8848c605b64d",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 28,
         "parameter": [
             {

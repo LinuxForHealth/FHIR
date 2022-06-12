@@ -12,7 +12,7 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/iso21090-EN-representation",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "EN-representation",
     "status": "draft",
     "experimental": false,
@@ -29,7 +29,7 @@
         }
     ],
     "description": "Name Representation.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -112,7 +112,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -253,7 +253,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/name-v3-representation|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/name-v3-representation|4.3.0"
                 },
                 "mapping": [
                     {
@@ -312,7 +312,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/name-v3-representation|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/name-v3-representation|4.3.0"
                 }
             }
         ]

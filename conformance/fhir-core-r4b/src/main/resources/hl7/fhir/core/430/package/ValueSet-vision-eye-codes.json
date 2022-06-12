@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "vision-eye-codes",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.660"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "VisionEyes",
     "title": "VisionEyes",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:f30859af-d386-4a4b-bd20-f1f2cc07d866",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:92f87da7-fdcb-4941-a063-57fe9fc0e40b",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 2,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/vision-eye-codes|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/vision-eye-codes|4.3.0"
             }
         ],
         "contains": [

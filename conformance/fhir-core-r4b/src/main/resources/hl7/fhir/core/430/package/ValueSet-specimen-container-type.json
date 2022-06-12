@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "specimen-container-type",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.470"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "SpecimenContainer",
     "status": "draft",
     "experimental": true,
@@ -66,8 +66,8 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:b9628a14-f7c8-4360-a3e2-79ff78bdba7e",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:99657fd7-5181-43b1-ab81-8f89b3a29bf8",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 4,
         "parameter": [
             {

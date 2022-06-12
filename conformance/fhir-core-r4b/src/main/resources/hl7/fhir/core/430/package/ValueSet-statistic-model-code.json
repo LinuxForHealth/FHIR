@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "statistic-model-code",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35+11:00",
+        "lastUpdated": "2022-05-28T13:47:40+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1540"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "StatisticModelCode",
     "title": "StatisticModelCode",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:a90d494f-fc0e-4434-a9c5-ca2b57d3197e",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:a051baa0-5271-4ceb-9dd0-58cc970d8d0d",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 79,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/statistic-model-code|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/statistic-model-code|4.3.0"
             }
         ],
         "contains": [

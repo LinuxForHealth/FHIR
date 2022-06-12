@@ -641,7 +641,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0"
                         ]
                     }
                 ],
@@ -684,7 +684,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0"
                         ]
                     }
                 ],
@@ -746,7 +746,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Provider role codes consisting of NUCC Health Care Provider Taxonomy Code Set for providers.",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provider-role"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provider-role|4.0.0"
                 },
                 "mapping": [
                     {
@@ -1982,7 +1982,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|4.0.0"
                         ]
                     }
                 ],
@@ -2000,7 +2000,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|4.0.0"
                         ]
                     }
                 ],
@@ -2023,7 +2023,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Provider role codes consisting of NUCC Health Care Provider Taxonomy Code Set for providers.",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provider-role"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provider-role|4.0.0"
                 }
             },
             {

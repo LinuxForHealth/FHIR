@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "NamingSystem",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Terminology"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "vocab"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Terminology"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/NamingSystem",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "NamingSystem",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Vocabulary)",
     "contact": [
         {
@@ -56,7 +56,7 @@
         }
     ],
     "description": "A curated namespace that issues unique symbols within that namespace for the identification of concepts, people, devices, etc.  Represents a \"System\" used within the Identifier and Coding data types.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -606,7 +606,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -658,7 +658,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the purpose of the naming system.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/namingsystem-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/namingsystem-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1247,7 +1247,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the style of unique identifier used to identify a namespace.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.3.0"
                 }
             },
             {
@@ -1486,7 +1486,7 @@
                     ],
                     "strength": "required",
                     "description": "The lifecycle status of an artifact.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/publication-status|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1523,7 +1523,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the purpose of the naming system.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/namingsystem-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/namingsystem-type|4.3.0"
                 },
                 "mapping": [
                     {
@@ -1811,7 +1811,7 @@
                     ],
                     "strength": "required",
                     "description": "Identifies the style of unique identifier used to identify a namespace.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.3.0"
                 }
             },
             {

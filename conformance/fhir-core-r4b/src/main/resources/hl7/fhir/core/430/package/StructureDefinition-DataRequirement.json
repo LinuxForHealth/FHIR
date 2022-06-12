@@ -2,7 +2,7 @@
     "resourceType": "StructureDefinition",
     "id": "DataRequirement",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
@@ -15,11 +15,11 @@
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/DataRequirement",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "DataRequirement",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "HL7 FHIR Standard",
     "contact": [
         {
@@ -32,7 +32,7 @@
         }
     ],
     "description": "Base StructureDefinition for DataRequirement Type: Describes a required data item for evaluation in terms of the type of data, and optional code or date-based filters of the data.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "rim",
@@ -106,7 +106,7 @@
                         "extension": [
                             {
                                 "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
-                                "valueUrl": "string"
+                                "valueUrl": "id"
                             }
                         ],
                         "code": "http://hl7.org/fhirpath/System.String"
@@ -225,7 +225,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/all-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/all-types|4.3.0"
                 }
             },
             {
@@ -1057,7 +1057,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/sort-direction|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/sort-direction|4.3.0"
                 }
             }
         ]
@@ -1107,7 +1107,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/all-types|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/all-types|4.3.0"
                 }
             },
             {
@@ -1405,7 +1405,7 @@
                         }
                     ],
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/sort-direction|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/sort-direction|4.3.0"
                 }
             }
         ]

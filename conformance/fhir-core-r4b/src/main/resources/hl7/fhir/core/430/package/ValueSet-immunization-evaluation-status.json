@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "immunization-evaluation-status",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.299"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ImmunizationEvaluationStatusCodes",
     "title": "Immunization Evaluation Status Codes",
     "status": "draft",
@@ -61,8 +61,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:8abce361-6b1a-4a6f-ba87-4958f8c66b65",
-        "timestamp": "2022-04-23T22:23:07Z",
+        "identifier": "urn:uuid:993501ea-c9c8-4916-94a6-11d0dd36e23f",
+        "timestamp": "2022-05-28T12:49:05+10:00",
         "total": 2,
         "parameter": [
             {
@@ -75,7 +75,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/medication-admin-status|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/medication-admin-status|4.3.0"
             }
         ],
         "contains": [

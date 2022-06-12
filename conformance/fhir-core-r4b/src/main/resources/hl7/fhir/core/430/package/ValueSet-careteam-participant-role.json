@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "careteam-participant-role",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.152"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ParticipantRoles",
     "title": "Participant Roles",
     "status": "draft",
@@ -77,8 +77,8 @@
                 "valueBoolean": true
             }
         ],
-        "identifier": "urn:uuid:18dd4047-2f05-4019-ae17-2e08df011345",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:711184e3-7c4c-4fbe-8360-4c4e3a651d13",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 949,
         "parameter": [
             {

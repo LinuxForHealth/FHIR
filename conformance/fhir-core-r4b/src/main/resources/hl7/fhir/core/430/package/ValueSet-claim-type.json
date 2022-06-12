@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "claim-type",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.558"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "ClaimTypeCodes",
     "title": "Claim Type Codes",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:46f17f4e-6d66-4cbf-8473-fe8cc368b32d",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:e680857f-12e8-48af-aa5c-69a3b727514b",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 5,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://terminology.hl7.org/CodeSystem/claim-type|4.3.0-cibuild"
+                "valueUri": "http://terminology.hl7.org/CodeSystem/claim-type|4.3.0"
             }
         ],
         "contains": [

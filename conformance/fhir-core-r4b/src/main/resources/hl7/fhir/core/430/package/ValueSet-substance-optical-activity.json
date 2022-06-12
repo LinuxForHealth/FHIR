@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "substance-optical-activity",
     "meta": {
-        "lastUpdated": "2022-04-24T09:21:35.043+11:00",
+        "lastUpdated": "2022-05-28T13:47:40.239+11:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.1612"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "OpticalActivity",
     "title": "OpticalActivity",
     "status": "draft",
@@ -59,8 +59,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:a44bd6f6-d0c6-48aa-84d2-2ee727808b45",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:d8dbfb7e-60f8-421c-8dd8-e6fce161b699",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 2,
         "parameter": [
             {
@@ -73,7 +73,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "http://hl7.org/fhir/substance-optical-activity|4.3.0-cibuild"
+                "valueUri": "http://hl7.org/fhir/substance-optical-activity|4.3.0"
             }
         ],
         "contains": [

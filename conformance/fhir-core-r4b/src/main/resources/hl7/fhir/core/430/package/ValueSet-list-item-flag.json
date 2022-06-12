@@ -2,7 +2,7 @@
     "resourceType": "ValueSet",
     "id": "list-item-flag",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z",
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00",
         "profile": [
             "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
         ]
@@ -28,7 +28,7 @@
             "value": "urn:oid:2.16.840.1.113883.4.642.3.320"
         }
     ],
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "PatientMedicineChangeTypes",
     "title": "Patient Medicine Change Types",
     "status": "draft",
@@ -54,8 +54,8 @@
         ]
     },
     "expansion": {
-        "identifier": "urn:uuid:7b80965b-cf01-4984-8f70-f50dbf42a668",
-        "timestamp": "2022-04-23T22:23:26Z",
+        "identifier": "urn:uuid:3a62691e-b1c5-4109-b2a7-facdfb1050d6",
+        "timestamp": "2022-05-28T12:49:24+10:00",
         "total": 6,
         "parameter": [
             {
@@ -68,7 +68,7 @@
             },
             {
                 "name": "version",
-                "valueUri": "urn:oid:1.2.36.1.2001.1001.101.104.16592|4.3.0-cibuild"
+                "valueUri": "urn:oid:1.2.36.1.2001.1001.101.104.16592|4.3.0"
             }
         ],
         "contains": [

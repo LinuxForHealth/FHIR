@@ -2,13 +2,17 @@
     "resourceType": "StructureDefinition",
     "id": "MessageHeader",
     "meta": {
-        "lastUpdated": "2022-04-23T22:21:35.043Z"
+        "lastUpdated": "2022-05-28T12:47:40.239+10:00"
     },
     "text": {
         "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
     },
     "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
+            "valueString": "Foundation.Other"
+        },
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
@@ -24,18 +28,14 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
             "valueCode": "inm"
-        },
-        {
-            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-category",
-            "valueString": "Foundation.Other"
         }
     ],
     "url": "http://hl7.org/fhir/StructureDefinition/MessageHeader",
-    "version": "4.3.0-cibuild",
+    "version": "4.3.0",
     "name": "MessageHeader",
     "status": "draft",
     "experimental": false,
-    "date": "2022-04-23T22:21:35Z",
+    "date": "2022-05-28T12:47:40+10:00",
     "publisher": "Health Level Seven International (Infrastructure And Messaging)",
     "contact": [
         {
@@ -57,7 +57,7 @@
     ],
     "description": "The header for a message exchange that is either requesting or responding to an action.  The reference(s) that are the subject of the action as well as other information related to the action are typically transmitted in a bundle in which the MessageHeader resource instance is the first resource in the bundle.",
     "purpose": "Many implementations are not prepared to use REST and need a messaging based infrastructure.",
-    "fhirVersion": "4.3.0-cibuild",
+    "fhirVersion": "4.3.0",
     "mapping": [
         {
             "identity": "v2",
@@ -1857,7 +1857,7 @@
                     ],
                     "strength": "required",
                     "description": "The kind of response to a message.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/response-code|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/response-code|4.3.0"
                 },
                 "mapping": [
                     {
@@ -2676,7 +2676,7 @@
                     ],
                     "strength": "required",
                     "description": "The kind of response to a message.",
-                    "valueSet": "http://hl7.org/fhir/ValueSet/response-code|4.3.0-cibuild"
+                    "valueSet": "http://hl7.org/fhir/ValueSet/response-code|4.3.0"
                 },
                 "mapping": [
                     {
