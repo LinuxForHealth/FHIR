@@ -217,6 +217,13 @@ public interface IDatabaseTranslator {
     String dropForeignKeyConstraint(String qualifiedTableName, String constraintName);
 
     /**
+     * Generate the DDL for dropping the named view
+     * @param qualifiedViewName
+     * @return
+     */
+    String dropView(String qualifiedViewName);
+
+    /**
      * Does this database use the schema prefix when defining indexes
      * @return
      */

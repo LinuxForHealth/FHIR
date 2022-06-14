@@ -243,6 +243,11 @@ public class PostgresTranslator implements IDatabaseTranslator {
     }
 
     @Override
+    public String dropView(String qualifiedViewName) {
+        return "DROP VIEW IF EXISTS " + qualifiedViewName;
+    }
+
+    @Override
     public String nextValue(String schemaName, String sequenceName) {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "nextval('" + qname + "')";

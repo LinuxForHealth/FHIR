@@ -553,7 +553,7 @@ public class FhirSchemaGenerator {
     private String getSchemaTypeSuffix() {
         switch (this.schemaType) {
         case DISTRIBUTED:
-            return "_distributed.sql";
+            return ".sql";
         case SHARDED:
             return "_sharded.sql";
         default:

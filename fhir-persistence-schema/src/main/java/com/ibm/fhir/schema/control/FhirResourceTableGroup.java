@@ -85,6 +85,7 @@ import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.common.DropPrimaryKey;
 import com.ibm.fhir.database.utils.common.DropTable;
+import com.ibm.fhir.database.utils.common.DropView;
 import com.ibm.fhir.database.utils.common.ReorgTable;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ColumnDefBuilder;
@@ -576,6 +577,10 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                     }
 
                     if (priorVersion < FhirSchemaVersion.V0028.vid()) {
+                        // For PostgreSQL we can't drop the column because a view depends on it. Just drop the view
+                        // because the definition has been updated and it will be added again later
+                        final String viewName = prefix + "_" + TOKEN_VALUES_V;
+                        statements.add(new DropView(schemaName, viewName));
                         statements.add(new DropColumn(schemaName,  tableName, REF_VERSION_ID));
                         needReorg = true;
                     }
@@ -607,7 +612,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         final String tableName = prefix + "_REF_VALUES";
 
-        // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
+        // logical_resources (1) ---- (*) patient_ref_values (*) ---- (0|1) logical_resource_ident
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0028.vid()) // V0028: tweak vacuum and fillfactor
                 .setTenantColumnName(MT_ID)
