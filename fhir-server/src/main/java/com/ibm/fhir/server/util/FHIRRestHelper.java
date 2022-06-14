@@ -17,7 +17,6 @@ import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
@@ -355,7 +354,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // We need to assign the identifier during this first phase so that we have all the ids
             // before any of the local reference substitutions are performed in the 'prepare' phase
             String logicalId = generateResourceId();
-            final com.ibm.fhir.model.type.Instant lastUpdated = getCurrentInstant();
+            final com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceSupport.getCurrentInstant();
             final int newVersionNumber = 1;
             resource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(event.getFhirResource(), logicalId, newVersionNumber, lastUpdated);
             event.setFhirResource(resource);
@@ -537,6 +536,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         boolean isDeleted; // stash the deleted status of the resource when we first read it
         int currentVersion; // stash the current version of the resource when we first read it
+        Instant currentLastUpdated; // the lastUpdated time from the current version if we can read it
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
         try {
@@ -592,6 +592,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         // No match, so deletion/version status doesn't matter
                         isDeleted = false;
                         currentVersion = 0; // will be a create
+                        currentLastUpdated = null;
                     } else {
                         // An id was provided, so we need to perform a read at this point so we know whether
                         // this is going to be an update or create. This also now gives us the version id
@@ -601,6 +602,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         ior.setPrevResource(srr.getResource()); // might be null if resource is deleted
                         isDeleted = srr.isDeleted();
                         currentVersion = srr.getVersion();
+                        currentLastUpdated = srr.getLastUpdated();
                     }
                 } else if (resultCount == 1) {
                     // If we found a single match, then we'll perform a normal update on the matched resource.
@@ -629,6 +631,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     // Got a match, so definitely can't be deleted
                     isDeleted = false;
                     currentVersion = FHIRPersistenceSupport.getMetaVersionId(responseBundle.getEntry().get(0).getResource());
+                    currentLastUpdated = FHIRPersistenceSupport.getLastUpdatedFromResource(responseBundle.getEntry().get(0).getResource());
                 } else {
                     String msg =
                             "The search criteria specified for a conditional update/patch operation returned multiple matches.";
@@ -665,6 +668,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 ior.setPrevResource(srr.getResource());
                 isDeleted = srr.isDeleted();
                 currentVersion = srr.getVersion();
+                currentLastUpdated = srr.getLastUpdated();
 
                 // Since 1869, this check is performed before entering the persistence layer
                 // Check that the resource exists, unless the updateCreate feature is enabled and this is not a patch
@@ -759,7 +763,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // update the meta in the new resource. Use the version from the previous resource - this gets checked
             // again under a database lock during the persistence phase and the request will be rejected if there's
             // a mismatch (can happen when there are concurrent updates).
-            final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+            final com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceSupport.getNewLastUpdatedInstant(currentLastUpdated);
             final int newVersionNumber = currentVersion + 1; // currentVersion will be 0 if this is a create
             newResource = FHIRPersistenceUtil.copyAndSetResourceMetaFields(newResource, newResource.getId(), newVersionNumber, lastUpdated);
 
@@ -1029,6 +1033,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     // persistence layer takes the current version as an argument so that it
                     // can perform this check after the logical resource is locked for update.
                     final int currentVersionNumber = FHIRPersistenceSupport.getMetaVersionId(resourceToDelete);
+                    final Instant currentLastUpdated = FHIRPersistenceSupport.getLastUpdatedFromResource(resourceToDelete);
 
                     // Because we no longer store a resource payload along with the deletion marker, there's
                     // no fhirResource value set in the event.
@@ -1043,7 +1048,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             FHIRPersistenceContextImpl.builder(event)
                             .build();
 
-                    final com.ibm.fhir.model.type.Instant lastUpdated = com.ibm.fhir.model.type.Instant.now(ZoneOffset.UTC);
+                    final com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceSupport.getNewLastUpdatedInstant(currentLastUpdated);
                     persistence.delete(persistenceContext, resourceType, resourceToDelete.getId(), currentVersionNumber, lastUpdated);
 
                     if (responseBundle.getEntry().size() == 1) {
@@ -3350,14 +3355,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     @Override
     public String generateResourceId() {
         return persistence.generateResourceId();
-    }
-
-    /**
-     * Get the current time which can be used for the lastUpdated field
-     * @return current time in UTC
-     */
-    protected com.ibm.fhir.model.type.Instant getCurrentInstant() {
-        return FHIRPersistenceSupport.getCurrentInstant();
     }
 
     @Override

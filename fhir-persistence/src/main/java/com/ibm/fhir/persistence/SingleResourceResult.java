@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence;
 
+import java.time.Instant;
+
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -67,6 +69,18 @@ public class SingleResourceResult<T extends Resource> {
         // we can only say if the resource is deleted if we were able to read the record
         // (in which case resourceResult will be non-null)
         return resourceResult != null && resourceResult.isDeleted();
+    }
+
+    /**
+     * Get the lastUpdated value for the resource we just read
+     * @return
+     */
+    public Instant getLastUpdated() {
+        if (resourceResult != null) {
+            return resourceResult.getLastUpdated();
+        } else {
+            return null;
+        }
     }
 
     /**

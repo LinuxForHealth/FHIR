@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.logging.Level;
@@ -129,5 +130,44 @@ public class FHIRPersistenceSupport {
             throw new FHIRPersistenceException("Resource missing meta versionId value");
         }
         return Integer.parseInt(versionIdValue);
+    }
+
+    /**
+     * Get the lastUpdated value from a Resource as a {@link java.time.Instant}.
+     * @param resource
+     * @return
+     */
+    public static Instant getLastUpdatedFromResource(Resource resource) {
+        com.ibm.fhir.model.type.Instant lastUpdated = resource.getMeta().getLastUpdated();
+        return lastUpdated.getValue().toInstant();
+    }
+
+    /**
+     * Get the lastUpdated time to use for the next version of a resource. If a current
+     * version of the resource exists, pass its lastUpdated time as the currenLastUpdated
+     * parameter (all times should be UTC).
+     * @param currentLastUpdated
+     * @return
+     */
+    public static com.ibm.fhir.model.type.Instant getNewLastUpdatedInstant(Instant currentLastUpdated) {
+        Instant lastUpdated = Instant.now();
+        // Clocks may drift or not be perfectly aligned in clusters. Updates for a given
+        // resource may occur back-to-back and be processed on different nodes. We need
+        // to make sure that the new lastUpdated time is always greater than the current
+        // lastUpdated time so that these changes always appear in order. This can also
+        // happen when virtual machines are migrated between nodes.
+        if (currentLastUpdated != null && !lastUpdated.isAfter(currentLastUpdated)) {
+            logger.warning("Current clock time " + lastUpdated 
+                + " is not after the lastUpdated time of a current resource version: " + currentLastUpdated
+                + ". If you see this message frequently, consider improving the accuracy of clock "
+                + "synchronization in your cluster. Using current lastUpdated plus 1ms instead of "
+                + "current time.");
+
+            // our solution is to simply adjust lastUpdated so that it falls 1ms 
+            // after the current lastUpdated value, thereby ensuring that
+            // lastUpdated time always follows version order
+            lastUpdated = currentLastUpdated.plusMillis(1);
+        }
+        return com.ibm.fhir.model.type.Instant.of(lastUpdated.atZone(ZoneOffset.UTC));
     }
 }
