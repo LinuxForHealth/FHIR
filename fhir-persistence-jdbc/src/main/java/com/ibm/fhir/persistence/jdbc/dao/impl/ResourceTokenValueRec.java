@@ -21,7 +21,6 @@ public class ResourceTokenValueRec extends ResourceRefRec {
     // The external ref value and its normalized database id (when we have it)
     private final String tokenValue;
     private Long commonTokenValueId;
-    private final Integer refVersionId;
 
     // Issue 1683 - optional composite id used to correlate parameters
     private final Integer compositeId;
@@ -30,39 +29,21 @@ public class ResourceTokenValueRec extends ResourceRefRec {
     private final boolean systemLevel;
 
     /**
-     * Public constructor
-     * @param parameterName
-     * @param resourceType
-     * @param resourceTypeId
-     * @param logicalResourceId
-     * @param codeSystem
-     * @param externalRefValue
-     * @param compositeId
-     * @param systemLevel
-     */
-    public ResourceTokenValueRec(String parameterName, String resourceType, long resourceTypeId, long logicalResourceId,
-        String codeSystem, String externalRefValue, Integer compositeId, boolean systemLevel) {
-        this(parameterName, resourceType, resourceTypeId, logicalResourceId, codeSystem, externalRefValue, null, compositeId, systemLevel);
-    }
-
-    /**
-     * Public constructor. Used to create a versioned resource reference
+     * Public constructor.
      * @param parameterName
      * @param resourceType
      * @param resourceTypeId
      * @param logicalResourceId
      * @param externalSystemName
      * @param externalRefValue
-     * @param refVersionId
      * @param compositeId
      * @param systemLevel
      */
     public ResourceTokenValueRec(String parameterName, String resourceType, long resourceTypeId, long logicalResourceId,
-        String externalSystemName, String externalRefValue, Integer refVersionId, Integer compositeId, boolean systemLevel) {
+        String externalSystemName, String externalRefValue, Integer compositeId, boolean systemLevel) {
         super(parameterName, resourceType, resourceTypeId, logicalResourceId);
         this.codeSystemValue = externalSystemName;
         this.tokenValue = externalRefValue;
-        this.refVersionId = refVersionId;
         this.compositeId = compositeId;
         this.systemLevel = systemLevel;
     }
@@ -109,13 +90,6 @@ public class ResourceTokenValueRec extends ResourceRefRec {
     public void setCommonTokenValueId(long commonTokenValueId) {
         // because we're setting this, it can no longer be null
         this.commonTokenValueId = commonTokenValueId;
-    }
-
-    /**
-     * @return the refVersionId
-     */
-    public Integer getRefVersionId() {
-        return refVersionId;
     }
 
     /**

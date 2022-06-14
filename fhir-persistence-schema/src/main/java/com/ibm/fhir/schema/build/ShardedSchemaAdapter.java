@@ -98,13 +98,6 @@ public class ShardedSchemaAdapter extends FhirSchemaAdapter {
 
     @Override
     public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns, DistributionType distributionType) {
-        // for non-unique indexes, we don't need to include the distribution column
-//        List<OrderedColumnDef> actualColumns = new ArrayList<>(indexColumns);
-//        if (distributionType == DistributionType.DISTRIBUTED) {
-//            // inject the distribution column into the index definition
-//            actualColumns.add(new OrderedColumnDef(this.distributionColumnName, null, null));
-//        }
-
         // Create the index using the modified set of index columns
         databaseAdapter.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
     }

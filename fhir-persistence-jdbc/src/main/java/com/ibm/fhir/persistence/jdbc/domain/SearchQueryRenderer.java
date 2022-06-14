@@ -2150,17 +2150,6 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             exists.from().where().and(paramAlias, PARAMETER_NAME_ID).eq(parameterNameId);
         }
 
-//        if (queryParm.getType() == Type.REFERENCE) {
-//            // From V0027 we store absolute references in xx_str_values, so need to check there too
-//            final String strParamAlias = getParamAlias(getNextAliasIndex());
-//            final String strParamTableName = resourceType + "_STR_VALUES";
-//            SelectAdapter strExists = Select.select("1");
-//            strExists.from(strParamTableName, alias(strParamAlias))
-//                    .where(strParamAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
-//                    .and(strParamAlias, PARAMETER_NAME_ID).eq(parameterNameId);
-//            exists.unionAll(strExists.build());
-//        }
-
         // Add the exists to the where clause of the main query which already has a predicate
         // so we need to AND the exists
         SelectAdapter query = queryData.getQuery();

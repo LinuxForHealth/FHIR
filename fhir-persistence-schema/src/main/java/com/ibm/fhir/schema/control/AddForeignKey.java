@@ -36,8 +36,6 @@ public class AddForeignKey extends DataModelVisitorBase {
     @Override
     public void visited(Table fromChildTable, ForeignKeyConstraint fk) {
         // Enable (add) the FK constraint
-        // TODO handle distributed tables...need the src and target distribution types
-        // so we know whether or not to inject the distribution column into the FK
         logger.info(String.format("Adding foreign key: %s.%s[%s]", fromChildTable.getSchemaName(), fromChildTable.getObjectName(), fk.getConstraintName()));
         fk.apply(fromChildTable.getSchemaName(), fromChildTable.getObjectName(), this.tenantColumnName, adapter, fromChildTable.getDistributionType());
     }

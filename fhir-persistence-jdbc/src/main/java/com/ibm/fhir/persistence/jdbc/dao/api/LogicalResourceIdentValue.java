@@ -9,6 +9,9 @@ package com.ibm.fhir.persistence.jdbc.dao.api;
 
 /**
  * Represents a record in logical_resource_ident
+ * @implNote no need to override hashCode or equals because logicalResourceId
+ *           does not contribute to the identity of the record - it is just an
+ *           attribute.
  */
 public class LogicalResourceIdentValue extends LogicalResourceIdentKey {
     private Long logicalResourceId;

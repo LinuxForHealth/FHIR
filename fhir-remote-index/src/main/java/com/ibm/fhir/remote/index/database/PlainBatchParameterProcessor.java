@@ -238,6 +238,10 @@ public class PlainBatchParameterProcessor implements BatchParameterProcessor {
         try {
             PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
             dao.addResourceTokenRef(logicalResourceId, parameterNameValue.getParameterNameId(), commonTokenValue.getCommonTokenValueId(), p.getRefVersionId(), p.getCompositeId());
+            if (p.isSystemParam()) {
+                // Currently we store _tag:text as a token value, and because it's also whole-system, we need to add it here
+                systemDao.addResourceTokenRef(logicalResourceId, parameterNameValue.getParameterNameId(), commonTokenValue.getCommonTokenValueId());
+            }
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting token params for '" + resourceType + "'");
         }

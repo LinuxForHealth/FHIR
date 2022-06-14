@@ -519,13 +519,12 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
+                .setVersion(FhirSchemaVersion.V0028.vid()) // V0028: ref_version_id removed because refs are now stored in xx_ref_values
                 .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
-                .addIntColumn(          REF_VERSION_ID,     true) // for when the referenced value is a logical resource with a version
                 .addIntColumn(COMPOSITE_ID,                 true)      // V0009
                 .addIndex(IDX + tableName + "_TPLR", COMMON_TOKEN_VALUE_ID, PARAMETER_NAME_ID, LOGICAL_RESOURCE_ID) // V0008 change
                 .addIndex(IDX + tableName + "_LRPT", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, COMMON_TOKEN_VALUE_ID) // V0008 change
@@ -563,6 +562,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                         statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_LRPT", tableName, mtId, lrpt));
                     }
 
+                    boolean needReorg = false;
                     if (priorVersion < FhirSchemaVersion.V0009.vid()) {
                         addCompositeMigrationStepsV0009(statements, tableName);
                     }
@@ -574,6 +574,17 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
+
+                    if (priorVersion < FhirSchemaVersion.V0028.vid()) {
+                        statements.add(new DropColumn(schemaName,  tableName, REF_VERSION_ID));
+                        needReorg = true;
+                    }
+
+                    if (needReorg) {
+                        // Required for Db2, ignored otherwise
+                        statements.add(new ReorgTable(schemaName, tableName));
+                    }
+
                     return statements;
                 })
                 .build(model);
@@ -598,7 +609,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
+                .setVersion(FhirSchemaVersion.V0028.vid()) // V0028: tweak vacuum and fillfactor
                 .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addIntColumn(           PARAMETER_NAME_ID,    false)
@@ -616,6 +627,10 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0028.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                        statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
+                    }
                     return statements;
                 })
                 .build(model);
@@ -792,20 +807,20 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
             // in the join condition to give the optimizer the best chance at finding a good nested
             // loop strategy
             select.append("SELECT ref.").append(MT_ID);
-            select.append(", ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id, ref.common_token_value_id, ref." + COMPOSITE_ID);
+            select.append(", ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.common_token_value_id, ref." + COMPOSITE_ID);
             select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
             select.append(resourceTokenRefs.getName()).append(" AS ref ");
             select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
             select.append("   AND ctv.").append(MT_ID).append(" = ").append("ref.").append(MT_ID);
         } else {
-            select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id, ref.common_token_value_id, ref." + COMPOSITE_ID);
+            select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.common_token_value_id, ref." + COMPOSITE_ID);
             select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
             select.append(resourceTokenRefs.getName()).append(" AS ref ");
             select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
         }
 
         View view = View.builder(schemaName, viewName)
-                .setVersion(FhirSchemaVersion.V0009.vid())
+                .setVersion(FhirSchemaVersion.V0028.vid())
                 .setSelectClause(select.toString())
                 .addPrivileges(resourceTablePrivileges)
                 .addDependency(commonTokenValues)

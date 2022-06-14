@@ -8,7 +8,7 @@ package com.ibm.fhir.persistence.index;
 
 
 /**
- * A token search parameter value
+ * A tag search parameter value
  */
 public class TagParameter extends SearchParameterValue {
     private String valueSystem;

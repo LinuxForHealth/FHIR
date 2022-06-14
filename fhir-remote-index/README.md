@@ -12,6 +12,8 @@ This pattern supports higher ingestion rates because:
 
 In addition, this implementation eliminates any possibility of deadlocks occurring during the Insert/Update interaction. Deadlocks may still occur when processing the asynchronous remote index messages. As these will only occur in a backend process they will not be visible to IBM FHIR Server clients. Deadlocks are handle automatically using a rollback and retry mechanism. Care is taken to reduce the likelihood of deadlocks from occurring in the first place by sorting all record lists before they are processed.
 
+It is worth noting that using multiple Kafka topic partitions can increase throughput by allowing more resource parameter messages to be processed in parallel. If sufficient threads are allocated across all the fhir-remote-index consumer instances, each thread will read data from a single partition. There is no point allocating more total threads than the number of configured partitions. The partition key is a function of the {resource-type, logical-id} tuple which guarantees that changes related to a particular logical resource will be pushed to the same partition. This guarantees that these changes will be processed in order.
+
 ## Processing Is Asynchronous
 
 Old search parameters are deleted whenever a resource is updated. When remote indexing is enabled, this means that a resource will not be searchable until the remote index service has received and processed the message. Carefully examine your interaction scenarios with the IBM FHIR Server to determine if this behavior is suitable. In particular, conditional updates are unlikely to work as expected because the search may not return the expected value, depending on timing.

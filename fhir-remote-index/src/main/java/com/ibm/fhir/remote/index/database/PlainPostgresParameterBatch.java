@@ -402,14 +402,13 @@ public class PlainPostgresParameterBatch {
     public void addResourceTokenRef(long logicalResourceId, int parameterNameId, long commonTokenValueId, Integer refVersionId, Integer compositeId) throws SQLException {
         if (resourceTokenRefs == null) {
             final String tablePrefix = resourceType.toLowerCase();
-            final String tokenString = "INSERT INTO " + tablePrefix + "_resource_token_refs (parameter_name_id, common_token_value_id, ref_version_id, logical_resource_id, composite_id) VALUES (?,?,?,?,?)";
+            final String tokenString = "INSERT INTO " + tablePrefix + "_resource_token_refs (parameter_name_id, common_token_value_id, logical_resource_id, composite_id) VALUES (?,?,?,?)";
             resourceTokenRefs = connection.prepareStatement(tokenString);
         }
         resourceTokenRefs.setInt(1, parameterNameId);
         resourceTokenRefs.setLong(2, commonTokenValueId);
-        setComposite(resourceTokenRefs, 3, refVersionId);
-        resourceTokenRefs.setLong(4, logicalResourceId);
-        setComposite(resourceTokenRefs, 5, compositeId);
+        resourceTokenRefs.setLong(3, logicalResourceId);
+        setComposite(resourceTokenRefs, 4, compositeId);
         resourceTokenRefs.addBatch();
         resourceTokenRefCount++;
     }

@@ -264,8 +264,8 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         final String tableName = resourceType + "_RESOURCE_TOKEN_REFS";
         DataDefinitionUtil.assertValidName(tableName);
         final String insert = "INSERT INTO " + tableName + "("
-                + "parameter_name_id, logical_resource_id, common_token_value_id, ref_version_id, composite_id) "
-                + "VALUES (?, ?, ?, ?, ?)";
+                + "parameter_name_id, logical_resource_id, common_token_value_id, composite_id) "
+                + "VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(insert)) {
             int count = 0;
             for (ResourceTokenValueRec xr: xrefs) {
@@ -279,18 +279,11 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
                     ps.setNull(3, Types.BIGINT);
                 }
 
-                // version can be null
-                if (xr.getRefVersionId() != null) {
-                    ps.setInt(4, xr.getRefVersionId());
-                } else {
-                    ps.setNull(4, Types.INTEGER);
-                }
-
                 // compositeId can be null
                 if (xr.getCompositeId() != null) {
-                    ps.setInt(5, xr.getCompositeId());
+                    ps.setInt(4, xr.getCompositeId());
                 } else {
-                    ps.setNull(5, Types.INTEGER);
+                    ps.setNull(4, Types.INTEGER);
                 }
                 ps.addBatch();
                 if (++count == BATCH_SIZE) {
@@ -348,58 +341,6 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             throw translator.translate(x);
         }
     }
-
-    /**
-     * Insert any whole-system parameters to the token_refs table
-     * @param resourceType
-     * @param xrefs
-     */
-    protected void insertSystemResourceTokenRefs(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
-        // Now all the values should have ids assigned so we can go ahead and insert them
-        // as a batch
-        final String tableName = "RESOURCE_TOKEN_REFS";
-        DataDefinitionUtil.assertValidName(tableName);
-        final String insert = "INSERT INTO " + tableName + "("
-                + "parameter_name_id, logical_resource_id, common_token_value_id, ref_version_id) "
-                + "VALUES (?, ?, ?, ?)";
-        try (PreparedStatement ps = connection.prepareStatement(insert)) {
-            int count = 0;
-            for (ResourceTokenValueRec xr: xrefs) {
-                if (xr.isSystemLevel()) {
-                    ps.setInt(1, xr.getParameterNameId());
-                    ps.setLong(2, xr.getLogicalResourceId());
-
-                    // common token value can be null
-                    if (xr.getCommonTokenValueId() != null) {
-                        ps.setLong(3, xr.getCommonTokenValueId());
-                    } else {
-                        ps.setNull(3, Types.BIGINT);
-                    }
-
-                    // version can be null
-                    if (xr.getRefVersionId() != null) {
-                        ps.setInt(4, xr.getRefVersionId());
-                    } else {
-                        ps.setNull(4, Types.INTEGER);
-                    }
-
-                    ps.addBatch();
-                    if (++count == BATCH_SIZE) {
-                        ps.executeBatch();
-                        count = 0;
-                    }
-                }
-            }
-
-            if (count > 0) {
-                ps.executeBatch();
-            }
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, insert, x);
-            throw translator.translate(x);
-        }
-    }
-
 
     /**
      * Add all the systems we currently don't have in the database. If all target
@@ -554,6 +495,50 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         }
     }
 
+    /**
+     * Insert any whole-system parameters to the token_refs table
+     * @param resourceType
+     * @param xrefs
+     */
+    protected void insertSystemResourceTokenRefs(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName = "RESOURCE_TOKEN_REFS";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "parameter_name_id, logical_resource_id, common_token_value_id) "
+                + "VALUES (?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                if (xr.isSystemLevel()) {
+                    ps.setInt(1, xr.getParameterNameId());
+                    ps.setLong(2, xr.getLogicalResourceId());
+
+                    // common token value can be null
+                    if (xr.getCommonTokenValueId() != null) {
+                        ps.setLong(3, xr.getCommonTokenValueId());
+                    } else {
+                        ps.setNull(3, Types.BIGINT);
+                    }
+
+                    ps.addBatch();
+                    if (++count == BATCH_SIZE) {
+                        ps.executeBatch();
+                        count = 0;
+                    }
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw translator.translate(x);
+        }
+    }
+    
     protected void insertResourceProfiles(String resourceType, Collection<ResourceProfileRec> profiles) {
         // Now all the values should have ids assigned so we can go ahead and insert them
         // as a batch

@@ -29,6 +29,9 @@ public class PlainPostgresSystemParameterBatch {
     private PreparedStatement systemDates;
     private int systemDateCount;
 
+    private PreparedStatement systemResourceTokenRefs;
+    private int systemResourceTokenRefCount;
+
     private PreparedStatement systemProfiles;
     private int systemProfileCount;
 
@@ -57,6 +60,10 @@ public class PlainPostgresSystemParameterBatch {
         if (systemDateCount > 0) {
             systemDates.executeBatch();
             systemDateCount = 0;
+        }
+        if (systemResourceTokenRefCount > 0) {
+            systemResourceTokenRefs.executeBatch();
+            systemResourceTokenRefCount = 0;
         }
         if (systemTagCount > 0) {
             systemTags.executeBatch();
@@ -96,6 +103,16 @@ public class PlainPostgresSystemParameterBatch {
             } finally {
                 systemDates = null;
                 systemDateCount = 0;
+            }
+        }
+        if (systemResourceTokenRefs != null) {
+            try {
+                systemResourceTokenRefs.close();
+            } catch (SQLException x) {
+                // NOP
+            } finally {
+                systemResourceTokenRefs = null;
+                systemResourceTokenRefCount = 0;
             }
         }
         if (systemTags != null) {
@@ -174,6 +191,26 @@ public class PlainPostgresSystemParameterBatch {
         systemDates.setLong(4, logicalResourceId);
         systemDates.addBatch();
         systemDateCount++;
+    }
+
+    /**
+     * Add a token parameter value to the batch statement
+     * 
+     * @param logicalResourceId
+     * @param parameterNameId
+     * @param commonTokenValueId
+     * @throws SQLException
+     */
+    public void addResourceTokenRef(long logicalResourceId, int parameterNameId, long commonTokenValueId) throws SQLException {
+        if (systemResourceTokenRefs == null) {
+            final String tokenString = "INSERT INTO resource_token_refs (parameter_name_id, common_token_value_id, logical_resource_id) VALUES (?,?,?)";
+            systemResourceTokenRefs = connection.prepareStatement(tokenString);
+        }
+        systemResourceTokenRefs.setInt(1, parameterNameId);
+        systemResourceTokenRefs.setLong(2, commonTokenValueId);
+        systemResourceTokenRefs.setLong(3, logicalResourceId);
+        systemResourceTokenRefs.addBatch();
+        systemResourceTokenRefCount++;
     }
 
     /**

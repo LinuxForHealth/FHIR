@@ -17,10 +17,10 @@
      AS $$
 
   DECLARE
-  v_schema_name         VARCHAR(128);
+    v_schema_name         VARCHAR(128);
 
 BEGIN
-  v_schema_name := '{{SCHEMA_NAME}}';
+    v_schema_name := '{{SCHEMA_NAME}}';
 
 	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
 	USING p_logical_resource_id;
@@ -40,21 +40,21 @@ BEGIN
 	USING p_logical_resource_id;
 	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_security            WHERE logical_resource_id = $1'
 	USING p_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_ref_values WHERE logical_resource_id = $1'
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_ref_values          WHERE logical_resource_id = $1'
     USING p_logical_resource_id;
-	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.str_values                 WHERE logical_resource_id = $1'
-	USING p_logical_resource_id;
-	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.date_values                WHERE logical_resource_id = $1'
-	USING p_logical_resource_id;
-	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.resource_token_refs        WHERE logical_resource_id = $1'
-	USING p_logical_resource_id;
-	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.logical_resource_profiles  WHERE logical_resource_id = $1'
-	USING p_logical_resource_id;
-	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.logical_resource_tags      WHERE logical_resource_id = $1'
-	USING p_logical_resource_id;
-	EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.logical_resource_security  WHERE logical_resource_id = $1'
-	USING p_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.str_values                 WHERE logical_resource_id = $1'
+    USING p_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.date_values                WHERE logical_resource_id = $1'
+    USING p_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.resource_token_refs        WHERE logical_resource_id = $1'
+    USING p_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.logical_resource_profiles  WHERE logical_resource_id = $1'
+    USING p_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.logical_resource_tags      WHERE logical_resource_id = $1'
+    USING p_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.logical_resource_security  WHERE logical_resource_id = $1'
+    USING p_logical_resource_id;
 	
-	-- because we're a function, pass back a result
-	o_logical_resource_id := p_logical_resource_id;
+    -- because we're a function, pass back a result
+    o_logical_resource_id := p_logical_resource_id;
 END $$;

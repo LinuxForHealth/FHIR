@@ -96,6 +96,7 @@ import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.common.DropTable;
+import com.ibm.fhir.database.utils.common.ReorgTable;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
 import com.ibm.fhir.database.utils.model.BaseObject;
 import com.ibm.fhir.database.utils.model.CharColumn;
@@ -561,74 +562,6 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * @implNote following the current pattern, which is why all this stuff is replicated
-     * @param model
-     */
-    public void buildDatabaseSpecificArtifactsCitus(PhysicalDataModel model) {
-        // Add stored procedures/functions for postgresql and Citus
-        // Have to use different object names from DB2, because the group processing doesn't support 2 objects with the same name.
-        final String ROOT_DIR = "postgres/";
-        final String CITUS_ROOT_DIR = "citus/";
-        FunctionDef fd = model.addFunction(this.schemaName,
-                ADD_CODE_SYSTEM,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
-                procedurePrivileges);
-        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        fd = model.addFunction(this.schemaName,
-                ADD_PARAMETER_NAME,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_PARAMETER_NAME.toLowerCase()
-                        + ".sql", null),
-                Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete), procedurePrivileges);
-        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        fd = model.addFunction(this.schemaName,
-                ADD_RESOURCE_TYPE,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_RESOURCE_TYPE.toLowerCase()
-                        + ".sql", null),
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
-        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        // Add the delete resource parameters function and distribute using logical_resource_id (param $2)
-        FunctionDef deleteResourceParameters = model.addFunction(this.schemaName,
-            DELETE_RESOURCE_PARAMETERS,
-            FhirSchemaVersion.V0020.vid(),
-            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + DELETE_RESOURCE_PARAMETERS.toLowerCase() + ".sql", null),
-            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
-            procedurePrivileges, 2);
-        deleteResourceParameters.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        // Use the Citus-specific function which is distributed using logical_resource_id (param $1)
-        fd = model.addFunction(this.schemaName, ADD_LOGICAL_RESOURCE,
-            FhirSchemaVersion.V0001.vid(),
-            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, CITUS_ROOT_DIR + ADD_LOGICAL_RESOURCE.toLowerCase() + ".sql", null),
-            Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete),
-            procedurePrivileges, 1);
-        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        final FunctionDef addLogicalResource = fd;
-
-        // Use the Citus-specific variant of add_any_resource and distribute using logical_resource_id (param $1)
-        fd = model.addFunction(this.schemaName, ADD_ANY_RESOURCE,
-            FhirSchemaVersion.V0001.vid(),
-            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, CITUS_ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase()
-                    + ".sql", null),
-            Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete, addLogicalResource),
-            procedurePrivileges, 1);
-        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        fd = model.addFunction(this.schemaName,
-            ERASE_RESOURCE,
-            FhirSchemaVersion.V0013.vid(),
-            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql", null),
-            Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges);
-        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-    }
-
-    /**
      * Are we building the Db2-specific multitenant schema variant
      * @return
      */
@@ -760,10 +693,13 @@ public class FhirSchemaGenerator {
      * "aPatientId" has not yet been created. The LOGICAL_RESOURCES record is 
      * not created until the actual resource is created.
      * 
-     * Note that there's no index on LOGICAL_RESOURCE_ID. This is intentional. 
-     * An index is not required because LOGICAL_RESOURCE_ID is never used as an
-     * access path for this table.
-     * 
+     * The index IDX_LOGICAL_RESOURCE_IDENT_LRID is specified as non-unique
+     * because in Citus, this table is distributed by logical_id, which isn't
+     * part of the index. This is intentional. We have to rely on the logic
+     * in the add_any_resource procedures to guarantee that logical_resource_id
+     * values are assigned correctly. The logical_resource_id column is the
+     * primary key for the logical_resources table, so we are guaranteed
+     * uniqueness there.
      * @param pdm
      */
     private void addLogicalResourceIdent(PhysicalDataModel pdm) {
@@ -1373,9 +1309,9 @@ public class FhirSchemaGenerator {
      * the token_value represents its logical_id. This approach simplifies query writing when
      * following references.
      *
-     * If sharding is supported, this table is distributed by token_value which unfortunately
-     * means that it cannot be the target of any foreign key constraint (which needs to use
-     * the primary key COMMON_TOKEN_VALUE_ID).
+     * When using a distributed database (Citus), this table is distributed as a REFERENCE
+     * table, meaning that all records will exist on all nodes.
+     * 
      * @param pdm
      * @return the table definition
      */
@@ -1425,13 +1361,12 @@ public class FhirSchemaGenerator {
 
         // logical_resources (0|1) ---- (*) resource_token_refs
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
+                .setVersion(FhirSchemaVersion.V0028.vid()) // V0027: add support for distribution/sharding
                 .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true) // support for null token value entries
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
-                .addIntColumn(          REF_VERSION_ID,     true) // for when the referenced value is a logical resource with a version
                 .addIndex(IDX + tableName + "_TPLR", COMMON_TOKEN_VALUE_ID, PARAMETER_NAME_ID, LOGICAL_RESOURCE_ID) // V0009 change
                 .addIndex(IDX + tableName + "_LRPT", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, COMMON_TOKEN_VALUE_ID) // V0009 change
                 .addForeignKeyConstraint(FK + tableName + "_CTV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
@@ -1444,6 +1379,7 @@ public class FhirSchemaGenerator {
                 .addMigration(priorVersion -> {
                     // Replace the indexes initially defined in the V0006 version with better ones
                     List<IDatabaseStatement> statements = new ArrayList<>();
+                    boolean needReorg = false;
                     if (priorVersion == FhirSchemaVersion.V0006.vid()) {
                         // Migrate the index definitions as part of the V0008 version of the schema
                         // This table was originally introduced as part of the V0006 schema, which
@@ -1473,6 +1409,15 @@ public class FhirSchemaGenerator {
                     }
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0028.vid()) {
+                        statements.add(new DropColumn(schemaName,  tableName, REF_VERSION_ID));
+                        needReorg = true;
+                    }
+
+                    if (needReorg) {
+                        // Required for Db2, ignored otherwise
+                        statements.add(new ReorgTable(schemaName, tableName));
                     }
                     return statements;
                 })

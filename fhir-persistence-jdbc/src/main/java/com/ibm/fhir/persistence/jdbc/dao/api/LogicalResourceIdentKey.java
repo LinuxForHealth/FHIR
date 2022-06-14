@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import java.util.Objects;
 /**
  * A DTO representing a mapping of a logical_resource identity to its database
  * logical_resource_id value.
+ * @implNote use record in Java 17
  */
 public class LogicalResourceIdentKey {
 

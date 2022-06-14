@@ -534,7 +534,6 @@ public class Main {
             break;
         case CITUS:
             gen.buildDatabaseSpecificArtifactsPostgres(pdm);
-            // gen.buildDatabaseSpecificArtifactsCitus(pdm);
             break;
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
