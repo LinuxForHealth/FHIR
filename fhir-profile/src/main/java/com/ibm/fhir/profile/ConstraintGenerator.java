@@ -921,6 +921,12 @@ public class ConstraintGenerator {
     }
 
     private boolean hasReferenceTypeConstraint(ElementDefinition elementDefinition) {
+        ElementDefinition baseDefinition = getElementDefinition(elementDefinition.getBase().getPath().getValue());
+        if (baseDefinition == null) {
+//            throw new IllegalStateException("unable to find the base definition for " + elementDefinition.getId());
+            return false;
+        }
+
         List<Type> types = getTypes(elementDefinition);
         List<Type> baseTypes = getTypes(getElementDefinition(elementDefinition.getBase().getPath().getValue()));
         List<String> targetProfiles = getTargetProfiles(types);

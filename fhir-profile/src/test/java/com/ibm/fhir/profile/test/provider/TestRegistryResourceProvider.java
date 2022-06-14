@@ -41,9 +41,6 @@ public class TestRegistryResourceProvider extends AbstractRegistryResourceProvid
      */
     @Override
     public void init() {
-        deferredLoad();
-    }
-    private void deferredLoad() {
         if (registryResources == null) {
             synchronized (TestRegistryResourceProvider.class) {
                 if (registryResources == null) {

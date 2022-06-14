@@ -1,0 +1,288 @@
+﻿{
+  "index-version": 1,
+  "files": [
+    {
+      "filename": "Bundle-AllopurinolTabletLabelBundle.json",
+      "resourceType": "Bundle",
+      "id": "AllopurinolTabletLabelBundle",
+      "type": "document"
+    },
+    {
+      "filename": "Bundle-ExampleEstablishmentRegistration.json",
+      "resourceType": "Bundle",
+      "id": "ExampleEstablishmentRegistration",
+      "type": "message"
+    },
+    {
+      "filename": "Bundle-ExampleGDUFAFacilityIdentification.json",
+      "resourceType": "Bundle",
+      "id": "ExampleGDUFAFacilityIdentification",
+      "type": "message"
+    },
+    {
+      "filename": "Bundle-ExampleGDUFAFacilityInactivation.json",
+      "resourceType": "Bundle",
+      "id": "ExampleGDUFAFacilityInactivation",
+      "type": "message"
+    },
+    {
+      "filename": "Bundle-SampleEstablishmentInactivationBundle.json",
+      "resourceType": "Bundle",
+      "id": "SampleEstablishmentInactivationBundle",
+      "type": "message"
+    },
+    {
+      "filename": "Bundle-SampleLabelerCodeRequestBundle.json",
+      "resourceType": "Bundle",
+      "id": "SampleLabelerCodeRequestBundle",
+      "type": "message"
+    },
+    {
+      "filename": "Bundle-SampleLabelerInactivationBundle.json",
+      "resourceType": "Bundle",
+      "id": "SampleLabelerInactivationBundle",
+      "type": "message"
+    },
+    {
+      "filename": "Bundle-SampleOutOfBusinessNotificationBundle.json",
+      "resourceType": "Bundle",
+      "id": "SampleOutOfBusinessNotificationBundle",
+      "type": "message"
+    },
+    {
+      "filename": "Composition-AllopurinolTabletLabelComposition.json",
+      "resourceType": "Composition",
+      "id": "AllopurinolTabletLabelComposition"
+    },
+    {
+      "filename": "DocumentReference-ExampleSPLDocumentReference.json",
+      "resourceType": "DocumentReference",
+      "id": "ExampleSPLDocumentReference"
+    },
+    {
+      "filename": "HealthcareService-ExampleEstablishmentOperation.json",
+      "resourceType": "HealthcareService",
+      "id": "ExampleEstablishmentOperation"
+    },
+    {
+      "filename": "HealthcareService-ExampleGDUFAFacilityOperation.json",
+      "resourceType": "HealthcareService",
+      "id": "ExampleGDUFAFacilityOperation"
+    },
+    {
+      "filename": "HealthcareService-SampleLabelerBusinessOperation.json",
+      "resourceType": "HealthcareService",
+      "id": "SampleLabelerBusinessOperation"
+    },
+    {
+      "filename": "Ingredient-AllopurinolUSPActiveIngredient.json",
+      "resourceType": "Ingredient",
+      "id": "AllopurinolUSPActiveIngredient"
+    },
+    {
+      "filename": "Ingredient-AllopurinolUSPIngredient1.json",
+      "resourceType": "Ingredient",
+      "id": "AllopurinolUSPIngredient1"
+    },
+    {
+      "filename": "Ingredient-AllopurinolUSPIngredient2.json",
+      "resourceType": "Ingredient",
+      "id": "AllopurinolUSPIngredient2"
+    },
+    {
+      "filename": "Ingredient-AllopurinolUSPIngredient3.json",
+      "resourceType": "Ingredient",
+      "id": "AllopurinolUSPIngredient3"
+    },
+    {
+      "filename": "Ingredient-AllopurinolUSPIngredient4.json",
+      "resourceType": "Ingredient",
+      "id": "AllopurinolUSPIngredient4"
+    },
+    {
+      "filename": "Ingredient-AllopurinolUSPIngredient5.json",
+      "resourceType": "Ingredient",
+      "id": "AllopurinolUSPIngredient5"
+    },
+    {
+      "filename": "Ingredient-AllopurinolUSPIngredient6.json",
+      "resourceType": "Ingredient",
+      "id": "AllopurinolUSPIngredient6"
+    },
+    {
+      "filename": "MedicinalProductDefinition-AllopurinolUSPDefinition.json",
+      "resourceType": "MedicinalProductDefinition",
+      "id": "AllopurinolUSPDefinition"
+    },
+    {
+      "filename": "MessageHeader-SamplOutOfBusinessMessage.json",
+      "resourceType": "MessageHeader",
+      "id": "SamplOutOfBusinessMessage"
+    },
+    {
+      "filename": "MessageHeader-SampleEstablishmentInactivationMessage.json",
+      "resourceType": "MessageHeader",
+      "id": "SampleEstablishmentInactivationMessage"
+    },
+    {
+      "filename": "MessageHeader-SampleEstablishmentRegistrationMessage.json",
+      "resourceType": "MessageHeader",
+      "id": "SampleEstablishmentRegistrationMessage"
+    },
+    {
+      "filename": "MessageHeader-SampleGDUFAFacilityIdentificationMessage.json",
+      "resourceType": "MessageHeader",
+      "id": "SampleGDUFAFacilityIdentificationMessage"
+    },
+    {
+      "filename": "MessageHeader-SampleGDUFAFacilityInactivationMessage.json",
+      "resourceType": "MessageHeader",
+      "id": "SampleGDUFAFacilityInactivationMessage"
+    },
+    {
+      "filename": "MessageHeader-SampleLabelerCodeRequestMessage.json",
+      "resourceType": "MessageHeader",
+      "id": "SampleLabelerCodeRequestMessage"
+    },
+    {
+      "filename": "MessageHeader-SampleLabelerInactivationMessage.json",
+      "resourceType": "MessageHeader",
+      "id": "SampleLabelerInactivationMessage"
+    },
+    {
+      "filename": "Organization-AidarexPharmaceuticals.json",
+      "resourceType": "Organization",
+      "id": "AidarexPharmaceuticals"
+    },
+    {
+      "filename": "Organization-ExampleEstablishment.json",
+      "resourceType": "Organization",
+      "id": "ExampleEstablishment"
+    },
+    {
+      "filename": "Organization-ExampleEstablishmentRegistrant.json",
+      "resourceType": "Organization",
+      "id": "ExampleEstablishmentRegistrant"
+    },
+    {
+      "filename": "Organization-ExampleGDUFAFacility.json",
+      "resourceType": "Organization",
+      "id": "ExampleGDUFAFacility"
+    },
+    {
+      "filename": "Organization-ExampleGDUFARegistrant.json",
+      "resourceType": "Organization",
+      "id": "ExampleGDUFARegistrant"
+    },
+    {
+      "filename": "Organization-ExampleImporter.json",
+      "resourceType": "Organization",
+      "id": "ExampleImporter"
+    },
+    {
+      "filename": "Organization-IdentifiedLabelerOrganization.json",
+      "resourceType": "Organization",
+      "id": "IdentifiedLabelerOrganization"
+    },
+    {
+      "filename": "Organization-SampleIdentifiedEstablishment.json",
+      "resourceType": "Organization",
+      "id": "SampleIdentifiedEstablishment"
+    },
+    {
+      "filename": "Organization-SampleIdentifiedEstablishmentRegistrant.json",
+      "resourceType": "Organization",
+      "id": "SampleIdentifiedEstablishmentRegistrant"
+    },
+    {
+      "filename": "Organization-SampleIdentifiedGDUFAFacility.json",
+      "resourceType": "Organization",
+      "id": "SampleIdentifiedGDUFAFacility"
+    },
+    {
+      "filename": "Organization-SampleIdentifiedGDUFARegistrant.json",
+      "resourceType": "Organization",
+      "id": "SampleIdentifiedGDUFARegistrant"
+    },
+    {
+      "filename": "Organization-SampleLabelerOrganization.json",
+      "resourceType": "Organization",
+      "id": "SampleLabelerOrganization"
+    },
+    {
+      "filename": "Organization-SampleLabelerUSAgent.json",
+      "resourceType": "Organization",
+      "id": "SampleLabelerUSAgent"
+    },
+    {
+      "filename": "OrganizationAffiliation-ExampleEstablishmentAffiliation.json",
+      "resourceType": "OrganizationAffiliation",
+      "id": "ExampleEstablishmentAffiliation"
+    },
+    {
+      "filename": "OrganizationAffiliation-ExampleGDUFAFacilityAffiliation.json",
+      "resourceType": "OrganizationAffiliation",
+      "id": "ExampleGDUFAFacilityAffiliation"
+    },
+    {
+      "filename": "OrganizationAffiliation-ExampleImporterAffiliation.json",
+      "resourceType": "OrganizationAffiliation",
+      "id": "ExampleImporterAffiliation"
+    },
+    {
+      "filename": "OrganizationAffiliation-SampleLabelerUSAgentAffiliation.json",
+      "resourceType": "OrganizationAffiliation",
+      "id": "SampleLabelerUSAgentAffiliation"
+    },
+    {
+      "filename": "PackagedProductDefinition-Allopurinol100Tablets.json",
+      "resourceType": "PackagedProductDefinition",
+      "id": "Allopurinol100Tablets"
+    },
+    {
+      "filename": "PackagedProductDefinition-Allopurinol30Tablets.json",
+      "resourceType": "PackagedProductDefinition",
+      "id": "Allopurinol30Tablets"
+    },
+    {
+      "filename": "PackagedProductDefinition-Allopurinol60Tablets.json",
+      "resourceType": "PackagedProductDefinition",
+      "id": "Allopurinol60Tablets"
+    },
+    {
+      "filename": "PackagedProductDefinition-Allopurinol90Tablets.json",
+      "resourceType": "PackagedProductDefinition",
+      "id": "Allopurinol90Tablets"
+    },
+    {
+      "filename": "Provenance-ExampleEstablishmentFHIRtoSPLProvenance.json",
+      "resourceType": "Provenance",
+      "id": "ExampleEstablishmentFHIRtoSPLProvenance"
+    },
+    {
+      "filename": "Provenance-ExampleEstablishmentSPLtoFHIRProvenance.json",
+      "resourceType": "Provenance",
+      "id": "ExampleEstablishmentSPLtoFHIRProvenance"
+    },
+    {
+      "filename": "Provenance-ExampleLabelerFHIRtoSPLProvenance.json",
+      "resourceType": "Provenance",
+      "id": "ExampleLabelerFHIRtoSPLProvenance"
+    },
+    {
+      "filename": "Provenance-ExampleLabelerSPLtoFHIRProvenance.json",
+      "resourceType": "Provenance",
+      "id": "ExampleLabelerSPLtoFHIRProvenance"
+    },
+    {
+      "filename": "RegulatedAuthorization-AllopurinolMarketing.json",
+      "resourceType": "RegulatedAuthorization",
+      "id": "AllopurinolMarketing"
+    },
+    {
+      "filename": "SubstanceDefinition-AllopurinolIngredientDefinition.json",
+      "resourceType": "SubstanceDefinition",
+      "id": "AllopurinolIngredientDefinition"
+    }
+  ]
+}

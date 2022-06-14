@@ -45,7 +45,12 @@ public class ExamplesValidationTest {
         List<Path> badPaths = new ArrayList<>();
 
         for (Path path : Files.list(Paths.get("src/test/resources/json")).collect(Collectors.toList())) {
-            if (isValid(path)) {
+            if (path.getFileName().toString().startsWith(".")) {
+                // skip "hidden" files like .index.json
+                continue;
+            }
+
+            if (isValid(path, Format.JSON)) {
                 goodPaths.add(path);
             } else {
                 badPaths.add(path);
@@ -64,14 +69,15 @@ public class ExamplesValidationTest {
 
     @Test
     public void testValidationSingle() throws Exception {
-        isValid(Paths.get("src/test/resources/json/MessageHeader-SampleEstablishmentInactivationMessage.json"));
+//        assertTrue(isValid(Paths.get("src/test/resources/docref.xml"), Format.XML));
+        assertTrue(isValid(Paths.get("src/test/resources/json/Composition-AllopurinolTabletLabelComposition.json"), Format.JSON));
     }
 
-    public boolean isValid(Path path) {
+    public boolean isValid(Path path, Format format) {
         boolean result = true;
         try (InputStream in = new FileInputStream(path.toFile())) {
             System.out.println("Path: " + path);
-            Resource resource = FHIRParser.parser(Format.JSON).parse(in);
+            Resource resource = FHIRParser.parser(format).parse(in);
 
             // Before we can validate, we need to update resources with a
             // timestamp so we don't violate:
@@ -85,6 +91,7 @@ public class ExamplesValidationTest {
                 }
             }
             List<Issue> issues = FHIRValidator.validator().validate(resource);
+            issues.forEach(System.out::println);
             for (Issue issue : issues) {
                 if (IssueSeverity.ERROR.equals(issue.getSeverity())) {
                     result = false;

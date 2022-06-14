@@ -2,6 +2,13 @@
   "index-version": 1,
   "files": [
     {
+      "filename": "ig-r4.json",
+      "resourceType": "ImplementationGuide",
+      "id": "hl7.fhir.us.spl",
+      "url": "http://hl7.org/fhir/us/spl/ImplementationGuide/hl7.fhir.us.spl",
+      "version": "0.1.0"
+    },
+    {
       "filename": "ImplementationGuide-hl7.fhir.us.spl.json",
       "resourceType": "ImplementationGuide",
       "id": "hl7.fhir.us.spl",
@@ -324,6 +331,15 @@
       "type": "MessageHeader"
     },
     {
+      "filename": "StructureDefinition-ProductSubmissionBundle.json",
+      "resourceType": "StructureDefinition",
+      "id": "ProductSubmissionBundle",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/ProductSubmissionBundle",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Bundle"
+    },
+    {
       "filename": "StructureDefinition-ProductSubmissionDocument.json",
       "resourceType": "StructureDefinition",
       "id": "ProductSubmissionDocument",
@@ -369,6 +385,51 @@
       "type": "DocumentReference"
     },
     {
+      "filename": "StructureDefinition-SubmittedIngredientDefinition.json",
+      "resourceType": "StructureDefinition",
+      "id": "SubmittedIngredientDefinition",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/SubmittedIngredientDefinition",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "SubstanceDefinition"
+    },
+    {
+      "filename": "StructureDefinition-SubmittedMedicinalPackaging.json",
+      "resourceType": "StructureDefinition",
+      "id": "SubmittedMedicinalPackaging",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/SubmittedMedicinalPackaging",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "PackagedProductDefinition"
+    },
+    {
+      "filename": "StructureDefinition-SubmittedMedicinalProduct.json",
+      "resourceType": "StructureDefinition",
+      "id": "SubmittedMedicinalProduct",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/SubmittedMedicinalProduct",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "MedicinalProductDefinition"
+    },
+    {
+      "filename": "StructureDefinition-SubmittedMedicinalProductIngredient.json",
+      "resourceType": "StructureDefinition",
+      "id": "SubmittedMedicinalProductIngredient",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/SubmittedMedicinalProductIngredient",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Ingredient"
+    },
+    {
+      "filename": "StructureDefinition-SubmittedMedicinalProductMarketing.json",
+      "resourceType": "StructureDefinition",
+      "id": "SubmittedMedicinalProductMarketing",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/SubmittedMedicinalProductMarketing",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "RegulatedAuthorization"
+    },
+    {
       "filename": "StructureDefinition-USAgentAffiliation.json",
       "resourceType": "StructureDefinition",
       "id": "USAgentAffiliation",
@@ -405,15 +466,6 @@
       "type": "Extension"
     },
     {
-      "filename": "StructureDefinition-sectionIdentifier.json",
-      "resourceType": "StructureDefinition",
-      "id": "sectionIdentifier",
-      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/sectionIdentifier",
-      "version": "0.1.0",
-      "kind": "complex-type",
-      "type": "Extension"
-    },
-    {
       "filename": "StructureDefinition-versionNumber.json",
       "resourceType": "StructureDefinition",
       "id": "versionNumber",
@@ -421,6 +473,58 @@
       "version": "0.1.0",
       "kind": "complex-type",
       "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-EstablishmentRegistrationLogicalModel.json",
+      "resourceType": "StructureDefinition",
+      "id": "EstablishmentRegistrationLogicalModel",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentRegistrationLogicalModel",
+      "version": "0.1.0",
+      "kind": "logical",
+      "type": "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentRegistrationLogicalModel"
+    },
+    {
+      "filename": "StructureDefinition-GDUFAFacilityIdentificationLogicalModel.json",
+      "resourceType": "StructureDefinition",
+      "id": "GDUFAFacilityIdentificationLogicalModel",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFAFacilityIdentificationLogicalModel",
+      "version": "0.1.0",
+      "kind": "logical",
+      "type": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFAFacilityIdentificationLogicalModel"
+    },
+    {
+      "filename": "StructureDefinition-LabelerCodeRequestLogicalModel.json",
+      "resourceType": "StructureDefinition",
+      "id": "LabelerCodeRequestLogicalModel",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/LabelerCodeRequestLogicalModel",
+      "version": "0.1.0",
+      "kind": "logical",
+      "type": "http://hl7.org/fhir/us/spl/StructureDefinition/LabelerCodeRequestLogicalModel"
+    },
+    {
+      "filename": "StructureDefinition-ProductSubmissionDocumentLogicalModel.json",
+      "resourceType": "StructureDefinition",
+      "id": "ProductSubmissionDocumentLogicalModel",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/ProductSubmissionDocumentLogicalModel",
+      "version": "0.1.0",
+      "kind": "logical",
+      "type": "ProductSubmissionDocument"
+    },
+    {
+      "filename": "StructureDefinition-SubmittedMedicationLogicalModel.json",
+      "resourceType": "StructureDefinition",
+      "id": "SubmittedMedicationLogicalModel",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/SubmittedMedicationLogicalModel",
+      "version": "0.1.0",
+      "kind": "logical",
+      "type": "SubmittedMedication"
+    },
+    {
+      "filename": "ValueSet-valueset-AllNDCProducts.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-AllNDCProducts",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-AllNDCProducts",
+      "version": "0.1.0"
     },
     {
       "filename": "ValueSet-valueset-businessOperationQualifiers.json",
@@ -493,6 +597,13 @@
       "version": "0.1.0"
     },
     {
+      "filename": "ValueSet-valueset-SubmittedMedicinalProductCharacteristicTypes.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-SubmittedMedicinalProductCharacteristicTypes",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-SubmittedMedicinalProductCharacteristicTypes",
+      "version": "0.1.0"
+    },
+    {
       "filename": "ValueSet-valueset-topLevelOrganizationTypes.json",
       "resourceType": "ValueSet",
       "id": "valueset-topLevelOrganizationTypes",
@@ -521,40 +632,11 @@
       "version": "0.1.0"
     },
     {
-      "filename": "StructureDefinition-EstablishmentRegistrationLogicalModel.json",
-      "resourceType": "StructureDefinition",
-      "id": "EstablishmentRegistrationLogicalModel",
-      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentRegistrationLogicalModel",
-      "version": "0.1.0",
-      "kind": "logical",
-      "type": "EstablishmentRegistration"
-    },
-    {
-      "filename": "StructureDefinition-GDUFAFacilityIdentificationLogicalModel.json",
-      "resourceType": "StructureDefinition",
-      "id": "GDUFAFacilityIdentificationLogicalModel",
-      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFAFacilityIdentificationLogicalModel",
-      "version": "0.1.0",
-      "kind": "logical",
-      "type": "GDUFAFacilityIdentification"
-    },
-    {
-      "filename": "StructureDefinition-LabelerCodeRequestLogicalModel.json",
-      "resourceType": "StructureDefinition",
-      "id": "LabelerCodeRequestLogicalModel",
-      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/LabelerCodeRequestLogicalModel",
-      "version": "0.1.0",
-      "kind": "logical",
-      "type": "LabelerCodeRequest"
-    },
-    {
-      "filename": "StructureDefinition-ProductSubmissionDocumentLogicalModel.json",
-      "resourceType": "StructureDefinition",
-      "id": "ProductSubmissionDocumentLogicalModel",
-      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/ProductSubmissionDocumentLogicalModel",
-      "version": "0.1.0",
-      "kind": "logical",
-      "type": "ProductSubmissionDocument"
+      "filename": "CodeSystem-codesystem-submittedMedicinalProductNameTypes.json",
+      "resourceType": "CodeSystem",
+      "id": "codesystem-submittedMedicinalProductNameTypes",
+      "url": "http://hl7.org/fhir/us/spl/CodeSystem/codesystem-submittedMedicinalProductNameTypes",
+      "version": "0.1.0"
     },
     {
       "filename": "SearchParameter-ProvenanceActivitySearchParameter.json",
