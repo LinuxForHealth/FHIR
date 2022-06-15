@@ -1361,7 +1361,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (0|1) ---- (*) resource_token_refs
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0028.vid()) // V0027: add support for distribution/sharding
+                .setVersion(FhirSchemaVersion.V0028.vid()) // V0028: drop column ref_version_id
                 .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
