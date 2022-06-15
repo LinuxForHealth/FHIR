@@ -700,6 +700,7 @@ public class Main {
         IConnectionProvider cp = new JdbcConnectionProvider(translator, propertyAdapter);
         this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
         this.adapter = new Db2Adapter(connectionPool);
+        this.schemaAdapter = new PlainSchemaAdapter(adapter);
         this.transactionProvider = new SimpleTransactionProvider(connectionPool);
     }
 
@@ -723,6 +724,7 @@ public class Main {
         IConnectionProvider cp = new JdbcConnectionProvider(translator, propertyAdapter);
         this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
         this.adapter = new PostgresAdapter(connectionPool);
+        this.schemaAdapter = new PlainSchemaAdapter(adapter);
         this.transactionProvider = new SimpleTransactionProvider(connectionPool);
     }
 

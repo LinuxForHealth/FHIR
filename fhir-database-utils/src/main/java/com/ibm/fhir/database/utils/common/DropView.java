@@ -15,7 +15,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 
 /**
- * Drop columns from the schema.table
+ * Drop columns from the view identified by schema and view name
  */
 public class DropView implements IDatabaseStatement {
     private static final Logger logger = Logger.getLogger(DropView.class.getName());
