@@ -107,8 +107,8 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         }
 
         /**
-         * Build with the shardKey value
-         * @param shardKey
+         * Build with the requestShard value
+         * @param requestShard
          * @return
          */
         public Builder withRequestShard(String requestShard) {

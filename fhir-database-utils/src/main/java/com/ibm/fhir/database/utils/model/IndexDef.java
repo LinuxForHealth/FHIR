@@ -67,9 +67,13 @@ public class IndexDef {
 
     /**
      * Apply this object to the given database target
+     * 
+     * @param schemaName
      * @param tableName
+     * @param tenantColumnName
      * @param target
-     * @param distributionRules
+     * @param distributionType
+     * @param distributionColumn
      */
     public void apply(String schemaName, String tableName, String tenantColumnName, ISchemaAdapter target,
             DistributionType distributionType, String distributionColumn) {

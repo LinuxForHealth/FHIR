@@ -268,7 +268,7 @@ public interface FHIRPersistence {
     /**
      * Erases part or a whole of a resource in the data layer.
      *
-     * @param context
+     * @param context the FHIRPersistenceContext associated with this request
      * @param eraseDto the details of the user input
      * @return a record indicating the success or partial success of the erase
      * @throws FHIRPersistenceException

@@ -23,7 +23,6 @@ public class SmallIntColumn extends ColumnBase {
 
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter adapter) {
-        // TODO ask the adapter for the type name to use for a smallint type column.
-        return "SMALLINT";
+        return adapter.smallintClause();
     }
 }

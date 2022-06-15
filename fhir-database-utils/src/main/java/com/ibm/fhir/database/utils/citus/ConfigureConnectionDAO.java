@@ -16,8 +16,10 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 /**
  * DAO to configure the Citus database connection when performing schema build
  * activities. This must be performed before any of the following UDFs are called:
- *  - create_distributed_table
- *  - create_reference_table
+ * <ul>
+ * <li>create_distributed_table
+ * <li>create_reference_table
+ * </ul>
  * to avoid the following error:
  * <pre>
  * org.postgresql.util.PSQLException: ERROR: cannot modify table "common_token_values" because there was a parallel operation on a distributed table in the transaction

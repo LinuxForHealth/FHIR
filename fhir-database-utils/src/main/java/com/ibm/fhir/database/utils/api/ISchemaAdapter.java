@@ -228,7 +228,7 @@ public interface ISchemaAdapter {
     public void activateRowAccessControl(String schemaName, String tableName);
 
     /**
-     * Deactivate row access control on a table ALTER TABLE <tbl> DEACTIVATE ROW
+     * Deactivate row access control on a table ALTER TABLE tbl_name DEACTIVATE ROW
      * ACCESS CONTROL
      *
      * @param schemaName

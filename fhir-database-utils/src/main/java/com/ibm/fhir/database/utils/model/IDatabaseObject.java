@@ -47,6 +47,7 @@ public interface IDatabaseObject {
     /**
      * Apply the DDL, but within its own transaction
      * @param target the target database we apply to
+     * @param context the context used to modify how the schema objects are applied
      * @param cp of thread-specific transactions
      * @param vhs the service interface for adding this object to the version history table
      */
@@ -107,6 +108,7 @@ public interface IDatabaseObject {
      * executed concurrently (but in the right order)
      * @param tc
      * @param target
+     * @param context
      * @param tp
      * @param vhs
      */

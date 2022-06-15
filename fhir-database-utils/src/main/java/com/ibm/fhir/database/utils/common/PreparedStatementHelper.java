@@ -17,8 +17,12 @@ import java.util.Calendar;
  */
 public class PreparedStatementHelper {
     // The PreparedStatement we delegate everything to
-    private final Calendar UTC = CalendarHelper.getCalendarForUTC();
     private final PreparedStatement ps;
+
+    // The calendar to make sure all times are treated as UTC
+    private final Calendar UTC = CalendarHelper.getCalendarForUTC();
+
+    // The current parameter index in the statement
     private int index = 1;
 
     /**

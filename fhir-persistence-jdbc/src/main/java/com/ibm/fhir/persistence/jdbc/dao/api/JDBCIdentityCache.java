@@ -117,9 +117,11 @@ public interface JDBCIdentityCache {
      * Get a list of logical_resource_id values matching the given logicalId without
      * knowing the resource type. This means we could get back multiple ids, one per
      * resource type, such as:
-     *   Claim/foo
-     *   Observation/foo
-     *   Patient/foo
+     * <ul>
+     * <li>Claim/foo
+     * <li>Observation/foo
+     * <li>Patient/foo
+     * </ul>
      * @param tokenValue
      * @return
      */

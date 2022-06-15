@@ -20,6 +20,11 @@ public class SchemaApplyContext {
     protected SchemaApplyContext(boolean includeForeignKeys) {
         this.includeForeignKeys = includeForeignKeys;
     }
+    
+    /**
+     * Get the includeForeignKeys flag
+     * @return
+     */
     public boolean isIncludeForeignKeys() {
         return this.includeForeignKeys;
     }
