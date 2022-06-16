@@ -107,7 +107,6 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
         logger.entering(CLASSNAME, METHODNAME);
 
         final Connection connection = getConnection(); // do not close
-        CallableStatement stmt = null;
         String stmtString = null;
         Timestamp lastUpdated;
         long dbCallStartTime;
@@ -126,70 +125,72 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             } else {
                 stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, getSchemaName());
             }
-            stmt = connection.prepareCall(stmtString);
-            int arg = 1;
-            if (getFlavor().getSchemaType() == SchemaType.SHARDED) {
-                stmt.setShort(arg++, shardKey);
-            }
-            stmt.setString(arg++, resource.getResourceType());
-            stmt.setString(arg++, resource.getLogicalId());
-            
-            if (resource.getDataStream() != null) {
-                stmt.setBinaryStream(arg++, resource.getDataStream().inputStream());
-            } else {
-                // payload was offloaded to another data store
-                stmt.setNull(arg++, Types.BINARY);
-            }
 
-            lastUpdated = resource.getLastUpdated();
-            stmt.setTimestamp(arg++, lastUpdated, CalendarHelper.getCalendarForUTC());
-            stmt.setString(arg++, resource.isDeleted() ? "Y": "N");
-            stmt.setString(arg++, UUID.randomUUID().toString());
-            stmt.setInt(arg++, resource.getVersionId());
-            stmt.setString(arg++, parameterHashB64);
-            setInt(stmt, arg++, ifNoneMatch);
-            setString(stmt, arg++, resource.getResourcePayloadKey());
-            
-            // TODO use a helper function which can return the arg index to help clean up the syntax
-            stmt.registerOutParameter(arg, Types.BIGINT);  final int resourceIdIndex         = arg++;
-            stmt.registerOutParameter(arg, Types.VARCHAR); final int oldParameterHashIndex   = arg++;
-            stmt.registerOutParameter(arg, Types.INTEGER); final int interactionStatusIndex  = arg++;
-            stmt.registerOutParameter(arg, Types.INTEGER); final int ifNoneMatchVersionIndex = arg++;
-
-            dbCallStartTime = System.nanoTime();
-            stmt.execute();
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-
-            resource.setId(stmt.getLong(resourceIdIndex));
-            if (stmt.getInt(interactionStatusIndex) == 1) { // interaction status
-                // no change, so skip parameter updates
-                resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
-                resource.setIfNoneMatchVersion(stmt.getInt(ifNoneMatchVersionIndex)); // current version
-            } else {
-                resource.setInteractionStatus(InteractionStatus.MODIFIED);
+            try (CallableStatement stmt = connection.prepareCall(stmtString)) {
+                int arg = 1;
+                if (getFlavor().getSchemaType() == SchemaType.SHARDED) {
+                    stmt.setShort(arg++, shardKey);
+                }
+                stmt.setString(arg++, resource.getResourceType());
+                stmt.setString(arg++, resource.getLogicalId());
+                
+                if (resource.getDataStream() != null) {
+                    stmt.setBinaryStream(arg++, resource.getDataStream().inputStream());
+                } else {
+                    // payload was offloaded to another data store
+                    stmt.setNull(arg++, Types.BINARY);
+                }
     
-                // Parameter time
-                // To keep things simple for the postgresql use-case, we just use a visitor to
-                // handle inserts of parameters directly in the resource parameter tables.
-                // Note we don't get any parameters for the resource soft-delete operation
-                // Bypass the parameter insert here if we have the remoteIndexService configured
-                FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
-                final String currentParameterHash = stmt.getString(oldParameterHashIndex);
-                if (remoteIndexService == null
-                        && parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
-                        || !parameterHashB64.equals(currentParameterHash))) {
-                    // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
-                    JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-                    try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getId(), 100,
-                        identityCache, getResourceReferenceDAO(), getTransactionData())) {
-                        for (ExtractedParameterValue p: parameters) {
-                            p.accept(pvd);
+                lastUpdated = resource.getLastUpdated();
+                stmt.setTimestamp(arg++, lastUpdated, CalendarHelper.getCalendarForUTC());
+                stmt.setString(arg++, resource.isDeleted() ? "Y": "N");
+                stmt.setString(arg++, UUID.randomUUID().toString());
+                stmt.setInt(arg++, resource.getVersionId());
+                stmt.setString(arg++, parameterHashB64);
+                setInt(stmt, arg++, ifNoneMatch);
+                setString(stmt, arg++, resource.getResourcePayloadKey());
+                
+                // TODO use a helper function which can return the arg index to help clean up the syntax
+                stmt.registerOutParameter(arg, Types.BIGINT);  final int resourceIdIndex         = arg++;
+                stmt.registerOutParameter(arg, Types.VARCHAR); final int oldParameterHashIndex   = arg++;
+                stmt.registerOutParameter(arg, Types.INTEGER); final int interactionStatusIndex  = arg++;
+                stmt.registerOutParameter(arg, Types.INTEGER); final int ifNoneMatchVersionIndex = arg++;
+    
+                dbCallStartTime = System.nanoTime();
+                stmt.execute();
+                dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+    
+                resource.setId(stmt.getLong(resourceIdIndex));
+                if (stmt.getInt(interactionStatusIndex) == 1) { // interaction status
+                    // no change, so skip parameter updates
+                    resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
+                    resource.setIfNoneMatchVersion(stmt.getInt(ifNoneMatchVersionIndex)); // current version
+                } else {
+                    resource.setInteractionStatus(InteractionStatus.MODIFIED);
+        
+                    // Parameter time
+                    // To keep things simple for the postgresql use-case, we just use a visitor to
+                    // handle inserts of parameters directly in the resource parameter tables.
+                    // Note we don't get any parameters for the resource soft-delete operation
+                    // Bypass the parameter insert here if we have the remoteIndexService configured
+                    FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
+                    final String currentParameterHash = stmt.getString(oldParameterHashIndex);
+                    if (remoteIndexService == null
+                            && parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
+                            || !parameterHashB64.equals(currentParameterHash))) {
+                        // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
+                        JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
+                        try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getId(), 100,
+                            identityCache, getResourceReferenceDAO(), getTransactionData())) {
+                            for (ExtractedParameterValue p: parameters) {
+                                p.accept(pvd);
+                            }
                         }
                     }
                 }
-            }
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+                }
             }
         } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
             throw e;

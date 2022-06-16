@@ -533,7 +533,7 @@ public class Main {
             gen.buildDatabaseSpecificArtifactsPostgres(pdm);
             break;
         case CITUS:
-            gen.buildDatabaseSpecificArtifactsPostgres(pdm);
+            gen.buildDatabaseSpecificArtifactsCitus(pdm);
             break;
         default:
             throw new IllegalStateException("Unsupported db type: " + dbType);
@@ -764,8 +764,11 @@ public class Main {
     }
 
     /**
-     * Apply any table distribution rules in one transaction and then add all the
-     * FK constraints that are needed
+     * Apply any table distribution rules then add all the
+     * FK constraints that are needed. Applying all the distribution rules
+     * in one transaction causes issues with Citus/PostgreSQL (out of shared memory
+     * errors) so instead we provide a function to allow the visitor to break
+     * things up into smaller transactions.
      * @param pdm
      */
     private void applyDistributionRules(PhysicalDataModel pdm, SchemaType schemaType) {

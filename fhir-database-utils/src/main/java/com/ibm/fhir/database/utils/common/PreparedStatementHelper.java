@@ -6,6 +6,8 @@
  
 package com.ibm.fhir.database.utils.common;
 
+import java.io.InputStream;
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -102,6 +104,23 @@ public class PreparedStatementHelper {
     }
 
     /**
+     * Set the (possibly null) InputStream value at the current position
+     * and increment the position by 1
+     * @param value
+     * @return this instance
+     * @throws SQLException
+     */
+    public PreparedStatementHelper setBinaryStream(InputStream value) throws SQLException {
+        if (value != null) {
+            ps.setBinaryStream(index, value);
+        } else {
+            ps.setNull(index, Types.BINARY);
+        }
+        index++;
+        return this;
+    }
+
+    /**
      * Set the (possibly null) int value at the current position
      * and increment the position by 1
      * @param value
@@ -116,6 +135,23 @@ public class PreparedStatementHelper {
         }
         index++;
         return this;
+    }
+
+    /**
+     * Register an OUT parameter, assuming the delegate is a CallableStatement
+     * @param parameterType from {@link java.sql.Types}
+     * @return the parameter index of the OUT parameter
+     * @throws SQLException
+     */
+    public int registerOutParameter(int parameterType) throws SQLException {
+        int idx = index++;
+        if (ps instanceof CallableStatement) {
+            CallableStatement cs = (CallableStatement)ps;
+            cs.registerOutParameter(idx, parameterType);
+        } else {
+            throw new IllegalStateException("Delegate is not a CallableStatement");
+        }
+        return idx;
     }
 
     /**

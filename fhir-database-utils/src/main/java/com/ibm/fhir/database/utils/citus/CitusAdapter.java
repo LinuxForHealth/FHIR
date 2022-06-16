@@ -200,10 +200,12 @@ public class CitusAdapter extends PostgresAdapter {
             throw new IllegalArgumentException("invalid distributeByParamNumber value: " + distributeByParamNumber);
         }
         // Need to get the signature text first in order to build the create_distribution_function
-        // statement
+        // statement. Note the cast to ::regprocedure will return a string like this:
+        // "fhirdata.add_logical_resource_ident(integer,character varying)"
+        // which can be passed in to the Citus create_distributed_function procedure
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, functionName);
         final String SELECT =
-                "SELECT p.oid::regproc || '(' || pg_get_function_identity_arguments(p.oid) || ')' " +
+                "SELECT p.oid::regprocedure " +
                 "  FROM pg_catalog.pg_proc p " +
                 " WHERE p.oid::regproc::text = LOWER(?)";
 
@@ -216,14 +218,23 @@ public class CitusAdapter extends PostgresAdapter {
                     if (rs.next()) {
                         functionSig = rs.getString(1);
                     }
+
+                    if (rs.next()) {
+                        final String fn = DataDefinitionUtil.getQualifiedName(schemaName, functionName);
+                        logger.severe("Overloaded function signature: " + fn + " " + functionSig);
+                        functionSig = rs.getString(1);
+                        logger.severe("Overloaded function signature: " + fn + " " + functionSig);
+                        throw new IllegalStateException("Overloading not supported for function '" + fn + "'");
+                    }
                 }
 
                 if (functionSig != null) {
-                    final String DISTRIBUTE = "SELECT create_distributed_function(?, ?)";
+                    logger.info("Distributing function: " + functionSig);
+                    final String DISTRIBUTE = "SELECT create_distributed_function(?::regprocedure, ?::text)";
                     try (PreparedStatement ps = c.prepareStatement(DISTRIBUTE)) {
                         ps.setString(1, functionSig);
                         ps.setString(2, "$" + distributeByParamNumber);
-                        ps.executeQuery(DISTRIBUTE);
+                        ps.execute();
                     }
                 } else {
                     logger.warning("No matching function found for '" + objectName + "'");
