@@ -151,7 +151,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
                 setString(stmt, arg++, resource.getResourcePayloadKey());
                 
                 // TODO use a helper function which can return the arg index to help clean up the syntax
-                stmt.registerOutParameter(arg, Types.BIGINT);  final int resourceIdIndex         = arg++;
+                stmt.registerOutParameter(arg, Types.BIGINT);  final int logicalResourceIdIndex  = arg++;
                 stmt.registerOutParameter(arg, Types.VARCHAR); final int oldParameterHashIndex   = arg++;
                 stmt.registerOutParameter(arg, Types.INTEGER); final int interactionStatusIndex  = arg++;
                 stmt.registerOutParameter(arg, Types.INTEGER); final int ifNoneMatchVersionIndex = arg++;
@@ -160,7 +160,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
                 stmt.execute();
                 dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
     
-                resource.setId(stmt.getLong(resourceIdIndex));
+                resource.setLogicalResourceId(stmt.getLong(logicalResourceIdIndex));
                 if (stmt.getInt(interactionStatusIndex) == 1) { // interaction status
                     // no change, so skip parameter updates
                     resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
@@ -180,7 +180,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
                             || !parameterHashB64.equals(currentParameterHash))) {
                         // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
                         JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-                        try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getId(), 100,
+                        try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getLogicalResourceId(), 100,
                             identityCache, getResourceReferenceDAO(), getTransactionData())) {
                             for (ExtractedParameterValue p: parameters) {
                                 p.accept(pvd);
@@ -189,7 +189,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
                     }
                 }
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+                    logger.fine("Successfully inserted Resource. logicalResourceId=" + resource.getLogicalResourceId() + " executionTime=" + dbCallDuration + "ms");
                 }
             }
         } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {

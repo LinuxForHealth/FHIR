@@ -278,7 +278,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (payloadData != null) {
                 resource.setDataStream(new InputOutputByteStream(payloadData, payloadData.length));
             }
-            resource.setId(resultSet.getLong(IDX_RESOURCE_ID));
+            resource.setResourceId(resultSet.getLong(IDX_RESOURCE_ID));
             resource.setLogicalResourceId(resultSet.getLong(IDX_LOGICAL_RESOURCE_ID));
             resource.setLastUpdated(resultSet.getTimestamp(IDX_LAST_UPDATED, CalendarHelper.getCalendarForUTC()));
             resource.setLogicalId(resultSet.getString(IDX_LOGICAL_ID));
@@ -540,7 +540,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             long latestTime = System.nanoTime();
             double dbCallDuration = (latestTime-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(10));
+            resource.setLogicalResourceId(stmt.getLong(10));
             final long versionedResourceRowId = stmt.getLong(11);
             final String currentHash = stmt.getString(12);
             final int interactionStatus = stmt.getInt(13);
@@ -576,7 +576,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 if (parameters != null && (parameterHashB64 == null || !parameterHashB64.equals(currentHash))) {
                     JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, this, parameterDao, getResourceReferenceDAO());
                     try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
-                        resource.getId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
+                        resource.getLogicalResourceId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
                         for (ExtractedParameterValue p: parameters) {
                             p.accept(pvd);
                         }
@@ -587,7 +587,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                     latestTime = System.nanoTime();
                     double totalDuration = (latestTime - dbCallStartTime) / 1e6;
                     double paramInsertDuration = (latestTime-paramInsertStartTime)/1e6;
-                    log.fine("Successfully inserted Resource. id=" + resource.getId() + " total=" + totalDuration + "ms, proc=" + dbCallDuration + "ms, param=" + paramInsertDuration + "ms");
+                    log.fine("Successfully inserted Resource. logicalResourceId=" + resource.getLogicalResourceId() + " total=" + totalDuration + "ms, proc=" + dbCallDuration + "ms, param=" + paramInsertDuration + "ms");
                 }    
             }
         } catch (FHIRPersistenceDBConnectException |

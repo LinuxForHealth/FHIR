@@ -107,7 +107,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             AtomicInteger outInteractionStatus = new AtomicInteger();
             AtomicInteger outIfNoneMatchVersion  = new AtomicInteger();
 
-            long resourceId = this.storeResource(resource.getResourceType(),
+            long logicalResourceId = this.storeResource(resource.getResourceType(),
                 parameters,
                 resource.getLogicalId(),
                 resource.getDataStream() != null ? resource.getDataStream().inputStream() : null,
@@ -131,11 +131,11 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 resource.setIfNoneMatchVersion(outIfNoneMatchVersion.get());
             } else {
                 resource.setInteractionStatus(InteractionStatus.MODIFIED);
-                resource.setId(resourceId);
+                resource.setLogicalResourceId(logicalResourceId);
             }
 
             if (logger.isLoggable(Level.FINE)) {
-                logger.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+                logger.fine("Successfully inserted Resource. logicalResourceId=" + resource.getLogicalResourceId() + " executionTime=" + dbCallDuration + "ms");
             }
         } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
             throw e;
@@ -198,7 +198,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @param resourcePayloadKey
      * @param outInteractionStatus
      * @param outIfNoneMatchVersion
-     * @return the resource_id for the entry we created
+     * @return the logical_resource_id for the entry we created
      * @throws Exception
      */
     public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters,
@@ -298,7 +298,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             // insert the logical_resource_ident record (which we now do our locking on)
             final String INS_IDENT = "INSERT INTO logical_resource_ident (resource_type_id, logical_id, logical_resource_id) VALUES (?, ?, ?)";
             if (logger.isLoggable(Level.FINEST)) {
-                logger.finest("Creating new logical_resource_ident row for: " + v_resource_type + "/" + p_logical_id);
+                logger.finest("Creating new logical_resource_ident row for: " + v_resource_type + "/" + p_logical_id + " => logical_resource_id=" + v_logical_resource_id);
             }
 
             try (PreparedStatement stmt = conn.prepareStatement(INS_IDENT)) {
@@ -575,7 +575,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         }
 
         logger.exiting(CLASSNAME, METHODNAME);
-        return v_resource_id;
+        return v_logical_resource_id;
     }
 
     /**

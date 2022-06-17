@@ -224,7 +224,7 @@ public class CitusResourceDAO extends PostgresResourceDAO {
                 psh.setInt(resourceTypeId);
                 psh.setString(resource.getResourceType());
                 psh.setString(resource.getLogicalId());
-                psh.setBinaryStream(resource.getDataStream().inputStream());
+                psh.setBinaryStream(resource.getDataStream() != null ? resource.getDataStream().inputStream() : null);
                 psh.setTimestamp(resource.getLastUpdated());
                 psh.setString(resource.isDeleted() ? "Y": "N");
                 psh.setString(UUID.randomUUID().toString());
@@ -241,7 +241,7 @@ public class CitusResourceDAO extends PostgresResourceDAO {
                 stmt.execute();
                 dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
     
-                resource.setId(logicalResourceId);
+                resource.setLogicalResourceId(logicalResourceId);
                 if (stmt.getInt(interactionStatusIndex) == 1) { // interaction status
                     // no change, so skip parameter updates
                     resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
@@ -261,7 +261,7 @@ public class CitusResourceDAO extends PostgresResourceDAO {
                             || !parameterHashB64.equals(currentParameterHash))) {
                         // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
                         JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-                        try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getId(), 100,
+                        try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getLogicalResourceId(), 100,
                             identityCache, getResourceReferenceDAO(), getTransactionData())) {
                             for (ExtractedParameterValue p: parameters) {
                                 p.accept(pvd);
@@ -270,7 +270,7 @@ public class CitusResourceDAO extends PostgresResourceDAO {
                     }
                 }
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+                    log.fine("Successfully inserted Resource. logicalResourceId=" + resource.getLogicalResourceId() + " executionTime=" + dbCallDuration + "ms");
                 }
             }
         } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {

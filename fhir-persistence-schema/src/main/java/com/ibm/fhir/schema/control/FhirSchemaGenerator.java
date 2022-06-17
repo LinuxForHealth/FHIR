@@ -595,17 +595,19 @@ public class FhirSchemaGenerator {
             FhirSchemaVersion.V0020.vid(),
             () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, deleteResourceParametersScript, null),
             Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
-            procedurePrivileges);
+            procedurePrivileges, 2); // distributed by p_logical_resource_id
         deleteResourceParameters.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         // For Citus, we use an additional function to create/lock the logical_resource_ident record
+        // Function is distributed by p_logical_id (parameter 2)
         fd = model.addFunction(this.schemaName,
             ADD_LOGICAL_RESOURCE_IDENT,
             FhirSchemaVersion.V0001.vid(),
             () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, addLogicalResourceIdentScript, null),
             Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges, 2);
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        
+
+        // Function is distributed by p_logical_resource_id (parameter 1)
         fd = model.addFunction(this.schemaName,
                 ADD_ANY_RESOURCE,
                 FhirSchemaVersion.V0001.vid(),

@@ -421,12 +421,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             ExtractedSearchParameters searchParameters = this.extractSearchParameters(updatedResource, resourceDTO);
             resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), parameterDao, context.getIfNoneMatch());
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+                log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' logicalResourceId=" + resourceDTO.getLogicalResourceId()
                             + ", version=" + resourceDTO.getVersionId());
             }
 
             if (resourceDTO.getInteractionStatus() == InteractionStatus.MODIFIED) {
-                sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), 
+                sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getLogicalResourceId(), 
                     resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters);
             }
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
@@ -674,17 +674,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             if (log.isLoggable(Level.FINE)) {
                 if (resourceDTO.getInteractionStatus() == InteractionStatus.IF_NONE_MATCH_EXISTED) {
-                    log.fine("If-None-Match: Existing FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+                    log.fine("If-None-Match: Existing FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' logicalResourceId=" + resourceDTO.getLogicalResourceId()
                     + ", version=" + resourceDTO.getVersionId());
                 } else {
-                    log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+                    log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' logicalResourceId=" + resourceDTO.getLogicalResourceId()
                                 + ", version=" + resourceDTO.getVersionId());
                 }
             }
 
             // If configured, send the extracted parameters to the remote indexing service
             if (resourceDTO.getInteractionStatus() == InteractionStatus.MODIFIED) {
-                sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getId(), 
+                sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getLogicalResourceId(), 
                     resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters);
             }
 
@@ -886,7 +886,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> allIncludeResources = new ArrayList<>();
 
         // Used for de-duplication
-        Set<Long> allResourceIds = resourceDTOList.stream().map(r -> r.getId()).collect(Collectors.toSet());
+        Set<Long> allResourceIds = resourceDTOList.stream().map(r -> r.getResourceId()).collect(Collectors.toSet());
 
         // This is a map of iterations to query results. The query results is a map of
         // search resource type to returned logical resource IDs. The logical resource IDs
@@ -909,7 +909,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             baseLogicalResourceIds, queryResultMap, resourceDao, 1, allResourceIds);
 
                 // Add new ids to de-dup list
-                allResourceIds.addAll(includeResources.stream().map(r -> r.getId()).collect(Collectors.toSet()));
+                allResourceIds.addAll(includeResources.stream().map(r -> r.getResourceId()).collect(Collectors.toSet()));
 
                 // Add resources to list
                 allIncludeResources.addAll(includeResources);
@@ -931,7 +931,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             baseLogicalResourceIds, queryResultMap, resourceDao, 1, allResourceIds);
 
                 // Add new ids to de-dup list
-                allResourceIds.addAll(revincludeResources.stream().map(r -> r.getId()).collect(Collectors.toSet()));
+                allResourceIds.addAll(revincludeResources.stream().map(r -> r.getResourceId()).collect(Collectors.toSet()));
 
                 // Add resources to list
                 allIncludeResources.addAll(revincludeResources);
@@ -975,7 +975,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                         SearchConstants.INCLUDE, queryIds, queryResultMap, resourceDao, i+1, allResourceIds);
 
                             // Add new ids to de-dup list
-                            allResourceIds.addAll(includeResources.stream().map(r -> r.getId()).collect(Collectors.toSet()));
+                            allResourceIds.addAll(includeResources.stream().map(r -> r.getResourceId()).collect(Collectors.toSet()));
 
                             // Add resources to list
                             allIncludeResources.addAll(includeResources);
@@ -1000,7 +1000,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                         SearchConstants.REVINCLUDE, queryIds, queryResultMap, resourceDao, i+1, allResourceIds);
 
                             // Add new ids to de-dup list
-                            allResourceIds.addAll(revincludeResources.stream().map(r -> r.getId()).collect(Collectors.toSet()));
+                            allResourceIds.addAll(revincludeResources.stream().map(r -> r.getResourceId()).collect(Collectors.toSet()));
 
                             // Add resources to list
                             allIncludeResources.addAll(revincludeResources);
@@ -1053,7 +1053,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         // Execute the query and filter out duplicates
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeDTOs =
-                resourceDao.search(includeQuery).stream().filter(r -> !allResourceIds.contains(r.getId())).collect(Collectors.toList());
+                resourceDao.search(includeQuery).stream().filter(r -> !allResourceIds.contains(r.getResourceId())).collect(Collectors.toList());
 
         // Add query result to map.
         // The logical resource IDs are pulled from the returned DTOs and saved in a
@@ -1146,7 +1146,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             resourceDao.insert(resourceDTO, null, null, null, IF_NONE_MATCH_NULL);
 
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Deleted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
+                log.fine("Deleted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' logicalResourceId=" + resourceDTO.getLogicalResourceId()
                             + ", version=" + resourceDTO.getVersionId());
             }
         } catch(FHIRPersistenceException e) {
@@ -1484,7 +1484,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         // Store each ResourceDTO in its proper position in the returned sorted list.
         for (com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO : resourceDTOList) {
-            sortIndex = idPositionMap.get(resourceDTO.getId());
+            sortIndex = idPositionMap.get(resourceDTO.getResourceId());
             sortedResourceDTOs[sortIndex] = resourceDTO;
         }
 
