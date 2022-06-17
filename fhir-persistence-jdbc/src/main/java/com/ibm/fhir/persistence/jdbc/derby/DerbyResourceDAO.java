@@ -31,6 +31,7 @@ import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
@@ -545,7 +546,8 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         // To keep things simple for the Derby use-case, we just use a visitor to
         // handle inserts of parameters directly in the resource parameter tables.
         // Note we don't get any parameters for the resource soft-delete operation
-        if (parameters != null && requireParameterUpdate) {
+        FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
+        if (remoteIndexService == null && parameters != null && requireParameterUpdate) {
             // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
             if (logger.isLoggable(Level.FINEST)) {
                 logger.finest("Storing parameters for: " + v_resource_type + "/" + p_logical_id);
