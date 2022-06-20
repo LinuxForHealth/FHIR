@@ -216,6 +216,7 @@ See [Section 4.5.3 of the User's Guide](#453-profile-validation) for related con
 Below is the list of implementation guides that are packaged as part of the project and which implementation guide versions they include:
 
 |Implementation Guide|Packaged Versions|
+|--------------------|-----------------|
 |US Core|`3.1.1`, `4.0.0`, `5.0.0`|
 |CARIN Consumer Directed Payer Data Exchange (CARIN IG for BlueButton®)|`1.0.0`, `1.1.0`|
 |minimal Common Oncology Data Elements (mCODE)|`1.0.0`)
