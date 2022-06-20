@@ -38,6 +38,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
@@ -572,8 +573,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 // TODO FHIR_ADMIN schema name needs to come from the configuration/context
                 // We can skip the parameter insert if we've been given parameterHashB64 and
                 // it matches the current value just returned by the stored procedure call
+                FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
                 long paramInsertStartTime = latestTime;
-                if (parameters != null && (parameterHashB64 == null || !parameterHashB64.equals(currentHash))) {
+                if (remoteIndexService == null 
+                        && parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
+                        || !parameterHashB64.equals(currentHash))) {
                     JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, this, parameterDao, getResourceReferenceDAO());
                     try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
                         resource.getLogicalResourceId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {

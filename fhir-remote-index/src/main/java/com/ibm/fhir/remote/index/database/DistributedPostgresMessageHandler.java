@@ -28,13 +28,15 @@ public class DistributedPostgresMessageHandler extends PlainMessageHandler {
 
     /**
      * Public constructor
+     * 
+     * @param instanceIdentifier
      * @param connection
      * @param schemaName
      * @param cache
      * @param maxReadyTimeMs
      */
-    public DistributedPostgresMessageHandler(Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
-        super(new PostgresTranslator(), connection, schemaName, cache, maxReadyTimeMs);
+    public DistributedPostgresMessageHandler(String instanceIdentifier, Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
+        super(instanceIdentifier, new PostgresTranslator(), connection, schemaName, cache, maxReadyTimeMs);
     }
 
     @Override

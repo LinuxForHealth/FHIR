@@ -26,6 +26,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_SERVERS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TLS_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_REMOTE_INDEX_SERVICE_INSTANCEIDENTIFIER;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_REMOTE_INDEX_SERVICE_TYPE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED;
@@ -231,6 +232,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (remoteIndexServiceType != null) {
                 if ("kafka".equals(remoteIndexServiceType)) {
                     String topicName = fhirConfig.getStringProperty(PROPERTY_KAFKA_INDEX_SERVICE_TOPICNAME, DEFAULT_KAFKA_INDEX_SERVICE_TOPICNAME);
+                    String instanceIdentifier = fhirConfig.getStringProperty(PROPERTY_REMOTE_INDEX_SERVICE_INSTANCEIDENTIFIER);
                     String mode = fhirConfig.getStringProperty(PROPERTY_KAFKA_INDEX_SERVICE_MODE, "active");
     
                     // Gather up the Kafka connection properties for the async index service
@@ -247,7 +249,7 @@ public class FHIRServletContextListener implements ServletContextListener {
     
                     log.info("Initializing Kafka async indexing service.");
                     FHIRRemoteIndexKafkaService s = new FHIRRemoteIndexKafkaService();
-                    s.init(new KafkaPropertyAdapter(topicName, kafkaProps, KafkaPropertyAdapter.Mode.valueOf(mode)));
+                    s.init(new KafkaPropertyAdapter(instanceIdentifier, topicName, kafkaProps, KafkaPropertyAdapter.Mode.valueOf(mode)));
                     // Now the service is ready, we can publish it
                     remoteIndexService = s;
                     FHIRRemoteIndexService.setServiceInstance(remoteIndexService);

@@ -16,6 +16,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 public class KafkaPropertyAdapter {
     private final Properties properties;
     private final String topicName;
+    private final String instanceIdentifier;
     private final Mode mode;
     
     public static enum Mode {
@@ -25,10 +26,14 @@ public class KafkaPropertyAdapter {
 
     /**
      * Public constructor
+     * 
+     * @param instanceIdentifier
      * @param topicName
      * @param properties
+     * @param mode
      */
-    public KafkaPropertyAdapter(String topicName, Properties properties, Mode mode) {
+    public KafkaPropertyAdapter(String instanceIdentifier, String topicName, Properties properties, Mode mode) {
+        this.instanceIdentifier = instanceIdentifier;
         this.topicName = topicName;
         this.properties = properties;
         this.mode = mode;
@@ -60,5 +65,12 @@ public class KafkaPropertyAdapter {
      */
     public Mode getMode() {
         return mode;
+    }
+
+    /**
+     * @return the instanceIdentifier
+     */
+    public String getInstanceIdentifier() {
+        return instanceIdentifier;
     }
 }

@@ -7,15 +7,16 @@
 package com.ibm.fhir.remote.index.database;
 
 import java.security.SecureRandom;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gson.Gson;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.helper.RemoteIndexSupport;
 import com.ibm.fhir.persistence.index.DateParameter;
 import com.ibm.fhir.persistence.index.LocationParameter;
 import com.ibm.fhir.persistence.index.NumberParameter;
@@ -37,6 +38,7 @@ import com.ibm.fhir.remote.index.api.IMessageHandler;
  */
 public abstract class BaseMessageHandler implements IMessageHandler {
     private final Logger logger = Logger.getLogger(BaseMessageHandler.class.getName());
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ISO_INSTANT;
     private static final int MIN_SUPPORTED_MESSAGE_VERSION = 1;
 
     // If we fail 10 times due to deadlocks, then something is seriously wrong
@@ -45,11 +47,18 @@ public abstract class BaseMessageHandler implements IMessageHandler {
 
     private final long maxReadyWaitMs;
 
+    // Process messages only from a known origin
+    private final String instanceIdentifier;
+
     /**
      * Protected constructor
      * @param maxReadyWaitMs the max time in ms to wait for the upstream transaction to make the data ready
      */
-    protected BaseMessageHandler(long maxReadyWaitMs) {
+    protected BaseMessageHandler(String instanceIdentifier, long maxReadyWaitMs) {
+        if (instanceIdentifier == null || instanceIdentifier.isEmpty()) {
+            throw new IllegalArgumentException("Must specify an instanceIdentifier value");
+        }
+        this.instanceIdentifier = instanceIdentifier;
         this.maxReadyWaitMs = maxReadyWaitMs;
     }
 
@@ -60,10 +69,16 @@ public abstract class BaseMessageHandler implements IMessageHandler {
             if (logger.isLoggable(Level.FINEST)) {
                 logger.finest("Processing message payload: " + payload);
             }
-            RemoteIndexMessage message = unmarshall(payload);
+            RemoteIndexMessage message = RemoteIndexSupport.unmarshall(payload);
             if (message != null) {
                 if (message.getMessageVersion() >= MIN_SUPPORTED_MESSAGE_VERSION) {
-                    unmarshalled.add(message);
+                    // check to make sure that the instanceIdentifier matches our configuration. This protects us
+                    // from messages accidentally sent over the same topic from another instance
+                    if (this.instanceIdentifier.equals(message.getInstanceIdentifier())) {
+                        unmarshalled.add(message);
+                    } else {
+                        logger.warning("Message from unknown origin, ignoring payload=[" + payload + "]");
+                    }
                 } else {
                     logger.warning("Message version [" + message.getMessageVersion() + "] not supported, ignoring payload=[" + payload + "]");
                 }
@@ -135,24 +150,6 @@ public abstract class BaseMessageHandler implements IMessageHandler {
      * Push any data we've accumulated from processing messages.
      */
     protected abstract void pushBatch() throws FHIRPersistenceException;
-
-    /**
-     * Unmarshall the json payload string into a RemoteIndexMessage
-     * @param payload
-     * @return
-     */
-    private RemoteIndexMessage unmarshall(String jsonPayload) {
-        Gson gson = new Gson();
-        try {
-            return gson.fromJson(jsonPayload, RemoteIndexMessage.class);
-        } catch (Throwable t) {
-            // We need to sink this error to avoid poison messages from 
-            // blocking the queues.
-            // TODO. Perhaps push this to a dedicated error topic
-            logger.severe("Not a RemoteIndexMessage. Ignoring: '" + jsonPayload + "'");
-        }
-        return null;
-    }
 
     /**
      * Process the list of messages

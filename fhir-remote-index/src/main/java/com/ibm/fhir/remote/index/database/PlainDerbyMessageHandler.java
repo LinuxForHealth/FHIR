@@ -26,13 +26,14 @@ public class PlainDerbyMessageHandler extends PlainMessageHandler {
 
     /**
      * Public constructor
+     * @param instanceIdentifier
      * @param connection
      * @param schemaName
      * @param cache
      * @param maxReadyTimeMs
      */
-    public PlainDerbyMessageHandler(Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
-        super(new DerbyTranslator(), connection, schemaName, cache, maxReadyTimeMs);
+    public PlainDerbyMessageHandler(String instanceIdentifier, Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
+        super(instanceIdentifier, new DerbyTranslator(), connection, schemaName, cache, maxReadyTimeMs);
     }
 
     @Override
