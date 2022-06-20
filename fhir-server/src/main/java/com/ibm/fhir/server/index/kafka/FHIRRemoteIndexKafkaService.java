@@ -19,8 +19,8 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 
-import com.google.gson.Gson;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.persistence.helper.RemoteIndexSupport;
 import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.index.IndexProviderResponse;
 import com.ibm.fhir.persistence.index.RemoteIndexConstants;
@@ -41,6 +41,7 @@ public class FHIRRemoteIndexKafkaService extends FHIRRemoteIndexService {
     private String topicName = null;
     private Producer<String, String> producer;
     private KafkaPropertyAdapter.Mode mode;
+    private String instanceIdentifier;
 
     /**
      * Default constructor
@@ -55,6 +56,7 @@ public class FHIRRemoteIndexKafkaService extends FHIRRemoteIndexService {
     public void init(KafkaPropertyAdapter properties) {
         this.mode = properties.getMode();
         this.topicName = properties.getTopicName();
+        this.instanceIdentifier = properties.getInstanceIdentifier();
         Properties kafkaProps = new Properties();
         properties.putPropertiesTo(kafkaProps);
 
@@ -91,17 +93,6 @@ public class FHIRRemoteIndexKafkaService extends FHIRRemoteIndexService {
         }
     }
 
-    /**
-     * Render the data value to a JSON string which is the wire format we
-     * use for remote indexing messages
-     * @param message
-     * @return
-     */
-    public String marshallToString(RemoteIndexMessage message) {
-        final Gson gson = new Gson();
-        return gson.toJson(message);
-    }
-
     @Override
     public IndexProviderResponse submit(final RemoteIndexData data) {
         // We rely on the default Kafka partitioner, which in our case will
@@ -112,7 +103,7 @@ public class FHIRRemoteIndexKafkaService extends FHIRRemoteIndexService {
         msg.setMessageVersion(RemoteIndexConstants.MESSAGE_VERSION);
         msg.setTenantId(tenantId);
         msg.setData(data.getSearchParameters());
-        final String message = marshallToString(msg);
+        final String message = RemoteIndexSupport.marshallToString(msg);
 
         if (this.mode == Mode.ACTIVE) {
             ProducerRecord<String, String> record = new ProducerRecord<String, String>(topicName, data.getPartitionKey(), message);

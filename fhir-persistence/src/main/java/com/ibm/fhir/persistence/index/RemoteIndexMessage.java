@@ -12,6 +12,7 @@ package com.ibm.fhir.persistence.index;
 public class RemoteIndexMessage {
     private String tenantId;
     private int messageVersion;
+    private String instanceIdentifier;
     private SearchParametersTransport data;
 
     @Override
@@ -64,6 +65,20 @@ public class RemoteIndexMessage {
      */
     public void setMessageVersion(int messageVersion) {
         this.messageVersion = messageVersion;
+    }
+
+    /**
+     * @return the instanceIdentifier
+     */
+    public String getInstanceIdentifier() {
+        return instanceIdentifier;
+    }
+
+    /**
+     * @param instanceIdentifier the instanceIdentifier to set
+     */
+    public void setInstanceIdentifier(String instanceIdentifier) {
+        this.instanceIdentifier = instanceIdentifier;
     }
     
 }

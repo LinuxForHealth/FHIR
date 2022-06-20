@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.google.gson.Gson;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
@@ -35,6 +34,7 @@ import com.ibm.fhir.database.utils.common.ResultSetReader;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.helper.RemoteIndexSupport;
 import com.ibm.fhir.persistence.index.RemoteIndexConstants;
 import com.ibm.fhir.persistence.index.RemoteIndexMessage;
 import com.ibm.fhir.persistence.index.SearchParametersTransportAdapter;
@@ -76,6 +76,7 @@ public class RemoteIndexTest {
     private final String valueString = "str1";
     private final String url = "http://some.profile/location";
     private final String profileVersion = "1.0";
+    private final String instanceIdentifier = "a-unique-id-value-1";
     
     @BeforeClass
     public void bootstrapDatabase() throws Exception {
@@ -111,6 +112,7 @@ public class RemoteIndexTest {
     private List<String> getMessages(long logicalResourceId) {
         RemoteIndexMessage sent = new RemoteIndexMessage();
         sent.setMessageVersion(RemoteIndexConstants.MESSAGE_VERSION);
+        sent.setInstanceIdentifier(instanceIdentifier);
 
         // Create an Observation resource with a few parameters
         SearchParametersTransportAdapter adapter = new SearchParametersTransportAdapter(OBSERVATION, OBSERVATION_LOGICAL_ID, logicalResourceId, 
@@ -127,21 +129,10 @@ public class RemoteIndexTest {
         adapter.tagValue("tag-param", valueSystem, valueCode, WHOLE_SYSTEM);
 
         sent.setData(adapter.build());
-        final String payload = marshallToString(sent);
-     
+        final String payload = RemoteIndexSupport.marshallToString(sent);     
         final List<String> result = new ArrayList<>();
         result.add(payload);
         return result;
-    }
-
-    /**
-     * Marshall the message to a string
-     * @param message
-     * @return
-     */
-    private String marshallToString(RemoteIndexMessage message) {
-        final Gson gson = new Gson();
-        return gson.toJson(message);
     }
 
     @Test
@@ -154,7 +145,7 @@ public class RemoteIndexTest {
 
         try (Connection c = connectionProvider.getConnection()) {
             try {
-                PlainDerbyMessageHandler handler = new PlainDerbyMessageHandler(c, SCHEMA_NAME, identityCache, 1000L);
+                PlainDerbyMessageHandler handler = new PlainDerbyMessageHandler(instanceIdentifier, c, SCHEMA_NAME, identityCache, 1000L);
                 handler.process(getMessages(logicalResourceId));
                 checkData(c, logicalResourceId);
                 c.commit();

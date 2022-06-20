@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.index;
 
 import java.time.Instant;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -563,17 +564,26 @@ public class SearchParametersTransport {
     }
 
     /**
-     * @return the lastUpdated
+     * @return the lastUpdated (UTC)
      */
     public Instant getLastUpdated() {
         return lastUpdated;
     }
 
     /**
-     * @param lastUpdated the lastUpdated to set
+     * @param lastUpdated the lastUpdated to set.
      */
     public void setLastUpdated(Instant lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    /**
+     * Convenience function to get the lastUpdated time as an Instant. All our times are
+     * always UTC.
+     * @return
+     */
+    public Instant getLastUpdatedInstant() {
+        return Instant.from(lastUpdated.atOffset(ZoneOffset.UTC));
     }
 
     /**

@@ -128,13 +128,14 @@ public class ShardedPostgresMessageHandler extends BaseMessageHandler {
     /**
      * Public constructor
      * 
+     * @param instanceIdentifier
      * @param connection
      * @param schemaName
      * @param cache
      * @param maxReadyTimeMs
      */
-    public ShardedPostgresMessageHandler(Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
-        super(maxReadyTimeMs);
+    public ShardedPostgresMessageHandler(String instanceIdentifier, Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
+        super(instanceIdentifier, maxReadyTimeMs);
         this.connection = connection;
         this.schemaName = schemaName;
         this.identityCache = cache;

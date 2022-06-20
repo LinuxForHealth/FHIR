@@ -115,6 +115,7 @@ public class FHIRConfiguration {
 
     // Configuration properties for the Kafka-based async index service
     public static final String PROPERTY_REMOTE_INDEX_SERVICE_TYPE = "fhirServer/remoteIndexService/type";
+    public static final String PROPERTY_REMOTE_INDEX_SERVICE_INSTANCEIDENTIFIER = "fhirServer/remoteIndexService/instanceIdentifier";
     public static final String PROPERTY_KAFKA_INDEX_SERVICE_TOPICNAME = "fhirServer/remoteIndexService/kafka/topicName";
     public static final String PROPERTY_KAFKA_INDEX_SERVICE_CONNECTIONPROPS = "fhirServer/remoteIndexService/kafka/connectionProperties";
     public static final String PROPERTY_KAFKA_INDEX_SERVICE_MODE = "fhirServer/remoteIndexService/kafka/mode";

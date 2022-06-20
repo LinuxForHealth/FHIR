@@ -17,13 +17,16 @@ import com.ibm.fhir.remote.index.api.IdentityCache;
 public class PlainPostgresMessageHandler extends PlainMessageHandler {
 
     /**
+     * Public constructor
+     * 
+     * @param instanceIdentifier
      * @param connection
      * @param schemaName
      * @param cache
      * @param maxReadyTimeMs
      */
-    public PlainPostgresMessageHandler(Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
-        super(new PostgresTranslator(), connection, schemaName, cache, maxReadyTimeMs);
+    public PlainPostgresMessageHandler(String instanceIdentifier, Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
+        super(instanceIdentifier, new PostgresTranslator(), connection, schemaName, cache, maxReadyTimeMs);
     }
 
     @Override

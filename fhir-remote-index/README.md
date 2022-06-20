@@ -47,6 +47,7 @@ To enable remote indexing of search parameters, add the following `remoteIndexSe
        ...
        "remoteIndexService": {
             "type": "kafka",
+            "instanceIdenfier": "a-random-uuid-value",
             "kafka": {
                 "mode": "ACTIVE",
                 "topicName": "FHIR_REMOTE_INDEX",
@@ -78,7 +79,8 @@ java -Djava.util.logging.config.file=logging.properties \
   --database-properties database.properties \
   --kafka-properties kafka.properties \
   --topic-name FHIR_REMOTE_INDEX \
-  --consumer-count 3
+  --consumer-count 3 \
+  --instance-identifier "a-random-uuid-value"
 ```
 
 Logging uses standard `java.util.logging` (JUL) and can be configured as follows:
@@ -157,6 +159,7 @@ Note: Citus configuration is the same as PostgreSQL.
 | --db-type {type} | The type of database. One of `postgresql`, `derby`, `db2` or `citus`. |
 | --database-properties {properties-file} | A Java properties file containing connection details for the downstream IBM FHIR Server database. |
 | --topic-name {topic} | The name of the Kafka topic to consume. Default `FHIR_REMOTE_INDEX`. |
+| --instance-identifier {uuid} | Each IBM FHIR Server cluster should be allocated a unique instance identifier. This identifier is added to each message sent over Kafka. The consumer will ignore messages unless they include the same instance identifier value. This helps to ensure that messages are processed from only intended sources. |
 | --consumer-group {grp} | Override the default Kafka consumer group (`group.id` value) for this application. Default `remote-index-service-cg`. |
 | --schema-type {type} | Set the schema type. One of `PLAIN` or `DISTRIBUTED`. Default is `PLAIN`. The schema type `DISTRIBUTED` is for use with Citus databases. |
 | --max-ready-time-ms {milliseconds} | The maximum number of milliseconds to wait for the database to contain the correct data for a particular set of consumed messages. Should be slightly longer than the configured Liberty transaction timeout value. |

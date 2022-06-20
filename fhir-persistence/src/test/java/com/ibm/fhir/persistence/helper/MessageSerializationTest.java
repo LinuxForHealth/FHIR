@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
  
-package com.ibm.fhir.remote.index;
+package com.ibm.fhir.persistence.helper;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
@@ -67,16 +67,16 @@ public class MessageSerializationTest {
         adapter.tokenValue("token-param", valueSystem, valueCode, compositeId);
 
         sent.setData(adapter.build());
-        final String payload = marshallToString(sent);
+        final String payload = RemoteIndexSupport.marshallToString(sent);
         // Now unmarshall the payload and check everything matches
-        RemoteIndexMessage rcvd = unmarshallPayload(payload);
+        RemoteIndexMessage rcvd = RemoteIndexSupport.unmarshall(payload);
         assertNotNull(rcvd);
         assertEquals(rcvd.getMessageVersion(), RemoteIndexConstants.MESSAGE_VERSION);
 
         SearchParametersTransport data = rcvd.getData();
         assertNotNull(data);
         assertEquals(data.getParameterHash(), parameterHash);
-        assertEquals(data.getLastUpdated(), lastUpdated);
+        assertEquals(data.getLastUpdatedInstant(), lastUpdated);
         assertEquals(data.getLogicalResourceId(), logicalResourceId);
         assertEquals(data.getResourceType(), resourceType);
         assertEquals(data.getLogicalId(), logicalId);
@@ -115,17 +115,14 @@ public class MessageSerializationTest {
         assertEquals(data.getTokenValues().get(0).getValueCode(), valueCode);
     }
 
-    /**
-     * Marshall the message to a string
-     * @param message
-     * @return
-     */
-    private String marshallToString(RemoteIndexMessage message) {
-        final Gson gson = new Gson();
-        return gson.toJson(message);
-    }
-    private RemoteIndexMessage unmarshallPayload(String jsonPayload) throws Exception {
-        Gson gson = new Gson();
-        return gson.fromJson(jsonPayload, RemoteIndexMessage.class);
+    @Test
+    public void testInstant() {
+        Gson gson = RemoteIndexSupport.getGson();
+        Instant x = Instant.now();
+        String value = gson.toJson(x);
+
+        // now try and convert the other way
+        Instant x2 = gson.fromJson(value, Instant.class);
+        assertEquals(x, x2);
     }
 }

@@ -119,13 +119,15 @@ public abstract class PlainMessageHandler extends BaseMessageHandler {
     /**
      * Public constructor
      * 
+     * @param instanceIdentifier
+     * @param translator
      * @param connection
      * @param schemaName
      * @param cache
      * @param maxReadyTimeMs
      */
-    public PlainMessageHandler(IDatabaseTranslator translator, Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
-        super(maxReadyTimeMs);
+    public PlainMessageHandler(String instanceIdentifier, IDatabaseTranslator translator, Connection connection, String schemaName, IdentityCache cache, long maxReadyTimeMs) {
+        super(instanceIdentifier, maxReadyTimeMs);
         this.translator = translator;
         this.connection = connection;
         this.schemaName = schemaName;
@@ -1114,7 +1116,7 @@ public abstract class PlainMessageHandler extends BaseMessageHandler {
                     // from the correct transaction. If these don't match, we can simply
                     // say we found the data but don't need to process the message.
                     final Instant dbLastUpdated = lrv.getLastUpdated().toInstant();
-                    final Instant msgLastUpdated = m.getData().getLastUpdated();
+                    final Instant msgLastUpdated = m.getData().getLastUpdatedInstant();
                     if (lrv.getParameterHash().equals(m.getData().getParameterHash()) 
                             && dbLastUpdated.equals(msgLastUpdated)) {
                         okToProcess.add(m);

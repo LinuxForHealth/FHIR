@@ -27,12 +27,15 @@ import java.util.logging.Logger;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.PartitionInfo;
 
+import com.ibm.fhir.core.util.LogSupport;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.citus.CitusTranslator;
 import com.ibm.fhir.database.utils.citus.ConfigureConnectionDAO;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
+import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
+import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
@@ -89,6 +92,9 @@ public class Main {
     private IDatabaseTranslator translator;
     private IConnectionProvider connectionProvider;
     private DbType dbType = DbType.POSTGRESQL;
+
+    // Make sure we process messages sent from only the FHIR servers we are configured for
+    private String instanceIdentifier;
     
     /**
      * Parse the given command line arguments
@@ -125,6 +131,13 @@ public class Main {
                     topicName = args[a++];
                 } else {
                     throw new IllegalArgumentException("Missing value for --topic-name");
+                }
+                break;
+            case "--instance-identifier":
+                if (a < args.length && !args[a].startsWith("--")) {
+                    instanceIdentifier = args[a++];
+                } else {
+                    throw new IllegalArgumentException("Missing value for --instance-identifier");
                 }
                 break;
             case "--consumer-group":
@@ -205,7 +218,7 @@ public class Main {
     public void run() throws FHIRPersistenceException {
         dumpProperties("kafka", kafkaProperties);
         dumpProperties("database", databaseProperties);
-        configureForPostgres();
+        configureDatabaseAccess();
         initIdentityCache();
 
         // Keep track of how many consumers are still running. If too many fail,
@@ -299,6 +312,21 @@ public class Main {
     }
 
     /**
+     * Set up the database connection
+     */
+    private void configureDatabaseAccess() {
+        switch (this.dbType) {
+        case POSTGRESQL:
+        case CITUS:
+            configureForPostgres();
+        case DERBY:
+            configureForDerby();
+        default:
+            throw new IllegalArgumentException("Database type not supported: " + this.dbType);
+        }
+    }
+
+    /**
      * Set things up to talk to a PostgreSQL database
      */
     private void configureForPostgres() {
@@ -310,6 +338,24 @@ public class Main {
         }
 
         PostgresPropertyAdapter propertyAdapter = new PostgresPropertyAdapter(databaseProperties);
+        connectionProvider = new JdbcConnectionProvider(translator, propertyAdapter);
+    }
+
+    /**
+     * Set things up to talk to a Derby database. Note that the in-memory
+     * instance of Derby supports only a single JVM and so the FHIR server
+     * instance would need to be stopped before running this fhir-remote-index
+     * application. Therefore, this is useful only for development work.
+     */
+    private void configureForDerby() {
+        this.translator = new DerbyTranslator();
+        try {
+            Class.forName(translator.getDriverClassName());
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException(e);
+        }
+
+        DerbyPropertyAdapter propertyAdapter = new DerbyPropertyAdapter(databaseProperties);
         connectionProvider = new JdbcConnectionProvider(translator, propertyAdapter);
     }
 
@@ -331,15 +377,15 @@ public class Main {
             
             switch (schemaType) {
             case SHARDED:
-                return new ShardedPostgresMessageHandler(c, getSchemaName(), identityCache, maxReadyTimeMs);
+                return new ShardedPostgresMessageHandler(instanceIdentifier, c, getSchemaName(), identityCache, maxReadyTimeMs);
             case PLAIN:
                 if (dbType == DbType.DERBY) {
-                    return new PlainDerbyMessageHandler(c, getSchemaName(), identityCache, maxReadyTimeMs);                
+                    return new PlainDerbyMessageHandler(instanceIdentifier, c, getSchemaName(), identityCache, maxReadyTimeMs);                
                 } else {
-                    return new PlainPostgresMessageHandler(c, getSchemaName(), identityCache, maxReadyTimeMs);                
+                    return new PlainPostgresMessageHandler(instanceIdentifier, c, getSchemaName(), identityCache, maxReadyTimeMs);                
                 }
             case DISTRIBUTED:
-                return new DistributedPostgresMessageHandler(c, getSchemaName(), identityCache, maxReadyTimeMs);                
+                return new DistributedPostgresMessageHandler(instanceIdentifier, c, getSchemaName(), identityCache, maxReadyTimeMs);                
             default:
                 throw new FHIRPersistenceException("Schema type not supported: " + schemaType.name());
             }
@@ -395,6 +441,9 @@ public class Main {
                 if (key.toLowerCase().contains("password")) {
                     value = "[*******]";
                 }
+                // kill any passwords embedded within a more complex value string
+                value = LogSupport.hidePassword(value);
+                
                 if (first) {
                     first = false;
                 } else {
@@ -405,7 +454,7 @@ public class Main {
                 buffer.append("\"").append(value).append("\"");
             }
             buffer.append("}");
-            logger.info(which + ": " + buffer.toString());
+            logger.fine(which + ": " + buffer.toString());
         }
     }
 

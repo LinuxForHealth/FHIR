@@ -2266,6 +2266,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/operations/membermatch/extendedProps`|object|The extended options for the extended member match implementation|
 |`fhirServer/operations/everything/includeTypes`|list|The list of related resource types to include alongside the patient compartment resource types. Instances of these resource types will only be returned when they are referenced from one or more resource instances from the target patient compartment. Example values are like `Location`, `Medication`, `Organization`, and `Practitioner`|
 |`fhirServer/remoteIndexService/type`|string| The type of service used to send remote index messages. Only `kafka` is currently supported|
+|`fhirServer/remoteIndexService/instanceIdentifier`|string| A UUID or other identifier unique to this cluster of IBM FHIR Servers |
 |`fhirServer/remoteIndexService/kafka/mode`|string| Current operation mode of the service. Specify `ACTIVE` to use the service|
 |`fhirServer/remoteIndexService/kafka/topicName`|string| The Kafka topic name. Typically `FHIR_REMOTE_INDEX` |
 |`fhirServer/remoteIndexService/kafka/connectionProperties/bootstrap.servers`|string| Bootstrap servers for the Kafka service |
@@ -2421,6 +2422,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/operations/membermatch/extendedProps`|empty|
 |`fhirServer/operations/everything/includeTypes`|null|
 |`fhirServer/remoteIndexService/type`|null|
+|`fhirServer/remoteIndexService/instanceIdentifier`|null|
 |`fhirServer/remoteIndexService/kafka/mode`|null|
 |`fhirServer/remoteIndexService/kafka/topicName`|null|
 |`fhirServer/remoteIndexService/kafka/connectionProperties/bootstrap.servers`|null|
@@ -2613,6 +2615,7 @@ Cases where that behavior is not supported are marked below with an `N` in the `
 |`fhirServer/operations/membermatch/extendedProps`|Y|Y|Y|
 |`fhirServer/operations/everything/includeTypes`|Y|Y|N|
 |`fhirServer/remoteIndexService/type`|N|N|N|
+|`fhirServer/remoteIndexService/instanceIdentifier`|N|N|N|
 |`fhirServer/remoteIndexService/kafka/mode`|N|N|N|
 |`fhirServer/remoteIndexService/kafka/topicName`|N|N|N|
 |`fhirServer/remoteIndexService/kafka/connectionProperties/bootstrap.servers`|N|N|N|
