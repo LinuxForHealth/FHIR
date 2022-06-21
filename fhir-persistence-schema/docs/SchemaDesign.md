@@ -491,8 +491,17 @@ The DDL for most objects (like tables) is specified once. Changes to the table s
 
 The schema update utility first reads the VERSION_HISTORY table, loading all records for the target schema (e.g. FHIRDATA). The utility only applies changes which have a version number greater than the currently recorded version. Once the DDL has been applied successfully, the version number is updated in VERSION_HISTORY. This makes the processed idempotent. Subsequent runs of the schema update utility only apply changes which have a greater version id value than the most recently stored value for each object.
 
+### Schema Version V0027
 
+A new `logical_resource_ident` table has been added. This table is now the primary owner of the `(resource_type_id, logical_id) to (logical_resource_id)` mapping. During ingestion, the SELECT FOR UPDATE lock is now obtained on this record instead of the `logical_resources` record. This change supports more data efficient distribution when using Citus, and more efficient handling of reference search parameter values in general.
 
+Schema version V0027 changes the way reference search parameter values are stored. Prior to V0027, reference parameters were treated as tokens and stored in the `common_token_values` table, with the `xx_resource_token_refs` providing the many-to-many mapping between the logical resource record in `xx_logical_resources` and `common_token_values`.
+
+As of schema version V0027, the reference mapping is now stored in `xx_ref_values` with the normalized referenced value stored in the `logical_resource_ident` table. This is useful, because it reduces the size of the `common_token_values` table, allowing it to be treated as a REFERENCE table when using the distributed schema in Citus. This arrangement also makes it more efficient to store local references (references between resources both stored within the same IBM FHIR Server database). Each logical_resource_ident record includes a foreign key referencing the resource type. Where the reference is an external reference (perhaps a URL pointing to another FHIR server), the target of the resource may not be known, in which case the `logical_resource_ident` record is assigned the `resource_type_id` for the `Resource` resource type.
+
+During schema migration, the schema tool will check to see if the `logical_resource_ident` table is empty, and if so, will populate the table with each record from the `logical_resources` table.
+
+Following migration, these changes require the search parameter data to be reindexed before any FHIR searches are run.
 
 ## Managing Resource Tables 
 
@@ -517,6 +526,7 @@ VISIONPRESCRIPTION_DATE_VALUES
 VISIONPRESCRIPTION_STR_VALUES
 VISIONPRESCRIPTION_PROFILES
 VISIONPRESCRIPTION_RESOURCE_TOKEN_REFS
+VISIONPRESCRIPTION_REF_VALUES
 VISIONPRESCRIPTION_TAGS
 VISIONPRESCRIPTION_SECURITY
 VISIONPRESCRIPTION_QUANTITY_VALUES
@@ -695,6 +705,8 @@ Foreign-key constraints:
     "fk_logical_resource_ident_rtid" FOREIGN KEY (resource_type_id) REFERENCES fhirdata.resource_types(resource_type_id)
 ```
 
+Note that the `logical_id` type is defined as `VARCHAR(1024)` which is much larger than the 64 characters required for a FHIR `Resource.id`. This is because this column must also accommodate external reference values, which are typically full URLS and therefore much longer.
+
 The query to obtain the logical_resource_id is:
 
 ```
@@ -706,7 +718,7 @@ The query to obtain the logical_resource_id is:
 
 Because the table is distributed by `logical_id` and the value is given in the query, Citus can route the query to a single target node.
 
-The `resource_type_id` value comes from the `resource_types` table and is fixed when the schema is first installed. This value is not guaranteed to be same across databases and schemas, so it must always be read from the `resource_types` table. For Citus, the `resource_types` table is distributed as a REFERENCE table which means there is a complete copy of the records on every node. It is therefore possible to join to a reference table without needing a common distribution key. For example:
+The `resource_type_id` value comes from the `resource_types` table and is fixed when the schema is first installed. This value is not guaranteed to be same across databases and schemas, so it must always be read from the `resource_types` table for a given schema. For Citus, the `resource_types` table is distributed as a REFERENCE table which means there is a complete copy of the records on every node. It is therefore possible to join to a reference table without needing a common distribution key. For example:
 
 ```
    SELECT lri.logical_resource_id
@@ -717,7 +729,51 @@ The `resource_type_id` value comes from the `resource_types` table and is fixed 
 ```
 
 
-## References
+### Schema Differences
+
+In the standard `PLAIN` schema variant, tables may use IDENTITY columns to automate the generation of primary key values. IDENTITY columns are not supported in Citus so when the schema type is `DISTRIBUTED` (which is required for Citus), the primary key values are obtained from the sequence `fhir_sequence` instead. This impacts the common_token_values table, whose definition includes the following:
+```
+                .setIdentityColumn(   COMMON_TOKEN_VALUE_ID, Generated.ALWAYS)
+```
+
+Also, if an index on a DISTRIBUTED table does not include the distribution column (typically `logical_resource_id`), the index cannot be declared UNIQUE. Instead, a non-unique index is defined. For example, the `logical_resources` definition includes:
+```
+                .addUniqueIndex("UNQ_" + LOGICAL_RESOURCES, RESOURCE_TYPE_ID, LOGICAL_ID)
+```
+
+For the `DISTRIBUTED` schema type variant, uniqueness of the {resource_type_id, logical_id} tuple can no longer be enforced by the above unique index on `logical_resources`, because `logical_resources` is distributed by `logical_resource_id` and this column is not part of the index definition. Instead, the IBM FHIR Server relies on the new `logical_resource_ident` table to manage uniqueness of this tuple, and the `resource_type_id` and `logical_id` columns in `logical_resources` are just denormalized copies of the data.
+
+### Distributed Procedures/Functions
+
+The following description uses the term stored procedure for simplicity even though some implementations use stored functions.
+
+For the `PLAIN` schema type variant, the IBM FHIR Server uses a stored procedure called `add_any_resource` to create or update the database `logical_resources`, `xx_logical_resources` and `xx_resources` records (where `xx` represents the resource type name). Using a stored procedure improves ingestion performance by reducing the number of database round-trips required to execute the required logic.
+
+For the `DISTRIBUTED` schema type variant, the logic has been split into two procedures as follows:
+
+1. `add_logical_resource_ident(resource_type_id, logical_id)` - contains the logic to create a new logical_resource_ident record, or if one exists already, obtain a lock on the row by executing a SELECT FOR UPDATE. This procedure is therefore now responsible for allocating a new `logical_resource_id` value for all new logical resources;
+2. `add_any_resource(logical_resource_id, ...)` - contains the remaining logic to create/update the `logical_resources`, `xx_logical_resources` and `xx_resources` records.
+
+Because the `logical_resource_id` value is no longer generated inside `add_any_resource`, it is now passed as a parameter to this procedure. This approach has some significant benefits with Citus, which allows stored procedures and functions to be distributed by one of their parameters. The `add_logical_resource_ident` includes SQL and DML statements involving only the`logical_resource_ident` table, and all statements use `logical_id` which is the distribution column for that table. This allows us to also distribute the procedure by the `logical_id` parameter value, allowing the database to optimize how the procedure is executed.
+
+Similarly, all SQL and DML statements within the `add_any_resource` procedure use `logical_resource_id`, so the `add_any_resource` procedure is distributed by the `logical_resource_id` parameter to provide the same benefit at runtime.
+
+### Schema Tool Changes to Support Citus
+
+When the database type is given as citus (`--db-type citus`), the schema-tool applies changes in this order:
+
+1. Create Tables (without any foreign key constraints)
+2. Apply table distribution rules for all REFERENCE tables
+3. Apply table distribution rules for all DISTRIBUTED tables
+4. Add foreign key constraints
+5. Add/replace stored functions
+6. Apply stored function distribution rules
+
+The foreign key constraints have to be added after the tables are distributed. Attempting to distribute tables after the foreign key constraints have been applied leads to errors.
+
+The distribution step can take some time due to the amount of DDL Citus must execute for each table.
+
+## References and Additional Reading
 - [Git Issue: Document the schema migration process on the project wiki #270](https://github.com/IBM/FHIR/issues/270)
 - [Db2 11.5: Extent sizes in table spaces](https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.dbobj.doc/doc/c0004964.html)
 - [Db2 11.5: Altering table spaces](https://www.ibm.com/support/producthub/db2/docs/content/SSEPGG_11.5.0/com.ibm.db2.luw.admin.dbobj.doc/doc/t0005096.html)
