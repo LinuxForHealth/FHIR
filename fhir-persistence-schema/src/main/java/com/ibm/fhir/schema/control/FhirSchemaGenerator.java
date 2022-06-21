@@ -142,6 +142,7 @@ public class FhirSchemaGenerator {
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
     private static final String ADD_RESOURCE_TYPE = "ADD_RESOURCE_TYPE";
     private static final String ADD_ANY_RESOURCE = "ADD_ANY_RESOURCE";
+    private static final String ADD_LOGICAL_RESOURCE_IDENT = "ADD_LOGICAL_RESOURCE_IDENT";
     
     // Special procedure for Citus database support
     private static final String ADD_LOGICAL_RESOURCE = "ADD_LOGICAL_RESOURCE";
@@ -535,6 +536,83 @@ public class FhirSchemaGenerator {
                 FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, addAnyResourceScript, null),
                 Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        fd = model.addFunction(this.schemaName,
+            ERASE_RESOURCE,
+            FhirSchemaVersion.V0013.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, eraseResourceScript, null),
+            Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+    }
+
+    /**
+     * Add stored procedures/functions for Citus (largely based on PostgreSQL, but some functions are distributed
+     * based on a parameter to make them more efficient.
+     * @implNote https://docs.microsoft.com/en-us/azure/postgresql/hyperscale/reference-functions#create_distributed_function
+     * @param model
+     */
+    public void buildDatabaseSpecificArtifactsCitus(PhysicalDataModel model) {
+        // Have to use different object names from DB2, because the group processing doesn't support 2 objects with the same name.
+        final String ROOT_DIR = "postgres/";
+        final String CITUS_ROOT_DIR = "citus/";
+        FunctionDef fd = model.addFunction(this.schemaName,
+                ADD_CODE_SYSTEM,
+                FhirSchemaVersion.V0001.vid(),
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
+                Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
+                procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        fd = model.addFunction(this.schemaName,
+                ADD_PARAMETER_NAME,
+                FhirSchemaVersion.V0001.vid(),
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_PARAMETER_NAME.toLowerCase()
+                        + ".sql", null),
+                Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        fd = model.addFunction(this.schemaName,
+                ADD_RESOURCE_TYPE,
+                FhirSchemaVersion.V0001.vid(),
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_RESOURCE_TYPE.toLowerCase()
+                        + ".sql", null),
+                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        // We currently only support functions with PostgreSQL, although this is really just a procedure
+        final String deleteResourceParametersScript;
+        final String addAnyResourceScript;
+        final String eraseResourceScript;
+        final String schemaTypeSuffix = getSchemaTypeSuffix();
+        addAnyResourceScript = CITUS_ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase() + schemaTypeSuffix;
+        deleteResourceParametersScript = ROOT_DIR + DELETE_RESOURCE_PARAMETERS.toLowerCase() + ".sql";
+        eraseResourceScript = ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql";
+        final String addLogicalResourceIdentScript = CITUS_ROOT_DIR + ADD_LOGICAL_RESOURCE_IDENT.toLowerCase() + ".sql";
+        
+        FunctionDef deleteResourceParameters = model.addFunction(this.schemaName,
+            DELETE_RESOURCE_PARAMETERS,
+            FhirSchemaVersion.V0020.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, deleteResourceParametersScript, null),
+            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+            procedurePrivileges, 2); // distributed by p_logical_resource_id
+        deleteResourceParameters.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        // For Citus, we use an additional function to create/lock the logical_resource_ident record
+        // Function is distributed by p_logical_id (parameter 2)
+        fd = model.addFunction(this.schemaName,
+            ADD_LOGICAL_RESOURCE_IDENT,
+            FhirSchemaVersion.V0001.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, addLogicalResourceIdentScript, null),
+            Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges, 2);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        // Function is distributed by p_logical_resource_id (parameter 1)
+        fd = model.addFunction(this.schemaName,
+                ADD_ANY_RESOURCE,
+                FhirSchemaVersion.V0001.vid(),
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, addAnyResourceScript, null),
+                Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges, 1);
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         fd = model.addFunction(this.schemaName,

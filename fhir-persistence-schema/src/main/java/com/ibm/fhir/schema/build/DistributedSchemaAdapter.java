@@ -79,9 +79,4 @@ public class DistributedSchemaAdapter extends PlainSchemaAdapter {
         DistributionContext dc = createContext(distributionType, distributionColumnName);
         databaseAdapter.applyDistributionRules(schemaName, tableName, dc);
     }
-
-    @Override
-    public void distributeFunction(String schemaName, String functionName, int distributeByParamNumber) {
-        // NOP for now
-    }
 }
