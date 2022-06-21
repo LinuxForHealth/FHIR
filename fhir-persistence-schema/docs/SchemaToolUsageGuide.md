@@ -136,6 +136,16 @@ For PostgreSQL:
 --create-schemas
 ```
 
+For Citus:
+
+```
+--db-type citus \
+--prop-file citus.properties \
+--schema-name fhirdata \
+--create-schemas
+```
+
+
 ### Deploy new schema or update an existing schema
 For Db2:
 
@@ -180,6 +190,40 @@ applied if the schema is already at the latest version according to the
 run the schema tool using only the --grant-to option without --update-schema.
 
 When updating the postgres schema, the autovacuum settings are configured.
+
+For Citus:
+
+IBM FHIR Server Release 5.0.0 includes experimental support for Citus. Configuration is mostly identical to PostgreSQL, except that the `-db-type` argument should be given as `citus`. The schema tool builds a
+modified version of the schema leveraging the distribution capabilities of the
+Citus database to provide increased scalability.
+
+
+```
+--db-type citus \
+--prop-file citus.properties \
+--schema-name FHIRDATA \
+--update-schema \
+--grant-to FHIRSERVER
+```
+
+When `--db-type citus` is specified, the resulting schema includes different behavior for some indexes and foreign key constraints. For details on the DISTRIBUTED schema design, refer to the [Schema Design](https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
+
+Note that the datasource must also be identified as type `citus` in the fhir-server-config.json file. See the [IBM FHIR Server Users Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide) for more details.
+
+
+You can create the standard version of the schema on a target Citus database
+by specifying `postgresql` as the database type (Citus is just an extension of
+PostgreSQL). In this case, all the schema objects will remain local to the
+coordinator node. This may be useful to compare the scaling benefits of Citus:
+
+```
+--db-type postgresql \
+--prop-file citus.properties \
+--schema-name FHIRDATA \
+--update-schema \
+--grant-to FHIRSERVER
+```
+
 
 ### Grant privileges to another data access user
 
@@ -343,6 +387,15 @@ For PostgreSQL:
 --update-proc
 ```
 
+For Citus:
+
+```
+--db-type citus \
+--prop-file citus.properties \
+--schema-name fhirdata \
+--update-proc
+```
+
 ### Drop the FHIR schema specified by `schema-name` (e.g. FHIRDATA)
 For Db2:
 
@@ -359,6 +412,16 @@ For PostgreSQL:
 ```
 --db-type postgresql \
 --prop-file postgresql.properties \
+--schema-name FHIRDATA \
+--drop-schema-fhir \
+--confirm-drop
+```
+
+For Citus:
+
+```
+--db-type citus \
+--prop-file citus.properties \
 --schema-name FHIRDATA \
 --drop-schema-fhir \
 --confirm-drop
@@ -383,6 +446,18 @@ For PostgreSQL:
 ```
 --db-type postgresql \
 --prop-file postgresql.properties \
+--schema-name FHIRDATA \
+--drop-schema-fhir \
+--drop-schema-batch \
+--drop-schema-oauth \
+--drop-admin
+```
+
+For Citus:
+
+```
+--db-type citus \
+--prop-file citus.properties \
 --schema-name FHIRDATA \
 --drop-schema-fhir \
 --drop-schema-batch \
@@ -458,10 +533,12 @@ To update a specific tables settings, you can run with  `--vacuum-table-name`.
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 --db-type postgresql --prop db.host=localhost --prop db.port=5432 \
 --prop db.database=fhirdb --schema-name fhirdata \
---prop user=fhiradmin --prop password=passw0rd \
+--prop user=fhiradmin --prop password=change-password \
 --update-vacuum --vacuum-cost-limit 2000 --vacuum-threshold 1000 \
 --vacuum-scale-factor 0.01 --vacuum-table-name LOGICAL_RESOURCES
 ```
+
+The above command can also be used for Citus databases.
 
 ### All Tables in a Schema
 To update all tables in a schema, you can run without the table parameter. If you omit any value, the  defaults are picked as described in the Performance guide.
@@ -470,12 +547,12 @@ To update all tables in a schema, you can run without the table parameter. If yo
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 --db-type postgresql --prop db.host=localhost --prop db.port=5432 \
 --prop db.database=fhirdb --schema-name fhirdata \
---prop user=fhiradmin --prop password=passw0rd \
+--prop user=fhiradmin --prop password=change-password \
 --update-vacuum --vacuum-cost-limit 2000 --vacuum-threshold 1000 \
 --vacuum-scale-factor 0.01
 ```
 
-## Advanced SSL Configuration with Postgres
+## Advanced SSL Configuration with Postgres (and Citus)
 
 Create a properties file like the following:
 
@@ -526,14 +603,14 @@ To manually apply the DDL to a Db2 instance:
 *Linux/Mac*  
 
 ```
-VERSION=4.0.1
+VERSION=5.0.0
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar --to-file
 ```
 
 *Windows*
 
 ```
-set VERSION=4.0.1
+set VERSION=5.0.0
 java -jar ./fhir-persistence-schema-%VERSION%-cli.jar --to-file
 ```
 
@@ -550,23 +627,6 @@ Note: the jar file is stored locally in `fhir-persistence-schema/target` or in t
 # V0021 - Drops the DOMAINRESOURCE and RESOURCE tables
 
 If there is data in the DOMAINRESOURCE and RESOURCE table groups, which is unexpected, the administrator may run the tool with `--force-unused-table-removal` to force the removal of the unused tables.
-
-----------------------------------------------------------------
-# Distributed Database Support for Citus
-
-IBM FHIR Server Release 5.0.0 includes experimental support for Citus. Configuration is mostly identical to PostgreSQL, except that the `-db-type` argument should be given as `citus`, for example:
-
-```
-java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
---prop-file citus.properties  \
---schema-name fhirdata \
---update-schema \
---db-type citus
-```
-
-When `--db-type citus` is specified, the schema tool builds a slightly modified DISTRIBUTED version of the schema which introduces different behavior for some indexes and foreign key constraints. For details on the DISTRIBUTED schema design, refer to the [Schema Design](https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
-
-Note that the datasource must also be identified as type `citus` in the fhir-server-config.json file. See the [IBM FHIR Server Users Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide) for more details.
 
 ----------------------------------------------------------------
 # Database Size Report (Db2, PostgreSQL)
@@ -632,7 +692,7 @@ and grants permission to the username|
 |--tenant-key-file|tenant-key-file-location|sets the tenant key file location|
 |--list-tenants||fetches list of tenants and current status|
 |--db-type|dbType|Either derby, postgresql, db2, citus. Required.|
-|--schema-type|schemaType|Override the default schema type created for the configured database type. PostgresSQL->PLAIN, Derby->PLAIN, Db2->MULTITENANT, Citus->DISTRIBUTED |
+|--schema-type|schemaType|Override the default schema type created for the configured database type. PostgresSQL->PLAIN, Derby->PLAIN, Db2->MULTITENANT, Citus->DISTRIBUTED. Experimental. |
 |--delete-tenant-meta|tenantName|deletes tenant metadata given the tenantName|
 |--drop-detached|tenantName|(phase 2) drops the detached tenant partition tables given the tenantName|
 |--freeze-tenant||Changes the tenant state to frozen, and subsequently (Db2 only)|

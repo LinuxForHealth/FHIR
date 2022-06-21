@@ -47,7 +47,7 @@ To enable remote indexing of search parameters, add the following `remoteIndexSe
        ...
        "remoteIndexService": {
             "type": "kafka",
-            "instanceIdenfier": "a-random-uuid-value",
+            "instanceIdentifier": "a-random-uuid-value",
             "kafka": {
                 "mode": "ACTIVE",
                 "topicName": "FHIR_REMOTE_INDEX",
