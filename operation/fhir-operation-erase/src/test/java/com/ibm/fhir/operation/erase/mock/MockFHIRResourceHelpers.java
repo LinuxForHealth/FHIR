@@ -74,7 +74,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
 
     @Override
     public int doReindex(FHIROperationContext operationContext, Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds,
-        String resourceLogicalId) throws Exception {
+        String resourceLogicalId, boolean force) throws Exception {
         return 0;
     }
 

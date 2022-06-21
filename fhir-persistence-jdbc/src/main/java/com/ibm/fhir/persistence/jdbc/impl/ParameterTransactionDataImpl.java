@@ -16,6 +16,7 @@ import javax.transaction.UserTransaction;
 
 import com.ibm.fhir.persistence.jdbc.TransactionData;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 
 /**
@@ -37,6 +38,9 @@ public class ParameterTransactionDataImpl implements TransactionData {
 
     // Collect all the token values so we can submit once per transaction
     private final List<ResourceTokenValueRec> tokenValueRecs = new ArrayList<>();
+
+    // Collect all the reference values so we can submit once per transaction
+    private final List<ResourceReferenceValueRec> referenceValueRecs = new ArrayList<>();
 
     // Collect all the profile values so we can submit once per transaction
     private final List<ResourceProfileRec> profileRecs = new ArrayList<>();
@@ -63,7 +67,7 @@ public class ParameterTransactionDataImpl implements TransactionData {
     public void persist() {
 
         try {
-            impl.onCommit(tokenValueRecs, profileRecs, tagRecs, securityRecs);
+            impl.onCommit(tokenValueRecs, referenceValueRecs, profileRecs, tagRecs, securityRecs);
         } catch (Throwable t) {
             logger.log(Level.SEVERE, "Failed persisting parameter transaction data. Marking transaction for rollback", t);
             try {
@@ -80,6 +84,14 @@ public class ParameterTransactionDataImpl implements TransactionData {
      */
     public void addValue(ResourceTokenValueRec rec) {
         tokenValueRecs.add(rec);
+    }
+
+    /**
+     * Add the record to the list of reference values being accumulated in this transaction
+     * @param rec
+     */
+    public void addReferenceValue(ResourceReferenceValueRec rec) {
+        referenceValueRecs.add(rec);
     }
 
     /**

@@ -7,6 +7,7 @@
 package com.ibm.fhir.database.utils.common;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.citus.CitusTranslator;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
@@ -33,6 +34,9 @@ public class DatabaseTranslatorFactory {
             break;
         case POSTGRESQL:
             result = new PostgresTranslator();
+            break;
+        case CITUS:
+            result = new CitusTranslator();
             break;
         default:
             throw new IllegalStateException("DbType not supported: " + type);

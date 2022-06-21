@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,14 +17,14 @@ import com.ibm.fhir.persistence.util.InputOutputByteStream;
 public class Resource {
     
     /**
-     *  This is the <resourceType>_RESOURCES.RESOURCE_ID column
+     *  This is the <resourceType>_RESOURCES.RESOURCE_ID column. It is unique for a specific version
+     *  of a resource. It is not used during create/update interactions.
      */
-    private long id;
+    private long resourceId;
     
     /**
-     *  This is the <resourceType>_LOGICAL_RESOURCES.LOGICAL_RESOURCE_ID column. It is only
-     *  set when this DTO is used to read table data. It is not set when the DTO is
-     *  used to insert/update.
+     *  This is the <resourceType>_LOGICAL_RESOURCES.LOGICAL_RESOURCE_ID column. It is used during
+     *  create/update interactions as well as read interactions
      */
     private long logicalResourceId;
 
@@ -114,18 +114,34 @@ public class Resource {
         return this.ifNoneMatchVersion;
     }
 
-    public long getId() {
-        return id;
+    /**
+     * Getter for the database xx_resources.resource_id value
+     * @return
+     */
+    public long getResourceId() {
+        return resourceId;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    /**
+     * Setter for the database xx_resources.resource_id value
+     * @param id
+     */
+    public void setResourceId(long id) {
+        this.resourceId = id;
     }
 
+    /**
+     * Getter for the logical_resources.logical_resource_id value
+     * @return
+     */
     public long getLogicalResourceId() {
         return logicalResourceId;
     }
-    
+
+    /**
+     * Setter for the logical_resources.logical_resource_id value
+     * @param logicalResourceId
+     */
     public void setLogicalResourceId(long logicalResourceId) {
         this.logicalResourceId = logicalResourceId;
     }
@@ -156,7 +172,7 @@ public class Resource {
 
     @Override
     public String toString() {
-        return "Resource [id=" + id + ", logicalResourceId=" + logicalResourceId + ", logicalId=" + logicalId +
+        return "Resource [id=" + resourceId + ", logicalResourceId=" + logicalResourceId + ", logicalId=" + logicalId +
                 ", versionId=" + versionId + ", resourceType=" + resourceType + ", lastUpdated=" + lastUpdated +
                 ", deleted=" + deleted + "]";
     }

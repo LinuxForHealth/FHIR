@@ -36,6 +36,14 @@ public interface IDatabaseTypeAdapter {
     }
 
     /**
+     * Generate a clause for smallint data type
+     * @return
+     */
+    public default String smallintClause() {
+        return "SMALLINT";
+    }
+
+    /**
      * Generate a clause for VARCHAR
      * @param size
      * @return

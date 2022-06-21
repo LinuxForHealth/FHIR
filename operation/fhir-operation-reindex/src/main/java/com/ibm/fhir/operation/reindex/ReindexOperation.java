@@ -46,6 +46,7 @@ public class ReindexOperation extends AbstractOperation {
     private static final String PARAM_INDEX_IDS = "indexIds";
     private static final String PARAM_RESOURCE_COUNT = "resourceCount";
     private static final String PARAM_RESOURCE_LOGICAL_ID = "resourceLogicalId";
+    private static final String PARAM_FORCE = "force";
 
     // The max number of resources we allow to be processed by one request
     private static final int MAX_RESOURCE_COUNT = 1000;
@@ -84,6 +85,7 @@ public class ReindexOperation extends AbstractOperation {
             List<Long> indexIds = null;
             int resourceCount = 10;
             String resourceLogicalId = null;
+            boolean force = false;
 
             boolean hasSpecificResourceType = false;
             if (resourceType != null) {
@@ -100,7 +102,8 @@ public class ReindexOperation extends AbstractOperation {
                         logger.fine("reindex param: " + parameter.getName().getValue() + " = " + parameter.getValue().toString());
                     }
 
-                    if (PARAM_TSTAMP.equals(parameter.getName().getValue())
+                    final String parameterNameValue = parameter.getName().getValue();
+                    if (PARAM_TSTAMP.equals(parameterNameValue)
                             && parameter.getValue() != null
                             && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
                         String val = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
@@ -111,7 +114,7 @@ public class ReindexOperation extends AbstractOperation {
                             // assume full ISO format
                             tstamp = Instant.parse(val);
                         }
-                    } else if (PARAM_INDEX_IDS.equals(parameter.getName().getValue())) {
+                    } else if (PARAM_INDEX_IDS.equals(parameterNameValue)) {
                         // reindex a specific list of resources by index ID (comma-delimited), which is different than resource logical ID
                         String lrIdsString = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                         if (lrIdsString != null) {
@@ -128,7 +131,7 @@ public class ReindexOperation extends AbstractOperation {
                                 throw FHIROperationUtil.buildExceptionWithIssue("The specified number of index IDs exceeds the maximum allowed number of resources to reindex", IssueType.INVALID);
                             }
                         }
-                    } else if (PARAM_RESOURCE_COUNT.equals(parameter.getName().getValue())) {
+                    } else if (PARAM_RESOURCE_COUNT.equals(parameterNameValue)) {
                         Integer val = parameter.getValue().as(com.ibm.fhir.model.type.Integer.class).getValue();
                         if (val != null) {
                             if (val > MAX_RESOURCE_COUNT) {
@@ -137,7 +140,15 @@ public class ReindexOperation extends AbstractOperation {
                             }
                             resourceCount = val;
                         }
-                    } else if (PARAM_RESOURCE_LOGICAL_ID.equals(parameter.getName().getValue())) {
+                    } else if (PARAM_FORCE.equals(parameterNameValue)) {
+                        Boolean val = parameter.getValue().as(com.ibm.fhir.model.type.Boolean.class).getValue();
+                        if (val != null) {
+                            if (val.booleanValue()) {
+                                logger.info("Forcing reindex, even if parameter hash is the same");
+                                force = true;
+                            }
+                        }
+                    } else if (PARAM_RESOURCE_LOGICAL_ID.equals(parameterNameValue)) {
                         if (hasSpecificResourceType) {
                             throw FHIROperationUtil.buildExceptionWithIssue("resourceLogicalId already specified using call to Operation on Type or Instance", IssueType.INVALID);
                         }
@@ -161,12 +172,12 @@ public class ReindexOperation extends AbstractOperation {
             int totalProcessed = 0;
             if (indexIds != null) {
                 // All resources in one transaction
-                totalProcessed = resourceHelper.doReindex(operationContext, result, tstamp, indexIds, null);
+                totalProcessed = resourceHelper.doReindex(operationContext, result, tstamp, indexIds, null, force);
             } else {
                 int processed = 1;
                 // One resource per transaction
                 for (int i=0; i<resourceCount && processed > 0; i++) {
-                    processed = resourceHelper.doReindex(operationContext, result, tstamp, null, resourceLogicalId);
+                    processed = resourceHelper.doReindex(operationContext, result, tstamp, null, resourceLogicalId, force);
                     totalProcessed += processed;
                 }
             }

@@ -1,12 +1,13 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.database.utils.version;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Table;
 
@@ -58,15 +59,16 @@ public class CreateVersionHistory {
      * @param adminSchemaName
      * @param target
      */
-    public static void createTableIfNeeded(String adminSchemaName, IDatabaseAdapter target) {
+    public static void createTableIfNeeded(String adminSchemaName, ISchemaAdapter target) {
         PhysicalDataModel dataModel = new PhysicalDataModel();
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
 
         Table t = generateTable(dataModel, adminSchemaName, false);
 
         // apply this data model to the target if necessary - note - this bypasses the
         // version history table...because this is the table we're trying to create!
         if (!t.exists(target)) {
-            dataModel.apply(target);
+            dataModel.apply(target, context);
         }
     }
 

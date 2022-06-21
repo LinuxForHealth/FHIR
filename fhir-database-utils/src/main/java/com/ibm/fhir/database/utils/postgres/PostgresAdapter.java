@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.DistributionContext;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
@@ -46,7 +47,7 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
     private static final Logger logger = Logger.getLogger(PostgresAdapter.class.getName());
 
     // Different warning messages we track so that we only have to report them once
-    private enum MessageKey {
+    protected enum MessageKey {
         MULTITENANCY,
         CREATE_VAR,
         CREATE_PERM,
@@ -63,6 +64,9 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         DROP_PERMISSION,
         DROP_VARIABLE
     }
+
+    // Constant for better readability in method calls
+    protected static final boolean USE_SCHEMA_PREFIX = true;
 
     // Just warn once for each unique message key. This cleans up build logs a lot
     private static final Set<MessageKey> warned = ConcurrentHashMap.newKeySet();
@@ -96,7 +100,8 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
-            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints) {
+            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
+            DistributionContext distributionContext) {
 
         // PostgreSql doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
@@ -110,9 +115,9 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
-            List<String> includeColumns) {
+            List<String> includeColumns, DistributionContext distributionContext) {
         // PostgreSql doesn't support include columns, so we just have to create a normal index
-        createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
+        createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionContext);
     }
 
     @Override
@@ -298,10 +303,10 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<OrderedColumnDef> indexColumns) {
+        List<OrderedColumnDef> indexColumns, DistributionContext distributionContext) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         // Postgresql doesn't support index name prefixed with the schema name.
-        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, false);
+        String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, !USE_SCHEMA_PREFIX);
         runStatement(ddl);
     }
 
@@ -310,7 +315,7 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         List<OrderedColumnDef> indexColumns) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         // Postgresql doesn't support index name prefixed with the schema name.
-        String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, false);
+        String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, !USE_SCHEMA_PREFIX);
         runStatement(ddl);
     }
 
@@ -378,6 +383,15 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
     public void enableForeignKey(String schemaName, String tableName, String constraintName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
+    }
+
+    @Override
+    public boolean doesForeignKeyConstraintExist(String schemaName, String tableName, String constraintName) {
+        // check the catalog to see if the named constraint exists
+        PostgresDoesForeignKeyConstraintExist fkExists = new PostgresDoesForeignKeyConstraintExist(schemaName, constraintName);
+        // runStatement may return null in some unit-tests, so we need to protect against that
+        Boolean val = runStatement(fkExists);
+        return val != null && val.booleanValue();
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,10 +7,9 @@
 package com.ibm.fhir.database.utils.model;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
-import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 
 /**
- * Small Int Column
+ * Small Int Column (2 bytes signed integer)
  */
 public class SmallIntColumn extends ColumnBase {
     /**
@@ -24,11 +23,6 @@ public class SmallIntColumn extends ColumnBase {
 
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter adapter) {
-        if (adapter instanceof PostgresAdapter) {
-            this.resetDefaultValue();
-            return "BOOLEAN";
-        } else {
-            return "SMALLINT";
-        }
+        return adapter.smallintClause();
     }
 }

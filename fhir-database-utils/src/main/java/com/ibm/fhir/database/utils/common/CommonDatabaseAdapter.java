@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.database.utils.api.DistributionContext;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -197,7 +198,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<OrderedColumnDef> indexColumns, List<String> includeColumns) {
+        List<OrderedColumnDef> indexColumns, List<String> includeColumns, DistributionContext distributionContext) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns, true);
         runStatement(ddl);
@@ -205,7 +206,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-        List<OrderedColumnDef> indexColumns) {
+        List<OrderedColumnDef> indexColumns, DistributionContext distributionContext) {
         indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
@@ -746,6 +747,16 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     @Override
     public void reorgTable(String schemaName, String tableName) {
         // NOP, unless overridden by a subclass (Db2Adapter, for example)
+    }
+
+    @Override
+    public void applyDistributionRules(String schemaName, String tableName, DistributionContext distributionContext) {
+        // NOP. Only used for distributed databases like Citus
+    }
+
+    @Override
+    public void distributeFunction(String schemaName, String functionName, int distributeByParamNumber) {
+        // NOP. Only used for distributed databases like Citus
     }
 
     @Override

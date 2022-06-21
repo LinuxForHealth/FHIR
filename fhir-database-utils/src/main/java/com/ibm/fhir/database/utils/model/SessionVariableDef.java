@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,8 @@ package com.ibm.fhir.database.utils.model;
 
 import java.util.Set;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 
 /**
  * Adds a session variable to the database
@@ -20,22 +21,22 @@ public class SessionVariableDef extends BaseObject {
     }
 
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         target.createIntVariable(getSchemaName(), getObjectName());
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
+    public void apply(Integer priorVersion, ISchemaAdapter target, SchemaApplyContext context) {
         target.createIntVariable(getSchemaName(), getObjectName());
     }
 
     @Override
-    public void drop(IDatabaseAdapter target) {
+    public void drop(ISchemaAdapter target) {
         target.dropVariable(getSchemaName(), getObjectName());
     }
 
     @Override
-    protected void grantGroupPrivileges(IDatabaseAdapter target, Set<Privilege> group, String toUser) {
+    protected void grantGroupPrivileges(ISchemaAdapter target, Set<Privilege> group, String toUser) {
         if (target.useSessionVariable()) {
             target.grantVariablePrivileges(getSchemaName(), getObjectName(), group, toUser);
         }

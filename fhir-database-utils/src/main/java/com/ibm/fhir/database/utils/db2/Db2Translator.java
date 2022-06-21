@@ -266,6 +266,11 @@ public class Db2Translator implements IDatabaseTranslator {
     }
 
     @Override
+    public String dropView(String qualifiedViewName) {
+        return "DROP VIEW " + qualifiedViewName;
+    }
+
+    @Override
     public String nextValue(String schemaName, String sequenceName) {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "NEXT VALUE FOR " + qname;
@@ -299,5 +304,10 @@ public class Db2Translator implements IDatabaseTranslator {
         // https://www.ibm.com/docs/en/db2/11.5?topic=sql-xml-limits
         // Maximum number of host variable references in a dynamic SQL statement    32,767
         return Optional.of(Integer.valueOf(32767));
+    }
+
+    @Override
+    public boolean isFamilyPostgreSQL() {
+        return false;
     }
 }

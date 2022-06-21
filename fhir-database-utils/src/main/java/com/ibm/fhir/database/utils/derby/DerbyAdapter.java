@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.api.DistributionContext;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
@@ -79,7 +80,8 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
-            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints) {
+            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
+            DistributionContext distributionContext) {
         // Derby doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
             warnOnce(MessageKey.MULTITENANCY, "Derby does not support multi-tenancy on: [" + name + "]");
@@ -92,10 +94,10 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
-            List<String> includeColumns) {
+            List<String> includeColumns, DistributionContext distributionContext) {
 
         // Derby doesn't support include columns, so we just have to create a normal index
-        createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
+        createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionContext);
     }
 
     @Override
@@ -306,6 +308,14 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
             // Make the call, but without the tenantColumnName because Derby doesn't support our multi-tenant implementation
             super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, null, columns, true);
         }
+    }
+
+    @Override
+    public boolean doesForeignKeyConstraintExist(String schemaName, String tableName, String constraintName) {
+        DerbyDoesForeignKeyConstraintExist test = new DerbyDoesForeignKeyConstraintExist(schemaName, tableName, constraintName);
+        // runStatement may return null in some unit-tests, so we need to protect against that
+        Boolean val = runStatement(test);
+        return val != null && val.booleanValue();
     }
 
     @Override

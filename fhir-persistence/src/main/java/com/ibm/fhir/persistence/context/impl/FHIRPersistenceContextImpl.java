@@ -22,7 +22,8 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     private FHIRHistoryContext historyContext;
     private FHIRSearchContext searchContext;
     private Integer ifNoneMatch;
-
+    private String requestShard;
+    
     // The response from the payload persistence (offloading) call, if any
     private PayloadPersistenceResponse offloadResponse;
 
@@ -44,7 +45,8 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         private FHIRSearchContext searchContext;
         private Integer ifNoneMatch;
         private PayloadPersistenceResponse offloadResponse;
-
+        private String requestShard;
+        
         /**
          * Protected constructor
          * @param event
@@ -69,7 +71,8 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
             }
             impl.setIfNoneMatch(ifNoneMatch);
             impl.setOffloadResponse(offloadResponse);
-
+            impl.setRequestShard(requestShard);
+            
             return impl;
         }
 
@@ -100,6 +103,16 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
          */
         public Builder withIfNoneMatch(Integer ifNoneMatch) {
             this.ifNoneMatch = ifNoneMatch;
+            return this;
+        }
+
+        /**
+         * Build with the requestShard value
+         * @param requestShard
+         * @return
+         */
+        public Builder withRequestShard(String requestShard) {
+            this.requestShard = requestShard;
             return this;
         }
 
@@ -154,6 +167,19 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     @Override
     public FHIRSearchContext getSearchContext() {
         return this.searchContext;
+    }
+
+    @Override
+    public String getRequestShard() {
+        return this.requestShard;
+    }
+
+    /**
+     * Set the shardKey value
+     * @param value
+     */
+    public void setRequestShard(String value) {
+        this.requestShard = value;
     }
 
     /**

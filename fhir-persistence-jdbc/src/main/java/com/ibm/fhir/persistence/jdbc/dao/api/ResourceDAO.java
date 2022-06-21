@@ -12,12 +12,12 @@ import java.util.Map;
 
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
  * This Data Access Object interface provides methods creating, updating, and retrieving rows in the FHIR Resource tables.
@@ -187,4 +187,21 @@ public interface ResourceDAO extends FHIRDbDAO {
     Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao, 
             Integer ifNoneMatch)
             throws FHIRPersistenceException;
+
+    /**
+     * Look up the value of the logical_resource_id from the logical_resource_ident table
+     * @param resourceTypeId
+     * @param logicalId
+     * @return
+     */
+    Long readLogicalResourceId(int resourceTypeId, String logicalId) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
+
+    /**
+     * Read all the matching logical_resource_id values for the given logicalId
+     * @param logicalId
+     * @return
+     * @throws FHIRPersistenceDBConnectException
+     * @throws FHIRPersistenceDataAccessException
+     */
+    List<Long> readLogicalResourceIdList(String logicalId) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
 }

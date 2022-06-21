@@ -27,6 +27,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.persistence.InteractionStatus;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
@@ -42,7 +43,6 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
@@ -100,7 +100,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
             AtomicInteger outInteractionStatus = new AtomicInteger();
             AtomicInteger outIfNoneMatchVersion  = new AtomicInteger();
 
-            long resourceId = this.storeResource(resource.getResourceType(),
+            long logicalResourceId = this.storeResource(resource.getResourceType(),
                 parameters,
                 resource.getLogicalId(),
                 resource.getDataStream().inputStream(),
@@ -125,11 +125,11 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                 resource.setIfNoneMatchVersion(outIfNoneMatchVersion.get());
             } else {
                 resource.setInteractionStatus(InteractionStatus.MODIFIED);
-                resource.setId(resourceId);
+                resource.setLogicalResourceId(logicalResourceId);
             }
 
             if (logger.isLoggable(Level.FINE)) {
-                logger.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+                logger.fine("Successfully inserted Resource. logicalResourceId=" + resource.getLogicalResourceId() + " executionTime=" + dbCallDuration + "ms");
             }
         } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
             throw e;
@@ -459,7 +459,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         }
 
         logger.exiting(CLASSNAME, METHODNAME);
-        return v_resource_id;
+        return v_logical_resource_id;
     }
 
     /**

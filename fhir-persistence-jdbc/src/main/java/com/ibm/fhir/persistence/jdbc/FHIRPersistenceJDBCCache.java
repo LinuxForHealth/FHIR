@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc;
 
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IIdNameCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 
 /**
@@ -33,6 +34,12 @@ public interface FHIRPersistenceJDBCCache {
      * @return
      */
     ICommonTokenValuesCache getResourceReferenceCache();
+
+    /**
+     * Getter for the cache handling lookups for logical_resource_id values
+     * @return
+     */
+    ILogicalResourceIdentCache getLogicalResourceIdentCache();
 
     /**
      * Getter for the cache of resource types used to look up resource type id

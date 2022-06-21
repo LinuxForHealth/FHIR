@@ -60,10 +60,12 @@ public class FHIRPersistenceContextFactory {
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent and a FHIRSearchContext.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
      * @param searchContext the FHIRSearchContext instance to be contained in the FHIRPersistenceContext instance
+     * @param requestShard the requested shard; can be null
      */
-    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, FHIRSearchContext searchContext) {
+    public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, FHIRSearchContext searchContext, String requestShard) {
         return FHIRPersistenceContextImpl.builder(event)
                 .withSearchContext(searchContext)
+                .withRequestShard(requestShard)
                 .build();
     }
 

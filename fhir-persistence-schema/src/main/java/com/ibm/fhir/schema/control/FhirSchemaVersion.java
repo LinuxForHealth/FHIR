@@ -45,7 +45,9 @@ public enum FhirSchemaVersion {
     ,V0023(23, "issue-2900 erased_resources to support $erase when offloading payloads", false)
     ,V0024(24, "issue-2900 for offloading add resource_payload_key to xx_resources", false)
     ,V0025(25, "issue-3158 stored proc updates to prevent deleting currently deleted resources", false)
-    ,V0026(26, "Add new resource types for FHIR R4B", false)
+    ,V0026(26, "issue-nnnn Add new resource types for FHIR R4B", false)
+    ,V0027(27, "issue-3437 extensions to support distribution/sharding", true)
+    ,V0028(28, "issue-3437 remove ref_version_id from xx_resource_token_refs", false) // parameter storage updated by V0027
     ;
 
     // The version number recorded in the VERSION_HISTORY

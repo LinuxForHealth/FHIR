@@ -211,11 +211,12 @@ public interface FHIRPersistence {
      * @param indexIds list of index IDs of resources to reindex, or null
      * @param resourceLogicalId resourceType/logicalId value of a specific resource to reindex, or null;
      * this parameter is ignored if the indexIds parameter value is non-null
+     * @param force if true, always replace the stored parameters
      * @return count of the number of resources reindexed by this call
      * @throws FHIRPersistenceException
      */
     int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, List<Long> indexIds,
-        String resourceLogicalId) throws FHIRPersistenceException;
+        String resourceLogicalId, boolean force) throws FHIRPersistenceException;
 
     /**
      * Special function for high speed export of resource payloads. The process
@@ -248,6 +249,7 @@ public interface FHIRPersistence {
     /**
      * Fetch up to resourceCount records from the RESOURCE_CHANGE_LOG table.
      *
+     * @param context the FHIRPersistenceContext associated with the current request
      * @param resourceCount the max number of resource change records to fetch
      * @param sinceLastModified filter records with record.lastUpdate >= sinceLastModified. Optional.
      * @param beforeLastModified filter records with record.lastUpdate <= beforeLastModified. Optional.
@@ -258,7 +260,7 @@ public interface FHIRPersistence {
      * @return a list containing up to resourceCount elements describing resources which have changed
      * @throws FHIRPersistenceException
      */
-    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant sinceLastModified,
+    List<ResourceChangeLogRecord> changes(FHIRPersistenceContext context, int resourceCount, java.time.Instant sinceLastModified,
         java.time.Instant beforeLastModified, Long changeIdMarker, List<String> resourceTypeNames,
         boolean excludeTransactionTimeoutWindow, HistorySortOrder historySortOrder)
         throws FHIRPersistenceException;
@@ -266,17 +268,19 @@ public interface FHIRPersistence {
     /**
      * Erases part or a whole of a resource in the data layer.
      *
+     * @param context the FHIRPersistenceContext associated with this request
      * @param eraseDto the details of the user input
      * @return a record indicating the success or partial success of the erase
      * @throws FHIRPersistenceException
      */
-    default ResourceEraseRecord erase(EraseDTO eraseDto) throws FHIRPersistenceException {
+    default ResourceEraseRecord erase(FHIRPersistenceContext context, EraseDTO eraseDto) throws FHIRPersistenceException {
         throw new FHIRPersistenceException("Erase is not supported");
     }
 
     /**
      * Retrieves a list of index IDs available for reindexing.
      *
+     * @param context the FHIRPersistenceContext associated with this request
      * @param count the maximum nuber of index IDs to retrieve
      * @param notModifiedAfter only retrieve index IDs for resources not last updated after the specified timestamp
      * @param afterIndexId retrieve index IDs starting after this specified index ID, or null to start with first index ID
@@ -284,7 +288,7 @@ public interface FHIRPersistence {
      * @return list of index IDs available for reindexing
      * @throws FHIRPersistenceException
      */
-    List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName)
+    List<Long> retrieveIndex(FHIRPersistenceContext context, int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName)
         throws FHIRPersistenceException;
 
     /**

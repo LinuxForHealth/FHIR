@@ -20,12 +20,13 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.exception.FHIRException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 
 /**
@@ -212,17 +213,26 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
         if (dsPG != null) {
 
             try {
-                boolean multitenant = false;
-                String typeValue = dsPG.getStringProperty("type");
-
-                DbType type = DbType.from(typeValue);
-                if (type == DbType.DB2) {
-                    // We make this absolute for now. May change in the future if we
-                    // support a single-tenant schema in DB2.
-                    multitenant = true;
+                SchemaType schemaType = SchemaType.PLAIN;
+                String schemaTypeValue = dsPG.getStringProperty("schemaType", null);
+                if (schemaTypeValue != null) {
+                    schemaType = SchemaType.valueOf(schemaTypeValue.toUpperCase());
                 }
 
-                result = new FHIRDbFlavorImpl(type, multitenant);
+                String typeValue = dsPG.getStringProperty("type");
+                DbType type = DbType.from(typeValue);
+                if (type == DbType.DB2) {
+                    // For Db2 we currently only support MULTITENANT so we force the schemaType
+                    schemaType = SchemaType.MULTITENANT;
+                } else {
+                    // Make sure for any other database of type we're not being asked to use the
+                    // multitenant variant
+                    if (schemaType == SchemaType.MULTITENANT) {
+                        throw new FHIRPersistenceDataAccessException("schemaType MULTITENANT is only supported for Db2");
+                    }
+                }
+
+                result = new FHIRDbFlavorImpl(type, schemaType);
             }
             catch (Exception x) {
                 log.log(Level.SEVERE, "No type property found for datastore '" + datastoreId + "'", x);

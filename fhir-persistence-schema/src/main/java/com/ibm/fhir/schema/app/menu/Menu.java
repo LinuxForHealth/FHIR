@@ -32,6 +32,7 @@ public class Menu {
     public static final String DROP_DETACHED = "--drop-detached";
     public static final String FREEZE_TENANT = "--freeze-tenant";
     public static final String DROP_TENANT = "--drop-tenant";
+    public static final String DROP_SPLIT_TRANSACTION = "--drop-split-transaction";
     public static final String REFRESH_TENANTS = "--refresh-tenants";
     public static final String ALLOCATE_TENANT = "--allocate-tenant";
     public static final String CONFIRM_DROP = "--confirm-drop";
@@ -61,6 +62,7 @@ public class Menu {
     public static final String HELP = "--help";
     public static final String SHOW_DB_SIZE = "--show-db-size";
     public static final String SHOW_DB_SIZE_DETAIL = "--show-db-size-detail";
+    public static final String SCHEMA_TYPE = "--schema-type";
 
     public Menu() {
         // NOP
@@ -83,7 +85,7 @@ public class Menu {
         MI_TENANT_KEY(TENANT_KEY, "tenantKey", "the tenant-key in the queries"),
         MI_TENANT_KEY_FILE(TENANT_KEY_FILE, "tenant-key-file-location", "sets the tenant key file location"),
         MI_LIST_TENANTS(LIST_TENANTS, "", "fetches list of tenants and current status"),
-        MI_DB_TYPE(DB_TYPE, "dbType" , "Either derby, postgresql, db2"),
+        MI_DB_TYPE(DB_TYPE, "dbType" , "Either derby, postgresql, db2, citus"),
         MI_DELETE_TENANT_META(DELETE_TENANT_META, "tenantName", "deletes tenant metadata given the tenantName"),
         MI_DROP_DETACHED(DROP_DETACHED, "tenantName", "(phase 2) drops the detached tenant partition tables given the tenantName"),
         MI_FREEZE_TENANT(FREEZE_TENANT, "", "Changes the tenant state to frozen, and subsequently (Db2 only)"),
@@ -115,6 +117,7 @@ public class Menu {
         MI_CREATE_SCHEMA_FHIR(CREATE_SCHEMA_FHIR, "schemaName", "Create the FHIR Data Schema"),
         MI_CREATE_SCHEMA_BATCH(CREATE_SCHEMA_BATCH, "schemaName", "Create the Batch Schema"),
         MI_CREATE_SCHEMA_OAUTH(CREATE_SCHEMA_OAUTH, "schemaName", "Create the OAuth Schema"),
+        MI_SCHEMA_TYPE(SCHEMA_TYPE, "", "Which variant of the FHIR data schema to use"),
         MI_SHOW_DB_SIZE(SHOW_DB_SIZE, "", "Generate report with a breakdown of database size"),
         MI_SHOW_DB_SIZE_DETAIL(SHOW_DB_SIZE_DETAIL, "", "Include detailed table and index info in size report");
 

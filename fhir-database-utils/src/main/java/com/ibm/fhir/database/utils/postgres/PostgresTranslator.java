@@ -243,6 +243,11 @@ public class PostgresTranslator implements IDatabaseTranslator {
     }
 
     @Override
+    public String dropView(String qualifiedViewName) {
+        return "DROP VIEW IF EXISTS " + qualifiedViewName;
+    }
+
+    @Override
     public String nextValue(String schemaName, String sequenceName) {
         String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "nextval('" + qname + "')";
@@ -273,5 +278,10 @@ public class PostgresTranslator implements IDatabaseTranslator {
         // https://github.com/pgjdbc/pgjdbc/blob/13a644b4945996dff5274e45741313380d4a47e6/pgjdbc/src/main/java/org/postgresql/core/PGStream.java#L273
         // it's Short.MAX_VALUE
         return Optional.of(Integer.valueOf(32767));
+    }
+
+    @Override
+    public boolean isFamilyPostgreSQL() {
+        return true;
     }
 }

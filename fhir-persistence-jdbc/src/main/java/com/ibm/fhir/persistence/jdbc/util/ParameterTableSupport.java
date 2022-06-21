@@ -33,6 +33,7 @@ public class ParameterTableSupport {
         deleteFromParameterTable(conn, tablePrefix + "_profiles", v_logical_resource_id);
         deleteFromParameterTable(conn, tablePrefix + "_tags", v_logical_resource_id);
         deleteFromParameterTable(conn, tablePrefix + "_security", v_logical_resource_id);
+        deleteFromParameterTable(conn, tablePrefix + "_ref_values", v_logical_resource_id);
 
         // delete any system level parameters we have for this resource
         deleteFromParameterTable(conn, "str_values", v_logical_resource_id);

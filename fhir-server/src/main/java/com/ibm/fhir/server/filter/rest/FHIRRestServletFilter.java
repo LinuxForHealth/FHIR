@@ -57,6 +57,7 @@ public class FHIRRestServletFilter extends HttpFilter {
     private static String tenantIdHeaderName = null;
     private static String datastoreIdHeaderName = null;
     private static String originalRequestUriHeaderName = null;
+    private static String shardKeyHeaderName = null;
     private static final String preferHeaderName = "Prefer";
     private static final String preferHandlingHeaderSectionName = "handling";
     private static final String preferReturnHeaderSectionName = "return";
@@ -72,6 +73,7 @@ public class FHIRRestServletFilter extends HttpFilter {
 
         long initialTime = System.nanoTime();
 
+        String shardKey = null;
         String tenantId = defaultTenantId;
         String dsId = FHIRConfiguration.DEFAULT_DATASTORE_ID;
         String requestUrl = getRequestURL(request);
@@ -91,6 +93,11 @@ public class FHIRRestServletFilter extends HttpFilter {
         t = request.getHeader(datastoreIdHeaderName);
         if (t != null) {
             dsId = t;
+        }
+
+        t = request.getHeader(shardKeyHeaderName);
+        if (t != null) {
+            shardKey = t;
         }
 
         t = getOriginalRequestURI(request);
@@ -115,6 +122,9 @@ public class FHIRRestServletFilter extends HttpFilter {
             requestDescription.append(originalRequestUri);
         }
         requestDescription.append("]");
+        if (shardKey != null) {
+            requestDescription.append(" shardKey:[").append(shardKey).append("]");
+        }
         String encodedRequestDescription = Encode.forHtml(requestDescription.toString());
         log.info("Received request: " + encodedRequestDescription);
 
@@ -128,6 +138,10 @@ public class FHIRRestServletFilter extends HttpFilter {
             FHIRRequestContext context = new FHIRRequestContext(tenantId, dsId);
             // Don't try using FHIRConfigHelper before setting the context!
             FHIRRequestContext.set(context);
+
+            if (shardKey != null) {
+                context.setRequestShardKey(shardKey);
+            }
 
             context.setOriginalRequestUri(originalRequestUri);
 
@@ -501,6 +515,10 @@ public class FHIRRestServletFilter extends HttpFilter {
             defaultTenantId =
                     config.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID);
             log.info("Configured default tenant-id value is: " +  defaultTenantId);
+
+            shardKeyHeaderName = config.getStringProperty(FHIRConfiguration.PROPERTY_SHARD_KEY_HEADER_NAME,
+                FHIRConfiguration.DEFAULT_SHARD_KEY_HEADER_NAME);
+            log.info("Configured shard-key header name is: '" +  shardKeyHeaderName + "'");
         } catch (Exception e) {
             throw new ServletException("Servlet filter initialization error.", e);
         }

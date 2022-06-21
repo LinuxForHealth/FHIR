@@ -10,17 +10,22 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentKey;
+import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentValue;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
  * Postgres-specific extension of the {@link ResourceReferenceDAO} to work around
@@ -31,13 +36,17 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
 
     /**
      * Public constructor
+     * 
      * @param t
      * @param c
      * @param schemaName
      * @param cache
+     * @param parameterNameCache
+     * @param logicalResourceIdentCache
      */
-    public PostgresResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, INameIdCache<Integer> parameterNameCache) {
-        super(t, c, schemaName, cache, parameterNameCache);
+    public PostgresResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, INameIdCache<Integer> parameterNameCache,
+            ILogicalResourceIdentCache logicalResourceIdentCache) {
+        super(t, c, schemaName, cache, parameterNameCache, logicalResourceIdentCache);
     }
 
     @Override
@@ -136,6 +145,40 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
         } catch (SQLException x) {
             logger.log(Level.SEVERE, insert.toString(), x);
             throw getTranslator().translate(x);
+        }
+    }
+
+    @Override
+    protected void addMissingLogicalResourceIdents(List<LogicalResourceIdentValue> missing) throws FHIRPersistenceException {
+        // For PostgreSQL we can handle concurrency issues using ON CONFLICT DO NOTHING
+        // to skip inserts for records that already exist
+        final int batchSize = 256;
+        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_sequence");
+        StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO logical_resource_ident (resource_type_id, logical_id, logical_resource_id) VALUES (?,?,");
+        insert.append(nextVal); // next sequence value
+        insert.append(") ON CONFLICT DO NOTHING");
+
+        logger.fine(() -> "ident insert: " + insert.toString());
+        try (PreparedStatement ps = getConnection().prepareStatement(insert.toString())) {
+            int count = 0;
+            for (LogicalResourceIdentKey value: missing) {
+                ps.setInt(1, value.getResourceTypeId());
+                ps.setString(2, value.getLogicalId());
+                ps.addBatch();
+                if (++count == batchSize) {
+                    // not too many statements in a single batch
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+            if (count > 0) {
+                // final batch
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "logical_resource_ident insert failed: " + insert.toString(), x);
+            throw new FHIRPersistenceException("logical_resource_ident insert failed");
         }
     }
     

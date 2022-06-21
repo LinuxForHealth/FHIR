@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * Drop columns from the schema.table
@@ -68,7 +67,7 @@ public class DropColumn implements IDatabaseStatement {
 
         int dropCount = 0;
         for (String columnName : columnNames) {
-            if (translator.getType() == DbType.POSTGRESQL) {
+            if (translator.isFamilyPostgreSQL()) {
                 if (postgresColumnExists(translator, c, columnName)) {
                     ddl.append("\n\t" + "DROP COLUMN " + columnName);
                     dropCount++;

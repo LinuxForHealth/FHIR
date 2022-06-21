@@ -45,6 +45,9 @@ BEGIN
     PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_security            WHERE logical_resource_id = ?';
     EXECUTE d_stmt USING p_logical_resource_id;
 
+    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_ref_values          WHERE logical_resource_id = ?';
+    EXECUTE d_stmt USING p_logical_resource_id;
+
     PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || 'str_values                WHERE logical_resource_id = ?';
     EXECUTE d_stmt USING p_logical_resource_id;
 

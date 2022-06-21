@@ -57,12 +57,13 @@ public class FHIRPersistenceContextTest {
         FHIRSearchContext sc = FHIRSearchContextFactory.createSearchContext();
         assertNotNull(sc);
 
-        FHIRPersistenceContext ctxt = FHIRPersistenceContextFactory.createPersistenceContext(pe, sc);
+        FHIRPersistenceContext ctxt = FHIRPersistenceContextFactory.createPersistenceContext(pe, sc, "pat42");
         assertNotNull(ctxt);
         assertNotNull(ctxt.getPersistenceEvent());
         assertEquals(pe, ctxt.getPersistenceEvent());
         assertNotNull(ctxt.getSearchContext());
         assertEquals(sc, ctxt.getSearchContext());
         assertNull(ctxt.getHistoryContext());
+        assertEquals("pat42", ctxt.getRequestShard());
     }
 }

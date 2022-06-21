@@ -60,6 +60,18 @@ public class FromAdapter {
     }
 
     /**
+     * Add an INNER JOIN for the given sub select
+     * @param sub
+     * @param alias
+     * @param joinOnPredicate
+     * @return
+     */
+    public FromAdapter innerJoin(Select sub, Alias alias, WhereFragment joinOnPredicate) {
+        this.select.addInnerJoin(sub, alias, joinOnPredicate.getExpression());
+        return this;
+    }
+
+    /**
      * Add a LEFT OUTER JOIN for the given table
      * @param tableName
      * @param alias

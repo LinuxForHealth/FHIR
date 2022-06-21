@@ -54,6 +54,7 @@ BEGIN
 
   DECLARE v_schema_name         VARCHAR(128 OCTETS);
   DECLARE v_logical_resource_id  BIGINT     DEFAULT NULL;
+  DECLARE t_logical_resource_id  BIGINT     DEFAULT NULL;
   DECLARE v_current_resource_id  BIGINT     DEFAULT NULL;
   DECLARE v_resource_id          BIGINT     DEFAULT NULL;
   DECLARE v_resource_type_id        INT     DEFAULT NULL;
@@ -83,9 +84,11 @@ BEGIN
     FROM {{SCHEMA_NAME}}.resource_types WHERE resource_type = p_resource_type;
   
   -- FOR UPDATE WITH RS does not appear to work using a prepared statement and
-  -- cursor, so we have to run this directly against the logical_resources table.
-  SELECT logical_resource_id, parameter_hash, is_deleted INTO v_logical_resource_id, o_current_parameter_hash, v_currently_deleted
-    FROM {{SCHEMA_NAME}}.logical_resources
+  -- cursor, so we have to run as compiled SQL. For V0027 we now use
+  -- logical_resource_ident for managing the identity of a resource and the
+  -- associated locking
+  SELECT logical_resource_id INTO v_logical_resource_id
+    FROM {{SCHEMA_NAME}}.logical_resource_ident
    WHERE resource_type_id = v_resource_type_id AND logical_id = p_logical_id
      FOR UPDATE WITH RS
    ;
@@ -94,40 +97,73 @@ BEGIN
   IF v_logical_resource_id IS NULL
   THEN
     VALUES NEXT VALUE FOR {{SCHEMA_NAME}}.fhir_sequence INTO v_logical_resource_id;
+
+    PREPARE stmt FROM
+       'INSERT INTO ' || v_schema_name || '.logical_resource_ident (mt_id, resource_type_id, logical_id, logical_resource_id) '
+    || '     VALUES (?, ?, ?, ?)';
+    EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_type_id, p_logical_id, v_logical_resource_id;
+    -- remember that we have a concurrent system...so there is a possibility
+    -- that another thread snuck in before us and created the logical resource ident. This
+    -- is easy to handle, just turn around and read it
+    IF v_duplicate = 1
+    THEN
+      SELECT logical_resource_id INTO v_logical_resource_id
+        FROM {{SCHEMA_NAME}}.logical_resource_ident
+       WHERE resource_type_id = v_resource_type_id AND logical_id = p_logical_id
+         FOR UPDATE WITH RS
+       ;
+
+       -- Because someone else created the logical_resoure_ident record, we need to see if
+       -- they also created the corresponding logical_resources record
+       SELECT logical_resource_id, parameter_hash, is_deleted 
+         INTO t_logical_resource_id, o_current_parameter_hash, v_currently_deleted
+         FROM {{SCHEMA_NAME}}.logical_resources 
+        WHERE logical_resource_id = v_logical_resource_id;
+       
+       IF (t_logical_resource_id IS NULL)
+       THEN
+         -- other thread only created the ident record, so we still need to treat
+         -- this as a new resource
+         SET v_new_resource = 1;
+       END IF;
+     ELSE
+       -- we created the logical_resource_ident, so we know this is a new resource
+       SET v_new_resource = 1;
+     END IF;
+   ELSE
+     -- the logical_resource_ident record exists, so now we need to find out
+     -- if the corresponding logical_resources record exists
+     SELECT logical_resource_id, parameter_hash, is_deleted 
+       INTO t_logical_resource_id, o_current_parameter_hash, v_currently_deleted
+       FROM {{SCHEMA_NAME}}.logical_resources 
+      WHERE logical_resource_id = v_logical_resource_id;
+       
+     IF (t_logical_resource_id IS NULL)
+     THEN
+       -- the ident record was created as a reference, but because there's no logical_resources
+       -- record, we treat this as a new resource
+       SET v_new_resource = 1;
+     END IF;
+  END IF;
+
+  IF v_new_resource = 1
+  THEN
+    -- create the logical_resources record
     PREPARE stmt FROM
        'INSERT INTO ' || v_schema_name || '.logical_resources (mt_id, logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated, parameter_hash) '
     || '     VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
     EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01-00.00.00.0', p_is_deleted, p_last_updated, p_parameter_hash_b64;
 
-    -- remember that we have a concurrent system...so there is a possibility
-    -- that another thread snuck in before us and created the logical resource. This
-    -- is easy to handle, just turn around and read it
-    IF v_duplicate = 1
-    THEN
-      -- row exists, so we just need to obtain a lock on it. Because logical resource records are
-      -- never deleted, we don't need to worry about it disappearing again before we grab the row lock
-      SELECT logical_resource_id, parameter_hash, is_deleted INTO v_logical_resource_id, o_current_parameter_hash, v_currently_deleted
-        FROM {{SCHEMA_NAME}}.logical_resources
-       WHERE resource_type_id = v_resource_type_id AND logical_id = p_logical_id
-         FOR UPDATE WITH RS
-       ;
-       
-      -- Since the resource did not previously exist, set o_current_parameter_hash back to NULL
-      SET o_current_parameter_hash = NULL;
-
-    ELSE
-      -- we created the logical resource and therefore we already own the lock. So now we can
-      -- safely create the corresponding record in the resource-type-specific logical_resources table
-      PREPARE stmt FROM
+    -- create the xx_logical_resources record
+    PREPARE stmt FROM
          'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (mt_id, logical_resource_id, logical_id, is_deleted, last_updated, version_id, current_resource_id) '
       || '     VALUES (?, ?, ?, ?, ?, ?, ?)';
-      EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated, p_version, v_resource_id;
-      SET v_new_resource = 1;
-    END IF;
-  END IF;
+    EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated, p_version, v_resource_id;
 
-  -- Remember everying is locked at the logical resource level, so we are thread-safe here
-  IF v_new_resource = 0 THEN
+    -- Since the resource did not previously exist, make sure o_current_parameter_hash is NULL
+    SET o_current_parameter_hash = NULL;
+
+  ELSE
     -- as this is an existing resource, we need to know the current resource id.
     -- This is only available at the resource-specific logical_resources level
     PREPARE stmt FROM

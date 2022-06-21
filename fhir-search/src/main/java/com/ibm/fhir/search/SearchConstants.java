@@ -98,6 +98,9 @@ public class SearchConstants {
     // url
     public static final String URL = "url";
 
+    // uri
+    public static final String URI = "uri";
+
     // version
     public static final String VERSION = "version";
 

@@ -22,10 +22,13 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.persistence.InteractionStatus;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
@@ -39,7 +42,6 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 
@@ -48,24 +50,53 @@ import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
  * the stored procedure (or function, in this case)
  */
 public class PostgresResourceDAO extends ResourceDAOImpl {
-    private static final String CLASSNAME = PostgresResourceDAO.class.getSimpleName();
+    private static final String CLASSNAME = PostgresResourceDAO.class.getName();
     private static final Logger logger = Logger.getLogger(CLASSNAME);
 
     private static final String SQL_READ_RESOURCE_TYPE = "{CALL %s.add_resource_type(?, ?)}";
     
     // 13 args (9 in, 4 out)
     private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+    // 14 args (10 in, 4 out)
+    private static final String SQL_SHARDED_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+
+    private static final String SQL_SHARDED_READ = ""
+            + "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, "
+            + "       R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY " 
+            + "  FROM %s_RESOURCES R, "
+            + "       %s_LOGICAL_RESOURCES LR "
+            + " WHERE LR.SHARD_KEY = ? "
+            + "   AND LR.LOGICAL_ID = ? "
+            + "   AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID "
+            + "   AND R.SHARD_KEY = LR.SHARD_KEY ";
+
+    // Read a specific version of the resource
+    private static final String SQL_SHARDED_VERSION_READ = ""
+            + "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, "
+            + "       R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY "
+            + "  FROM %s_RESOURCES R, "
+            + "       %s_LOGICAL_RESOURCES LR "
+            + " WHERE LR.SHARD_KEY = ? "
+            + "   AND LR.LOGICAL_ID = ? "
+            + "   AND R.VERSION_ID = ? "
+            + "   AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID "
+            + "   AND R.SHARD_KEY = LR.SHARD_KEY ";
 
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
 
-    public PostgresResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
+    // The (optional) shard key used with sharded databases
+    private final Short shardKey;
+
+    public PostgresResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, Short shardKey) {
         super(connection, schemaName, flavor, cache, rrd);
+        this.shardKey = shardKey;
     }
 
     public PostgresResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
-        ParameterTransactionDataImpl ptdi) {
+        ParameterTransactionDataImpl ptdi, Short shardKey) {
         super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+        this.shardKey = shardKey;
     }
 
     @Override
@@ -76,7 +107,6 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
         logger.entering(CLASSNAME, METHODNAME);
 
         final Connection connection = getConnection(); // do not close
-        CallableStatement stmt = null;
         String stmtString = null;
         Timestamp lastUpdated;
         long dbCallStartTime;
@@ -87,63 +117,80 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             // hit the procedure
             Objects.requireNonNull(getResourceTypeId(resource.getResourceType()));
 
-            stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, getSchemaName());
-            stmt = connection.prepareCall(stmtString);
-            stmt.setString(1, resource.getResourceType());
-            stmt.setString(2, resource.getLogicalId());
-            
-            if (resource.getDataStream() != null) {
-                stmt.setBinaryStream(3, resource.getDataStream().inputStream());
+            if (getFlavor().getSchemaType() == SchemaType.SHARDED) {
+                if (this.shardKey == null) {
+                    throw new FHIRPersistenceException("Shard key value required when schema type is SHARDED");
+                }
+                stmtString = String.format(SQL_SHARDED_INSERT_WITH_PARAMETERS, getSchemaName());
             } else {
-                // payload was offloaded to another data store
-                stmt.setNull(3, Types.BINARY);
+                stmtString = String.format(SQL_INSERT_WITH_PARAMETERS, getSchemaName());
             }
 
-            lastUpdated = resource.getLastUpdated();
-            stmt.setTimestamp(4, lastUpdated, CalendarHelper.getCalendarForUTC());
-            stmt.setString(5, resource.isDeleted() ? "Y": "N");
-            stmt.setString(6, UUID.randomUUID().toString());
-            stmt.setInt(7, resource.getVersionId());
-            stmt.setString(8, parameterHashB64);
-            setInt(stmt, 9, ifNoneMatch);
-            setString(stmt, 10, resource.getResourcePayloadKey());
-            stmt.registerOutParameter(11, Types.BIGINT);
-            stmt.registerOutParameter(12, Types.VARCHAR); // The old parameter_hash
-            stmt.registerOutParameter(13, Types.INTEGER); // o_interaction_status
-            stmt.registerOutParameter(14, Types.INTEGER); // o_if_none_match_version
-
-            dbCallStartTime = System.nanoTime();
-            stmt.execute();
-            dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
-
-            resource.setId(stmt.getLong(11));
-            
-            if (stmt.getInt(13) == 1) { // interaction status
-                // no change, so skip parameter updates
-                resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
-                resource.setIfNoneMatchVersion(stmt.getInt(14)); // current version
-            } else {
-                resource.setInteractionStatus(InteractionStatus.MODIFIED);
+            try (CallableStatement stmt = connection.prepareCall(stmtString)) {
+                int arg = 1;
+                if (getFlavor().getSchemaType() == SchemaType.SHARDED) {
+                    stmt.setShort(arg++, shardKey);
+                }
+                stmt.setString(arg++, resource.getResourceType());
+                stmt.setString(arg++, resource.getLogicalId());
+                
+                if (resource.getDataStream() != null) {
+                    stmt.setBinaryStream(arg++, resource.getDataStream().inputStream());
+                } else {
+                    // payload was offloaded to another data store
+                    stmt.setNull(arg++, Types.BINARY);
+                }
     
-                // Parameter time
-                // To keep things simple for the postgresql use-case, we just use a visitor to
-                // handle inserts of parameters directly in the resource parameter tables.
-                // Note we don't get any parameters for the resource soft-delete operation
-                final String currentParameterHash = stmt.getString(12);
-                if (parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
-                        || !parameterHashB64.equals(currentParameterHash))) {
-                    // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
-                    JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-                    try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getId(), 100,
-                        identityCache, getResourceReferenceDAO(), getTransactionData())) {
-                        for (ExtractedParameterValue p: parameters) {
-                            p.accept(pvd);
+                lastUpdated = resource.getLastUpdated();
+                stmt.setTimestamp(arg++, lastUpdated, CalendarHelper.getCalendarForUTC());
+                stmt.setString(arg++, resource.isDeleted() ? "Y": "N");
+                stmt.setString(arg++, UUID.randomUUID().toString());
+                stmt.setInt(arg++, resource.getVersionId());
+                stmt.setString(arg++, parameterHashB64);
+                setInt(stmt, arg++, ifNoneMatch);
+                setString(stmt, arg++, resource.getResourcePayloadKey());
+                
+                // TODO use a helper function which can return the arg index to help clean up the syntax
+                stmt.registerOutParameter(arg, Types.BIGINT);  final int logicalResourceIdIndex  = arg++;
+                stmt.registerOutParameter(arg, Types.VARCHAR); final int oldParameterHashIndex   = arg++;
+                stmt.registerOutParameter(arg, Types.INTEGER); final int interactionStatusIndex  = arg++;
+                stmt.registerOutParameter(arg, Types.INTEGER); final int ifNoneMatchVersionIndex = arg++;
+    
+                dbCallStartTime = System.nanoTime();
+                stmt.execute();
+                dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
+    
+                resource.setLogicalResourceId(stmt.getLong(logicalResourceIdIndex));
+                if (stmt.getInt(interactionStatusIndex) == 1) { // interaction status
+                    // no change, so skip parameter updates
+                    resource.setInteractionStatus(InteractionStatus.IF_NONE_MATCH_EXISTED);
+                    resource.setIfNoneMatchVersion(stmt.getInt(ifNoneMatchVersionIndex)); // current version
+                } else {
+                    resource.setInteractionStatus(InteractionStatus.MODIFIED);
+        
+                    // Parameter time
+                    // To keep things simple for the postgresql use-case, we just use a visitor to
+                    // handle inserts of parameters directly in the resource parameter tables.
+                    // Note we don't get any parameters for the resource soft-delete operation
+                    // Bypass the parameter insert here if we have the remoteIndexService configured
+                    FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
+                    final String currentParameterHash = stmt.getString(oldParameterHashIndex);
+                    if (remoteIndexService == null
+                            && parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
+                            || !parameterHashB64.equals(currentParameterHash))) {
+                        // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
+                        JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
+                        try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getLogicalResourceId(), 100,
+                            identityCache, getResourceReferenceDAO(), getTransactionData())) {
+                            for (ExtractedParameterValue p: parameters) {
+                                p.accept(pvd);
+                            }
                         }
                     }
                 }
-            }
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("Successfully inserted Resource. logicalResourceId=" + resource.getLogicalResourceId() + " executionTime=" + dbCallDuration + "ms");
+                }
             }
         } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
             throw e;
@@ -168,21 +215,54 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
         return resource;
     }
 
-    /**
-     * Delete all parameters for the given resourceId from the parameters table
-     *
-     * @param conn
-     * @param tableName
-     * @param logicalResourceId
-     * @throws SQLException
-     */
-    protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
-        final String delStrValues = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(delStrValues)) {
-            // bind parameters
-            stmt.setLong(1, logicalResourceId);
-            stmt.executeUpdate();
+    @Override
+    public Resource read(String logicalId, String resourceType) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "read";
+        logger.entering(CLASSNAME, METHODNAME);
+
+        Resource resource = null;
+        if (getFlavor().getSchemaType() == SchemaType.SHARDED) {
+            List<Resource> resources;
+            String stmtString = null;
+            
+            try {
+                stmtString = String.format(SQL_SHARDED_READ, resourceType, resourceType);
+                resources = this.runQuery(stmtString, shardKey, logicalId);
+                if (!resources.isEmpty()) {
+                    resource = resources.get(0);
+                }
+            } finally {
+                logger.exiting(CLASSNAME, METHODNAME);
+            }
+        } else {
+            resource = super.read(logicalId, resourceType);
         }
+        return resource;
+    }
+
+    @Override
+    public Resource versionRead(String logicalId, String resourceType, int versionId) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "versionRead";
+        logger.entering(CLASSNAME, METHODNAME);
+
+        Resource resource = null;
+        if (getFlavor().getSchemaType() == SchemaType.SHARDED) {
+            String stmtString = null;
+
+            try {
+                stmtString = String.format(SQL_SHARDED_VERSION_READ, resourceType, resourceType);
+                List<Resource> resources = this.runQuery(stmtString, shardKey, logicalId, versionId);
+                if (!resources.isEmpty()) {
+                    resource = resources.get(0);
+                }
+            } finally {
+                logger.exiting(CLASSNAME, METHODNAME);
+            }
+        } else {
+            resource = super.versionRead(logicalId, resourceType, versionId);
+        }
+        return resource;
+
     }
 
     /**

@@ -72,6 +72,7 @@ public class DatabaseSupport implements IConnectionProvider, ITransactionProvide
             configureForDerby();
             break;
         case POSTGRESQL:
+        case CITUS:
             configureForPostgresql();
             break;
         default:

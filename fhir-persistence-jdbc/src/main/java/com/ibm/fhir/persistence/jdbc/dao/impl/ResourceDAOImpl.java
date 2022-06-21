@@ -35,8 +35,10 @@ import com.ibm.fhir.database.utils.query.QueryUtil;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
@@ -47,7 +49,6 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.util.InputOutputByteStream;
@@ -130,6 +131,18 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, CAST(NULL AS BLOB) AS DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY " +
                     "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND " +
                     "R.RESOURCE_ID IN ";
+
+    private static final String SQL_GET_LOGICAL_RESOURCE_IDENT = ""
+            + "SELECT logical_resource_id "
+            + "  FROM logical_resource_ident "
+            + " WHERE resource_type_id = ? "
+            + "   AND logical_id = ?";
+
+    // Get all records matching the given logical_id (multiple resource types)
+    private static final String SQL_GET_LOGICAL_RESOURCE_IDENT_LIST = ""
+            + "     SELECT logical_resource_id "
+            + "       FROM logical_resource_ident "
+            + "      WHERE logical_id = ?";
 
     private static final String SQL_ORDER_BY_IDS = "ORDER BY CASE R.RESOURCE_ID ";
 
@@ -266,7 +279,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (payloadData != null) {
                 resource.setDataStream(new InputOutputByteStream(payloadData, payloadData.length));
             }
-            resource.setId(resultSet.getLong(IDX_RESOURCE_ID));
+            resource.setResourceId(resultSet.getLong(IDX_RESOURCE_ID));
             resource.setLogicalResourceId(resultSet.getLong(IDX_LOGICAL_RESOURCE_ID));
             resource.setLastUpdated(resultSet.getTimestamp(IDX_LAST_UPDATED, CalendarHelper.getCalendarForUTC()));
             resource.setLogicalId(resultSet.getString(IDX_LOGICAL_ID));
@@ -528,7 +541,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             long latestTime = System.nanoTime();
             double dbCallDuration = (latestTime-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(10));
+            resource.setLogicalResourceId(stmt.getLong(10));
             final long versionedResourceRowId = stmt.getLong(11);
             final String currentHash = stmt.getString(12);
             final int interactionStatus = stmt.getInt(13);
@@ -560,11 +573,14 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 // TODO FHIR_ADMIN schema name needs to come from the configuration/context
                 // We can skip the parameter insert if we've been given parameterHashB64 and
                 // it matches the current value just returned by the stored procedure call
+                FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
                 long paramInsertStartTime = latestTime;
-                if (parameters != null && (parameterHashB64 == null || !parameterHashB64.equals(currentHash))) {
+                if (remoteIndexService == null 
+                        && parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
+                        || !parameterHashB64.equals(currentHash))) {
                     JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, this, parameterDao, getResourceReferenceDAO());
                     try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
-                        resource.getId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
+                        resource.getLogicalResourceId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
                         for (ExtractedParameterValue p: parameters) {
                             p.accept(pvd);
                         }
@@ -575,7 +591,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                     latestTime = System.nanoTime();
                     double totalDuration = (latestTime - dbCallStartTime) / 1e6;
                     double paramInsertDuration = (latestTime-paramInsertStartTime)/1e6;
-                    log.fine("Successfully inserted Resource. id=" + resource.getId() + " total=" + totalDuration + "ms, proc=" + dbCallDuration + "ms, param=" + paramInsertDuration + "ms");
+                    log.fine("Successfully inserted Resource. logicalResourceId=" + resource.getLogicalResourceId() + " total=" + totalDuration + "ms, proc=" + dbCallDuration + "ms, param=" + paramInsertDuration + "ms");
                 }    
             }
         } catch (FHIRPersistenceDBConnectException |
@@ -762,7 +778,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      * @param logicalResourceId
      * @throws SQLException
      */
-    protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
+    private void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
         final String delStrValues = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
         try (PreparedStatement stmt = conn.prepareStatement(delStrValues)) {
             // bind parameters
@@ -836,5 +852,40 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         } else {
             ps.setString(index, value);
         }
+    }
+
+    @Override
+    public Long readLogicalResourceId(int resourceTypeId, String logicalId) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+        Long result = null;
+        try (PreparedStatement ps = getConnection().prepareStatement(SQL_GET_LOGICAL_RESOURCE_IDENT)) {
+            ps.setInt(1, resourceTypeId);
+            ps.setString(2, logicalId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                result = rs.getLong(1);
+            }
+        } catch (Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving logical_resource_id");
+            final String errMsg = "Failure retrieving logical_resource_id from logical_resource_ident for '" + resourceTypeId + "/" + logicalId + "'";
+            throw severe(log, fx, errMsg, e);
+        }
+        return result;
+    }
+
+    @Override
+    public List<Long> readLogicalResourceIdList(String logicalId) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException {
+        List<Long> result = new ArrayList<>();
+        try (PreparedStatement ps = getConnection().prepareStatement(SQL_GET_LOGICAL_RESOURCE_IDENT_LIST)) {
+            ps.setString(1, logicalId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getLong(1));
+            }
+        } catch (Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving logical_resource_id");
+            final String errMsg = "Failure retrieving logical_resource_id list from logical_resource_ident for '" + logicalId + "'";
+            throw severe(log, fx, errMsg, e);
+        }
+        return result;
     }
 }

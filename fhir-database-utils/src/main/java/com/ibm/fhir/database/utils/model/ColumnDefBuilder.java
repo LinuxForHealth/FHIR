@@ -209,6 +209,9 @@ public class ColumnDefBuilder {
             case SMALLINT:
                 column = new SmallIntColumn(cd.getName(), cd.isNullable(), cd.getDefaultVal());
                 break;
+            case SMALLINT_BOOLEAN:
+                column = new SmallIntBooleanColumn(cd.getName(), cd.isNullable(), cd.getDefaultVal());
+                break;
             case DOUBLE:
                 column = new DoubleColumn(cd.getName(), cd.isNullable());
                 break;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,8 +20,11 @@ import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
+import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.IVersionHistoryService;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.task.api.ITaskCollector;
 
@@ -51,11 +54,14 @@ public class PhysicalDataModel implements IDataModel {
     // Common models that we rely on (e.g. for FK constraints)
     private final List<PhysicalDataModel> federatedModels = new ArrayList<>();
 
+    // Is this model configured to operate with a distributed (sharded) database?
+    private final boolean distributed;
+
     /**
      * Default constructor. No federated models
      */
-    public PhysicalDataModel() {
-        // No Op
+    public PhysicalDataModel(boolean distributed) {
+        this.distributed = distributed;
     }
 
     /**
@@ -63,7 +69,19 @@ public class PhysicalDataModel implements IDataModel {
      * @param federatedModels
      */
     public PhysicalDataModel(PhysicalDataModel... federatedModels) {
-        this.federatedModels.addAll(Arrays.asList(federatedModels));
+        boolean dist = false;
+        if (federatedModels != null) {
+            this.federatedModels.addAll(Arrays.asList(federatedModels));
+    
+            // If any of the federated models are distributed, then assume we must be
+            for (PhysicalDataModel dm: federatedModels) {
+                if (dm.isDistributed()) {
+                    dist = true;
+                    break;
+                }
+            }
+        }
+        this.distributed = dist;
     }
 
     /**
@@ -97,25 +115,78 @@ public class PhysicalDataModel implements IDataModel {
      * time it takes to provision a schema.
      * @param tc collects and manages the object creation tasks and their dependencies
      * @param target the target database adapter
+     * @param context to control how the schema is built
      * @param tp
      * @param vhs
      */
-    public void collect(ITaskCollector tc, IDatabaseAdapter target, ITransactionProvider tp, IVersionHistoryService vhs) {
+    public void collect(ITaskCollector tc, ISchemaAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
         for (IDatabaseObject obj: allObjects) {
-            obj.collect(tc, target, tp, vhs);
+            obj.collect(tc, target, context, tp, vhs);
         }
     }
 
     /**
      * Apply the entire model to the target in order
      * @param target
+     * @param context
      */
-    public void apply(IDatabaseAdapter target) {
+    public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         int total = allObjects.size();
         int count = 1;
         for (IDatabaseObject obj: allObjects) {
             logger.fine(String.format("Creating [%d/%d] %s", count++, total, obj.toString()));
-            obj.apply(target);
+            obj.apply(target, context);
+        }
+    }
+
+    /**
+     * Make a pass over all the objects and apply any distribution rules they
+     * may have (e.g. for Citus). We have to process a large number of tables,
+     * which can cause shared memory issues for Citus if we try and do this in
+     * a single transaction, hence the need for a transactionSupplier
+     * @param target
+     */
+    public void applyDistributionRules(ISchemaAdapter target, Supplier<ITransaction> transactionSupplier) {
+
+        // takes a long time, so track progress
+        int total = allObjects.size() * 2;
+        int count = 0;
+        int objectsPerMessage = total / 100; // 1% increments
+        int nextCount = objectsPerMessage;
+        // make a first pass to apply reference rules
+        for (IDatabaseObject obj: allObjects) {
+            try (ITransaction tx = transactionSupplier.get()) {
+                try {
+                    obj.applyDistributionRules(target, 0);
+                    
+                    if (++count >= nextCount) {
+                        int pc = 100 * nextCount / total;
+                        logger.info("Progress: [" + pc + "% complete]");
+                        nextCount += objectsPerMessage;
+                    }
+                } catch (RuntimeException x) {
+                    tx.setRollbackOnly();
+                    throw x;
+                }                    
+            }
+        }
+        
+        // and another pass to apply sharding rules
+        for (IDatabaseObject obj: allObjects) {
+            try (ITransaction tx = transactionSupplier.get()) {
+                try {
+                    obj.applyDistributionRules(target, 1);
+
+                    if (++count >= nextCount) {
+                        int pc = 100 * nextCount / total;
+                        logger.info("Progress: [" + pc + "% complete]");
+                        nextCount += objectsPerMessage;
+                    }
+                } catch (RuntimeException x) {
+                    tx.setRollbackOnly();
+                    throw x;
+                }                    
+            }
         }
     }
 
@@ -125,12 +196,12 @@ public class PhysicalDataModel implements IDataModel {
      * @param target
      * @param vhs
      */
-    public void applyWithHistory(IDatabaseAdapter target, IVersionHistoryService vhs) {
+    public void applyWithHistory(ISchemaAdapter target, SchemaApplyContext context, IVersionHistoryService vhs) {
         int total = allObjects.size();
         int count = 1;
         for (IDatabaseObject obj: allObjects) {
             logger.fine(String.format("Creating [%d/%d] %s", count++, total, obj.toString()));
-            obj.applyVersion(target, vhs);
+            obj.applyVersion(target, context, vhs);
         }
     }
 
@@ -138,13 +209,13 @@ public class PhysicalDataModel implements IDataModel {
      * Apply all the procedures in the order in which they were added to the model
      * @param adapter
      */
-    public void applyProcedures(IDatabaseAdapter adapter) {
+    public void applyProcedures(ISchemaAdapter adapter, SchemaApplyContext context) {
         int total = procedures.size();
         int count = 1;
         for (ProcedureDef obj: procedures) {
             logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
             obj.drop(adapter);
-            obj.apply(adapter);
+            obj.apply(adapter, context);
         }
     }
 
@@ -152,12 +223,12 @@ public class PhysicalDataModel implements IDataModel {
      * Apply all the functions in the order in which they were added to the model
      * @param adapter
      */
-    public void applyFunctions(IDatabaseAdapter adapter) {
+    public void applyFunctions(ISchemaAdapter adapter, SchemaApplyContext context) {
         int total = functions.size();
         int count = 1;
         for (FunctionDef obj: functions) {
             logger.fine(String.format("Applying [%d/%d] %s", count++, total, obj.toString()));
-            obj.apply(adapter);
+            obj.apply(adapter, context);
         }
     }
 
@@ -169,7 +240,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param tagGroup
      * @param tag
      */
-    public void drop(IDatabaseAdapter target, String tagGroup, String tag) {
+    public void drop(ISchemaAdapter target, String tagGroup, String tag) {
         // The simplest way to reverse the list is add everything into an array list
         // which we then simply traverse end to start
         ArrayList<IDatabaseObject> copy = new ArrayList<>();
@@ -190,6 +261,43 @@ public class PhysicalDataModel implements IDataModel {
         }
 
     }
+    
+    /**
+     * Split the drop in multiple (smaller) transactions, which can be helpful to
+     * reduce memory utilization in some scenarios
+     * @param target
+     * @param transactionProvider
+     * @param tagGroup
+     * @param tag
+     */
+    public void dropSplitTransaction(ISchemaAdapter target, ITransactionProvider transactionProvider, String tagGroup, String tag) {
+        
+        ArrayList<IDatabaseObject> copy = new ArrayList<>();
+        copy.addAll(allObjects);
+
+        int total = allObjects.size();
+        int count = 1;
+        for (int i=total-1; i>=0; i--) {
+            IDatabaseObject obj = copy.get(i);
+
+            // Each object (which often represents a group of tables) will be dropped
+            // in its own transaction...so clearly this needs to be an idempotent
+            // operation
+            try (ITransaction tx = transactionProvider.getTransaction()) {
+                try {
+                    if (tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup))) {
+                        logger.info(String.format("Dropping [%d/%d] %s", count++, total, obj.toString()));
+                        obj.drop(target);
+                    } else {
+                        logger.info(String.format("Skipping [%d/%d] %s", count++, total, obj.toString()));
+                    }
+                } catch (RuntimeException x) {
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            }
+        }
+    }
 
     /**
      * Drop all foreign key constraints on tables in this model. Typically done prior to dropping
@@ -198,7 +306,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param tagGroup
      * @param tag
      */
-    public void dropForeignKeyConstraints(IDatabaseAdapter target, String tagGroup, String tag) {
+    public void dropForeignKeyConstraints(ISchemaAdapter target, String tagGroup, String tag) {
         // The simplest way to reverse the list is add everything into an array list
         // which we then simply traverse end to start
         ArrayList<IDatabaseObject> copy = new ArrayList<>();
@@ -225,12 +333,42 @@ public class PhysicalDataModel implements IDataModel {
      * @param v
      * @param tagGroup
      * @param tag
+     * @param transactionSupplier
      */
-    public void visit(DataModelVisitor v, final String tagGroup, final String tag) {
-        // visit just the matching subset of objects
-        this.allObjects.stream()
-            .filter(obj -> tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup)))
-            .forEach(obj -> obj.visit(v));
+    public void visit(DataModelVisitor v, final String tagGroup, final String tag, Supplier<ITransaction> transactionSupplier) {
+        // visit just the matching subset of objects. If a transactionSupplier has been provided, we break up the
+        // operation into multiple transactions to avoid transaction size limitations (e.g. with Citus FK creation)
+        if (transactionSupplier != null) {
+            ITransaction tx = transactionSupplier.get();
+            try {
+                int count = 0;
+                for (IDatabaseObject obj: allObjects) {
+                    if (tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup))) {
+                        if (++count == 10) {
+                            // commit the current transaction and start a fresh one
+                            tx.close();
+                            tx = transactionSupplier.get();
+                            count = 0;
+                        }
+
+                        try {
+                            obj.visit(v);
+                        } catch (RuntimeException x) {
+                            tx.setRollbackOnly();
+                            throw x;
+                        }
+                    }
+                    
+                }
+            } finally {
+                tx.close();
+            }
+        } else {
+            // the old way, which will visit everything in the scope of one transaction
+            this.allObjects.stream()
+                .filter(obj -> tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup)))
+                .forEach(obj -> obj.visit(v));
+        }
     }
 
     /**
@@ -261,7 +399,7 @@ public class PhysicalDataModel implements IDataModel {
      * Drop the lot
      * @param target
      */
-    public void drop(IDatabaseAdapter target) {
+    public void drop(ISchemaAdapter target) {
         drop(target, null, null);
     }
 
@@ -394,7 +532,24 @@ public class PhysicalDataModel implements IDataModel {
      */
     public FunctionDef addFunction(String schemaName, String objectName, int version, Supplier<String> templateProvider,
         Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges) {
-        FunctionDef func = new FunctionDef(schemaName, objectName, version, templateProvider);
+        return addFunction(schemaName, objectName, version, templateProvider, dependencies, privileges, 0);
+    }
+
+    /**
+     * adds the function to the model.
+     *
+     * @param schemaName
+     * @param objectName
+     * @param version
+     * @param templateProvider
+     * @param dependencies
+     * @param privileges
+     * @param distributeByParamNum
+     * @return
+     */
+    public FunctionDef addFunction(String schemaName, String objectName, int version, Supplier<String> templateProvider,
+        Collection<IDatabaseObject> dependencies, Collection<GroupPrivilege> privileges, int distributeByParamNum) {
+        FunctionDef func = new FunctionDef(schemaName, objectName, version, templateProvider, distributeByParamNum);
         privileges.forEach(p -> p.addToObject(func));
 
         if (dependencies != null) {
@@ -506,7 +661,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param groupName
      * @param username
      */
-    public void applyGrants(IDatabaseAdapter target, String groupName, String username) {
+    public void applyGrants(ISchemaAdapter target, String groupName, String username) {
         int total = allObjects.size();
         int count = 1;
         for (IDatabaseObject obj: allObjects) {
@@ -521,7 +676,7 @@ public class PhysicalDataModel implements IDataModel {
      * @param groupName
      * @param username
      */
-    public void applyProcedureAndFunctionGrants(IDatabaseAdapter target, String groupName, String username) {
+    public void applyProcedureAndFunctionGrants(ISchemaAdapter target, String groupName, String username) {
         int total = functions.size() + procedures.size();
         int count = 1;
         
@@ -542,5 +697,10 @@ public class PhysicalDataModel implements IDataModel {
      */
     public void dropTenantTablespace(IDatabaseAdapter adapter, int tenantId) {
         adapter.dropTenantTablespace(tenantId);
+    }
+
+    @Override
+    public boolean isDistributed() {
+        return this.distributed;
     }
 }

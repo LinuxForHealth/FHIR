@@ -49,8 +49,10 @@ import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.IdNameCache;
+import com.ibm.fhir.persistence.jdbc.cache.LogicalResourceIdentCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
@@ -124,7 +126,7 @@ public class Main {
 
     // mode of operation
     private static enum Operation {
-        DB2, DERBY, DERBYNETWORK, POSTGRESQL, PARSE
+        DB2, DERBY, DERBYNETWORK, POSTGRESQL, CITUS, PARSE
     }
 
     private Operation mode = Operation.DB2;
@@ -226,6 +228,9 @@ public class Main {
             case "--postgresql":
                 this.mode = Operation.POSTGRESQL;
                 break;
+            case "--citus":
+                this.mode = Operation.CITUS;
+                break;
             case "--parse":
                 this.mode = Operation.PARSE;
                 break;
@@ -303,6 +308,7 @@ public class Main {
             processDerbyNetwork();
             break;
         case POSTGRESQL:
+        case CITUS:
             processPostgreSql();
             break;
         case PARSE:
@@ -352,7 +358,8 @@ public class Main {
         TestFHIRConfigProvider configProvider = new TestFHIRConfigProvider(new DefaultFHIRConfigProvider());
         configure(configProvider);
         ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
+        ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
 
         // Provide the credentials we need for accessing a multi-tenant schema (if enabled)
         // Must set this BEFORE we create our persistence object
@@ -434,8 +441,9 @@ public class Main {
         // layer to obtain connections.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
             ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
-            FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(),
-                    new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
+            ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
+            FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), 
+                new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
             persistence = new FHIRPersistenceJDBCImpl(this.configProps, database, cache);
 
             // create a custom list of operations to apply in order to each resource
@@ -487,7 +495,8 @@ public class Main {
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
         ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
+        ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
 
         // create a custom list of operations to apply in order to each resource
         DriverMetrics dm = new DriverMetrics();
@@ -542,7 +551,8 @@ public class Main {
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
         ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
+        ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
 
 
         // create a custom list of operations to apply in order to each resource

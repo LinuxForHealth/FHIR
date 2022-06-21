@@ -22,8 +22,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
+import com.ibm.fhir.database.utils.api.DistributionContext;
 import com.ibm.fhir.database.utils.api.DuplicateNameException;
 import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
@@ -72,7 +74,8 @@ public class Db2Adapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
-            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints) {
+            IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
+            DistributionContext distributionContext) {
 
         // With DB2 we can implement support for multi-tenancy, which we do by injecting a MT_ID column
         // to the definition and partitioning on that column
@@ -207,7 +210,7 @@ public class Db2Adapter extends CommonDatabaseAdapter {
      * @param newTenantId
      * @param tablespaceName
      */
-    public void addNewTenantPartitions(Collection<Table> tables, Map<String, PartitionInfo> partitionInfoMap, int newTenantId, String tablespaceName) {
+    public void addNewTenantPartitions(Collection<Table> allTables, Map<String, PartitionInfo> partitionInfoMap, int newTenantId, String tablespaceName) {
         // Thread pool for parallelizing requests
         int poolSize = connectionProvider.getPoolSize();
         if (poolSize == -1) {
@@ -217,6 +220,10 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         final ExecutorService pool = Executors.newFixedThreadPool(poolSize);
 
         final AtomicInteger taskCount = new AtomicInteger();
+
+        // Only process tables which have the create flag so we ignore tables which have been dropped
+        List<Table> tables = allTables.stream().filter(t->t.isCreate()).collect(Collectors.toList());
+
         for (Table t: tables) {
             String qualifiedName = t.getQualifiedName();
             PartitionInfo pi = partitionInfoMap.get(t.getObjectName());
@@ -602,6 +609,14 @@ public class Db2Adapter extends CommonDatabaseAdapter {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String ddl = "ALTER TABLE " + qname + " ALTER FOREIGN KEY " + constraintName + " ENFORCED";
         runStatement(ddl);
+    }
+
+    @Override
+    public boolean doesForeignKeyConstraintExist(String schemaName, String tableName, String constraintName) {
+        Db2DoesForeignKeyConstraintExist test = new Db2DoesForeignKeyConstraintExist(schemaName, tableName, constraintName);
+        // runStatement may return null in some unit-tests, so we need to protect against that
+        Boolean val = runStatement(test);
+        return val != null && val.booleanValue();
     }
 
     /* (non-Javadoc)

@@ -25,6 +25,7 @@ import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.core.util.ResourceTypeHelper;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.citus.CitusTranslator;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
@@ -88,6 +89,12 @@ public class ParameterCounter {
             break;
         case POSTGRESQL:
             translator = new PostgresTranslator();
+            if (schemaName == null) {
+                schemaName = "FHIRDATA";
+            }
+            break;
+        case CITUS:
+            translator = new CitusTranslator();
             if (schemaName == null) {
                 schemaName = "FHIRDATA";
             }

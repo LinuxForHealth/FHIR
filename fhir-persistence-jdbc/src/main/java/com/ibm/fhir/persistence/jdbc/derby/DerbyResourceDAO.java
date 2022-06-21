@@ -28,8 +28,10 @@ import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.InteractionStatus;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
+import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
@@ -42,7 +44,6 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
@@ -107,7 +108,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             AtomicInteger outInteractionStatus = new AtomicInteger();
             AtomicInteger outIfNoneMatchVersion  = new AtomicInteger();
 
-            long resourceId = this.storeResource(resource.getResourceType(),
+            long logicalResourceId = this.storeResource(resource.getResourceType(),
                 parameters,
                 resource.getLogicalId(),
                 resource.getDataStream() != null ? resource.getDataStream().inputStream() : null,
@@ -131,11 +132,11 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 resource.setIfNoneMatchVersion(outIfNoneMatchVersion.get());
             } else {
                 resource.setInteractionStatus(InteractionStatus.MODIFIED);
-                resource.setId(resourceId);
+                resource.setLogicalResourceId(logicalResourceId);
             }
 
             if (logger.isLoggable(Level.FINE)) {
-                logger.fine("Successfully inserted Resource. id=" + resource.getId() + " executionTime=" + dbCallDuration + "ms");
+                logger.fine("Successfully inserted Resource. logicalResourceId=" + resource.getLogicalResourceId() + " executionTime=" + dbCallDuration + "ms");
             }
         } catch(FHIRPersistenceDBConnectException | FHIRPersistenceDataAccessException e) {
             throw e;
@@ -198,7 +199,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @param resourcePayloadKey
      * @param outInteractionStatus
      * @param outIfNoneMatchVersion
-     * @return the resource_id for the entry we created
+     * @return the logical_resource_id for the entry we created
      * @throws Exception
      */
     public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters,
@@ -255,10 +256,10 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
         // Get a lock at the system-wide logical resource level. Note the Derby-specific syntax
         if (logger.isLoggable(Level.FINEST)) {
-            logger.finest("Getting LOGICAL_RESOURCES row lock for: " + v_resource_type + "/" + p_logical_id);
+            logger.finest("Getting LOGICAL_RESOURCE_IDENT row lock for: " + v_resource_type + "/" + p_logical_id);
         }
-        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id, parameter_hash, is_deleted"
-                + " FROM logical_resources"
+        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id"
+                + " FROM logical_resource_ident "
                 + " WHERE resource_type_id = ? AND logical_id = ?"
                 + " FOR UPDATE WITH RS";
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_FOR_UPDATE)) {
@@ -270,8 +271,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                     logger.finest("Resource locked: " + v_resource_type + "/" + p_logical_id);
                 }
                 v_logical_resource_id = rs.getLong(1);
-                currentParameterHash = rs.getString(2);
-                v_currently_deleted = "Y".equals(rs.getString(3));
             }
             else {
                 if (logger.isLoggable(Level.FINEST)) {
@@ -297,25 +296,21 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                     }
                 }
             }
-
-            // insert the system-wide logical resource record
-            final String sql4 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated, parameter_hash) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            // insert the logical_resource_ident record (which we now do our locking on)
+            final String INS_IDENT = "INSERT INTO logical_resource_ident (resource_type_id, logical_id, logical_resource_id) VALUES (?, ?, ?)";
             if (logger.isLoggable(Level.FINEST)) {
-                logger.finest("Creating new logical_resources row for: " + v_resource_type + "/" + p_logical_id);
+                logger.finest("Creating new logical_resource_ident row for: " + v_resource_type + "/" + p_logical_id + " => logical_resource_id=" + v_logical_resource_id);
             }
-            try (PreparedStatement stmt = conn.prepareStatement(sql4)) {
+
+            try (PreparedStatement stmt = conn.prepareStatement(INS_IDENT)) {
                 // bind parameters
-                stmt.setLong(1, v_logical_resource_id);
-                stmt.setInt(2, v_resource_type_id);
-                stmt.setString(3, p_logical_id);
-                stmt.setTimestamp(4, Timestamp.valueOf(DEFAULT_VALUE_REINDEX_TSTAMP), UTC);
-                stmt.setString(5, p_is_deleted ? "Y" : "N"); // from V0014
-                stmt.setTimestamp(6, p_last_updated, UTC);   // from V0014
-                stmt.setString(7, p_parameterHashB64);       // from V0015
+                stmt.setInt(1, v_resource_type_id);
+                stmt.setString(2, p_logical_id);
+                stmt.setLong(3, v_logical_resource_id);
                 stmt.executeUpdate();
 
                 if (logger.isLoggable(Level.FINEST)) {
-                    logger.finest("Created logical_resources row for: " + v_resource_type + "/" + p_logical_id);
+                    logger.finest("Created logical_resource_ident row for: " + v_resource_type + "/" + p_logical_id);
                 }
             } catch (SQLException e) {
                 if (translator.isDuplicate(e)) {
@@ -348,41 +343,88 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                                 logger.finest("Resource locked: " + v_resource_type + "/" + p_logical_id);
                             }
                             v_logical_resource_id = res.getLong(1);
-                            currentParameterHash = res.getString(2);
-                            v_currently_deleted = "Y".equals(res.getString(3));
                         } else {
                             // Extremely unlikely as we should never delete logical resource records
                             throw new IllegalStateException("Logical resource was deleted: " + tablePrefix + "/" + p_logical_id);
                         }
                     }
                 }
-            } else {
-                v_new_resource = true;
-
-                // Insert the resource-specific logical resource record. Remember that logical_id is denormalized
-                // so it gets stored again here for convenience
-                if (logger.isLoggable(Level.FINEST)) {
-                    logger.finest("Creating " + tablePrefix + "_logical_resources row: " + v_resource_type + "/" + p_logical_id);
-                }
-                final String sql5 = "INSERT INTO " + tablePrefix + "_logical_resources (logical_resource_id, logical_id, is_deleted, last_updated, version_id, current_resource_id) VALUES (?, ?, ?, ?, ?, ?)";
-                try (PreparedStatement stmt = conn.prepareStatement(sql5)) {
-                    // bind parameters
-                    stmt.setLong(1, v_logical_resource_id);
-                    stmt.setString(2, p_logical_id);
-                    stmt.setString(3, p_is_deleted ? "Y" : "N");
-                    stmt.setTimestamp(4, p_last_updated, UTC);
-                    stmt.setInt(5, p_version); // initial version
-                    stmt.setLong(6, v_resource_id);
-                    stmt.executeUpdate();
-                    if (logger.isLoggable(Level.FINEST)) {
-                        logger.finest("Created " + tablePrefix + "_logical_resources row: " + v_resource_type + "/" + p_logical_id);
-                    }
-                }
             }
         }
 
-        // We have a lock at the logical resource level so no concurrency issues here
+        // At this point we have an exclusive lock at the logical resource level, so we
+        // no longer have to worry about concurrency issues. Let's see if we have a
+        // logical_resources entry:
+        final String SELECT_LOGICAL_RESOURCE = ""
+                + "SELECT parameter_hash, is_deleted"
+                + "  FROM logical_resources "
+                + " WHERE logical_resource_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(SELECT_LOGICAL_RESOURCE)) {
+            stmt.setLong(1, v_logical_resource_id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                if (logger.isLoggable(Level.FINEST)) {
+                    logger.finest("Found logical_resources record for: " + v_resource_type + "/" + p_logical_id);
+                }
+                currentParameterHash = rs.getString(1);
+                v_currently_deleted = "Y".equals(rs.getString(2));
+                v_not_found = false;
+            }
+            else {
+                if (logger.isLoggable(Level.FINEST)) {
+                    logger.finest("Logical_resources record not found for: " + v_resource_type + "/" + p_logical_id);
+                }
+                v_not_found = true;
+            }
+        }
 
+        if (v_not_found) {
+            // insert the system-wide logical resource record
+            final String sql4 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated, parameter_hash) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            if (logger.isLoggable(Level.FINEST)) {
+                logger.finest("Creating new logical_resources row for: " + v_resource_type + "/" + p_logical_id);
+            }
+            try (PreparedStatement stmt = conn.prepareStatement(sql4)) {
+                // bind parameters
+                stmt.setLong(1, v_logical_resource_id);
+                stmt.setInt(2, v_resource_type_id);
+                stmt.setString(3, p_logical_id);
+                stmt.setTimestamp(4, Timestamp.valueOf(DEFAULT_VALUE_REINDEX_TSTAMP), UTC);
+                stmt.setString(5, p_is_deleted ? "Y" : "N"); // from V0014
+                stmt.setTimestamp(6, p_last_updated, UTC);   // from V0014
+                stmt.setString(7, p_parameterHashB64);       // from V0015
+                stmt.executeUpdate();
+                
+                if (logger.isLoggable(Level.FINEST)) {
+                    logger.finest("Created logical_resources row for: " + v_resource_type + "/" + p_logical_id);
+                }
+
+                v_new_resource = true;
+            }
+
+            // Insert the resource-specific logical resource record. Remember that logical_id is denormalized
+            // so it gets stored again here for convenience
+            if (logger.isLoggable(Level.FINEST)) {
+                logger.finest("Creating " + tablePrefix + "_logical_resources row: " + v_resource_type + "/" + p_logical_id);
+            }
+            final String sql5 = "INSERT INTO " + tablePrefix + "_logical_resources (logical_resource_id, logical_id, is_deleted, last_updated, version_id, current_resource_id) VALUES (?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement stmt = conn.prepareStatement(sql5)) {
+                // bind parameters
+                stmt.setLong(1, v_logical_resource_id);
+                stmt.setString(2, p_logical_id);
+                stmt.setString(3, p_is_deleted ? "Y" : "N");
+                stmt.setTimestamp(4, p_last_updated, UTC);
+                stmt.setInt(5, p_version); // initial version
+                stmt.setLong(6, v_resource_id);
+                stmt.executeUpdate();
+                if (logger.isLoggable(Level.FINEST)) {
+                    logger.finest("Created " + tablePrefix + "_logical_resources row: " + v_resource_type + "/" + p_logical_id);
+                }
+            }
+
+        }
+
+        // For existing resources, we need to know the current resource version_id
         if (!v_new_resource) {
             // existing resource.  We need to know the current version from the
             // resource-specific logical resources table.
@@ -504,7 +546,8 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         // To keep things simple for the Derby use-case, we just use a visitor to
         // handle inserts of parameters directly in the resource parameter tables.
         // Note we don't get any parameters for the resource soft-delete operation
-        if (parameters != null && requireParameterUpdate) {
+        FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
+        if (remoteIndexService == null && parameters != null && requireParameterUpdate) {
             // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
             if (logger.isLoggable(Level.FINEST)) {
                 logger.finest("Storing parameters for: " + v_resource_type + "/" + p_logical_id);
@@ -534,7 +577,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         }
 
         logger.exiting(CLASSNAME, METHODNAME);
-        return v_resource_id;
+        return v_logical_resource_id;
     }
 
     /**

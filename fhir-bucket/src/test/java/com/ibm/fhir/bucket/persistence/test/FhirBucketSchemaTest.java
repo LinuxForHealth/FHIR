@@ -51,11 +51,13 @@ import com.ibm.fhir.bucket.persistence.RegisterLoaderInstance;
 import com.ibm.fhir.bucket.persistence.ResourceRec;
 import com.ibm.fhir.bucket.persistence.ResourceTypeRec;
 import com.ibm.fhir.bucket.persistence.ResourceTypesReader;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.core.FHIRVersionParam;
 import com.ibm.fhir.core.util.ResourceTypeHelper;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
+import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyConnectionProvider;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
@@ -364,7 +366,8 @@ public class FhirBucketSchemaTest {
             try {
                 JdbcTarget target = new JdbcTarget(c);
                 DerbyAdapter derbyAdapter = new DerbyAdapter(target);
-                CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, derbyAdapter);
+                ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(derbyAdapter);
+                CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, schemaAdapter);
                 c.commit();
             } catch (SQLException x) {
                 logger.log(Level.SEVERE, "failed to create version history table", x);

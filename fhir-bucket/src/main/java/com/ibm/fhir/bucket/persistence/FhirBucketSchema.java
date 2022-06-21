@@ -1,16 +1,65 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.bucket.persistence;
 
-import static com.ibm.fhir.bucket.persistence.SchemaConstants.*;
-
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.ALLOCATION_ID;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.BUCKET_NAME;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.BUCKET_PATH;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.BUCKET_PATHS;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.BUCKET_PATH_ID;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.CREATED_TSTAMP;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.ERROR_TEXT;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.ERROR_TEXT_LEN;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.ERROR_TSTAMP;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.ETAG;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.FAILURE_COUNT;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.FILE_TYPE;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.FK;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.HEARTBEAT_TSTAMP;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.HOSTNAME;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.HTTP_STATUS_CODE;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.HTTP_STATUS_TEXT;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.HTTP_STATUS_TEXT_LEN;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.IDX;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.JOB_ALLOCATION_SEQ;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.LAST_MODIFIED;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.LINE_NUMBER;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.LOADER_INSTANCES;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.LOADER_INSTANCE_ID;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.LOADER_INSTANCE_KEY;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.LOAD_COMPLETED;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.LOAD_STARTED;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.LOGICAL_ID;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.LOGICAL_ID_BYTES;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.LOGICAL_RESOURCES;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.NOT_NULL;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.NULLABLE;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.OBJECT_NAME;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.OBJECT_SIZE;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.PID;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.RESOURCE_BUNDLES;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.RESOURCE_BUNDLE_ERRORS;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.RESOURCE_BUNDLE_ID;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.RESOURCE_BUNDLE_LOADS;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.RESOURCE_BUNDLE_LOAD_ID;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.RESOURCE_TYPE;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.RESOURCE_TYPES;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.RESOURCE_TYPE_ID;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.RESPONSE_TIME_MS;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.ROWS_PROCESSED;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.SCAN_TSTAMP;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.STATUS;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.UNQ;
+import static com.ibm.fhir.bucket.persistence.SchemaConstants.VERSION;
 
 import com.ibm.fhir.bucket.app.Main;
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.model.Generated;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Sequence;
@@ -255,10 +304,11 @@ public class FhirBucketSchema {
 
     /**
      * Apply the model to the database. Will generate the DDL and execute it
+     * @param adapter
+     * @param context
      * @param pdm
      */
-    protected void applyModel(IDatabaseAdapter adapter, PhysicalDataModel pdm) {
-        pdm.apply(adapter);
-    }
-    
+    protected void applyModel(ISchemaAdapter adapter, SchemaApplyContext context, PhysicalDataModel pdm) {
+        pdm.apply(adapter, context);
+    }    
 }

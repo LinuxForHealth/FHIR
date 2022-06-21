@@ -121,7 +121,7 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
             FHIRSearchContext searchContext = searchHelper.parseQueryParameters(resourceType, Collections.singletonMap("url", Collections.singletonList(url)));
             searchContext.setPageSize(1000);
 
-            FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+            FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext, null);
             MultiResourceResult result = persistence.search(context, resourceType);
 
             if (result.isSuccess()) {
@@ -160,7 +160,7 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
             FHIRSearchContext searchContext = searchHelper.parseQueryParameters(resourceType, queryParameters);
             searchContext.setPageSize(1000);
 
-            FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+            FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext, null);
             MultiResourceResult result = persistence.search(context, resourceType);
 
             if (result.isSuccess()) {

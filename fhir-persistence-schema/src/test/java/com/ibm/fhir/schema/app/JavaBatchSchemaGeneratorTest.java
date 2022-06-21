@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020,2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,7 +45,10 @@ import java.util.concurrent.Executor;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
+import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
 import com.ibm.fhir.database.utils.model.AlterTableIdentityCache;
@@ -76,9 +79,10 @@ public class JavaBatchSchemaGeneratorTest {
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
         Db2Adapter adapter = new Db2Adapter(target);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
 
         // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, schemaAdapter);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
@@ -89,9 +93,10 @@ public class JavaBatchSchemaGeneratorTest {
         PhysicalDataModel pdm = new PhysicalDataModel();
         JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         generator.buildJavaBatchSchema(pdm);
-        pdm.apply(adapter);
-        pdm.applyFunctions(adapter);
-        pdm.applyProcedures(adapter);
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        pdm.apply(schemaAdapter, context);
+        pdm.applyFunctions(schemaAdapter, context);
+        pdm.applyProcedures(schemaAdapter, context);
 
         if (DEBUG) {
             for (Entry<String, String> command : commands.entrySet()) {
@@ -107,9 +112,10 @@ public class JavaBatchSchemaGeneratorTest {
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
         PostgresAdapter adapter = new PostgresAdapter(target);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
 
         // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, schemaAdapter);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
@@ -120,8 +126,9 @@ public class JavaBatchSchemaGeneratorTest {
         PhysicalDataModel pdm = new PhysicalDataModel();
         JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         generator.buildJavaBatchSchema(pdm);
-        pdm.apply(adapter);
-        pdm.applyFunctions(adapter);
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        pdm.apply(schemaAdapter, context);
+        pdm.applyFunctions(schemaAdapter, context);
 
         if (DEBUG) {
             for (Entry<String, String> command : commands.entrySet()) {
@@ -138,9 +145,10 @@ public class JavaBatchSchemaGeneratorTest {
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
         Db2Adapter adapter = new Db2Adapter(target);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
 
         // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, schemaAdapter);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
@@ -151,9 +159,10 @@ public class JavaBatchSchemaGeneratorTest {
         PhysicalDataModel pdm = new PhysicalDataModel();
         JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
         generator.buildJavaBatchSchema(pdm);
-        pdm.apply(adapter);
-        pdm.applyFunctions(adapter);
-        pdm.applyProcedures(adapter);
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        pdm.apply(schemaAdapter, context);
+        pdm.applyFunctions(schemaAdapter, context);
+        pdm.applyProcedures(schemaAdapter, context);
 
         pdm.visit(new ConfirmTagsVisitor());
 
@@ -302,8 +311,15 @@ public class JavaBatchSchemaGeneratorTest {
 
         @Override
         public PreparedStatement prepareStatement(String sql) throws SQLException {
+
+            boolean hasRow = true;
+            if (sql.toUpperCase().startsWith("SELECT 1 FROM")) {
+                // this is one of our checks for the existing of a FK...which we want to
+                // say doesn't exist
+                hasRow = false;
+            }
             addCommand(sql);
-            return new PrintPreparedStatement();
+            return new PrintPreparedStatement(hasRow);
         }
 
         @Override
@@ -401,7 +417,7 @@ public class JavaBatchSchemaGeneratorTest {
 
         @Override
         public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
-            return new PrintPreparedStatement();
+            return new PrintPreparedStatement(true);
         }
 
         @Override
@@ -584,11 +600,15 @@ public class JavaBatchSchemaGeneratorTest {
     }
 
     class PrintPreparedStatement implements java.sql.PreparedStatement {
+        private final boolean hasRow;
+        public PrintPreparedStatement(boolean hasRow) {
+            this.hasRow = hasRow;
+        }
 
         @Override
         public ResultSet executeQuery(String sql) throws SQLException {
             addCommand(sql);
-            return new PrintResultSet();
+            return new PrintResultSet(true);
         }
 
         @Override
@@ -838,7 +858,7 @@ public class JavaBatchSchemaGeneratorTest {
         @Override
         public ResultSet executeQuery() throws SQLException {
 
-            return new PrintResultSet();
+            return new PrintResultSet(this.hasRow);
         }
 
         @Override
@@ -1134,7 +1154,7 @@ public class JavaBatchSchemaGeneratorTest {
         @Override
         public ResultSet executeQuery(String sql) throws SQLException {
             addCommand(sql);
-            return new PrintResultSet();
+            return new PrintResultSet(true);
         }
 
         @Override
@@ -1372,7 +1392,11 @@ public class JavaBatchSchemaGeneratorTest {
     }
 
     class PrintResultSet implements java.sql.ResultSet {
+        private boolean hasRow;
 
+        public PrintResultSet(boolean hasRow) {
+            this.hasRow = hasRow;
+        }
         @Override
         public <T> T unwrap(Class<T> iface) throws SQLException {
             return null;
@@ -1385,7 +1409,8 @@ public class JavaBatchSchemaGeneratorTest {
 
         @Override
         public boolean next() throws SQLException {
-            return true;
+            // pretend to have a row
+            return this.hasRow;
         }
 
         @Override
@@ -2425,7 +2450,7 @@ public class JavaBatchSchemaGeneratorTest {
 
         @Override
         public ResultSet executeQuery() throws SQLException {
-            return new PrintResultSet();
+            return new PrintResultSet(true);
         }
 
         @Override
@@ -2704,13 +2729,11 @@ public class JavaBatchSchemaGeneratorTest {
 
         @Override
         public ResultSet executeQuery(String sql) throws SQLException {
-
-            return new PrintResultSet();
+            return new PrintResultSet(true);
         }
 
         @Override
         public int executeUpdate(String sql) throws SQLException {
-
             return 0;
         }
 

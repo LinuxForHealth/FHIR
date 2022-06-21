@@ -31,16 +31,16 @@ public class PostgresDoesForeignKeyConstraintExist implements IDatabaseSupplier<
      * @param schemaName
      */
     public PostgresDoesForeignKeyConstraintExist(String schemaName, String constraintName) {
-        this.schemaName = DataDefinitionUtil.assertValidName(schemaName);
-        this.constraintName = DataDefinitionUtil.assertValidName(constraintName);
+        this.schemaName = DataDefinitionUtil.assertValidName(schemaName).toLowerCase();
+        this.constraintName = DataDefinitionUtil.assertValidName(constraintName).toLowerCase();
     }
 
     @Override
     public Boolean run(IDatabaseTranslator translator, Connection c) {
-        Boolean result = Boolean.FALSE;
+        Boolean result;
         final String sql = ""
-            + "SELECT 1 "
-            + "  FROM pg_constraint "
+            + "SELECT 1 FROM "
+            + "       pg_constraint "
             + " WHERE contype = 'f' "
             + "   AND connamespace = ?::regnamespace "
             + "   AND conname = ? ";
@@ -49,9 +49,7 @@ public class PostgresDoesForeignKeyConstraintExist implements IDatabaseSupplier<
             ps.setString(1, schemaName);
             ps.setString(2, constraintName);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
-                result = Boolean.TRUE;
-            }
+            result = Boolean.valueOf(rs.next());
         }
         catch (SQLException x) {
             throw translator.translate(x);

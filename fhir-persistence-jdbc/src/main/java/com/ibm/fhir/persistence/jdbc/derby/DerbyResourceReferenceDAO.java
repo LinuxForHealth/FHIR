@@ -25,15 +25,19 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentKey;
+import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentValue;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 
 /**
@@ -51,9 +55,12 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
      * @param c
      * @param schemaName
      * @param cache
+     * @param parameterNameCache
+     * @param logicalResourceIdentCache
      */
-    public DerbyResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, INameIdCache<Integer> parameterNameCache) {
-        super(t, c, schemaName, cache, parameterNameCache);
+    public DerbyResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, INameIdCache<Integer> parameterNameCache,
+            ILogicalResourceIdentCache logicalResourceIdentCache) {
+        super(t, c, schemaName, cache, parameterNameCache, logicalResourceIdentCache);
     }
 
     @Override
@@ -293,5 +300,67 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
     protected int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
         final ParameterNameDAO pnd = new DerbyParameterNamesDAO(getConnection(), getSchemaName());
         return pnd.readOrAddParameterNameId(parameterName);
+    }
+    
+    @Override
+    protected PreparedStatement buildLogicalResourceIdentSelectStatement(List<LogicalResourceIdentValue> values) throws SQLException {
+        // Derby doesn't support a VALUES table list, so instead we simply build a big
+        // OR predicate
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT lri.resource_type_id, lri.logical_id, lri.logical_resource_id ");
+        query.append("  FROM logical_resource_ident AS lri ");
+        query.append(" WHERE ");
+        for (int i=0; i<values.size(); i++) {
+            if (i > 0) {
+                query.append(" OR ");
+            }
+            query.append("(resource_type_id = ? AND logical_id = ?)");
+        }
+        PreparedStatement ps = getConnection().prepareStatement(query.toString());
+        // bind the parameter values
+        int param = 1;
+        for (LogicalResourceIdentValue val: values) {
+            ps.setInt(param++, val.getResourceTypeId());
+            ps.setString(param++, val.getLogicalId());
+        }
+
+        if (logger.isLoggable(Level.FINE)) {
+            String params = String.join(",", values.stream().map(v -> "(" + v.getResourceTypeId() + "," + v.getLogicalId() + ")").collect(Collectors.toList()));
+            logger.fine("ident fetch: " + query.toString() + "; params: " + params);
+        }
+
+        return ps;
+    }
+
+    @Override
+    protected void fetchLogicalResourceIdentIds(Map<LogicalResourceIdentKey, LogicalResourceIdentValue> lrIdentMap, List<LogicalResourceIdentValue> unresolved) throws FHIRPersistenceException {
+        // For Derby, we opt to do this row by row so that we can keep the selects in order which
+        // helps us to avoid deadlocks due to lock compatibility issues with Derby
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT lri.logical_resource_id ");
+        query.append("  FROM logical_resource_ident AS lri ");
+        query.append(" WHERE lri.resource_type_id = ? AND lri.logical_id = ?");
+        final String sql = query.toString();
+        try (PreparedStatement ps = getConnection().prepareStatement(sql)) {
+            for (LogicalResourceIdentValue value: unresolved) {
+                ps.setInt(1, value.getResourceTypeId());
+                ps.setString(2, value.getLogicalId());
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    final long logicalResourceId = rs.getLong(1);
+                    LogicalResourceIdentKey key = new LogicalResourceIdentKey(value.getResourceTypeId(), value.getLogicalId());
+                    value.setLogicalResourceId(logicalResourceId);
+                    lrIdentMap.put(key, value);
+                } else {
+                    // something wrong with our data handling code because we should already have values
+                    // for every logical resource at this point
+                    throw new FHIRPersistenceException("logical_resource_ident record missing: resourceTypeId["
+                            + value.getResourceTypeId() + "] logicalId[" + value.getLogicalId() + "]");
+                }
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "logical resource ident fetch failed", x);
+            throw new FHIRPersistenceException("logical resource ident fetch failed");
+        }
     }
 }

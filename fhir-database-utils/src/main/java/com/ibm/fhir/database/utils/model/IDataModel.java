@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,4 +18,10 @@ public interface IDataModel {
      * @return
      */
     public Table findTable(String schemaName, String tableName);
+
+    /**
+     * Is the target database distributed (e.g. with sharding)?
+     * @return
+     */
+    public boolean isDistributed();
 }

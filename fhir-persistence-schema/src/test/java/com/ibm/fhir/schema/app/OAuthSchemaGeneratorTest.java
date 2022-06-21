@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,10 @@ package com.ibm.fhir.schema.app;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
+import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
@@ -24,9 +27,10 @@ public class OAuthSchemaGeneratorTest {
         PrintConnection connection = test.new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
         Db2Adapter adapter = new Db2Adapter(target);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
 
         // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, adapter);
+        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, schemaAdapter);
 
         // Current version history for the database. This is used by applyWithHistory
         // to determine which updates to apply and to record the new changes as they
@@ -37,9 +41,10 @@ public class OAuthSchemaGeneratorTest {
         PhysicalDataModel pdm = new PhysicalDataModel();
         OAuthSchemaGenerator generator = new OAuthSchemaGenerator(Main.OAUTH_SCHEMANAME);
         generator.buildOAuthSchema(pdm);
-        pdm.apply(adapter);
-        pdm.applyFunctions(adapter);
-        pdm.applyProcedures(adapter);
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        pdm.apply(schemaAdapter, context);
+        pdm.applyFunctions(schemaAdapter, context);
+        pdm.applyProcedures(schemaAdapter, context);
 
         pdm.visit(new ConfirmTagsVisitor());
     }

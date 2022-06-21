@@ -369,7 +369,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
 
         if (DbType.DB2.equals(getFlavor().getType()) && eraseDto.getVersion() == null) {
             runCallableStatement(CALL_DB2, erasedResourceGroupId);
-        } else if (DbType.POSTGRESQL.equals(getFlavor().getType()) && eraseDto.getVersion() == null) {
+        } else if (getFlavor().isFamilyPostgreSQL() && eraseDto.getVersion() == null) {
             runCallableStatement(CALL_POSTGRES, erasedResourceGroupId);
         } else {
             // Uses the Native Java to execute a Resource Erase
@@ -389,7 +389,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         List<ErasedResourceRec> result = new ArrayList<>();
         
         final String SELECT_RECORDS =
-                "SELECT erased_resource_id, resource_type_id, logical_id, version_id " +
+                "SELECT resource_type_id, logical_id, version_id " +
                 "  FROM erased_resources " +
                 " WHERE erased_resource_group_id = ?";
 
@@ -397,10 +397,10 @@ public class EraseResourceDAO extends ResourceDAOImpl {
             stmt.setLong(1, erasedResourceGroupId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                long erasedResourceId = rs.getLong(1);
-                int resourceTypeId = rs.getInt(2);
-                String logicalId = rs.getString(3);
-                Integer versionId = rs.getInt(4);
+                long erasedResourceId = -1; // no longer used
+                int resourceTypeId = rs.getInt(1);
+                String logicalId = rs.getString(2);
+                Integer versionId = rs.getInt(3);
                 if (rs.wasNull()) {
                     versionId = null;
                 }

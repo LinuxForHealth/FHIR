@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
@@ -54,6 +55,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
     // Should we reuse connections after an exception, or close them instead of returning them to the pool
     private boolean closeOnAnyError = false;
 
+    private Consumer<Connection> newConnectionHandler;
     /**
      * Public constructor
      * @param cp
@@ -71,6 +73,24 @@ public class PoolConnectionProvider implements IConnectionProvider {
      */
     public void setCloseOnAnyError() {
         this.closeOnAnyError = true;
+    }
+
+    /**
+     * Setter for the newConnectionHandler
+     * @param handler
+     */
+    public void setNewConnectionHandler(Consumer<Connection> handler) {
+        this.newConnectionHandler = handler;
+    }
+
+    /**
+     * Apply an configuration steps to a new connection
+     * @param c
+     */
+    protected void configureConnection(Connection c) {
+        if (newConnectionHandler != null) {
+            newConnectionHandler.accept(c);
+        }
     }
 
     @Override
@@ -147,6 +167,9 @@ public class PoolConnectionProvider implements IConnectionProvider {
                 throw x;
             }
         }
+
+        // Apply any configuration we want for a new connection
+        configureConnection(c);
 
         long endTime = System.nanoTime();
         double elapsed = (endTime-startTime) / 1e9;

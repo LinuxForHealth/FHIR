@@ -194,6 +194,11 @@ public class DerbyTranslator implements IDatabaseTranslator {
     }
 
     @Override
+    public String dropView(String qualifiedViewName) {
+        return "DROP VIEW " + qualifiedViewName;
+    }
+
+    @Override
     public String nextValue(String schemaName, String sequenceName) {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         return "NEXT VALUE FOR " + qname;
@@ -221,6 +226,11 @@ public class DerbyTranslator implements IDatabaseTranslator {
             result.append(" ROWS ONLY");
         }
         return result.toString();
+    }
+
+    @Override
+    public boolean isFamilyPostgreSQL() {
+        return false;
     }
 
 }

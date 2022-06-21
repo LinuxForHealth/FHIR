@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
-import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * DAO to encapsulate all the SQL/DML used to retrieve and persist data
@@ -57,7 +56,7 @@ public class AddBucketPath implements IDatabaseSupplier<Long> {
         // try the old-fashioned way and handle duplicate key
         final String bucketPaths = DataDefinitionUtil.getQualifiedName(schemaName, "bucket_paths");
         final String dml;
-        if (translator.getType() == DbType.POSTGRESQL) {
+        if (translator.isFamilyPostgreSQL()) {
             // For POSTGRES, if a statement fails it causes the whole transaction
             // to fail, so we need turn this into an UPSERT
             dml = "INSERT INTO " + bucketPaths + "(bucket_name, bucket_path) VALUES (?,?) ON CONFLICT(bucket_name, bucket_path) DO NOTHING";

@@ -20,5 +20,6 @@ public enum ColumnType {
     TIMESTAMP,
     BLOB,
     CLOB,
-    SMALLINT
+    SMALLINT,
+    SMALLINT_BOOLEAN // for JavaBatch
 }

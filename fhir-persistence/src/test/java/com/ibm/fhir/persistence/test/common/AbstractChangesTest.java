@@ -104,7 +104,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         final List<String> resourceTypeNames = Collections.emptyList();
         final boolean excludeTransactionTimeoutWindow = false;
         final HistorySortOrder historySortOrder = HistorySortOrder.NONE;
-        List<ResourceChangeLogRecord> result = persistence.changes(100, sinceLastModified, beforeLastModified, changeIdMarker, resourceTypeNames, excludeTransactionTimeoutWindow, historySortOrder);
+        List<ResourceChangeLogRecord> result = persistence.changes(null, 100, sinceLastModified, beforeLastModified, changeIdMarker, resourceTypeNames, excludeTransactionTimeoutWindow, historySortOrder);
         assertNotNull(result);
         assertTrue(result.size() >= 7);
         assertTrue(result.size() <= 100);
@@ -119,7 +119,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         final Long afterResourceId = null;
         final String resourceTypeName = null;
 
-        List<ResourceChangeLogRecord> result = persistence.changes(7, sinceLastModified, null, null, null, false, HistorySortOrder.NONE);
+        List<ResourceChangeLogRecord> result = persistence.changes(null, 7, sinceLastModified, null, null, null, false, HistorySortOrder.NONE);
         assertNotNull(result);
 
         // 4 CREATE
@@ -160,7 +160,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         Long afterResourceId = null;
         final String resourceTypeName = null;
 
-        List<ResourceChangeLogRecord> result = persistence.changes(4, sinceLastModified, null, null, null, false, HistorySortOrder.NONE);
+        List<ResourceChangeLogRecord> result = persistence.changes(null, 4, sinceLastModified, null, null, null, false, HistorySortOrder.NONE);
         assertNotNull(result);
 
         // Limit was set to 4, so we should only get partial data
@@ -169,14 +169,14 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         // Make another call now to get the remaining 3 changes
         sinceLastModified = result.get(3).getChangeTstamp();
         afterResourceId = result.get(3).getChangeId();
-        result = persistence.changes(3, sinceLastModified, null, afterResourceId, null, false, HistorySortOrder.NONE);
+        result = persistence.changes(null, 3, sinceLastModified, null, afterResourceId, null, false, HistorySortOrder.NONE);
         assertNotNull(result);
         assertEquals(result.size(), 3);
 
         // And a final call to make sure we get nothing
         sinceLastModified = result.get(2).getChangeTstamp();
         afterResourceId = result.get(2).getChangeId();
-        result = persistence.changes(100, sinceLastModified, null, afterResourceId, null, false, HistorySortOrder.NONE);
+        result = persistence.changes(null, 100, sinceLastModified, null, afterResourceId, null, false, HistorySortOrder.NONE);
         assertNotNull(result);
         assertEquals(result.size(), 0);
     }
@@ -189,7 +189,7 @@ public abstract class AbstractChangesTest extends AbstractPersistenceTest {
         final String resourceTypeName = resource1.getClass().getSimpleName();
 
         List<String> resourceTypeNames = Arrays.asList(resourceTypeName);
-        List<ResourceChangeLogRecord> result = persistence.changes(10, sinceLastModified, null, afterResourceId, resourceTypeNames, false, HistorySortOrder.NONE);
+        List<ResourceChangeLogRecord> result = persistence.changes(null, 10, sinceLastModified, null, afterResourceId, resourceTypeNames, false, HistorySortOrder.NONE);
         assertNotNull(result);
         assertEquals(result.size(), 7);
     }

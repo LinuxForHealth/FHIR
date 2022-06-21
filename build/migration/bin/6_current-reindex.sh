@@ -23,7 +23,7 @@ run_reindex(){
         DATE_ISO=$(date +%Y-%m-%dT%H:%M:%SZ)
         status=$(curl -k -X POST -o reindex.json -i -w '%{http_code}' -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$reindex' \
             -H 'Content-Type: application/fhir+json' -H 'X-FHIR-TENANT-ID: default' \
-            -d "{\"resourceType\": \"Parameters\",\"parameter\":[{\"name\":\"resourceCount\",\"valueInteger\":100},{\"name\":\"tstamp\",\"valueString\":\"${DATE_ISO}\"}]}")
+            -d "{\"resourceType\": \"Parameters\",\"parameter\":[{\"name\":\"resourceCount\",\"valueInteger\":100},{\"name\":\"tstamp\",\"valueString\":\"${DATE_ISO}\"},{\"name\":\"force\",\"valueBoolean\":true}]}")
         echo "Status: ${status}"
 
         while [ $status -ne 200 ]
@@ -57,7 +57,7 @@ run_reindex(){
             fi
             status=$(curl -k -X POST -o reindex.json -i -w '%{http_code}' -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$reindex' \
                 -H 'Content-Type: application/fhir+json' -H 'X-FHIR-TENANT-ID: default' \
-                -d "{\"resourceType\": \"Parameters\",\"parameter\":[{\"name\":\"resourceCount\",\"valueInteger\":100},{\"name\":\"tstamp\",\"valueString\":\"${DATE_ISO}\"}]}")
+                -d "{\"resourceType\": \"Parameters\",\"parameter\":[{\"name\":\"resourceCount\",\"valueInteger\":100},{\"name\":\"tstamp\",\"valueString\":\"${DATE_ISO}\"},{\"name\":\"force\",\"valueBoolean\":true}]}")
             echo "Status: ${status}"
         done
     fi

@@ -21,12 +21,16 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.IS_DELETED;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.REF_LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.REF_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RESOURCE_TYPE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
@@ -69,14 +73,18 @@ import com.ibm.fhir.database.utils.query.expression.ColumnExpNodeVisitor;
 import com.ibm.fhir.database.utils.query.expression.StringExpNodeVisitor;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
 import com.ibm.fhir.model.resource.CodeSystem;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
+import com.ibm.fhir.persistence.jdbc.dto.ResourceReferenceValue;
 import com.ibm.fhir.persistence.jdbc.util.CanonicalSupport;
 import com.ibm.fhir.persistence.jdbc.util.CanonicalValue;
 import com.ibm.fhir.persistence.jdbc.util.NewUriModifierUtil;
@@ -98,6 +106,7 @@ import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.sort.Sort.Direction;
+import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
@@ -227,6 +236,25 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      */
     protected Set<Long> getCommonTokenValueIds(Collection<CommonTokenValue> tokenValues) throws FHIRPersistenceException {
         return this.identityCache.getCommonTokenValueIds(tokenValues);
+    }
+
+    /**
+     * Obtain the logical_resource_id values for each of the given ResourceReferenceValues.
+     * @param referenceValues
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    protected Set<Long> getLogicalResourceIds(Collection<ResourceReferenceValue> referenceValues) throws FHIRPersistenceException {
+        return this.identityCache.getLogicalResourceIds(referenceValues);
+    }
+
+    /**
+     * Obtain the list of logical_resource_id values that match the given logicalId.
+     * @param logicalId
+     * @return
+     */
+    protected List<Long> getLogicalResourceIdList(String logicalId) throws FHIRPersistenceException {
+        return this.identityCache.getLogicalResourceIdList(logicalId);
     }
 
     /**
@@ -714,6 +742,25 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     /**
+     * Adds a filter predicate for ref_logical_resource_id. Fetches the list of posible matches (there's no resourceType,
+     * so there could be multiple matches. If no match, then -1 is used to make sure the row isn't produced. If there is 
+     * single match, the predicate uses an equality, otherwise an IN-LIST.
+     * The query uses literal values not bind variables on purpose (better performance).
+     * @param where
+     * @param paramAlias
+     * @param searchValue
+     * @throws FHIRPersistenceException
+     */
+    private void addLogicalResourceIdFilter(WhereFragment where, String paramAlias, String searchValue) throws FHIRPersistenceException {
+        // grab the list of all matching common_token_value_id values
+        Set<Long> ctvs = new HashSet<>();
+        fetchLogicalResourceValues(ctvs, searchValue);
+
+        // and add a filter expression paramAlias IN (...) for the values
+        addRefLogicalResourceIdFilter(where, paramAlias, ctvs);
+    }
+
+    /**
      * Add all common_token_value_id matching the given searchValue to the ctvs set.
      * @param ctvs
      * @param searchValue
@@ -722,6 +769,17 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     private void fetchCommonTokenValues(Set<Long> ctvs, String searchValue) throws FHIRPersistenceException {
         List<Long> ctvList = this.identityCache.getCommonTokenValueIdList(searchValue);
         ctvs.addAll(ctvList);
+    }
+
+    /**
+     * All all matching logical_resource_id values to the given set
+     * @param lrids
+     * @param searchValue
+     * @throws FHIRPersistenceException
+     */
+    private void fetchLogicalResourceValues(Set<Long> lrids, String searchValue) throws FHIRPersistenceException {
+        List<Long> tmpList = this.identityCache.getLogicalResourceIdList(searchValue);
+        lrids.addAll(tmpList);        
     }
 
     /**
@@ -743,6 +801,28 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             where.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(ctvList.get(0));
         } else {
             where.col(paramAlias, COMMON_TOKEN_VALUE_ID).inLiteralLong(ctvList);
+        }
+    }
+
+    /**
+     * Adds a filter predicate for REF_LOGICAL_RESOURCE_ID. If the ctvs list is empty, then -1 is used to make
+     * sure the row isn't produced. If there is a single match, the predicate is REF_LOGICAL_RESOURCE_ID = {n}.
+     * If there are multiple matches, the predicate is REF_LOGICAL_RESOURCE_ID IN (1, 2, 3, ...).
+     * The query uses literal values not bind variables on purpose (better performance).
+     * @param where
+     * @param paramAlias
+     * @param ctvs
+     * @throws FHIRPersistenceException
+     */
+    private void addRefLogicalResourceIdFilter(WhereFragment where, String paramAlias, Collection<Long> ctvs) throws FHIRPersistenceException {
+        final List<Long> ctvList = new ArrayList<>(ctvs);
+        if (ctvList.isEmpty()) {
+            // use -1...resulting in no data
+            where.col(paramAlias, REF_LOGICAL_RESOURCE_ID).eq(-1L);
+        } else if (ctvList.size() == 1) {
+            where.col(paramAlias, REF_LOGICAL_RESOURCE_ID).eq(ctvList.get(0));
+        } else {
+            where.col(paramAlias, REF_LOGICAL_RESOURCE_ID).inLiteralLong(ctvList);
         }
     }
 
@@ -1008,6 +1088,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             name.append("LATLNG_VALUES");
             break;
         case REFERENCE:
+            name.append("REF_VALUES");
+            break;
         case TOKEN:
             if (!this.legacyWholeSystemSearchParamsEnabled && TAG.equals(queryParm.getCode())) {
                 name.append(wholeSystemSearch ? "LOGICAL_RESOURCE_TAGS" : "TAGS");
@@ -1049,6 +1131,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             result = "LATLNG_VALUES";
             break;
         case REFERENCE:
+            result = "REF_LOGICAL_RESOURCE_ID";
+            break;
         case TOKEN:
             result = "TOKEN_VALUE";
             break;
@@ -1275,6 +1359,43 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     /**
+     * Compute the reference parameter table name we want to use to join with. This method
+     * inspects the content of the given filter {@link ExpNode}. If the filter contains
+     * a reference to the LOGICAL_ID column, the returned table name will be based
+     * on xx_REF_VALUES_V, otherwise it will be based on xx_REF_VALUES. The
+     * latter is preferable because it eliminates an unnecessary join, improves cardinality
+     * estimation and (usually) results in a better execution plan.
+     * @param filter
+     * @param resourceType
+     * @param paramAlias
+     * @return
+     */
+    protected String getRefParamTable(ExpNode filter, String resourceType, String paramAlias) {
+        ColumnExpNodeVisitor visitor = new ColumnExpNodeVisitor(); // gathers all columns used in the filter expression
+        Set<String> columns = filter.visit(visitor);
+        boolean usesLogicalIdValue = columns.contains(DataDefinitionUtil.getQualifiedName(paramAlias, LOGICAL_ID)) ||
+                                    columns.contains(DataDefinitionUtil.getQualifiedName(paramAlias, RESOURCE_TYPE_ID));
+
+        final String xxRefValues;
+        if (usesLogicalIdValue) {
+            // can't optimize because we filter on LOGICAL_ID
+            xxRefValues = resourceType + "_REF_VALUES_V";
+        } else {
+            // only filters on REF_LOGICAL_RESOURCE_ID so we can optimize
+            xxRefValues = resourceType + "_REF_VALUES";
+        }
+        return xxRefValues;
+    }
+
+    protected WhereFragment getIdentifierFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
+        WhereFragment whereClause = new WhereFragment();
+        whereClause.leftParen();
+        handleIdentifier(queryParm, paramAlias, whereClause);
+        whereClause.rightParen();
+        return whereClause;        
+    }
+
+    /**
      * Create a filter predicate for the given reference query parameter
      * @param queryParm
      * @param paramAlias
@@ -1295,32 +1416,58 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             resourceTypesAndIds.add(getResourceTypeAndId(queryParm, value));
         }
 
-        List<CommonTokenValue> resourceReferenceTokenValues = new ArrayList<>(queryParm.getValues().size());
+        List<ResourceReferenceValue> refValues = new ArrayList<>(queryParm.getValues().size());
         List<String> ambiguousResourceReferenceTokenValues = new ArrayList<>();
         for (Pair<String, String> resourceTypeAndId : resourceTypesAndIds) {
             String targetResourceType = resourceTypeAndId.getLeft();
             String targetResourceId = resourceTypeAndId.getRight();
 
             if (targetResourceType != null) {
-                Integer codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
+                Integer resourceTypeId = identityCache.getResourceTypeId(targetResourceType);
                 // targetResourceType is treated as the code-system for references
-                resourceReferenceTokenValues.add(new CommonTokenValue(targetResourceType, nullCheck(codeSystemIdForResourceType), targetResourceId));
+                refValues.add(new ResourceReferenceValue(targetResourceType, resourceTypeId, targetResourceId));
             } else {
                 ambiguousResourceReferenceTokenValues.add(targetResourceId);
             }
         }
 
-        // For unambiguous resource references, look up the common token value ids
-        Set<Long> resourceReferenceTokenIds = getCommonTokenValueIds(resourceReferenceTokenValues);
-        addCommonTokenValueIdFilter(whereClause, paramAlias, resourceReferenceTokenIds);
+        // For unambiguous resource references, look up the logical_resource_ids
+        Set<Long> resourceReferenceTokenIds = getLogicalResourceIds(refValues);
+        addRefLogicalResourceIdFilter(whereClause, paramAlias, resourceReferenceTokenIds);
 
         for (String targetResourceId : ambiguousResourceReferenceTokenValues) {
             whereClause.or();
 
             // grab the list of all matching common_token_value_id values
-            addCommonTokenValueIdFilter(whereClause, paramAlias, targetResourceId);
+            addLogicalResourceIdFilter(whereClause, paramAlias, targetResourceId);
         }
 
+        whereClause.rightParen();
+        return whereClause;
+    }
+
+    protected WhereFragment getReferenceFilter(QueryParameter queryParm, String paramAlias, List<Long> logicalResourceIdList) throws FHIRPersistenceException {
+        WhereFragment whereClause = new WhereFragment();
+        whereClause.leftParen();
+
+        // For unambiguous resource references, look up the logical_resource_ids
+        addRefLogicalResourceIdFilter(whereClause, paramAlias, logicalResourceIdList);
+
+        whereClause.rightParen();
+        return whereClause;
+    }
+
+    /**
+     * Create a filter predicate for the given reference query parameter using
+     * the ambiguous 
+     * @param queryParm
+     * @param paramAlias
+     * @throws FHIRPersistenceException
+     */
+    protected WhereFragment getReferenceStrFilter(QueryParameter queryParm, String paramAlias, List<String> ambiguousResourceReferenceTokenValues) throws FHIRPersistenceException {
+        WhereFragment whereClause = new WhereFragment();
+        whereClause.leftParen();
+        whereClause.col(paramAlias, "str_value").in(ambiguousResourceReferenceTokenValues);
         whereClause.rightParen();
         return whereClause;
     }
@@ -1535,11 +1682,10 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         // > the specified version SHOULD be provided.
         /*
 SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R0.IS_DELETED, R0.DATA, R0.RESOURCE_PAYLOAD_KEY, LR0.LOGICAL_ID
-        FROM fhirdata.ExplanationOfBenefit_TOKEN_VALUES_V AS P1
+        FROM fhirdata.ExplanationOfBenefit_REF_VALUES AS P1
   INNER JOIN fhirdata.Claim_LOGICAL_RESOURCES AS LR0
-          ON LR0.LOGICAL_ID = P1.TOKEN_VALUE
+          ON LR0.LOGICAL_RESOURCE_ID = P1.REF_LOGICAL_RESOURCE_ID
          AND P1.PARAMETER_NAME_ID = 9263
-         AND P1.CODE_SYSTEM_ID = 341729359
          AND P1.LOGICAL_RESOURCE_ID IN (135010606,135010540,135010498,135010412,135010428)
   INNER JOIN fhirdata.Claim_RESOURCES AS R0
           ON LR0.LOGICAL_RESOURCE_ID = R0.LOGICAL_RESOURCE_ID
@@ -1597,12 +1743,11 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                     .and(lrAlias, "VERSION_ID").eq(rAlias, "VERSION_ID")
                     .and(rAlias, IS_DELETED).eq().literal("N"));
         } else {
-            final String tokenValues = joinResourceType + "_TOKEN_VALUES_V";
+            final String tokenValues = joinResourceType + "_REF_VALUES";
             select.from(tokenValues, alias(paramAlias))
                 .innerJoin(xxLogicalResources, alias(lrAlias),
-                    on(lrAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
+                    on(lrAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "REF_LOGICAL_RESOURCE_ID")
                     .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(inclusionParm.getSearchParameter()))
-                    .and(paramAlias, "CODE_SYSTEM_ID").eq(getCodeSystemId(targetResourceType))
                     .and(paramAlias, "LOGICAL_RESOURCE_ID").inLiteralLong(logicalResourceIds))
                 .innerJoin(xxResources, alias(rAlias),
                     on(lrAlias, "LOGICAL_RESOURCE_ID").eq(rAlias, "LOGICAL_RESOURCE_ID")
@@ -1683,14 +1828,13 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                     .or().col(nextPlus2ParamAlias, "STR_VALUE").eq().col(nextPlus1ParamAlias, "STR_VALUE")
                     .rightParen());
         } else {
-            final String tokenValues = joinResourceType + "_TOKEN_VALUES_V";
+            final String tokenValues = joinResourceType + "_REF_VALUES";
             query.from()
                 .innerJoin(tokenValues, alias(paramAlias),
                     on(parentLRAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID")
-                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(inclusionParm.getSearchParameter()))
-                    .and(paramAlias, "CODE_SYSTEM_ID").eq(getCodeSystemId(targetResourceType)))
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(inclusionParm.getSearchParameter())))
                 .innerJoin(targetLR, alias(lrAlias),
-                    on(lrAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
+                    on(lrAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "REF_LOGICAL_RESOURCE_ID")
                     .and().coalesce(col(paramAlias, "REF_VERSION_ID"), col(lrAlias, "VERSION_ID")).eq(lrAlias, "VERSION_ID")
                     .and(lrAlias, "LOGICAL_RESOURCE_ID").inLiteralLong(logicalResourceIds));
         }
@@ -1988,6 +2132,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         // note that there's no filter here to look for a specific value. We simply want to know
         // whether or not the parameter exists for a given resource
         final String parameterName = queryParm.getCode();
+        final int parameterNameId = getParameterNameId(parameterName);
         final int aliasIndex = getNextAliasIndex();
         final String resourceType = queryData.getResourceType();
         final String paramTableName = paramValuesTableName(resourceType, queryParm);
@@ -2002,7 +2147,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         // their own tables.
         if (this.legacyWholeSystemSearchParamsEnabled ||
                 (!PROFILE.equals(parameterName) && !SECURITY.equals(parameterName) && !TAG.equals(parameterName))) {
-            exists.from().where().and(paramAlias, PARAMETER_NAME_ID).eq(getParameterNameId(parameterName));
+            exists.from().where().and(paramAlias, PARAMETER_NAME_ID).eq(parameterNameId);
         }
 
         // Add the exists to the where clause of the main query which already has a predicate
@@ -2024,14 +2169,15 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         // In this variant, each chained element is added as join to the current statement. We still need
         // to add the EXISTS clause when depth == 0 (the first element in the chain)
 
+        // Because logical_resource_id is already unique across all resources, we don't need to constrain
+        // with resource_type_id.
         // AND EXISTS (SELECT 1
-        //               FROM fhirdata.Observation_TOKEN_VALUES_V AS P1        -- Observation references to
-        //         INNER JOIN fhirdata.Device_LOGICAL_RESOURCES AS LR1         -- Device
-        //                 ON LR1.LOGICAL_ID = P1.TOKEN_VALUE                  -- Device.LOGICAL_ID = Observation.device
-        //                AND P1.PARAMETER_NAME_ID = 1234                      -- Observation.device reference param
-        //                AND P1.CODE_SYSTEM_ID = 4321                         -- code-system for Device
-        //                AND LR1.IS_DELETED = 'N'                             -- referenced Device is not deleted
-        //              WHERE P1.LOGICAL_RESOURCE_ID = LR0.LOGICAL_RESOURCE_ID -- correlate parameter to parent
+        //               FROM fhirdata.Observation_REF_VALUES AS P1                 -- Observation references to
+        //         INNER JOIN fhirdata.Device_LOGICAL_RESOURCES AS LR1              -- Device
+        //                 ON LR1.LOGICAL_RESOURCE_ID = P1.REF_LOGICAL_RESOURCE_ID  -- Device.LOGICAL_RESOURCE_ID = Observation.device
+        //                AND P1.PARAMETER_NAME_ID = 1234                           -- Observation.device reference param
+        //                AND LR1.IS_DELETED = 'N'                                  -- referenced Device is not deleted
+        //              WHERE P1.LOGICAL_RESOURCE_ID = LR0.LOGICAL_RESOURCE_ID      -- correlate parameter to parent
 
         final String sourceResourceType = queryData.getResourceType();
         final SelectAdapter currentSubQuery = queryData.getQuery();
@@ -2083,14 +2229,13 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             paramAlias = nextPlus2ParamAlias;
         } else {
             // Chain via the logical ID
-            final String tokenValues = sourceResourceType + "_TOKEN_VALUES_V"; // because we need TOKEN_VALUE
+            final String refValues = sourceResourceType + "_REF_VALUES";
             currentSubQuery.from()
-                .innerJoin(tokenValues, alias(paramAlias),
+                .innerJoin(refValues, alias(paramAlias),
                     on(paramAlias, "LOGICAL_RESOURCE_ID").eq(queryData.getLRAlias(), "LOGICAL_RESOURCE_ID"))
                 .innerJoin(xxLogicalResources, alias(lrAlias),
-                    on(lrAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
+                    on(lrAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "REF_LOGICAL_RESOURCE_ID")
                     .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
-                    .and(paramAlias, "CODE_SYSTEM_ID").eq(nullCheck(getCodeSystemId(targetResourceType)))
                     .and(lrAlias, "IS_DELETED").eq().literal("N"));
         }
 
@@ -2136,7 +2281,21 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                 paramTable = paramValuesTableName(queryData.getResourceType(), currentParm);
             }
 
-            if (currentParm.getModifier() == Modifier.NOT) {
+            if (Type.REFERENCE.equals(currentParm.getType())) {
+                // V0027, reference filters now need to look at both xx_ref_values and xx_str_values
+                // so we use a full correlated sub-query for exists/not-exists
+                final String anchorAlias = "LR" + getNextAliasIndex();
+                SelectAdapter exists = Select.select("1");
+                exists.from("LOGICAL_RESOURCES", alias(anchorAlias))
+                    .where(anchorAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID"); // correlate to parent query
+                QueryData subQuery = new QueryData(exists, anchorAlias, null, resourceType, 0);
+                addReferenceParam(subQuery, queryData.getResourceType(), currentParm);
+                if (currentParm.getModifier() == Modifier.NOT) {
+                    currentSubQuery.from().where().and().notExists(exists.build());
+                } else {
+                    currentSubQuery.from().where().and().exists(exists.build());
+                }
+            } else if (currentParm.getModifier() == Modifier.NOT) {
                 // Needs to be handled as a NOT EXISTS correlated subquery
                 SelectAdapter exists = Select.select("1");
                 exists.from(paramTable, alias(paramAlias))
@@ -2174,13 +2333,14 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         // For reverse chaining, we connect the token-value (reference)
         // back to the parent query LOGICAL_ID and an xx_LOGICAL_RESOURCES
         // to provide the LOGICAL_ID as the target for future chain elements
-        // INNER JOIN fhirdata.Observation_TOKEN_VALUES_V AS P1
-        //        AND LR0.LOGICAL_ID = P1.TOKEN_VALUE   -- 'Patient.LOGICAL_ID = Observation.patient'
+        
+        // INNER JOIN fhirdata.Observation_REF_VALUES AS P1
+        //        AND LR0.LOGICAL_RESOURCE_ID = P1.REF_LOGICAL_RESOURCE_ID   -- 'Patient.LOGICAL_ID = Observation.patient'
         //        AND LR0.VERSION_ID = COALESCE(P1.REF_VERSION_ID, LR0.VERSION_ID)
         //        AND P1.PARAMETER_NAME_ID = 1246       -- 'Observation.patient'
-        //        AND P1.CODE_SYSTEM_ID = 6             -- 'code system for Patient references'
         // INNER JOIN fhirdata.Observation_LOGICAL_RESOURCES LR1
         //         ON LR1.LOGICAL_RESOURCE_ID = P1.LOGICAL_RESOURCE_ID
+
         final String refResourceType = queryData.getResourceType();
         final SelectAdapter currentSubQuery = queryData.getQuery();
         final int aliasIndex = getNextAliasIndex();
@@ -2225,13 +2385,12 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                     .rightParen());
             paramAlias = nextPlus2ParamAlias;
         } else {
-            final String tokenValues = resourceTypeName + "_TOKEN_VALUES_V";
+            final String refValues = resourceTypeName + "_REF_VALUES";
             currentSubQuery.from()
-                .innerJoin(tokenValues, alias(paramAlias),
-                    on(lrPrevAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE") // correlate with the main query
+                .innerJoin(refValues, alias(paramAlias),
+                    on(lrPrevAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "REF_LOGICAL_RESOURCE_ID") // correlate with the main query
                     .and(lrPrevAlias, "VERSION_ID").eq().coalesce(col(paramAlias, "REF_VERSION_ID"), col(lrPrevAlias, "VERSION_ID"))
-                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
-                    .and(paramAlias, "CODE_SYSTEM_ID").eq(nullCheck(getCodeSystemId(refResourceType))));
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode())));
         }
         currentSubQuery.from()
               .innerJoin(xxLogicalResources, alias(lrAlias),
@@ -2315,24 +2474,127 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
 
     @Override
     public QueryData addReferenceParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
+
+        final int aliasIndex = getNextAliasIndex();
+        final SelectAdapter query = queryData.getQuery();
+        final String paramAlias = getParamAlias(aliasIndex);
+        final String lrAlias = queryData.getLRAlias();
+        final boolean isIdentifier = Modifier.IDENTIFIER.equals(queryParm.getModifier());
+        final ExpNode filter;
+        final String paramTableName;
+        if (isIdentifier) {
+            // Identifiers are tokens so we need to join with token_values.
+            // Grab the filter expression first. We can then inspect the expression to
+            // look for use of the TOKEN_VALUE column. If use of this column isn't found,
+            // we can apply an optimization by joining against the RESOURCE_TOKEN_REFS
+            // table directly.
+            filter = getIdentifierFilter(queryParm, paramAlias).getExpression();
+            paramTableName = getTokenParamTable(filter, resourceType, paramAlias);
+            String queryParmCode = queryParm.getCode();
+            queryParmCode += SearchConstants.IDENTIFIER_MODIFIER_SUFFIX;
+            query.from().innerJoin(paramTableName, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(queryParmCode))
+                .and(filter));
+        } else {
+            // For V0027 we need to handle parameters that may come from xx_ref_values or xx_str_values
+            return processRealReferenceParam(queryData, resourceType, queryParm);
+        }
+
+        return queryData;
+    }
+
+    /**
+     * FHIR Specification: 
+     *     A reference parameter refers to references between resources. For 
+     *     example, find all Conditions where the subject reference is a 
+     *     particular patient, where the patient is selected by name or 
+     *     identifier. The interpretation of a reference parameter is either:
+     *         [1] [parameter]=[id] the logical [id] of a resource using a local reference (i.e. a relative reference)
+     *         [2] [parameter]=[type]/[id] the logical [id] of a resource of a specified type using a local reference (i.e. a relative reference), for when the reference can point to different types of resources (e.g. Observation.subject)
+     *         [3] [parameter]=[url] where the [url] is an absolute URL - a reference to a resource by its absolute location, or by its canonical URL
+     * 
+     * For [1], the target resource type isn't known. This shouldn't matter, because
+     * we still look up the logical_resource_id by its logical_id. If there are
+     * multiple matches, they are by definition of different type, so this would be
+     * an error. Therefore the query still only needs to deal with a single logical_resource_id.
+     * For [2], we are guaranteed a single logical_resource_id because resourceType/logicalId
+     * is unique.
+     * For [3], we need to identify the value string as a url and not a local reference.
+     * 
+     * @param queryData
+     * @param resourceType
+     * @param queryParm
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    private QueryData processRealReferenceParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
         final int aliasIndex = getNextAliasIndex();
         final SelectAdapter query = queryData.getQuery();
         final String paramAlias = getParamAlias(aliasIndex);
         final String lrAlias = queryData.getLRAlias();
 
-        // Grab the filter expression first. We can then inspect the expression to
-        // look for use of the TOKEN_VALUE column. If use of this column isn't found,
-        // we can apply an optimization by joining against the RESOURCE_TOKEN_REFS
-        // table directly.
-        ExpNode filter = getReferenceFilter(queryParm, paramAlias).getExpression();
-        final String paramTableName = getTokenParamTable(filter, resourceType, paramAlias);
+        // For V0027 reference parameters are stored in xx_ref_values using the
+        // logical_id values stored in logical_resource_ident. Absolute references
+        // are stored using a resource_type of "Resource" (similar to the default
+        // code-system we used to use with common_token_values).
 
-        // Append the suffix for :identifier modifier
-        String queryParmCode = queryParm.getCode();
-        if (Modifier.IDENTIFIER.equals(queryParm.getModifier())) {
-            queryParmCode += SearchConstants.IDENTIFIER_MODIFIER_SUFFIX;
+        // Firstly we need to split the query parm values into separate lists
+        List<Pair<String, String>> resourceTypesAndIds = new ArrayList<>(queryParm.getValues().size());
+        for (QueryParameterValue value : queryParm.getValues()) {
+            resourceTypesAndIds.add(getResourceTypeAndId(queryParm, value));
         }
 
+        List<Long> logicalResourceIdList = new ArrayList<>();
+        for (Pair<String, String> resourceTypeAndId : resourceTypesAndIds) {
+            String targetResourceType = resourceTypeAndId.getLeft();
+            String referenceValue = resourceTypeAndId.getRight();
+
+            if (targetResourceType != null) {
+                Integer resourceTypeId = identityCache.getResourceTypeId(targetResourceType);
+                if (resourceTypeId != null) {
+                    // It's a valid resource type, so we treat as a local reference
+                    logger.fine(() -> "reference search value: type[local] value[" + targetResourceType + "/" + referenceValue + "]");
+                    Long logicalResourceId = identityCache.getLogicalResourceId(targetResourceType, referenceValue);
+                    logicalResourceIdList.add(logicalResourceId != null ? logicalResourceId : -1);
+                } else {
+                    // Treat this as an error because it's not a valid local reference
+                    throw new FHIRPersistenceException("Local reference specified with invalid resource type").withIssue(
+                        Issue.builder()
+                            .code(IssueType.INVALID)
+                            .diagnostics("Local reference specified with invalid resource type")
+                            .severity(IssueSeverity.ERROR)
+                            .build());
+                }
+            } else {
+                // Determine if the target value is an absolute or local reference
+                if (ReferenceUtil.isAbsolute(referenceValue)) {
+                    logger.info(() -> "reference search value: type[absolute] value[" + referenceValue + "]");
+                    Long logicalResourceId = identityCache.getLogicalResourceId("Resource", referenceValue);
+                    logicalResourceIdList.add(logicalResourceId != null ? logicalResourceId : -1);
+                } else {
+                    // treat as a local reference where we don't know the type.
+                    List<Long> localLogicalResourceIds = getLogicalResourceIdList(referenceValue);
+                    if (localLogicalResourceIds.size() == 1) {
+                        logger.info(() -> "reference search value: type[local] value[" + referenceValue + "]");
+                        logicalResourceIdList.add(localLogicalResourceIds.get(0));
+                    } else if (localLogicalResourceIds.size() == 0) {
+                        logger.info(() -> "reference search value: type[local] value[" + referenceValue + "] notFound[true]");
+                        if (logicalResourceIdList.isEmpty()) {
+                            logicalResourceIdList.add(-1L); // need at least one value
+                        }
+                    } else {
+                        // We may match multiple resource types here, but it's only an error
+                        // if we join with the xx_ref_value table and still get multiple rows
+                        logicalResourceIdList.addAll(localLogicalResourceIds);
+                    }
+                }
+            }
+        }
+
+        // Only need to join with xx_ref_values
+        final String queryParmCode = queryParm.getCode();
+        final ExpNode filter = getReferenceFilter(queryParm, paramAlias, logicalResourceIdList).getExpression();
+        final String paramTableName = getRefParamTable(filter, resourceType, paramAlias);
         query.from().innerJoin(paramTableName, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
             .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(queryParmCode))
             .and(filter));
@@ -2610,6 +2872,8 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             sortParameterTableName.append("DATE_VALUES");
             break;
         case REFERENCE:
+            sortParameterTableName.append("REF_VALUES_V");
+            break;
         case TOKEN:
             if (!this.legacyWholeSystemSearchParamsEnabled && TAG.equals(code)) {
                 sortParameterTableName.append("TAGS");
@@ -2704,7 +2968,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             attributeNames.add(STR_VALUE);
             break;
         case REFERENCE:
-            attributeNames.add(TOKEN_VALUE);
+            attributeNames.add(REF_VALUE); // V0027 using xx_REF_VALUES_V
             break;
         case DATE:
             attributeNames.add(DATE_START);
@@ -2753,6 +3017,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             case DERBY:
                 return "CAST(NULL AS BLOB) AS DATA";
             case POSTGRESQL:
+            case CITUS:
                 return "NULL::TEXT AS DATA";
             default:
                 throw new IllegalStateException("Database type not supported: " + translator.getType().name());

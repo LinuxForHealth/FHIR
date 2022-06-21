@@ -18,6 +18,7 @@ import java.util.Properties;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
@@ -31,6 +32,7 @@ import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavorImpl;
 import com.ibm.fhir.persistence.jdbc.dao.EraseResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IIdNameCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.schema.app.util.CommonUtil;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
@@ -87,7 +89,7 @@ public class EraseTestMain {
             try (Connection c = createConnection()) {
                 System.out.println("Got a Connection");
                 try {
-                    FHIRDbFlavor flavor = new FHIRDbFlavorImpl(dbType, true);
+                    FHIRDbFlavor flavor = new FHIRDbFlavorImpl(dbType, SchemaType.PLAIN);
                     EraseResourceDAO dao = new EraseResourceDAO(c, FhirSchemaConstants.FHIR_ADMIN, translator, schemaName, flavor, new MockLocalCache(), null);
 
                     ResourceEraseRecord record = new ResourceEraseRecord();
@@ -254,6 +256,12 @@ public class EraseTestMain {
         @Override
         public void transactionRolledBack() {
             // No Operation
+        }
+
+        @Override
+        public ILogicalResourceIdentCache getLogicalResourceIdentCache() {
+            // TODO Auto-generated method stub
+            return null;
         }
     }
 

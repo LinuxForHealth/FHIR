@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,8 @@ package com.ibm.fhir.database.utils.version;
 
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
@@ -69,8 +70,9 @@ public class CreateWholeSchemaVersion {
      * @param schemaName
      * @param target
      */
-    public static void createTableIfNeeded(String schemaName, IDatabaseAdapter target) {
+    public static void createTableIfNeeded(String schemaName, ISchemaAdapter target) {
         PhysicalDataModel dataModel = new PhysicalDataModel();
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
 
         Table t = buildTableDef(dataModel, schemaName, false);
 
@@ -82,7 +84,7 @@ public class CreateWholeSchemaVersion {
             // update tool could try to build the table. The solution is to make it
             // idempotent...if the table exists already, that's success
             try {
-                dataModel.apply(target);
+                dataModel.apply(target, context);
             } catch (Exception x) {
                 if (t.exists(target)) {
                     logger.info("Table '" + t.getQualifiedName() + "' already exists; skipping create");
@@ -98,7 +100,7 @@ public class CreateWholeSchemaVersion {
      * @param schemaName
      * @param target
      */
-    public static void dropTable(String schemaName, IDatabaseAdapter target) {
+    public static void dropTable(String schemaName, ISchemaAdapter target) {
         PhysicalDataModel dataModel = new PhysicalDataModel();
 
         Table t = buildTableDef(dataModel, schemaName, false);
@@ -118,7 +120,7 @@ public class CreateWholeSchemaVersion {
      * @param groupName
      * @param toUser
      */
-    public static void grantPrivilegesTo(IDatabaseAdapter target, String schemaName, String groupName, String toUser) {
+    public static void grantPrivilegesTo(ISchemaAdapter target, String schemaName, String groupName, String toUser) {
         PhysicalDataModel dataModel = new PhysicalDataModel();
         Table t = buildTableDef(dataModel, schemaName, false);
         t.grant(target, groupName, toUser);

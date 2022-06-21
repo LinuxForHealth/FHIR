@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,10 +13,13 @@ import java.util.logging.Logger;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
+import com.ibm.fhir.database.utils.api.SchemaType;
+import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
 import com.ibm.fhir.database.utils.common.PrintTarget;
 import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
-import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.core.service.TaskService;
 
@@ -34,7 +37,7 @@ public class ParallelBuildTest {
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, false);
+        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, SchemaType.PLAIN);
         PhysicalDataModel model = new PhysicalDataModel();
         gen.buildSchema(model);
 
@@ -45,7 +48,9 @@ public class ParallelBuildTest {
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
         Db2Adapter adapter = new Db2Adapter(tgt);
-        model.collect(collector, adapter, new TransactionProviderTest(), vhs);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
+        SchemaApplyContext context = SchemaApplyContext.getDefault();
+        model.collect(collector, schemaAdapter, context, new TransactionProviderTest(), vhs);
 
         // FHIR in the hole!
         collector.startAndWait();

@@ -9,9 +9,9 @@ package com.ibm.fhir.persistence.jdbc.connection;
 import java.sql.Connection;
 
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FHIRDbDAOImpl;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 /**
  * Abstraction used to obtain JDBC connections. The database being connected
  * is determined by the datasource currently referenced by the {@link FHIRRequestContext}

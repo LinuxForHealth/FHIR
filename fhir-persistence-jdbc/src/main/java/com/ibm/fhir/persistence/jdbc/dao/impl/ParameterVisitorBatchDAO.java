@@ -25,8 +25,8 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
@@ -39,7 +39,6 @@ import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.CanonicalSupport;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
@@ -102,6 +101,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
     // Collect a list of token values to process in one go
     private final List<ResourceTokenValueRec> tokenValueRecs = new ArrayList<>();
+    private final List<ResourceReferenceValueRec> referenceValueRecs = new ArrayList<>();
 
     // Tags are now stored in their own tables
     private final List<ResourceTokenValueRec> tagTokenRecs = new ArrayList<>();
@@ -647,7 +647,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
         if (this.transactionData == null) {
             // Not using transaction data, so we need to process collected values right here
-            this.resourceReferenceDAO.addNormalizedValues(this.tablePrefix, tokenValueRecs, profileRecs, tagTokenRecs, securityTokenRecs);
+            this.resourceReferenceDAO.addNormalizedValues(this.tablePrefix, tokenValueRecs, referenceValueRecs, profileRecs, tagTokenRecs, securityTokenRecs);
         }
 
         closeStatement(strings);
@@ -703,7 +703,6 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         String refResourceType = refValue.getTargetResourceType();
         String refLogicalId = refValue.getValue();
         Integer refVersion = refValue.getVersion();
-        ResourceTokenValueRec rec;
 
         if (refValue.getType() == ReferenceType.DISPLAY_ONLY || refValue.getType() == ReferenceType.INVALID) {
             // protect against code regression. Invalid/improper references should be
@@ -712,20 +711,22 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             throw new IllegalArgumentException("Invalid reference parameter value. See server log for details.");
         }
 
-        // reference params are never system-level
-        final boolean isSystemParam = false;
-        if (refResourceType != null) {
-            // Store a token value configured as a reference to another resource
-            rec = new ResourceTokenValueRec(parameterName, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion, this.currentCompositeId, isSystemParam);
-        } else {
-            // stored as a token with the default system
-            rec = new ResourceTokenValueRec(parameterName, resourceType, resourceTypeId, logicalResourceId, JDBCConstants.DEFAULT_TOKEN_SYSTEM, refLogicalId, this.currentCompositeId, isSystemParam);
+        // V0027. Absolute references won't have a resource type, but in order to store them
+        // in the LOGICAL_RESOURCE_IDENT table we need to have a valid LOGICAL_RESOURCE_ID. For
+        // that we use "Resource"
+        if (refResourceType == null) {
+            refResourceType = "Resource";
         }
-
+        // Store a reference value configured as a reference to another resource (reference params
+        // are never system-level).
+        int refResourceTypeId = identityCache.getResourceTypeId(refResourceType);
+        ResourceReferenceValueRec rec = new ResourceReferenceValueRec(parameterName, resourceType, resourceTypeId, logicalResourceId, 
+            refResourceType, refResourceTypeId, 
+            refLogicalId, refVersion, this.currentCompositeId);
         if (this.transactionData != null) {
-            this.transactionData.addValue(rec);
+            this.transactionData.addReferenceValue(rec);
         } else {
-            this.tokenValueRecs.add(rec);
+            this.referenceValueRecs.add(rec);
         }
     }
 }

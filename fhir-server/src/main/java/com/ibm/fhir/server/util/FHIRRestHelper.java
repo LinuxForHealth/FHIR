@@ -111,10 +111,10 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
 import com.ibm.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
 import com.ibm.fhir.persistence.erase.EraseDTO;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceIfNoneMatchException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.profile.ProfileSupport;
@@ -391,6 +391,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             final FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextImpl.builder(event)
                     .withOffloadResponse(offloadResponse)
+                    .withRequestShard(requestContext.getRequestShardKey())
                     .build();
 
             // For 1869 bundle processing, the resource is updated first and is no longer mutated by the
@@ -808,6 +809,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     FHIRPersistenceContextImpl.builder(event)
                     .withIfNoneMatch(ifNoneMatch)
                     .withOffloadResponse(offloadResponse)
+                    .withRequestShard(requestContext.getRequestShardKey())
                     .build();
 
             boolean createOnUpdate = (prevResource == null);
@@ -1165,7 +1167,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeReadEvent(event);
 
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
+                    FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext, requestContext.getRequestShardKey());
             result = persistence.read(persistenceContext, resourceType, id);
             event.setFhirResource(result.getResource());
 
@@ -1233,7 +1235,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeVreadEvent(event);
 
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
+                    FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext, requestContext.getRequestShardKey());
             SingleResourceResult<? extends Resource> srr = persistence.vread(persistenceContext, resourceType, id, versionId);
 
             // The resource may be null if it doesn't exist or has been deleted
@@ -1383,7 +1385,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             getInterceptorMgr().fireBeforeSearchEvent(event);
 
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext);
+                    FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext, requestContext.getRequestShardKey());
             MultiResourceResult searchResult =
                     persistence.search(persistenceContext, resourceType);
 
@@ -2614,13 +2616,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp,
-            List<Long> indexIds, String resourceLogicalId) throws Exception {
+            List<Long> indexIds, String resourceLogicalId, boolean force) throws Exception {
         int result = 0;
         // Since the try logic is slightly different in the code paths, we want to dispatch to separate methods to simplify the logic.
         if (indexIds == null) {
-            result = doReindexSingle(operationOutcomeResult, tstamp, resourceLogicalId);
+            result = doReindexSingle(operationOutcomeResult, tstamp, resourceLogicalId, force);
         } else {
-            result = doReindexList(operationOutcomeResult, tstamp, indexIds);
+            result = doReindexList(operationOutcomeResult, tstamp, indexIds, force);
         }
         return result;
     }
@@ -2631,10 +2633,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @param operationOutcomeResult
      * @param tstamp
      * @param indexIds
+     * @param force
      * @return
      * @throws Exception
      */
-    public int doReindexList(OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds) throws Exception {
+    public int doReindexList(OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds, boolean force) throws Exception {
         // If the indexIds are empty or null, then it's not properly formed.
         if (indexIds == null || indexIds.isEmpty()) {
             throw new IllegalArgumentException("No indexIds sent to the $reindex list method");
@@ -2687,7 +2690,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.begin();
             try {
                 FHIRPersistenceContext persistenceContext = null;
-                result += persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, subListIndexIds, null);
+                result += persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, subListIndexIds, null, force);
             } catch (FHIRPersistenceDataAccessException x) {
                 // At this point, the transaction is marked for rollback
                 if (x.isTransactionRetryable() && ++attempt <= TX_ATTEMPTS) {
@@ -2725,10 +2728,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @param operationOutcomeResult
      * @param tstamp
      * @param resourceLogicalId
+     * @param force
      * @return
      * @throws Exception
      */
-    public int doReindexSingle(OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception {
+    public int doReindexSingle(OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId, boolean force) throws Exception {
         int result = 0;
         // handle some retries in case of deadlock exceptions
         final int TX_ATTEMPTS = 5;
@@ -2738,7 +2742,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.begin();
             try {
                 FHIRPersistenceContext persistenceContext = null;
-                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, null, resourceLogicalId);
+                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, null, resourceLogicalId, force);
                 attempt = TX_ATTEMPTS; // end the retry loop
             } catch (FHIRPersistenceDataAccessException x) {
                 if (x.isTransactionRetryable() && attempt < TX_ATTEMPTS) {
@@ -3045,6 +3049,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRPersistenceEvent event =
                 new FHIRPersistenceEvent(null, buildPersistenceEventProperties(resourceType == null ? "Resource" : resourceType, null, null, null, historyContext));
         getInterceptorMgr().fireBeforeHistoryEvent(event);
+        // Build a context
+        FHIRPersistenceContext context = FHIRPersistenceContextImpl.builder(event).withRequestShard(requestContext.getRequestShardKey()).build();
 
         // Start a new txn in the persistence layer if one is not already active.
         Integer count = historyContext.getCount();
@@ -3061,7 +3067,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             if (resourceType != null) {
                 // Use the resource type on the path, ignoring any _type parameter
-                records = persistence.changes(count, since, before, historyContext.getChangeIdMarker(), Collections.singletonList(resourceType),
+                records = persistence.changes(context, count, since, before, historyContext.getChangeIdMarker(), Collections.singletonList(resourceType),
                         historyContext.isExcludeTransactionTimeoutWindow(), historyContext.getHistorySortOrder());
             } else if (historyContext.getResourceTypes().size() > 0) {
                 // New API allows us to filter using multiple resource type names, but first we
@@ -3069,12 +3075,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 for (String rt: historyContext.getResourceTypes()) {
                     validateInteraction(Interaction.HISTORY, rt);
                 }
-                records = persistence.changes(count, since, before, historyContext.getChangeIdMarker(), historyContext.getResourceTypes(),
+                records = persistence.changes(context, count, since, before, historyContext.getChangeIdMarker(), historyContext.getResourceTypes(),
                         historyContext.isExcludeTransactionTimeoutWindow(), historyContext.getHistorySortOrder());
             } else {
                 // no resource type filter
                 final List<String> NULL_RESOURCE_TYPE_NAMES = null;
-                records = persistence.changes(count, since, before, historyContext.getChangeIdMarker(), NULL_RESOURCE_TYPE_NAMES,
+                records = persistence.changes(context, count, since, before, historyContext.getChangeIdMarker(), NULL_RESOURCE_TYPE_NAMES,
                         historyContext.isExcludeTransactionTimeoutWindow(), historyContext.getHistorySortOrder());
             }
 
@@ -3306,6 +3312,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     @Override
     public ResourceEraseRecord doErase(FHIROperationContext operationContext, EraseDTO eraseDto) throws FHIROperationException {
         // @implNote doReindex has a nice pattern to handle some retries in case of deadlock exceptions
+        FHIRPersistenceContext context = null;
         final int TX_ATTEMPTS = 5;
         int attempt = 1;
         ResourceEraseRecord eraseRecord = new ResourceEraseRecord();
@@ -3314,7 +3321,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             try {
                 txn = new FHIRTransactionHelper(getTransaction());
                 txn.begin();
-                eraseRecord = persistence.erase(eraseDto);
+                eraseRecord = persistence.erase(context, eraseDto);
                 attempt = TX_ATTEMPTS; // end the retry loop
             } catch (FHIRPersistenceDataAccessException x) {
                 if (x.isTransactionRetryable() && attempt < TX_ATTEMPTS) {
@@ -3338,11 +3345,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     public List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count, Instant notModifiedAfter, Long afterIndexId) throws Exception {
         List<Long> indexIds = null;
 
+        FHIRPersistenceContext context = null;
+        
         FHIRTransactionHelper txn = null;
         try {
             txn = new FHIRTransactionHelper(getTransaction());
             txn.begin();
-            indexIds = persistence.retrieveIndex(count, notModifiedAfter, afterIndexId, resourceTypeName);
+            indexIds = persistence.retrieveIndex(context, count, notModifiedAfter, afterIndexId, resourceTypeName);
         } finally {
             if (txn != null) {
                 txn.end();

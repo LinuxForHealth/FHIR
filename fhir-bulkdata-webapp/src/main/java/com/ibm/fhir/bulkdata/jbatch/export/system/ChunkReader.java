@@ -222,7 +222,7 @@ public class ChunkReader extends AbstractItemReader {
         Date startTime = new Date(System.currentTimeMillis());
         try {
             // Execute the search query to obtain the page of resources
-            persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+            persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext, null);
             List<ResourceResult<? extends Resource>> resourceResults = fhirPersistence.search(persistenceContext, resourceType).getResourceResults();
             resources = ResourceResult.toResourceList(resourceResults);
 

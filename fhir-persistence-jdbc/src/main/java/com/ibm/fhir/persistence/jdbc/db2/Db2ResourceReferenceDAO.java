@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,17 +17,22 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentKey;
+import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentValue;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 
 /**
@@ -48,8 +52,9 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
      * @param schemaName
      * @param cache
      */
-    public Db2ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, String adminSchemaName, INameIdCache<Integer> parameterNameCache) {
-        super(t, c, schemaName, cache, parameterNameCache);
+    public Db2ResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache, String adminSchemaName, INameIdCache<Integer> parameterNameCache,
+            ILogicalResourceIdentCache logicalResourceIdentCache) {
+        super(t, c, schemaName, cache, parameterNameCache, logicalResourceIdentCache);
         this.adminSchemaName = adminSchemaName;
     }
 
@@ -171,8 +176,8 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
         final String tableName = resourceType + "_RESOURCE_TOKEN_REFS";
         DataDefinitionUtil.assertValidName(tableName);
         final String insert = "INSERT INTO " + tableName + "("
-                + "mt_id, parameter_name_id, logical_resource_id, common_token_value_id, ref_version_id, composite_id) "
-                + "VALUES (" + this.adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?, ?)";
+                + "mt_id, parameter_name_id, logical_resource_id, common_token_value_id, composite_id) "
+                + "VALUES (" + this.adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?)";
         try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
             int count = 0;
             for (ResourceTokenValueRec xr: xrefs) {
@@ -186,18 +191,11 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
                     ps.setNull(3, Types.BIGINT);
                 }
 
-                // version can be null
-                if (xr.getRefVersionId() != null) {
-                    ps.setInt(4, xr.getRefVersionId());
-                } else {
-                    ps.setNull(4, Types.INTEGER);
-                }
-
                 // compositeId can be null
                 if (xr.getCompositeId() != null) {
-                    ps.setInt(5, xr.getCompositeId());
+                    ps.setInt(4, xr.getCompositeId());
                 } else {
-                    ps.setNull(5, Types.INTEGER);
+                    ps.setNull(4, Types.INTEGER);
                 }
                 ps.addBatch();
                 if (++count == BATCH_SIZE) {
@@ -222,8 +220,8 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
         final String tableName = "RESOURCE_TOKEN_REFS";
         DataDefinitionUtil.assertValidName(tableName);
         final String insert = "INSERT INTO " + tableName + "("
-                + "mt_id, parameter_name_id, logical_resource_id, common_token_value_id, ref_version_id) "
-                + "VALUES (" + this.adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?)";
+                + "mt_id, parameter_name_id, logical_resource_id, common_token_value_id) "
+                + "VALUES (" + this.adminSchemaName + ".SV_TENANT_ID, ?, ?, ?)";
         try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
             int count = 0;
             for (ResourceTokenValueRec xr: xrefs) {
@@ -236,13 +234,6 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
                         ps.setLong(3, xr.getCommonTokenValueId());
                     } else {
                         ps.setNull(3, Types.BIGINT);
-                    }
-
-                    // version can be null
-                    if (xr.getRefVersionId() != null) {
-                        ps.setInt(4, xr.getRefVersionId());
-                    } else {
-                        ps.setNull(4, Types.INTEGER);
                     }
 
                     ps.addBatch();
@@ -471,5 +462,73 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
     protected int readOrAddParameterNameId(String parameterName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
         final ParameterNameDAO pnd = new ParameterNameDAOImpl(getConnection(), getSchemaName());
         return pnd.readOrAddParameterNameId(parameterName);
+    }
+
+    @Override
+    protected void addMissingLogicalResourceIdents(List<LogicalResourceIdentValue> missing) throws FHIRPersistenceException {
+
+        // simplified implementation which handles inserts individually
+        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_sequence");
+        StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO logical_resource_ident (mt_id, resource_type_id, logical_id, logical_resource_id) VALUES (");
+        insert.append(adminSchemaName).append(".SV_TENANT_ID, ?,?,");
+        insert.append(nextVal); // next sequence value
+        insert.append(")");
+
+        logger.fine(() -> "ident insert: " + insert.toString());
+        final String dml = insert.toString();
+        try (PreparedStatement ps = getConnection().prepareStatement(dml)) {
+            for (LogicalResourceIdentKey value: missing) {
+                ps.setInt(1, value.getResourceTypeId());
+                ps.setString(2, value.getLogicalId());
+                try {
+                    ps.executeUpdate();
+                } catch (SQLException x) {
+                    if (getTranslator().isDuplicate(x)) {
+                        // do nothing
+                    } else {
+                        throw x;
+                    }
+                }
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "logical_resource_ident insert failed: " + dml, x);
+            throw new FHIRPersistenceException("logical_resource_ident insert failed");
+        }
+    }
+
+    @Override
+    protected void insertRefValues(String resourceType, Collection<ResourceReferenceValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch. This is the multitenant variant, so we need to inject the mt_id value
+        final String tableName = resourceType + "_REF_VALUES";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "(mt_id, "
+                + "parameter_name_id, logical_resource_id, ref_logical_resource_id, ref_version_id, composite_id) "
+                + "VALUES (" + adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
+            int count = 0;
+            PreparedStatementHelper psh = new PreparedStatementHelper(ps);
+            for (ResourceReferenceValueRec xr: xrefs) {
+                psh.setInt(xr.getParameterNameId())
+                    .setLong(xr.getLogicalResourceId())
+                    .setLong(xr.getRefLogicalResourceId())
+                    .setInt(xr.getRefVersionId())
+                    .setInt(xr.getCompositeId())
+                    .addBatch();
+
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw getTranslator().translate(x);
+        }
     }
 }

@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Properties;
 import java.util.UUID;
 import java.util.logging.LogManager;
 
@@ -32,8 +31,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.database.utils.api.IConnectionProvider;
-import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Id;
@@ -45,14 +42,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
-import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
-import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
-import com.ibm.fhir.persistence.jdbc.cache.IdNameCache;
-import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
-import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
-import com.ibm.fhir.persistence.jdbc.test.util.DerbyInitializer;
+import com.ibm.fhir.persistence.jdbc.test.util.PersistenceTestSupport;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchHelper;
@@ -72,13 +62,15 @@ import com.ibm.fhir.search.util.SearchHelper;
  * </pre>
  */
 public class JDBCSearchNearTest {
-    private Properties testProps;
 
     protected Location savedResource;
 
     protected static FHIRPersistence persistence;
     protected static SearchHelper searchHelper;
 
+    // Container to hide the instantiation of the persistence impl used for tests
+    private PersistenceTestSupport testSupport;
+    
     @BeforeClass
     public void startup() throws Exception {
         LogManager.getLogManager().readConfiguration(
@@ -88,18 +80,7 @@ public class JDBCSearchNearTest {
         searchHelper = new SearchHelper();
         FHIRRequestContext.get().setTenantId("default");
 
-        testProps = TestUtil.readTestProperties("test.jdbc.properties");
-
-        DerbyInitializer derbyInit;
-        PoolConnectionProvider connectionPool;
-        String dbDriverName = this.testProps.getProperty("dbDriverName");
-        if (dbDriverName != null && dbDriverName.contains("derby")) {
-            derbyInit = new DerbyInitializer(this.testProps);
-            IConnectionProvider cp = derbyInit.getConnectionProvider(false);
-            connectionPool = new PoolConnectionProvider(cp, 1);
-        } else {
-            throw new IllegalStateException("dbDriverName must be set in test.jdbc.properties");
-        }
+        testSupport = new PersistenceTestSupport();
 
         savedResource = TestUtil.readExampleResource("json/spec/location-example.json");
         savedResource = savedResource.toBuilder()
@@ -110,9 +91,7 @@ public class JDBCSearchNearTest {
                     .build())
                 .build();
 
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
-        persistence   = new FHIRPersistenceJDBCImpl(this.testProps, connectionPool, cache);
+        persistence   = testSupport.getPersistenceImpl();
 
         SingleResourceResult<Location> result =
                 persistence.create(FHIRPersistenceContextFactory.createPersistenceContext(null), savedResource);
@@ -132,7 +111,7 @@ public class JDBCSearchNearTest {
 
             FHIRSearchContext ctx = searchHelper.parseQueryParameters(Location.class, Collections.emptyMap(), true, true);
             FHIRPersistenceContext persistenceContext =
-                    FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
+                    FHIRPersistenceContextFactory.createPersistenceContext(null, ctx, null);
             com.ibm.fhir.model.type.Instant lastUpdated = FHIRPersistenceUtil.getUpdateTime();
             persistence.delete(persistenceContext, savedResource.getClass(), savedResource.getId(), FHIRPersistenceSupport.getMetaVersionId(savedResource), lastUpdated);
             if (persistence.isTransactional()) {
@@ -140,6 +119,9 @@ public class JDBCSearchNearTest {
             }
         }
         FHIRRequestContext.get().setTenantId("default");
+        if (testSupport != null) {
+            testSupport.shutdown();
+        }
     }
 
     public MultiResourceResult runQueryTest(String searchParamCode, String queryValue) throws Exception {
@@ -164,7 +146,7 @@ public class JDBCSearchNearTest {
 
     public MultiResourceResult runQueryTest(Map<String, List<String>> queryParms) throws Exception {
         FHIRSearchContext ctx = searchHelper.parseQueryParameters(Location.class, queryParms, true, true);
-        FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
+        FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, ctx, null);
         MultiResourceResult result = persistence.search(persistenceContext, Location.class);
         return result;
     }

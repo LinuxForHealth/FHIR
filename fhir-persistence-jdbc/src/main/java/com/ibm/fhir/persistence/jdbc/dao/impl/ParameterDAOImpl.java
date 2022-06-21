@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
@@ -20,7 +21,6 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyCodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyParameterNamesDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
-import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresCodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresParameterNamesDAO;
 
@@ -117,6 +117,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 pnd = new DerbyParameterNamesDAO(connection, getSchemaName());
                 break;
             case POSTGRESQL:
+            case CITUS:
                 pnd = new PostgresParameterNamesDAO(connection, getSchemaName());
                 break;
             default:
@@ -154,6 +155,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 csd = new DerbyCodeSystemDAO(connection, getSchemaName());
                 break;
             case POSTGRESQL:
+            case CITUS:
                 csd = new PostgresCodeSystemDAO(connection, getSchemaName());
                 break;
             default:

@@ -21,11 +21,12 @@ For details on the schema design, refer to the [Schema Design](https://github.co
 ## Database Support
 
 
-| Database   | Version   | Support |
-|------------|-----------|-----------------------------------|
-| DB2        |     11.5+ | Supports multi-tenancy. |
-| PostgreSQL |       12+ | Single tenant per database. |
-| Derby      | 10.14.2.0 | Development only. Single tenant per database. |
+| Database   |        Version | Support |
+|------------|----------------|-----------------------------------|
+| DB2        |          11.5+ | Supports multi-tenancy. |
+| PostgreSQL |            12+ | Single tenant per database. |
+| Derby      |      10.14.2.0 | Development only. Single tenant per database. |
+| Citus      | PostgreSQL 12+ | Experimental. |
 
 ----------------------------------------------------------------
 ## Getting started
@@ -112,24 +113,27 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar [OPTIONS]
 
 Note: Replace `${VERSION}` with the version of the jar you're using or use the wildcard `*` to match any version.
 
+Note: Prior to IBM FHIR Server Release 5.0.0, the default value for `--db-type` was `db2`. As of IBM FHIR Server Release 5.0.0, there is no longer a default value and `--db-type` must be specified every time.
+
 The following sections include common values for `OPTIONS`.
 
 ### Create new schema
 For Db2:
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
 --create-schemas
 ```
 
 For PostgreSQL:
 
 ```
---prop-file postgresql.properties
---schema-name fhirdata
+--db-type postgresql \
+--prop-file postgresql.properties \
+--schema-name fhirdata \
 --create-schemas
---db-type postgresql
 ```
 
 ### Deploy new schema or update an existing schema
@@ -141,9 +145,10 @@ for the IBM FHIR Server to operate. The FHIRADMIN user should only be used
 for schema updates, not for IBM FHIR Server access.
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
---update-schema
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
+--update-schema \
 --grant-to FHIRSERVER
 ```
 
@@ -161,12 +166,13 @@ for the IBM FHIR Server to operate. The FHIRADMIN user should only be used
 for schema updates, not for IBM FHIR Server access.
 
 ```
---prop-file postgresql.properties
---schema-name FHIRDATA
---update-schema
+--db-type postgresql \
+--prop-file postgresql.properties \
+--schema-name FHIRDATA \
+--update-schema \
 --grant-to FHIRSERVER
---db-type postgresql
 ```
+
 If the --grant-to is provided, the grants will be processed after the schema
 objects have been created for a particular schema. No grant changes will be
 applied if the schema is already at the latest version according to the
@@ -178,16 +184,18 @@ When updating the postgres schema, the autovacuum settings are configured.
 ### Grant privileges to another data access user
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
 --grant-to FHIRSERVER
 ```
 
 ### Add a new tenant (e.g. default)  (Db2 only)
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
 --allocate-tenant default
 ```
 
@@ -209,6 +217,7 @@ After a schema update you must run the refresh-tenants command to ensure that an
 
 ```
     java -jar schema/fhir-persistence-schema-*-cli.jar \
+      --db-type db2 \
       --prop-file db2.properties --refresh-tenants
 ```
 
@@ -243,9 +252,10 @@ Edit `wlp/usr/servers/fhir-server/config/default/fhir-server-config.json` and ad
 ### Test a tenant (Db2 only)
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
---test-tenant default
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
+--test-tenant default \
 --tenant-key "<the-base64-tenant-key>"
 ```
 
@@ -255,8 +265,9 @@ Use `--tenant-key-file tenant.key` to read the tenant-key to a file. You do not 
 To add a tenant key for an existing tenant, replace FHIRDATA with your client schema, and change default to your tenant's name. 
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
 --add-tenant-key default
 ```
 
@@ -277,9 +288,9 @@ Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-
 To remove all tenant keys for an existing tenant, replace FHIRDATA with your client schema, and change default to your tenant's name. 
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
---db-type db2
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
 --revoke-all-tenant-keys default
 ```
 
@@ -295,10 +306,10 @@ To remove all tenant keys for an existing tenant, replace FHIRDATA with your cli
 To remove a tenant key for an existing tenant, replace FHIRDATA with your client schema, and change default to your tenant's name. 
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
---db-type db2
---revoke-tenant-key default
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
+--revoke-tenant-key default \
 --tenant-key rZ59TLyEpjU+FAKEtgVk8J44J0=
 ```
 
@@ -317,63 +328,66 @@ Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-
 For Db2:
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
 --update-proc
 ```
 
 For PostgreSQL:
 
 ```
---prop-file postgresql.properties
---schema-name fhirdata
+--db-type postgresql \
+--prop-file postgresql.properties \
+--schema-name fhirdata \
 --update-proc
---db-type postgresql
 ```
 
 ### Drop the FHIR schema specified by `schema-name` (e.g. FHIRDATA)
 For Db2:
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
---drop-schema-fhir
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
+--drop-schema-fhir \
 --confirm-drop
 ```
 
 For PostgreSQL:
 
 ```
---prop-file postgresql.properties
---schema-name FHIRDATA
---drop-schema-fhir
+--db-type postgresql \
+--prop-file postgresql.properties \
+--schema-name FHIRDATA \
+--drop-schema-fhir \
 --confirm-drop
---db-type postgresql
 ```
 
 ### Drop all tables created by `--create-schemas` (including the FHIR-ADMIN schema)
 For Db2:
 
 ```
---prop-file db2.properties
---schema-name FHIRDATA
---drop-schema-fhir
---drop-schema-batch
---drop-schema-oauth
---drop-admin
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
+--drop-schema-fhir \
+--drop-schema-batch \
+--drop-schema-oauth \
+--drop-admin \
 --confirm-drop
 ```
 
 For PostgreSQL:
 
 ```
---prop-file postgresql.properties
---schema-name FHIRDATA
---drop-schema-fhir
---drop-schema-batch
---drop-schema-oauth
+--db-type postgresql \
+--prop-file postgresql.properties \
+--schema-name FHIRDATA \
+--drop-schema-fhir \
+--drop-schema-batch \
+--drop-schema-oauth \
 --drop-admin
---db-type postgresql
 ```
 
 Alternatively, you can drop specific schemas with `--drop-schema-batch schema-name-to-drop` and
@@ -387,10 +401,11 @@ For those using multiple schemas for each customer, for instance, customer 2 nee
 
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
---prop-file db2.properties
---create-schemas
---create-schema-batch FHIR_JBATCH_2ND
---create-schema-oauth FHIR_OAUTH_2ND
+--db-type db2 \
+--prop-file db2.properties \
+--create-schemas \
+--create-schema-batch FHIR_JBATCH_2ND \
+--create-schema-oauth FHIR_OAUTH_2ND \
 --create-schema-fhir FHIRDATA_2ND
 ```
 
@@ -398,32 +413,36 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
---prop-file db2.properties
---schema-name FHIRDATA
---update-schema-batch FHIR_JBATCH_2ND
---update-schema-oauth FHIR_OAUTH_2ND
+--db-type db2 \
+--prop-file db2.properties \
+--schema-name FHIRDATA \
+--update-schema-batch FHIR_JBATCH_2ND \
+--update-schema-oauth FHIR_OAUTH_2ND \
 --update-schema-fhir FHIRDATA_2ND
 ```
 
 ### Grant privileges to data access user
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
---prop-file db2.properties
---grant-to FHIRSERVER
+--db-type db2 \
+--prop-file db2.properties \
+--grant-to FHIRSERVER \
 --target BATCH FHIR_JBATCH_2ND
 ```
 
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
---prop-file db2.properties
---grant-to FHIRSERVER
+--db-type db2 \
+--prop-file db2.properties \
+--grant-to FHIRSERVER \
 --target OAUTH FHIR_OAUTH_2ND
 ```
 
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \ 
---prop-file db2.properties
---grant-to FHIRSERVER
+--db-type db2 \
+--prop-file db2.properties \
+--grant-to FHIRSERVER \
 --target DATA FHIRDATA_2ND
 ```
 
@@ -533,14 +552,31 @@ Note: the jar file is stored locally in `fhir-persistence-schema/target` or in t
 If there is data in the DOMAINRESOURCE and RESOURCE table groups, which is unexpected, the administrator may run the tool with `--force-unused-table-removal` to force the removal of the unused tables.
 
 ----------------------------------------------------------------
+# Distributed Database Support for Citus
+
+IBM FHIR Server Release 5.0.0 includes experimental support for Citus. Configuration is mostly identical to PostgreSQL, except that the `-db-type` argument should be given as `citus`, for example:
+
+```
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
+--prop-file citus.properties  \
+--schema-name fhirdata \
+--update-schema \
+--db-type citus
+```
+
+When `--db-type citus` is specified, the schema tool builds a slightly modified DISTRIBUTED version of the schema which introduces different behavior for some indexes and foreign key constraints. For details on the DISTRIBUTED schema design, refer to the [Schema Design](https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
+
+Note that the datasource must also be identified as type `citus` in the fhir-server-config.json file. See the [IBM FHIR Server Users Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide) for more details.
+
+----------------------------------------------------------------
 # Database Size Report (Db2, PostgreSQL)
 
 Run this command to show a summary of the space used by IBM FHIR Server resources and their related schema objects:
 
 ``` shell
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
---prop-file fhiradmin.properties \
 --db-type postgresql \
+--prop-file fhiradmin.properties \
 --schema-name FHIRDATA \
 --show-db-size
 ```
@@ -549,8 +585,8 @@ To include per-table and per-index in the output, add the `--show-db-size-detail
 
 ``` shell
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
---prop-file fhiradmin.properties \
 --db-type postgresql \
+--prop-file fhiradmin.properties \
 --schema-name FHIRDATA \
 --show-db-size \
 --show-db-size-detail
@@ -560,8 +596,8 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 
 ``` shell
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
---prop-file fhiradmin.properties \
 --db-type db2 \
+--prop-file fhiradmin.properties \
 --schema-name FHIRDATA \
 --tenant-name MY_TENANT_NAME \
 --show-db-size
@@ -576,8 +612,6 @@ The detail rows are tab-separated, making it easy to load the data into a spread
 ----------------------------------------------------------------
 # List of IBM FHIR Server Persistence Schema Tool Flags
 
-|Flag|Variable|Description|
-|----------------|----------------|----------------|
 |Flag|Variable|Description|
 |----------------|----------------|----------------|
 |--help||This menu|
@@ -597,7 +631,8 @@ and grants permission to the username|
 |--tenant-key|tenantKey|the tenant-key in the queries|
 |--tenant-key-file|tenant-key-file-location|sets the tenant key file location|
 |--list-tenants||fetches list of tenants and current status|
-|--db-type|dbType|Either derby, postgresql, db2|
+|--db-type|dbType|Either derby, postgresql, db2, citus. Required.|
+|--schema-type|schemaType|Override the default schema type created for the configured database type. PostgresSQL->PLAIN, Derby->PLAIN, Db2->MULTITENANT, Citus->DISTRIBUTED |
 |--delete-tenant-meta|tenantName|deletes tenant metadata given the tenantName|
 |--drop-detached|tenantName|(phase 2) drops the detached tenant partition tables given the tenantName|
 |--freeze-tenant||Changes the tenant state to frozen, and subsequently (Db2 only)|

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.DistributionType;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 
 /**
@@ -66,18 +67,24 @@ public class IndexDef {
 
     /**
      * Apply this object to the given database target
+     * 
+     * @param schemaName
      * @param tableName
+     * @param tenantColumnName
      * @param target
+     * @param distributionType
+     * @param distributionColumn
      */
-    public void apply(String schemaName, String tableName, String tenantColumnName, IDatabaseAdapter target) {
+    public void apply(String schemaName, String tableName, String tenantColumnName, ISchemaAdapter target,
+            DistributionType distributionType, String distributionColumn) {
         if (includeColumns != null && includeColumns.size() > 0) {
-            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns);
+            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns, distributionType, distributionColumn);
         }
         else if (unique) {
-            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
+            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionType, distributionColumn);
         }
         else {
-            target.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
+            target.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionType);
         }
     }
 
@@ -86,7 +93,7 @@ public class IndexDef {
      * @param schemaName
      * @param target
      */
-    public void drop(String schemaName, IDatabaseAdapter target) {
+    public void drop(String schemaName, ISchemaAdapter target) {
         target.dropIndex(schemaName, indexName);
     }
 

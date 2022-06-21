@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -79,9 +79,19 @@ public interface IDatabaseAdapter {
      * @param tablespaceName
      * @param withs
      * @param checkConstraints
+     * @param distributionContext
      */
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns,
-            PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints);
+            PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
+            DistributionContext distributionContext);
+
+    /**
+     * Apply any distribution rules configured for the named table
+     * @param schemaName
+     * @param tableName
+     * @param distributionContext
+     */
+    public void applyDistributionRules(String schemaName, String tableName, DistributionContext distributionContext);
 
     /**
      * Add a new column to an existing table
@@ -150,27 +160,29 @@ public interface IDatabaseAdapter {
     public void dropProcedure(String schemaName, String procedureName);
 
     /**
-     *
+     * Create a unique index
      * @param schemaName
      * @param tableName
      * @param indexName
      * @param tenantColumnName
      * @param indexColumns
      * @param includeColumns
+     * @param distributionContext
      */
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<OrderedColumnDef> indexColumns, List<String> includeColumns);
+            List<OrderedColumnDef> indexColumns, List<String> includeColumns, DistributionContext distributionContext);
 
     /**
-     *
+     * Create a unique index
      * @param schemaName
      * @param tableName
      * @param indexName
      * @param tenantColumnName
      * @param indexColumns
+     * @param distributionContext
      */
     public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
-            List<OrderedColumnDef> indexColumns);
+            List<OrderedColumnDef> indexColumns, DistributionContext distributionContext);
 
     /**
      *
@@ -501,6 +513,14 @@ public interface IDatabaseAdapter {
     public void createOrReplaceFunction(String schemaName, String objectName, Supplier<String> supplier);
 
     /**
+     * For Citus, functions can be distributed by one of their parameters (typically the first)
+     * @param schemaName
+     * @param functionName
+     * @param distributeByParamNumber
+     */
+    public void distributeFunction(String schemaName, String functionName, int distributeByParamNumber);
+
+    /**
      * drops a given function
      * @param schemaName
      * @param functionName
@@ -544,6 +564,15 @@ public interface IDatabaseAdapter {
      * @param constraintName
      */
     public void enableForeignKey(String schemaName, String tableName, String constraintName);
+
+    /**
+     * Does the named foreign key constraint exist
+     * @param schemaName
+     * @param tableName
+     * @param constraintName
+     * @return
+     */
+    public boolean doesForeignKeyConstraintExist(String schemaName, String tableName, String constraintName);
 
     /**
      *

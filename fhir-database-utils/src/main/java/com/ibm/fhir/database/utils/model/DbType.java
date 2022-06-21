@@ -21,6 +21,11 @@ public enum DbType {
     POSTGRESQL("postgresql"),
 
     /**
+     * Citus (Distributed PostgreSQL)
+     */
+    CITUS("citus"),
+
+    /**
      * IBM Db2
      */
     DB2("db2");

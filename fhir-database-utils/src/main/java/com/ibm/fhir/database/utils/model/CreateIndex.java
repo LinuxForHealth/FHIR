@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.DistributionType;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
+import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 
 /**
@@ -26,20 +28,30 @@ public class CreateIndex extends BaseObject {
     
     // The name of the tenant column when used for multi-tenant databases
     private final String tenantColumnName;
-    
+
+    // The table name the index will be created on
     private final String tableName;
+
+    // Distribution rules if the associated table is distributed
+    private final DistributionType distributionType;
+    private final String distributionColumnName;
 
     /**
      * Protected constructor. Use the Builder to create instance.
      * @param schemaName
      * @param indexName
      * @param version
+     * @param distributionType
      */
-    protected CreateIndex(String schemaName, String versionTrackingName, String tableName, int version, IndexDef indexDef, String tenantColumnName) {
+    protected CreateIndex(String schemaName, String versionTrackingName, String tableName, int version, IndexDef indexDef, String tenantColumnName,
+            DistributionType distributionType, String distributionColumnName) {
         super(schemaName, versionTrackingName, DatabaseObjectType.INDEX, version);
         this.tableName = tableName;
         this.indexDef = indexDef;
         this.tenantColumnName = tenantColumnName;
+        this.distributionType = distributionType;
+        this.distributionColumnName = distributionColumnName;
+        
     }
     
     /**
@@ -84,9 +96,9 @@ public class CreateIndex extends BaseObject {
 
     
     @Override
-    public void apply(IDatabaseAdapter target) {
+    public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         long start = System.nanoTime();
-        indexDef.apply(getSchemaName(), getTableName(), tenantColumnName, target);
+        indexDef.apply(getSchemaName(), getTableName(), tenantColumnName, target, distributionType, distributionColumnName);
         
         if (logger.isLoggable(Level.FINE)) {
             long end = System.nanoTime();
@@ -96,12 +108,12 @@ public class CreateIndex extends BaseObject {
     }
 
     @Override
-    public void apply(Integer priorVersion, IDatabaseAdapter target) {
-        apply(target);
+    public void apply(Integer priorVersion, ISchemaAdapter target, SchemaApplyContext context) {
+        apply(target, context);
     }
 
     @Override
-    public void drop(IDatabaseAdapter target) {
+    public void drop(ISchemaAdapter target) {
         long start = System.nanoTime();
         indexDef.drop(getSchemaName(), target);
         
@@ -151,7 +163,10 @@ public class CreateIndex extends BaseObject {
         // Special case to handle a previous defect where indexes were tracked using tableName in version_history
         private String versionTrackingName;
 
-        
+        // Set if the table is distributed
+        private DistributionType distributionType = DistributionType.NONE;
+        private String distributionColumnName;
+
         /**
          * @param schemaName the schemaName to set
          */
@@ -182,7 +197,27 @@ public class CreateIndex extends BaseObject {
             this.versionTrackingName = name;
             return this;
         }
-        
+
+        /**
+         * Setter for distributionType
+         * @param dt
+         * @return
+         */
+        public Builder setDistributionType(DistributionType dt) {
+            this.distributionType = dt;
+            return this;
+        }
+
+        /**
+         * Setter for distributionColumnName
+         * @param distributionColumnName
+         * @return
+         */
+        public Builder setDistributionColumnName(String distributionColumnName) {
+            this.distributionColumnName = distributionColumnName;
+            return this;
+        }
+
         /**
          * @param version the version to set
          */
@@ -190,7 +225,6 @@ public class CreateIndex extends BaseObject {
             this.version = version;
             return this;
         }
-
         
         /**
          * @param unique the unique to set
@@ -236,8 +270,9 @@ public class CreateIndex extends BaseObject {
             if (versionTrackingName == null) {
                 versionTrackingName = this.indexName;
             }
+            
             return new CreateIndex(schemaName, versionTrackingName, tableName, version,
-                new IndexDef(indexName, indexCols, unique), tenantColumnName);
+                new IndexDef(indexName, indexCols, unique), tenantColumnName, distributionType, distributionColumnName);
         }
         
         /**

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,10 +19,13 @@ import java.util.stream.Collectors;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.GetSequenceNextValueDAO;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
+import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
 import com.ibm.fhir.database.utils.common.SchemaInfoObject;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
@@ -76,17 +79,18 @@ public class DerbyFhirDatabaseTest {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, 10);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(cp);
         DerbyAdapter adapter = new DerbyAdapter(connectionPool);
+        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
         VersionHistoryService vhs = new VersionHistoryService(ADMIN_SCHEMA_NAME, schemaName);
         vhs.setTransactionProvider(transactionProvider);
         vhs.setTarget(adapter);
 
         try (ITransaction tx = transactionProvider.getTransaction()) {
             PhysicalDataModel pdm = new PhysicalDataModel();
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, schemaName, false);
+            FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, schemaName, SchemaType.PLAIN);
             gen.buildSchema(pdm);
-            pdm.drop(adapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+            pdm.drop(schemaAdapter, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
 
-            CreateWholeSchemaVersion.dropTable(schemaName, adapter);
+            CreateWholeSchemaVersion.dropTable(schemaName, schemaAdapter);
 
             // Check that the schema is empty
             List<SchemaInfoObject> schemaObjects = adapter.listSchemaObjects(schemaName);
@@ -138,7 +142,7 @@ public class DerbyFhirDatabaseTest {
 
                 // Check that we have the correct number of tables. This will need to be updated
                 // whenever tables, views or sequences are added or removed
-                assertEquals(adapter.listSchemaObjects(schemaName).size(), 2087);
+                assertEquals(adapter.listSchemaObjects(schemaName).size(), 2564);
                 c.commit();
             } catch (Throwable t) {
                 c.rollback();

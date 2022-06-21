@@ -36,6 +36,10 @@ public class FHIRRequestContext {
 
     // The datastore to be used for this request. Usually "default"
     private String dataStoreId;
+
+    // An optional shard key passed with the request for use with distributed schemas
+    private String requestShardKey;
+
     private String requestUniqueId;
     private String originalRequestUri;
     private Map<String, List<String>> httpHeaders;
@@ -142,6 +146,24 @@ public class FHIRRequestContext {
         } else {
             throw new FHIRException("Invalid dataStoreId. " + errorMsg);
         }
+    }
+
+    /**
+     * Set the shard key string value provided by the request
+     * @param k
+     */
+    public void setRequestShardKey(String k) {
+        this.requestShardKey = k;
+    }
+
+    /**
+     * Get the shard key string value provided by the request. This value is
+     * not filtered in any way because the value eventually gets hashed into 
+     * a short (2 byte integer number) before being used.
+     * @return
+     */
+    public String getRequestShardKey() {
+        return this.requestShardKey;
     }
 
     /**

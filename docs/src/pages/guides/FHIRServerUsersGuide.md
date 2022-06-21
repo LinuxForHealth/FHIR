@@ -27,6 +27,7 @@ permalink: /FHIRServerUsersGuide/
   * [4.10 Bulk data operations](#410-bulk-data-operations)
   * [4.11 Audit logging service](#411-audit-logging-service)
   * [4.12 FHIR REST API](#412-fhir-rest-api)
+  * [4.13 Remote Index Service](#413-remote-index-service)
 - [5 Appendix](#5-appendix)
   * [5.1 Configuration properties reference](#51-configuration-properties-reference)
   * [5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server)
@@ -2070,6 +2071,10 @@ For example, consider a FHIR Server that is listening at https://fhir:9443/fhir-
 
 The originalRequestUriHeader is expected to contain the full path of the original request. Values with no scheme (e.g. `https://`) will be handled like relative URLs, but full URL values (including scheme, hostname, optional port, and path) are recommended. Query string values can be included in the header value but will be ignored by the server; the server will use the query string of the actual request to process the request.
 
+### 4.13 Remote Index Service
+
+To use the experimental remote index service feature, see the instructions documented in the [fhir-remote-index](https://github.com/IBM/FHIR/tree/main/operation/fhir-remote-index/README.md) project.
+
 # 5 Appendix
 
 ## 5.1 Configuration properties reference
@@ -2260,7 +2265,17 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/operations/membermatch/strategy`|string|The key identifying the Member Match strategy|
 |`fhirServer/operations/membermatch/extendedProps`|object|The extended options for the extended member match implementation|
 |`fhirServer/operations/everything/includeTypes`|list|The list of related resource types to include alongside the patient compartment resource types. Instances of these resource types will only be returned when they are referenced from one or more resource instances from the target patient compartment. Example values are like `Location`, `Medication`, `Organization`, and `Practitioner`|
-
+|`fhirServer/remoteIndexService/type`|string| The type of service used to send remote index messages. Only `kafka` is currently supported|
+|`fhirServer/remoteIndexService/instanceIdentifier`|string| A UUID or other identifier unique to this cluster of IBM FHIR Servers |
+|`fhirServer/remoteIndexService/kafka/mode`|string| Current operation mode of the service. Specify `ACTIVE` to use the service|
+|`fhirServer/remoteIndexService/kafka/topicName`|string| The Kafka topic name. Typically `FHIR_REMOTE_INDEX` |
+|`fhirServer/remoteIndexService/kafka/connectionProperties/bootstrap.servers`|string| Bootstrap servers for the Kafka service |
+|`fhirServer/remoteIndexService/kafka/connectionProperties/sasl.jaas.config`|string| Kafka service authentication |
+|`fhirServer/remoteIndexService/kafka/connectionProperties/sasl.mechanism`|string| Kafka service authentication|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/security.protocol`|string| Kafka service security |
+|`fhirServer/remoteIndexService/kafka/connectionProperties/ssl.protocol`|string| Kafka service SSL configuration |
+|`fhirServer/remoteIndexService/kafka/connectionProperties/ssl.enabled.protocols`|string| Kafka service SSL configuration |
+|`fhirServer/remoteIndexService/kafka/connectionProperties/ssl.endpoint.identification.algorithm`|string| Kafka service SSL configuration |
 
 ### 5.1.2 Default property values
 | Property Name                 | Default value   |
@@ -2406,6 +2421,17 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/operations/membermatch/strategy`|default|
 |`fhirServer/operations/membermatch/extendedProps`|empty|
 |`fhirServer/operations/everything/includeTypes`|null|
+|`fhirServer/remoteIndexService/type`|null|
+|`fhirServer/remoteIndexService/instanceIdentifier`|null|
+|`fhirServer/remoteIndexService/kafka/mode`|null|
+|`fhirServer/remoteIndexService/kafka/topicName`|null|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/bootstrap.servers`|null|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/sasl.jaas.config`|null|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/sasl.mechanism`|null|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/security.protocol`|null|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/ssl.protocol`|null|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/ssl.enabled.protocols`|null|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/ssl.endpoint.identification.algorithm`|null|
 
 ### 5.1.3 Property attributes
 Depending on the context of their use, config properties can be:
@@ -2588,6 +2614,17 @@ Cases where that behavior is not supported are marked below with an `N` in the `
 |`fhirServer/operations/membermatch/strategy`|Y|Y|Y|
 |`fhirServer/operations/membermatch/extendedProps`|Y|Y|Y|
 |`fhirServer/operations/everything/includeTypes`|Y|Y|N|
+|`fhirServer/remoteIndexService/type`|N|N|N|
+|`fhirServer/remoteIndexService/instanceIdentifier`|N|N|N|
+|`fhirServer/remoteIndexService/kafka/mode`|N|N|N|
+|`fhirServer/remoteIndexService/kafka/topicName`|N|N|N|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/bootstrap.servers`|N|N|N|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/sasl.jaas.config`|N|N|N|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/sasl.mechanism`|N|N|N|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/security.protocol`|N|N|N|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/ssl.protocol`|N|N|N|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/ssl.enabled.protocols`|N|N|N|
+|`fhirServer/remoteIndexService/kafka/connectionProperties/ssl.endpoint.identification.algorithm`|N|N|N|
 
 ## 5.2 Keystores, truststores, and the IBM FHIR server
 

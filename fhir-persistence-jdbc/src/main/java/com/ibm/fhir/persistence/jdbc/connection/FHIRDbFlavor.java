@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.connection;
 
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.model.DbType;
 
 /**
@@ -22,8 +23,20 @@ public interface FHIRDbFlavor {
     public boolean isMultitenant();
 
     /**
+     * What type of schema is this
+     * @return
+     */
+    public SchemaType getSchemaType();
+
+    /**
      * What type of database is this?
      * @return
      */
     public DbType getType();
+
+    /**
+     * Is the dbType from the PostgreSQL family?
+     * @return
+     */
+    public boolean isFamilyPostgreSQL();
 }

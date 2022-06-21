@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.DistributionType;
+import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
@@ -24,6 +25,9 @@ public class ForeignKeyConstraint extends Constraint {
     private final String targetTable;
     private final String targetColumnName;
     private final List<String> columns = new ArrayList<>();
+
+    // Flag to indicate that the target is a REFERENCE table when using distribution (like Citus)
+    private boolean targetIsReference;
 
     /**
      * @param constraintName
@@ -68,6 +72,22 @@ public class ForeignKeyConstraint extends Constraint {
     public boolean isSelf() {
         return self; 
     }
+
+    /**
+     * Is the target table distributed as a REFERENCE table (Citus)
+     * @return
+     */
+    public boolean isTargetReference() {
+        return this.targetIsReference;
+    }
+
+    /**
+     * Set the flag to indicate if the target table is a reference type
+     * @param flag
+     */
+    public void setTargetReference(boolean flag) {
+        this.targetIsReference = flag;
+    }
     /**
      * Getter for the target table name
      * @return
@@ -105,10 +125,34 @@ public class ForeignKeyConstraint extends Constraint {
     }
 
     /**
+     * Apply the FK constraint to the given target
+     * @param schemaName
      * @param name
+     * @param tenantColumnName
      * @param target
+     * @param sourceDistributionType
      */
-    public void apply(String schemaName, String name, String tenantColumnName, IDatabaseAdapter target) {
-        target.createForeignKeyConstraint(getConstraintName(), schemaName, name, targetSchema, targetTable, targetColumnName, tenantColumnName, columns, enforced);
+    public void apply(String schemaName, String name, String tenantColumnName, ISchemaAdapter target, DistributionType sourceDistributionType) {
+        // make this idempotent to support upgrade scenarios
+        if (!target.doesForeignKeyConstraintExist(schemaName, name, getConstraintName())) {
+            target.createForeignKeyConstraint(getConstraintName(), schemaName, name, targetSchema, targetTable, targetColumnName, tenantColumnName, columns, enforced, sourceDistributionType,
+                targetIsReference);
+        }
+    }
+
+    /**
+     * Return true if the list of columns includes the column name, ignoring case
+     * @param distributionColumnName
+     * @return
+     */
+    public boolean includesColumn(String columnName) {
+        // Linear search is OK because the list is very small and probably 
+        // will be cheaper than maintaining both a list and set of values
+        for (String cn: this.columns) {
+            if (cn.equalsIgnoreCase(columnName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
