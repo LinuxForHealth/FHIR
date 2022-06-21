@@ -84,7 +84,10 @@ public abstract class BaseMessageHandler implements IMessageHandler {
                 }
             }
         }
-        processWithRetry(unmarshalled);
+
+        if (unmarshalled.size() > 0) {
+            processWithRetry(unmarshalled);
+        }
     }
 
     /**

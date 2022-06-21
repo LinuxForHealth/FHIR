@@ -101,6 +101,7 @@ public class FHIRRemoteIndexKafkaService extends FHIRRemoteIndexService {
         final String tenantId = FHIRRequestContext.get().getTenantId();
         RemoteIndexMessage msg = new RemoteIndexMessage();
         msg.setMessageVersion(RemoteIndexConstants.MESSAGE_VERSION);
+        msg.setInstanceIdentifier(this.instanceIdentifier);
         msg.setTenantId(tenantId);
         msg.setData(data.getSearchParameters());
         final String message = RemoteIndexSupport.marshallToString(msg);

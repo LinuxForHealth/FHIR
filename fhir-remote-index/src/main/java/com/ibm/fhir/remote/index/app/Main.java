@@ -319,8 +319,10 @@ public class Main {
         case POSTGRESQL:
         case CITUS:
             configureForPostgres();
+            break;
         case DERBY:
             configureForDerby();
+            break;
         default:
             throw new IllegalArgumentException("Database type not supported: " + this.dbType);
         }
