@@ -48,6 +48,24 @@ The value for `--reindex-concurrent-requests` can be increased/decreased to maxi
 
 If the client-side-driven reindex is unable to be completed due to an error or timeout, the reindex can be resumed by using the `--reindex-start-with-index-id` parameter. If this needs to be done, first check the fhir-bucket log and find the first index ID that was not successful. Then, by specifying that index ID for the value of `--reindex-start-with-index-id` when starting the client-side-driven reindex, the reindex is resumed from that point, instead of starting completely over.
 
+When reindexing, the server compares a hash of the parameter values extracted from the resource with the value of the parameter hash last stored in the database. If the values are equal, the reindex operation skips further processing of the resource which can save a significant amount of time in cases where a search parameter configuration change affects only a subset of resources or resource types. However, some schema upgrades may change the way search parameters are stored and indexed. In such a case, use the `--reindex-force` option. When given, this instructs the reindex operation to ignore the parameter hash comparison and instead always store the new parameters. For example:
+
+```
+java \
+  -Djava.util.logging.config.file=logging.properties \
+  -jar "${JAR}" \
+  --fhir-properties your-fhir-server.properties \
+  --tenant-name your-tenant-name \
+  --max-concurrent-fhir-requests 100 \
+  --no-scan \
+  --reindex-tstamp 2020-12-01T00:00:00Z \
+  --reindex-resource-count 50 \
+  --reindex-concurrent-requests 20 \
+  --reindex-client-side-driven \
+  --reindex-force
+```
+
+
 | Property | Description |
 |---|---|
 | `--reindex-tstamp` | 'yyyy-MM-dd' or ISO 8601 dateTime which the reindex is using to start the operation|
@@ -55,6 +73,7 @@ If the client-side-driven reindex is unable to be completed due to an error or t
 | `--reindex-concurrent-requests` | The simultaneous requests used to execute concurrently |
 | `--reindex-client-side-driven` | Switches between Client driven $reindex and Server side driven reindex. True or false, false by default. |
 | `--reindex-start-with-index-id` | A index-id used with Client driven $reindex to drive reindexing from the Client side.|
+| `--reindex-force` | Force the reindex operation to replace the parameters, even if the parameter hash matches.|
 | `--fhir-properties` | Properties file for the IBM FHIR Server |
 
 ### IBM FHIR Server Properties - The FHIR Properties
