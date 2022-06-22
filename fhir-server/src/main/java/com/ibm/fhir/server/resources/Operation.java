@@ -264,21 +264,8 @@ public class Operation extends FHIRResource {
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
         } catch (FHIROperationException e) {
-            // response 200 OK if no failure issue found.
-            boolean isFailure = false;
-            for (Issue issue : e.getIssues()) {
-                if (FHIRUtil.isFailure(issue.getSeverity())) {
-                    isFailure = true;
-                    break;
-                }
-            }
-            if (isFailure) {
-                status = issueListToStatus(e.getIssues());
-                return exceptionResponse(e, status);
-            } else {
-                status = Status.OK;
-                return exceptionResponse(e, Response.Status.OK);
-            }
+            status = issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
         } catch (Exception e) {
             status = Status.INTERNAL_SERVER_ERROR;
             return exceptionResponse(e, status);

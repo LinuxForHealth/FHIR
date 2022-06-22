@@ -336,7 +336,8 @@ public class FHIRResource {
         if (status.getFamily() == Status.Family.SERVER_ERROR) {
             log.log(Level.SEVERE, e.getMessage(), e);
         } else if (log.isLoggable(Level.FINE)) {
-            log.log(Level.FINE, e.getMessage(), e);
+            // purposefully logged at level INFO because otherwise liberty suppresses the stacktrace
+            log.log(Level.INFO, e.getMessage(), e);
         } else if (log.isLoggable(Level.INFO)) {
             log.log(Level.INFO, e.getMessage());
         }
