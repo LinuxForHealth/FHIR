@@ -84,7 +84,7 @@ public class CapabilitiesVersionTest extends FHIRServerTestBase {
                 }
             }
             break;
-        case VERSION_4_3_0_CIBUILD:
+        case VERSION_4_3_0:
             // nothing to verify at the moment
             break;
         default:
@@ -100,13 +100,13 @@ public class CapabilitiesVersionTest extends FHIRServerTestBase {
         return new Object[][] {
             { "default", null, FHIRVersion.VERSION_4_0_1 },
             { "default", "4.0", FHIRVersion.VERSION_4_0_1 },
-            { "default", "4.3", FHIRVersion.VERSION_4_3_0_CIBUILD },
-            { "tenant1", null, FHIRVersion.VERSION_4_3_0_CIBUILD },
+            { "default", "4.3", FHIRVersion.VERSION_4_3_0 },
+            { "tenant1", null, FHIRVersion.VERSION_4_3_0 },
             { "tenant1", "4.0", FHIRVersion.VERSION_4_0_1 },
-            { "tenant1", "4.3", FHIRVersion.VERSION_4_3_0_CIBUILD },
+            { "tenant1", "4.3", FHIRVersion.VERSION_4_3_0 },
             { "tenant2", null, FHIRVersion.VERSION_4_0_1 },
             { "tenant2", "4.0", FHIRVersion.VERSION_4_0_1 },
-            { "tenant2", "4.3", FHIRVersion.VERSION_4_3_0_CIBUILD }
+            { "tenant2", "4.3", FHIRVersion.VERSION_4_3_0 }
         };
     }
 }
