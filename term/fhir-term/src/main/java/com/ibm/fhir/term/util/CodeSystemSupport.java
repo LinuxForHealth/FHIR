@@ -269,17 +269,14 @@ public final class CodeSystemSupport {
      * @param codeSystem
      * @return
      *    the code system associated with the given input parameter, or null if no such code system exists
-     * @implSpec for CodeSystems with no parent or child properties, this will return the same CodeSystem that was passed
+     * @implSpec For CodeSystems with no parent or child properties, this will return the same CodeSystem that was passed.
+     * @implNote In cases where the CodeSystem has both nested concepts AND property-based hierarchy, only the top-level concepts
+     *    will be checked for properties. It is not recommended to mix hierarchy approaches like this.
      */
     public static CodeSystem convertToSimpleCodeSystem(CodeSystem codeSystem) {
         if (!hasPropertyHierarchy(codeSystem)) {
             return codeSystem;
         }
-//        for (Concept c : codeSystem.getConcept()) {
-//            if (!c.getConcept().isEmpty()) {
-//                throw new UnsupportedOperationException("Mixing property-based hierarchy with nested concept hierarchy is not yet supported.");
-//            }
-//        }
 
         CodeSystem.Builder codeSystemBuilder = codeSystem.toBuilder();
 
@@ -313,7 +310,7 @@ public final class CodeSystemSupport {
             g.addVertex(codeValue);
         }
 
-        // write all parent/child propties to the graph as directed edges (parent->child)
+        // write all parent/child properties to the graph as directed edges (parent->child)
         for (Concept c : codeSystem.getConcept()) {
             java.lang.String codeValue = c.getCode().getValue();
             for (Concept.Property p : c.getProperty()) {

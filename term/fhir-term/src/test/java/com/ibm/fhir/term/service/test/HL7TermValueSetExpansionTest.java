@@ -28,7 +28,7 @@ public class HL7TermValueSetExpansionTest {
     /**
      * Compare FHIRTermService ValueSet expansion to expanded ValueSets obtained from https://tx.fhir.org
      *
-     * Note:  tx.fhir.org has seems to have some stale expansions. In all of the following cases, our expansion
+     * Note:  tx.fhir.org seems to have some stale expansions. In all of the following cases, our expansion
      * differed and I think our expansion is right for the version of the hl7.terminology package we're using (3.1.0).
      *
      * <ul>
