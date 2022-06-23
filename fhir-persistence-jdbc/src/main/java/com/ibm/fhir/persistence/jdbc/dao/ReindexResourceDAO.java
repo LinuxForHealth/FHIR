@@ -22,6 +22,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
+import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
@@ -83,6 +84,14 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             + "     AND lr.reindex_tstamp < ? "
             + "     AND rt.retired = 'N' "
             + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
+            ;
+
+    // As of V0027, we serialize resource updates using LOGICAL_RESOURCE_IDENT
+    private static final String LOCK_LOGICAL_RESOURCE = ""
+            + "  SELECT 1 "
+            + "    FROM logical_resource_ident "
+            + "   WHERE resource_type_id = ? "
+            + "     AND logical_id = ? "
             ;
 
     /**
@@ -162,7 +171,50 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             throw translator.translate(x);
         }
 
+        if (result != null) {
+            // We've picked the resource we want to process, now make sure we have a lock on it
+            // before we make any changes
+            result = lockLogicalResource(result);
+        }
+
         return result;
+    }
+
+    /**
+     * Lock the logical resource for update
+     * @param rir
+     * @throws Exception
+     * @return the rir parameter, or null if the resource record was erased before it could be locked
+     */
+    protected ResourceIndexRecord lockLogicalResource(ResourceIndexRecord rir) throws Exception {
+        if (logger.isLoggable(Level.FINE)) {
+            // note resourceType is not set in the ResourceIndexRecord yet so we need to use resourceTypeId
+            logger.fine("Locking (select for update): " + rir.getResourceTypeId() + "/" + rir.getLogicalId() 
+                        + " logical_resource_id = [" + rir.getLogicalResourceId() + "]");
+        }
+
+        // no need to close
+        Connection connection = getConnection();
+        IDatabaseTranslator translator = getTranslator();
+
+        // Build the SELECT ... FOR UPDATE statement
+        final String select = translator.addForUpdate(LOCK_LOGICAL_RESOURCE);
+
+        try (PreparedStatement stmt = connection.prepareStatement(select)) {
+            PreparedStatementHelper psh = new PreparedStatementHelper(stmt);
+            psh.setInt(rir.getResourceTypeId());
+            psh.setString(rir.getLogicalId());
+            ResultSet rs = stmt.executeQuery();
+            if (!rs.next()) {
+                logger.warning("logical_resource_ident record no longer exists (erased?): " + rir.getResourceTypeId() + "/" + rir.getLogicalId() 
+                    + " logical_resource_id = [" + rir.getLogicalResourceId() + "]");
+                rir = null; // prevents further processing now that this resource has disappeared
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, select, x);
+            throw translator.translate(x);
+        }
+        return rir;
     }
 
     /**
@@ -266,6 +318,17 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                 offsetRange /= 2;
             }
         } while (offsetRange > 0 && result == null);
+
+        if (result != null) {
+            // Since V0027 we lock resources using LOGICAL_RESOURCE_IDENT. There is a small chance of
+            // deadlock here if reindex is processing the same resources which are also being updated
+            // as part of ingestion. This is because ingestion locks LOGICAL_RESOURCE_IDENT before
+            // updating LOGICAL_RESOURCES, whereas here we updated LOGICAL_RESOURCES before locking
+            // LOGICAL_RESOURCE_IDENT. Eliminating this would require a significant rework. The
+            // recommendation going forward is to always use the client-driven process, because it
+            // is more efficient.
+            result = lockLogicalResource(result);
+        }
 
         return result;
     }
