@@ -241,6 +241,9 @@ public class Main {
     // How many reindex calls should we run in parallel
     private int reindexConcurrentRequests = 1;
 
+    // Force reindex even if parameter hash matches
+    private boolean reindexForce = false;
+
     // The number of patients to fetch into the buffer
     private int patientBufferSize = 500000;
 
@@ -510,6 +513,9 @@ public class Main {
                 } else {
                     throw new IllegalArgumentException("missing value for --reindex-resource-count");
                 }
+                break;
+            case "--reindex-force":
+                this.reindexForce = true;
                 break;
             case "--reindex-concurrent-requests":
                 if (i < args.length + 1) {
@@ -1136,9 +1142,9 @@ public class Main {
      */
     private void doReindex() {
         if (this.clientSideDrivenReindex) {
-            this.driveReindexOperation = new ClientDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount, reindexStartWithIndexId);
+            this.driveReindexOperation = new ClientDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount, reindexStartWithIndexId, reindexForce);
         } else {
-            this.driveReindexOperation = new ServerDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
+            this.driveReindexOperation = new ServerDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount, reindexForce);
         }
         this.driveReindexOperation.init();
 

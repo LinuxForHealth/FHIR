@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -58,20 +58,28 @@ public class ServerDrivenReindexOperation extends DriveReindexOperation {
 
     /**
      * Public constructor
+     * 
      * @param client the FHIR client
      * @param maxConcurrentRequests the number of threads to spin up
+     * @param tstampParam
+     * @param resourceCountParam
+     * @param force
      */
-    public ServerDrivenReindexOperation(FHIRBucketClient fhirClient, int maxConcurrentRequests, String tstampParam, int resourceCountParam) {
+    public ServerDrivenReindexOperation(FHIRBucketClient fhirClient, int maxConcurrentRequests, String tstampParam, int resourceCountParam, boolean force) {
         this.fhirClient = fhirClient;
         this.maxConcurrentRequests = maxConcurrentRequests;
 
-        Parameters parameters = Parameters.builder()
+        Parameters.Builder builder = Parameters.builder()
                 .parameter(Parameter.builder().name(str("tstamp")).value(str(tstampParam)).build())
                 .parameter(Parameter.builder().name(str("resourceCount")).value(intValue(resourceCountParam)).build())
-                .build();
+                ;
+
+        if (force) {
+            builder.parameter(Parameter.builder().name(str("force")).value(true).build());
+        }
 
         // Serialize into the requestBody string used by all the threads
-        this.requestBody = FHIRBucketClientUtil.resourceToString(parameters);
+        this.requestBody = FHIRBucketClientUtil.resourceToString(builder.build());
 
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("Reindex request parameters: " + requestBody);

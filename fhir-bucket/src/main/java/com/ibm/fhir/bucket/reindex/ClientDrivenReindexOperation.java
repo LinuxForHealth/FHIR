@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,6 +44,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
     private static final String NOT_MODIFIED_AFTER_PARAM = "notModifiedAfter";
     private static final String AFTER_INDEX_ID_PARAM = "afterIndexId";
     private static final String INDEX_IDS_PARAM = "indexIds";
+    private static final String FORCE_PARAM = "force";
     private static final int MAX_RETRIEVE_COUNT = 1000;
     private static final int OFFER_TIMEOUT_IN_SEC = 30;
     private static final int POLL_TIMEOUT_IN_SEC = 5;
@@ -88,6 +89,9 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
     // Number of threads currently running
     private AtomicInteger currentlyRunning = new AtomicInteger();
 
+    // Include the force parameter in the reindex operation request
+    private final boolean force;
+
     /**
      * Public constructor.
      * @param fhirClient the FHIR client
@@ -95,14 +99,16 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
      * @param reindexTimestamp timestamp the reindex began
      * @param maxResourceCount resources processed per request per thread
      * @param startWithIndexId index ID from which to start, or null
+     * @param force force the reindex even if the parameter hash matches
      */
-    public ClientDrivenReindexOperation(FHIRBucketClient fhirClient, int maxConcurrentRequests, String reindexTimestamp, int maxResourceCount, String startWithIndexId) {
+    public ClientDrivenReindexOperation(FHIRBucketClient fhirClient, int maxConcurrentRequests, String reindexTimestamp, int maxResourceCount, String startWithIndexId, boolean force) {
         this.fhirClient = fhirClient;
         this.maxConcurrentRequests = maxConcurrentRequests;
         this.reindexTimestamp = reindexTimestamp;
         this.maxResourceCount = maxResourceCount;
         this.blockingQueue = new LinkedBlockingDeque<>(MAX_RETRIEVE_COUNT + (maxResourceCount * maxConcurrentRequests));
         this.inProgressIndexIds = Collections.newSetFromMap(new ConcurrentHashMap<String, Boolean>(maxResourceCount * maxConcurrentRequests));
+        this.force = force;
         if (startWithIndexId != null) {
             // Subtract 1 since the $retrieve-index operation retrieves index IDs after a specified index ID
             this.lastIndexId = String.valueOf(Long.parseLong(startWithIndexId) - 1);
@@ -427,6 +433,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
 
         Builder builder = Parameters.builder();
         builder.parameter(Parameter.builder().name(str(INDEX_IDS_PARAM)).value(str(indexIds)).build());
+        builder.parameter(Parameter.builder().name(str(FORCE_PARAM)).value(true).build());
         Parameters parameters = builder.build();
         String requestBody = FHIRBucketClientUtil.resourceToString(parameters);
 
