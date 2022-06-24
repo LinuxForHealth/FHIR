@@ -23,7 +23,8 @@ public class SchemaSupport {
             .map(t -> ModelSupport.getTypeName(t))
             .collect(Collectors.toMap(rt -> rt.toUpperCase(), rt -> rt.toString()));
     private static final Set<String> WHOLE_SYSTEM_TABLES = new HashSet<>(Arrays.asList(
-            "LOGICAL_RESOURCES", "RESOURCES", "STR_VALUES", "DATE_VALUES", "RESOURCE_TOKEN_REFS", 
+            "LOGICAL_RESOURCES", "RESOURCES", "STR_VALUES", "DATE_VALUES", "RESOURCE_TOKEN_REFS",
+            "LOGICAL_RESOURCE_IDENT",
             "RESOURCE_CHANGE_LOG", "COMMON_TOKEN_VALUES", "COMMON_CANONICAL_VALUES",
             "CODE_SYSTEMS",
             "LOGICAL_RESOURCE_PROFILES", "LOGICAL_RESOURCE_TAGS", "LOGICAL_RESOURCE_SECURITY"));
@@ -43,7 +44,6 @@ public class SchemaSupport {
      * Obtain the resource type associated with the given table
      * @param tableName
      * @return the associated resource type or null if the table is known but not associated with a resource
-     * @throws IllegalArgumentException if the table name is not known
      */
     public String getResourceTypeFromTableName(String tableName) {
         final String resourceType;
@@ -59,10 +59,7 @@ public class SchemaSupport {
             int idx = tableName.indexOf('_');
             if (idx > 0) {
                 String sub = tableName.substring(0, idx);
-                resourceType = ALL_RESOURCE_TYPES.get(sub.toUpperCase());
-                if (resourceType == null) {   
-                    throw new IllegalArgumentException("Not a recognized data schema table name: " + tableName);
-                }
+                resourceType = ALL_RESOURCE_TYPES.get(sub.toUpperCase()); // may be null
             } else {
                 throw new IllegalArgumentException("Not a recognized data schema table name: " + tableName);
             }

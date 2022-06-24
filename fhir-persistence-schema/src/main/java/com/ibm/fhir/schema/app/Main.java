@@ -173,6 +173,7 @@ import com.ibm.fhir.schema.control.TenantInfo;
 import com.ibm.fhir.schema.control.UnusedTableRemovalNeedsV0021Migration;
 import com.ibm.fhir.schema.model.ResourceType;
 import com.ibm.fhir.schema.model.Schema;
+import com.ibm.fhir.schema.size.CitusSizeCollector;
 import com.ibm.fhir.schema.size.Db2SizeCollector;
 import com.ibm.fhir.schema.size.FHIRDbSizeModel;
 import com.ibm.fhir.schema.size.ISizeCollector;
@@ -2794,8 +2795,10 @@ public class Main {
         final ISizeCollector collector;
         switch (dbType) {
         case POSTGRESQL:
-        case CITUS: // assume for now this works for Citus
             collector = new PostgresSizeCollector(model);
+            break;
+        case CITUS:
+            collector = new CitusSizeCollector(model);
             break;
         case DB2:
             collector = new Db2SizeCollector(model, this.tenantName);
@@ -2807,7 +2810,7 @@ public class Main {
         default:
             throw new IllegalArgumentException("Unsupported DbType: " + dbType);
         }
-        
+
         if (collector != null) {
             collectDbSizeInfo(collector);
             // render the report using UTF8 regardless of system config
