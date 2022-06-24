@@ -291,9 +291,9 @@ public final class CodeSystemSupport {
             if (uri == null) {
                 continue;
             }
-            if ("http://hl7.org/fhir/concept-properties#parent".equals(uri.getValue())) {
+            if (PARENT_PROP.equals(uri.getValue())) {
                 parentProps.add(p.getCode().getValue());
-            } else if ("http://hl7.org/fhir/concept-properties#child".equals(uri.getValue())) {
+            } else if (CHILD_PROP.equals(uri.getValue())) {
                 childProps.add(p.getCode().getValue());
             }
         }
