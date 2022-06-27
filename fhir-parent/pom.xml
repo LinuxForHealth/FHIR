@@ -802,7 +802,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.0.0-M6</version>
+                    <version>3.0.0-M7</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -827,7 +827,7 @@
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
-                    <version>3.6</version>
+                    <version>3.6.1</version>
                 </plugin>
                 <plugin>
                     <groupId>com.spotify</groupId>
