@@ -612,7 +612,7 @@
                 <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.77.Final</version>
+                <version>4.1.78.Final</version>
             </dependency>
             <dependency>
                 <!-- Used in com.amazonaws:aws-java-sdk which is brought in by com.ibm.stocator:stocator (but marked provided by default) -->
