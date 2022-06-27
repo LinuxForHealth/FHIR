@@ -2798,6 +2798,7 @@ public class Main {
             collector = new PostgresSizeCollector(model);
             break;
         case CITUS:
+            logger.warning("**** Citus size report is incomplete ****");
             collector = new CitusSizeCollector(model);
             break;
         case DB2:

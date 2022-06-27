@@ -12,16 +12,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.core.util.ResourceTypeHelper;
 
 /**
  * Support functions for the FHIR DB schema
  */
 public class SchemaSupport {
-    // A set of all the FHIR (non-abstract) resource type names converted to upper case
-    private static final Map<String,String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
-            .map(t -> ModelSupport.getTypeName(t))
-            .collect(Collectors.toMap(rt -> rt.toUpperCase(), rt -> rt.toString()));
+    // A map of all the FHIR (non-abstract) resource type where the key is the upper case of the value
+    private final Map<String,String> allResourceTypes;
     private static final Set<String> WHOLE_SYSTEM_TABLES = new HashSet<>(Arrays.asList(
             "LOGICAL_RESOURCES", "RESOURCES", "STR_VALUES", "DATE_VALUES", "RESOURCE_TOKEN_REFS",
             "LOGICAL_RESOURCE_IDENT",
@@ -37,7 +35,13 @@ public class SchemaSupport {
      * Public constructor
      */
     public SchemaSupport() {
-        // NOP
+        // build the resource type lookup map (e.g. "PATIENT" -> "Patient"
+        // this map will contain key-value pairs for all resources in both
+        // R4B and R4 (required because our schema may contain some old R4
+        // resources).
+        this.allResourceTypes = ResourceTypeHelper.getAllResourceTypeNames()
+                .stream()
+                .collect(Collectors.toMap(rt -> rt.toUpperCase(), rt -> rt.toString()));
     }
 
     /**
@@ -59,7 +63,7 @@ public class SchemaSupport {
             int idx = tableName.indexOf('_');
             if (idx > 0) {
                 String sub = tableName.substring(0, idx);
-                resourceType = ALL_RESOURCE_TYPES.get(sub.toUpperCase()); // may be null
+                resourceType = allResourceTypes.get(sub.toUpperCase()); // may be null
             } else {
                 throw new IllegalArgumentException("Not a recognized data schema table name: " + tableName);
             }
@@ -90,6 +94,7 @@ public class SchemaSupport {
                 || utn.endsWith("_PROFILES")
                 || utn.endsWith("_SECURITY")
                 || utn.endsWith("_CURRENT_REFS")
+                || utn.endsWith("_REF_VALUES")
                 ;
     }
 
@@ -127,6 +132,8 @@ public class SchemaSupport {
             return "NUMBER";
         } else if (utn.endsWith("_QUANTITY_VALUES")) {
             return "QUANTITY";
+        } else if (utn.endsWith("_REF_VALUES")) {
+            return "REFERENCE";
         } else if (utn.endsWith("_LATLNG_VALUES")) {
             return "LOCATION";
         } else if (utn.endsWith("_RESOURCE_TOKEN_REFS")) {
