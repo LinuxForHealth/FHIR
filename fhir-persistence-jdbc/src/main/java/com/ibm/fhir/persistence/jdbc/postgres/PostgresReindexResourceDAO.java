@@ -160,7 +160,10 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
                 stmt.setTimestamp(2, Timestamp.from(reindexTstamp), UTC);
             }
 
+            // This is an UPDATE statement...
             stmt.execute();
+            
+            // ...with a RETURNING clause
             ResultSet rs = stmt.getResultSet();
             if (rs.next()) {
                 result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4), rs.getString(5));
@@ -168,6 +171,17 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
         } catch (SQLException x) {
             logger.log(Level.SEVERE, update, x);
             throw translator.translate(x);
+        }
+
+        if (result != null) {
+            // Since V0027 we lock resources using LOGICAL_RESOURCE_IDENT. There is a small chance of
+            // deadlock here if reindex is processing the same resources which are also being updated
+            // as part of ingestion. This is because ingestion locks LOGICAL_RESOURCE_IDENT before
+            // updating LOGICAL_RESOURCES, whereas here we update LOGICAL_RESOURCES before locking
+            // LOGICAL_RESOURCE_IDENT. Eliminating this would require a significant rework. The
+            // recommendation going forward is to always use the client-driven process. It
+            // is more efficient and does not have this deadlock issue.
+            result = lockLogicalResource(result);
         }
 
         return result;
