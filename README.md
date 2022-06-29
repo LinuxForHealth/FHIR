@@ -1,5 +1,5 @@
-## IBM FHIR Server
-The IBM® FHIR® Server is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://hl7.org/fhir/R4B/http.html) with a focus on performance and configurability.
+## LinuxForHealth FHIR Server
+The LinuxForHealth FHIR® Server (formerly the IBM® FHIR® Server) is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://hl7.org/fhir/R4B/http.html) with a focus on performance and configurability.
 
 For a detailed description of FHIR conformance, see https://linuxforhealth.github.io/FHIR/Conformance.
 
@@ -9,11 +9,11 @@ The server is available in the following forms:
 * a [Linux container image](https://hub.docker.com/r/ibmcom/ibm-fhir-server) from the ibmcom org on DockerHub
 * a [helm chart](https://artifacthub.io/packages/helm/alvearie/ibm-fhir-server) from the alvearie org on ArtifactHub
 
-### Running the IBM FHIR Server
-Guides for configuring, operating, and extending the IBM FHIR Server are available from https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide.
+### Running the server
+Guides for configuring, operating, and extending the LinuxForHealth FHIR Server are available from https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide.
 
 #### From the zip installer
-Download the fhir-persistence-schema and fhir-install assets from the [Releases tab](https://github.com/IBM/FHIR/releases) and follow the instructions from the [User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#21-installing-a-new-server) to:
+Download the fhir-persistence-schema and fhir-install assets from the [Releases tab](https://github.com/LinuxForHealth/FHIR/releases) and follow the instructions from the [User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#21-installing-a-new-server) to:
 1. Use fhir-persistence-schema-VERSION-cli.jar to deploy the schema.
 2. Unzip, install, and configure the server.
 
@@ -40,8 +40,8 @@ helm upgrade --install --render-subchart-notes ibm-fhir-server alvearie/ibm-fhir
 
 See https://artifacthub.io/packages/helm/alvearie/ibm-fhir-server for more information.
 
-### Building on top of the IBM FHIR Server Modules
-Each of the IBM FHIR Server modules are published to Maven Central under [com.ibm.fhir](https://repo1.maven.org/maven2/com/ibm/fhir/).
+### Building with the LinuxForHealth FHIR Modules
+Each of the LinuxForHealth FHIR Server modules are published to Maven Central under [com.ibm.fhir](https://repo1.maven.org/maven2/com/ibm/fhir/).
 
 To use the artifacts from a Maven project, declare the dependencies. For example, to use our visitable, thread-safe FHIR R4 object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
 
@@ -67,10 +67,10 @@ Note, if you are using a local repository or private host, you must add the repo
     ...
 ```
 
-For versions prior to 4.7.0, the IBM FHIR Server modules are only available from the [Releases tab](https://github.com/IBM/FHIR/releases) in an archived Maven repository format.
+For versions prior to 4.7.0, the IBM FHIR Server modules are only available from the [Releases tab](https://github.com/LinuxForHealth/FHIR/releases) in an archived Maven repository format.
 
-### IBM FHIR Server Module Catalog
-The IBM FHIR Server is modular and extensible. The following tables provide an overview of all the IBM FHIR modules, along with an indicator of the stability of the Java APIs defined in each module. This indicator is only applicable to the direct usage of the modules, not for usage of the IBM FHIR Server as a whole.
+### LinuxForHealth FHIR modules
+The LinuxForHealth FHIR Server is modular and extensible. The following tables provide an overview of all the modules, along with an indicator of the stability of the Java APIs defined in each module. This indicator is only applicable to the direct usage of the modules, not for usage of the LinuxForHealth FHIR Server as a whole.
 
 #### Core
 |Module|Description|Java API-stable|
@@ -94,13 +94,13 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |conformance/fhir-core-r4|Conformance artifacts for HL7 FHIR version 4.0.1|false|
 |conformance/fhir-core-r4b|Conformance artifacts for HL7 FHIR version 4.3.0|false|
 |conformance/fhir-hl7-terminology|CodeSystems and ValueSets from HL7 Terminology (THO) version 3.1.0|false|
-|conformance/fhir-ig-us-core|A packaging of the US Core Implementation Guide for extending the IBM FHIR Server with US Core profile validation|false|
-|conformance/fhir-ig-mcode|A packaging of the minimal Common Oncology Data Elements for extending the IBM FHIR Server with minimal Common Oncology Data Elements profile validation|false|
-|conformance/fhir-ig-carin-bb|A packaging of the Consumer-Directed Payer Data Exchange Guide for extending the IBM FHIR Server with  Consumer-Directed Payer Data Exchange profile validation|false|
-|conformance/fhir-ig-davinci-pdex|A packaging of the Da Vinci Payer Data Exchange (PDEX) Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDEX) profile validation|false|
-|conformance/fhir-ig-davinci-hrex|A packaging of the Da Vinci Health Record Exchange (HREX) Implementation Guide for extending the IBM FHIR Server with DaVinci Health Record Exchange (HREX) profile validation|false|
-|conformance/fhir-ig-davinci-pdex-plan-net|A packaging of the Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDEX) Plan Net profile validation|false|
-|conformance/fhir-ig-davinci-pdex-formulary|A packaging of the Da Vinci Payer Data Exchange (PDex) US Drug Formulary Implementation Guide for extending the IBM FHIR Server with DaVinci Payer Data Exchange (PDex) US Drug Formulary validation|false|
+|conformance/fhir-ig-us-core|Packaging the US Core Implementation Guide for the LinuxForHealth FHIR registry|false|
+|conformance/fhir-ig-mcode|Packaging the minimal Common Oncology Data Elements for the LinuxForHealth FHIR registry|false|
+|conformance/fhir-ig-carin-bb|Packaging the Consumer-Directed Payer Data Exchange Guide for the LinuxForHealth FHIR registry|false|
+|conformance/fhir-ig-davinci-pdex|Packaging the Da Vinci Payer Data Exchange (PDEX) Implementation Guide for the LinuxForHealth FHIR registry|false|
+|conformance/fhir-ig-davinci-hrex|Packaging the Da Vinci Health Record Exchange (HREX) Implementation Guide for the LinuxForHealth FHIR registry|false|
+|conformance/fhir-ig-davinci-pdex-plan-net|Packaging the Da Vinci Payer Data Exchange (PDEX) Plan Net Implementation Guide for the LinuxForHealth FHIR registry|false|
+|conformance/fhir-ig-davinci-pdex-formulary|Packaging the Da Vinci Payer Data Exchange (PDex) US Drug Formulary Implementation Guide for the LinuxForHealth FHIR registry|false|
 
 #### Server
 |Module|Description|Java API-stable|
@@ -108,7 +108,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-config|Configuration property definitions and helpers for working with the fhir-server-config.json config files and multi-tenancy|false|
 |fhir-audit|Audit-related interfaces and implementations including 1) a No-op AuditLogService and 2) an AuditLogService that writes audit events to Apache Kafka in the Cloud Auditing Data Federation (CADF) JSON format|false|
 |fhir-search|Utilities for working with the FHIR search specification|false|
-|fhir-persistence|Interfaces, helpers, and tests for implementing a persistence layer or persistence interceptors for the IBM FHIR Server|false|
+|fhir-persistence|Interfaces, helpers, and tests for implementing a persistence layer for the server|false|
 |fhir-persistence-jdbc|A relational FHIRPersistence implementation that uses JDBC to store and query FHIR resources|false|
 |fhir-persistence-scout|A scale out persistence layer to store and query FHIR resources *experimental* |false|
 |fhir-persistence-cos|Decorates the fhir-persistence-jdbc module with the ability to offload payload storage to IBM Cloud Object Storage *experimental* |false|
@@ -168,17 +168,17 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-persistence-schema|Classes for deploying and updating the IBM FHIR Server relational database schema|false|
 |fhir-persistence-cassandra-app|CLI utility application supporting payload storage to Cassandra *experimental* |false|
 
-### Contributing to the IBM FHIR Server
-The IBM FHIR Server is under active development. To help develop the server, clone or download the project and build it using Maven.
-See [Setting up for development](https://github.com/IBM/FHIR/wiki/Setting-up-for-development) for more information.
+### Contributing to the LinuxForHealth FHIR Server
+The LinuxForHealth FHIR Server is under active development. To help develop the server, clone or download the project and build it using Maven.
+See [Setting up for development](https://github.com/LinuxForHealth/FHIR/wiki/Setting-up-for-development) for more information.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for contributing your changes back to the project.
 
 See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for code of conduct.
 
 ### License
-The IBM FHIR Server is licensed under the Apache 2.0 license. Full license text is
-available at [LICENSE](LICENSE).
+The LinuxForHealth FHIR Server and its corresponding modules are licensed under the Apache 2.0 license.
+The full license text is available at [LICENSE](LICENSE).
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7. Use of the FHIR trademark does not constitute endorsement of this product by HL7.
-IBM and the IBM logo are trademarks of International Business Machines Corporation, registered in many jurisdictions worldwide. Other product and service names might be trademarks of IBM or other companies. A current list of IBM trademarks is available on [https://ibm.com/trademark](https://ibm.com/trademark).
+IBM and the IBM logo are trademarks of International Business Machines Corporation, registered in many jurisdictions worldwide. Other product and service names might be trademarks of IBM or other companies. A current list of IBM trademarks is available at [https://ibm.com/trademark](https://ibm.com/trademark).
