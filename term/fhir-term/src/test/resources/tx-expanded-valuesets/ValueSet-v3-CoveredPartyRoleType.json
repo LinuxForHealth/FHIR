@@ -1,0 +1,297 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "v3-CoveredPartyRoleType",
+  "language" : "en-US",
+  "url" : "http://terminology.hl7.org/ValueSet/v3-CoveredPartyRoleType",
+  "identifier" : [
+    {
+      "system" : "urn:ietf:rfc:3986",
+      "value" : "urn:oid:2.16.840.1.113883.1.11.19805"
+    }
+  ],
+  "version" : "2.0.0",
+  "name" : "CoveredPartyRoleType",
+  "title" : "CoveredPartyRoleType",
+  "status" : "active",
+  "date" : "2014-03-26",
+  "expansion" : {
+    "identifier" : "urn:uuid:29b3ea59-82f7-432f-9370-0adca630772a",
+    "timestamp" : "2022-06-21T22:01:33.116Z",
+    "parameter" : [
+      {
+        "name" : "expansion-source",
+        "valueUri" : "ValueSet/v3-CoveredPartyRoleType"
+      },
+      {
+        "name" : "displayLanguage",
+        "valueString" : "en-US,en;q=0.9"
+      },
+      {
+        "name" : "version",
+        "valueUri" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode|2018-08-12"
+      },
+      {
+        "name" : "expansion-source",
+        "valueUri" : "ValueSet/v3-ClaimantCoveredPartyRoleType"
+      },
+      {
+        "name" : "displayLanguage",
+        "valueString" : "en-US,en;q=0.9"
+      },
+      {
+        "name" : "version",
+        "valueUri" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode|2018-08-12"
+      },
+      {
+        "name" : "expansion-source",
+        "valueUri" : "ValueSet/v3-ProgramEligibleCoveredPartyRoleType"
+      },
+      {
+        "name" : "displayLanguage",
+        "valueString" : "en-US,en;q=0.9"
+      },
+      {
+        "name" : "version",
+        "valueUri" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode|2018-08-12"
+      },
+      {
+        "name" : "expansion-source",
+        "valueUri" : "ValueSet/v3-IndividualInsuredCoveredPartyRoleType"
+      },
+      {
+        "name" : "displayLanguage",
+        "valueString" : "en-US,en;q=0.9"
+      },
+      {
+        "name" : "version",
+        "valueUri" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode|2018-08-12"
+      },
+      {
+        "name" : "expansion-source",
+        "valueUri" : "ValueSet/v3-StudentRoleType"
+      },
+      {
+        "name" : "displayLanguage",
+        "valueString" : "en-US,en;q=0.9"
+      },
+      {
+        "name" : "version",
+        "valueUri" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode|2018-08-12"
+      },
+      {
+        "name" : "expansion-source",
+        "valueUri" : "ValueSet/v3-SubscriberCoveredPartyRoleType"
+      },
+      {
+        "name" : "displayLanguage",
+        "valueString" : "en-US,en;q=0.9"
+      },
+      {
+        "name" : "version",
+        "valueUri" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode|2018-08-12"
+      },
+      {
+        "name" : "expansion-source",
+        "valueUri" : "ValueSet/v3-DependentCoveredPartyRoleType"
+      },
+      {
+        "name" : "displayLanguage",
+        "valueString" : "en-US,en;q=0.9"
+      },
+      {
+        "name" : "version",
+        "valueUri" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode|2018-08-12"
+      },
+      {
+        "name" : "expansion-source",
+        "valueUri" : "ValueSet/v3-StudentRoleType"
+      },
+      {
+        "name" : "displayLanguage",
+        "valueString" : "en-US,en;q=0.9"
+      },
+      {
+        "name" : "version",
+        "valueUri" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode|2018-08-12"
+      }
+    ],
+    "contains" : [
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A role recognized through the eligibility of an identified living subject for benefits covered under an insurance policy or a program.  Eligibility as a covered party may be conditioned on a relationship with (1) the policy holder such as the policy holder who is covered as an individual under a poliy or as a party sponsored for coverage by the policy holder.\r\n\n                        \n                           Example:An employee as a subscriber; or (2) on being scoped another covered party such as the subscriber, as in the case of a dependent. \r\n\n                        \n                           Discussion:  The Abstract Value Set \"CoverageRoleType\", which was developed for use in the Canadian realm \"pre-coordinate\" coverage roles with other roles that a covered party must play in order to be eligible for coverage, e.g., \"handicapped dependent\".  Other codes in the Abstract Value Set CoveredPartyRoleType domain can be \"post-coordinated\" with the EligiblePartyRoleType codes to denote comparable concepts.  Decoupling the concepts is intended to support a wider range of concepts and semantic comparability of coded concepts."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "_CoveredPartyRoleType",
+        "display" : "covered party role type"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Description: A person playing the role of program eligible under a program based on allegations of being the victim of a crime.\r\n\n                        \n                           Discussion: This CoveredPartyRoleType.code is typically used when the CoveredPartyRole class code is \"program eligible\" and the person's status as a crime victim meets jurisdictional or program criteria."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "CRIMEVIC",
+        "display" : "crime victim"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Description: A person playing the role of program eligible under a workers compensation program based on the filing of work-related injury claim.\r\n\n                        \n                           Discussion:  This CoveredPartyRoleType.code is used when the CoveredPartyRole class code is either \"program eligible\", a \"named insured\", and \"individual insured\",  or \"dependent\", and the person's status as differently abled or \"handicapped\" meets jurisdictional, policy, or program criteria."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "INJWKR",
+        "display" : "injured worker"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Description: A person playing the role of an individual insured with continuity of coverage under a policy which is being terminated based on loss of original status that was the basis for coverage.  Criteria for qualifying for continuity of coverage may be set by law.\r\n\n                        \n                           Discussion: This CoveredPartyRoleType.code is typically used when the CoveredPartyRole class code is either \"program eligible\" or \"subscriber\" and the person's status as a continuity of coverage beneficiary meets jurisdictional or policy criteria."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "COCBEN",
+        "display" : "continuity of coverage beneficiary"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Description: A person playing the role of program eligible under a program based on meeting criteria for health or functional limitation set by law or by the program.\r\n\n                        \n                           Discussion: This CoveredPartyRoleType.code is typically used when the CoveredPartyRole class code is either \"program eligible\", \"named insured\", \"individual insured\", or \"dependent\", and the person's status as differently abled meets jurisdictional, policy, or program criteria."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "DIFFABL",
+        "display" : "differently abled"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Description: A person, who is a minor or is deemed incompetent, who plays the role of a program eligible where eligibility for coverage is based on meeting program eligibility criteria for status as a ward of a court or jurisdiction.\r\n\n                        \n                           Discussion: This CoveredPartyRoleType.code is typically used when the CoveredPartyRole class code is a \"claimant\", \"program eligible\", a \"named insured\", an \"individual Insured\" or a \"dependent\", and the person's status as a ward meets program or policy criteria. In the case of a ward covered under a program providing financial or health benefits, a governmental agency may take temporary custody of a minor or incompetent for his/her protection and care, e.g., if the ward is suffering from neglect or abuse, or has been in trouble with the law."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "WARD",
+        "display" : "ward"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Description: A person playing the role of an individual insured under a policy based on meeting criteria for the employment status of retired set by law or the policy.\r\n\n                        \n                           Discussion: This CoveredPartyRoleType.code is typically used when the CoveredPartyRole class code is either \"program eligible\" or \"subscriber\" and the person's status as a retiree meets jurisdictional or policy criteria."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "RETIREE",
+        "display" : "retiree"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Description: A person playing the role of program eligible under a program based on aboriginal ancestry or as a member of an aboriginal community.\r\n\n                        \n                           Discussion: This CoveredPartyRoleType.code is typically used when the CoveredPartyRole class code is \"program eligible\" and the person's status as a member of an indigenous people meets jurisdictional or program criteria."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "INDIG",
+        "display" : "member of an indigenous people"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Definition: A person playing the role of program eligible under a program based on military status.\r\n\n                        \n                           Discussion:  This CoveredPartyRoleType.code is typically used when the CoveredPartyRole class code is either \"program eligible\" or \"subscriber\" and the person's status as a member of the military meets jurisdictional or program criteria"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "MIL",
+        "display" : "military"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Description: A person playing the role of program eligible under a program based on active military status.\r\n\n                        \n                           Discussion: This CoveredPartyRoleType.code is typically used when the CoveredPartyRole class code is either \"program eligible\" or \"subscriber\" and the persons status as active duty military meets jurisdictional or program criteria."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "ACTMIL",
+        "display" : "active duty military"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Description: A person playing the role of program eligible under a program based on retired military status.\r\n\n                        \n                           Discussion: This CoveredPartyRoleType.code is typically used when the CoveredPartyRole class code is either \"program eligible\" or \"subscriber\" and the persons status as retired military meets jurisdictional or program criteria."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "RETMIL",
+        "display" : "retired military"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Description: A person playing the role of program eligible under a program based on status as a military veteran.\r\n\n                        \n                           Discussion: This CoveredPartyRoleType.code is typically used when the CoveredPartyRole class code is either \"program eligible\" or \"subscriber\" and the persons status as a veteran meets jurisdictional or program criteria."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "VET",
+        "display" : "veteran"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Covered party is an injured party with a legal claim for compensation against a policy holder under an insurance policy."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "INJ",
+        "display" : "injured plaintiff"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Covered party to an insurance policy has coverage through full-time or part-time attendance at a recognized educational institution as defined by a particular insurance policy."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "STUD",
+        "display" : "student"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Covered party to an insurance policy has coverage through full-time attendance at a recognized educational institution as defined by a particular insurance policy."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "FSTUD",
+        "display" : "full-time student"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Covered party to an insurance policy has coverage through part-time attendance at a recognized educational institution as defined by a particular insurance policy."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+        "code" : "PSTUD",
+        "display" : "part-time student"
+      }
+    ]
+  }
+}

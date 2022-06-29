@@ -1,0 +1,548 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "poly",
+    "url": "http://ibm.com/fhir/CodeSystem/poly",
+    "version": "1.0.0",
+    "status": "active",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "code": "subsumedBy",
+            "uri": "http://hl7.org/fhir/concept-properties#parent",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "letter",
+            "display": "Latin letter"
+        },
+        {
+            "code": "uppercase",
+            "display": "Upper case Latin letter",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "letter"
+                }
+            ]
+        },
+        {
+            "code": "lowercase",
+            "display": "Lower case Latin letter",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "letter"
+                }
+            ]
+        },
+        {
+            "code": "numeral",
+            "display": "Roman numeral"
+        },
+        {
+            "code": "a",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "b",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "c",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "ch"
+                }
+            ]
+        },
+        {
+            "code": "d",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "e",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "f",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "g",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "h",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "i",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "j",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "k",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "l",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "m",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "n",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "o",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "p",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "q",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "r",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "s",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "t",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "u",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "v",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "w",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "x",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "y",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "z",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "lowercase"
+                }
+            ]
+        },
+        {
+            "code": "A",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "B",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "C",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "numeral"
+                }
+            ]
+        },
+        {
+            "code": "D",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "numeral"
+                }
+            ]
+        },
+        {
+            "code": "E",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "F",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "G",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "H",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "I",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "numeral"
+                }
+            ]
+        },
+        {
+            "code": "J",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "K",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "L",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "numeral"
+                }
+            ]
+        },
+        {
+            "code": "M",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "numeral"
+                }
+            ]
+        },
+        {
+            "code": "N",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "O",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "P",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "Q",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "R",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "S",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "T",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "U",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "V",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "numeral"
+                }
+            ]
+        },
+        {
+            "code": "W",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "X",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "numeral"
+                }
+            ]
+        },
+        {
+            "code": "Y",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "Z",
+            "property": [
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "uppercase"
+                }
+            ]
+        }
+    ]
+}

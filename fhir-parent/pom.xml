@@ -68,6 +68,7 @@
         <module>../fhir-profile</module>
         <module>../fhir-validation</module>
         <module>../conformance/fhir-core-r4b</module>
+        <module>../conformance/fhir-hl7-terminology</module>
         <module>../conformance/fhir-ig-us-core</module>
         <module>../conformance/fhir-ig-carin-bb</module>
         <module>../conformance/fhir-ig-mcode</module>
@@ -697,6 +698,11 @@
                 <groupId>org.fhir</groupId>
                 <artifactId>ucum</artifactId>
                 <version>1.0.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jgrapht</groupId>
+                <artifactId>jgrapht-core</artifactId>
+                <version>1.5.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -72,6 +72,13 @@
             "version": "1.0.0"
         },
         {
+            "filename": "ValueSet-poly.json",
+            "resourceType": "ValueSet",
+            "id": "poly",
+            "url": "http://ibm.com/fhir/ValueSet/poly",
+            "version": "1.0.0"
+        },
+        {
             "filename": "ConceptMap-snomed-ucum.json",
             "resourceType": "ConceptMap",
             "id": "snomed-ucum",
@@ -83,6 +90,20 @@
             "resourceType": "CodeSystem",
             "id": "test",
             "url": "http://ibm.com/fhir/CodeSystem/test",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "CodeSystem-poly.json",
+            "resourceType": "CodeSystem",
+            "id": "poly",
+            "url": "http://ibm.com/fhir/CodeSystem/poly",
+            "version": "1.0.0"
+        },
+        {
+            "filename": "CodeSystem-poly-reverse.json",
+            "resourceType": "CodeSystem",
+            "id": "poly-reverse",
+            "url": "http://ibm.com/fhir/CodeSystem/poly-reverse",
             "version": "1.0.0"
         }
     ]

@@ -1,0 +1,880 @@
+{
+  "resourceType" : "ValueSet",
+  "id" : "v3-SecurityPolicy",
+  "meta" : {
+    "lastUpdated" : "2019-11-01T09:29:23.356+11:00",
+    "profile" : [
+      "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+    ]
+  },
+  "language" : "en-US",
+  "url" : "http://terminology.hl7.org/ValueSet/v3-SecurityPolicy",
+  "identifier" : [
+    {
+      "system" : "urn:ietf:rfc:3986",
+      "value" : "urn:oid:2.16.840.1.113883.1.11.20444"
+    }
+  ],
+  "version" : "2014-03-26",
+  "name" : "v3.SecurityPolicy",
+  "title" : "V3 Value SetSecurityPolicy",
+  "status" : "active",
+  "experimental" : false,
+  "immutable" : false,
+  "expansion" : {
+    "identifier" : "urn:uuid:37b95c80-9c35-48ed-8c55-19013b9ec593",
+    "timestamp" : "2022-06-22T03:25:32.211Z",
+    "parameter" : [
+      {
+        "name" : "expansion-source",
+        "valueUri" : "ValueSet/v3-SecurityPolicy"
+      },
+      {
+        "name" : "displayLanguage",
+        "valueString" : "en-US,en;q=0.9"
+      },
+      {
+        "name" : "version",
+        "valueUri" : "http://terminology.hl7.org/CodeSystem/v3-ActCode|6.1.0"
+      }
+    ],
+    "contains" : [
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Types of security policies that further specify the ActClassPolicy value set.\r\n\r\n**Examples:**\r\n\r\n *  obligation to encrypt\r\n *  refrain from redisclosure without consent"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "SecurityPolicy",
+        "display" : "security policy"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Authorisation policies are essentially security policies related to access-control and specify what activities a subject is permitted or forbidden to do, to a set of target objects. They are designed to protect target objects so are interpreted by access control agents or the run-time systems at the target system.\r\n\r\nA positive authorisation policy defines the actions that a subject is permitted to perform on a target. A negative authorisation policy specifies the actions that a subject is forbidden to perform on a target. Positive authorisation policies may also include filters to transform the parameters associated with their actions. (Based on PONDERS)"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "AUTHPOL",
+        "display" : "authorization policy"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "An access control policy specific to the type of access control scheme, which is used to enforce one or more authorization policies.\r\n\r\n*Usage Note:* Access control schemes are the type of access control policy, which is comprised of access control policy rules concerning the provision of the access control service.\r\n\r\nThere are two categories of access control policies, rule-based and identity-based, which are identified in CCITT Rec. X.800 aka ISO 7498-2. Rule-based access control policies are intended to apply to all access requests by any initiator on any target in a security domain. Identity-based access control policies are based on rules specific to an individual initiator, a group of initiators, entities acting on behalf of initiators, or originators acting in a specific role. Context can modify rule-based or identity-based access control policies. Context rules may define the entire policy in effect. Real systems will usually employ a combination of these policy types; if a rule-based policy is used, then an identity-based policy is usually in effect also.\r\n\r\nAn access control scheme may be based on access control lists, capabilities, labels, and context or a combination of these. An access control scheme is a component of an access control mechanism or \"service\") along with the supporting mechanisms required by that scheme to provide access control decision information (ADI) supplied by the scheme to the access decision facility (ADF also known as a PDP). (Based on ISO/IEC 10181-3:1996)\r\n\r\n**Examples:** \r\n\r\n *  Attribute Based Access Control (ABAC)\r\n *  Discretionary Access Control (DAC)\r\n *  History Based Access Control (HBAC)\r\n *  Identity Based Access Control (IBAC)\r\n *  Mandatory Access Control (MAC)\r\n *  Organization Based Access Control (OrBAC)\r\n *  Relationship Based Access Control (RelBac)\r\n *  Responsibility Based Access Control (RespBAC)\r\n *  Risk Adaptable Access Control (RAdAC)\r\n\r\n>"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "ACCESSCONSCHEME",
+        "display" : "access control scheme"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Delegation policies specify which actions subjects are allowed to delegate to others. A delegation policy thus specifies an authorisation to delegate. Subjects must already possess the access rights to be delegated.\r\n\r\nDelegation policies are aimed at subjects delegating rights to servers or third parties to perform actions on their behalf and are not meant to be the means by which security administrators would assign rights to subjects. A negative delegation policy identifies what delegations are forbidden.\r\n\r\nA Delegation policy specifies the authorisation policy from which delegated rights are derived, the grantors, which are the entities which can delegate these access rights, and the grantees, which are the entities to which the access rights can be delegated. There are two types of delegation policy, positive and negative. (Based on PONDERS)"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "DELEPOL",
+        "display" : "delegation policy"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Conveys the mandated workflow action that an information custodian, receiver, or user must perform.\r\n\r\n*Usage Notes:* Per ISO 22600-2, ObligationPolicy instances 'are event-triggered and define actions to be performed by manager agent'. Per HL7 Composite Security and Privacy Domain Analysis Model: This value set refers to the action required to receive the permission specified in the privacy rule. Per OASIS XACML, an obligation is an operation specified in a policy or policy that is performed in conjunction with the enforcement of an access control decision."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "ObligationPolicy",
+        "display" : "obligation policy"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must remove any information that could result in identifying the information subject."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "ANONY",
+        "display" : "anonymize"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must make available to an information subject upon request an accounting of certain disclosures of the individualâ€™s protected health information over a period of time. Policy may dictate that the accounting include information about the information disclosed, the date of disclosure, the identification of the receiver, the purpose of the disclosure, the time in which the disclosing entity must provide a response and the time period for which accountings of disclosure can be requested."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "AOD",
+        "display" : "accounting of disclosure"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must monitor systems to ensure that all users are authorized to operate on information objects."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "AUDIT",
+        "display" : "audit"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must monitor and maintain retrievable log for each user and operation on information."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "AUDTR",
+        "display" : "audit trail"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must retrieve, evaluate, and comply with applicable policies associated with the target information.\r\n\r\n*Usage Note:* CPLYPOL may be used as a security label code to inform senders and receivers of the tagged information to comply with applicable policy without specifying the specific policy type(s)."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CPLYPOL",
+        "display" : "comply with policy"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must retrieve, evaluate, and comply with the information handling directions of the Confidentiality Code associated with an information target.\r\n\r\n*Usage Note:* CPLYCC may be used as a security label code to inform senders and receivers of information tagged with a Confidentiality Code to comply with applicable level of protection required by the assigned confidentiality code."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CPLYCC",
+        "display" : "comply with confidentiality code"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must retrieve, evaluate, and comply with applicable information subject consent directives.\r\n\r\n*Usage Note:* CPLYCD may be used as a security label code to inform senders and receivers of information tagged with an ActCode\\_ActPolicyType\\_ActConsent code or an ActCode\\_ActPolicyType\\_ActPrivacyPolicy\\_ActConsentDirective code to comply with applicable consent directives."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CPLYCD",
+        "display" : "comply with consent directive"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must retrieve, evaluate, and comply with applicable Controlled Unclassified Information (CUI) policies associated with the target information.\r\n\r\n*Usage Note:* In the US, CPLYCUI may be used as a security label code to inform recipients of information designated by a US Federal Agency as Controlled Unclassified Information (CUI) to comply with the applicable laws, regulations, executive orders, and other guidances, such as included in DURSAs, to persist, mark, and enforce required CUI controls\r\n\r\nBackground:\r\n\r\nIn accordance with US 32 CFR Part 2002 and US Executive Order 13556 Controlled Unclassified Information, US Federal Agencies and their contractors are charged with classifying and marking certain information they create as Controlled Unclassified Information (CUI).\r\n\r\nThe following definitions, which are provided for context, are based on terms defined by the CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html\r\n\r\n *  CUI is defined as \"information in any form that the Government creates or possesses, or that an entity creates or possesses for or on behalf of the Government, that a law, regulation, or Government-wide policy requires or permits an agency to handle using safeguarding or dissemination controls.\"\r\n *  Designating CUI occurs when an authorized holder, consistent with 32 CFR Part 2002 and the CUI Registry, determines that a specific item of information falls into a CUI category or subcategory.\r\n *  The designating agency is the executive branch agency that designates or approves the designation of a specific item of information as CUI.\r\n *  The authorized holder who designates the CUI must make recipients aware of the information's CUI status when disseminating that information.\r\n *  â€¢ Disseminating occurs when authorized holders provide access, transmit, or transfer CUI to other authorized holders through any means, whether internal or external to the agency.\r\n\r\nOnce designated as CUI, US Federal Agencies and their contractors must assign CUI marks as prescribed by the National Archives and Records Administration (NARA) CUI Registry, and display marks as prescribed by the CUI Marking Handbook.\r\n\r\nCUI markings must be displayed on hard copy, on containers, electronic media, and to end users for IT systems.\r\n\r\nWhen HL7 content is designated as CUI, these computable markings can be interoperably conveyed using HL7 security label CUI tags, and may be included in HL7 text and narrative elements as human readable markings.\r\n\r\n**Impact of CUI markings:**\r\n\r\nCUI Custodians must enforce CUI security controls per applicable CUI policies. Federal agencies and their contractors must adhere to FISMA and NIST SP 800-53 security controls. Custodians, who are not Federal agencies or agency contractors, and are receivers of CUI, must adhere to NIST SP 800-171 security controls and those dictated by the Authorities indicated by the assigned CUI markings.\r\n\r\nFor most participants in US healthcare information exchange, including Federal Agencies and their contractors, additional controls are required by HIPAA Security standards for health information US 42 USC 1320d-2(d)(2) https://www.govinfo.gov/content/pkg/USCODE-2016-title42/pdf/USCODE-2016-title42-chap7-subchapXI-partC-sec1320d-2.pdf\r\n\r\nFederal Agencies and their contractors may be the CUI classifier of original CUI content; or a CUI derivative classifier, which reclassifies CUI content that has been aggregated with other CUI or Unclassified Uncontrolled Information (U) or dissembled from a larger CUI content; or declassifiers, depending on the designating agency's policies.\r\n\r\nApplicable CUI policies include the following and any future applicable updates to policies or laws related to CUI:\r\n\r\n *  Executive Order 13556 https://www.federalregister.gov/articles/2010/11/09/2010-28360/controlled-unclassified-information\r\n *  US 32 CFR Part 2002 https://www.govinfo.gov/content/pkg/CFR-2017-title32-vol6/pdf/CFR-2017-title32-vol6-part2002.pdf\r\n *  NIST SP 800-171 https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-171r1.pdf\r\n *  NIST SP 800-171A https://doi.org/10.6028/NIST.SP.800-171A\r\n *  CUI Marking Handbook https://www.archives.gov/files/cui/20161206-cui-marking-handbook-v1-1.pdf\r\n *  CUI Registry - Health Information Category https://www.archives.gov/cui/registry/category-detail/health-info\r\n *  CUI Registry: Limited Dissemination Controls https://www.archives.gov/cui/registry/limited-dissemination\r\n *  CUI Policy and Guidance https://www.archives.gov/cui/registry/policy-guidance"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CPLYCUI",
+        "display" : "comply with controlled unclassified information policy"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must retrieve, evaluate, and comply with applicable jurisdictional privacy policies associated with the target information.\r\n\r\n*Usage Note:* CPLYJPP may be used as a security label code to inform senders and receivers of information tagged with an ActCode\\_ActPolicyType\\_ActPrivacyPolicy\\_ActPrivacyLaw code or an ActCode\\_ActPolicyType\\_ActInformationPolicy.JurisIP code to comply with applicable jurisdictional privacy policy."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CPLYJPP",
+        "display" : "comply with jurisdictional privacy policy"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must retrieve, evaluate, and comply with applicable jurisdictional security policies associated with the target information.\r\n\r\n*Usage Note:* CPLYJSP may be used as a security label code to inform senders and receivers of information tagged with an ActCode\\_ActPolicyType.SecurityPolicy code to comply with applicable jurisdictional security policy."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CPLYJSP",
+        "display" : "comply with jurisdictional security policy"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must retrieve, evaluate, and comply with applicable organizational privacy policies associated with the target information.\r\n\r\n*Usage Note:* CPLYOPP may be used as a security label code to inform senders and receivers of information tagged with an ActCode\\_ActPolicyType\\_ActInformationPolicy.OrgIP code to comply with applicable organizational privacy policy."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CPLYOPP",
+        "display" : "comply with organizational privacy policy"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must retrieve, evaluate, and comply with the organizational security policies associated with the target information.\r\n\r\n*Usage Note:* CPLYOSP may be used as a security label code to inform senders and receivers of information tagged with an ActCode\\_ActPolicyType.SecurityPolicy code to comply with applicable organizational security policy."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CPLYOSP",
+        "display" : "comply with organizational security policy"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must declassify information assigned security labels by instantiating a new version of the classified information so as to break the binding of the classifying security label when assigning a new security label that marks the information as unclassified in accordance with applicable jurisdictional privacy policies associated with the target information. The system must retain an immutable record of the previous assignment and binding."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "DECLASSIFYLABEL",
+        "display" : "declassify security label"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must strip information of data that would allow the identification of the source of the information or the information subject."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "DEID",
+        "display" : "deidentify"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must remove target information from access after use."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "DELAU",
+        "display" : "delete after use"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must downgrade information assigned security labels by instantiating a new version of the classified information so as to break the binding of the classifying security label when assigning a new security label that marks the information as classified at a less protected level in accordance with applicable jurisdictional privacy policies associated with the target information. The system must retain an immutable record of the previous assignment and binding."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "DOWNGRDLABEL",
+        "display" : "downgrade security label"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must assign and bind security labels derived from compilations of information by aggregation or disaggregation in order to classify information compiled in the information systems under its control for collection, access, use and disclosure in accordance with applicable jurisdictional privacy policies associated with the target information. The system must retain an immutable record of the previous assignment and binding."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "DRIVLABEL",
+        "display" : "derive security label"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must render information unreadable by algorithmically transforming plaintext into ciphertext.\r\n\r\n*Usage Notes:* A mathematical transposition of a file or data stream so that it cannot be deciphered at the receiving end without the proper key. Encryption is a security feature that assures that only the parties who are supposed to be participating in a videoconference or data transfer are able to do so. It can include a password, public and private keys, or a complex combination of all. (Per Infoway.)"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "ENCRYPT",
+        "display" : "encrypt"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must render information unreadable and unusable by algorithmically transforming plaintext into ciphertext when \"at rest\" or in storage."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "ENCRYPTR",
+        "display" : "encrypt at rest"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must render information unreadable and unusable by algorithmically transforming plaintext into ciphertext while \"in transit\" or being transported by any means."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "ENCRYPTT",
+        "display" : "encrypt in transit"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must render information unreadable and unusable by algorithmically transforming plaintext into ciphertext while in use such that operations permitted on the target information are limited by the license granted to the end user."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "ENCRYPTU",
+        "display" : "encrypt in use"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must require human review and approval for permission requested."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "HUAPRV",
+        "display" : "human approval"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must assign and bind security labels in order to classify information created in the information systems under its control for collection, access, use and disclosure in accordance with applicable jurisdictional privacy policies associated with the target information. The system must retain an immutable record of the assignment and binding.\r\n\r\n*Usage Note:* In security systems, security policy label assignments do not change, they may supersede prior assignments, and such reassignments are always tracked for auditing and other purposes."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "LABEL",
+        "display" : "assign security label"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must render information unreadable and unusable by algorithmically transforming plaintext into ciphertext. User may be provided a key to decrypt per license or \"shared secret\"."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "MASK",
+        "display" : "mask"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian must limit access and disclosure to the minimum information required to support an authorized user's purpose of use.\r\n\r\n*Usage Note:* Limiting the information available for access and disclosure to that an authorized user or receiver \"needs to know\" in order to perform permitted workflow or purpose of use."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "MINEC",
+        "display" : "minimum necessary"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must persist the binding of security labels to classify information received or imported by information systems under its control for collection, access, use and disclosure in accordance with applicable jurisdictional privacy policies associated with the target information. The system must retain an immutable record of the assignment and binding."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "PERSISTLABEL",
+        "display" : "persist security label"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian must create and/or maintain human readable security label tags as required by policy.\r\n\r\nMap: Aligns with ISO 22600-3 Section A.3.4.3 description of privacy mark: \"If present, the privacy-mark is not used for access control. The content of the privacy-mark may be defined by the security policy in force (identified by the security-policy-identifier) which may define a list of values to be used. Alternately, the value may be determined by the originator of the security-label.\""
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "PRIVMARK",
+        "display" : "privacy mark"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "An originator must mark, persist, display, and convey computable and renderable Controlled Unclassified Information (CUI) marks as required by policy. A recipient must consume, persist, display, and reconvey CUI marks on information received based on agreements with the originator..\r\n\r\n**Examples:** \r\n\r\n *  As CUI custodians, Federal Agencies and their contractors must mark, persist, display, and convey these marks.\r\n *  All CUI receivers must consume, persist, display, and reconvey CUI markings on information further disclosed\r\n\r\n*Usage Note:* \r\n\r\nIn accordance with US 32 CFR Part 2002 and US Executive Order 13556 Controlled Unclassified Information, US Federal Agencies and their contractors are charged with classifying and marking certain information they create as Controlled Unclassified Information (CUI).\r\n\r\nThe following definitions, which are provided for context, are based on terms defined by the CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html\r\n\r\n *  CUI is defined as \"information in any form that the Government creates or possesses, or that an entity creates or possesses for or on behalf of the Government, that a law, regulation, or Government-wide policy requires or permits an agency to handle using safeguarding or dissemination controls\"\r\n *  Designating CUI occurs when an authorized holder, consistent with US 32 CFR Part 2002 and the CUI Registry, determines that a specific item of information falls into a CUI category or subcategory.\r\n *  The designating agency is the executive branch agency that designates or approves the designation of a specific item of information as CUI.\r\n *  The authorized holder who designates the CUI must make recipients aware of the informationâ€™s CUI status when disseminating that information.\r\n *  Disseminating occurs when authorized holders provide access, transmit, or transfer CUI to other authorized holders through any means, whether internal or external to the agency.\r\n\r\nOnce designated as CUI, US Federal Agencies and their contractors must assign CUI marks as prescribed by the National Archives and Records Administration (NARA) CUI Registry, and display marks as prescribed by the CUI Marking Handbook.\r\n\r\nCUI markings must be displayed on hard copy, on containers, electronic media, and to end users for IT systems.\r\n\r\nWhen HL7 content is designated as CUI, these computable markings can be interoperably conveyed using HL7 security label CUI tags, and may be included in HL7 text and narrative elements as human readable markings.\r\n\r\n**Impact of CUI markings:**\r\n\r\nCUI Custodians must enforce CUI security controls per applicable CUI policies. Federal agencies and their contractors must adhere to FISMA and NIST SP 800-53 security controls. Custodians, who are not Federal agencies or agency contractors, and are receivers of CUI, must adhere to NIST SP 800-171 security controls and those dictated by the Authorities indicated by the assigned CUI markings.\r\n\r\nFor most participants in US healthcare information exchange, including Federal Agencies and their contractors, additional controls are required by HIPAA Security standards for health information US 42 USC 1320d-2(d)(2) https://www.govinfo.gov/content/pkg/USCODE-2016-title42/pdf/USCODE-2016-title42-chap7-subchapXI-partC-sec1320d-2.pdf\r\n\r\nFederal Agencies and their contractors may be the CUI classifier of original CUI content; or a CUI derivative classifier, which reclassifies CUI content that has been aggregated with other CUI or Unclassified Uncontrolled Information (U) or dissembled from a larger CUI content; or declassifiers, depending on the designating agency's policies.\r\n\r\nApplicable CUI policies include the following and any future applicable updates to policies or laws related to CUI:\r\n\r\n *  Executive Order 13556 https://www.federalregister.gov/articles/2010/11/09/2010-28360/controlled-unclassified-information\r\n *  US 32 CFR Part 2002 https://www.govinfo.gov/content/pkg/CFR-2017-title32-vol6/pdf/CFR-2017-title32-vol6-part2002.pdf\r\n *  NIST SP 800-171 https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-171r1.pdf\r\n *  NIST SP 800-171A https://doi.org/10.6028/NIST.SP.800-171A\r\n *  CUI Marking Handbook https://www.archives.gov/files/cui/20161206-cui-marking-handbook-v1-1.pdf\r\n *  CUI Registry - Health Information Category https://www.archives.gov/cui/registry/category-detail/health-info\r\n *  CUI Registry: Limited Dissemination Controls https://www.archives.gov/cui/registry/limited-dissemination\r\n *  CUI Policy and Guidance https://www.archives.gov/cui/registry/policy-guidance"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CUIMark",
+        "display" : "CUI Mark"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must strip information of data that would allow the identification of the source of the information or the information subject. Custodian may retain a key to relink data necessary to reidentify the information subject."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "PSEUD",
+        "display" : "pseudonymize"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian system must remove information, which is not authorized to be access, used, or disclosed from records made available to otherwise authorized users."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "REDACT",
+        "display" : "redact"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Custodian security system must declassify information assigned security labels by instantiating a new version of the classified information so as to break the binding of the classifying security label when assigning a new security label that marks the information as classified at a more protected level in accordance with applicable jurisdictional privacy policies associated with the target information. The system must retain an immutable record of the previous assignment and binding."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "UPGRDLABEL",
+        "display" : "upgrade security label"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "An abstract code for human readable marks indicating, e.g., the level of confidentiality protection, an authorized compartment, the integrity, or the handling instruction required by applicable policy. Such markings must be displayed as directed by applicable policy on electronically rendered information content and any electronic transmittal envelope or container; or on hardcopy information and any physical transmittal envelope or container.\r\n\r\nExamples of protocols for marking displays on electronic or hardcopy rendered content: Across the top or \"banner\" of each page ; as a watermark placed diagonally cross each page; at the bottom or \"footer\" of each page; and may be displayed at the beginning of any portion within the content that required markings different than other portions of the content. The banner or top of page marking typically acts as a \"high watermark\" by including all of the markings made on any marked portions within the entirety of the information content.\r\n\r\n*Usage Note:* A \"Privacy Mark\" is a Security Control Observation (SECCONOBS) named tag set as specified by the HL7 Privacy and Security Classification System (HCS). A Privacy Mark Named Tag Set is valued with a Privacy Mark leaf code \"tag\", which is a member of the Security Control Observation Value (\\_SecurityObservationValue) tag set. Related Security Control Observation named tag sets are Purpose of Use, Obligation Policy, and Refrain Policy, each with their own Security Control Observation Value tag sets.\r\n\r\nFoundational standard definitions: ISO 22600-3 Section A.3.4.3 - If present, the privacy-mark is not used for access control. The content of the privacy-mark may be defined by the security policy in force (identified by the security-policy-identifier) which may define a list of values to be used. Alternately, the value may be determined by the originator of the security-label. IEEE Security Glossary Compendium 93- CESG Memorandum No.1 Issue 1.2 Oct 1992 - Human readable word or phrase acting as an indicator of all or part of the security constraints that apply to a document so marked. NOTE: A machine readable representation of a marking.\r\n\r\n*Comment:* While policies requiring creators, processors, custodians, senders or recipients apply, enforce, and persist applicable Privacy Marks may be dictated by a jurisdiction, organization or personal privacy, security, or integrity policy, those required to comply may be governed under different policies, so compliance may need to be enforced through trust contracts. For example, information content marked with GDPR related policies may require adherence by processors or recipients outside of the European Union. For this reason, this code system is likely to evolve with the inclusion of multiple policy domains needing to communicate encoded policies in a standard, interoperable manner."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "PrivacyMark",
+        "display" : "privacy mark"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Information the US Government creates or possesses, or that an entity creates or possesses for or on behalf of the Government, that a law, regulation, or Government-wide policy requires or permits an agency to handle using safeguarding or dissemination controls. However, CUI does not include classified information (see definition above) or information a non-executive branch entity possesses and maintains in its own systems that did not come from, or was not created or possessed by or for, an executive branch agency or an entity acting for an agency. Law, regulation, or Government-wide policy may require or permit safeguarding or dissemination controls in three ways: Requiring or permitting agencies to control or protect the information but providing no specific controls, which makes the information CUI Basic; requiring or permitting agencies to control or protect the information and providing specific controls for doing so, which makes the information CUI Specified; or requiring or permitting agencies to control the information and specifying only some of those controls, which makes the information CUI Specified, but with CUI Basic controls where the authority does not specify. Based on CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html .\r\n\r\n*Usage Note:* Mandatory control marking, which must be displayed on the top portion of each rendered or printed page containing controlled information. Should be displayed at the bottom of each rendered or printed page containing controlled information. Must be displayed on each portion of controlled information at the portion level if portions are uncontrolled unclassified information. Based on CUI Marking Handbook https://www.archives.gov/files/cui/20161206-cui-marking-handbook-v1-1.pdf. For definitions of key terms see CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "ControlledUnclassifiedInformation",
+        "display" : "ControlledUnclassifiedInformation"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark, required to be rendered as \"CONTROLLED\", indicating that the electronic or hardcopy information is protected at the level of the subset of CUI for which the authorizing law, regulation, or Government-wide policy does not set out specific handling or dissemination controls. Agencies handle CUI Basic according to the uniform set of controls set forth in this part and the CUI Registry. CUI Basic differs from CUI Specified (see definition for CUI Specified), and CUI Basic controls apply whenever CUI Specified ones do not cover the involved CUI. From CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html.\r\n\r\n*Usage Note:* Mandatory control marking, which must be displayed on the top portion of each rendered or printed page containing controlled information. Should be displayed at the bottom of each rendered or printed page containing controlled information. Must be displayed on each portion of controlled information at the portion level if portions are uncontrolled unclassified information. Based on CUI Marking Handbook https://www.archives.gov/files/cui/20161206-cui-marking-handbook-v1-1.pdf."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CONTROLLED",
+        "display" : "CONTROLLED"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark, required to be rendered as \"CUI\", indicating that the electronic or hardcopy information is protected at the level of the subset of CUI for which the authorizing law, regulation, or Government-wide policy does not set out specific handling or dissemination controls. Agencies handle CUI Basic according to the uniform set of controls set forth in this part and the CUI Registry. CUI Basic differs from CUI Specified (see definition for CUI Specified), and CUI Basic controls apply whenever CUI Specified ones do not cover the involved CUI. From CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html.\r\n\r\n*Usage Note:* Mandatory control marking, which must be displayed on the top portion of each rendered or printed page containing controlled information. Should be displayed at the bottom of each rendered or printed page containing controlled information. Must be displayed on each portion of controlled information at the portion level if portions are uncontrolled unclassified information. Based on CUI Marking Handbook https://www.archives.gov/files/cui/20161206-cui-marking-handbook-v1-1.pdf."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CUI",
+        "display" : "CUI"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark, required to be rendered as \"CUI//HLTH\", indicating that the electronic or hardcopy information is protected at the level of the subset of CUI for which the authorizing law, regulation, or Government-wide policy does not set out specific handling or dissemination controls. Agencies handle CUI Basic according to the uniform set of controls set forth in this part and the CUI Registry. CUI Basic differs from CUI Specified (see definition for CUI Specified), and CUI Basic controls apply whenever CUI Specified ones do not cover the involved CUI. From CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html.\r\n\r\n*Usage Note:* Examples of healthcare regulation governing CUI Basic marking include HIPAA Unique Identifier provisions 42 USC 1320d-2 note(b) https://www.govinfo.gov/content/pkg/USCODE-2016-title42/pdf/USCODE-2016-title42-chap7-subchapXI-partC-sec1320d-2.pdf; Title 38 Section 7332 https://www.govinfo.gov/content/pkg/USCODE-2016-title38/pdf/USCODE-2016-title38-partV-chap73-subchapIII-sec7332.pdf; and several sections of 42 CFR Part 2.related to consent and confidentiality, e.g., https://www.govinfo.gov/content/pkg/CFR-2017-title42-vol1/pdf/CFR-2017-title42-vol1-sec2-12.pdf"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CUIHLTH",
+        "display" : "CUI//HLTH"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark, required to be rendered as \"(CUI//HLTH)\", indicating that a portion of an electronic or hardcopy information is protected at the level of the subset of CUI for which the authorizing law, regulation, or Government-wide policy does not set out specific handling or dissemination controls. Agencies handle CUI Basic according to the uniform set of controls set forth in this part and the CUI Registry. CUI Basic differs from CUI Specified (see definition for CUI Specified), and CUI Basic controls apply whenever CUI Specified ones do not cover the involved CUI. From CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html.\r\n\r\n*Usage Note:* Examples of healthcare regulation governing CUI Basic marking include HIPAA Unique Identifier provisions 42 USC 1320d-2 note(b) https://www.govinfo.gov/content/pkg/USCODE-2016-title42/pdf/USCODE-2016-title42-chap7-subchapXI-partC-sec1320d-2.pdf; Title 38 Section 7332 https://www.govinfo.gov/content/pkg/USCODE-2016-title38/pdf/USCODE-2016-title38-partV-chap73-subchapIII-sec7332.pdf; and several sections of 42 CFR Part 2.related to consent and confidentiality, e.g., https://www.govinfo.gov/content/pkg/CFR-2017-title42-vol1/pdf/CFR-2017-title42-vol1-sec2-12.pdf"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CUIHLTHP",
+        "display" : "(CUI//HLTH)"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark, required to be rendered as \"(CUI)\", indicating that a portion of an electronic or hardcopy information is protected at the level of the subset of CUI for which the authorizing law, regulation, or Government-wide policy does not set out specific handling or dissemination controls. Agencies handle CUI Basic according to the uniform set of controls set forth in this part and the CUI Registry. CUI Basic differs from CUI Specified (see definition for CUI Specified), and CUI Basic controls apply whenever CUI Specified ones do not cover the involved CUI. From CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html.\r\n\r\n*Usage Note:* Examples of healthcare regulation governing CUI Basic marking include HIPAA Unique Identifier provisions 42 USC 1320d-2 note(b) https://www.govinfo.gov/content/pkg/USCODE-2016-title42/pdf/USCODE-2016-title42-chap7-subchapXI-partC-sec1320d-2.pdf; Title 38 Section 7332 https://www.govinfo.gov/content/pkg/USCODE-2016-title38/pdf/USCODE-2016-title38-partV-chap73-subchapIII-sec7332.pdf; and several sections of 42 CFR Part 2.related to consent and confidentiality, e.g., https://www.govinfo.gov/content/pkg/CFR-2017-title42-vol1/pdf/CFR-2017-title42-vol1-sec2-12.pdf"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CUIP",
+        "display" : "(CUI)"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark, required to be rendered as \"CUI//PRVCY\", indicating that the electronic or hardcopy controlled unclassified basic privacy information is private and must be protected at the level of the subset of CUI for which the authorizing law, regulation, or Government-wide policy does not set out specific handling or dissemination controls. Agencies handle CUI Basic according to the uniform set of controls set forth in this part and the CUI Registry. CUI Basic differs from CUI Specified (see definition for CUI Specified), and CUI Basic controls apply whenever CUI Specified ones do not cover the involved CUI. From CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html.\r\n\r\n*Usage Note:* Examples of privacy regulation governing CUI Basic marking include 20 CFR 401.100 related to SSA disclosure of personal, program, and non-program information. https://www.govinfo.gov/content/pkg/CFR-2017-title20-vol2/pdf/CFR-2017-title20-vol2-sec401-100.pdf."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CUIPRVCY",
+        "display" : "CUI//PRVCY"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark, required to be rendered as \"(CUI//PRVCY)\", indicating that a portion of an electronic or hardcopy information is protected at the level of the subset of CUI for which the authorizing law, regulation, or Government-wide policy does not set out specific handling or dissemination controls. Agencies handle CUI Basic according to the uniform set of controls set forth in this part and the CUI Registry. CUI Basic differs from CUI Specified (see definition for CUI Specified), and CUI Basic controls apply whenever CUI Specified ones do not cover the involved CUI. From CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html.\r\n\r\n*Usage Note:* Examples of privacy regulation governing CUI Basic marking include 20 CFR 401.100 related to SSA disclosure of personal, program, and non-program information. https://www.govinfo.gov/content/pkg/CFR-2017-title20-vol2/pdf/CFR-2017-title20-vol2-sec401-100.pdf."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CUIPRVCYP",
+        "display" : "(CUI//PRVCY)"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark, required to be rendered as \"CUI//SP-HLTH\", indicating that the electronic or hardcopy information is protected at the level of the subset of CUI in which the authorizing law, regulation, or Government-wide policy contains specific handling controls that it requires or permits agencies to use that differ from those for CUI Basic. The CUI Registry indicates which laws, regulations, and Government-wide policies include such specific requirements. CUI Specified controls may be more stringent than, or may simply differ from, those required by CUI Basic; the distinction is that the underlying authority spells out the controls for CUI Specified information and does not for CUI Basic information. CUI Basic controls apply to those aspects of CUI Specified where the authorizing laws, regulations, and Government-wide policies do not provide specific guidance. From CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html.\r\n\r\n*Usage Note:* Examples of healthcare regulation governing CUI Specified marking include HIPAA Transaction and Code Sets and references the Congressional requirement that HHS promulgate Privacy, and Security rules https://www.govinfo.gov/content/pkg/USCODE-2016-title42/pdf/USCODE-2016-title42-chap7-subchapXI-partC-sec1320d-2.pdf."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CUISP-HLTH",
+        "display" : "CUI//SP-HLTH"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark, required to be rendered as \"(CUI//SP-HLTH)\", indicating that a portion of an electronic or hardcopy information is protected at the level of the subset of CUI for which the authorizing law, regulation, or Government-wide policy does not set out specific handling or dissemination controls. Agencies handle CUI Basic according to the uniform set of controls set forth in this part and the CUI Registry. CUI Basic differs from CUI Specified (see definition for CUI Specified), and CUI Basic controls apply whenever CUI Specified ones do not cover the involved CUI. From CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html.\r\n\r\n*Usage Note:* Examples of healthcare regulation governing CUI Specified marking include HIPAA Transaction and Code Sets and references the Congressional requirement that HHS promulgate Privacy, and Security rules https://www.govinfo.gov/content/pkg/USCODE-2016-title42/pdf/USCODE-2016-title42-chap7-subchapXI-partC-sec1320d-2.pdf"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CUISP-HLTHP",
+        "display" : "(CUI//SP-HLTH)"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark, required to be rendered as \"CUI//SP-PRVCY\", indicating that the electronic or hardcopy information is protected at the level of the subset of CUI for which the authorizing law, regulation, or Government-wide policy does not set out specific handling or dissemination controls. Agencies handle CUI Basic according to the uniform set of controls set forth in this part and the CUI Registry. CUI Basic differs from CUI Specified (see definition for CUI Specified), and CUI Basic controls apply whenever CUI Specified ones do not cover the involved CUI. From CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html.\r\n\r\n*Usage Note:* Examples of privacy regulation governing CUI Specified marking is OMB M-17-12ï‡? This Memorandum sets forth the policy for Federal agencies to prepare for and respond to a breach of personally identifiable information (PII). It includes a framework for assessing and mitigating the risk of harm to individuals potentially affected by a breach, as well as guidance on whether and how to provide notification and services to those individuals. https://www.whitehouse.gov/sites/whitehouse.gov/files/omb/memoranda/2017/m-17-12\\_0.pdf."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CUISP-PRVCY",
+        "display" : "CUI//SP-PRVCY"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark, required to be rendered as \"(CUI//SP-PRVCY)\", indicating that a portion of an electronic or hardcopy information is protected at the level of the subset of CUI for which the authorizing law, regulation, or Government-wide policy does not set out specific handling or dissemination controls. Agencies handle CUI Basic according to the uniform set of controls set forth in this part and the CUI Registry. CUI Basic differs from CUI Specified (see definition for CUI Specified), and CUI Basic controls apply whenever CUI Specified ones do not cover the involved CUI. From CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html.\r\n\r\n*Usage Note:* Examples of privacy regulation governing CUI Specified marking is OMB M-17-12ï‡? This Memorandum sets forth the policy for Federal agencies to prepare for and respond to a breach of personally identifiable information (PII). It includes a framework for assessing and mitigating the risk of harm to individuals potentially affected by a breach, as well as guidance on whether and how to provide notification and services to those individuals. https://www.whitehouse.gov/sites/whitehouse.gov/files/omb/memoranda/2017/m-17-12\\_0.pdf."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "CUISP-PRVCYP",
+        "display" : "(CUI//SP-PRVCY)"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark, required to be rendered as \"(U)\", indicating that a portion of an electronic or hardcopy information is neither Executive Order 13556 nor classified information authorities cover as protected. Although this information is not controlled or classified, agencies must still handle it in accordance with Federal Information Security Modernization Act (FISMA) requirements. From CUI Glossary https://www.archives.gov/cui/registry/cui-glossary.html\r\n\r\n*Usage Note:* Regulatory Source: 32 CFR Â§â€‰2002.20 Marking. Federal Register Page 63344 63344 (ii) Authorized holders permitted to designate CUI must portion mark both CUI and uncontrolled unclassified portions.\r\n\r\nCUI Marking Handbook https://www.archives.gov/files/cui/20161206-cui-marking-handbook-v1-1.pdf\r\n\r\nCUI Portion Marking: Portion marking of CUI is optional in a fully unclassified document, but is permitted and encouraged to facilitate information sharing and proper handling of the information. Agency heads may approve the required use of CUI Portion marking on all CUI generated within their agency. As such, users should consult their agency CUI policy when creating CUI documents. When CUI Portion Markings are used and a portion does not contain CUI a â€œUâ€? is placed in parentheses to indicate that the portion contains Uncontrolled Unclassified Information. (Page 14)\r\n\r\nCUI Portion Markings are placed at the beginning of the portion to which they apply and must be used throughout the entire document. They are presented in all capital letters and separated as indicated in this handbook and the CUI Registry. The presence of EVEN ONE item of CUI in a document requires CUI marking of that document. Because of this, CUI Portion Markings can be of great assistance in determining if a document contains CUI and therefore must be marked as such. Remember: When portion markings are used and any portion does not contain CUI, a â€œ(U)â€? is placed in front of that portion to indicate that it contains Uncontrolled - or non-CUI - Unclassified Information. (Page 15)"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "UUI",
+        "display" : "(U)"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "An abstract code for displayed Security Label tags.\r\n\r\n*Usage Note:* These marks may be based on any of the HL7 Security Labeling related codes from various code systems and values sets, which are organized according to the HL7 Privacy and Security Classification System into HL7 Security Observation Type Named Tag Sets and valued with codes associated with the HL7 Security Observation Value Tag Set Names."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "SecurityLabelMark",
+        "display" : "Security Label Mark"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark rendered as \"Confidential\", which indicates to end users that the electronic or hardcopy information they are viewing must be protected at a level of protection as dictated by applicable policy.\r\n\r\nMay be used to indicate proprietary or classified information that is, for example, business, intelligence, or project related, e.g., secret ingredients in a therapeutic substance; location of disaster health facilities and providers, or the name of a manufacturer or project contractor. Example use cases include a display to alert authorized business system users that they are viewing additionally protected proprietary and business confidential information deemed proprietary under an applicable jurisdictional or organizational policy.\r\n\r\n*Usage Note:* \r\n\r\nThe ConfidentialMark (confidential mark) description is based on the HL7 Confidentiality Concept Domain: Types of privacy metadata classifying an IT resource (data, information object, service, or system capability) according to its level of sensitivity, which is based on an analysis of applicable privacy policies and the risk of financial, reputational, or other harm to an individual or entity that could result if made available or disclosed to unauthorized individuals, entities, or processes.\r\n\r\n*Usage Note:* Confidentiality codes may be used in security labels and privacy markings to classify IT resources based on sensitivity to indicate the obligation of a custodian or receiver to ensure that the protected resource is not made available or disclosed to individuals, entities, or processes (security principals) unless authorized per applicable policies. Confidentiality codes may also be used in the clearances of initiators requesting access to protected resources.\r\n\r\nMap: Definition aligns with ISO 7498-2:1989 - Confidentiality is the property that information is not made available or disclosed to unauthorized individuals, entities, or processes."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "ConfidentialMark",
+        "display" : "confidential mark"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark indicating that the electronic or hardcopy information is a copy of an authoritative source for the information. The copy is not considered authoritative but is a duplicate of the authoritative content.\r\n\r\n*Usage Note:* Applicable policy will dictate how the COPY mark will be displayed. Typical renderings include the marking appearing at the top or \"banner\" of electronic or hardcopy pages, or as watermarks set diagonally across each page."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "COPYMark",
+        "display" : "copy of original mark"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark on an electronic transmission or physical container such as an electronic transmittal wrapper, batch file, message header, or a physical envelop or package indicating that the contents, whether electronic or hardcopy information, must only be delivered to the authorized recipient(s) named in the address.\r\n\r\n*Usage Note:* Required by US 32 CRF Part 2002 for container storing or transmitting CUI."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "DeliverToAddresseeOnlyMark",
+        "display" : "deliver only to addressee mark"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark rendered to end users as a prescribed text warning that the electronic or hardcopy information shall not be further disclosed without consent of the subject of the information. For example, in order to warn a recipient of 42 CFR Part 2 information of the redisclosure restrictions, the rule mandates that end users receive a written prohibition against redisclosure unless authorized by patient consent or otherwise permitted by Part 2. See 42 CFR Â§ 2.32 Prohibition on re-disclosure. (a)Notice to accompany disclosure. Each disclosure made with the patient's written consent must be accompanied by one of the following written statements: (1) This information has been disclosed to you from records protected by federal confidentiality rules ( 42 CFR part 2). The federal rules prohibit you from making any further disclosure of information in this record that identifies a patient as having or having had a substance use disorder either directly, by reference to publicly available information, or through verification of such identification by another person unless further disclosure is expressly permitted by the written consent of the individual whose information is being disclosed or as otherwise permitted by 42 CFR part 2. A general authorization for the release of medical or other information is NOT sufficient for this purpose (see Â§ 2.31). The federal rules restrict any use of the information to investigate or prosecute with regard to a crime any patient with a substance use disorder, except as provided at Â§Â§ 2.12(c)(5) and 2.65; or (2) 42 CFR part 2 prohibits unauthorized disclosure of these records. https://www.law.cornell.edu/cfr/text/42/2.32\r\n\r\n*Usage Note:* Example of marking requirement from SAMHSA FAQ Response to question 13:\r\n\r\nWould a logon or splash page notification on an HIOâ€™s portal that contains the Part 2 notice prohibiting redisclosure be sufficient to meet Part 2â€™s requirement that disclosures made with patient consent be accompanied by such a statement?\r\n\r\nNo. Part 2 requires each disclosure made with written patient consent to be accompanied by a written statement that the information disclosed is protected by federal law and that the recipient cannot make any further disclosure of it unless permitted by the regulations (42 CFR Â§ 2.32). A logon page is the page where a user logs onto a computer system; a splash page is an introductory page to a web site. A logon or splash page notification on a HIO's portal including the statement as required by Â§ 2.32 would not be sufficient notification regarding prohibitions on redisclosure since it would not accompany a specific disclosure. The notification must be tied to the Part 2 information being disclosed in order to ensure that the recipient of that information knows that specific information is protected by Part 2 and cannot be redisclosed except as authorized by the express written consent of the person to whom it pertains or as otherwise permitted by Part 2. https://www.samhsa.gov/about-us/who-we-are/laws-regulations/confidentiality-regulations-faqs"
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "RedisclosureProhibitionMark",
+        "display" : "prohibition against redisclosure mark"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark rendered to end users as \"Restricted Confidentiality\", which indicates that the electronic or hardcopy information they are viewing, must be protected at a restricted level of confidentiality protection as defined by HL7 Confidentiality code \"R\" (restricted). Examples: Includes information that is additionally protected such as sensitive conditions mental health, HIV, substance abuse, domestic violence, child abuse, genetic disease, and reproductive health; or sensitive demographic information such as a patient's standing as an employee or a celebrity. Use cases include a display to alert authorized EHR users that they are viewing additionally protected health information deemed sensitive by an applicable jurisdictional, organizational, or personal privacy policy.\r\n\r\n*Usage Note:* The definition is based on HL7 Confidentiality code \"R\" (restricted), which is described as:\r\n\r\nPrivacy metadata indicating highly sensitive, potentially stigmatizing information, which presents a high risk to the information subject if disclosed without authorization. May be pre-empted by jurisdictional law, e.g., for public health reporting or emergency treatment. Foundational definitions of Confidentiality: From HL7 Confidentiality Concept Domain: Types of privacy metadata classifying an IT resource (data, information object, service, or system capability) according to its level of sensitivity, which is based on an analysis of applicable privacy policies and the risk of financial, reputational, or other harm to an individual or entity that could result if made available or disclosed to unauthorized individuals, entities, or processes.\r\n\r\nUsage Note from HL7 Confidentiality code \"R\": Confidentiality codes may be used in security labels and privacy markings to classify IT resources based on sensitivity to indicate the obligation of a custodian or receiver to ensure that the protected resource is not made available or disclosed to individuals, entities, or processes (security principals) unless authorized per applicable policies. Confidentiality codes may also be used in the clearances of initiators requesting access to protected resources.\r\n\r\nThis metadata indicates that the receiver may be obligated to comply with applicable, prevailing (default) jurisdictional privacy law or disclosure authorization.\r\n\r\nMap: Definition aligns with ISO 7498-2:1989 - Confidentiality is the property that information is not made available or disclosed to unauthorized individuals, entities, or processes. Map: Partial Map to ISO 13606-4 Sensitivity Level (3) Clinical Care: Default for normal clinical care access (i.e. most clinical staff directly caring for the patient should be able to access nearly all of the EHR). Maps to normal confidentiality for treatment information but not to ancillary care, payment and operations."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "RestrictedConfidentialityMark",
+        "display" : "restricted confidentiality mark"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "A displayed mark indicating that the electronic or hard-copy information is still under development and is not yet considered to be ready for normal use."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "DRAFTMark",
+        "display" : "Draft Mark"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Conveys prohibited actions which an information custodian, receiver, or user is not permitted to perform unless otherwise authorized or permitted under specified circumstances.\r\n\r\n*Usage Notes:* ISO 22600-2 species that a Refrain Policy \"defines actions the subjects must refrain from performing\". Per HL7 Composite Security and Privacy Domain Analysis Model: May be used to indicate that a specific action is prohibited based on specific access control attributes e.g., purpose of use, information type, user role, etc."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "RefrainPolicy",
+        "display" : "refrain policy"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on disclosure without information subject's authorization."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NOAUTH",
+        "display" : "no disclosure without subject authorization"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on collection or storage of the information."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NOCOLLECT",
+        "display" : "no collection"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on disclosure without organizational approved patient restriction."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NODSCLCD",
+        "display" : "no disclosure without consent directive"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on disclosure without a consent directive from the information subject."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NODSCLCDS",
+        "display" : "no disclosure without information subject's consent directive"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on Integration into other records."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NOINTEGRATE",
+        "display" : "no integration"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on disclosure except to entities on specific access list."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NOLIST",
+        "display" : "no unlisted entity disclosure"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on disclosure without an interagency service agreement or memorandum of understanding (MOU)."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NOMOU",
+        "display" : "no disclosure without MOU"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on disclosure without organizational authorization."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NOORGPOL",
+        "display" : "no disclosure without organizational authorization"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on disclosing information to patient, family or caregivers without attending provider's authorization.\r\n\r\n*Usage Note:* The information may be labeled with the ActInformationSensitivity TBOO code, triggering application of this RefrainPolicy code as a handling caveat controlling access.\r\n\r\nMaps to FHIR NOPAT: Typically, this is used on an Alert resource, when the alert records information on patient abuse or non-compliance.\r\n\r\nFHIR print name is \"keep information from patient\". Maps to the French realm - code: INVISIBLE\\_PATIENT.\r\n\r\n *  displayName: Document non visible par le patient\r\n *  codingScheme: 1.2.250.1.213.1.1.4.13\r\n\r\nFrench use case: A label for documents that the author chose to hide from the patient until the content can be disclose to the patient in a face to face meeting between a healthcare professional and the patient (in French law some results like cancer diagnosis or AIDS diagnosis must be announced to the patient by a healthcare professional and should not be find out by the patient alone)."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NOPAT",
+        "display" : "no disclosure to patient, family or caregivers without attending provider's authorization"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on collection of the information beyond time necessary to accomplish authorized purpose of use is prohibited."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NOPERSISTP",
+        "display" : "no collection beyond purpose of use"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on redisclosure without patient consent directive."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NORDSCLCD",
+        "display" : "no redisclosure without consent directive"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on redisclosure without patient consent directive."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NORDSLCD",
+        "display" : "no redisclosure without consent directive"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on redisclosure without a consent directive from the information subject."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NORDSCLCDS",
+        "display" : "no redisclosure without information subject's consent directive"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on disclosure without authorization under jurisdictional law."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NORDSCLW",
+        "display" : "no disclosure without jurisdictional authorization"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on associating de-identified or pseudonymized information with other information in a manner that could or does result in disclosing information intended to be masked."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NORELINK",
+        "display" : "no relinking"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on use of the information beyond the purpose of use initially authorized."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NOREUSE",
+        "display" : "no reuse beyond purpose of use"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on disclosure except to principals with access permission to specific VIP information."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "NOVIP",
+        "display" : "no unauthorized VIP disclosure"
+      },
+      {
+        "extension" : [
+          {
+            "url" : "http://hl7.org/fhir/StructureDefinition/valueset-definition",
+            "valueString" : "Prohibition on disclosure except as permitted by the information originator."
+          }
+        ],
+        "system" : "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code" : "ORCON",
+        "display" : "no disclosure without originator authorization"
+      }
+    ]
+  }
+}
