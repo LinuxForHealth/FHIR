@@ -9,16 +9,16 @@
     <packaging>pom</packaging>
     <name>IBM FHIR Server</name>
 
-    <url>https://github.com/ibm/fhir</url>
+    <url>https://github.com/LinuxForHealth/fhir</url>
     <organization>
         <name>IBM</name>
-        <url>https://github.com/ibm/fhir</url>
+        <url>https://github.com/LinuxForHealth/fhir</url>
     </organization>
     <issueManagement>
-        <url>https://github.com/ibm/fhir/issues</url>
+        <url>https://github.com/LinuxForHealth/fhir/issues</url>
     </issueManagement>
     <ciManagement>
-        <url>https://github.com/ibm/fhir/actions</url>
+        <url>https://github.com/LinuxForHealth/fhir/actions</url>
     </ciManagement>
     <description>The IBM® FHIR® Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</description>
     <licenses>
@@ -1020,10 +1020,10 @@
     </build>
 
     <scm>
-        <connection>scm:git:https://github.com/ibm/fhir.git</connection>
+        <connection>scm:git:https://github.com/LinuxForHealth/fhir.git</connection>
         <developerConnection>IBM</developerConnection>
         <tag>ibm-fhir-server</tag>
-        <url>https://github.com/ibm/fhir.git</url>
+        <url>https://github.com/LinuxForHealth/fhir.git</url>
     </scm>
 
     <profiles>

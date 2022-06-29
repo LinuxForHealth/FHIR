@@ -2,7 +2,7 @@
 
 _Note_: the following description is based on the standard Derby/PostgreSQL variant of the schema. For Db2, the logical model is the same, but the physical model uses table partitioning and row-based access control (RBAC) to support multi-tenancy. To facilitate this, all the primary and foreign key relationships are prefixed with a multi-tenant identifier `mt_id`. A complete description of the Db2 multi-tenant design can be found [here](DB2MultiTenancy.md). Other variations across databases are discussed in this document.
 
-Currently it is not possible to deploy the single-tenant variant of the schema without RBAC to Db2. GitHub [issue-840](https://github.com/IBM/FHIR/issues/840) has been opened to address this. 
+Currently it is not possible to deploy the single-tenant variant of the schema without RBAC to Db2. GitHub [issue-840](https://github.com/LinuxForHealth/FHIR/issues/840) has been opened to address this. 
 
 
 ----------------------------------------------------------------
@@ -416,7 +416,7 @@ fhirdb=# select * from fhirdata.common_canonical_values;
 ----------------------------------------------------------------
 # Schema Management
 
-This section describes how the schema tool manages the upgrade of schemas. Use of the schema management tool is described [here](https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaToolUsageGuide.md).
+This section describes how the schema tool manages the upgrade of schemas. Use of the schema management tool is described [here](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema/docs/SchemaToolUsageGuide.md).
 
 The schema is managed using the class `com.ibm.fhir.schema.app.Main`. The `Main` class uses `FhirSchemaGenerator` to build a `PhysicalDataModel` which represents the schema as a Java data structure. This schema model is then applied to a database using an implementation of `IDatabaseAdapter` specific to the target database type (Derby, PostgreSQL or DB2). The adapter implements calls such as `createTable` and constructs the DDL statement appropriate for the target database. In some cases where the object type is not supported or not required for the given target database, the adapter can simply perform no operation (NOP).
 
@@ -774,7 +774,7 @@ The foreign key constraints have to be added after the tables are distributed. A
 The distribution step can take some time due to the amount of DDL Citus must execute for each table.
 
 ## References and Additional Reading
-- [Git Issue: Document the schema migration process on the project wiki #270](https://github.com/IBM/FHIR/issues/270)
+- [Git Issue: Document the schema migration process on the project wiki #270](https://github.com/LinuxForHealth/FHIR/issues/270)
 - [Db2 11.5: Extent sizes in table spaces](https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.dbobj.doc/doc/c0004964.html)
 - [Db2 11.5: Altering table spaces](https://www.ibm.com/support/producthub/db2/docs/content/SSEPGG_11.5.0/com.ibm.db2.luw.admin.dbobj.doc/doc/t0005096.html)
 - [Citus Data Modeling](https://docs.citusdata.com/en/v11.0-beta/sharding/data_modeling.html)

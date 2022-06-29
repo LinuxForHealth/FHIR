@@ -358,7 +358,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     }
 
     /**
-     * v3-ObservationInterpretation is a "polyhierarchy" codesystem; we need https://github.com/IBM/FHIR/issues/3448 for that one
+     * v3-ObservationInterpretation is a "polyhierarchy" codesystem; we need https://github.com/LinuxForHealth/FHIR/issues/3448 for that one
      */
     @Test(enabled = false)
     public void testSearchToken_CodeableConcept_above_poly() throws Exception {
@@ -369,7 +369,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     }
 
     /**
-     * v3-ObservationInterpretation is a "polyhierarchy" codesystem; we need https://github.com/IBM/FHIR/issues/3448 for that one
+     * v3-ObservationInterpretation is a "polyhierarchy" codesystem; we need https://github.com/LinuxForHealth/FHIR/issues/3448 for that one
      */
     @Test(enabled = false)
     public void testSearchToken_CodeableConcept_below_poly() throws Exception {
@@ -515,7 +515,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     }
 
     /**
-     * v3-ObservationInterpretation is a "polyhierarchy" codesystem; we need https://github.com/IBM/FHIR/issues/3448 for that one
+     * v3-ObservationInterpretation is a "polyhierarchy" codesystem; we need https://github.com/LinuxForHealth/FHIR/issues/3448 for that one
      */
     @Test(enabled = false)
     public void testSearchToken_Coding_above_poly() throws Exception {
@@ -527,7 +527,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     }
 
     /**
-     * v3-ObservationInterpretation is a "polyhierarchy" codesystem; we need https://github.com/IBM/FHIR/issues/3448 for that one
+     * v3-ObservationInterpretation is a "polyhierarchy" codesystem; we need https://github.com/LinuxForHealth/FHIR/issues/3448 for that one
      */
     @Test(enabled = false)
     public void testSearchToken_Coding_below_poly() throws Exception {

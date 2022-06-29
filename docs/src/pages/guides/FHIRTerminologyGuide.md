@@ -6,7 +6,7 @@ date:  "2021-04-23"
 
 ## Overview
 
-The IBM FHIR Server Terminology module ([fhir-term](https://github.com/IBM/FHIR/tree/main/term/fhir-term)) provides a FHIR terminology service provider interface (SPI) and a default implementation that implements terminology services using `CodeSystem`, `ValueSet`, and `ConceptMap` resources that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)).
+The IBM FHIR Server Terminology module ([fhir-term](https://github.com/LinuxForHealth/FHIR/tree/main/term/fhir-term)) provides a FHIR terminology service provider interface (SPI) and a default implementation that implements terminology services using `CodeSystem`, `ValueSet`, and `ConceptMap` resources that have been made available through the FHIR registry module ([fhir-registry](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-registry)).
 
 ## FHIR Terminology Service Diagram
 
@@ -36,11 +36,11 @@ NOTE: `closure(CodeSystem, Set)`, `getConcepts(CodeSystem, Function)`, `getConce
 
 ## Registry Terminology Service Provider Implementation
 
-The default implementation of `FHIRTermServiceProvider` ([RegistryTermServiceProvider](https://github.com/IBM/FHIR/blob/main/term/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/RegistryTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)). It supports `CodeSystem` resources with *complete* content (`CodeSystem.content = 'complete'`) and `ValueSet` resources that reference `CodeSystem` resources that have complete content.
+The default implementation of `FHIRTermServiceProvider` ([RegistryTermServiceProvider](https://github.com/LinuxForHealth/FHIR/blob/main/term/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/RegistryTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that have been made available through the FHIR registry module ([fhir-registry](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-registry)). It supports `CodeSystem` resources with *complete* content (`CodeSystem.content = 'complete'`) and `ValueSet` resources that reference `CodeSystem` resources that have complete content.
 
 ## FHIR Terminology Service Singleton Facade
 
-The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/IBM/FHIR/blob/main/term/fhir-term/src/main/java/com/ibm/fhir/term/service/FHIRTermService.java)) loads a list of `FHIRTermServiceProvider` instances from the ServiceLoader and includes an instance of the `RegistryTermServiceProvider`. Client code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
+The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/LinuxForHealth/FHIR/blob/main/term/fhir-term/src/main/java/com/ibm/fhir/term/service/FHIRTermService.java)) loads a list of `FHIRTermServiceProvider` instances from the ServiceLoader and includes an instance of the `RegistryTermServiceProvider`. Client code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
 
 ```java
 ValueSet valueSet = ValueSetSupport.getValueSet("http://ibm.com/fhir/ValueSet/vs1");
@@ -73,11 +73,11 @@ NOTE: The current implementation of `FHIRTermService` does not support optional 
 
 ## FHIR Server Terminology Extended Operations
 
-The FHIR terminology operations module ([fhir-operation-term](https://github.com/IBM/FHIR/tree/main/term/operation/fhir-operation-term)) connects the FHIR Server REST layer to the FHIR terminology module via the operations framework. This module implements the terminology operations as defined in the FHIR terminology service specification [http://hl7.org/fhir/terminology-service.html](http://hl7.org/fhir/terminology-service.html). One exception is the `$closure` operation. The `$closure` operation is experimental and does not support versioning or replay. This means that the `$closure` operation will always return the set of closure table entries for the given input concepts and does not store client state.
+The FHIR terminology operations module ([fhir-operation-term](https://github.com/LinuxForHealth/FHIR/tree/main/term/operation/fhir-operation-term)) connects the FHIR Server REST layer to the FHIR terminology module via the operations framework. This module implements the terminology operations as defined in the FHIR terminology service specification [http://hl7.org/fhir/terminology-service.html](http://hl7.org/fhir/terminology-service.html). One exception is the `$closure` operation. The `$closure` operation is experimental and does not support versioning or replay. This means that the `$closure` operation will always return the set of closure table entries for the given input concepts and does not store client state.
 
 ## FHIRPath Terminology Functions
 
-The FHIRPath module ([fhir-path](https://github.com/IBM/FHIR/tree/main/fhir-path)) has been updated to support implementations of the draft FHIRPath terminology function specification: [http://hl7.org/fhir/fhirpath.html#txapi](http://hl7.org/fhir/fhirpath.html#txapi). Support for the following functions (accessed through the `%terminologies` constant) has been implemented:
+The FHIRPath module ([fhir-path](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-path)) has been updated to support implementations of the draft FHIRPath terminology function specification: [http://hl7.org/fhir/fhirpath.html#txapi](http://hl7.org/fhir/fhirpath.html#txapi). Support for the following functions (accessed through the `%terminologies` constant) has been implemented:
 
 ```
 %terminologies.expand(valueSet, params) : ValueSet
@@ -107,7 +107,7 @@ Additionally, the FHIRPath functions `subsumedBy` and `subsumes` have been imple
 
 ## Graph Terminology Service Provider Implementation (experimental)
 
-The FHIR term graph module [fhir-term-graph](https://github.com/IBM/FHIR/tree/main/term/fhir-term-graph) provides an implementation of `FHIRTermServiceProvider` that is backed by a graph database ([JanusGraph](https://janusgraph.org)). The module also contains term graph loaders for SNOMED-CT Release Format 2 (RF2) files (SnomedTermGraphLoader), UMLS Rich Release Format (RRF) files (UMLSTermGraphLoader), and FHIR CodeSystem resources (CodeSystemTermGraphLoader). Graph term service providers may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
+The FHIR term graph module [fhir-term-graph](https://github.com/LinuxForHealth/FHIR/tree/main/term/fhir-term-graph) provides an implementation of `FHIRTermServiceProvider` that is backed by a graph database ([JanusGraph](https://janusgraph.org)). The module also contains term graph loaders for SNOMED-CT Release Format 2 (RF2) files (SnomedTermGraphLoader), UMLS Rich Release Format (RRF) files (UMLSTermGraphLoader), and FHIR CodeSystem resources (CodeSystemTermGraphLoader). Graph term service providers may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
 
 Example configurations:
 
@@ -144,7 +144,7 @@ Example configurations:
 
 ## Remote Terminology Service Provider Implementation (experimental)
 
-The FHIR term remote module [fhir-term-remote](https://github.com/IBM/FHIR/tree/main/term/fhir-term-remote) provides an implementation of `FHIRTermServiceProvider` that connects to an external service using a REST client to access code system content. The external service must implement the FHIR REST terminology APIs documented [here](http://hl7.org/fhir/terminology-service.html). Remote term service providers may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
+The FHIR term remote module [fhir-term-remote](https://github.com/LinuxForHealth/FHIR/tree/main/term/fhir-term-remote) provides an implementation of `FHIRTermServiceProvider` that connects to an external service using a REST client to access code system content. The external service must implement the FHIR REST terminology APIs documented [here](http://hl7.org/fhir/terminology-service.html). Remote term service providers may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
 
 Example configurations:
 

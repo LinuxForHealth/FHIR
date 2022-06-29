@@ -336,7 +336,7 @@ public class BulkDataClient {
 
                 if (OperationConstants.FAILED_STATUS.contains(executionResponse.getBatchStatus())) {
                     if (OperationConstants.NO_SUCH_BUCKET.equals(executionResponse.getExitStatus())) {
-                        // it would be better if we could cover this case preflight (https://github.com/IBM/FHIR/issues/2709)
+                        // it would be better if we could cover this case preflight (https://github.com/LinuxForHealth/FHIR/issues/2709)
                         throw export.buildOperationException("No such bucket exists for the storageProvider", IssueType.NO_STORE);
                     } else if (OperationConstants.FAILED_BAD_SOURCE.equals(executionResponse.getExitStatus())) {
                         // insert the BAD_SOURCE errors first so that the user is alerted that the request was invalid

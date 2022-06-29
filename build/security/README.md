@@ -60,7 +60,7 @@ The analysis sends an email when complete, and ready for report generation.
 
 The project may need to update the values `APPSCAN_KEY`, `APPSCAN_SECRET` and `APPSCAN_APPID`. These values may need to be changed as keys and secrets change. 
 
-- Navigate to https://github.com/IBM/FHIR/settings/secrets/new
+- Navigate to https://github.com/LinuxForHealth/FHIR/settings/secrets/new
 - Select the value to update 
 - Click Update
 - Click Update Secret

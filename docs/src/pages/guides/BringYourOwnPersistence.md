@@ -13,8 +13,8 @@ This document outlines the interfaces that need to be implemented and the behavi
 ### Interfaces
 Persistence layer interfaces are defined in the `fhir-persistence` module.
 
-* [FHIRPersistence](https://github.com/IBM/FHIR/blob/main/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistence.java) defines the contract between the REST layer and the persistence layer.
-* [FHIRPersistenceFactory](https://github.com/IBM/FHIR/blob/main/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistenceFactory.java) is the interface for providing instances of FHIRPersistence to the server.
+* [FHIRPersistence](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistence.java) defines the contract between the REST layer and the persistence layer.
+* [FHIRPersistenceFactory](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistenceFactory.java) is the interface for providing instances of FHIRPersistence to the server.
 
 ### Configuration
 Which persistence layer is used by the server is determined by the `/fhirServer/persistence/factoryClassname` property in `fhir-server-config.json`. There is more detail on the configuration in the [IBM FHIR Server's User Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#33-persistence-layer-configuration)
@@ -110,7 +110,7 @@ For unsuccessful requests, the implementation should return an appropriate Excep
 
 For all other errors, the implementation should return a `SingleResourceResult` with a success status of false and a non-null outcome with one or more issues to indicate the failure.
 
-Note: we plan to deprecate these exceptions and use only `SingleResourceResult` as part of https://github.com/IBM/FHIR/issues/194.
+Note: we plan to deprecate these exceptions and use only `SingleResourceResult` as part of https://github.com/LinuxForHealth/FHIR/issues/194.
 
 #### Version read
 Version read requests work just like read requests except that the caller passes a version identifier and the persistence implementation must return that specific version of the resource.
@@ -173,4 +173,4 @@ The tests in the `com.ibm.fhir.persistence.search.test` package are organized by
 
 For an example of how to extend these tests, see the `com.ibm.fhir.persistence.jdbc.search.test` package under `fhir-persistence-jdbc/src/test/java`.
 
-Finally, the IBM FHIR Server contains a number of end-to-end (e2e) integration tests under the [`fhir-server-test`](https://github.com/IBM/FHIR/tree/main/fhir-server-test) module. These tests can be executed against a running server that is configured with your persistence layer to provide further confidence in your implementation.
+Finally, the IBM FHIR Server contains a number of end-to-end (e2e) integration tests under the [`fhir-server-test`](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-server-test) module. These tests can be executed against a running server that is configured with your persistence layer to provide further confidence in your implementation.

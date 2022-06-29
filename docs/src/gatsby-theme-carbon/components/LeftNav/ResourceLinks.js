@@ -17,15 +17,15 @@ const links = [
   },
   {
     title: 'GitHub: Source',
-    href: 'https://github.com/IBM/FHIR/',
+    href: 'https://github.com/LinuxForHealth/FHIR/',
   },
   {
     title: 'GitHub: Issues',
-    href: 'https://github.com/IBM/FHIR/issues',
+    href: 'https://github.com/LinuxForHealth/FHIR/issues',
   },
   {
     title: 'GitHub: Releases',
-    href: 'https://github.com/ibm/fhir/releases',
+    href: 'https://github.com/LinuxForHealth/fhir/releases',
   },
   {
     title: 'HL7 FHIR',

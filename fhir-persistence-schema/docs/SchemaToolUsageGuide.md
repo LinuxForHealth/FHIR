@@ -15,7 +15,7 @@ The schema tool generates the following object types that require management:
 - TABLE
 - TABLE CONSTRAINT 
 
-For details on the schema design, refer to the [Schema Design](https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
+For details on the schema design, refer to the [Schema Design](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
 
 ----------------------------------------------------------------
 ## Database Support
@@ -85,7 +85,7 @@ The `fhir-persistence-schema` tool uses a properties file for database connectio
 |password | The user password for connecting to the database|
 |sslConnection | true or anything else, true triggers JDBC to use ssl, an example --prop sslConnection=true |
 
-A sample properties file can be found at https://github.com/IBM/FHIR/blob/main/fhir-persistence-schema/db2.properties
+A sample properties file can be found at https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence-schema/db2.properties
 
 Alternatively, properties may be passed via the command line interface `--prop` flag (`--prop <propname>=<propvalue>`). The flag can be repeated for setting multiple properties.
 
@@ -206,7 +206,7 @@ Citus database to provide increased scalability.
 --grant-to FHIRSERVER
 ```
 
-When `--db-type citus` is specified, the resulting schema includes different behavior for some indexes and foreign key constraints. For details on the DISTRIBUTED schema design, refer to the [Schema Design](https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
+When `--db-type citus` is specified, the resulting schema includes different behavior for some indexes and foreign key constraints. For details on the DISTRIBUTED schema design, refer to the [Schema Design](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
 
 Note that the datasource must also be identified as type `citus` in the fhir-server-config.json file. See the [IBM FHIR Server Users Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide) for more details.
 

@@ -8,9 +8,9 @@ permalink: /FHIRValidationGuide/
 
 ## Overview
 
-The IBM FHIR Server validation module ([fhir-validation](https://github.com/IBM/FHIR/tree/main/fhir-validation)) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions.
+The IBM FHIR Server validation module ([fhir-validation](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-validation)) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions.
 
-The validation module is available from our [Maven artifact repository](https://github.com/ibm/fhir#building-on-top-of-the-ibm-fhir-server-modules) and is also packaged together with its dependencies and all of our pre-packaged implementation guides in the `fhir-validation-distribution.zip` artifact which may be downloaded from [https://github.com/IBM/FHIR/releases](releases).
+The validation module is available from our [Maven artifact repository](https://github.com/LinuxForHealth/fhir#building-on-top-of-the-ibm-fhir-server-modules) and is also packaged together with its dependencies and all of our pre-packaged implementation guides in the `fhir-validation-distribution.zip` artifact which may be downloaded from [https://github.com/LinuxForHealth/FHIR/releases](releases).
 
 ## How it works
 
@@ -27,15 +27,15 @@ For example, in the Patient resource, we have the following constraint:
 )
 ```
 
-The validation component picks up the Java annotation, pulls out the FHIRPath expression and passes it on to the IBM FHIR Server FHIRPath component ([fhir-path](https://github.com/IBM/FHIR/tree/main/fhir-path)) for evaluation. If the invariant evaluates to `false` then the FHIR validator will generate an OperationOutcome.Issue with the severity set relative to the "level" of the constraint (i.e. "Rule" or "Warning");
+The validation component picks up the Java annotation, pulls out the FHIRPath expression and passes it on to the IBM FHIR Server FHIRPath component ([fhir-path](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-path)) for evaluation. If the invariant evaluates to `false` then the FHIR validator will generate an OperationOutcome.Issue with the severity set relative to the "level" of the constraint (i.e. "Rule" or "Warning");
 
 ![https://linuxforhealth.github.io/FHIR/images/fhir-dependency-graph.png](https://linuxforhealth.github.io/FHIR/images/fhir-dependency-graph.png)
 
 ## Profile Support
 
-The validation component will also validate a resource against profiles that it asserts conformance to in the `Resource.meta.profile` element assuming those profiles are available to the IBM FHIR Server via the FHIR registry component ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)) at runtime.
+The validation component will also validate a resource against profiles that it asserts conformance to in the `Resource.meta.profile` element assuming those profiles are available to the IBM FHIR Server via the FHIR registry component ([fhir-registry](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-registry)) at runtime.
 
-Given a FHIR profile (structure definition) that contains a Snapshot as input, the IBM FHIR Server Profile component ([fhir-profile](https://github.com/IBM/FHIR/tree/main/fhir-profile)) generates FHIRPath expressions for a number of different types of constraints. The current scope of constraint generation is:
+Given a FHIR profile (structure definition) that contains a Snapshot as input, the IBM FHIR Server Profile component ([fhir-profile](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-profile)) generates FHIRPath expressions for a number of different types of constraints. The current scope of constraint generation is:
 
 - Cardinality constraints (required and prohibited elements)
 - Fixed value constraints (Code and Uri data types)
@@ -177,7 +177,7 @@ Package your implementation in a jar file and be sure to include its fully-quali
 
 ### NPM package format support
 
-The IBM FHIR Server Registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)) has utilities that can be used to expose FHIR registry resources that exist in the NPM package format. Implementation guides that follow this packaging format can be dropped into the `src/main/resources/` under a directory structure defined by the ImplementationGuide.packageId value. For example, US Core implementation guide has a package id of: `hl7.fhir.us.core`. The NPM "package" folder can be dropped here: `src/main/resources/hl7/fhir/us/core/package`
+The IBM FHIR Server Registry module ([fhir-registry](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-registry)) has utilities that can be used to expose FHIR registry resources that exist in the NPM package format. Implementation guides that follow this packaging format can be dropped into the `src/main/resources/` under a directory structure defined by the ImplementationGuide.packageId value. For example, US Core implementation guide has a package id of: `hl7.fhir.us.core`. The NPM "package" folder can be dropped here: `src/main/resources/hl7/fhir/us/core/package`
 
 ![https://linuxforhealth.github.io/FHIR/images/us-core-package.png](https://linuxforhealth.github.io/FHIR/images/us-core-package.png)
 
@@ -195,7 +195,7 @@ public class USCoreResourceProvider extends PackageRegistryResourceProvider {
 
 The `PackgageRegistryResourceProvider` class converts the packageId (e.g. hl7.fhir.us.core) to a path where it can find the NPM package index file: `.index.json`. The `PackageRegistryResourceProvider` class creates `FHIRRegistryResource` instances, using the index file, and caches them in a map on startup. The `PackageRegistryResource` (an implementation of `FHIRRegistryResource` class lazily loads the underlying FHIR resource into memory when it is accessed. Multiple versions of the same resource can be registered. FHIR registry resource providers can be bundled into a jar file and deployed with the IBM FHIR server in the user lib directory.
 
-The IBM FHIR Server uses the Snapshot and not the Differential, you must include a Snapshot. As mentioned in [#2829](https://github.com/IBM/FHIR/issues/2829), you may use FHIR Sushi with the `-s` option to generate a Snapshot.
+The IBM FHIR Server uses the Snapshot and not the Differential, you must include a Snapshot. As mentioned in [#2829](https://github.com/LinuxForHealth/FHIR/issues/2829), you may use FHIR Sushi with the `-s` option to generate a Snapshot.
 
 For more information, please see: [https://confluence.hl7.org/display/FHIR/NPM+Package+Specification](https://confluence.hl7.org/display/FHIR/NPM+Package+Specification)
 
@@ -207,7 +207,7 @@ The IBM FHIR server has built-in support for the following:
 
 ### Optional profile support
 
-The IBM FHIR Server project includes modules for select FHIR implementation guides and makes versions of those available in both Maven Central and in the fhir-validation-distribution.zip artifact, which may be downloaded from [https://github.com/IBM/FHIR/releases](releases). To make an implemenation guide available to the server, copy the corresponding jar (e.g. `fhir-ig-us-core-VERSION.jar`) to the IBM FHIR Server's userlib directory before startup.
+The IBM FHIR Server project includes modules for select FHIR implementation guides and makes versions of those available in both Maven Central and in the fhir-validation-distribution.zip artifact, which may be downloaded from [https://github.com/LinuxForHealth/FHIR/releases](releases). To make an implemenation guide available to the server, copy the corresponding jar (e.g. `fhir-ig-us-core-VERSION.jar`) to the IBM FHIR Server's userlib directory before startup.
 
 In many cases, these modules wrap multiple versions of the corresponding implementation guide.
 By default, the server will use the latest version of given resource for validation purposes.
@@ -241,4 +241,4 @@ Coded elements (code, Coding, CodeableConcept data types), maybe have a binding 
 
 The fhir-path-cli enables commandline processing of a FHIR Path over a FHIR resource and outputs the results.
 
-For details on the fhir-path-cli, refer to the [README.md](https://github.com/IBM/FHIR/tree/main/fhir-path/README.md)
+For details on the fhir-path-cli, refer to the [README.md](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-path/README.md)

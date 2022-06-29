@@ -26,7 +26,7 @@ if [[ -f "${SCHEMA}/fhir-persistence-schema-${SCHEMA_VERSION}-cli.jar" ]]; then
     echo "Using previously downloaded version ${SCHEMA_VERSION} of the fhir-persistence-schema tool"
 else
     echo "Downloading version ${SCHEMA_VERSION} of the fhir-persistence-schema tool..."
-    curl https://github.com/IBM/FHIR/releases/download/${SCHEMA_VERSION}/fhir-persistence-schema-${SCHEMA_VERSION}-cli.jar \
+    curl https://github.com/LinuxForHealth/FHIR/releases/download/${SCHEMA_VERSION}/fhir-persistence-schema-${SCHEMA_VERSION}-cli.jar \
          --output ${SCHEMA}/fhir-persistence-schema-${SCHEMA_VERSION}-cli.jar \
          --location \
          --fail

@@ -11,7 +11,7 @@ The instructions below can be used to create an assembly than contains all the j
 ### Pre-Requisites
 
 **Repository**  
-Navigate to https://github.com/IBM/FHIR 
+Navigate to https://github.com/LinuxForHealth/FHIR 
 
 Open a terminal window 
 

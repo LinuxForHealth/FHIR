@@ -45,7 +45,7 @@ This FHIR server is intended to be a common component for providing FHIR capabil
 0.  Prereqs: The IBM FHIR Server requires Java 11 and has been tested with OpenJDK 11. To install Java on your system, we recommend downloading and installing OpenJDK 11 from https://adoptium.net/.
 
 1.  To install the IBM FHIR Server, build or download the `fhir-install` zip installer.
-The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases are available from the [Releases tab](https://github.com/ibm/fhir/releases).
+The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases are available from the [Releases tab](https://github.com/LinuxForHealth/fhir/releases).
 
 2.  Unzip the `.zip` package into a clean directory (referred to as `fhir-installer` here):
     ```
@@ -122,7 +122,7 @@ The IBM FHIR Server is configured using Environment variables using:
 |----------------------|-------------|
 |`DISABLED_OPERATIONS`|A comma-separated list of operations which are disabled on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
 
-*Development-Only*: If you are using the IBM FHIR Server on a development machine with under 3.25G of RAM. You should download [jvm-dev.options](https://github.com/IBM/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/jvm-dev.options) and mount it when starting the Docker container.  You can use the following pattern for starting up in a restricted test environment (or build your own layer).
+*Development-Only*: If you are using the IBM FHIR Server on a development machine with under 3.25G of RAM. You should download [jvm-dev.options](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/jvm-dev.options) and mount it when starting the Docker container.  You can use the following pattern for starting up in a restricted test environment (or build your own layer).
 
 ```
 docker run -d -p 9443:9443 -e BOOTSTRAP_DB=true \
@@ -330,7 +330,7 @@ If you configure the FHIR server to use an IBM Db2 database, you must:
 
 3. Configure the IBM FHIR Server with the tenantKey generated in step number 2.
 
-An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema.
+An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/LinuxForHealth/FHIR/releases) and documentation can be found at https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema.
 
 For a detailed guide on configuring IBM Db2 on Cloud for the IBM FHIR Server, see [DB2OnCloudSetup](https://linuxforhealth.github.io/FHIR/guides/DB2OnCloudSetup).
 
@@ -343,7 +343,7 @@ If you configure the FHIR server to use a PostgreSQL database, you must:
 
 2. execute the `fhir-persistence-schema` utility with a db-type of `postgresql` to create the necessary schemas (tables, indices, functions, etc)
 
-An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema.
+An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/LinuxForHealth/FHIR/releases) and documentation can be found at https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema.
 
 Since release 4.5.5 you can set the `searchOptimizerOptions/from_collapse_limit` and `searchOptimizerOptions/join_collapse_limit` properties to improve the performance of certain search queries involving multiple search parameters. This optimization is currently only available for PostgreSQL.
 
@@ -516,7 +516,7 @@ In addition to the standard REST API (create, update, search, and so forth), the
 ### 4.1.1 Packaged operations
 The FHIR team provides implementations for the standard `$validate`, `$document`, `$everything`, `$expand`, `$lookup`, `$subsumes`, `$closure`, `$export`, `$import`, `$convert`, `$apply` and `$translate` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
 
-The server also bundles `$reindex` to reindex instances of Resources so they are searchable, `$retrieve-index` to retrieve lists of resources available to be reindexed, and `$erase` to hard delete instances of Resources. To learn more about the $erase operation, read the [design document](https://github.com/IBM/FHIR/tree/main/operation/fhir-operation-erase/README.md).
+The server also bundles `$reindex` to reindex instances of Resources so they are searchable, `$retrieve-index` to retrieve lists of resources available to be reindexed, and `$erase` to hard delete instances of Resources. To learn more about the $erase operation, read the [design document](https://github.com/LinuxForHealth/FHIR/tree/main/operation/fhir-operation-erase/README.md).
 
 To extend the server with additional operations, see [Section 4.1.2 Custom operations](#412-custom-operations)
 
@@ -1633,7 +1633,7 @@ Note, if you are using the default derby, the logs are overwritten upon restart 
 
 ### 4.10.6 Known Limitations
 
-The IBM FHIR Server's fhir-bulkdata-webapp does not support [persistence interceptors](https://github.com/IBM/FHIR/blob/main/docs/src/pages/guides/FHIRServerUsersGuide.md#43-persistence-interceptors). Therefor, $import requests will not lead to `beforeCreate`/`beforeUpdate` or `afterCreate`/`afterUpdate` method calls and $export requests will not lead to `beforeRead`/`beforeSearch` or `afterRead`/`afterSearch` method calls.
+The IBM FHIR Server's fhir-bulkdata-webapp does not support [persistence interceptors](https://github.com/LinuxForHealth/FHIR/blob/main/docs/src/pages/guides/FHIRServerUsersGuide.md#43-persistence-interceptors). Therefor, $import requests will not lead to `beforeCreate`/`beforeUpdate` or `afterCreate`/`afterUpdate` method calls and $export requests will not lead to `beforeRead`/`beforeSearch` or `afterRead`/`afterSearch` method calls.
 Because the IBM FHIR Server's notifications feature is implemented as a persistence interceptor, bulk operations will not result in any notification events.
 
 ## 4.11 Audit logging service
@@ -2073,7 +2073,7 @@ The originalRequestUriHeader is expected to contain the full path of the origina
 
 ### 4.13 Remote Index Service
 
-To use the experimental remote index service feature, see the instructions documented in the [fhir-remote-index](https://github.com/IBM/FHIR/tree/main/operation/fhir-remote-index/README.md) project.
+To use the experimental remote index service feature, see the instructions documented in the [fhir-remote-index](https://github.com/LinuxForHealth/FHIR/tree/main/operation/fhir-remote-index/README.md) project.
 
 # 5 Appendix
 

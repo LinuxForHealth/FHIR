@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-# Issue - https://github.com/IBM/FHIR/issues/1795
+# Issue - https://github.com/LinuxForHealth/FHIR/issues/1795
 # Create Schemas should support in multiple ways. 
 
 # Pre Condition:

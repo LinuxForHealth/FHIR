@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-# Issue - https://github.com/IBM/FHIR/issues/1802
+# Issue - https://github.com/LinuxForHealth/FHIR/issues/1802
 
 # Pre Condition:
 # 1 - ibmcom/ibm-fhir-schematool must be built based on the latest.

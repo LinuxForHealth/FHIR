@@ -15,7 +15,7 @@ module.exports = {
         titleType: 'append',
         isSearchEnabled: false,
         repository: {
-          baseUrl: 'https://github.com/IBM/FHIR',
+          baseUrl: 'https://github.com/LinuxForHealth/FHIR',
           subDirectory: '/docs',
           branch: 'main',
         },

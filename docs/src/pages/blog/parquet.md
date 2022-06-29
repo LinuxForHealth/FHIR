@@ -8,7 +8,7 @@ date:   2022-05-09
 By Lee Surprenant    |    Published May 10, 2022
 
 # Background
-In IBM FHIR Server 4.4.0, we introduced experimental support for ["export to parquet"](https://github.com/IBM/FHIR/issues/1340). The feature was implemented by embedding a single-node Apache Spark cluster and using it to:
+In IBM FHIR Server 4.4.0, we introduced experimental support for ["export to parquet"](https://github.com/LinuxForHealth/FHIR/issues/1340). The feature was implemented by embedding a single-node Apache Spark cluster and using it to:
 1. infer a schema from a collection of JSON resources;
 2. write Parquet to Amazon S3 / IBM Cloud Object Storage.
 
