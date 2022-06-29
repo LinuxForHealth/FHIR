@@ -1,19 +1,19 @@
 ---
 layout: post
 title:  Conformance
-description: Notes on the Conformance of the IBM FHIR Server
-date:   2022-05-31
+description: Notes on the Conformance of the LinuxForHealth FHIR Server
+date:   2022-06-31
 permalink: /conformance/
 ---
 
 # Conformance to the HL7 FHIR Specification
-The IBM FHIR Server aims to be a conformant implementation of the HL7 FHIR specification. However, the FHIR specification is very broad and not all implementations are expected to implement every feature. We prioritize performance and configurability over spec coverage.
+The LinuxForHealth FHIR Server aims to be a conformant implementation of the HL7 FHIR specification. However, the FHIR specification is very broad and not all implementations are expected to implement every feature. We prioritize performance and configurability over spec coverage.
 
 ## Capability statement
-The HL7 FHIR specification defines [an interaction](https://hl7.org/fhir/R4B/http.html#capabilities) for retrieving a machine-readable description of the server's capabilities via the `[base]/metadata` endpoint. The IBM FHIR Server implements this interaction and generates a `CapabilityStatement` resource based on the combination of request headers and server configuration. The `CapabilityStatement` is suited for programatic use, whereas this document provides a human-readable summary with a focus on limitations, extensions, and deviations from the specification.
+The HL7 FHIR specification defines [an interaction](https://hl7.org/fhir/R4B/http.html#capabilities) for retrieving a machine-readable description of the server's capabilities via the `[base]/metadata` endpoint. The LinuxForHealth FHIR Server implements this interaction and generates a `CapabilityStatement` resource based on the combination of request headers and server configuration. The `CapabilityStatement` is suited for programatic use, whereas this document provides a human-readable summary with a focus on limitations, extensions, and deviations from the specification.
 
 ## FHIR Versions
-As of version 5.0.0, the IBM FHIR Server supports all resource types from HL7 FHIR version 4.3.0 (R4B). Because this version of FHIR is almost entirely backwards compatible with version 4.0.1 (R4), we are able to serve as an R4-compliant server for [almost all](#unsupported-R4-resource-types) R4 resource types from the same server endpoints.
+As of version 5.0.0, the LinuxForHealth FHIR Server supports all resource types from HL7 FHIR version 4.3.0 (R4B). Because this version of FHIR is almost entirely backwards compatible with version 4.0.1 (R4), we are able to serve as an R4-compliant server for [almost all](#unsupported-R4-resource-types) R4 resource types from the same server endpoints.
 
 Clients can request a specific FHIR version by using the specification-defined [`fhirVersion` MIME-type parameter](https://hl7.org/fhir/R4B/http.html#version-parameter) in their HTTP headers (`Content-Type` and `Accept`). The server will use version 4.0 by default, but can be configured to default to 4.3 instead.
 
@@ -23,12 +23,12 @@ However, for system-level interactions like whole-system search and whole-system
 ## FHIR HTTP API
 The HL7 FHIR specification is more than just a data format. It defines an [HTTP API](https://hl7.org/fhir/R4B/http.html) for creating, reading, updating, deleting, and searching over FHIR resources.
 
-The IBM FHIR Server implements a linear versioning scheme for resources, fully implements `vread` and `history` interactions, and supports version-aware updates.
+The LinuxForHealth FHIR Server implements a linear versioning scheme for resources, fully implements `vread` and `history` interactions, and supports version-aware updates.
 
-By default, the IBM FHIR Server allows all supported API interactions (`create`, `read`, `vread`, `history`, `search`, `update`, `patch`, and `delete`). However, it is possible to configure which of these interactions are allowed on a per-resource-type basis. See the [user guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#412-fhir-rest-api) for details.
+By default, the LinuxForHealth FHIR Server allows all supported API interactions (`create`, `read`, `vread`, `history`, `search`, `update`, `patch`, and `delete`). However, it is possible to configure which of these interactions are allowed on a per-resource-type basis. See the [user guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#412-fhir-rest-api) for details.
 
 ### HTTP Headers
-The IBM FHIR Server supports headers to modify the behavior of interactions according to the HL7 FHIR specification [HTTP API summary](https://hl7.org/fhir/R4B/http.html#summary) with the following changes/additions:
+The LinuxForHealth FHIR Server supports headers to modify the behavior of interactions according to the HL7 FHIR specification [HTTP API summary](https://hl7.org/fhir/R4B/http.html#summary) with the following changes/additions:
 
 | Interaction    | Path         | Verb          | Header                    | Description |
 | -------------- | ------------ | ------------- | ------------------------- | ----------- |
@@ -37,7 +37,7 @@ The IBM FHIR Server supports headers to modify the behavior of interactions acco
 | _any_          | _any_        | _any_         | X-FHIR-TENANT-ID          | Custom support for multi-tenancy                  |
 | _any_          | _any_        | _any_         | X-FHIR-DSID               | Custom support for multiple datasources           |
 
-In addition to the content negotiation headers required in the FHIR specification, the IBM FHIR Server supports two client preferences via the `Prefer` header:
+In addition to the content negotiation headers required in the FHIR specification, the LinuxForHealth FHIR Server supports two client preferences via the `Prefer` header:
 * [return preference](https://hl7.org/fhir/R4B/http.html#ops)
 * [handling preference](https://hl7.org/fhir/R4B/search.html#errors)
 
@@ -54,7 +54,7 @@ In `lenient` mode, the client must [check the self uri](https://hl7.org/fhir/R4B
 
 Note: In addition to controlling whether or not the server returns an error for unexpected search parameters, the handling preference is also used to control whether or not the server will return an error for unexpected elements in the JSON representation of a Resource as defined at https://hl7.org/fhir/R4B/json.html.
 
-The IBM FHIR Server supports conditional create-on-update using the `If-None-Match` header. This IBM FHIR Server-specific feature allows clients to use a `PUT` (update) interaction which behaves as follows:
+The LinuxForHealth FHIR Server supports conditional create-on-update using the `If-None-Match` header. This LinuxForHealth FHIR Server-specific feature allows clients to use a `PUT` (update) interaction which behaves as follows:
 
     1. If the resource does not yet exist, create the resource and return `201 Created`;
     2. If the resource does exist, do nothing and return `412 Precondition Failed` (default behavior);
@@ -110,7 +110,7 @@ If a match is found and the fhir-server-config element `fhirServer/core/ifNoneMa
 
 The server also implements an optimization for updates that do not change the resource contents. See Section 5.2. Conditional Update of the [Performance Guide](guides/FHIRPerformanceGuide#52-conditional-update) for more information.
 
-Finally, the IBM FHIR Server supports multi-tenancy through custom headers as defined at https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy. By default, the server will look for a tenantId in a `X-FHIR-TENANT-ID` header and a datastoreId in the `X-FHIR-DSID` header, and use `default` for either one if the headers are not present.
+Finally, the LinuxForHealth FHIR Server supports multi-tenancy through custom headers as defined at https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy. By default, the server will look for a tenantId in a `X-FHIR-TENANT-ID` header and a datastoreId in the `X-FHIR-DSID` header, and use `default` for either one if the headers are not present.
 
 ### General parameters
 The `_format` parameter is supported and provides a useful mechanism for requesting a specific format (`XML` or `JSON`) in requests made from a browser. In the absence of either an `Accept` header or a `_format` query parameter, the server defaults to `application/fhir+json`.
@@ -118,7 +118,7 @@ The `_format` parameter is supported and provides a useful mechanism for request
 The `_pretty` parameter is also supported.
 
 ## Whole System History
-The whole system history interaction can be used to obtain a list of changes (create, update, delete) to resources in the IBM FHIR Server. This may be useful for other systems to reliably track these changes and keep themselves in-sync.
+The whole system history interaction can be used to obtain a list of changes (create, update, delete) to resources in the LinuxForHealth FHIR Server. This may be useful for other systems to reliably track these changes and keep themselves in-sync.
 
 ```
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history'
@@ -164,7 +164,7 @@ As mentioned above, to simplify client implementations in system-to-system synch
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=100&_sort=none'
 ```
 
-In this case, the IBM FHIR Server uses `_changeIdMarker` as a custom paging attribute which references a single `Bundle.entry.id` value. This value can be used by clients to checkpoint where they are in the sequence of changes, and ask for only changes that come after the given id. The simplest way to do this is to follow the `next` link returned in the response Bundle. If the next link is not present in the response Bundle, the end has been reached for the current point in time. Note that `_lastUpdated` and `Bundle.entry.id` values are not perfectly correlated - clients should not mix ordering. The ids used for `Bundle.entry.id` are guaranteed to be unique within a single IBM FHIR Server database (tenant/datasource).
+In this case, the LinuxForHealth FHIR Server uses `_changeIdMarker` as a custom paging attribute which references a single `Bundle.entry.id` value. This value can be used by clients to checkpoint where they are in the sequence of changes, and ask for only changes that come after the given id. The simplest way to do this is to follow the `next` link returned in the response Bundle. If the next link is not present in the response Bundle, the end has been reached for the current point in time. Note that `_lastUpdated` and `Bundle.entry.id` values are not perfectly correlated - clients should not mix ordering. The ids used for `Bundle.entry.id` are guaranteed to be unique within a single LinuxForHealth FHIR Server database (tenant/datasource).
 
 The `_changeIdMarker` query parameter is intended to be used only as part of a `next` link defined within a search result. It is not intended for general use by an end user.
 
@@ -195,16 +195,16 @@ In a highly concurrent system, several resources could share the same timestamp.
 | patient-1  |       2 | 12:06 |         5 | UPDATE |
 | patient-3  |       2 | 12:06 |         6 | DELETE |
 
-Note how the change time for `patient-3` and `patient-4` is the same, although they have different change ids. Also, `patient-4` has a change time before `patient-2` even though its id is greater. This can happen if the clocks in a cluster are not perfectly synchronized or the resource was created when processing a large Bundle. This only applies to different resources - changes can _never_ appear out of order for a specific resource because the IBM FHIR Server uses database locking to ensure consistency.
+Note how the change time for `patient-3` and `patient-4` is the same, although they have different change ids. Also, `patient-4` has a change time before `patient-2` even though its id is greater. This can happen if the clocks in a cluster are not perfectly synchronized or the resource was created when processing a large Bundle. This only applies to different resources - changes can _never_ appear out of order for a specific resource because the LinuxForHealth FHIR Server uses database locking to ensure consistency.
 
-The IBM FHIR Server requires clocks in a cluster to be synchronized and expects a maximum clock drift of no more than 2 seconds.
+The LinuxForHealth FHIR Server requires clocks in a cluster to be synchronized and expects a maximum clock drift of no more than 2 seconds.
 
 ### Whole System History - The Transaction Timeout Window
-Clients must exercise caution when reading recently ingested resources. When processing large bundles in parallel, an id may be assigned by the database but ACID isolation means that the record will not be visible to a reader until the transaction is committed. This could be up to 120s or longer if a larger transaction-timeout property has been defined. If a smaller bundle starts after the larger bundle and its transaction is committed first, its change ids and timestamps will be visible to readers before the resources from the other bundle, which will have some earlier change ids and timestamps. If clients do not take this into account, they may miss some resources. This behavior is a common concern in databases and not specific to the IBM FHIR Server.
+Clients must exercise caution when reading recently ingested resources. When processing large bundles in parallel, an id may be assigned by the database but ACID isolation means that the record will not be visible to a reader until the transaction is committed. This could be up to 120s or longer if a larger transaction-timeout property has been defined. If a smaller bundle starts after the larger bundle and its transaction is committed first, its change ids and timestamps will be visible to readers before the resources from the other bundle, which will have some earlier change ids and timestamps. If clients do not take this into account, they may miss some resources. This behavior is a common concern in databases and not specific to the LinuxForHealth FHIR Server.
 
 To guarantee no data is skipped, clients should not process resources with a `_lastUpdated` timestamp which is after `{current_time} - {transaction_timeout} - {max_cluster_clock_drift}`. By waiting for this time window to close, the client can be sure the data being returned is complete and in order, and can safely checkpoint using the `_since`, `_before` or `_changeIdMarker` values depending on the chosen sort option. The default value for transaction timeout is 120s but this is configurable. A value of 2 seconds is a reasonable default to consider for `max_cluster_clock_drift` in lieu of specific information about the infrastructure. Implementers should check with server administrators on the appropriate values to use.
 
-To simplify the handling of this scenario, clients may specify the optional query parameter `_excludeTransactionTimeoutWindow=true` to perform this filtering within the server. This relies on the IBM FHIR Server transaction timeout having been configured using the `FHIR_TRANSACTION_MANAGER_TIMEOUT` environment variable. If this environment variable is not configured, a default transaction timeout of 120s is assumed, although this may not be the actual timeout if the server is otherwise configured in a non-standard way.
+To simplify the handling of this scenario, clients may specify the optional query parameter `_excludeTransactionTimeoutWindow=true` to perform this filtering within the server. This relies on the LinuxForHealth FHIR Server transaction timeout having been configured using the `FHIR_TRANSACTION_MANAGER_TIMEOUT` environment variable. If this environment variable is not configured, a default transaction timeout of 120s is assumed, although this may not be the actual timeout if the server is otherwise configured in a non-standard way.
 
 Note that using `_excludeTransactionTimeoutWindow=true` intentionally introduces a delay as to when freshly ingested resources become visible from the `_history` endpoints. When this parameter is used, clients can safely iterate along the resource history timeline using the `next` links in the Bundle response without the risk of missing data.
 
@@ -213,7 +213,7 @@ Note that using `_excludeTransactionTimeoutWindow=true` intentionally introduces
 | **Recommendation**: | To iterate over multiple pages, always use the `next` links in the response Bundle instead of trying to compose the URL and its query parameters each time. |
 
 ## Search
-The IBM FHIR Server supports all search parameter types defined in the specification:
+The LinuxForHealth FHIR Server supports all search parameter types defined in the specification:
 * `Number`
 * `Date/DateTime`
 * `String`
@@ -247,7 +247,7 @@ The `_has` parameter has two restrictions:
 
 The `_text`, `_content`, `_list`, `_query`, and `_filter` parameters are not supported at this time.
 
-Finally, the specification defines a set of "Search result parameters" for controlling the search behavior. The IBM FHIR Server supports the following:
+Finally, the specification defines a set of "Search result parameters" for controlling the search behavior. The LinuxForHealth FHIR Server supports the following:
 * `_sort`
 * `_count`
 * `_include`
@@ -267,12 +267,12 @@ The `:iterate` modifier is supported for the `_include` and `_revinclude` parame
 The `_contained` and `_containedType` parameters are not supported at this time.
 
 ### Custom search parameters
-Custom search parameters are search parameters that are not defined in the FHIR R4 specification, but are configured for search on the IBM FHIR Server. You can configure custom parameters for either extension elements or for elements that are defined in the specification but without a corresponding search parameter.
+Custom search parameters are search parameters that are not defined in the FHIR R4 specification, but are configured for search on the LinuxForHealth FHIR Server. You can configure custom parameters for either extension elements or for elements that are defined in the specification but without a corresponding search parameter.
 
 For information on how to specify custom search parameters, see [FHIRSearchConfiguration.md](https://linuxforhealth.github.io/FHIR/guides/FHIRSearchConfiguration).
 
 ### Search modifiers
-FHIR search modifiers are described at https://hl7.org/fhir/R4B/search.html#modifiers and vary by search parameter type. The IBM FHIR Server implements a subset of the spec-defined search modifiers that is defined in the following table:
+FHIR search modifiers are described at https://hl7.org/fhir/R4B/search.html#modifiers and vary by search parameter type. The LinuxForHealth FHIR Server implements a subset of the spec-defined search modifiers that is defined in the following table:
 
 |FHIR Search Parameter Type|Supported Modifiers|"Default" search behavior when no Modifier or Prefix is present|
 |--------------------------|-------------------|---------------------------------------------------------------|
@@ -317,7 +317,7 @@ For example, a search like `Observation?date=2018-10-29T12:00:00Z` would *not* m
 If not specified on a query string, the default prefix is `eq`.
 
 ### Searching on Date
-The IBM FHIR Server implements date search as according to the specification.
+The LinuxForHealth FHIR Server implements date search as according to the specification.
 
 The server supports up to 6 fractional seconds (microsecond granularity) for Instant and DateTime values and all extracted parameter values are stored in the database in UTC in order to improve data portability.
 
@@ -337,7 +337,7 @@ Query parameter values with fractional seconds are handled with exact match sema
 * 2019-01-01T12:00:00.100Z
 * 2019-01-01T12:00:00.100000Z
 
-Indexing fields of type `Timing` is not well-defined in the specification and is not supported in this version of the IBM FHIR Server.
+Indexing fields of type `Timing` is not well-defined in the specification and is not supported in this version of the LinuxForHealth FHIR Server.
 
 ### Searching on Token
 For search parameters of type token, resource values are not indexed unless the resource instance contains both a `system` **and** `code`. The server implements the following variations of token search defined in the specification:
@@ -377,7 +377,7 @@ The following table describes how the FHIR server performs a token search, based
 |code system not specified             |Search is performed to match on unmodified search parameter token value OR normalized search parameter value|
 
 ### Searching on Number
-For fields of type `decimal`, the IBM FHIR Server computes an implicit range when the query parameter value has a prefix of `eq` (the default), `ne`, or `ap`. The computed range is based on the number of significant figures passed in the query string and further information can be found at https://hl7.org/fhir/R4B/search.html#number.
+For fields of type `decimal`, the LinuxForHealth FHIR Server computes an implicit range when the query parameter value has a prefix of `eq` (the default), `ne`, or `ap`. The computed range is based on the number of significant figures passed in the query string and further information can be found at https://hl7.org/fhir/R4B/search.html#number.
 For searches with the `ap` prefix, we use the range `[implicitLowerBound - searchQueryValue * .1, implicitUpperBound + searchQueryValue * .1)` to ensure that the `ap` range is broader than the implicit range of `eq`.
 
 ### Searching on Quantity
@@ -389,15 +389,15 @@ The FHIR server does not perform any unit conversion or unit manipulation at thi
 Similar to Numeric searches, the FHIR Server computes an implicit range for search query values with no range prefix (e.g. `eq`, `ne`, `ap`) based on the number of significant figures passed in the query string.
 For searches with the `ap` prefix, we use the range `[implicitLowerBound - searchQueryValue * .1, implicitUpperBound + searchQueryValue * .1)` to ensure that the `ap` range is broader than the implicit range of `eq`.
 
-The IBM FHIR Server does not consider the `Quantity.comparator` field as part of search processing at this time.
+The LinuxForHealth FHIR Server does not consider the `Quantity.comparator` field as part of search processing at this time.
 
 ### Searching on URI
-URI searches on the IBM FHIR Server are case-sensitive with "exact-match" semantics. The `above` and `below` prefixes can be used to perform path-based matching that is based on the `/` delimiter.
+URI searches on the LinuxForHealth FHIR Server are case-sensitive with "exact-match" semantics. The `above` and `below` prefixes can be used to perform path-based matching that is based on the `/` delimiter.
 
-There is one exception to the statement above. The `url` search parameter, which is defined in the base FHIR specification on definitional resource types as a URI search parameter, is actually treated as a canonical search parameter of type REFERENCE, as documented in the [FHIR specification](http://hl7.org/fhir/R4B/references.html#canonical). The following section of this document describes how the IBM FHIR Server processes canonical reference searches.
+There is one exception to the statement above. The `url` search parameter, which is defined in the base FHIR specification on definitional resource types as a URI search parameter, is actually treated as a canonical search parameter of type REFERENCE, as documented in the [FHIR specification](http://hl7.org/fhir/R4B/references.html#canonical). The following section of this document describes how the LinuxForHealth FHIR Server processes canonical reference searches.
 
 ### Searching on Reference
-Reference searches on the IBM FHIR Server support search on elements of type Reference and on elements of type canonical.
+Reference searches on the LinuxForHealth FHIR Server support search on elements of type Reference and on elements of type canonical.
 
 **Search on Elements of Type Reference:**
 
@@ -412,15 +412,15 @@ We recommend using logical reference where possible.
 Elements of type Reference may contain a versioned reference, such as `Patient/123/_history/2`. When performing chained, reverse chained (`_has`), `_include`, or `_revinclude` searches on versioned references, the following rules apply:
 
 * **Chained search**: If a resource has a reference that is versioned, and a chained search is performed using the element containing the versioned reference, the search criteria will be evaluated against the current version of the referenced resource, regardless of the version specified.
-    * This is because the IBM FHIR Server only stores search index information for the current versions of resources. In the case where a chained search does not act on the referenced version of a resource, the search results will contain an `OperationOutcome` with a warning that indicates the logical id of the resource and the element containing the versioned reference.
+    * This is because the LinuxForHealth FHIR Server only stores search index information for the current versions of resources. In the case where a chained search does not act on the referenced version of a resource, the search results will contain an `OperationOutcome` with a warning that indicates the logical id of the resource and the element containing the versioned reference.
     * Example: A `Condition` resource contains a reference of `Patient/123/_history/1` in its `subject` element, and the current version of the `Patient/123` resource is 2, and a search of `Condition?subject.name=Jane` is performed. In this case, the search criteria will be evaluated against the current version of the `Patient/123` resource rather than the specified version of `1`.
 * **Reverse chained search**: If a resource has a reference that is versioned, and a reverse chain search is performed using the element containing the versioned reference, then the referenced resource can only be returned as a match if the version specified is the referenced resource's current version.
-    * This is because the IBM FHIR Server will only return the current version of `match` resources in search results.
+    * This is because the LinuxForHealth FHIR Server will only return the current version of `match` resources in search results.
     * Example: A `Condition` resource contains a reference of `Patient/123/_history/2` in its `subject` element, and the current version of the `Patient/123` resource is `2`, and a search of `Patient?_has:Condition:patient:code=1234-5` is performed. If the `Condition` resource meets the search criteria, then the `Patient/123` resource will be returned as a match since the version specified in the reference is the current version of the `Patient/123` resource. However, if the current version of the `Patient/123` resource happens to be `3`, then the `Condition` resource will not be returned as a match in the search results.
 * **Include search**: If a resource has a reference that is versioned, and an `_include` search is performed using the element containing the versioned reference, then the referenced resource with the specified version will be returned as an `include` resource in the search results, assuming the version is valid.
     * Example: A `Condition` resource contains a reference of `Patient/123/_history/1` in its `subject` element, and the current version of the `Patient/123` resource is `2`, and a search of `Condition?_include=Condition:subject` is performed. Version `1` of the `Patient/123` resource will be returned as an `include` resource in the search results.
 * **Revinclude search**: If a resource has a reference that is versioned, and a `_revinclude` search is performed using the element containing the versioned reference, then the resource containing the versioned reference is returned as an `include` resource only if the version specified in the reference is the referenced resource's current version.
-    * This is because the IBM FHIR Server will only return the current version of `match` resources in search results. A reference to a non-current version of the resource is not considered to have met the search criteria, thus the resource containing the reference is not considered a valid `include` resource.
+    * This is because the LinuxForHealth FHIR Server will only return the current version of `match` resources in search results. A reference to a non-current version of the resource is not considered to have met the search criteria, thus the resource containing the reference is not considered a valid `include` resource.
     * Example: A `Condition` resource contains a reference of `Patient/123/_history/2` in its `subject` element, and the current version of the `Patient/123` resource is `2`, and a search of `Patient?_revinclude=Condition:subject` is performed. The `Condition` resource will be returned as an `include` resource since the version of the `Patient` resource specified in the `subject` element is the current version of the `Patient` resource. If the current version of the `Patient/123` resource is `3`, then the `Condition` resource will not be returned as an `include` resource in the search results.
 
 **Search on Elements of Type Canonical:**
@@ -454,7 +454,7 @@ Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of dis
 Note, the use of the surrounding bracket, such as `[mi_us]` is optional; `mi_us` is also valid.
 
 ## Batch/transaction support
-The IBM FHIR Server implements the HL7 FHIR [batch/transaction](https://hl7.org/fhir/R4B/http.html#transaction) endpoint. We support the batch/transaction processing rules as defined in the specification and we support resolving and replacing both:
+The LinuxForHealth FHIR Server implements the HL7 FHIR [batch/transaction](https://hl7.org/fhir/R4B/http.html#transaction) endpoint. We support the batch/transaction processing rules as defined in the specification and we support resolving and replacing both:
 * literal references to [bundle-local identities](https://hl7.org/fhir/R4B/bundle.html#bundle-unique) for creates and updates in batch and transaction bundles; and
 * [conditional literal references](https://hl7.org/fhir/R4B/http.html#trules) for creates and updates in a transaction bundle.
 
@@ -465,7 +465,7 @@ We've opened the following issue on the specification to request this requiremen
 
 ## Extended operations
 The HL7 FHIR specification also defines a mechanism for extending the base API with [extended operations](https://hl7.org/fhir/R4B/operations.html).
-The IBM FHIR Server implements a handful of extended operations and provides extension points for users to extend the server with their own.
+The LinuxForHealth FHIR Server implements a handful of extended operations and provides extension points for users to extend the server with their own.
 
 Operations are invoked via HTTP POST.
 * All operations can be invoked by passing a Parameters resource instance in the body of the request.
@@ -509,7 +509,7 @@ Instance operations are invoked at `[base]/[resourceType]/[id]/$[operation]`
 | [$everything](https://hl7.org/fhir/R4B/operation-patient-everything.html) | Patient | Obtain all resources pertaining to a patient | Current implementation supports obtaining all resources for a patient up to an aggregate total of 10,000 resources (at which point it is recommended to use the `$export` operation). This implementation does not currently support using the `_since` and `_count` query parameters. Pagination is not currently supported. The resource types returned can be configured. If a server has restricted down the list of supported resource types, only those resource types will be returned. Use of the `start` and `end` query parameters will not work if the `date` search parameter was filtered out for a resource type in the server configuration file. |
 
 ## Unsupported R4 resource types
-With the introduction of support for HL7 R4B in IBM FHIR Server 5.0.0, we no longer support FHIR 4.0.1 resource types that have been removed or drastically changed in 4.3.0. This set of resource types is discussed at https://hl7.org/fhir/R4B/history.html but repeated here for convenience:
+With the introduction of support for HL7 R4B in LinuxForHealth FHIR Server 5.0.0, we no longer support FHIR 4.0.1 resource types that have been removed or drastically changed in 4.3.0. This set of resource types is discussed at https://hl7.org/fhir/R4B/history.html but repeated here for convenience:
 * Evidence
 * EvidenceVariable
 * MedicinalProductAuthorization
