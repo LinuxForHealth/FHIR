@@ -107,7 +107,7 @@ Additionally, the FHIRPath functions `subsumedBy` and `subsumes` have been imple
 
 ## Graph Terminology Service Provider Implementation (experimental)
 
-The FHIR term graph module [fhir-term-graph](https://github.com/IBM/FHIR/tree/main/term/fhir-term-graph) provides an implementation of `FHIRTermServiceProvider` that is backed by a graph database ([JanusGraph](https://janusgraph.org)). The module also contains term graph loaders for SNOMED-CT Release Format 2 (RF2) files (SnomedTermGraphLoader), UMLS Rich Release Format (RRF) files (UMLSTermGraphLoader), and FHIR CodeSystem resources (CodeSystemTermGraphLoader). Graph term service providers may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
+The FHIR term graph module [fhir-term-graph](https://github.com/IBM/FHIR/tree/main/term/fhir-term-graph) provides an implementation of `FHIRTermServiceProvider` that is backed by a graph database ([JanusGraph](https://janusgraph.org)). The module also contains term graph loaders for SNOMED-CT Release Format 2 (RF2) files (SnomedTermGraphLoader), UMLS Rich Release Format (RRF) files (UMLSTermGraphLoader), and FHIR CodeSystem resources (CodeSystemTermGraphLoader). Graph term service providers may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
 
 Example configurations:
 
@@ -144,7 +144,7 @@ Example configurations:
 
 ## Remote Terminology Service Provider Implementation (experimental)
 
-The FHIR term remote module [fhir-term-remote](https://github.com/IBM/FHIR/tree/main/term/fhir-term-remote) provides an implementation of `FHIRTermServiceProvider` that connects to an external service using a REST client to access code system content. The external service must implement the FHIR REST terminology APIs documented [here](http://hl7.org/fhir/terminology-service.html). Remote term service providers may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
+The FHIR term remote module [fhir-term-remote](https://github.com/IBM/FHIR/tree/main/term/fhir-term-remote) provides an implementation of `FHIRTermServiceProvider` that connects to an external service using a REST client to access code system content. The external service must implement the FHIR REST terminology APIs documented [here](http://hl7.org/fhir/terminology-service.html). Remote term service providers may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
 
 Example configurations:
 

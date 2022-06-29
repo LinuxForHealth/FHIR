@@ -15,7 +15,7 @@ The IBM FHIR Server has extended operations for Bulk Data `$import`, `$export` a
 |[fhir-operation-bulkdata](https://github.com/IBM/FHIR/tree/main/operation/fhir-operation-bulkdata)|Implements the FHIR Operations `$import` and `$export` and translate bulk data requests into JSR352 Java Batch jobs|
 |[fhir-bulkdata-webapp](https://github.com/IBM/FHIR/tree/main/fhir-bulkdata-webapp)|Standalone web application to process bulk data requests as JSR352 Java Batch jobs|
 
-The IBM FHIR Server bulk data module configuration is described in more detail at the [FHIR Server Users Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide/#410-bulk-data-operations).
+The IBM FHIR Server bulk data module configuration is described in more detail at the [FHIR Server Users Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide/#410-bulk-data-operations).
 
 ## Export Operation: $export
 The `$export` operation uses three OperationDefinition: 
@@ -73,7 +73,7 @@ The IBM FHIR Server limits the number of inputs per each `$import` request based
 
 The IBM FHIR Server supports `storageDetail.type` with the value of `ibm-cos`, `https`, `azure-blob` and `aws-s3`.
 
-To import using the $import on https, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulkdata on https://test-url.ibm.com/folder1 and https://test-url.ibm.com/folder2 you must specify both baseUrls. Please refer to the [IBM FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#410-bulk-data-operations). Please note, the BulkData Operations do not support import from `http://`.
+To import using the $import on https, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulkdata on https://test-url.ibm.com/folder1 and https://test-url.ibm.com/folder2 you must specify both baseUrls. Please refer to the [IBM FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#410-bulk-data-operations). Please note, the BulkData Operations do not support import from `http://`.
 
 #### Example Request
 The following is a request to load data from the IBM COS endpoint into the IBM FHIR Server.

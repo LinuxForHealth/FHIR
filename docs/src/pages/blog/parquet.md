@@ -23,7 +23,7 @@ Bulk export can be performed via HTTP GET or POST and the IBM FHIR Server suppor
 * Patient export:  `[base]/Patient/$export`
 * Group export:  `[base]/Group/[id]/$export`
 
-The export operations are defined at https://hl7.org/fhir/uv/bulkdata/export.html and usage information can be found in the IBM FHIR Server [Bulk Data Guide](https://ibm.github.io/FHIR/guides/FHIRBulkOperations#export-operation-dollarexport).
+The export operations are defined at https://hl7.org/fhir/uv/bulkdata/export.html and usage information can be found in the IBM FHIR Server [Bulk Data Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRBulkOperations#export-operation-dollarexport).
 
 For example, to export all Patient and Condition resources from an IBM FHIR Server at example.com:
 ```

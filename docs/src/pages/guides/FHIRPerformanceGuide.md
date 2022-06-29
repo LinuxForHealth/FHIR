@@ -156,7 +156,7 @@ Each JTA datasource should be configured in its own `.xml` server configuration 
 
 ## 3.2. Transaction Timeout
 
-Long transactions consume significant resources so to protect the system, Liberty will time-out a transaction after 2 minutes (120s) by default. When a transaction times out, Liberty will forcibly close any database connection currently executing a statement and the IBM FHIR Server will return an HTTP 500 response to the caller. The maximum transaction time can be modified using the `<transaction>` element in the Liberty server configuration and, by default, the IBM FHIR Server will set this from  the `FHIR_TRANSACTION_MANAGER_TIMEOUT` variable as described in Section 3.3.1.3 Database Access TransactionManager Timeout of the [IBM FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide/#331-the-jdbc-persistence-layer).
+Long transactions consume significant resources so to protect the system, Liberty will time-out a transaction after 2 minutes (120s) by default. When a transaction times out, Liberty will forcibly close any database connection currently executing a statement and the IBM FHIR Server will return an HTTP 500 response to the caller. The maximum transaction time can be modified using the `<transaction>` element in the Liberty server configuration and, by default, the IBM FHIR Server will set this from  the `FHIR_TRANSACTION_MANAGER_TIMEOUT` variable as described in Section 3.3.1.3 Database Access TransactionManager Timeout of the [IBM FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide/#331-the-jdbc-persistence-layer).
 
 The following table summarizes how the transaction timeout is used for different request types:
 
@@ -909,4 +909,4 @@ Examples of valid resources can be found in the [fhir-examples](https://github.c
 
 ## 6.8. Making FHIR Requests with the IBM FHIR Server Client
 
-See FHIR client API in the [IBM FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide).
+See FHIR client API in the [IBM FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide).

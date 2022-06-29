@@ -13,7 +13,7 @@ This framework defines REST endpoints at the Base Server (System), scoped to spe
 - **Type** - https://my-server.com/fhir-server/api/v4/Patient/$export - Retrieve all the data from the Patient compartment
 - **Instance** - https://my-server.com/fhir-server/api/v4/Patient/1-2-3-4/$export - Retrieve a specific Patient data from the Patient compartment data
 
-A list of operations supported by the IBM FHIR Server is listed at https://ibm.github.io/FHIR/Conformance/#extended-operations
+A list of operations supported by the IBM FHIR Server is listed at https://linuxforhealth.github.io/FHIR/Conformance/#extended-operations
 
 ## Calling an Operation
 There are two types of operation invocation requests:

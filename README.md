@@ -1,7 +1,7 @@
 ## IBM FHIR Server
 The IBM® FHIR® Server is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://hl7.org/fhir/R4B/http.html) with a focus on performance and configurability.
 
-For a detailed description of FHIR conformance, see https://ibm.github.io/FHIR/Conformance.
+For a detailed description of FHIR conformance, see https://linuxforhealth.github.io/FHIR/Conformance.
 
 The server is available in the following forms:
 * a web application archive (war)
@@ -10,10 +10,10 @@ The server is available in the following forms:
 * a [helm chart](https://artifacthub.io/packages/helm/alvearie/ibm-fhir-server) from the alvearie org on ArtifactHub
 
 ### Running the IBM FHIR Server
-Guides for configuring, operating, and extending the IBM FHIR Server are available from https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide.
+Guides for configuring, operating, and extending the IBM FHIR Server are available from https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide.
 
 #### From the zip installer
-Download the fhir-persistence-schema and fhir-install assets from the [Releases tab](https://github.com/IBM/FHIR/releases) and follow the instructions from the [User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#21-installing-a-new-server) to:
+Download the fhir-persistence-schema and fhir-install assets from the [Releases tab](https://github.com/IBM/FHIR/releases) and follow the instructions from the [User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#21-installing-a-new-server) to:
 1. Use fhir-persistence-schema-VERSION-cli.jar to deploy the schema.
 2. Unzip, install, and configure the server.
 

@@ -77,7 +77,7 @@ jobs:
             echo "<html><title>Javadocs</title><body>" > javadocs/index.html
             for DIR in `find ./javadocs -type d -maxdepth 1 -mindepth 1 -exec basename {} \; | sort -r | grep -v rc3 `
             do
-              echo "<a href=\"https://ibm.github.io/FHIR/javadocs/${DIR}/index.html?overview-summary.html\">${DIR}</a>" >> javadocs/index.html
+              echo "<a href=\"https://linuxforhealth.github.io/FHIR/javadocs/${DIR}/index.html?overview-summary.html\">${DIR}</a>" >> javadocs/index.html
               echo "<br>" >> javadocs/index.html
             done
             echo "</body></html>" >> javadocs/index.html

@@ -187,7 +187,7 @@ Note: `_content` and `_query` are not yet supported by the IBM FHIR Server.
 The filter `"*": "*"` is not necessary to include these Resource-level parameters.
 
 #### 1.2.1 Handling unexpected search parameters
-The IBM FHIR Server supports configurable handling of unknown or unsupported search parameters as defined at https://ibm.github.io/FHIR/Conformance#http-headers.
+The IBM FHIR Server supports configurable handling of unknown or unsupported search parameters as defined at https://linuxforhealth.github.io/FHIR/Conformance#http-headers.
 Filtered search parameters are handled exactly the same as undefined search parameters, meaning that searches which include these parameters will fail in `strict` mode.
 
 #### 1.2.2 Compartment search considerations with filtering

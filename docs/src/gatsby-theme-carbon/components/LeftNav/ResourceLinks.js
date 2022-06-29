@@ -9,11 +9,11 @@ import ResourceLinks from 'gatsby-theme-carbon/src/components/LeftNav/ResourceLi
 const links = [
   {
     title: 'Javadoc: Latest',
-    href: "https://ibm.github.io/FHIR/javadocs/latest/"
+    href: "https://linuxforhealth.github.io/FHIR/javadocs/latest/"
   },
   {
     title: 'Javadoc: All Versions',
-    href: "https://ibm.github.io/FHIR/javadocs/index.html"
+    href: "https://linuxforhealth.github.io/FHIR/javadocs/index.html"
   },
   {
     title: 'GitHub: Source',

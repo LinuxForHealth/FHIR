@@ -29,7 +29,7 @@ For example, in the Patient resource, we have the following constraint:
 
 The validation component picks up the Java annotation, pulls out the FHIRPath expression and passes it on to the IBM FHIR Server FHIRPath component ([fhir-path](https://github.com/IBM/FHIR/tree/main/fhir-path)) for evaluation. If the invariant evaluates to `false` then the FHIR validator will generate an OperationOutcome.Issue with the severity set relative to the "level" of the constraint (i.e. "Rule" or "Warning");
 
-![https://ibm.github.io/FHIR/images/fhir-dependency-graph.png](https://ibm.github.io/FHIR/images/fhir-dependency-graph.png)
+![https://linuxforhealth.github.io/FHIR/images/fhir-dependency-graph.png](https://linuxforhealth.github.io/FHIR/images/fhir-dependency-graph.png)
 
 ## Profile Support
 
@@ -179,7 +179,7 @@ Package your implementation in a jar file and be sure to include its fully-quali
 
 The IBM FHIR Server Registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)) has utilities that can be used to expose FHIR registry resources that exist in the NPM package format. Implementation guides that follow this packaging format can be dropped into the `src/main/resources/` under a directory structure defined by the ImplementationGuide.packageId value. For example, US Core implementation guide has a package id of: `hl7.fhir.us.core`. The NPM "package" folder can be dropped here: `src/main/resources/hl7/fhir/us/core/package`
 
-![https://ibm.github.io/FHIR/images/us-core-package.png](https://ibm.github.io/FHIR/images/us-core-package.png)
+![https://linuxforhealth.github.io/FHIR/images/us-core-package.png](https://linuxforhealth.github.io/FHIR/images/us-core-package.png)
 
 
 For convenience, we have created a base implementation of `FHIRRegistryResourceProvider` called `PackageRegistryResourceProvider`. The implementation of the `USCoreResourceProvider` using this implementation looks like this:
@@ -230,7 +230,7 @@ Below is the list of implementation guides that are packaged as part of the proj
 The IBM FHIR Server provides a basic implementation of the $validate operation that invokes the FHIRValidator via a REST API. By default, the $validate operation will validate a resource against the base specification and any profiles asserted in its `Resource.meta.profile` element. The default behavior may be changed in one of the following ways:
 
 - If a profile is specified via the optional `profile` parameter, the $validate operation will validate a resource against the base specification and the specified profile only. It will not validate against any profiles asserted in the `Resource.meta.profile` element.
-- If the `profile` parameter is not specified, but the `mode` parameter is specified, and the `mode` parameter value is either `create` or `update`, the $validate operation will validate a resource against the base specification and any profiles asserted in its `Resource.meta.profile` element, but will do so based on profile configuration properties specified in the `fhirServer/resources/<resourceType>/profiles` section of the `fhir-server-config.json` file (see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference) for configuration details).
+- If the `profile` parameter is not specified, but the `mode` parameter is specified, and the `mode` parameter value is either `create` or `update`, the $validate operation will validate a resource against the base specification and any profiles asserted in its `Resource.meta.profile` element, but will do so based on profile configuration properties specified in the `fhirServer/resources/<resourceType>/profiles` section of the `fhir-server-config.json` file (see the [user guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference) for configuration details).
 
 ## ValueSet membership checking (FHIRPath `memberOf` function)
 

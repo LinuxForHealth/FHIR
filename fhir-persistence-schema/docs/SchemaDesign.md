@@ -234,7 +234,7 @@ For more details on how the resource payload data is stored, see the next sectio
 
 ## Scanning Resources
 
-The IBM FHIR Server implements the whole-system `_history` endpoint to fetch resources in the order they were ingested into the system. This endpoint is described in the IBM FHIR Server [Conformance Guide](https://ibm.github.io/FHIR/Conformance/#whole-system-history). This service is backed by the `RESOURCE_CHANGE_LOG` table which records the identity of each resource version as it is ingested. The table is indexed on `CHANGE_TSTAMP` which reflects the UTC last-modified timestamp for that version of the resource.
+The IBM FHIR Server implements the whole-system `_history` endpoint to fetch resources in the order they were ingested into the system. This endpoint is described in the IBM FHIR Server [Conformance Guide](https://linuxforhealth.github.io/FHIR/Conformance/#whole-system-history). This service is backed by the `RESOURCE_CHANGE_LOG` table which records the identity of each resource version as it is ingested. The table is indexed on `CHANGE_TSTAMP` which reflects the UTC last-modified timestamp for that version of the resource.
 
 ```
 fhirdb=> \d fhirdata.resource_change_log

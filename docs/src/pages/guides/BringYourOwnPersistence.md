@@ -17,7 +17,7 @@ Persistence layer interfaces are defined in the `fhir-persistence` module.
 * [FHIRPersistenceFactory](https://github.com/IBM/FHIR/blob/main/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistenceFactory.java) is the interface for providing instances of FHIRPersistence to the server.
 
 ### Configuration
-Which persistence layer is used by the server is determined by the `/fhirServer/persistence/factoryClassname` property in `fhir-server-config.json`. There is more detail on the configuration in the [IBM FHIR Server's User Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#33-persistence-layer-configuration)
+Which persistence layer is used by the server is determined by the `/fhirServer/persistence/factoryClassname` property in `fhir-server-config.json`. There is more detail on the configuration in the [IBM FHIR Server's User Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#33-persistence-layer-configuration)
 
 When the default `com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory` is used, the returned FHIRPersistenceJDBCImpl instance will look up a corresponding datasource, by JNDI name, using the combination of the tenant id and datastore id from the request context. Specifically, the connection strategy will use the `fhirServer/persistence/<datasourceId>/jndiName` property in the tenant config, or -- if the property is omitted --it will construct the name via the following pattern:
 
@@ -120,7 +120,7 @@ Update requests include a FHIRPersistenceContext, a resource logical id, and an 
 
 Note: at the REST layer, an update request will first invoke read and then invoke update. Similarly, PATCH requests are converted to normal updates before reaching the persistence layer's update implementation.
 
-FHIRPersistence implementations SHOULD use the value of the [`fhirServer/persistence/common/updateCreateEnabled`](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#45-updatecreate-feature) property to determine whether they should allow an update to a resource that doesn't exist yet.
+FHIRPersistence implementations SHOULD use the value of the [`fhirServer/persistence/common/updateCreateEnabled`](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#45-updatecreate-feature) property to determine whether they should allow an update to a resource that doesn't exist yet.
 
 #### Delete
 Delete requests include a FHIRPersistenceContext, a Class object for the resource type being deleted, and the logical id of the resource to delete.
