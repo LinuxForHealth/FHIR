@@ -15,7 +15,7 @@ The schema tool generates the following object types that require management:
 - TABLE
 - TABLE CONSTRAINT 
 
-For details on the schema design, refer to the [Schema Design](https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
+For details on the schema design, refer to the [Schema Design](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
 
 ----------------------------------------------------------------
 ## Database Support
@@ -85,7 +85,7 @@ The `fhir-persistence-schema` tool uses a properties file for database connectio
 |password | The user password for connecting to the database|
 |sslConnection | true or anything else, true triggers JDBC to use ssl, an example --prop sslConnection=true |
 
-A sample properties file can be found at https://github.com/IBM/FHIR/blob/main/fhir-persistence-schema/db2.properties
+A sample properties file can be found at https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence-schema/db2.properties
 
 Alternatively, properties may be passed via the command line interface `--prop` flag (`--prop <propname>=<propvalue>`). The flag can be repeated for setting multiple properties.
 
@@ -206,9 +206,9 @@ Citus database to provide increased scalability.
 --grant-to FHIRSERVER
 ```
 
-When `--db-type citus` is specified, the resulting schema includes different behavior for some indexes and foreign key constraints. For details on the DISTRIBUTED schema design, refer to the [Schema Design](https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
+When `--db-type citus` is specified, the resulting schema includes different behavior for some indexes and foreign key constraints. For details on the DISTRIBUTED schema design, refer to the [Schema Design](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
 
-Note that the datasource must also be identified as type `citus` in the fhir-server-config.json file. See the [IBM FHIR Server Users Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide) for more details.
+Note that the datasource must also be identified as type `citus` in the fhir-server-config.json file. See the [IBM FHIR Server Users Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide) for more details.
 
 
 You can create the standard version of the schema on a target Citus database
@@ -251,7 +251,7 @@ Note: for tenant names other than `default`, the server must determine the tenan
 By default, we get the tenant id from the `X-FHIR-TENANT-ID` header, but to trust this value requires a well-planned approach to security.
 Once the server has determined the tenant id for a given request, it uses this to look up the tenantKey and the two are
 used in conjunction to create or retrieve data for this tenant.
-For more information on multi-tenancy, see section [4.9 Multi-tenancy of the IBM FHIR Server Users Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy).
+For more information on multi-tenancy, see section [4.9 Multi-tenancy of the IBM FHIR Server Users Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy).
 
 
 ### Refresh Tenant Following Schema Update (Db2 only)
@@ -522,7 +522,7 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 ```
 
 ## Adjust the Vacuum Settings for PostgreSQL Tables only
-Since 4.9.0, the IBM FHIR Server has implemented support for modifying the [autovacuum](https://www.postgresql.org/docs/12/runtime-config-autovacuum.html). Per [4.1.2. Tuning Auto-vacuum](https://ibm.github.io/FHIR/guides/FHIRPerformanceGuide/#412-tuning-auto-vacuum) the schema tool modifies `autovacuum_vacuum_cost_limit`, `autovacuum_vacuum_scale_factor` and `autovacuum_vacuum_threshold`.
+Since 4.9.0, the IBM FHIR Server has implemented support for modifying the [autovacuum](https://www.postgresql.org/docs/12/runtime-config-autovacuum.html). Per [4.1.2. Tuning Auto-vacuum](https://linuxforhealth.github.io/FHIR/guides/FHIRPerformanceGuide/#412-tuning-auto-vacuum) the schema tool modifies `autovacuum_vacuum_cost_limit`, `autovacuum_vacuum_scale_factor` and `autovacuum_vacuum_threshold`.
 
 The autovacuum_vacuum_scale_factor is not automatically configured, and not recommended on Databases for Postgres on IBM Cloud. The system configuration overrides the setting.
 

@@ -39,7 +39,7 @@ The archive contains the following:
 
 To view the logs:
 
-- Navigate to https://github.com/IBM/FHIR/actions
+- Navigate to https://github.com/LinuxForHealth/FHIR/actions
 - Click on the Build of interest
 - Look to the upper right of the Action view, and post build completion the `Download artifacts` is shown. More specifically release-openjdk11.
 - Download the file

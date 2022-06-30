@@ -246,7 +246,7 @@ The [Db2 driver (click here to download)](https://repo1.maven.org/maven2/com/ibm
 
 Now that you've created the database and credentials, use the `fhir-persistence-schema` utility to deploy the IBM FHIR Server schema:
 
-1. download the `fhir-persistence-schema` cli jar from the corresponding project release: https://github.com/IBM/FHIR/releases
+1. download the `fhir-persistence-schema` cli jar from the corresponding project release: https://github.com/LinuxForHealth/FHIR/releases
 
 2. create a properties file named db2.properties with the Db2 Admin connection info from IBM Cloud; for example:
 
@@ -274,7 +274,7 @@ Now that you've created the database and credentials, use the `fhir-persistence-
 
 4. save the tenantKey from the `allocate-tenant` step above; this is needed to configure the IBM FHIR Server datasource in the next step
 
-For more information on using the fhir-persistence-schema cli jar, see https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/docs/SchemaToolUsageGuide.md.
+For more information on using the fhir-persistence-schema cli jar, see https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema/docs/SchemaToolUsageGuide.md.
 
 ### **Configuring an IBM FHIR Server datasource**
 
@@ -389,8 +389,8 @@ The IBM FHIR Server Bulk Data modules utilize Java Batch (JSR-352) from the Libe
 1. Associate it with a ServiceId (no need to create an Administration user, a simple user has sufficient privileges) using the same procedure you followed for the fhir-server ServiceId user.
 
 1. Create the datasource
-    1. Db2 with IAM https://github.com/IBM/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/db2-cloud/bulkdata.xml
-    1. Db2 with Db2Auth https://github.com/IBM/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/db2/bulkdata.xml
+    1. Db2 with IAM https://github.com/LinuxForHealth/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/db2-cloud/bulkdata.xml
+    1. Db2 with Db2Auth https://github.com/LinuxForHealth/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/db2/bulkdata.xml
 
 - Note: The Java Batch is configured in `bulkdata.xml` and included from the IBM FHIR Server's `server.xml` which is installed to `{wlp}/usr/server/defaultServer`. (fhir-server is installed locally)
 - Note: While this feature is not required, it's best to configure this datasource while configuring the main datasource.

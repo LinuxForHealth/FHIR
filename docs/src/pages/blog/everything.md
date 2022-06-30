@@ -8,7 +8,7 @@ date:   2021-04-21
 By Paul Bastide    |    Published April 4, 2021
 
 # The $everything operation
-In [IBM FHIR Server 4.7.0](https://github.com/IBM/FHIR/releases/tag/4.7.0), the IBM FHIR Server team turned on the `Patient/$everything` operation. We have this feature thanks to external contributor and an IBMer, [Luis García](https://github.com/luisgarcc) who implemented the operation in [#1044](https://github.com/IBM/FHIR/issues/1044).
+In [IBM FHIR Server 4.7.0](https://github.com/LinuxForHealth/FHIR/releases/tag/4.7.0), the IBM FHIR Server team turned on the `Patient/$everything` operation. We have this feature thanks to external contributor and an IBMer, [Luis García](https://github.com/luisgarcc) who implemented the operation in [#1044](https://github.com/LinuxForHealth/FHIR/issues/1044).
 
 So what do you get with `Patient/$everything`? Well, following the HL7 FHIR R4 [specification](http://hl7.org/fhir/patient-operation-everything.html), you get an operation that returns a "searchset" bundle with the information related to a patient in the context it is invoked. In the IBM FHIR Server's case, the server returns whatever resources are related to the Patient - e.g. practitioners, medications, locations, organizations etc.  You also get support for `Patient/[id]/$everything` where the `[ID]` is the logical id specific to a patient.
 
@@ -26,7 +26,7 @@ We need to know about the parameters of the `$everything` operation.
 
 Note, currently the implementation ignores the `_count` parameter.
 
-Now, let's prepopulate some sample data on the server using the [Integration Test data](https://github.com/IBM/FHIR/blob/main/fhir-server-test/src/test/resources/testdata/everything-operation/Antonia30_Acosta403.json).
+Now, let's prepopulate some sample data on the server using the [Integration Test data](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-server-test/src/test/resources/testdata/everything-operation/Antonia30_Acosta403.json).
 
 1. Download the Sample Data
 
@@ -130,10 +130,10 @@ curl -k --location --request GET 'https://localhost:9443/fhir-server/api/v4/Pati
 
 You'll see further down CareTeam and CarePlan resources...
 
-7. This is where we can have a bit of fun...  download the [fhir-path-cli](https://github.com/IBM/FHIR/releases/download/4.7.0/fhir-path-4.7.0-cli.jar)
+7. This is where we can have a bit of fun...  download the [fhir-path-cli](https://github.com/LinuxForHealth/FHIR/releases/download/4.7.0/fhir-path-4.7.0-cli.jar)
 
 ``` sh
-curl -L https://github.com/IBM/FHIR/releases/download/4.7.0/fhir-path-4.7.0-cli.jar -o fhir-path-4.7.0-cli.jar
+curl -L https://github.com/LinuxForHealth/FHIR/releases/download/4.7.0/fhir-path-4.7.0-cli.jar -o fhir-path-4.7.0-cli.jar
 ```
 
 8. Let's run the fhir-path-4.7.0-cli.jar and test a FHIRPath.

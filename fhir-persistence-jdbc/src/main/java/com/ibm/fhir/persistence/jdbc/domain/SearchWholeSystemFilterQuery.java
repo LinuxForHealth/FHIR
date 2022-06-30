@@ -45,7 +45,7 @@ public class SearchWholeSystemFilterQuery extends SearchQuery {
 
     /**
      * @implNote Overrides the default SearchQuery.visit so that we can add an extra filter to the
-     * "parameterBase" subquery to address https://github.com/IBM/FHIR/issues/3232.
+     * "parameterBase" subquery to address https://github.com/LinuxForHealth/FHIR/issues/3232.
      * Also adds wholeSystemSorting and pagination.
      */
     @Override

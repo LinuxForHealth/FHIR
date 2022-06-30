@@ -107,23 +107,23 @@ Ingestion rate:
 
 The inserts into the Observation parameter tables for token_values and quantity_values come from composite values, and there is room for improvement for how these inserts are handled:
 
-![Application Breakdown](https://ibm.github.io/FHIR/images/performance-450/Ingest_Application_Breakdown.png)
+![Application Breakdown](https://linuxforhealth.github.io/FHIR/images/performance-450/Ingest_Application_Breakdown.png)
 
 The GC activity is very reasonable given the complexity of FHIR resource parsing and validation:
 
-![GC CPU Time](https://ibm.github.io/FHIR/images/performance-450/Ingest_GC_CPU_Time.png)
+![GC CPU Time](https://linuxforhealth.github.io/FHIR/images/performance-450/Ingest_GC_CPU_Time.png)
 
 The throughput is stable throughout the loading period:
 
-![Throughput](https://ibm.github.io/FHIR/images/performance-450/Ingest_Throughput.png)
+![Throughput](https://linuxforhealth.github.io/FHIR/images/performance-450/Ingest_Throughput.png)
 
 The top database operations reflect what is seen in the application breakdown, with observation_token_values and observation_quantity_values being a good target for future improvement:
 
-![Top DB Operations](https://ibm.github.io/FHIR/images/performance-450/Ingest_Top_DB_Operations.png)
+![Top DB Operations](https://linuxforhealth.github.io/FHIR/images/performance-450/Ingest_Top_DB_Operations.png)
 
 Time series view of the same data:
 
-![TOP DB Operations Timeseries](https://ibm.github.io/FHIR/images/performance-450/Ingest_Top_DB_Ops_Timeseries.png)
+![TOP DB Operations Timeseries](https://linuxforhealth.github.io/FHIR/images/performance-450/Ingest_Top_DB_Ops_Timeseries.png)
 
 ## Client Read Performance
 
@@ -155,31 +155,31 @@ Throughput is constrained by exhaustion of PostgreSQL CPU.
 
 Database processing rate is slightly more than 3000 transactions per second. This reached 15K transactions/second when using BATCH as the bundle type instead of TRANSACTION. In that case, although the TPS is higher, the overall throughput is lower because each request required multiple transactions.
 
-![DB Transactions Per Second](https://ibm.github.io/FHIR/images/performance-450/Client_DB_Transactions_Per_Second.png)
+![DB Transactions Per Second](https://linuxforhealth.github.io/FHIR/images/performance-450/Client_DB_Transactions_Per_Second.png)
 
-![Web Transaction Time](https://ibm.github.io/FHIR/images/performance-450/Client_Web_Transaction_Time.png)
+![Web Transaction Time](https://linuxforhealth.github.io/FHIR/images/performance-450/Client_Web_Transaction_Time.png)
 
 The peak aggregate CPU usage for the POD (including the fhirbucket instance driving the test workload) is around 36 cores.
 
-![FHIR POD CPU Usage](https://ibm.github.io/FHIR/images/performance-450/Client_FHIR_CPU_Usage.png)
+![FHIR POD CPU Usage](https://linuxforhealth.github.io/FHIR/images/performance-450/Client_FHIR_CPU_Usage.png)
 
 No significant hotspots in the application breakdown:
 
-![Application Breakdown](https://ibm.github.io/FHIR/images/performance-450/Client_Application_Breakdown.png)
+![Application Breakdown](https://linuxforhealth.github.io/FHIR/images/performance-450/Client_Application_Breakdown.png)
 
 GC times are remarkably good, especially given the complexity of processing FHIR resources.
 
-![GC CPU Time](https://ibm.github.io/FHIR/images/performance-450/Client_GC_CPU_Time.png)
+![GC CPU Time](https://linuxforhealth.github.io/FHIR/images/performance-450/Client_GC_CPU_Time.png)
 
 The top DB operations align with the above Application Breakdown.
 
-![Top DB Operations](https://ibm.github.io/FHIR/images/performance-450/Client_Top_DB_Operations.png)
+![Top DB Operations](https://linuxforhealth.github.io/FHIR/images/performance-450/Client_Top_DB_Operations.png)
 
-![Top DB Ops Timeseries](https://ibm.github.io/FHIR/images/performance-450/Client_Top_DB_Ops_Timeseries.png)
+![Top DB Ops Timeseries](https://linuxforhealth.github.io/FHIR/images/performance-450/Client_Top_DB_Ops_Timeseries.png)
 
 The database CPU is hitting its limit, suggesting that scaling up to more cores would increase throughput.
 
-![DB CPU Usage](https://ibm.github.io/FHIR/images/performance-450/Client_DB_CPU_Usage.png)
+![DB CPU Usage](https://linuxforhealth.github.io/FHIR/images/performance-450/Client_DB_CPU_Usage.png)
 
 ##  Postgres Database Configuration
 

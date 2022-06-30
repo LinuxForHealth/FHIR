@@ -612,7 +612,7 @@ public class Main {
                     svm.updateSchemaVersion();
 
                     // Log warning messages that unused tables will be removed in a future release.
-                    // TODO: This will no longer be needed after the tables are removed (https://github.com/IBM/FHIR/issues/713).
+                    // TODO: This will no longer be needed after the tables are removed (https://github.com/LinuxForHealth/FHIR/issues/713).
                     logWarningMessagesForDeprecatedTables();
                 }
             } else if (this.force) {

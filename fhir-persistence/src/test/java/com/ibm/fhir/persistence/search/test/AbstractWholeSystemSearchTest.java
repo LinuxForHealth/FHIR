@@ -44,7 +44,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     protected final String TAG3 = UUID.randomUUID().toString();
     protected final String SECURITY_SYSTEM = "http://ibm.com/fhir/security";
     protected final String SECURITY = UUID.randomUUID().toString();
-    // v3-ActReason is a "polyhierarchy" codesystem; we need https://github.com/IBM/FHIR/issues/3448 for that one
+    // v3-ActReason is a "polyhierarchy" codesystem; we need https://github.com/LinuxForHealth/FHIR/issues/3448 for that one
     //protected final String CODE_SYSTEM_V3_ACT_REASON = "http://terminology.hl7.org/CodeSystem/v3-ActReason";
     //protected final String TAG4 = "HSYSADMIN";
     protected final String CODE_SYSTEM_V3_PARTICIPATION_MODE = "http://terminology.hl7.org/CodeSystem/v3-ParticipationMode";

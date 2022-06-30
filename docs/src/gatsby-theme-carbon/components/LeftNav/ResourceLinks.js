@@ -9,23 +9,23 @@ import ResourceLinks from 'gatsby-theme-carbon/src/components/LeftNav/ResourceLi
 const links = [
   {
     title: 'Javadoc: Latest',
-    href: "https://ibm.github.io/FHIR/javadocs/latest/"
+    href: "https://linuxforhealth.github.io/FHIR/javadocs/latest/"
   },
   {
     title: 'Javadoc: All Versions',
-    href: "https://ibm.github.io/FHIR/javadocs/index.html"
+    href: "https://linuxforhealth.github.io/FHIR/javadocs/index.html"
   },
   {
     title: 'GitHub: Source',
-    href: 'https://github.com/IBM/FHIR/',
+    href: 'https://github.com/LinuxForHealth/FHIR/',
   },
   {
     title: 'GitHub: Issues',
-    href: 'https://github.com/IBM/FHIR/issues',
+    href: 'https://github.com/LinuxForHealth/FHIR/issues',
   },
   {
     title: 'GitHub: Releases',
-    href: 'https://github.com/ibm/fhir/releases',
+    href: 'https://github.com/LinuxForHealth/fhir/releases',
   },
   {
     title: 'HL7 FHIR',

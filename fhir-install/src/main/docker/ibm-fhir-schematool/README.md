@@ -46,7 +46,7 @@ The following is read from the properties file:
 | sslrootcert | For Postgres, you must set as /opt/schematool/workarea/db.cert |
 | db.cert | For Postgres, you must set as a base64 encoding of the certificate |
 
-Further, any property supported by the [fhir-persistence-schema](https://github.com/IBM/FHIR/blob/main/fhir-persistence-schema/README.md) module is put into the file and mounted to the system.
+Further, any property supported by the [fhir-persistence-schema](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence-schema/README.md) module is put into the file and mounted to the system.
 
 ## Configuration file - persistence.json
 The configuration file is as follows in the examples configuration.
@@ -205,7 +205,7 @@ docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=onboard --list-tena
 ************
 # **License**
 
-The IBM FHIR Server - Schema Tool is licensed under the Apache 2.0 license. Full license text is available at [LICENSE](https://github.com/IBM/FHIR/blob/main/LICENSE).
+The IBM FHIR Server - Schema Tool is licensed under the Apache 2.0 license. Full license text is available at [LICENSE](https://github.com/LinuxForHealth/FHIR/blob/main/LICENSE).
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7. Use of the FHIR trademark does not constitute endorsement of this product by HL7.
 IBM and the IBM logo are trademarks of International Business Machines Corporation, registered in many jurisdictions worldwide. Other product and service names might be trademarks of IBM or other companies. A current list of IBM trademarks is available on [https://ibm.com/trademark](https://ibm.com/trademark).

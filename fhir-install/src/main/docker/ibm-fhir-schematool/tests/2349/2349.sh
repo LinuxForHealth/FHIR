@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-# Issue - https://github.com/IBM/FHIR/issues/2349
+# Issue - https://github.com/LinuxForHealth/FHIR/issues/2349
 
 # 1 - Start the db
 docker-compose up -d db

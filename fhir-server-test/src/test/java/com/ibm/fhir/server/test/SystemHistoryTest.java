@@ -157,7 +157,7 @@ public class SystemHistoryTest extends FHIRServerTestBase {
 
         assertEquals(found, totalVersions, "All versions of the resource should have a single entry");
         assertEquals(httpVerbs, new String[]{"POST", "PUT", "PUT", "DELETE", "PUT", "PUT"});
-        // the 5th entry should be a 201 but is a 200 due to https://github.com/IBM/FHIR/issues/3507#issuecomment-1081157116
+        // the 5th entry should be a 201 but is a 200 due to https://github.com/LinuxForHealth/FHIR/issues/3507#issuecomment-1081157116
         assertEquals(statusCodes, new String[]{"201", "200", "200", "200", "200", "200"});
     }
 

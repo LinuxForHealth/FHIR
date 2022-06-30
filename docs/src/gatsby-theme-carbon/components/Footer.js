@@ -10,7 +10,7 @@ import Footer from 'gatsby-theme-carbon/src/components/Footer';
 const Content = () => (
   <>
     <p>
-      The IBM FHIR Server is licensed under the Apache 2.0 license. Full license text is available at <a href="https://ibm.github.io/FHIR/LICENSE">LICENSE</a>.
+      The IBM FHIR Server is licensed under the Apache 2.0 license. Full license text is available at <a href="https://linuxforhealth.github.io/FHIR/LICENSE">LICENSE</a>.
     </p>
     <p>
       <a href="https://www.hl7.org/fhir/index.html">FHIR&reg;</a> is the registered trademark of HL7 and is used with the permission of HL7. Use of the FHIR trademark does not constitute endorsement of this product by HL7.
@@ -22,7 +22,7 @@ const Content = () => (
 
 const links = {
   firstCol: [
-    { href: 'https://github.com/ibm/fhir', linkText: 'IBM FHIR Server on GitHub' },
+    { href: 'https://github.com/LinuxForHealth/fhir', linkText: 'IBM FHIR Server on GitHub' },
     { href: 'https://www.hl7.org/fhir/index.html', linkText: 'HL7 FHIR' },
   ],
   
