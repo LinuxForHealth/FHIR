@@ -22,6 +22,8 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.MetricHandle;
 import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.persistence.InteractionStatus;
@@ -44,6 +46,7 @@ import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.FHIRPersistenceJDBCMetric;
 
 /**
  * Data access object for writing FHIR resources to an postgresql database using
@@ -157,7 +160,9 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
                 stmt.registerOutParameter(arg, Types.INTEGER); final int ifNoneMatchVersionIndex = arg++;
     
                 dbCallStartTime = System.nanoTime();
-                stmt.execute();
+                try (MetricHandle m = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_ADD_ANY_RESOURCE.name())) {
+                    stmt.execute();
+                }
                 dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
     
                 resource.setLogicalResourceId(stmt.getLong(logicalResourceIdIndex));
@@ -180,10 +185,12 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
                             || !parameterHashB64.equals(currentParameterHash))) {
                         // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
                         JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-                        try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getLogicalResourceId(), 100,
-                            identityCache, getResourceReferenceDAO(), getTransactionData())) {
-                            for (ExtractedParameterValue p: parameters) {
-                                p.accept(pvd);
+                        try (MetricHandle m = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_INSERT_PARAMS.name())) {
+                            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getLogicalResourceId(), 100,
+                                identityCache, getResourceReferenceDAO(), getTransactionData())) {
+                                for (ExtractedParameterValue p: parameters) {
+                                    p.accept(pvd);
+                                }
                             }
                         }
                     }

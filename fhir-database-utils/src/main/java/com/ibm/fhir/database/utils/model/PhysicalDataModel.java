@@ -339,23 +339,25 @@ public class PhysicalDataModel implements IDataModel {
         // visit just the matching subset of objects. If a transactionSupplier has been provided, we break up the
         // operation into multiple transactions to avoid transaction size limitations (e.g. with Citus FK creation)
         if (transactionSupplier != null) {
+
+            
             ITransaction tx = transactionSupplier.get();
             try {
                 int count = 0;
                 for (IDatabaseObject obj: allObjects) {
                     if (tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup))) {
-                        if (++count == 10) {
-                            // commit the current transaction and start a fresh one
-                            tx.close();
-                            tx = transactionSupplier.get();
-                            count = 0;
-                        }
-
                         try {
+                            logger.info("Visiting[" + count + "] " + obj.getName());
                             obj.visit(v);
                         } catch (RuntimeException x) {
                             tx.setRollbackOnly();
                             throw x;
+                        }
+                        if (++count == 1) {
+                            // commit the current transaction and start a fresh one
+                            tx.close();
+                            tx = transactionSupplier.get();
+                            count = 0;
                         }
                     }
                     

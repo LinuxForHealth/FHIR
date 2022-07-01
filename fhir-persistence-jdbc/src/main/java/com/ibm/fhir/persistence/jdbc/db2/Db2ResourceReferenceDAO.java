@@ -503,6 +503,9 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
         // as a batch. This is the multitenant variant, so we need to inject the mt_id value
         final String tableName = resourceType + "_REF_VALUES";
         DataDefinitionUtil.assertValidName(tableName);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("Inserting " + xrefs.size() + " values into " + tableName);
+        }
         final String insert = "INSERT INTO " + tableName + "(mt_id, "
                 + "parameter_name_id, logical_resource_id, ref_logical_resource_id, ref_version_id, composite_id) "
                 + "VALUES (" + adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?, ?)";

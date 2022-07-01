@@ -48,6 +48,7 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.MetricHandle;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.FHIRUtilities;
@@ -155,6 +156,7 @@ import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.ExtractedSearchParameters;
+import com.ibm.fhir.persistence.jdbc.util.FHIRPersistenceJDBCMetric;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.persistence.jdbc.util.NewQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.ParameterHashVisitor;
@@ -385,7 +387,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final String METHODNAME = "create";
         log.entering(CLASSNAME, METHODNAME);
 
-        try (Connection connection = openConnection()) {
+        try (Connection connection = openConnection();
+                MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_CREATE.name())) {
             doCachePrefill(context, connection);
 
             if (context.getOffloadResponse() != null) {
@@ -418,7 +421,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Persist the Resource DTO.
             resourceDao.setPersistenceContext(context);
-            ExtractedSearchParameters searchParameters = this.extractSearchParameters(updatedResource, resourceDTO);
+            final ExtractedSearchParameters searchParameters;
+            try (MetricHandle m = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_EXTRACT_SEARCH_PARAMS.name())) {
+                searchParameters = this.extractSearchParameters(updatedResource, resourceDTO);
+            }
             resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), parameterDao, context.getIfNoneMatch());
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' logicalResourceId=" + resourceDTO.getLogicalResourceId()
@@ -646,7 +652,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final String METHODNAME = "update";
         log.entering(CLASSNAME, METHODNAME);
 
-        try (Connection connection = openConnection()) {
+        try (Connection connection = openConnection();
+                MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_UPDATE.name())) {
             doCachePrefill(context, connection);
 
             if (context.getOffloadResponse() != null) {
@@ -1199,7 +1206,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
         }
 
-        try (Connection connection = openConnection()) {
+        try (Connection connection = openConnection();
+                MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_READ.name())) {
             doCachePrefill(context, connection);
             ResourceDAO resourceDao = makeResourceDAO(context, connection);
 
@@ -1265,7 +1273,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         Timestamp fromDateTime = null;
         int offset;
 
-        try (Connection connection = openConnection()) {
+        try (Connection connection = openConnection();
+                MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_HISTORY.name())) {
             doCachePrefill(context, connection);
             ResourceDAO resourceDao = makeResourceDAO(context, connection);
 
@@ -1420,7 +1429,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
         }
 
-        try (Connection connection = openConnection()) {
+        try (Connection connection = openConnection();
+                MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_VREAD.name())) {
             doCachePrefill(context, connection);
             ResourceDAO resourceDao = makeResourceDAO(context, connection);
 
@@ -2881,7 +2891,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws FHIRPersistenceException
      */
     public void onCommit(Collection<ResourceTokenValueRec> records, Collection<ResourceReferenceValueRec> referenceRecords, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
-        try (Connection connection = openConnection()) {
+        try (Connection connection = openConnection();
+                MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_FLUSH_TX_DATA.name())) {
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
             rrd.persist(records, referenceRecords, profileRecs, tagRecs, securityRecs);
         } catch(FHIRPersistenceFKVException e) {

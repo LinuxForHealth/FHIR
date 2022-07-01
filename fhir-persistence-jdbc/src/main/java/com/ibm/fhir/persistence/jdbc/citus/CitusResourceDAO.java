@@ -21,6 +21,8 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.MetricHandle;
 import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
@@ -41,6 +43,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceDAO;
+import com.ibm.fhir.persistence.jdbc.util.FHIRPersistenceJDBCMetric;
 
 /**
  * Data access object for writing FHIR resources to Citus database using
@@ -238,7 +241,9 @@ public class CitusResourceDAO extends PostgresResourceDAO {
                 final int ifNoneMatchVersionIndex = psh.registerOutParameter(Types.INTEGER);
     
                 dbCallStartTime = System.nanoTime();
-                stmt.execute();
+                try (MetricHandle m = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_ADD_ANY_RESOURCE.name())) {
+                    stmt.execute();
+                }
                 dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
     
                 resource.setLogicalResourceId(logicalResourceId);
