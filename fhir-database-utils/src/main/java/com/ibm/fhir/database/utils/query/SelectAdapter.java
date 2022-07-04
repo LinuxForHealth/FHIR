@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -72,6 +72,17 @@ public class SelectAdapter {
      */
     public SelectAdapter addColumn(String columnValue, Alias alias) {
         this.select.addColumn(columnValue, alias);
+        return this;
+    }
+
+    /**
+     * Add a WITH x AS (SELECT ...) statement to the beginning of the select
+     * @param selectClause
+     * @param alias
+     * @return
+     */
+    public SelectAdapter with(Select selectClause, Alias alias) {
+        this.select.addWithClause(selectClause, alias);
         return this;
     }
 

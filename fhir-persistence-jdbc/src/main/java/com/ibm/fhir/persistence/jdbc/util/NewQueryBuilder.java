@@ -28,6 +28,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
@@ -166,10 +167,11 @@ public class NewQueryBuilder {
      *                      - The type of resource being searched for.
      * @param searchContext
      *                      - The search context containing the search parameters.
+     * @param schemaType    - The type of schema we are querying (PLAIN, DISTRIBUTED etc)
      * @return String - A count query SQL statement
      * @throws Exception
      */
-    public Select buildCountQuery(Class<?> resourceType, FHIRSearchContext searchContext) throws Exception {
+    public Select buildCountQuery(Class<?> resourceType, FHIRSearchContext searchContext, SchemaType schemaType) throws Exception {
         final String METHODNAME = "buildCountQuery";
         log.entering(CLASSNAME, METHODNAME,
                 new Object[] { resourceType.getSimpleName(), searchContext.getSearchParameters() });
@@ -211,7 +213,7 @@ public class NewQueryBuilder {
             domainModel = new SearchCountQuery(resourceType.getSimpleName());
         }
         buildModelCommon(domainModel, resourceType, searchContext);
-        Select result = renderQuery(domainModel, searchContext);
+        Select result = renderQuery(domainModel, searchContext, schemaType);
 
         log.exiting(CLASSNAME, METHODNAME);
         return result;
@@ -220,12 +222,14 @@ public class NewQueryBuilder {
     /**
      * Render the domain model into a Select statement
      * @param domainModel
+     * @param searchContext
+     * @param schemaType
      * @return
      */
-    private Select renderQuery(SearchQuery domainModel, FHIRSearchContext searchContext) throws FHIRPersistenceException {
+    private Select renderQuery(SearchQuery domainModel, FHIRSearchContext searchContext, SchemaType schemaType) throws FHIRPersistenceException {
         final int offset = (searchContext.getPageNumber()-1) * searchContext.getPageSize();
         final int rowsPerPage = searchContext.getPageSize();
-        SearchQueryRenderer renderer = new SearchQueryRenderer(this.translator, this.identityCache, offset, rowsPerPage, searchContext.isIncludeResourceData());
+        SearchQueryRenderer renderer = new SearchQueryRenderer(this.translator, this.identityCache, offset, rowsPerPage, searchContext.isIncludeResourceData(), schemaType);
         QueryData queryData = domainModel.visit(renderer);
         return queryData.getQuery().build();
     }
@@ -234,10 +238,11 @@ public class NewQueryBuilder {
      * Construct a FHIR search query
      * @param resourceType
      * @param searchContext
+     * @param schemaType    - The type of schema we are querying (PLAIN, DISTRIBUTED etc)
      * @return
      * @throws Exception
      */
-    public Select buildQuery(Class<?> resourceType, FHIRSearchContext searchContext) throws Exception {
+    public Select buildQuery(Class<?> resourceType, FHIRSearchContext searchContext, SchemaType schemaType) throws Exception {
         final String METHODNAME = "buildQuery";
         log.entering(CLASSNAME, METHODNAME,
                 new Object[] { resourceType.getSimpleName(), searchContext.getSearchParameters() });
@@ -298,7 +303,7 @@ public class NewQueryBuilder {
             domainModel = new SearchDataQuery(resourceType.getSimpleName());
         }
         buildModelCommon(domainModel, resourceType, searchContext);
-        Select result = renderQuery(domainModel, searchContext);
+        Select result = renderQuery(domainModel, searchContext, schemaType);
 
         log.exiting(CLASSNAME, METHODNAME);
         return result;
@@ -312,11 +317,13 @@ public class NewQueryBuilder {
      * @param inclusionParm - the inclusion parameter for which the query is being built.
      * @param ids           - the list of logical resource IDs the query will run against.
      * @param inclusionType - either INCLUDE or REVINCLUDE.
+     * @param schemaType    - The type of schema we are querying (PLAIN, DISTRIBUTED etc)
      * @return Select the query to fetch the matching list of included resources
      * @throws Exception
      */
     public Select buildIncludeQuery(Class<?> resourceType, FHIRSearchContext searchContext,
-            InclusionParameter inclusionParm, List<Long> logicalResourceIds, String inclusionType) throws Exception {
+            InclusionParameter inclusionParm, List<Long> logicalResourceIds, String inclusionType,
+            SchemaType schemaType) throws Exception {
         final String METHODNAME = "buildIncludeQuery";
         log.entering(CLASSNAME, METHODNAME,
             new Object[] { resourceType.getSimpleName(), inclusionParm });
@@ -344,7 +351,7 @@ public class NewQueryBuilder {
         searchContext.setPageNumber(1); // only need the first page of includes
         final Select result;
         try {
-            result = renderQuery(domainModel, searchContext);
+            result = renderQuery(domainModel, searchContext, schemaType);
         } finally {
             // reset the context
             searchContext.setPageSize(pageSize);
@@ -381,11 +388,12 @@ public class NewQueryBuilder {
      *
      * @param searchContext - the search context.
      * @param resourceTypeIdToLogicalResourceIdMap - map of resource type Ids to logical resource Ids
+     * @param schemaType    - The type of schema we are querying (PLAIN, DISTRIBUTED etc)
      * @return Select the query to fetch the specified list of resources
      * @throws Exception
      */
     public Select buildWholeSystemDataQuery(FHIRSearchContext searchContext, Map<Integer,
-            List<Long>> resourceTypeIdToLogicalResourceIdMap) throws Exception {
+            List<Long>> resourceTypeIdToLogicalResourceIdMap, SchemaType schemaType) throws Exception {
         final String METHODNAME = "buildWholeSystemDataQuery";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -408,7 +416,7 @@ public class NewQueryBuilder {
         final SearchQuery domainModel = wholeSystemAllDataQuery;
 
         buildModelCommon(domainModel, Resource.class, searchContext);
-        Select result = renderQuery(domainModel, searchContext);
+        Select result = renderQuery(domainModel, searchContext, schemaType);
 
         log.exiting(CLASSNAME, METHODNAME);
         return result;

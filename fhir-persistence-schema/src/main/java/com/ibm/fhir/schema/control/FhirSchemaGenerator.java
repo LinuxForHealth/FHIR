@@ -1366,6 +1366,18 @@ public class FhirSchemaGenerator {
     }
 
     /**
+     * Adds the appropriate common_token_values table depending on the schema type
+     * @param pdm
+     */
+    public void addCommonTokenValues(PhysicalDataModel pdm) {
+        if (this.schemaType == SchemaType.DISTRIBUTED) {
+            addCommonTokenValuesDistributed(pdm);
+        } else {
+            addCommonTokenValuesStandard(pdm);
+        }
+    }
+
+    /**
      * Table used to store normalized values for tokens, shared by all the
      * <RESOURCE_TYPE>_TOKEN_VALUES tables. Although this requires an additional
      * join, it cuts down on space by avoiding repeating long strings (e.g. urls).
@@ -1393,7 +1405,7 @@ public class FhirSchemaGenerator {
      * @param pdm
      * @return the table definition
      */
-    public void addCommonTokenValues(PhysicalDataModel pdm) {
+    public void addCommonTokenValuesStandard(PhysicalDataModel pdm) {
         final String tableName = COMMON_TOKEN_VALUES;
         commonTokenValuesTable = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
@@ -1409,6 +1421,41 @@ public class FhirSchemaGenerator {
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
                 .setDistributionType(DistributionType.REFERENCE) // V0027 shard using token_value
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    // Intentionally a NOP
+                    return statements;
+                })
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        commonTokenValuesTable.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        pdm.addTable(commonTokenValuesTable);
+        pdm.addObject(commonTokenValuesTable);
+    }
+
+    /**
+     * The common_token_values definition used for the distributed (Citus) variant of the schema.
+     * Because this table may contain one or more values per resource (e.g. identifier), we
+     * need to distribute it somehow.
+     * @see #addCommonTokenValuesStandard(PhysicalDataModel)
+     * @param pdm
+     */
+    public void addCommonTokenValuesDistributed(PhysicalDataModel pdm) {
+        final String tableName = COMMON_TOKEN_VALUES;
+        commonTokenValuesTable = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0029.vid()) // V0029: new definition for DISTRIBUTED variant
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(     COMMON_TOKEN_VALUE_ID,                          false)
+                .addIntColumn(               CODE_SYSTEM_ID,                          false)
+                .addVarcharColumn(              TOKEN_VALUE, MAX_TOKEN_VALUE_BYTES,   false)
+                .setDistributionType(DistributionType.DISTRIBUTED)
+                .setDistributionColumnName(TOKEN_VALUE)
+                .addPrimaryKey(tableName + "_PK", TOKEN_VALUE, CODE_SYSTEM_ID)
+                .addForeignKeyConstraint(FK + tableName + "_CSID", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     // Intentionally a NOP

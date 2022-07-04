@@ -759,11 +759,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             checkModifiers(searchContext, isSystemLevelSearch(resourceType));
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
+            final SchemaType schemaType = connectionStrategy.getFlavor().getSchemaType();
             queryBuilder = new NewQueryBuilder(translator, connectionStrategy.getQueryHints(), identityCache);
 
             // Skip count query if _total=none
             if (!TotalValueSet.NONE.equals(searchContext.getTotalParameter())) {
-                countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
+                countQuery = queryBuilder.buildCountQuery(resourceType, searchContext, schemaType);
                 if (countQuery != null) {
                     searchResultCount = resourceDao.searchCount(countQuery);
                     if (log.isLoggable(Level.FINE)) {
@@ -787,7 +788,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             if ((searchResultCount == null || searchResultCount > 0)
                     && !SummaryValueSet.COUNT.equals(searchContext.getSummaryParameter())
                     && searchContext.getPageSize() > 0) {
-                query = queryBuilder.buildQuery(resourceType, searchContext);
+                query = queryBuilder.buildQuery(resourceType, searchContext, schemaType);
 
                 List<String> elements = searchContext.getElementsParameters();
 
@@ -830,7 +831,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     } else {
                         Map<Integer, List<Long>> resourceTypeIdToLogicalResourceIdMap = resourceDao.searchWholeSystem(query);
                         Select wholeSystemDataQuery = queryBuilder.buildWholeSystemDataQuery(searchContext,
-                                resourceTypeIdToLogicalResourceIdMap);
+                                resourceTypeIdToLogicalResourceIdMap, schemaType);
                         resourceDTOList = resourceDao.search(wholeSystemDataQuery);
                     }
                 } else if (searchContext.hasSortParameters()) {
@@ -848,7 +849,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // resources) will be removed and _elements processing will not be done for 'include' resources.
                 if (resourceResults.size() > 0 && (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters())) {
                     List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeDTOList =
-                            newSearchForIncludeResources(searchContext, resourceType, queryBuilder, resourceDao, resourceDTOList);
+                            newSearchForIncludeResources(searchContext, resourceType, queryBuilder, resourceDao, resourceDTOList, schemaType);
                     List<ResourceResult<? extends Resource>> includeResult = this.convertResourceDTOList(resourceDao, includeDTOList, resourceType, null, searchContext.isIncludeResourceData());
                     // erased version referenced via a versioned reference will be missing the resource
                     // data field, so we need to filter those out here if resource data is being requested
@@ -883,12 +884,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param queryBuilder - the query builder
      * @param resourceDao - the resource data access object
      * @param resourceDTOList - the list of 'match' resources
+     * @param schemaType - the type of schema we are querying
      * @return the list of 'include' resources
      * @throws Exception
      */
     private List<com.ibm.fhir.persistence.jdbc.dto.Resource> newSearchForIncludeResources(FHIRSearchContext searchContext,
         Class<? extends Resource> resourceType, NewQueryBuilder queryBuilder, ResourceDAO resourceDao,
-        List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList) throws Exception {
+        List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList, SchemaType schemaType) throws Exception {
 
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> allIncludeResources = new ArrayList<>();
 
@@ -913,7 +915,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // Build and run the query
                 List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeResources =
                         this.runIncludeQuery(resourceType, searchContext, queryBuilder, includeParm, SearchConstants.INCLUDE,
-                            baseLogicalResourceIds, queryResultMap, resourceDao, 1, allResourceIds);
+                            baseLogicalResourceIds, queryResultMap, resourceDao, 1, allResourceIds, schemaType);
 
                 // Add new ids to de-dup list
                 allResourceIds.addAll(includeResources.stream().map(r -> r.getResourceId()).collect(Collectors.toSet()));
@@ -935,7 +937,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // Build and run the query
                 List<com.ibm.fhir.persistence.jdbc.dto.Resource> revincludeResources =
                         this.runIncludeQuery(resourceType, searchContext, queryBuilder, revincludeParm, SearchConstants.REVINCLUDE,
-                            baseLogicalResourceIds, queryResultMap, resourceDao, 1, allResourceIds);
+                            baseLogicalResourceIds, queryResultMap, resourceDao, 1, allResourceIds, schemaType);
 
                 // Add new ids to de-dup list
                 allResourceIds.addAll(revincludeResources.stream().map(r -> r.getResourceId()).collect(Collectors.toSet()));
@@ -979,7 +981,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             // Build and run the query
                             List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeResources =
                                     this.runIncludeQuery(resourceType, searchContext, queryBuilder, includeParm,
-                                        SearchConstants.INCLUDE, queryIds, queryResultMap, resourceDao, i+1, allResourceIds);
+                                        SearchConstants.INCLUDE, queryIds, queryResultMap, resourceDao, i+1, allResourceIds, schemaType);
 
                             // Add new ids to de-dup list
                             allResourceIds.addAll(includeResources.stream().map(r -> r.getResourceId()).collect(Collectors.toSet()));
@@ -1004,7 +1006,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             // Build and run the query
                             List<com.ibm.fhir.persistence.jdbc.dto.Resource> revincludeResources =
                                     this.runIncludeQuery(resourceType, searchContext, queryBuilder, revincludeParm,
-                                        SearchConstants.REVINCLUDE, queryIds, queryResultMap, resourceDao, i+1, allResourceIds);
+                                        SearchConstants.REVINCLUDE, queryIds, queryResultMap, resourceDao, i+1, allResourceIds, schemaType);
 
                             // Add new ids to de-dup list
                             allResourceIds.addAll(revincludeResources.stream().map(r -> r.getResourceId()).collect(Collectors.toSet()));
@@ -1041,13 +1043,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param iterationLevel - the current iteration level
      * @param allResourceIds - the list of all resource IDs being returned - used
      *                         for de-duplication
+     * @param schemaType     - the type of schema we are querying
      * @return the list of resources returned from the query
      * @throws Exception
      */
     private List<com.ibm.fhir.persistence.jdbc.dto.Resource> runIncludeQuery(Class<? extends Resource> resourceType,
         FHIRSearchContext searchContext, NewQueryBuilder queryBuilder, InclusionParameter inclusionParm,
         String includeType, Set<String> queryIds, Map<Integer, Map<String, Set<String>>> queryResultMap,
-        ResourceDAO resourceDao, int iterationLevel, Set<Long> allResourceIds) throws Exception {
+        ResourceDAO resourceDao, int iterationLevel, Set<Long> allResourceIds, SchemaType schemaType) throws Exception {
 
         if (queryIds.isEmpty()) {
             return Collections.emptyList();
@@ -1056,7 +1059,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // Build the query. For the new query builder, we work in the actual long logical_resource_id
         // values, not strings. TODO keep the values as longs to avoid unnecessary overhead
         List<Long> logicalResourceIds = queryIds.stream().map(Long::parseLong).collect(Collectors.toList());
-        Select includeQuery = queryBuilder.buildIncludeQuery(resourceType, searchContext, inclusionParm, logicalResourceIds, includeType);
+        Select includeQuery = queryBuilder.buildIncludeQuery(resourceType, searchContext, inclusionParm, logicalResourceIds, includeType, schemaType);
 
         // Execute the query and filter out duplicates
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeDTOs =
