@@ -746,7 +746,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         Bundle historyBundle = historyResponse.readEntity(Bundle.class);
         List<Entry> entries = historyBundle.getEntry();
         assertEquals(entries.size(), 2);
-        // This really should be a 201 but we get a 200 instead due to https://github.com/IBM/FHIR/issues/3507#issuecomment-1081157116
+        // This really should be a 201 but we get a 200 instead due to https://github.com/LinuxForHealth/FHIR/issues/3507#issuecomment-1081157116
         assertEquals(entries.get(0).getResponse().getStatus().getValue(), "200");   // V2
         assertEquals(entries.get(0).getRequest().getMethod().getValue(), "PUT");    // V2
         assertEquals(entries.get(1).getResponse().getStatus().getValue(), "200");   // V1

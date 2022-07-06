@@ -5,7 +5,7 @@ Source - http://hl7.org/fhir/us/core/STU3.1.1/
 - Updated to 3.1.1 Artifacts STU3.1.1
 - Examples are under src/test/resources/JSON/311
 - Replace all narrative text with minimal placeholder for space efficiency
-- Per https://github.com/IBM/FHIR/issues/1460 Relaxed required to extensible
+- Per https://github.com/LinuxForHealth/FHIR/issues/1460 Relaxed required to extensible
     - https://jira.hl7.org/browse/FHIR-27911 Change binding to UCUM from required to extensible + max binding UCUM
     - Per https://chat.fhir.org/#narrow/stream/179252-IG-creation/topic/US.20Core.20QA.20Issue.20.233-.20nasty.20profiling.20error
     - Changed Required to extensible for 
@@ -17,7 +17,7 @@ Source - http://hl7.org/fhir/us/core/STU3.1.1/
    - The P element represents a paragraph. It cannot contain block-level elements (including P itself).
    - Refer to https://jira.hl7.org/browse/FHIR-28409 Invalid XHTML in Examples MedicationRequest-uscore-mo2 XML/JSON
 - Modify DiagnosticReport-cardiology-report JSON and XML samples contain invalid hashes https://jira.hl7.org/browse/FHIR-28408
-- Add implicit-system extensions to applicable token SearchParameter definitions (performance optimization for https://github.com/IBM/FHIR/issues/1929)
+- Add implicit-system extensions to applicable token SearchParameter definitions (performance optimization for https://github.com/LinuxForHealth/FHIR/issues/1929)
 - Updated Examples to point to 3.1.1 profile
 - Update the StructureDefinitions and other artifacts for 3.1.1 internal references with target profiles and valueset bindings.
 

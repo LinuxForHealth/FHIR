@@ -3,17 +3,17 @@ import HomepageTemplate from 'gatsby-theme-carbon/src/templates/Homepage';
 export default HomepageTemplate;
 
 ## Conformance
-The IBM FHIR Server conforms to version 4.0.1 (R4) of the HL7 FHIR specification.
+The LinuxForHealth FHIR Server conforms to versions 4.0.1 (R4) and 4.3.0 (R4B) of the HL7 FHIR specification.
 
 We use AEGIS Touchstone to test and publish our [conformance results](http://ibm.biz/ibm-fhir-server-touchstone-results).
 
 For a detailed description of conformance, please see [Conformance](/Conformance).
 
-## Running the IBM FHIR Server
+## Running the server
 Information on installing, configuring, and running the IBM FHIR Server is available in the User Guide at [FHIRServerUsersGuide](/guides/FHIRServerUsersGuide).
 
-## Building on top of the IBM FHIR Server
-IBM FHIR Server artifacts are available in Maven Central with a group ID of `com.ibm.fhir`.
+## Building with the LinuxForHealth FHIR modules
+LinuxForHealth FHIR artifacts are available in Maven Central with a group ID of `com.ibm.fhir`.
 
 For example, if you are using Maven and would like use our object model (including our high-performance parser, generator, and validator),
 you could declare the dependency like this:

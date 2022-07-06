@@ -9,16 +9,16 @@
     <packaging>pom</packaging>
     <name>IBM FHIR Server</name>
 
-    <url>https://github.com/ibm/fhir</url>
+    <url>https://github.com/LinuxForHealth/fhir</url>
     <organization>
         <name>IBM</name>
-        <url>https://github.com/ibm/fhir</url>
+        <url>https://github.com/LinuxForHealth/fhir</url>
     </organization>
     <issueManagement>
-        <url>https://github.com/ibm/fhir/issues</url>
+        <url>https://github.com/LinuxForHealth/fhir/issues</url>
     </issueManagement>
     <ciManagement>
-        <url>https://github.com/ibm/fhir/actions</url>
+        <url>https://github.com/LinuxForHealth/fhir/actions</url>
     </ciManagement>
     <description>The IBM® FHIR® Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</description>
     <licenses>
@@ -68,6 +68,7 @@
         <module>../fhir-profile</module>
         <module>../fhir-validation</module>
         <module>../conformance/fhir-core-r4b</module>
+        <module>../conformance/fhir-hl7-terminology</module>
         <module>../conformance/fhir-ig-us-core</module>
         <module>../conformance/fhir-ig-carin-bb</module>
         <module>../conformance/fhir-ig-mcode</module>
@@ -315,7 +316,7 @@
                 <!-- used by postgres and janus graph -->
                 <groupId>org.checkerframework</groupId>
                 <artifactId>checker-qual</artifactId>
-                <version>3.21.3</version>
+                <version>3.22.2</version>
             </dependency>
             <dependency>
                 <!-- used by fhir-provider and commons-text -->
@@ -465,7 +466,7 @@
             <dependency>
                 <groupId>org.postgresql</groupId>
                 <artifactId>postgresql</artifactId>
-                <version>42.3.5</version>
+                <version>42.4.0</version>
             </dependency>
             <dependency>
                 <groupId>com.google.protobuf</groupId>
@@ -612,7 +613,7 @@
                 <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.77.Final</version>
+                <version>4.1.78.Final</version>
             </dependency>
             <dependency>
                 <!-- Used in com.amazonaws:aws-java-sdk which is brought in by com.ibm.stocator:stocator (but marked provided by default) -->
@@ -620,7 +621,7 @@
                 <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http</artifactId>
-                <version>4.1.77.Final</version>
+                <version>4.1.78.Final</version>
             </dependency>
             <dependency>
                 <!--  [CVE-2020-8908] A temp directory creation vulnerability exists in all versions of Guava, addressed in latest versions -->
@@ -686,7 +687,7 @@
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib</artifactId>
-                <version>1.6.21</version>
+                <version>1.7.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -697,6 +698,11 @@
                 <groupId>org.fhir</groupId>
                 <artifactId>ucum</artifactId>
                 <version>1.0.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jgrapht</groupId>
+                <artifactId>jgrapht-core</artifactId>
+                <version>1.5.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -719,7 +725,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-jar-plugin</artifactId>
-                    <version>3.2.0</version>
+                    <version>3.2.2</version>
                     <executions>
                         <execution>
                             <goals>
@@ -802,7 +808,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.0.0-M6</version>
+                    <version>3.0.0-M7</version>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -827,7 +833,7 @@
                 <plugin>
                     <groupId>io.openliberty.tools</groupId>
                     <artifactId>liberty-maven-plugin</artifactId>
-                    <version>3.6</version>
+                    <version>3.6.1</version>
                 </plugin>
                 <plugin>
                     <groupId>com.spotify</groupId>
@@ -1014,10 +1020,10 @@
     </build>
 
     <scm>
-        <connection>scm:git:https://github.com/ibm/fhir.git</connection>
+        <connection>scm:git:https://github.com/LinuxForHealth/fhir.git</connection>
         <developerConnection>IBM</developerConnection>
         <tag>ibm-fhir-server</tag>
-        <url>https://github.com/ibm/fhir.git</url>
+        <url>https://github.com/LinuxForHealth/fhir.git</url>
     </scm>
 
     <profiles>
@@ -1328,7 +1334,7 @@
                             a conflict with m2e restrictions on v2.6 -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.2.0</version>
+                        <version>3.2.2</version>
                         <configuration>
                             <archive>
                                 <index>true</index>
@@ -1408,7 +1414,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.2.0</version>
+                        <version>3.2.2</version>
                         <executions>
                             <execution>
                                 <id>default-jar</id>

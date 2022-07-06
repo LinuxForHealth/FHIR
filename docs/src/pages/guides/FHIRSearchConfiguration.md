@@ -187,7 +187,7 @@ Note: `_content` and `_query` are not yet supported by the IBM FHIR Server.
 The filter `"*": "*"` is not necessary to include these Resource-level parameters.
 
 #### 1.2.1 Handling unexpected search parameters
-The IBM FHIR Server supports configurable handling of unknown or unsupported search parameters as defined at https://ibm.github.io/FHIR/Conformance#http-headers.
+The IBM FHIR Server supports configurable handling of unknown or unsupported search parameters as defined at https://linuxforhealth.github.io/FHIR/Conformance#http-headers.
 Filtered search parameters are handled exactly the same as undefined search parameters, meaning that searches which include these parameters will fail in `strict` mode.
 
 #### 1.2.2 Compartment search considerations with filtering
@@ -245,7 +245,7 @@ By specifying the index IDs on the `$reindex` operation, the IBM FHIR Server avo
 ### 2.3 fhir-bucket
 To aid in the re-indexing process, the IBM FHIR Server team has expanded the fhir-bucket resource-loading tool to support driving the reindex, with the option of using either the server-side-driven or client-side-driven approach. The fhir-bucket tool uses a thread-pool to make concurrent POST requests to the IBM FHIR Server `$retrieve-index` and `$reindex` custom operations.
 
-For more information on driving the reindex operation from fhir-bucket, see https://github.com/IBM/FHIR/tree/main/fhir-bucket#driving-the-reindex-custom-operation.
+For more information on driving the reindex operation from fhir-bucket, see https://github.com/LinuxForHealth/FHIR/tree/main/fhir-bucket#driving-the-reindex-custom-operation.
 
 ---
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

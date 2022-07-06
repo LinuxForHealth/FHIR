@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,8 @@ import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +33,14 @@ import java.util.function.Function;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.jgrapht.Graph;
+import org.jgrapht.event.TraversalListenerAdapter;
+import org.jgrapht.event.VertexTraversalEvent;
+import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.traverse.DepthFirstIterator;
+import org.jgrapht.traverse.GraphIterator;
 
 import com.ibm.fhir.cache.CacheKey;
 import com.ibm.fhir.cache.CacheManager;
@@ -48,6 +58,7 @@ import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -67,6 +78,10 @@ public final class CodeSystemSupport {
     public static final java.lang.String DESCENDANTS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.descendantsAndSelfCache";
     public static final Configuration ANCESTORS_AND_SELF_CACHE_CONFIG = Configuration.of(128);
     public static final Configuration DESCENDANTS_AND_SELF_CACHE_CONFIG = Configuration.of(128);
+
+    private static final java.lang.String PARENT_PROP = "http://hl7.org/fhir/concept-properties#parent";
+    private static final java.lang.String CHILD_PROP = "http://hl7.org/fhir/concept-properties#child";
+    private static final Set<java.lang.String> PARENT_CHILD_PROPS = Set.of(PARENT_PROP, CHILD_PROP);
 
     /**
      * A function that maps a code system concept to its code value
@@ -230,6 +245,121 @@ public final class CodeSystemSupport {
      */
     public static CodeSystem getCodeSystem(java.lang.String url) {
         return FHIRRegistry.getInstance().getResource(url, CodeSystem.class);
+    }
+
+    /**
+     * @param codeSystem
+     * @return
+     *    true if the passed codeSystem has a property-based concept hierarchy
+     */
+    public static boolean hasPropertyHierarchy(CodeSystem codeSystem) {
+        for (CodeSystem.Property p : codeSystem.getProperty()) {
+            Uri uri = p.getUri();
+            if (uri != null && PARENT_CHILD_PROPS.contains(uri.getValue())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Convert the passed codeSystem into a "simple" CodeSystem...one where all concept hierarchy is expressed
+     * through nested concepts rather than properties.
+     *
+     * @param codeSystem
+     * @return
+     *    the code system associated with the given input parameter, or null if no such code system exists
+     * @implSpec For CodeSystems with no parent or child properties, this will return the same CodeSystem that was passed.
+     * @implNote In cases where the CodeSystem has both nested concepts AND property-based hierarchy, only the top-level concepts
+     *    will be checked for properties. It is not recommended to mix hierarchy approaches like this.
+     */
+    public static CodeSystem convertToSimpleCodeSystem(CodeSystem codeSystem) {
+        if (!hasPropertyHierarchy(codeSystem)) {
+            return codeSystem;
+        }
+
+        CodeSystem.Builder codeSystemBuilder = codeSystem.toBuilder();
+
+        // the concepts are initially created as builders and then overwritten as we build them up from the leaf concepts
+        Map<java.lang.String, Object> concepts = new HashMap<>();
+        Graph<java.lang.String, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
+
+        Set<java.lang.String> parentProps = new HashSet<>();
+        Set<java.lang.String> childProps = new HashSet<>();
+        for (CodeSystem.Property p : codeSystem.getProperty()) {
+            Uri uri = p.getUri();
+            if (uri == null) {
+                continue;
+            }
+            if (PARENT_PROP.equals(uri.getValue())) {
+                parentProps.add(p.getCode().getValue());
+            } else if (CHILD_PROP.equals(uri.getValue())) {
+                childProps.add(p.getCode().getValue());
+            }
+        }
+
+        // initialize the map of concepts and the directed graph for each code in the system
+        for (Concept c : codeSystem.getConcept()) {
+            java.lang.String codeValue = c.getCode().getValue();
+            Object prev = concepts.put(codeValue, c.toBuilder());
+            if (prev != null) {
+                java.lang.String msg = "Code '" + codeValue + "' is duplicated in the CodeSystem";
+                LOG.fine(() -> msg + ": " + codeSystem);
+                throw new UnsupportedOperationException(msg);
+            }
+            g.addVertex(codeValue);
+        }
+
+        // write all parent/child properties to the graph as directed edges (parent->child)
+        for (Concept c : codeSystem.getConcept()) {
+            java.lang.String codeValue = c.getCode().getValue();
+            for (Concept.Property p : c.getProperty()) {
+                if (parentProps.contains(p.getCode().getValue()) && p.getValue().is(Code.class)) {
+                    java.lang.String parentCode = p.getValue().as(Code.class).getValue();
+                    g.addEdge(parentCode, codeValue);
+                } else if (childProps.contains(p.getCode().getValue()) && p.getValue().is(Code.class)) {
+                    java.lang.String childCode = p.getValue().as(Code.class).getValue();
+                    g.addEdge(codeValue, childCode);
+                }
+            }
+        }
+
+        // Build the concepts depth-first so that a given concept's children will always be built before that concept is built
+        // and store the topLevelConcepts so that we can add them to the CodeSystem
+        Set<Concept> topLevelConcepts = new HashSet<>();
+        GraphIterator<java.lang.String, DefaultEdge> iterator = new DepthFirstIterator<>(g);
+        iterator.addTraversalListener(new TraversalListenerAdapter<java.lang.String, DefaultEdge>() {
+            @Override
+            public void vertexFinished(VertexTraversalEvent<java.lang.String> e) {
+                java.lang.String code = e.getVertex();
+
+                Object object = concepts.get(code);
+                if (!(object instanceof Concept.Builder)) {
+                    throw new IllegalStateException("object should not have been built yet!");
+                }
+
+                Concept.Builder builder = (Concept.Builder) object;
+                for (DefaultEdge edge : g.outgoingEdgesOf(code)) {
+                    object = concepts.get(g.getEdgeTarget(edge));
+                    if (!(object instanceof Concept)) {
+                        throw new IllegalStateException("object should have been built but wasn't; check CodeSystem for cycles!");
+                    }
+                    builder.concept((Concept) object);
+                }
+
+                Concept concept = builder.build();
+                concepts.put(code, concept);
+                if (g.inDegreeOf(code) == 0) {
+                    topLevelConcepts.add(concept);
+                }
+            }
+        });
+        while (iterator.hasNext()) {
+            // JGraphT walks the graph top-down, but we do our work on the way back up via the TraversalListener above
+            iterator.next();
+        }
+
+        return codeSystemBuilder.concept(topLevelConcepts).build();
     }
 
     /**
@@ -742,17 +872,18 @@ public final class CodeSystemSupport {
 
     private static FHIRTermException conceptFilterNotCreated(Class<? extends ConceptFilter> conceptFilterType, Filter filter) {
         java.lang.String message = java.lang.String.format("%s not created (property: %s, op: %s, value: %s)",
-            conceptFilterType.getSimpleName(),
-            filter.getProperty().getValue(),
-            filter.getOp().getValue(),
-            filter.getValue().getValue());
+                conceptFilterType.getSimpleName(),
+                filter.getProperty().getValue(),
+                filter.getOp().getValue(),
+                filter.getValue().getValue());
+
         throw new FHIRTermException(message, Collections.singletonList(Issue.builder()
-            .severity(IssueSeverity.ERROR)
-            .code(IssueType.NOT_SUPPORTED)
-            .details(CodeableConcept.builder()
-                .text(string(message))
-                .build())
-            .build()));
+                .severity(IssueSeverity.ERROR)
+                .code(IssueType.NOT_SUPPORTED)
+                .details(CodeableConcept.builder()
+                    .text(string(message))
+                    .build())
+                .build()));
     }
 
     private static Code code(String value) {
@@ -840,6 +971,7 @@ public final class CodeSystemSupport {
         if ("concept".equals(filter.getProperty().getValue()) &&
                 (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) ||
                         codeSystem.getHierarchyMeaning() == null)) {
+
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
                 return new IsAFilter(codeSystem, concept);

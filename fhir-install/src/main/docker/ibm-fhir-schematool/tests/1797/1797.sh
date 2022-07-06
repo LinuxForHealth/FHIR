@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
-# Issue - https://github.com/IBM/FHIR/issues/1797
+# Issue - https://github.com/LinuxForHealth/FHIR/issues/1797
 
 # Don't log out the --pool-size
 

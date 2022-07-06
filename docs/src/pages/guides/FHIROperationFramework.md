@@ -13,7 +13,7 @@ This framework defines REST endpoints at the Base Server (System), scoped to spe
 - **Type** - https://my-server.com/fhir-server/api/v4/Patient/$export - Retrieve all the data from the Patient compartment
 - **Instance** - https://my-server.com/fhir-server/api/v4/Patient/1-2-3-4/$export - Retrieve a specific Patient data from the Patient compartment data
 
-A list of operations supported by the IBM FHIR Server is listed at https://ibm.github.io/FHIR/Conformance/#extended-operations
+A list of operations supported by the IBM FHIR Server is listed at https://linuxforhealth.github.io/FHIR/Conformance/#extended-operations
 
 ## Calling an Operation
 There are two types of operation invocation requests:
@@ -168,7 +168,7 @@ The elements needed are:
   - Be sure to have a return parameter
   - Typically this is a FHIR Resource
 
-An example operation is [$validate](https://hl7.org/fhir/R4B/resource-operation-validate.html). The OperationDefinition is at [validation.json](https://github.com/IBM/FHIR/blob/main/operation/fhir-operation-validate/src/main/resources/validate.json).
+An example operation is [$validate](https://hl7.org/fhir/R4B/resource-operation-validate.html). The OperationDefinition is at [validation.json](https://github.com/LinuxForHealth/FHIR/blob/main/operation/fhir-operation-validate/src/main/resources/validate.json).
 
 # IBM FHIR Server Extended Operations Framework
 
@@ -187,7 +187,7 @@ The Operation's custom logic builds a valid Parameters resource as a response to
 Note, once the Operation is loaded it is available until the server is restarted and redoes the ServiceLoader discovery.
 
 ## Code Examples
-There are a number of examples in the [IBM/FHIR repo](https://github.com/IBM/FHIR/tree/main/operation).
+There are a number of examples in the [IBM/FHIR repo](https://github.com/LinuxForHealth/FHIR/tree/main/operation).
 
 ## Installation of an Operation
 The Operations are installed into the `userlib` folder of the IBM FHIR Server. Some solutions are installing the operation as a layer in a docker image, or mount it as a volume.
@@ -345,4 +345,4 @@ You can return null as a Parameters object - `return FHIROperationUtil.getOutput
 If you need further support, you can reach out to the development team at:
 
 - [Zulip: ibm](https://chat.fhir.org/#narrow/stream/212434-ibm)
-- [GitHub: issues](https://github.com/IBM/FHIR/issues)
+- [GitHub: issues](https://github.com/LinuxForHealth/FHIR/issues)

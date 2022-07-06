@@ -1,0 +1,448 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "poly",
+    "url": "http://ibm.com/fhir/CodeSystem/poly",
+    "version": "1.0.0",
+    "status": "active",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "code": "subsumes",
+            "uri": "http://hl7.org/fhir/concept-properties#child",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "letter",
+            "display": "Latin letter",
+            "property": [
+                {
+                    "code": "subsumes",
+                    "valueCode": "lowercase"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "uppercase"
+                }
+            ]
+        },
+        {
+            "code": "uppercase",
+            "display": "Upper case Latin letter",
+            "property": [
+                {
+                    "code": "subsumes",
+                    "valueCode": "A"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "B"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "C"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "D"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "E"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "F"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "G"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "H"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "I"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "J"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "K"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "L"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "M"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "N"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "O"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "P"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "Q"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "R"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "S"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "T"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "U"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "V"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "W"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "X"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "Y"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "Z"
+                }
+            ]
+        },
+        {
+            "code": "lowercase",
+            "display": "Lower case Latin letter",
+            "property": [
+                {
+                    "code": "subsumes",
+                    "valueCode": "a"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "b"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "c"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "d"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "e"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "f"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "g"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "h"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "I"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "j"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "k"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "l"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "m"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "n"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "o"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "p"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "q"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "r"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "s"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "t"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "u"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "v"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "w"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "x"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "y"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "z"
+                }
+            ]
+        },
+        {
+            "code": "numeral",
+            "display": "Roman numeral",
+            "property": [
+                {
+                    "code": "subsumes",
+                    "valueCode": "I"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "V"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "X"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "L"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "C"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "D"
+                },
+                {
+                    "code": "subsumes",
+                    "valueCode": "M"
+                }
+            ]
+        },
+        {
+            "code": "a"
+        },
+        {
+            "code": "b"
+        },
+        {
+            "code": "c",
+            "concept": [
+                {
+                    "code": "ch"
+                }
+            ]
+        },
+        {
+            "code": "d"
+        },
+        {
+            "code": "e"
+        },
+        {
+            "code": "f"
+        },
+        {
+            "code": "g"
+        },
+        {
+            "code": "h"
+        },
+        {
+            "code": "i"
+        },
+        {
+            "code": "j"
+        },
+        {
+            "code": "k"
+        },
+        {
+            "code": "l"
+        },
+        {
+            "code": "m"
+        },
+        {
+            "code": "n"
+        },
+        {
+            "code": "o"
+        },
+        {
+            "code": "p"
+        },
+        {
+            "code": "q"
+        },
+        {
+            "code": "r"
+        },
+        {
+            "code": "s"
+        },
+        {
+            "code": "t"
+        },
+        {
+            "code": "u"
+        },
+        {
+            "code": "v"
+        },
+        {
+            "code": "w"
+        },
+        {
+            "code": "x"
+        },
+        {
+            "code": "y"
+        },
+        {
+            "code": "z"
+        },
+        {
+            "code": "A"
+        },
+        {
+            "code": "B"
+        },
+        {
+            "code": "C"
+        },
+        {
+            "code": "D"
+        },
+        {
+            "code": "E"
+        },
+        {
+            "code": "F"
+        },
+        {
+            "code": "G"
+        },
+        {
+            "code": "H"
+        },
+        {
+            "code": "I"
+        },
+        {
+            "code": "J"
+        },
+        {
+            "code": "K"
+        },
+        {
+            "code": "L"
+        },
+        {
+            "code": "M"
+        },
+        {
+            "code": "N"
+        },
+        {
+            "code": "O"
+        },
+        {
+            "code": "P"
+        },
+        {
+            "code": "Q"
+        },
+        {
+            "code": "R"
+        },
+        {
+            "code": "S"
+        },
+        {
+            "code": "T"
+        },
+        {
+            "code": "U"
+        },
+        {
+            "code": "V"
+        },
+        {
+            "code": "W"
+        },
+        {
+            "code": "X"
+        },
+        {
+            "code": "Y"
+        },
+        {
+            "code": "Z"
+        }
+    ]
+}

@@ -45,7 +45,7 @@ public class ExportJobListener implements JobListener {
         List<String> resourceTypeSummaries = new ArrayList<>();
         for (PartitionSummary partitionSummary : partitionSummaries) {
             // If we always send back 140+ resources we get a bit cramped on the ExitStatus.
-            // @see https://github.com/IBM/FHIR/issues/2018
+            // @see https://github.com/LinuxForHealth/FHIR/issues/2018
             int partitionSum = partitionSummary.getResourceCounts().stream().reduce(0, Integer::sum);
             if (partitionSum > 0) {
                 totalResourceCount += partitionSum;

@@ -1,6 +1,6 @@
-# IBM FHIR Server Docs
+# LinuxForHealth FHIR Server Docs
 
-This is the source for the IBM FHIR Server GitHub Pages site at https://ibm.github.io/FHIR.
+This is the source for the LinuxForHealth FHIR Server GitHub Pages site at https://linuxforhealth.github.io/FHIR.
 
 We use Gatsby with the Carbon Theme to generate the static site.
 You can access the source of the theme at https://github.com/carbon-design-system/gatsby-theme-carbon.

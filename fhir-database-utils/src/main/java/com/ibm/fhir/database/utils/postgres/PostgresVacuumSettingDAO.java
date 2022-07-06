@@ -21,7 +21,7 @@ import com.ibm.fhir.database.utils.model.With;
 
 /**
  * Per the Performance Guide, this DAO implements VACUUM setting changes.
- * https://ibm.github.io/FHIR/guides/FHIRPerformanceGuide/#412-tuning-auto-vacuum
+ * https://linuxforhealth.github.io/FHIR/guides/FHIRPerformanceGuide/#412-tuning-auto-vacuum
  *
  * Lower the trigger threshold for starting work
  * alter table fhirdata.logical_resources SET (autovacuum_vacuum_scale_factor = 0.01, autovacuum_vacuum_threshold=1000);

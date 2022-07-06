@@ -75,7 +75,7 @@ existing Liberty runtime located at: ${WLP_ROOT}
 1) You can start and stop the server with these commands:
    ${WLP_ROOT}/bin/server start
    ${WLP_ROOT}/bin/server stop
-2) The FHIR Server User's Guide can be found at https://github.com/ibm/FHIR.
+2) The FHIR Server User's Guide can be found at https://github.com/LinuxForHealth/FHIR.
 "
 
 exit 0

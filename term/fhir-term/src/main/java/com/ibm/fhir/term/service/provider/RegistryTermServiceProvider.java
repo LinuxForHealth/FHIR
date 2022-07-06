@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -65,7 +65,8 @@ public class RegistryTermServiceProvider extends AbstractTermServiceProvider {
     public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
         checkArguments(codeSystem, filters, function);
         try {
-            return CodeSystemSupport.getConcepts(codeSystem, filters, function);
+            CodeSystem simpleCodeSystem = CodeSystemSupport.convertToSimpleCodeSystem(codeSystem);
+            return CodeSystemSupport.getConcepts(simpleCodeSystem, filters, function);
         } catch (FHIRTermException e) {
             throw new FHIRTermServiceException(e.getMessage(), e, e.getIssues());
         }

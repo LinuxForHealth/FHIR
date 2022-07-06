@@ -197,7 +197,7 @@ public class EverythingOperation extends AbstractOperation {
         }
 
         // We can't always use the "date" query parameter to query by clinical date, only with some resources.
-        // Initial list obtained from the github issue: https://github.com/IBM/FHIR/issues/1044#issuecomment-769788097
+        // Initial list obtained from the github issue: https://github.com/LinuxForHealth/FHIR/issues/1044#issuecomment-769788097
         // Otherwise the search throws an exception. We create a params map with and without and use as needed
         MultivaluedMap<String, String> queryParameters = parseQueryParameters(parameters, maxPageSize);
         MultivaluedMap<String, String> queryParametersWithoutDates = new MultivaluedHashMap<String,String>(queryParameters);

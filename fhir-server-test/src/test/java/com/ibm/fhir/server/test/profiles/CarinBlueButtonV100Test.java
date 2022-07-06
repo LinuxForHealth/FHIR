@@ -387,7 +387,7 @@ public class CarinBlueButtonV100Test extends ProfilesTestBaseV2 {
     @Test
     public void testCARINBlueButton_ExplanationOfBenefit_Patient_SearchParameter() throws Exception {
         // This is now enabled due to HL7 FHIR Jira - https://jira.hl7.org/browse/FHIR-27739
-        // https://github.com/IBM/FHIR/issues/1157
+        // https://github.com/LinuxForHealth/FHIR/issues/1157
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("patient", "Patient/Patient1");
         parameters.searchParam("_id", explanationOfBenefitInPatientId);

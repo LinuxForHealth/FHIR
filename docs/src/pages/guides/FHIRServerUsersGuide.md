@@ -45,7 +45,7 @@ This FHIR server is intended to be a common component for providing FHIR capabil
 0.  Prereqs: The IBM FHIR Server requires Java 11 and has been tested with OpenJDK 11. To install Java on your system, we recommend downloading and installing OpenJDK 11 from https://adoptium.net/.
 
 1.  To install the IBM FHIR Server, build or download the `fhir-install` zip installer.
-The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases are available from the [Releases tab](https://github.com/ibm/fhir/releases).
+The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases are available from the [Releases tab](https://github.com/LinuxForHealth/fhir/releases).
 
 2.  Unzip the `.zip` package into a clean directory (referred to as `fhir-installer` here):
     ```
@@ -96,7 +96,7 @@ Use single quotes around the URL to prevent $healthcheck from being evaluated as
 
 One should see an empty body in the response with a HTTP Response Code 200.
 
-For more information about the capabilities of the implementation, see [Conformance](https://ibm.github.io/FHIR/Conformance).
+For more information about the capabilities of the implementation, see [Conformance](https://linuxforhealth.github.io/FHIR/Conformance).
 
 ## 2.2 Upgrading an existing server
 The IBM FHIR Server does not include an upgrade installer. To upgrade a server to the next version, install the new version to a separate location and copy the configuration files from your existing installation (reconciling any configuration-related changes from the new release in the process).
@@ -122,7 +122,7 @@ The IBM FHIR Server is configured using Environment variables using:
 |----------------------|-------------|
 |`DISABLED_OPERATIONS`|A comma-separated list of operations which are disabled on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
 
-*Development-Only*: If you are using the IBM FHIR Server on a development machine with under 3.25G of RAM. You should download [jvm-dev.options](https://github.com/IBM/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/jvm-dev.options) and mount it when starting the Docker container.  You can use the following pattern for starting up in a restricted test environment (or build your own layer).
+*Development-Only*: If you are using the IBM FHIR Server on a development machine with under 3.25G of RAM. You should download [jvm-dev.options](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/jvm-dev.options) and mount it when starting the Docker container.  You can use the following pattern for starting up in a restricted test environment (or build your own layer).
 
 ```
 docker run -d -p 9443:9443 -e BOOTSTRAP_DB=true \
@@ -202,7 +202,7 @@ The global configuration is considered to be associated with a tenant named `def
 
 Similarly, tenant-specific search parameters are found at `<WLP_HOME>/usr/servers/fhir-server/config/<tenant-id>/extension-search-parameters.json`, whereas the global/default extension search parameters are at `<WLP_HOME>/usr/servers/fhir-server/config/default/extension-search-parameters.json`.
 
-Search parameters are handled like a single configuration properly; providing a tenant-specific file will override the global/default extension search parameters as defined at [FHIRSearchConfiguration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration).
+Search parameters are handled like a single configuration properly; providing a tenant-specific file will override the global/default extension search parameters as defined at [FHIRSearchConfiguration](https://linuxforhealth.github.io/FHIR/guides/FHIRSearchConfiguration).
 
 More information about multi-tenant support can be found in [Section 4.9 Multi-tenancy](#49-multi-tenancy).
 
@@ -330,9 +330,9 @@ If you configure the FHIR server to use an IBM Db2 database, you must:
 
 3. Configure the IBM FHIR Server with the tenantKey generated in step number 2.
 
-An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema.
+An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/LinuxForHealth/FHIR/releases) and documentation can be found at https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema.
 
-For a detailed guide on configuring IBM Db2 on Cloud for the IBM FHIR Server, see [DB2OnCloudSetup](https://ibm.github.io/FHIR/guides/DB2OnCloudSetup).
+For a detailed guide on configuring IBM Db2 on Cloud for the IBM FHIR Server, see [DB2OnCloudSetup](https://linuxforhealth.github.io/FHIR/guides/DB2OnCloudSetup).
 
 Since release 4.3.2 you can use the `search.reopt` query optimizer hint to improve the performance of certain search queries involving multiple search parameters. This optimization is currently only available for Db2. Valid values are "ALWAYS" and "ONCE". See Db2 documentation for `REOPT` for more details.
 
@@ -343,14 +343,14 @@ If you configure the FHIR server to use a PostgreSQL database, you must:
 
 2. execute the `fhir-persistence-schema` utility with a db-type of `postgresql` to create the necessary schemas (tables, indices, functions, etc)
 
-An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/IBM/FHIR/releases) and documentation can be found at https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema.
+An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/LinuxForHealth/FHIR/releases) and documentation can be found at https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema.
 
 Since release 4.5.5 you can set the `searchOptimizerOptions/from_collapse_limit` and `searchOptimizerOptions/join_collapse_limit` properties to improve the performance of certain search queries involving multiple search parameters. This optimization is currently only available for PostgreSQL.
 
 ##### Other
 
 To enable the IBM FHIR Server to work with other relational database systems, see
-https://ibm.github.io/FHIR/guides/BringYourOwnPersistence#adding-support-for-another-relational-database
+https://linuxforhealth.github.io/FHIR/guides/BringYourOwnPersistence#adding-support-for-another-relational-database
 
 
 #### 3.3.1.2 Datastore configuration examples
@@ -516,7 +516,7 @@ In addition to the standard REST API (create, update, search, and so forth), the
 ### 4.1.1 Packaged operations
 The FHIR team provides implementations for the standard `$validate`, `$document`, `$everything`, `$expand`, `$lookup`, `$subsumes`, `$closure`, `$export`, `$import`, `$convert`, `$apply` and `$translate` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
 
-The server also bundles `$reindex` to reindex instances of Resources so they are searchable, `$retrieve-index` to retrieve lists of resources available to be reindexed, and `$erase` to hard delete instances of Resources. To learn more about the $erase operation, read the [design document](https://github.com/IBM/FHIR/tree/main/operation/fhir-operation-erase/README.md).
+The server also bundles `$reindex` to reindex instances of Resources so they are searchable, `$retrieve-index` to retrieve lists of resources available to be reindexed, and `$erase` to hard delete instances of Resources. To learn more about the $erase operation, read the [design document](https://github.com/LinuxForHealth/FHIR/tree/main/operation/fhir-operation-erase/README.md).
 
 To extend the server with additional operations, see [Section 4.1.2 Custom operations](#412-custom-operations)
 
@@ -740,9 +740,9 @@ The server consults this registry for:
 
 One common technique for extending FHIR with a set of conformance resources is to build or reference an [Implementation Guide](https://hl7.org/fhir/R4B/implementationguide.html).
 
-The IBM FHIR Server includes a [PackageRegistryResourceProvider](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for registering implementation guide resources.
+The IBM FHIR Server includes a [PackageRegistryResourceProvider](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for registering implementation guide resources.
 
-Additionally, we [pre-package a number of popular implementation guides](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) and make those available from both our GitHub Releases and [Maven Central](https://repo1.maven.org/maven2/com/ibm/fhir/).
+Additionally, we [pre-package a number of popular implementation guides](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) and make those available from both our GitHub Releases and [Maven Central](https://repo1.maven.org/maven2/com/ibm/fhir/).
 
 Finally, the IBM FHIR Server includes a built-in ServerRegistryResourceProvider that can be used to bridge conformance resources from the tenant data store (uploaded through the REST API) to the registry.
 This provider can be enabled/disabled via the `fhirServer/core/serverRegistryResourceProviderEnabled` property, but we recommend leaving it disabled for performance-intensive workloads.
@@ -873,9 +873,9 @@ Using the example configuration above for the `Observation` resource type, if th
 
 The IBM FHIR Server pre-packages all conformance resources from the core specification.
 
-See [Validation Guide - Optional profile support](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implementation Guide resources and how to load them into the IBM FHIR server.
+See [Validation Guide - Optional profile support](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implementation Guide resources and how to load them into the IBM FHIR server.
 
-See [Validation Guide - Making profiles available to the fhir registry](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for information about how to extend the server with additional Implementation Guide artifacts.
+See [Validation Guide - Making profiles available to the fhir registry](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for information about how to extend the server with additional Implementation Guide artifacts.
 
 
 ## 4.6 Extending search
@@ -884,7 +884,7 @@ search parameters from the registry.
 
 For performance reasons, the registry search parameters are retrieved once and only once during startup.
 
-The set of search parameters can filtered / refined via `fhirServer/resources/[resourceType]/searchParameters` as described in the [Search configuration guide](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#13-filtering).
+The set of search parameters can filtered / refined via `fhirServer/resources/[resourceType]/searchParameters` as described in the [Search configuration guide](https://linuxforhealth.github.io/FHIR/guides/FHIRSearchConfiguration#13-filtering).
 
 ## 4.7 FHIR client API
 
@@ -1633,7 +1633,7 @@ Note, if you are using the default derby, the logs are overwritten upon restart 
 
 ### 4.10.6 Known Limitations
 
-The IBM FHIR Server's fhir-bulkdata-webapp does not support [persistence interceptors](https://github.com/IBM/FHIR/blob/main/docs/src/pages/guides/FHIRServerUsersGuide.md#43-persistence-interceptors). Therefor, $import requests will not lead to `beforeCreate`/`beforeUpdate` or `afterCreate`/`afterUpdate` method calls and $export requests will not lead to `beforeRead`/`beforeSearch` or `afterRead`/`afterSearch` method calls.
+The IBM FHIR Server's fhir-bulkdata-webapp does not support [persistence interceptors](https://github.com/LinuxForHealth/FHIR/blob/main/docs/src/pages/guides/FHIRServerUsersGuide.md#43-persistence-interceptors). Therefor, $import requests will not lead to `beforeCreate`/`beforeUpdate` or `afterCreate`/`afterUpdate` method calls and $export requests will not lead to `beforeRead`/`beforeSearch` or `afterRead`/`afterSearch` method calls.
 Because the IBM FHIR Server's notifications feature is implemented as a persistence interceptor, bulk operations will not result in any notification events.
 
 ## 4.11 Audit logging service
@@ -2056,7 +2056,7 @@ In this case, since the `fhirServer/resources/open` property is set to `false`, 
 
 Whole-system search and whole-system history are special cases. Since no resource type is specified on a whole-system request, validation will be done against the `Resource` resource type. In the above configuration example, a whole-system search request such as `GET [base]?_lastUpdated=gt2020-01-01` will fail because the `Resource` resource type is not specified. If the configuration were to have the `fhirServer/resources/open` property set to `true`, or if the `Resource` resource type were specified in the `fhirServer/resources` property group, then the whole-system search request would be allowed, assuming the `search` interaction was valid for the `Resource` resource type.
 
-In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#13-filtering) and [Resource validation](#44-resource-validation) respectively for details.
+In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://linuxforhealth.github.io/FHIR/guides/FHIRSearchConfiguration#13-filtering) and [Resource validation](#44-resource-validation) respectively for details.
 
 Unlike most other tenant-specific properties, the `fhirServer/resources` property group is processed as a single unit. In the event that `fhirServer/resources` exists in a tenant-specific config, but a particular sub-property is missing (e.g. `fhirServer/resources/open`), that sub-property will *not* inheret from the "default" tenant.
 
@@ -2073,7 +2073,7 @@ The originalRequestUriHeader is expected to contain the full path of the origina
 
 ### 4.13 Remote Index Service
 
-To use the experimental remote index service feature, see the instructions documented in the [fhir-remote-index](https://github.com/IBM/FHIR/tree/main/operation/fhir-remote-index/README.md) project.
+To use the experimental remote index service feature, see the instructions documented in the [fhir-remote-index](https://github.com/LinuxForHealth/FHIR/tree/main/operation/fhir-remote-index/README.md) project.
 
 # 5 Appendix
 

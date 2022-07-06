@@ -8,7 +8,7 @@ date:   2022-05-09
 By Lee Surprenant    |    Published May 10, 2022
 
 # Background
-In IBM FHIR Server 4.4.0, we introduced experimental support for ["export to parquet"](https://github.com/IBM/FHIR/issues/1340). The feature was implemented by embedding a single-node Apache Spark cluster and using it to:
+In IBM FHIR Server 4.4.0, we introduced experimental support for ["export to parquet"](https://github.com/LinuxForHealth/FHIR/issues/1340). The feature was implemented by embedding a single-node Apache Spark cluster and using it to:
 1. infer a schema from a collection of JSON resources;
 2. write Parquet to Amazon S3 / IBM Cloud Object Storage.
 
@@ -23,7 +23,7 @@ Bulk export can be performed via HTTP GET or POST and the IBM FHIR Server suppor
 * Patient export:  `[base]/Patient/$export`
 * Group export:  `[base]/Group/[id]/$export`
 
-The export operations are defined at https://hl7.org/fhir/uv/bulkdata/export.html and usage information can be found in the IBM FHIR Server [Bulk Data Guide](https://ibm.github.io/FHIR/guides/FHIRBulkOperations#export-operation-dollarexport).
+The export operations are defined at https://hl7.org/fhir/uv/bulkdata/export.html and usage information can be found in the IBM FHIR Server [Bulk Data Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRBulkOperations#export-operation-dollarexport).
 
 For example, to export all Patient and Condition resources from an IBM FHIR Server at example.com:
 ```
