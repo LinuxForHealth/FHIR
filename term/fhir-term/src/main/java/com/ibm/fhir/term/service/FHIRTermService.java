@@ -435,9 +435,8 @@ public class FHIRTermService {
      *     the coding to lookup
      * @param parameters
      *     the lookup parameters
-     *
      * @return
-     *     the outcome of the lookup
+     *     the outcome of the lookup; null if the passed CodeSystem is not applicable to the system and version of the coding
      */
     public LookupOutcome lookup(CodeSystem codeSystem, Coding coding, LookupParameters parameters) {
         if (!LookupParameters.EMPTY.equals(parameters)) {
@@ -828,7 +827,7 @@ public class FHIRTermService {
         }
         LookupOutcome outcome = lookup(codeSystem, coding, LookupParameters.EMPTY);
         if (outcome != null) {
-            return validateDisplay(null, coding, outcome);
+            return validateDisplay(coding, outcome, CodeSystemSupport.isCaseSensitive(codeSystem));
         } else {
             StringBuilder message = new StringBuilder("Code '");
             if (coding != null && coding.getCode() != null) {
@@ -976,7 +975,7 @@ public class FHIRTermService {
             if (result) {
                 LookupOutcome outcome = lookup(coding);
                 if (outcome != null || coding.getDisplay() == null) {
-                    return validateDisplay(null, coding, outcome);
+                    return validateDisplay(coding, outcome);
                 }
 
                 // lookup outcome was null and we have a non-null display, so include a message in the response
@@ -1054,7 +1053,7 @@ public class FHIRTermService {
         if (result) {
             LookupOutcome outcome = lookup(coding);
             if (outcome != null || coding.getDisplay() == null) {
-                return validateDisplay(null, coding, outcome);
+                return validateDisplay(coding, outcome);
             }
 
             // lookup outcome was null and we have a non-null display, so include a message in the response
@@ -1167,29 +1166,77 @@ public class FHIRTermService {
         return providers;
     }
 
-    private ValidationOutcome validateDisplay(CodeSystem codeSystem, Coding coding, LookupOutcome lookupOutcome) {
+    /**
+     * Validate a coding display against the passed lookupOutcome, inferring case sensitivity from the registry
+     *
+     * @param coding
+     *     the coding
+     * @param lookupOutcome
+     *     the outcome of a CodeSystem lookup
+     * @return
+     *     the outcome of validation; true if either the lookupOutcome or coding parameters are null or have a null display
+     * @implNote this method looks up the implied CodeSystem from the FHIR registry to determine case sensitivity,
+     *     then delegates to {@link #validateDisplay(Coding, LookupOutcome, boolean)}
+     */
+    private ValidationOutcome validateDisplay(Coding coding, LookupOutcome lookupOutcome) {
+        if (coding == null) {
+            return buildValidationOutcome(true, null, lookupOutcome);
+        }
+
+        java.lang.String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
+        java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
+
+        boolean caseSensitive = false;
+        if (system != null) {
+            java.lang.String url = (version != null) ? system + "|" + version : system;
+            caseSensitive = CodeSystemSupport.isCaseSensitive(url);
+        }
+
+        return validateDisplay(coding, lookupOutcome, caseSensitive);
+    }
+
+    /**
+     * Validate a coding display against the passed lookupOutcome
+     *
+     * @param coding
+     *     the coding
+     * @param lookupOutcome
+     *     the outcome of a CodeSystem lookup
+     * @param isCaseSensitive
+     *     whether the underlying CodeSystem is case-sensitive or not
+     * @return
+     *     the outcome of validation; true if either the lookupOutcome or coding parameters are null or have a null display
+     */
+    private ValidationOutcome validateDisplay(Coding coding, LookupOutcome lookupOutcome, boolean isCaseSensitive) {
         if (lookupOutcome == null || coding == null ||
                 lookupOutcome.getDisplay() == null || coding.getDisplay() == null ||
                 lookupOutcome.getDisplay().getValue() == null && coding.getDisplay().getValue() == null) {
             return buildValidationOutcome(true, null, lookupOutcome);
         }
 
-        java.lang.String system = null;
-        if (coding.getSystem() != null) {
-            system = coding.getSystem().getValue();
-        } else if (codeSystem != null && codeSystem.getUrl() != null) {
-            system = codeSystem.getUrl().getValue();
+        java.lang.String displayToValidate = isCaseSensitive ? coding.getDisplay().getValue() : normalize(coding.getDisplay().getValue());
+
+        boolean result = false;
+        if (isCaseSensitive) {
+            result = lookupOutcome.getDisplay().getValue().equals(displayToValidate);
+            if (result == false) {
+                result = lookupOutcome.getDesignation().stream()
+                        .anyMatch(d -> d.getValue() != null && displayToValidate.equals(d.getValue().getValue()));
+            }
+        } else {
+            result = normalize(lookupOutcome.getDisplay().getValue()).equals(displayToValidate);
+            if (result == false) {
+                result = lookupOutcome.getDesignation().stream()
+                        .anyMatch(d -> d.getValue() != null && displayToValidate.equals(normalize(d.getValue().getValue())));
+            }
         }
-        boolean caseSensitive = (codeSystem != null) ? CodeSystemSupport.isCaseSensitive(codeSystem) : false;
-        if (codeSystem == null && system != null) {
-            java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
-            java.lang.String url = (version != null) ? system + "|" + version : system;
-            caseSensitive = CodeSystemSupport.isCaseSensitive(url);
+
+        java.lang.String message = null;
+        if (!result) {
+            java.lang.String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
+            message = java.lang.String.format("The display '%s' is incorrect for code '%s' from code system '%s'",
+                    coding.getDisplay().getValue(), coding.getCode().getValue(), system);
         }
-        boolean result = caseSensitive ? lookupOutcome.getDisplay().equals(coding.getDisplay()) :
-                normalize(lookupOutcome.getDisplay().getValue()).equals(normalize(coding.getDisplay().getValue()));
-        java.lang.String message = !result ? java.lang.String.format("The display '%s' is incorrect for code '%s' from code system '%s'",
-                coding.getDisplay().getValue(), coding.getCode().getValue(), system) : null;
 
         return buildValidationOutcome(result, message, lookupOutcome);
     }
