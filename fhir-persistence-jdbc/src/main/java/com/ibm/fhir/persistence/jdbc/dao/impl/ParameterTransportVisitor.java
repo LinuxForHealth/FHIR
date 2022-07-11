@@ -99,7 +99,7 @@ public class ParameterTransportVisitor implements ExtractedParameterValueVisitor
             adapter.securityValue(tokenParameter.getName(), tokenParameter.getValueSystem(), tokenParameter.getValueCode(), IS_WHOLE_SYSTEM);
             break;
         default:
-            adapter.tokenValue(tokenParameter.getName(), tokenParameter.getValueSystem(), tokenParameter.getValueCode(), compositeId);
+            adapter.tokenValue(tokenParameter.getName(), tokenParameter.getValueSystem(), tokenParameter.getValueCode(), compositeId, tokenParameter.isWholeSystem());
         }
     }
 
