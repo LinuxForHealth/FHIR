@@ -1,0 +1,381 @@
+{
+    "resourceType": "ValueSet",
+    "id": "us-core-usps-state",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.3.40"
+        }
+    ],
+    "version": "5.0.1",
+    "name": "UspsTwoLetterAlphabeticCodes",
+    "title": "USPS Two Letter Alphabetic Codes",
+    "status": "active",
+    "date": "2019-05-21",
+    "publisher": "HL7 International - Cross-Group Projects",
+    "contact": [
+        {
+            "name": "HL7 International - Cross-Group Projects",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/cgp"
+                },
+                {
+                    "system": "email",
+                    "value": "cgp@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "This value set defines two letter USPS alphabetic codes.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "copyright": "On July 1, 1963, the Post Office Department implemented the five-digit ZIP Code, which was placed after the state name in the last line of an address. To provide room for the ZIP Code, the Department issued two-letter abbreviations for all states and territories. Publication 59, Abbreviations for Use with ZIP Code, issued by the Department in October 1963. There is no copyright restriction on this value set.",
+    "compose": {
+        "include": [
+            {
+                "system": "https://www.usps.com/"
+            }
+        ]
+    },
+    "expansion": {
+        "identifier": "urn:uuid:62de244d-abab-4bba-879f-1018e3c9f3ee",
+        "timestamp": "2022-07-11T21:22:44.366Z",
+        "parameter": [
+            {
+                "name": "expansion-source",
+                "valueUri": "ValueSet/us-core-usps-state"
+            },
+            {
+                "name": "displayLanguage",
+                "valueString": "en-US,en;q=0.9"
+            }
+        ],
+        "contains": [
+            {
+                "system": "https://www.usps.com/",
+                "code": "AL",
+                "display": "Alabama"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "AK",
+                "display": "Alaska"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "AS",
+                "display": "American Samoa"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "AZ",
+                "display": "Arizona"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "AR",
+                "display": "Arkansas"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "CA",
+                "display": "California"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "CO",
+                "display": "Colorado"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "CT",
+                "display": "Connecticut"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "DE",
+                "display": "Delaware"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "DC",
+                "display": "District of Columbia"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "FM",
+                "display": "Federated States of Micronesia"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "FL",
+                "display": "Florida"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "GA",
+                "display": "Georgia"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "GU",
+                "display": "Guam"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "HI",
+                "display": "Hawaii"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "ID",
+                "display": "Idaho"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "IL",
+                "display": "Illinois"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "IN",
+                "display": "Indiana"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "IA",
+                "display": "Iowa"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "KS",
+                "display": "Kansas"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "KY",
+                "display": "Kentucky"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "LA",
+                "display": "Louisiana"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "ME",
+                "display": "Maine"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "MH",
+                "display": "Marshall Islands"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "MD",
+                "display": "Maryland"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "MA",
+                "display": "Massachusetts"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "MI",
+                "display": "Michigan"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "MN",
+                "display": "Minnesota"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "MS",
+                "display": "Mississippi"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "MO",
+                "display": "Missouri"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "MT",
+                "display": "Montana"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "NE",
+                "display": "Nebraska"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "NV",
+                "display": "Nevada"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "NH",
+                "display": "New Hampshire"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "NJ",
+                "display": "New Jersey"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "NM",
+                "display": "New Mexico"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "NY",
+                "display": "New York"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "NC",
+                "display": "North Carolina"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "ND",
+                "display": "North Dakota"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "MP",
+                "display": "Northern Mariana Islands"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "OH",
+                "display": "Ohio"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "OK",
+                "display": "Oklahoma"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "OR",
+                "display": "Oregon"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "PW",
+                "display": "Palau"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "PA",
+                "display": "Pennsylvania"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "PR",
+                "display": "Puerto Rico"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "RI",
+                "display": "Rhode Island"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "SC",
+                "display": "South Carolina"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "SD",
+                "display": "South Dakota"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "TN",
+                "display": "Tennessee"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "TX",
+                "display": "Texas"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "UT",
+                "display": "Utah"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "VT",
+                "display": "Vermont"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "VI",
+                "display": "Virgin Islands"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "VA",
+                "display": "Virginia"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "WA",
+                "display": "Washington"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "WV",
+                "display": "West Virginia"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "WI",
+                "display": "Wisconsin"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "WY",
+                "display": "Wyoming"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "AE",
+                "display": "Armed Forces Europe, the Middle East, and Canada"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "AP",
+                "display": "Armed Forces Pacific"
+            },
+            {
+                "system": "https://www.usps.com/",
+                "code": "AA",
+                "display": "Armed Forces Americas (except Canada)"
+            }
+        ]
+    }
+}

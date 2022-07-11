@@ -33,8 +33,8 @@ Source - https://www.hl7.org/fhir/us/core/stu4/
 - Added version id to each valueSet binding target (e.g. `http://hl7.org/fhir/us/core/ValueSet/us-core-vital-signs` -> `http://hl7.org/fhir/us/core/ValueSet/us-core-vital-signs|4.0.0`)
 
 
-## US Core 5.0.0 - STU5
-Source - https://hl7.org/fhir/us/core/stu5/
+## US Core 5.0.1 - STU5
+Source - http://hl7.org/fhir/us/core/STU5.0.1/
 - Modified ig-r4.json to remove parameters that aren't valid in FHIR R4
 - Replace &reg; with ® in the following examples:
   - Procedure-defib-implant.json
@@ -42,7 +42,7 @@ Source - https://hl7.org/fhir/us/core/stu5/
 
 
 # Steps to update
-1. download the npm package for whatever version of Us Core you want (and note what downloads we used from where in this file)
+1. download the npm package for whatever version of US Core you want (and note what downloads we used from where in this file)
 2. update `src/main/resources` with the latest conformance artifacts and `src/test/resources` with the latest examples
 3. if its a new version
   - ensure references from the previous package are version-specific (e.g. to avoid a 3.1.1 profile from picking up a 5.0.0 valueset during validation)

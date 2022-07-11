@@ -1,0 +1,157 @@
+{
+    "resourceType": "ValueSet",
+    "id": "us-core-vital-signs",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/core/ValueSet/us-core-vital-signs",
+    "version": "5.0.1",
+    "name": "UsCoreVitalSigns",
+    "title": "US Core Vital Signs ValueSet",
+    "status": "active",
+    "experimental": false,
+    "date": "2020-11-17",
+    "publisher": "HL7 International - Cross-Group Projects",
+    "contact": [
+        {
+            "name": "HL7 International - Cross-Group Projects",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/cgp"
+                },
+                {
+                    "system": "email",
+                    "value": "cgp@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The vital sign codes from the base FHIR and US Core Vital Signs.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "copyright": "This material contains content from LOINC (http://loinc.org). LOINC is copyright © 1995-2020, Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee and is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc",
+    "compose": {
+        "include": [
+            {
+                "system": "http://loinc.org",
+                "concept": [
+                    {
+                        "code": "59576-9"
+                    },
+                    {
+                        "code": "8289-1"
+                    },
+                    {
+                        "code": "77606-2"
+                    },
+                    {
+                        "code": "59408-5"
+                    },
+                    {
+                        "code": "3150-0"
+                    },
+                    {
+                        "code": "3151-8"
+                    }
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://hl7.org/fhir/ValueSet/observation-vitalsignresult"
+                ]
+            }
+        ]
+    },
+    "expansion": {
+        "timestamp": "2022-07-11T21:05:49.07702Z",
+        "total": 19,
+        "contains": [
+            {
+                "system": "http://loinc.org",
+                "code": "59576-9"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "8289-1"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "77606-2"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "59408-5"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "3150-0"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "3151-8"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "85353-1"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "9279-1"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "8867-4"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "2708-6"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "8310-5"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "8302-2"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "9843-4"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "29463-7"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "39156-5"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "85354-9"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "8480-6"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "8462-4"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "8478-0"
+            }
+        ]
+    }
+}
