@@ -33,6 +33,9 @@ public class FHIRTestTransactionAdapter implements FHIRPersistenceTransaction {
     // Provides connections when outside of a container
     private final IConnectionProvider connectionProvider;
     
+    // If given, invoke this callback just prior to commit
+    private final IFHIRTransactionAdapterCallback beforeCommitCallback;
+
     // Support transactions for the persistence unit tests
     private final SimpleTransactionProvider transactionProvider;
     
@@ -44,13 +47,15 @@ public class FHIRTestTransactionAdapter implements FHIRPersistenceTransaction {
     
     // support nesting by tracking the number of begin/end requests
     private int startCount;
-        
+
     /**
      * Public constructor
      * @param cp
+     * @param beforeCommit callback before transaction commit, can be null
      */
-    public FHIRTestTransactionAdapter(IConnectionProvider cp) {
+    public FHIRTestTransactionAdapter(IConnectionProvider cp, IFHIRTransactionAdapterCallback beforeCommitCallback) {
         this.connectionProvider = cp;
+        this.beforeCommitCallback = beforeCommitCallback;
 
         // provide transaction support for our tests
         this.transactionProvider = new SimpleTransactionProvider(this.connectionProvider);
@@ -78,6 +83,9 @@ public class FHIRTestTransactionAdapter implements FHIRPersistenceTransaction {
         try {
             // only end it if we started it
             if (startedByThis && --startCount == 0) {
+                if (this.beforeCommitCallback != null) {
+                    this.beforeCommitCallback.beforeCommit();
+                }
                 this.currentTransaction.get().close();
             }
         } catch (Throwable x) {

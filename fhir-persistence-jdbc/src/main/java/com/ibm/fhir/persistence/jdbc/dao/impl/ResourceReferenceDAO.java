@@ -225,8 +225,8 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     }
 
     @Override
-    public Integer readCanonicalId(String canonicalValue) {
-        Integer result;
+    public Long readCanonicalId(String canonicalValue) {
+        Long result;
         final String SQL = ""
                 + "SELECT canonical_id "
                 + "  FROM common_canonical_values "
@@ -235,7 +235,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             ps.setString(1, canonicalValue);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                result = rs.getInt(1);
+                result = rs.getLong(1);
             } else {
                 result = null;
             }
@@ -560,7 +560,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             int count = 0;
             for (ResourceProfileRec xr: profiles) {
                 ps.setLong(1, xr.getLogicalResourceId());
-                ps.setInt(2, xr.getCanonicalValueId());
+                ps.setLong(2, xr.getCanonicalValueId());
 
                 // canonical version can be null
                 if (xr.getVersion() != null) {
@@ -606,7 +606,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             int count = 0;
             for (ResourceProfileRec xr: profiles) {
                 ps.setLong(1, xr.getLogicalResourceId());
-                ps.setInt(2, xr.getCanonicalValueId());
+                ps.setLong(2, xr.getCanonicalValueId());
 
                 // canonical version can be null
                 if (xr.getVersion() != null) {

@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.persistence.index;
 
+import java.util.Objects;
 
 /**
  * A string search parameter used for transporting values for remote indexing
@@ -36,5 +37,22 @@ public class StringParameter extends SearchParameterValue {
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public int hashCode() {
+        // yeah I know I could include the super hashCode in the list of values,
+        // but this avoids unnecessary boxing
+        return 31 * super.hashCode() + Objects.hash(value);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof SecurityParameter) {
+            StringParameter that = (StringParameter)obj;
+            return super.equals(obj)
+                    && Objects.equals(this.value, that.value);
+        }
+        return false;
     }
 }

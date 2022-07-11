@@ -290,7 +290,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @return the database id, or -1 if the value does not exist
      * @throws FHIRPersistenceException
      */
-    protected int getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
+    protected long getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
         return this.identityCache.getCanonicalId(canonicalValue);
     }
 
@@ -2156,7 +2156,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
 
             // Reuse the same CanonicalSupport code used for param extraction to parse the search value
             ResourceProfileRec rpc = CanonicalSupport.makeResourceProfileRec(null, resourceType, -1, -1, value.getValueString(), false);
-            int canonicalId = getCanonicalId(rpc.getCanonicalValue());
+            long canonicalId = getCanonicalId(rpc.getCanonicalValue());
             whereFragment.col(paramAlias, "CANONICAL_ID").eq(canonicalId);
 
             // TODO double-check semantics of ABOVE and BELOW in this context

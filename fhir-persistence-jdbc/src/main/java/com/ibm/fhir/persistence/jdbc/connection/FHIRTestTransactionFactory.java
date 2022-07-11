@@ -14,6 +14,7 @@ import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
  * of the {@link FHIRPersistenceTransaction} interface. Typically used
  * to support unit-tests
  */
+@Deprecated
 public class FHIRTestTransactionFactory implements FHIRTransactionFactory {
 
     private final IConnectionProvider connectionProvider;
@@ -28,7 +29,7 @@ public class FHIRTestTransactionFactory implements FHIRTransactionFactory {
     
     @Override
     public FHIRPersistenceTransaction create() {
-        return new FHIRTestTransactionAdapter(connectionProvider);
+        return new FHIRTestTransactionAdapter(connectionProvider, null);
     }
 
 }

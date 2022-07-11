@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.index;
 
 import java.time.Instant;
+import java.util.Objects;
 
 /**
  * A date search parameter value
@@ -56,4 +57,21 @@ public class DateParameter extends SearchParameterValue {
         this.valueDateEnd = valueDateEnd;
     }
 
+    @Override
+    public int hashCode() {
+        // yeah I know I could include the super hashCode in the list of values,
+        // but this avoids unnecessary boxing
+        return 31 * super.hashCode() + Objects.hash(valueDateStart, valueDateEnd);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof DateParameter) {
+            DateParameter that = (DateParameter)obj;
+            return super.equals(obj)
+                    && Objects.equals(this.valueDateStart, that.valueDateStart)
+                    && Objects.equals(this.valueDateEnd, that.valueDateEnd);
+        }
+        return false;
+    }
 }

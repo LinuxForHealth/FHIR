@@ -137,7 +137,7 @@ public class QuantityParmBehaviorUtilTest {
             }
 
             @Override
-            public Integer getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
+            public Long getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
                 return null;
             }
 

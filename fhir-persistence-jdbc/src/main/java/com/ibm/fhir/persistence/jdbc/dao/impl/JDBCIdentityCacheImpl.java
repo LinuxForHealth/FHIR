@@ -129,14 +129,14 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
     }
 
     @Override
-    public Integer getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
-        Integer result = cache.getResourceReferenceCache().getCanonicalId(canonicalValue);
+    public Long getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
+        Long result = cache.getResourceReferenceCache().getCanonicalId(canonicalValue);
         if (result == null) {
             result = resourceReferenceDAO.readCanonicalId(canonicalValue);
             if (result != null) {
                 cache.getResourceReferenceCache().addCanonicalValue(canonicalValue, result);
             } else {
-                result = -1;
+                result = -1L;
             }
         }
 

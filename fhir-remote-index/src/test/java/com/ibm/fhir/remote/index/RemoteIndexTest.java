@@ -38,9 +38,12 @@ import com.ibm.fhir.persistence.helper.RemoteIndexSupport;
 import com.ibm.fhir.persistence.index.RemoteIndexConstants;
 import com.ibm.fhir.persistence.index.RemoteIndexMessage;
 import com.ibm.fhir.persistence.index.SearchParametersTransportAdapter;
+import com.ibm.fhir.persistence.params.api.IMessageHandler;
+import com.ibm.fhir.persistence.params.batch.ParameterValueCollector;
+import com.ibm.fhir.persistence.params.database.PlainDerbyParamValueProcessor;
 import com.ibm.fhir.remote.index.cache.IdentityCacheImpl;
 import com.ibm.fhir.remote.index.database.CacheLoader;
-import com.ibm.fhir.remote.index.database.PlainDerbyMessageHandler;
+import com.ibm.fhir.remote.index.database.RemoteIndexMessageHandler;
 
 /**
  * Unit test for remote index message handling and database processing
@@ -145,7 +148,10 @@ public class RemoteIndexTest {
 
         try (Connection c = connectionProvider.getConnection()) {
             try {
-                PlainDerbyMessageHandler handler = new PlainDerbyMessageHandler(instanceIdentifier, c, SCHEMA_NAME, identityCache, 1000L);
+
+                ParameterValueCollector paramValueCollector = new ParameterValueCollector(identityCache);
+                PlainDerbyParamValueProcessor paramValueProcessor = new PlainDerbyParamValueProcessor(c, SCHEMA_NAME, identityCache);
+                IMessageHandler handler = new RemoteIndexMessageHandler(c, instanceIdentifier, 1000L, paramValueCollector, paramValueProcessor);
                 handler.process(getMessages(logicalResourceId));
                 checkData(c, logicalResourceId);
                 c.commit();

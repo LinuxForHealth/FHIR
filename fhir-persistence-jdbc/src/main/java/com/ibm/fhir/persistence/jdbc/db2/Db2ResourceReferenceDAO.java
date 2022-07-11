@@ -266,7 +266,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
             int count = 0;
             for (ResourceProfileRec xr: profiles) {
                 ps.setLong(1, xr.getLogicalResourceId());
-                ps.setInt(2, xr.getCanonicalValueId());
+                ps.setLong(2, xr.getCanonicalValueId());
 
                 // canonical version can be null
                 if (xr.getVersion() != null) {
@@ -308,7 +308,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
             int count = 0;
             for (ResourceProfileRec xr: profiles) {
                 ps.setLong(1, xr.getLogicalResourceId());
-                ps.setInt(2, xr.getCanonicalValueId());
+                ps.setLong(2, xr.getCanonicalValueId());
 
                 // canonical version can be null
                 if (xr.getVersion() != null) {

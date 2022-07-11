@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.index;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * A quantity search parameter value
@@ -105,5 +106,26 @@ public class QuantityParameter extends SearchParameterValue {
      */
     public void setValueCode(String valueCode) {
         this.valueCode = valueCode;
+    }
+
+    @Override
+    public int hashCode() {
+        // yeah I know I could include the super hashCode in the list of values,
+        // but this avoids unnecessary boxing
+        return 31 * super.hashCode() + Objects.hash(valueNumber, valueNumberLow, valueNumberHigh, valueCode, valueSystem);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof QuantityParameter) {
+            QuantityParameter that = (QuantityParameter)obj;
+            return super.equals(obj)
+                    && Objects.equals(this.valueNumber, that.valueNumber)
+                    && Objects.equals(this.valueNumberLow, that.valueNumberLow)
+                    && Objects.equals(this.valueNumberHigh, that.valueNumberHigh)
+                    && Objects.equals(this.valueCode, that.valueCode)
+                    && Objects.equals(this.valueSystem, that.valueSystem);
+        }
+        return false;
     }
 }

@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.persistence.index;
 
+import java.util.Objects;
 
 /**
  * A profile search parameter value
@@ -75,5 +76,24 @@ public class ProfileParameter extends SearchParameterValue {
      */
     public void setFragment(String fragment) {
         this.fragment = fragment;
+    }
+
+    @Override
+    public int hashCode() {
+        // yeah I know I could include the super hashCode in the list of values,
+        // but this avoids unnecessary boxing
+        return 31 * super.hashCode() + Objects.hash(url, version, fragment);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ProfileParameter) {
+            ProfileParameter that = (ProfileParameter)obj;
+            return super.equals(obj)
+                    && Objects.equals(this.url, that.url)
+                    && Objects.equals(this.version, that.version)
+                    && Objects.equals(this.fragment, that.fragment);
+        }
+        return false;
     }
 }
