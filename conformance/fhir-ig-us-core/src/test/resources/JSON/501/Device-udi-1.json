@@ -1,0 +1,46 @@
+{
+    "resourceType": "Device",
+    "id": "udi-1",
+    "meta": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+                "valueString": "UDI 1 Example"
+            },
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+                "valueMarkdown": "This is a UDI 1 example for the *US Core Implantable Device Profile*."
+            }
+        ],
+        "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-implantable-device"
+        ]
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"udi-1\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-us-core-implantable-device.html\">US Core Implantable Device Profile</a></p></div><h3>UdiCarriers</h3><table class=\"grid\"><tr><td>-</td><td><b>DeviceIdentifier</b></td><td><b>CarrierHRF</b></td></tr><tr><td>*</td><td>09504000059118</td><td>(01)09504000059118(17)141120(10)7654321D(21)10987654d321</td></tr></table><p><b>status</b>: active</p><p><b>expirationDate</b>: 2014-11-20</p><p><b>lotNumber</b>: 7654321D</p><p><b>serialNumber</b>: 10987654d321</p><p><b>type</b>: Coated femoral stem prosthesis, modular <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#468063009)</span></p><p><b>patient</b>: <a href=\"Patient-example.html\">Patient/example: Amy Shaw</a> \" SHAW\"</p></div>"
+    },
+    "udiCarrier": [
+        {
+            "deviceIdentifier": "09504000059118",
+            "carrierHRF": "(01)09504000059118(17)141120(10)7654321D(21)10987654d321"
+        }
+    ],
+    "status": "active",
+    "expirationDate": "2014-11-20",
+    "lotNumber": "7654321D",
+    "serialNumber": "10987654d321",
+    "type": {
+        "coding": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "468063009",
+                "display": "Coated femoral stem prosthesis, modular"
+            }
+        ]
+    },
+    "patient": {
+        "reference": "Patient/example",
+        "display": "Amy Shaw"
+    }
+}

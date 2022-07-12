@@ -47,6 +47,7 @@ public class ResourceProcessor {
             String packageVersion = version.replace(".", "");
             expandValueSets(packageVersion);
             updateInPlace(packageVersion);
+            updateExamplesInPlace(packageVersion);
         }
     }
 
@@ -109,6 +110,36 @@ public class ResourceProcessor {
                     jsonObjectBuilder.add("version", version);
                 }
 
+                jsonObject = jsonObjectBuilder.build();
+            }
+            try (FileWriter writer = new FileWriter(file)) {
+                JsonWriter jsonWriter = jsonWriterFactory.createWriter(writer);
+                jsonWriter.write(jsonObject);
+            }
+        }
+    }
+
+    private static void updateExamplesInPlace(String version) throws Exception {
+        Map<String, Object> writerConfig = Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
+        JsonReaderFactory jsonReaderFactory = Json.createReaderFactory(null);
+        JsonWriterFactory jsonWriterFactory = Json.createWriterFactory(writerConfig);
+        JsonBuilderFactory jsonBuilderFactory = Json.createBuilderFactory(null);
+
+        File dir = new File("src/test/resources/JSON/" + version + "/");
+        for (File file : dir.listFiles()) {
+            String fileName = file.getName();
+            if (!fileName.endsWith(".json") || file.isDirectory()
+                    || fileName.startsWith(".index.json")
+                    || fileName.startsWith("package.json")
+                    ) {
+                continue;
+            }
+            JsonObject jsonObject = null;
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                JsonReader jsonReader = jsonReaderFactory.createReader(reader);
+                jsonObject = jsonReader.readObject();
+
+                JsonObjectBuilder jsonObjectBuilder = jsonBuilderFactory.createObjectBuilder(jsonObject);
                 jsonObject = jsonObjectBuilder.build();
             }
             try (FileWriter writer = new FileWriter(file)) {

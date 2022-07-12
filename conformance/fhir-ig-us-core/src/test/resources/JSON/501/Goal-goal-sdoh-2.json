@@ -1,0 +1,43 @@
+{
+    "resourceType": "Goal",
+    "id": "goal-sdoh-2",
+    "meta": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+                "valueString": "Goal 2 Example"
+            },
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+                "valueMarkdown": "This is a goal 2 example for the *US Core Goal Profile*."
+            }
+        ],
+        "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-goal"
+        ]
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"goal-sdoh-2\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-us-core-goal.html\">US Core Goal Profile</a></p></div><p><b>lifecycleStatus</b>: active</p><p><b>description</b>: In paid employment <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#406156006)</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Patient/example: Amy Shaw</a> \" SHAW\"</p><h3>Targets</h3><table class=\"grid\"><tr><td>-</td><td><b>Due[x]</b></td></tr><tr><td>*</td><td>2022-02-01</td></tr></table></div>"
+    },
+    "lifecycleStatus": "active",
+    "description": {
+        "coding": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "406156006",
+                "display": "In paid employment"
+            }
+        ],
+        "text": "In paid employment"
+    },
+    "subject": {
+        "reference": "Patient/example",
+        "display": "Amy Shaw"
+    },
+    "target": [
+        {
+            "dueDate": "2022-02-01"
+        }
+    ]
+}

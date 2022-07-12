@@ -1,0 +1,122 @@
+{
+    "resourceType": "Observation",
+    "id": "AHC-HRSN-panel-example-96777-8",
+    "meta": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+                "valueString": "Ahc-Hrsn Panel Example 96777-8"
+            },
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+                "valueMarkdown": "This is a Ahc-Hrsn Panel Example 96777-8 (Accountable health communities (AHC) health-related social needs screening (HRSN) tool) for the *US Core Screening Response Observation Profile*"
+            }
+        ],
+        "profile": [
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-observation-sdoh-assessment"
+        ]
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"AHC-HRSN-panel-example-96777-8\" </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-us-core-observation-sdoh-assessment.html\">US Core Observation SDOH Assessment Profile</a></p></div><p><b>status</b>: final</p><p><b>category</b>: SDOH <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-us-core-tags.html\">US Core Tags CodeSystem</a>#sdoh)</span>, Survey <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://terminology.hl7.org/3.1.0/CodeSystem-observation-category.html\">Observation Category Codes</a>#survey)</span></p><p><b>code</b>: Accountable health communities (AHC) health-related social needs screening (HRSN) tool <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#96777-8)</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Patient/example</a> \" SHAW\"</p><p><b>effective</b>: 2022-03-29 10:38:59+0000</p><p><b>performer</b>: <a href=\"Patient-example.html\">Patient/example</a> \" SHAW\"</p><p><b>hasMember</b>: </p><ul><li><a href=\"Observation-AHC-HRSN-item-example-76513-1.html\">Observation/AHC-HRSN-item-example-76513-1</a></li><li><a href=\"Observation-AHC-HRSN-item-example-96780-2.html\">Observation/AHC-HRSN-item-example-96780-2</a></li><li><a href=\"Observation-AHC-HRSN-item-example-96781-0.html\">Observation/AHC-HRSN-item-example-96781-0</a></li><li><a href=\"Observation-AHC-HRSN-item-example-93159-2.html\">Observation/AHC-HRSN-item-example-93159-2</a></li><li><a href=\"Observation-AHC-HRSN-item-example-97027-7.html\">Observation/AHC-HRSN-item-example-97027-7</a></li><li><a href=\"Observation-AHC-HRSN-item-example-96782-8.html\">Observation/AHC-HRSN-item-example-96782-8</a></li><li><a href=\"Observation-AHC-HRSN-item-example-89555-7.html\">Observation/AHC-HRSN-item-example-89555-7</a></li><li><a href=\"Observation-AHC-HRSN-item-example-68516-4.html\">Observation/AHC-HRSN-item-example-68516-4</a></li><li><a href=\"Observation-AHC-HRSN-item-example-68517-2.html\">Observation/AHC-HRSN-item-example-68517-2</a></li><li><a href=\"Observation-AHC-HRSN-item-example-96842-0.html\">Observation/AHC-HRSN-item-example-96842-0</a></li><li><a href=\"Observation-AHC-HRSN-item-example-95530-2.html\">Observation/AHC-HRSN-item-example-95530-2</a></li><li><a href=\"Observation-AHC-HRSN-item-example-68524-8.html\">Observation/AHC-HRSN-item-example-68524-8</a></li><li><a href=\"Observation-AHC-HRSN-item-example-44250-9.html\">Observation/AHC-HRSN-item-example-44250-9</a></li><li><a href=\"Observation-AHC-HRSN-item-example-44255-8.html\">Observation/AHC-HRSN-item-example-44255-8</a></li><li><a href=\"Observation-AHC-HRSN-item-example-93038-8.html\">Observation/AHC-HRSN-item-example-93038-8</a></li><li><a href=\"Observation-AHC-HRSN-item-example-69858-9.html\">Observation/AHC-HRSN-item-example-69858-9</a></li><li><a href=\"Observation-AHC-HRSN-item-example-69861-3.html\">Observation/AHC-HRSN-item-example-69861-3</a></li></ul><p><b>derivedFrom</b>: <a href=\"QuestionnaireResponse-AHC-HRSN-screening-example.html\">QuestionnaireResponse/AHC-HRSN-screening-example: US Core QuestionnaireResponse AHC HRSN Screening-Example Example</a></p></div>"
+    },
+    "status": "final",
+    "category": [
+        {
+            "coding": [
+                {
+                    "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-tags",
+                    "code": "sdoh",
+                    "display": "SDOH"
+                }
+            ]
+        },
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                    "code": "survey",
+                    "display": "Survey"
+                }
+            ]
+        }
+    ],
+    "code": {
+        "coding": [
+            {
+                "system": "http://loinc.org",
+                "code": "96777-8",
+                "display": "Accountable health communities (AHC) health-related social needs screening (HRSN) tool"
+            }
+        ],
+        "text": "Accountable health communities (AHC) health-related social needs screening (HRSN) tool"
+    },
+    "subject": {
+        "reference": "Patient/example"
+    },
+    "effectiveDateTime": "2022-03-29T22:38:59.084000+00:00",
+    "performer": [
+        {
+            "reference": "Patient/example"
+        }
+    ],
+    "hasMember": [
+        {
+            "reference": "Observation/AHC-HRSN-item-example-76513-1"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-96780-2"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-96781-0"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-93159-2"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-97027-7"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-96782-8"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-89555-7"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-68516-4"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-68517-2"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-96842-0"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-95530-2"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-68524-8"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-44250-9"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-44255-8"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-93038-8"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-69858-9"
+        },
+        {
+            "reference": "Observation/AHC-HRSN-item-example-69861-3"
+        }
+    ],
+    "derivedFrom": [
+        {
+            "reference": "QuestionnaireResponse/AHC-HRSN-screening-example",
+            "display": "US Core QuestionnaireResponse AHC HRSN Screening-Example Example"
+        }
+    ]
+}
