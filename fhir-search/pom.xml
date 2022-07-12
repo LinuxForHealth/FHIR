@@ -28,6 +28,16 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-term</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-cache</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <!-- Not strictly required but, without it, you won't have any search parameters or compartment definitions -->
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-core-r4b</artifactId>
