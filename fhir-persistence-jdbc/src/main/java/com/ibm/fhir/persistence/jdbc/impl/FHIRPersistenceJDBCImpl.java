@@ -2951,7 +2951,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         if (committed) {
             // because the transaction has commited, we can publish any ids generated
             // during parameter storage
-            paramValueCollector.publishValuesToCache();
+            if (paramValueCollector != null) {
+                paramValueCollector.publishValuesToCache();
+            }
 
             // See if we have any erase resources to clean up
             for (ErasedResourceRec err: this.eraseResourceRecs) {
@@ -2994,7 +2996,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         remoteIndexMessageList.clear();
         payloadPersistenceResponses.clear();
         eraseResourceRecs.clear();
-        paramValueCollector.reset();
+        if (paramValueCollector != null) {
+            paramValueCollector.reset();
+        }
     }
 
     /**
