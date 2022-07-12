@@ -519,14 +519,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             int versionId, java.time.Instant lastUpdated, String requestShard, 
             ExtractedSearchParameters searchParameters, String currentParameterHash) throws FHIRPersistenceException {
 
-        // Process the searchParameters and gather the underlying values we intend to store
-        // in the search parameter value tables
-        SearchParametersTransportAdapter adapter = new SearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId, 
-            versionId, lastUpdated, requestShard, searchParameters.getParameterHashB64());
-        ParameterTransportVisitor visitor = new ParameterTransportVisitor(adapter);
-        for (ExtractedParameterValue pv: searchParameters.getParameters()) {
-            pv.accept(visitor);
-        }
+        final SearchParametersTransportAdapter adapter = buildSearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId, versionId, lastUpdated, requestShard, searchParameters, currentParameterHash);
 
         // store locally or remotely?
         FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
@@ -547,6 +540,33 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             IndexProviderResponse ipr = remoteIndexService.submit(new RemoteIndexData(kafkaPartitionKey, adapter.build()));
             remoteIndexMessageList.add(ipr); // we'll check for an ACK just before we commit the transaction
         }
+    }
+
+    /**
+     * Process the searchParameters and gather the unique set of underlying values we intend to store
+     * in the search parameter value tables
+     * 
+     * @param resourceType
+     * @param logicalId
+     * @param logicalResourceId
+     * @param versionId
+     * @param lastUpdated
+     * @param requestShard
+     * @param searchParameters
+     * @param currentParameterHash
+     * @return
+     */
+    private SearchParametersTransportAdapter buildSearchParametersTransportAdapter(String resourceType, String logicalId, long logicalResourceId, 
+            int versionId, java.time.Instant lastUpdated, String requestShard, 
+            ExtractedSearchParameters searchParameters, String currentParameterHash) throws FHIRPersistenceException {
+
+        SearchParametersTransportAdapter adapter = new SearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId, 
+            versionId, lastUpdated, requestShard, searchParameters.getParameterHashB64());
+        ParameterTransportVisitor visitor = new ParameterTransportVisitor(adapter);
+        for (ExtractedParameterValue pv: searchParameters.getParameters()) {
+            pv.accept(visitor);
+        }
+        return adapter;
     }
 
     /**
@@ -2886,7 +2906,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // If hash in the index record is not null and it matches the hash of the extracted parameters, then no need to replace the
             // extracted search parameters in the database tables for this resource, which helps with performance during reindex.
             if (force || rir.getParameterHash() == null || !rir.getParameterHash().equals(searchParameters.getParameterHashB64())) {
-                reindexDAO.updateParameters(rir.getResourceType(), searchParameters.getParameters(), searchParameters.getParameterHashB64(), rir.getLogicalId(), rir.getLogicalResourceId());
+                reindexDAO.updateParameters(rir.getResourceType(), searchParameters.getParameters(), searchParameters.getParameterHashB64(), rir.getLogicalId(), rir.getLogicalResourceId(),
+                    this.paramValueCollector);
+                if (paramValueCollector != null) {
+                    // Instead of storing the parameter values directly, we accumulate all the values first
+                    // then store just before the commit. This reduces the amount of time we hold locks
+                    // allows us to implement more efficient batch-based SQL/DML.
+                    final java.time.Instant lastUpdated = existingResourceDTO.getLastUpdated().toInstant();
+                    final SearchParametersTransportAdapter adapter = buildSearchParametersTransportAdapter(resourceTypeClass.getSimpleName(), rir.getLogicalId(), rir.getLogicalResourceId(), existingResourceDTO.getVersionId(), lastUpdated, null, searchParameters, rir.getParameterHash());
+                    accumulateSearchParameterValues(adapter.build());
+                }
             } else {
                 log.fine(() -> "Skipping update of unchanged parameters for FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
             }
