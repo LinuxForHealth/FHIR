@@ -1219,13 +1219,15 @@ public class FHIRTermService {
         boolean result = false;
         if (isCaseSensitive) {
             result = lookupOutcome.getDisplay().getValue().equals(displayToValidate);
-            if (result == false) {
+            if (!result) {
+                // call it valid if any of the designations match the display value
                 result = lookupOutcome.getDesignation().stream()
                         .anyMatch(d -> d.getValue() != null && displayToValidate.equals(d.getValue().getValue()));
             }
         } else {
             result = normalize(lookupOutcome.getDisplay().getValue()).equals(displayToValidate);
-            if (result == false) {
+            if (!result) {
+                // call it valid if any of the normalized designations match the normalized display value
                 result = lookupOutcome.getDesignation().stream()
                         .anyMatch(d -> d.getValue() != null && displayToValidate.equals(normalize(d.getValue().getValue())));
             }
