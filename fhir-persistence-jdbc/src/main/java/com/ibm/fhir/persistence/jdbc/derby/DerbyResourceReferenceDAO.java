@@ -38,6 +38,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.params.api.ParamSchemaConstants;
 
 
 /**
@@ -161,7 +162,7 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
         // Derby doesn't like really huge VALUES lists, so we instead need
         // to go with a declared temporary table. As with code_systems_tmp, we generate
         // the id here to allow for better deadlock protection later
-        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
+        final String nextVal = getTranslator().nextValue(getSchemaName(), ParamSchemaConstants.CANONICAL_ID_SEQ);
         final String insert = "INSERT INTO SESSION.canonical_values_tmp (url, canonical_id) VALUES (?," + nextVal + ")";
         int batchCount = 0;
         try (PreparedStatement ps = getConnection().prepareStatement(insert)) {

@@ -26,6 +26,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.params.api.BatchParameterValue;
 import com.ibm.fhir.persistence.params.api.IParamValueProcessor;
 import com.ibm.fhir.persistence.params.api.IParameterIdentityCache;
+import com.ibm.fhir.persistence.params.api.ParamSchemaConstants;
 import com.ibm.fhir.persistence.params.model.CodeSystemValue;
 import com.ibm.fhir.persistence.params.model.CommonCanonicalValue;
 import com.ibm.fhir.persistence.params.model.CommonCanonicalValueKey;
@@ -555,7 +556,13 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
     protected void addMissingCommonCanonicalValues(List<CommonCanonicalValue> missing) throws FHIRPersistenceException {
 
         StringBuilder insert = new StringBuilder();
-        insert.append("INSERT INTO common_canonical_values (url) VALUES (?) ");
+
+        // We have to use fhir_ref_sequence here because that is what is used elsewhere, even though as a bigint
+        // we are meant to be using fhir_sequence. It's just a break in convention
+        final String nextVal = translator.nextValue(schemaName, ParamSchemaConstants.CANONICAL_ID_SEQ);
+        insert.append("INSERT INTO common_canonical_values (url, canonical_id) VALUES (?, ");
+        insert.append(nextVal);
+        insert.append(") ");
         insert.append(onConflict());
 
         final String DML = insert.toString();

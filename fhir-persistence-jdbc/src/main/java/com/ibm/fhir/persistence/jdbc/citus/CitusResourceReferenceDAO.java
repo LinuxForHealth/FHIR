@@ -23,6 +23,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceReferenceDAO;
+import com.ibm.fhir.persistence.params.api.ParamSchemaConstants;
 
 /**
  * Citus-specific extension of the {@link ResourceReferenceDAO} to work around
@@ -93,7 +94,7 @@ public class CitusResourceReferenceDAO extends PostgresResourceReferenceDAO {
         // join pattern doesn't work...you still hit conflicts. The PostgreSQL pattern
         // for upsert is ON CONFLICT DO NOTHING, which is what we use here:
         List<Integer> sequenceValues = new ArrayList<>(sortedURLS.size());
-        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
+        final String nextVal = getTranslator().nextValue(getSchemaName(), ParamSchemaConstants.CANONICAL_ID_SEQ);
         final String SELECT = ""
                 + "SELECT " + nextVal
                 + "  FROM generate_series(1, ?)";

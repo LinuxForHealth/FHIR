@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.params.api.IParameterIdentityCache;
+import com.ibm.fhir.persistence.params.api.ParamSchemaConstants;
 import com.ibm.fhir.persistence.params.model.CommonCanonicalValue;
 import com.ibm.fhir.persistence.params.model.CommonTokenValue;
 import com.ibm.fhir.persistence.params.model.LogicalResourceIdentValue;
@@ -117,7 +118,9 @@ public class PlainDerbyParamValueProcessor extends PlainParamValueProcessor {
     @Override
     protected void addMissingCommonCanonicalValues(List<CommonCanonicalValue> missing) throws FHIRPersistenceException {
 
-        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
+        // for consistency we use fhir_ref_sequence here even though as a bigint, by convention we're supposed
+        // to be using fhir_sequence
+        final String nextVal = translator.nextValue(schemaName, ParamSchemaConstants.CANONICAL_ID_SEQ);
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO common_canonical_values (url, canonical_id) ");
         insert.append("     VALUES (?,");

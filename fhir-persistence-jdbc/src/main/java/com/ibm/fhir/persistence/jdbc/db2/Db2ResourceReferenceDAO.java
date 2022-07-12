@@ -33,6 +33,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.params.api.ParamSchemaConstants;
 
 
 /**
@@ -95,7 +96,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
     public void doCanonicalValuesUpsert(String paramList, Collection<String> sortedURLS) {
         // query is a negative outer join so we only pick the rows where
         // the row "s" from the actual table doesn't exist.
-        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
+        final String nextVal = getTranslator().nextValue(getSchemaName(), ParamSchemaConstants.CANONICAL_ID_SEQ);
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO common_canonical_values (mt_id, canonical_id, url) ");
         insert.append("     SELECT ").append(adminSchemaName).append(".sv_tenant_id, ");

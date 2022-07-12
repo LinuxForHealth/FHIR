@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.params.api.IParameterIdentityCache;
+import com.ibm.fhir.persistence.params.api.ParamSchemaConstants;
 import com.ibm.fhir.persistence.params.model.CommonCanonicalValue;
 import com.ibm.fhir.persistence.params.model.CommonTokenValue;
 
@@ -85,7 +86,7 @@ public class DistributedPostgresParamValueProcessor extends PlainParamValueProce
 
         // Need to use our own sequence number because distributed databases don't
         // like generated identity columns
-        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
+        final String nextVal = translator.nextValue(schemaName, ParamSchemaConstants.CANONICAL_ID_SEQ);
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO common_canonical_values (url, canonical_id) ");
         insert.append(" OVERRIDING SYSTEM VALUE "); // we want to use our sequence number
