@@ -44,7 +44,7 @@ Source - http://hl7.org/fhir/us/core/STU5.0.1/
 # Steps to update
 1. download the npm package for whatever version of US Core you want (and note what downloads we used from where in this file)
 2. update `src/main/resources` with the latest conformance artifacts and `src/test/resources` with the latest examples
-3. if its a new version
+3. if it's a new version
   - ensure references from the previous package are version-specific (e.g. to avoid a 3.1.1 profile from picking up a 5.0.0 valueset during validation)
   - add a new provider (`src/main/java` and `src/main/resources/META-INF`)
   - create tests for this new version (copy tests from the existing versions into a new package for this version)
