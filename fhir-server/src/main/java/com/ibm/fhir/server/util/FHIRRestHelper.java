@@ -616,17 +616,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         throw buildRestException(msg, IssueType.VALUE);
                     }
 
-                    if (newResource.getId() != null) {
-                        // If the id of the input resource is provided, it MUST match the id of the previous resource
-                        // found by the search
-                        if (!newResource.getId().equals(id)) {
-                            String msg = "Input resource 'id' attribute must match the id of the search result resource.";
-                            throw buildRestException(msg, IssueType.VALUE);
+                    // if patch is null then we have a "normal" update, so we need to check the newResource id
+                    if (patch == null) {
+                        if (newResource.getId() != null) {
+                            // If the id of the input resource is provided, it MUST match the id of the previous resource
+                            // found by the search
+                            if (!newResource.getId().equals(id)) {
+                                String msg = "Input resource 'id' attribute must match the id of the search result resource.";
+                                throw buildRestException(msg, IssueType.VALUE);
+                            }
+                        } else {
+                            // The new resource does not contain an id, so we set it using the id of the
+                            // previous resource found by the search
+                            newResource = newResource.toBuilder().id(id).build();
                         }
-                    } else {
-                        // The new resource does not contain an id, so we set it using the id of the
-                        // previous resource found by the search
-                        newResource = newResource.toBuilder().id(id).build();
                     }
 
                     // Got a match, so definitely can't be deleted
@@ -3346,7 +3349,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         List<Long> indexIds = null;
 
         FHIRPersistenceContext context = null;
-        
+
         FHIRTransactionHelper txn = null;
         try {
             txn = new FHIRTransactionHelper(getTransaction());
