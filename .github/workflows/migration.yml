@@ -3,7 +3,7 @@ name: Datastore Migration
 # For details on this workflow, refer to build/migration/README.md
 
 env:
-  VERSION_TAGS: "['4.8.3', '4.9.2', '4.10.2']"
+  VERSION_TAGS: "['4.9.2', '4.10.2', '4.11.1']"
 
 on:
   pull_request:
