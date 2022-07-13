@@ -12,6 +12,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
 import java.time.Instant;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,11 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Builder;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Identifier;
+import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
@@ -49,6 +54,73 @@ public class ReindexOperationTest extends FHIRServerTestBase {
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         runIt = Boolean.parseBoolean(testProperties.getProperty("test.reindex.enabled", "false"));
+        if (runIt) {
+            createPatients();
+        }
+    }
+
+    /**
+     * Creates a new patient resource
+     * @param field
+     * @param reference
+     * @param logicalReference
+     * @return the patient logical id
+     * @throws Exception
+     */
+    public String createPatientWithReference(String field, String reference, Identifier logicalReference) throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
+
+        Reference.Builder referenceBuilder = Reference.builder();
+        if (reference != null) {
+            referenceBuilder.reference(com.ibm.fhir.model.type.String.of(reference));
+        }
+        if (logicalReference != null) {
+            referenceBuilder.identifier(logicalReference);
+        }
+
+        if ("organization".equals(field)) {
+            patient = patient.toBuilder()
+                    .gender(AdministrativeGender.MALE)
+                    .managingOrganization(referenceBuilder.display("Test Organization").build())
+                    .build();
+        } else if ("general-practitioner".equals(field)) {
+            patient = patient.toBuilder()
+                    .gender(AdministrativeGender.MALE)
+                    .generalPractitioner(referenceBuilder.display("Test Practitioner").build())
+                    .build();
+        }
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient").request()
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        String tmpPatientId = getLocationLogicalId(response);
+
+        // Add the patient to the resource registry.
+        addToResourceRegistry("Patient", tmpPatientId);
+
+        // Next, call the 'read' API to retrieve the new patient and verify it.
+        response = target.path("Patient/"
+                + tmpPatientId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+        TestUtil.assertResourceEquals(patient, responsePatient);
+        return tmpPatientId;
+    }
+
+    /**
+     * Create a number of patients to make sure that the reindex tests have something to chew on
+     * @throws Exception
+     */
+    private void createPatients() throws Exception {
+        for (int i=0; i<MAX_RETRIEVE_COUNT; i++) {
+            createPatientWithReference("organization", "Organization/3002", null);
+        }
     }
 
     @Test(groups = { "reindex" })
@@ -244,7 +316,7 @@ public class ReindexOperationTest extends FHIRServerTestBase {
             System.out.println("Skipping over $reindex IT test");
             return;
         }
-        ZonedDateTime zdt = ZonedDateTime.now();
+        ZonedDateTime zdt = ZonedDateTime.ofInstant(Instant.now(), ZoneOffset.UTC);
         String tstamp =
                 zdt.getYear()
                 + "-"
