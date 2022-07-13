@@ -43,6 +43,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
+import com.ibm.fhir.persistence.params.database.FhirRefSequenceDAOImpl;
 
 /**
  * Data access object for writing FHIR resources to an Apache Derby database.

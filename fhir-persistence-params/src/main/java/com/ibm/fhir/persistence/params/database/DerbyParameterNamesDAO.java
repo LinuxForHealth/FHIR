@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.derby;
+package com.ibm.fhir.persistence.params.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,8 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
-import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameDAOImpl;
+import com.ibm.fhir.persistence.params.api.FhirRefSequenceDAO;
 
 /**
  * For R4 we have replaced the old Derby (Java) stored procedure with
@@ -25,7 +24,6 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
     public DerbyParameterNamesDAO(Connection c, String schemaName) {
         super(c, schemaName);
         this.fhirRefSequenceDAO = new FhirRefSequenceDAOImpl(c);
-
     }
 
     @Override
@@ -92,5 +90,4 @@ public class DerbyParameterNamesDAO extends ParameterNameDAOImpl {
 
         return result;
     }
-
 }

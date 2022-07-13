@@ -11,7 +11,7 @@ package com.ibm.fhir.persistence.params.model;
  * in the database. If it exists in the database, we may not yet have
  * retrieved its common_token_value_id.
  */
-public class CommonTokenValue {
+public class CommonTokenValue implements Comparable<CommonTokenValue> {
     private final short shardKey;
     private final CodeSystemValue codeSystemValue;
     private final String tokenValue;
@@ -27,6 +27,15 @@ public class CommonTokenValue {
         this.shardKey = shardKey;
         this.codeSystemValue = codeSystemValue;
         this.tokenValue = tokenValue;
+    }
+
+    @Override
+    public int compareTo(CommonTokenValue that) {
+        int result = this.tokenValue.compareTo(that.tokenValue);
+        if (0 == result) {
+            result = this.codeSystemValue.compareTo(that.codeSystemValue);
+        }
+        return result;
     }
 
     /**

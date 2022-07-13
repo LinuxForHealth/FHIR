@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -120,20 +119,30 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
      * @throws FHIRPersistenceException
      */
     public void resolveSystemValues(List<CodeSystemValue> unresolvedSystemValues, Map<String, CodeSystemValue> codeSystemValueMap) throws FHIRPersistenceException {
+
+        // Sort the list first to avoid any deadlocks
+        Collections.sort(unresolvedSystemValues, (a,b) -> {
+            return a.compareTo(b);
+        });
+        
         // identify which values aren't yet in the database
         List<CodeSystemValue> missing = fetchCodeSystemIds(unresolvedSystemValues, codeSystemValueMap);
 
         if (!missing.isEmpty()) {
+            // need to sort the missing list because we can't guarantee its order matches unresolvedSystemValues
+            Collections.sort(missing, (a,b) -> {
+                return a.compareTo(b);
+            });
             addMissingCodeSystems(missing);
-        }
 
-        // All the previously missing values should now be in the database. We need to fetch them again,
-        // possibly having to use multiple queries
-        List<CodeSystemValue> bad = fetchCodeSystemIds(missing, codeSystemValueMap);
-
-        if (!bad.isEmpty()) {
-            // shouldn't happend, but let's protected against it anyway
-            throw new FHIRPersistenceException("Failed to create all code system values");
+            // All the previously missing values should now be in the database. We need to fetch them again,
+            // possibly having to use multiple queries
+            List<CodeSystemValue> bad = fetchCodeSystemIds(missing, codeSystemValueMap);
+            
+            if (!bad.isEmpty()) {
+                // shouldn't happend, but let's protected against it anyway
+                throw new FHIRPersistenceException("Failed to create all code system values");
+            }
         }
     }
 
@@ -173,9 +182,6 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
      * @param missing
      */
     protected void addMissingCodeSystems(List<CodeSystemValue> missing) throws FHIRPersistenceException {
-        List<String> values = missing.stream().map(csv -> csv.getCodeSystem()).collect(Collectors.toList());
-        // Sort the code system values first to help avoid deadlocks
-        Collections.sort(values); // natural ordering for String is fine here
 
         final String nextVal = translator.nextValue(schemaName, "fhir_ref_sequence");
         StringBuilder insert = new StringBuilder();
@@ -186,8 +192,8 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
 
         try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
             int count = 0;
-            for (String codeSystem: values) {
-                ps.setString(1, codeSystem);
+            for (CodeSystemValue csv: missing) {
+                ps.setString(1, csv.getCodeSystem());
                 ps.addBatch();
                 if (++count == this.maxCodeSystemsPerStatement) {
                     // not too many statements in a single batch
@@ -211,7 +217,7 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
      * @return
      * @throws FHIRPersistenceException
      */
-    private List<CodeSystemValue> fetchCodeSystemIds(List<CodeSystemValue> unresolved, Map<String, CodeSystemValue> codeSystemValueMap) throws FHIRPersistenceException {
+    protected List<CodeSystemValue> fetchCodeSystemIds(List<CodeSystemValue> unresolved, Map<String, CodeSystemValue> codeSystemValueMap) throws FHIRPersistenceException {
         // track which values aren't yet in the database
         List<CodeSystemValue> missing = new ArrayList<>();
 
@@ -265,32 +271,25 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
      * in the current batch
      * @throws FHIRPersistenceException
      */
-    public void resolveTokenValues(List<CommonTokenValue> unresolvedTokenValues, Map<CommonTokenValueKey, CommonTokenValue> commonTokenValueMap) throws FHIRPersistenceException {
+    public void resolveCommonTokenValues(List<CommonTokenValue> unresolvedTokenValues, Map<CommonTokenValueKey, CommonTokenValue> commonTokenValueMap) throws FHIRPersistenceException {
         // identify which values aren't yet in the database
+
         List<CommonTokenValue> missing = fetchCommonTokenValueIds(unresolvedTokenValues, commonTokenValueMap);
 
         if (!missing.isEmpty()) {
-            // Sort first to minimize deadlocks
             Collections.sort(missing, (a,b) -> {
-                int result = a.getTokenValue().compareTo(b.getTokenValue());
-                if (result == 0) {
-                    result = Integer.compare(a.getCodeSystemValue().getCodeSystemId(), b.getCodeSystemValue().getCodeSystemId());
-                    if (result == 0) {
-                        result = Short.compare(a.getShardKey(), b.getShardKey());
-                    }
-                }
-                return result;
+                return a.compareTo(b);
             });
+
             addMissingCommonTokenValues(missing);
-        }
-
-        // All the previously missing values should now be in the database. We need to fetch them again,
-        // possibly having to use multiple queries
-        List<CommonTokenValue> bad = fetchCommonTokenValueIds(missing, commonTokenValueMap);
-
-        if (!bad.isEmpty()) {
-            // shouldn't happend, but let's protected against it anyway
-            throw new FHIRPersistenceException("Failed to create all common token values");
+            // All the previously missing values should now be in the database. We need to fetch them again,
+            // possibly having to use multiple queries
+            List<CommonTokenValue> bad = fetchCommonTokenValueIds(missing, commonTokenValueMap);
+            
+            if (!bad.isEmpty()) {
+                // shouldn't happend, but let's protected against it anyway
+                throw new FHIRPersistenceException("Failed to create all common token values");
+            }
         }
     }
 
@@ -342,7 +341,7 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
      * @return
      * @throws FHIRPersistenceException
      */
-    private List<CommonTokenValue> fetchCommonTokenValueIds(List<CommonTokenValue> unresolved, Map<CommonTokenValueKey, CommonTokenValue> commonTokenValueMap) throws FHIRPersistenceException {
+    protected List<CommonTokenValue> fetchCommonTokenValueIds(List<CommonTokenValue> unresolved, Map<CommonTokenValueKey, CommonTokenValue> commonTokenValueMap) throws FHIRPersistenceException {
         // track which values aren't yet in the database
         List<CommonTokenValue> missing = new ArrayList<>();
 
@@ -432,6 +431,12 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
     public void resolveCanonicalValues(List<CommonCanonicalValue> unresolvedCanonicalValues,
         Map<CommonCanonicalValueKey, CommonCanonicalValue> commonCanonicalValueMap) throws FHIRPersistenceException {
         // identify which values aren't yet in the database
+
+        // Sort the unresolved list so we always process stuff in the same order
+        Collections.sort(unresolvedCanonicalValues, (a,b) -> {
+            return a.getUrl().compareTo(b.getUrl());
+        });
+        
         List<CommonCanonicalValue> missing = fetchCanonicalIds(unresolvedCanonicalValues, commonCanonicalValueMap);
 
         if (!missing.isEmpty()) {
@@ -440,15 +445,15 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
                 return a.getUrl().compareTo(b.getUrl());
             });
             addMissingCommonCanonicalValues(missing);
-        }
 
-        // All the previously missing values should now be in the database. We need to fetch them again,
-        // possibly having to use multiple queries
-        List<CommonCanonicalValue> bad = fetchCanonicalIds(missing, commonCanonicalValueMap);
-
-        if (!bad.isEmpty()) {
-            // shouldn't happen, but let's protected against it anyway
-            throw new FHIRPersistenceException("Failed to create all canonical values");
+            // All the previously missing values should now be in the database. We need to fetch them again,
+            // possibly having to use multiple queries
+            List<CommonCanonicalValue> bad = fetchCanonicalIds(missing, commonCanonicalValueMap);
+            
+            if (!bad.isEmpty()) {
+                // shouldn't happen, but let's protected against it anyway
+                throw new FHIRPersistenceException("Failed to create all canonical values");
+            }
         }
     }
 
@@ -458,7 +463,7 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
      * @return
      * @throws FHIRPersistenceException
      */
-    private List<CommonCanonicalValue> fetchCanonicalIds(List<CommonCanonicalValue> unresolved, Map<CommonCanonicalValueKey, CommonCanonicalValue> commonCanonicalValueMap) throws FHIRPersistenceException {
+    protected List<CommonCanonicalValue> fetchCanonicalIds(List<CommonCanonicalValue> unresolved, Map<CommonCanonicalValueKey, CommonCanonicalValue> commonCanonicalValueMap) throws FHIRPersistenceException {
         // track which values aren't yet in the database
         List<CommonCanonicalValue> missing = new ArrayList<>();
 
@@ -655,7 +660,7 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
      * @param parameterName
      * @return
      */
-    protected Integer createParameterName(String parameterName) throws SQLException {
+    protected Integer createParameterName(String parameterName) throws FHIRPersistenceException {
         final String CALL = "{CALL " + schemaName + ".add_parameter_name(?, ?)}";
         Integer parameterNameId;
         try (CallableStatement stmt = connection.prepareCall(CALL)) {
@@ -663,6 +668,9 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
             stmt.registerOutParameter(2, Types.INTEGER);
             stmt.execute();
             parameterNameId = stmt.getInt(2);
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "add parameter failed: " + CALL, x);
+            throw new FHIRPersistenceException("add parameter failed for '" + parameterName + "'");
         }
 
         return parameterNameId;
@@ -679,23 +687,33 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
     public void resolveLogicalResourceIdents(List<LogicalResourceIdentValue> unresolvedLogicalResourceIdents,
         Map<LogicalResourceIdentKey, LogicalResourceIdentValue> logicalResourceIdentMap) throws FHIRPersistenceException {
         logger.fine("resolveLogicalResourceIdents: fetching ids for unresolved LogicalResourceIdent records");
+
+        // Sort the values first to help avoid deadlocks
+        Collections.sort(unresolvedLogicalResourceIdents, (a,b) -> {
+            return a.compareTo(b);
+        });
+
         // identify which values aren't yet in the database
         List<LogicalResourceIdentValue> missing = fetchLogicalResourceIdentIds(unresolvedLogicalResourceIdents, logicalResourceIdentMap);
 
         if (!missing.isEmpty()) {
             logger.fine("resolveLogicalResourceIdents: add missing LogicalResourceIdent records");
+            Collections.sort(missing, (a,b) -> {
+                return a.compareTo(b);
+            });
             addMissingLogicalResourceIdents(missing);
+
+            // All the previously missing values should now be in the database. We need to fetch them again,
+            // possibly having to use multiple queries
+            logger.fine("resolveLogicalResourceIdents: fetch ids for missing LogicalResourceIdent records");
+            List<LogicalResourceIdentValue> bad = fetchLogicalResourceIdentIds(missing, logicalResourceIdentMap);
+            
+            if (!bad.isEmpty()) {
+                // shouldn't happen, but let's protected against it anyway
+                throw new FHIRPersistenceException("Failed to create all logical_resource_ident values");
+            }
         }
 
-        // All the previously missing values should now be in the database. We need to fetch them again,
-        // possibly having to use multiple queries
-        logger.fine("resolveLogicalResourceIdents: fetch ids for missing LogicalResourceIdent records");
-        List<LogicalResourceIdentValue> bad = fetchLogicalResourceIdentIds(missing, logicalResourceIdentMap);
-
-        if (!bad.isEmpty()) {
-            // shouldn't happen, but let's protected against it anyway
-            throw new FHIRPersistenceException("Failed to create all logical_resource_ident values");
-        }
         logger.fine("resolveLogicalResourceIdents: all resolved");
     }
 
@@ -739,10 +757,6 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
      * @param missing
      */
     protected void addMissingLogicalResourceIdents(List<LogicalResourceIdentValue> missing) throws FHIRPersistenceException {
-        // Sort the values first to help avoid deadlocks
-        Collections.sort(missing, (a,b) -> {
-            return a.compareTo(b);
-        });
 
         final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
         StringBuilder insert = new StringBuilder();
@@ -782,7 +796,7 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
      * @return
      * @throws FHIRPersistenceException
      */
-    private List<LogicalResourceIdentValue> fetchLogicalResourceIdentIds(List<LogicalResourceIdentValue> unresolved, Map<LogicalResourceIdentKey, LogicalResourceIdentValue> logicalResourceIdentMap) throws FHIRPersistenceException {
+    protected List<LogicalResourceIdentValue> fetchLogicalResourceIdentIds(List<LogicalResourceIdentValue> unresolved, Map<LogicalResourceIdentKey, LogicalResourceIdentValue> logicalResourceIdentMap) throws FHIRPersistenceException {
         // track which values aren't yet in the database
         List<LogicalResourceIdentValue> missing = new ArrayList<>();
 

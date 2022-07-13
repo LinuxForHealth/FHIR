@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.dao.impl;
+package com.ibm.fhir.persistence.params.database;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
+import com.ibm.fhir.persistence.params.api.ParameterNameDAO;
 
 /**
  * Database interaction for parameter_names. Caching etc is handled

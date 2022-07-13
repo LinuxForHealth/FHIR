@@ -2712,17 +2712,17 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             } else {
                 // Determine if the target value is an absolute or local reference
                 if (ReferenceUtil.isAbsolute(referenceValue)) {
-                    logger.info(() -> "reference search value: type[absolute] value[" + referenceValue + "]");
+                    logger.fine(() -> "reference search value: type[absolute] value[" + referenceValue + "]");
                     Long logicalResourceId = identityCache.getLogicalResourceId("Resource", referenceValue);
                     logicalResourceIdList.add(logicalResourceId != null ? logicalResourceId : -1);
                 } else {
                     // treat as a local reference where we don't know the type.
                     List<Long> localLogicalResourceIds = getLogicalResourceIdList(referenceValue);
                     if (localLogicalResourceIds.size() == 1) {
-                        logger.info(() -> "reference search value: type[local] value[" + referenceValue + "]");
+                        logger.fine(() -> "reference search value: type[local] value[" + referenceValue + "]");
                         logicalResourceIdList.add(localLogicalResourceIds.get(0));
                     } else if (localLogicalResourceIds.size() == 0) {
-                        logger.info(() -> "reference search value: type[local] value[" + referenceValue + "] notFound[true]");
+                        logger.fine(() -> "reference search value: type[local] value[" + referenceValue + "] notFound[true]");
                         if (logicalResourceIdList.isEmpty()) {
                             logicalResourceIdList.add(-1L); // need at least one value
                         }

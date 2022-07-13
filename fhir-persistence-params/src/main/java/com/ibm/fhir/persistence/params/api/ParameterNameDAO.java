@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.jdbc.dao.api;
+package com.ibm.fhir.persistence.params.api;
 
 import java.util.Map;
 

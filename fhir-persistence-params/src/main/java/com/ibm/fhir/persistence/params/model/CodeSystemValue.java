@@ -13,7 +13,7 @@ package com.ibm.fhir.persistence.params.model;
  * many times, and resolve it once (either from cache lookup, database
  * lookup, or a database create).
  */
-public class CodeSystemValue {
+public class CodeSystemValue implements Comparable<CodeSystemValue> {
     private final String codeSystem;
     private Integer codeSystemId;
 
@@ -23,6 +23,11 @@ public class CodeSystemValue {
      */
     public CodeSystemValue(String codeSystem) {
         this.codeSystem = codeSystem;
+    }
+
+    @Override
+    public int compareTo(CodeSystemValue that) {
+        return this.codeSystem.compareTo(that.codeSystem);
     }
 
     /**
@@ -45,4 +50,5 @@ public class CodeSystemValue {
     public String getCodeSystem() {
         return codeSystem;
     }
+
 }

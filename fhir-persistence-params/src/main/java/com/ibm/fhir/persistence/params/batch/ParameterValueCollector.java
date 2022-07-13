@@ -337,7 +337,7 @@ public class ParameterValueCollector implements IParamValueCollector {
         processor.resolveLogicalResourceIdents(unresolvedLogicalResourceIdents, logicalResourceIdentMap);
         processor.resolveParameterNames(unresolvedParameterNames, parameterNameMap);
         processor.resolveSystemValues(unresolvedSystemValues, codeSystemValueMap);
-        processor.resolveTokenValues(unresolvedTokenValues, commonTokenValueMap);
+        processor.resolveCommonTokenValues(unresolvedTokenValues, commonTokenValueMap);
         processor.resolveCanonicalValues(unresolvedCanonicalValues, commonCanonicalValueMap);
 
         for (BatchParameterValue v: this.batchedParameterValues) {

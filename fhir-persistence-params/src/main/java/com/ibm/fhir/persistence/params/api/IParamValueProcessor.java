@@ -80,7 +80,7 @@ public interface IParamValueProcessor {
      * @param commonTokenValueMap
      * @throws FHIRPersistenceException
      */
-    void resolveTokenValues(List<CommonTokenValue> unresolvedTokenValues, Map<CommonTokenValueKey, CommonTokenValue> commonTokenValueMap) throws FHIRPersistenceException;
+    void resolveCommonTokenValues(List<CommonTokenValue> unresolvedTokenValues, Map<CommonTokenValueKey, CommonTokenValue> commonTokenValueMap) throws FHIRPersistenceException;
 
     /**
      * @param unresolvedCanonicalValues

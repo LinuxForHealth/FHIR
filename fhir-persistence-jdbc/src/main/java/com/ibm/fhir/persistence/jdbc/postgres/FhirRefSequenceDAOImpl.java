@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
+import com.ibm.fhir.persistence.params.api.FhirRefSequenceDAO;
 
 /**
  * DAO to obtain the next value from FHIR_REF_SEQUENCE

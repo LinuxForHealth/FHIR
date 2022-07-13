@@ -8,8 +8,11 @@ package com.ibm.fhir.persistence.params.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,8 +20,13 @@ import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.params.api.IParameterIdentityCache;
 import com.ibm.fhir.persistence.params.api.ParamSchemaConstants;
+import com.ibm.fhir.persistence.params.api.ParameterNameDAO;
+import com.ibm.fhir.persistence.params.model.CodeSystemValue;
 import com.ibm.fhir.persistence.params.model.CommonCanonicalValue;
+import com.ibm.fhir.persistence.params.model.CommonCanonicalValueKey;
 import com.ibm.fhir.persistence.params.model.CommonTokenValue;
+import com.ibm.fhir.persistence.params.model.CommonTokenValueKey;
+import com.ibm.fhir.persistence.params.model.LogicalResourceIdentKey;
 import com.ibm.fhir.persistence.params.model.LogicalResourceIdentValue;
 
 /**
@@ -44,77 +52,242 @@ public class PlainDerbyParamValueProcessor extends PlainParamValueProcessor {
     }
 
     @Override
-    protected PreparedStatement buildLogicalResourceIdentSelectStatement(List<LogicalResourceIdentValue> values) throws SQLException {
-        StringBuilder query = new StringBuilder();
-        query.append("SELECT rt.resource_type, lri.logical_id, lri.logical_resource_id ");
-        query.append("  FROM logical_resource_ident AS lri ");
-        query.append("  JOIN resource_types AS rt ON (rt.resource_type_id = lri.resource_type_id)");
-        query.append(" WHERE ");
-        for (int i=0; i<values.size(); i++) {
-            if (i > 0) {
-                query.append(" OR ");
-            }
-            query.append("(lri.resource_type_id = ? AND lri.logical_id = ?)");
+    protected Integer createParameterName(String parameterName) throws FHIRPersistenceException {
+        try {
+            final ParameterNameDAO pnd = new DerbyParameterNamesDAO(connection, schemaName);
+            return pnd.readOrAddParameterNameId(parameterName);
+        } catch (Exception x) {
+            logger.log(Level.SEVERE, "add parameter failed", x);
+            throw new FHIRPersistenceException("add parameter failed for '" + parameterName + "'");
         }
-        PreparedStatement ps = connection.prepareStatement(query.toString());
-        // bind the parameter values
-        int param = 1;
-        for (LogicalResourceIdentValue val: values) {
-            ps.setInt(param++, val.getResourceTypeId());
-            ps.setString(param++, val.getLogicalId());
-        }
-        logger.fine(() -> "logicalResourceIdents: " + query.toString());
-        return ps;
     }
 
     @Override
-    protected Integer createParameterName(String parameterName) throws SQLException {
-        Integer parameterNameId = getNextRefId();
-        final String insertParameterName = ""
-                + "INSERT INTO parameter_names (parameter_name_id, parameter_name) "
-                + "     VALUES (?, ?)";
-        try (PreparedStatement stmt = connection.prepareStatement(insertParameterName)) {
-            stmt.setInt(1, parameterNameId);
-            stmt.setString(2, parameterName);
-            stmt.execute();
+    protected List<LogicalResourceIdentValue> fetchLogicalResourceIdentIds(List<LogicalResourceIdentValue> unresolved, Map<LogicalResourceIdentKey, LogicalResourceIdentValue> logicalResourceIdentMap) throws FHIRPersistenceException {
+        // For Derby, we get deadlocks when selecting using the in-list method (see parent implementation
+        // of this method). Instead, we execute individual statements in the order of the logical_id
+        // list so that the (S) locks will be acquired in the same order as the (X) locks obtained when
+        // inserting.
+        List<LogicalResourceIdentValue> missing = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT logical_resource_id ");
+        query.append("  FROM logical_resource_ident ");
+        query.append(" WHERE resource_type_id = ? ");
+        query.append("   AND logical_id = ?");
+
+        final String select = query.toString();
+        try (PreparedStatement ps = connection.prepareStatement(select)) {
+            for (LogicalResourceIdentValue lr: unresolved) {
+                ps.setInt(1, lr.getResourceTypeId());
+                ps.setString(2, lr.getLogicalId());
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    lr.setLogicalResourceId(rs.getLong(1));
+                } else {
+                    // entry not found in the database
+                    missing.add(lr);
+                }
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "logical resource ident fetch failed", x);
+            throw new FHIRPersistenceException("logical resource ident fetch failed");
         }
 
-        return parameterNameId;
+        // Return the list of CodeSystemValues which don't yet have a database entry
+        return missing;
     }
 
     @Override
-    protected PreparedStatementWrapper buildCommonTokenValueSelectStatement(List<CommonTokenValue> values) throws SQLException {
-        StringBuilder query = new StringBuilder();
-        // need the code_system name - so we join back to the code_systems table as well
-        query.append("SELECT cs.code_system_name, c.token_value, c.common_token_value_id ");
-        query.append("  FROM common_token_values c");
-        query.append("  JOIN code_systems cs ON (cs.code_system_id = c.code_system_id)");
-        query.append(" WHERE ");
+    protected void addMissingLogicalResourceIdents(List<LogicalResourceIdentValue> missing) throws FHIRPersistenceException {
+        // for Derby, handle concurrency by catching duplicate values and ignoring - the
+        // value will be resolved in the next fetch
+        final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
+        StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO logical_resource_ident (resource_type_id, logical_id, logical_resource_id) VALUES (?,?,");
+        insert.append(nextVal); // next sequence value
+        insert.append(") ");
 
-        // Create a (codeSystem, tokenValue) tuple for each of the CommonTokenValue records
-        boolean first = true;
-        for (CommonTokenValue ctv: values) {
-            if (first) {
-                first = false;
-            } else {
-                query.append(" OR ");
+        // To make duplicate handling easier, we execute each statement individually
+        try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
+            for (LogicalResourceIdentValue value: missing) {
+                ps.setInt(1, value.getResourceTypeId());
+                ps.setString(2, value.getLogicalId());
+                try {
+                    ps.executeUpdate();
+                } catch (SQLException x) {
+                    if (translator.isDuplicate(x)) {
+                        // concurrency: ignore because another thread created this just before us
+                    } else {
+                        throw x;
+                    }
+                }
             }
-            query.append("(c.code_system_id = ");
-            query.append(ctv.getCodeSystemValue().getCodeSystemId()); // literal for code_system_id
-            query.append(" AND c.token_value = ?)");
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "logical_resource_ident insert failed: " + insert.toString(), x);
+            throw new FHIRPersistenceException("logical_resource_ident insert failed");
         }
-
-        // Create the prepared statement and bind the values
-        final String statementText = query.toString();
-        PreparedStatement ps = connection.prepareStatement(statementText);
-
-        // bind the parameter values
-        int param = 1;
-        for (CommonTokenValue ctv: values) {
-            ps.setString(param++, ctv.getTokenValue());
-        }
-        return new PreparedStatementWrapper(statementText, ps);
     }
+
+    @Override
+    protected List<CodeSystemValue> fetchCodeSystemIds(List<CodeSystemValue> unresolved, Map<String, CodeSystemValue> codeSystemValueMap) throws FHIRPersistenceException {
+        // For Derby, we get deadlocks when selecting using the in-list method (see parent implementation
+        // of this method). Instead, we execute individual statements in the order of the unresolved
+        // list so that the (S) locks will be acquired in the same order as the (X) locks obtained when
+        // inserting.
+        List<CodeSystemValue> missing = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT code_system_id ");
+        query.append("  FROM code_systems ");
+        query.append(" WHERE code_system_name = ?");
+        
+        final String select = query.toString();
+        try (PreparedStatement ps = connection.prepareStatement(select)) {
+            for (CodeSystemValue csv: unresolved) {
+                ps.setString(1, csv.getCodeSystem());
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    csv.setCodeSystemId(rs.getInt(1));
+                } else {
+                    // entry not found in the database
+                    missing.add(csv);
+                }
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "code systems fetch failed. SQL=[" + select + "]", x);
+            throw new FHIRPersistenceException("code systems fetch failed");
+        }
+
+        // Return the list of CodeSystemValues which don't yet have a database entry
+        return missing;
+    }
+
+    @Override
+    protected void addMissingCodeSystems(List<CodeSystemValue> codeSystems) {
+        // For Derby, do this row-by-row so we can handle concurrency issues
+        final String nextVal = translator.nextValue(schemaName, "fhir_ref_sequence");
+        final String INS = ""
+                + "INSERT INTO code_systems (code_system_id, code_system_name) "
+                + "     VALUES (" + nextVal + ", ?)";
+        try (PreparedStatement ps = connection.prepareStatement(INS)) {
+            for (CodeSystemValue codeSystem: codeSystems) {
+                ps.setString(1, codeSystem.getCodeSystem());
+                
+                try {
+                    ps.executeUpdate();
+                } catch (SQLException x) {
+                    if (translator.isDuplicate(x)) {
+                        // ignore because this row has already been inserted by another thread
+                    } else {
+                        throw x;
+                    }
+                }
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, INS, x);
+            throw translator.translate(x);
+        }
+    }
+
+    @Override
+    protected List<CommonTokenValue> fetchCommonTokenValueIds(List<CommonTokenValue> unresolved, Map<CommonTokenValueKey, CommonTokenValue> commonTokenValueMap) throws FHIRPersistenceException {
+        // For Derby, we get deadlocks when selecting using the in-list method (see parent implementation
+        // of this method). Instead, we execute individual statements in the order of the unresolved
+        // list so that the (S) locks will be acquired in the same order as the (X) locks obtained when
+        // inserting.
+        List<CommonTokenValue> missing = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT c.common_token_value_id ");
+        query.append("  FROM common_token_values c ");
+        query.append(" WHERE c.code_system_id = ? ");
+        query.append("   AND c.token_value = ? ");
+        
+        final String select = query.toString();
+        try (PreparedStatement ps = connection.prepareStatement(select)) {
+            for (CommonTokenValue ctv: unresolved) {
+                ps.setLong(1, ctv.getCodeSystemValue().getCodeSystemId()); // must be resolved already
+                ps.setString(2, ctv.getTokenValue());
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    ctv.setCommonTokenValueId(rs.getLong(1));
+                } else {
+                    // entry not found in the database
+                    missing.add(ctv);
+                }
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "common token values fetch failed. SQL=[" + select + "]", x);
+            throw new FHIRPersistenceException("common token values fetch failed");
+        }
+
+        // Return the list of CodeSystemValues which don't yet have a database entry
+        return missing;
+    }
+
+    @Override
+    protected void addMissingCommonTokenValues(List<CommonTokenValue> missing) throws FHIRPersistenceException {
+
+        // common_token_value_id is a generated identity column
+        StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO common_token_values (code_system_id, token_value) ");
+        insert.append("     VALUES (?,?) ");
+
+        try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
+            for (CommonTokenValue ctv: missing) {
+                ps.setInt(1, ctv.getCodeSystemValue().getCodeSystemId());
+                ps.setString(2, ctv.getTokenValue());
+                try {
+                    ps.executeUpdate();
+                } catch (SQLException x) {
+                    if (translator.isDuplicate(x)) {
+                        // ignore because this row has already been inserted by another thread
+                    } else {
+                        throw x;
+                    }
+                }
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "failed: " + insert.toString(), x);
+            throw new FHIRPersistenceException("failed inserting new common token values");
+        }
+    }
+
+    @Override
+    protected List<CommonCanonicalValue> fetchCanonicalIds(List<CommonCanonicalValue> unresolved, Map<CommonCanonicalValueKey, CommonCanonicalValue> commonCanonicalValueMap) throws FHIRPersistenceException {
+        // For Derby, we get deadlocks when selecting using the in-list method (see parent implementation
+        // of this method). Instead, we execute individual statements in the order of the unresolved
+        // list so that the (S) locks will be acquired in the same order as the (X) locks obtained when
+        // inserting.
+        List<CommonCanonicalValue> missing = new ArrayList<>();
+
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT canonical_id ");
+        query.append("  FROM common_canonical_values ");
+        query.append(" WHERE url = ?");
+
+        final String select = query.toString();
+        try (PreparedStatement ps = connection.prepareStatement(select)) {
+            for (CommonCanonicalValue ccv: unresolved) {
+                ps.setString(1, ccv.getUrl());
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    ccv.setCanonicalId(rs.getLong(1));
+                } else {
+                    // entry not found in the database
+                    missing.add(ccv);
+                }
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, "common canonical values fetch failed. SQL=[" + select + "]", x);
+            throw new FHIRPersistenceException("common canonical values fetch failed");
+        }
+
+        // Return the list of CodeSystemValues which don't yet have a database entry
+        return missing;
+    }
+
     @Override
     protected void addMissingCommonCanonicalValues(List<CommonCanonicalValue> missing) throws FHIRPersistenceException {
 
@@ -136,21 +309,19 @@ public class PlainDerbyParamValueProcessor extends PlainParamValueProcessor {
             for (CommonCanonicalValue ctv: missing) {
                 logger.finest(() -> "Adding canonical value [" + ctv.toString() + "]");
                 ps.setString(1, ctv.getUrl());
-                ps.addBatch();
-                if (++count == this.maxCommonCanonicalValuesPerStatement) {
-                    // not too many statements in a single batch
-                    ps.executeBatch();
-                    count = 0;
+                try {
+                    ps.executeUpdate();
+                } catch (SQLException x) {
+                    if (translator.isDuplicate(x)) {
+                        // ignore because this row has already been inserted by another thread
+                    } else {
+                        throw x;
+                    }                    
                 }
-            }
-            if (count > 0) {
-                // final batch
-                ps.executeBatch();
             }
         } catch (SQLException x) {
             logger.log(Level.SEVERE, "failed: " + insert.toString(), x);
             throw new FHIRPersistenceException("failed inserting new common canonical values");
         }
     }
-
 }
