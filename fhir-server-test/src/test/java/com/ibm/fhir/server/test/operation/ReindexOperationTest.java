@@ -9,7 +9,7 @@ package com.ibm.fhir.server.test.operation;
 import static com.ibm.fhir.model.type.Integer.of;
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.assertNotNull;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
@@ -41,6 +41,7 @@ public class ReindexOperationTest extends FHIRServerTestBase {
     private static final String COUNT_PARAM = "_count";
     private static final String NOT_MODIFIED_AFTER_PARAM = "notModifiedAfter";
     private static final int MAX_RETRIEVE_COUNT = 10;
+    private static final String INDEX_IDS_PARAM = "indexIds";
 
     private boolean runIt = true;
 
@@ -505,17 +506,30 @@ public class ReindexOperationTest extends FHIRServerTestBase {
         assertEquals(r.getStatus(), Status.OK.getStatusCode());
         
         // We can turn around and use the Parameters response directly in our reindex call
-        Parameters indexIdParams = r.readEntity(Parameters.class);
-        assertTrue(indexIdParams.getParameter().size() == 1);
-        assertEquals(indexIdParams.getParameter().get(0).getName().getValue(), "indexIds");
-        Entity<Parameters> entity = Entity.entity(indexIdParams, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Parameters indexIdResponse = r.readEntity(Parameters.class);
+        // Find the indexIds value
+        String indexIds = null;
+        for (Parameter p: indexIdResponse.getParameter()) {
+            if (INDEX_IDS_PARAM.equals(p.getName().getValue())) {
+                indexIds = p.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
+            }
+        }
+        // make sure the server responded with some work for us to do
+        assertNotNull(indexIds);
+
+        // Build a new Parameters for the client-driven $reindex call
+        Builder builder2 = Parameters.builder();
+        builder2.parameter(Parameter.builder().name(str(INDEX_IDS_PARAM)).value(str(indexIds)).build());
+        Parameters reindexParams = builder2.build();
+
+        Entity<Parameters> reindexEntity = Entity.entity(reindexParams, FHIRMediaType.APPLICATION_FHIR_JSON);
 
         Response r2 = getWebTarget()
                 .path("/$reindex")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .header("X-FHIR-TENANT-ID", "default")
                 .header("X-FHIR-DSID", "default")
-                .post(entity, Response.class);
+                .post(reindexEntity, Response.class);
 
         assertEquals(r2.getStatus(), Status.OK.getStatusCode());
     }
