@@ -65,8 +65,8 @@ public final class KafkaType {
         }
 
         // Every instance needs to be loaded:
-        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        props.put(KAFKA_KEY_SERIALIZER, KAFKA_DEFAULT_SERIALIZER);
+        props.put(KAFKA_VALUE_SERIALIZER, KAFKA_DEFAULT_SERIALIZER);
         return props;
     }
 }
