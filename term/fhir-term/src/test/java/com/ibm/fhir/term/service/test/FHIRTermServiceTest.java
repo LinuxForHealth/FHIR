@@ -13,6 +13,7 @@ import static com.ibm.fhir.term.util.ConceptMapSupport.getConceptMap;
 import static com.ibm.fhir.term.util.ValueSetSupport.getContains;
 import static com.ibm.fhir.term.util.ValueSetSupport.getValueSet;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -584,5 +585,81 @@ public class FHIRTermServiceTest {
         TranslationOutcome outcome = FHIRTermService.getInstance().translate(conceptMap, coding);
 
         assertEquals(outcome, expected);
+    }
+
+    @Test
+    public void testValidateDisplay_caseSensitive() throws Exception {
+        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs1");
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .code(Code.of("a"))
+                .build();;
+        ValidationOutcome outcome;
+
+        coding = coding.toBuilder()
+                .display("Concept a")
+                .build();
+        outcome = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+        assertTrue(outcome.getResult().getValue(),
+                (outcome.getMessage() != null) ? outcome.getMessage().getValue() : outcome.getDisplay().getValue());
+
+        coding = coding.toBuilder()
+                .display("a")
+                .build();
+        outcome = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+        assertTrue(outcome.getResult().getValue(),
+                (outcome.getMessage() != null) ? outcome.getMessage().getValue() : outcome.getDisplay().getValue());
+
+        coding = Coding.builder()
+                .display("Concept A")
+                .build();
+        outcome = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+        assertFalse(outcome.getResult().getValue(),
+                (outcome.getMessage() != null) ? outcome.getMessage().getValue() : outcome.getDisplay().getValue());
+
+        coding = Coding.builder()
+                .display("A")
+                .build();
+        outcome = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+        assertFalse(outcome.getResult().getValue(),
+                (outcome.getMessage() != null) ? outcome.getMessage().getValue() : outcome.getDisplay().getValue());
+    }
+
+    @Test
+    public void testValidateDisplay_caseInsensitive() throws Exception {
+        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs2");
+        Coding coding = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs2"))
+                .code(Code.of("d"))
+                .build();
+        ValidationOutcome outcome;
+
+        coding = coding.toBuilder()
+                .display("Concept d")
+                .build();
+        outcome = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+        assertTrue(outcome.getResult().getValue(),
+                (outcome.getMessage() != null) ? outcome.getMessage().getValue() : outcome.getDisplay().getValue());
+
+        coding = coding.toBuilder()
+                .display("d")
+                .build();
+        outcome = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+        assertTrue(outcome.getResult().getValue(),
+                (outcome.getMessage() != null) ? outcome.getMessage().getValue() : outcome.getDisplay().getValue());
+
+        coding = coding.toBuilder()
+                .display("Concept D")
+                .build();
+        outcome = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+        assertTrue(outcome.getResult().getValue(),
+                (outcome.getMessage() != null) ? outcome.getMessage().getValue() : outcome.getDisplay().getValue());
+
+        coding = coding.toBuilder()
+                .display("D")
+                .build();
+        outcome = FHIRTermService.getInstance().validateCode(codeSystem, coding);
+        assertTrue(outcome.getResult().getValue(),
+                (outcome.getMessage() != null) ? outcome.getMessage().getValue() : outcome.getDisplay().getValue());
     }
 }
