@@ -43,7 +43,7 @@ clean_up(){
     fhir_base_url=https://localhost:9443/fhir-server/api/v4
     # previous CompartmentDefinition instances from fhir-examples cause trouble for our updated compartment handling
     # Evidence and EvidenceVariable have backwards-breaking changes in FHIR 4.3.0
-    problem_types=CompartmentDefinition,DeviceDefinition,Evidence,EvidenceVariable
+    problem_types=CompartmentDefinition,Evidence,EvidenceVariable
     for r in $(curl --fail -k -u fhiruser:change-password "${fhir_base_url}?_type=${problem_types}&_count=1000" | jq -r '.entry[].fullUrl'); do
       echo "erasing ${r}"
       curl --fail -i -k -u fhiruser:change-password -H "Content-Type: application/json" ${r}'/$erase' -d '
