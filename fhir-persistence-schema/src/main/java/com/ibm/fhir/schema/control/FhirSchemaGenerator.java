@@ -1394,10 +1394,7 @@ public class FhirSchemaGenerator {
      * 'Observation.subject' and 'Claim.patient' are both patient references), the
      * common token value is not distinguished by a parameter_name_id.
      *
-     * Where common token values are used to represent local relationships between two resources,
-     * the code_system encodes the resource type of the referenced resource and
-     * the token_value represents its logical_id. This approach simplifies query writing when
-     * following references.
+     * From V0027, token values are no longer used to represent relationships between resources.
      *
      * When using a distributed database (Citus), this table is distributed as a REFERENCE
      * table, meaning that all records will exist on all nodes.

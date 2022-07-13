@@ -11,7 +11,7 @@ package com.ibm.fhir.persistence.params.model;
  * Represents a record in parameter_names for which we don't know
  * the parameter_name_id value, or which we need to create
  */
-public class ParameterNameValue {
+public class ParameterNameValue implements Comparable<ParameterNameValue> {
     private final String parameterName;
     private Integer parameterNameId;
 
@@ -23,6 +23,11 @@ public class ParameterNameValue {
         this.parameterName = parameterName;
     }
 
+    @Override
+    public int compareTo(ParameterNameValue that) {
+        return this.parameterName.compareTo(that.parameterName);
+    }
+    
     /**
      * @return the parameterName
      */

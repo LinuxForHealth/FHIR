@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -121,18 +120,14 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
     public void resolveSystemValues(List<CodeSystemValue> unresolvedSystemValues, Map<String, CodeSystemValue> codeSystemValueMap) throws FHIRPersistenceException {
 
         // Sort the list first to avoid any deadlocks
-        Collections.sort(unresolvedSystemValues, (a,b) -> {
-            return a.compareTo(b);
-        });
+        Collections.sort(unresolvedSystemValues);
         
         // identify which values aren't yet in the database
         List<CodeSystemValue> missing = fetchCodeSystemIds(unresolvedSystemValues, codeSystemValueMap);
 
         if (!missing.isEmpty()) {
             // need to sort the missing list because we can't guarantee its order matches unresolvedSystemValues
-            Collections.sort(missing, (a,b) -> {
-                return a.compareTo(b);
-            });
+            Collections.sort(missing);
             addMissingCodeSystems(missing);
 
             // All the previously missing values should now be in the database. We need to fetch them again,
@@ -273,13 +268,12 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
      */
     public void resolveCommonTokenValues(List<CommonTokenValue> unresolvedTokenValues, Map<CommonTokenValueKey, CommonTokenValue> commonTokenValueMap) throws FHIRPersistenceException {
         // identify which values aren't yet in the database
-
+        Collections.sort(unresolvedTokenValues); // to avoid potential deadlocks
         List<CommonTokenValue> missing = fetchCommonTokenValueIds(unresolvedTokenValues, commonTokenValueMap);
 
         if (!missing.isEmpty()) {
-            Collections.sort(missing, (a,b) -> {
-                return a.compareTo(b);
-            });
+            // must sort again because we can't rely on the order of missing
+            Collections.sort(missing);
 
             addMissingCommonTokenValues(missing);
             // All the previously missing values should now be in the database. We need to fetch them again,
@@ -400,6 +394,7 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
      */
     protected void addMissingCommonTokenValues(List<CommonTokenValue> missing) throws FHIRPersistenceException {
 
+        // common_token_value_id assigned as generated identity column
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO common_token_values (code_system_id, token_value) ");
         insert.append("     VALUES (?,?) ");
@@ -433,17 +428,13 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
         // identify which values aren't yet in the database
 
         // Sort the unresolved list so we always process stuff in the same order
-        Collections.sort(unresolvedCanonicalValues, (a,b) -> {
-            return a.getUrl().compareTo(b.getUrl());
-        });
+        Collections.sort(unresolvedCanonicalValues);
         
         List<CommonCanonicalValue> missing = fetchCanonicalIds(unresolvedCanonicalValues, commonCanonicalValueMap);
 
         if (!missing.isEmpty()) {
             // Sort on url to minimize deadlocks
-            Collections.sort(missing, (a,b) -> {
-                return a.getUrl().compareTo(b.getUrl());
-            });
+            Collections.sort(missing);
             addMissingCommonCanonicalValues(missing);
 
             // All the previously missing values should now be in the database. We need to fetch them again,
@@ -604,9 +595,7 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
         // to do this in a sorted order to avoid deadlock issues because this
         // could be happening across multiple threads at the same time.
         logger.fine("resolveParameterNames: sorting unresolved names");
-        Collections.sort(unresolvedParameterNames, (a,b) -> {
-            return a.getParameterName().compareTo(b.getParameterName());
-        });
+        Collections.sort(unresolvedParameterNames);
 
         try {
             for (ParameterNameValue pnv: unresolvedParameterNames) {
@@ -689,18 +678,14 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
         logger.fine("resolveLogicalResourceIdents: fetching ids for unresolved LogicalResourceIdent records");
 
         // Sort the values first to help avoid deadlocks
-        Collections.sort(unresolvedLogicalResourceIdents, (a,b) -> {
-            return a.compareTo(b);
-        });
+        Collections.sort(unresolvedLogicalResourceIdents);
 
         // identify which values aren't yet in the database
         List<LogicalResourceIdentValue> missing = fetchLogicalResourceIdentIds(unresolvedLogicalResourceIdents, logicalResourceIdentMap);
 
         if (!missing.isEmpty()) {
             logger.fine("resolveLogicalResourceIdents: add missing LogicalResourceIdent records");
-            Collections.sort(missing, (a,b) -> {
-                return a.compareTo(b);
-            });
+            Collections.sort(missing);
             addMissingLogicalResourceIdents(missing);
 
             // All the previously missing values should now be in the database. We need to fetch them again,
@@ -845,45 +830,4 @@ public abstract class PlainParamValueProcessor implements IParamValueProcessor {
         // Return the list of CodeSystemValues which don't yet have a database entry
         return missing;
     }
-
-    /**
-     * Get the next value from fhir_ref_sequence
-     * @param c
-     * @return
-     * @throws SQLException
-     */
-    protected Integer getNextRefId() throws SQLException {
-        final String select = translator.selectSequenceNextValue(schemaName, "fhir_ref_sequence");
-        Integer result;
-        try (Statement s = connection.createStatement()) {
-            ResultSet rs = s.executeQuery(select);
-            if (rs.next()) {
-                result = rs.getInt(1);
-            } else {
-                throw new IllegalStateException("no row from '" + select + "'");
-            }
-        }
-        return result;
-    }    
-
-    /**
-     * Get the next value from fhir_sequence
-     * @param c
-     * @return
-     * @throws SQLException
-     */
-    protected Long getNextId() throws SQLException {
-        final String select = translator.selectSequenceNextValue(schemaName, "fhir_sequence");
-        Long result;
-        try (Statement s = connection.createStatement()) {
-            ResultSet rs = s.executeQuery(select);
-            if (rs.next()) {
-                result = rs.getLong(1);
-            } else {
-                throw new IllegalStateException("no row from '" + select + "'");
-            }
-        }
-        return result;
-    }
-
 }

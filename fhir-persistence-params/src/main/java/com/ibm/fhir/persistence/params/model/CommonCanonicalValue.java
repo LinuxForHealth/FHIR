@@ -11,7 +11,7 @@ package com.ibm.fhir.persistence.params.model;
  * in the database. If it exists in the database, we may not yet have
  * retrieved its canonical_id.
  */
-public class CommonCanonicalValue {
+public class CommonCanonicalValue implements Comparable<CommonCanonicalValue> {
     private final short shardKey;
     private final String url;
     private Long canonicalId;
@@ -35,6 +35,15 @@ public class CommonCanonicalValue {
     public CommonCanonicalValue(short shardKey, String url) {
         this.shardKey = shardKey;
         this.url = url;
+    }
+
+    @Override
+    public int compareTo(CommonCanonicalValue that) {
+        int result = this.url.compareTo(that.url);
+        if (0 == result) {
+            result = Short.compare(this.shardKey, that.shardKey);
+        }
+        return result;
     }
 
     /**

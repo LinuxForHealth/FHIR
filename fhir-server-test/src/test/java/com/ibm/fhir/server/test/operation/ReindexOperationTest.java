@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,7 @@ package com.ibm.fhir.server.test.operation;
 import static com.ibm.fhir.model.type.Integer.of;
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.time.Instant;
 import java.time.ZonedDateTime;
@@ -27,6 +28,7 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Parameters;
+import com.ibm.fhir.model.resource.Parameters.Builder;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
@@ -36,6 +38,10 @@ import com.ibm.fhir.server.test.FHIRServerTestBase;
  * These reindex test always run.
  */
 public class ReindexOperationTest extends FHIRServerTestBase {
+    private static final String COUNT_PARAM = "_count";
+    private static final String NOT_MODIFIED_AFTER_PARAM = "notModifiedAfter";
+    private static final int MAX_RETRIEVE_COUNT = 10;
+
     private boolean runIt = true;
 
     @BeforeClass(enabled = false)
@@ -457,29 +463,60 @@ public class ReindexOperationTest extends FHIRServerTestBase {
         assertEquals(r.getStatus(), Status.OK.getStatusCode());
     }
 
+    /**
+     * Wrapper for strings.
+     * @param str the string
+     * @return the string
+     */
+    protected static com.ibm.fhir.model.type.String str(String str) {
+        return com.ibm.fhir.model.type.String.of(str);
+    }
+
+    /**
+     * Wrapper for integers.
+     * @param val the integer
+     * @return the integer
+     */
+    protected static com.ibm.fhir.model.type.Integer intValue(int val) {
+        return com.ibm.fhir.model.type.Integer.of(val);
+    }
+
     @Test
     public void testReindex_indexIds() {
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(
-            Parameter.builder()
-                .name(string("indexIds"))
-                .value(string("2,4,6,8,10"))
-                .build());
-
-        Parameters.Builder builder = Parameters.builder();
+        // Allocation of logical_resource_id values (from fhir_sequence) is more complicated
+        // now, so we can't depend on valid values being 2,4,6,8,10 etc. Need to perform a
+        // $retrieve-index operation first
+        final String reindexTimestamp = Instant.now().toString(); // ISO UTC
+        Builder builder = Parameters.builder();
+        builder.parameter(Parameter.builder().name(str(COUNT_PARAM)).value(intValue(MAX_RETRIEVE_COUNT)).build());
+        builder.parameter(Parameter.builder().name(str(NOT_MODIFIED_AFTER_PARAM)).value(str(reindexTimestamp)).build());
         builder.id(UUID.randomUUID().toString());
-        builder.parameter(parameters);
-        Parameters ps = builder.build();
+        Parameters parameters = builder.build();
+        
 
-        Entity<Parameters> entity = Entity.entity(ps, FHIRMediaType.APPLICATION_FHIR_JSON);
-
+        Entity<Parameters> requestEntity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response r = getWebTarget()
+                .path("/$retrieve-index")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .post(requestEntity, Response.class);
+
+        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+        
+        // We can turn around and use the Parameters response directly in our reindex call
+        Parameters indexIdParams = r.readEntity(Parameters.class);
+        assertTrue(indexIdParams.getParameter().size() == 1);
+        assertEquals(indexIdParams.getParameter().get(0).getName().getValue(), "indexIds");
+        Entity<Parameters> entity = Entity.entity(indexIdParams, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response r2 = getWebTarget()
                 .path("/$reindex")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .header("X-FHIR-TENANT-ID", "default")
                 .header("X-FHIR-DSID", "default")
                 .post(entity, Response.class);
 
-        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+        assertEquals(r2.getStatus(), Status.OK.getStatusCode());
     }
 }
