@@ -291,35 +291,6 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         }
     }
 
-    private void enforceDirectPatientAccess(String resourceType, String resourceId, DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
-        Map<ContextType, List<Scope>> groupedScopes = getScopesFromToken(jwt);
-
-        if (isApprovedByScopes(resourceType, Permission.READ, groupedScopes.get(ContextType.USER)) ||
-                isApprovedByScopes(resourceType, Permission.READ, groupedScopes.get(ContextType.SYSTEM))) {
-            return;
-        }
-
-        // If a patient/ scope is the only approving scope, then check the patient context
-        if (isApprovedByScopes(resourceType, Permission.READ, groupedScopes.get(ContextType.PATIENT))) {
-            Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
-            if (!patientIdFromToken.contains(resourceId)) {
-                String msg = "Interaction with 'Patient/" + resourceId +
-                        "' is not permitted under patient context '" + patientIdFromToken + "'.";
-                throw new FHIRPersistenceInterceptorException(msg)
-                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
-            }
-        } else {
-            // no approving scopes
-            String msg = "Read permission for '" + resourceType +
-                    "' is not granted by any of the provided scopes: " + groupedScopes.values();
-            if (log.isLoggable(Level.FINE)) {
-                log.fine(msg);
-            }
-            throw new FHIRPersistenceInterceptorException(msg)
-                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
-        }
-    }
-
     private void enforceSystemLevelAccess(String resourceType, List<String> types, DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
         Map<ContextType, List<Scope>> groupedScopes = getScopesFromToken(jwt);
         boolean hasTypeParam = types != null && !types.isEmpty();
@@ -718,7 +689,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         }
 
         String msg = requiredPermission.value() + " permission for '" + resourceType +
-                "' is not granted by any of the provided scopes: " + grantedScopes.values();
+                "' is not granted by any of the provided SMART scopes: " + grantedScopes.values();
         if (log.isLoggable(Level.FINE)) {
             log.fine(msg);
         }

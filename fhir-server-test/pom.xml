@@ -67,6 +67,11 @@
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- Use the Grizzly container instead due to https://github.com/eclipse-ee4j/tyrus/issues/676 -->
         <!-- <dependency>
             <groupId>org.glassfish.tyrus.bundles</groupId>
