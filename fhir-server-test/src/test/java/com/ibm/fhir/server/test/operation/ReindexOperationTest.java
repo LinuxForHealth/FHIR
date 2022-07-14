@@ -16,7 +16,6 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
 
 import javax.ws.rs.client.Entity;
@@ -33,7 +32,6 @@ import com.ibm.fhir.model.resource.Parameters.Builder;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
-import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
@@ -50,12 +48,12 @@ public class ReindexOperationTest extends FHIRServerTestBase {
 
     private boolean runIt = true;
 
-    @BeforeClass(enabled = false)
+    @BeforeClass
     public void setup() throws Exception {
-        Properties testProperties = TestUtil.readTestProperties("test.properties");
-        runIt = Boolean.parseBoolean(testProperties.getProperty("test.reindex.enabled", "false"));
-        if (runIt) {
-            createPatients();
+        // make sure we have some resources in the system so that the $retrieve-index call
+        // returns something
+        for (int i=0; i<MAX_RETRIEVE_COUNT; i++) {
+            createPatientWithReference("organization", "Organization/3002");
         }
     }
 
@@ -63,11 +61,10 @@ public class ReindexOperationTest extends FHIRServerTestBase {
      * Creates a new patient resource
      * @param field
      * @param reference
-     * @param logicalReference
      * @return the patient logical id
      * @throws Exception
      */
-    public String createPatientWithReference(String field, String reference, Identifier logicalReference) throws Exception {
+    public String createPatientWithReference(String field, String reference) throws Exception {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
@@ -76,9 +73,6 @@ public class ReindexOperationTest extends FHIRServerTestBase {
         Reference.Builder referenceBuilder = Reference.builder();
         if (reference != null) {
             referenceBuilder.reference(com.ibm.fhir.model.type.String.of(reference));
-        }
-        if (logicalReference != null) {
-            referenceBuilder.identifier(logicalReference);
         }
 
         if ("organization".equals(field)) {
@@ -111,16 +105,6 @@ public class ReindexOperationTest extends FHIRServerTestBase {
         Patient responsePatient = response.readEntity(Patient.class);
         TestUtil.assertResourceEquals(patient, responsePatient);
         return tmpPatientId;
-    }
-
-    /**
-     * Create a number of patients to make sure that the reindex tests have something to chew on
-     * @throws Exception
-     */
-    private void createPatients() throws Exception {
-        for (int i=0; i<MAX_RETRIEVE_COUNT; i++) {
-            createPatientWithReference("organization", "Organization/3002", null);
-        }
     }
 
     @Test(groups = { "reindex" })
