@@ -15,6 +15,8 @@ package com.ibm.fhir.persistence.params.model;
  */
 public class CodeSystemValue implements Comparable<CodeSystemValue> {
     private final String codeSystem;
+
+    // the id gets set after we find/create it in the database
     private Integer codeSystemId;
 
     /**
@@ -23,6 +25,20 @@ public class CodeSystemValue implements Comparable<CodeSystemValue> {
      */
     public CodeSystemValue(String codeSystem) {
         this.codeSystem = codeSystem;
+    }
+
+    @Override
+    public int hashCode() {
+        return codeSystem.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof CodeSystemValue) {
+            CodeSystemValue that = (CodeSystemValue)obj;
+            return 0 == compareTo(that);
+        }
+        return false;
     }
 
     @Override

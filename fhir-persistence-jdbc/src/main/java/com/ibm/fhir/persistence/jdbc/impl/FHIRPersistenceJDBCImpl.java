@@ -177,6 +177,7 @@ import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.params.api.IParamValueCollector;
 import com.ibm.fhir.persistence.params.api.IParamValueProcessor;
 import com.ibm.fhir.persistence.params.api.IParameterIdentityCache;
+import com.ibm.fhir.persistence.params.api.ParamMetrics;
 import com.ibm.fhir.persistence.params.batch.ParameterValueCollector;
 import com.ibm.fhir.persistence.params.database.DistributedPostgresParamValueProcessor;
 import com.ibm.fhir.persistence.params.database.PlainDerbyParamValueProcessor;
@@ -3094,8 +3095,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     // publish all the values collected in this transaction using the paramValueProcessor
                     this.paramValueCollector.publish(paramValueProcessor);
     
-                    // tell the paramValueProcess to push everything to the database
-                    paramValueProcessor.pushBatch();
+                    try (MetricHandle pushMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_PUSH_BATCH.name())) {
+                        // tell the paramValueProcess to push everything to the database
+                        paramValueProcessor.pushBatch();
+                    }
                 } finally {
                     paramValueProcessor.close();
                 }

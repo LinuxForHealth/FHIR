@@ -83,6 +83,17 @@ public class MetricHandle implements AutoCloseable {
     }
 
     /**
+     * Add count to the number of items associated with this metric and also
+     * add this count to all the parents of this metric
+     * @param count
+     */
+    public void accumulateItems(int count) {
+        metric.accumulateItems(count);
+        if (this.parent != null) {
+            this.parent.accumulateItems(count);
+        }
+    }
+    /**
      * Convenience method to get a child MetricHandle by calling through to our
      * parent request context
      * @param name

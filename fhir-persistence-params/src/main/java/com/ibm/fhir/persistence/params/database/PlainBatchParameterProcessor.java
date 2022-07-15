@@ -16,6 +16,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.MetricHandle;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.index.DateParameter;
 import com.ibm.fhir.persistence.index.LocationParameter;
@@ -117,8 +119,10 @@ public class PlainBatchParameterProcessor implements BatchParameterProcessor {
             }
 
             try {
-                logger.fine("Pushing batch for whole-system parameters");
-                systemDao.pushBatch();
+                try (MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle("WHOLE_SYSTEM")) {
+                    logger.fine("Pushing batch for whole-system parameters");
+                    systemDao.pushBatch();
+                }
             } catch (SQLException x) {
                 throw new FHIRPersistenceException("batch insert for whole-system parameters", x);
             }

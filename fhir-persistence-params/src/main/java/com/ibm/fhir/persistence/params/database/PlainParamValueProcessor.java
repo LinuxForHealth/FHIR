@@ -41,7 +41,7 @@ import com.ibm.fhir.persistence.params.model.ParameterNameValue;
 public abstract class PlainParamValueProcessor implements IParamValueProcessor {
     private static final String CLASSNAME = PlainParamValueProcessor.class.getName();
     private static final Logger logger = Logger.getLogger(PlainParamValueProcessor.class.getName());
-    private static final short FIXED_SHARD = 0;
+    protected static final short FIXED_SHARD = 0;
 
     // the connection to use for the inserts
     protected final Connection connection;

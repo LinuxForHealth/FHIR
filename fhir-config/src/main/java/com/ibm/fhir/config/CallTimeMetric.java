@@ -25,6 +25,9 @@ public class CallTimeMetric {
     private AtomicLong accumulatedTime = new AtomicLong();
     private AtomicLong callCount = new AtomicLong();
 
+    // the number of items processed as part of this metric
+    private AtomicLong itemCount = new AtomicLong();
+
     /**
      * Constructor to create a metric to track the performance of a call or span of code
      * @param fullMetricName
@@ -60,6 +63,22 @@ public class CallTimeMetric {
     }
 
     /**
+     * Add count to the itemCount
+     * @param count
+     */
+    public void accumulateItems(int count) {
+        this.itemCount.addAndGet(count);
+    }
+
+    /**
+     * Get the current item count
+     * @return
+     */
+    public long getItemCount() {
+        return this.itemCount.get();
+    }
+
+    /**
      * @return the callCount
      */
     public long getCallCount() {
@@ -89,6 +108,7 @@ public class CallTimeMetric {
             double averageElapsed = m.getCallCount() > 0 ? m.getAccumulatedTime() / NANOS / m.getCallCount() : Double.NaN;
             msg.append("#METRIC")
                 .append(" ").append(String.format("%6d", m.getCallCount()))
+                .append(" ").append(String.format("%6d", m.getItemCount()))
                 .append(" ").append(String.format("%8.3f", totalElapsed))
                 .append(" ").append(String.format("%6.3f", averageElapsed))
                 .append(" ").append(m.getFullMetricName()) // at the end so the numbers line up for better readability

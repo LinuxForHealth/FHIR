@@ -15,8 +15,11 @@ import java.sql.Types;
 import java.util.Calendar;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.MetricHandle;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
+import com.ibm.fhir.persistence.params.api.ParamMetrics;
 
 /**
  * Parameter batch statements configured for a given resource type
@@ -73,44 +76,75 @@ public class PlainPostgresParameterBatch {
      */
     public void pushBatch() throws SQLException {
         if (stringCount > 0) {
-            strings.executeBatch();
-            stringCount = 0;
+            try (MetricHandle pushMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_STRINGS.name())) {
+                strings.executeBatch();
+                pushMetric.accumulateItems(stringCount);
+                stringCount = 0;
+            }
         }
+
         if (numberCount > 0) {
-            numbers.executeBatch();
-            numberCount = 0;
+            try (MetricHandle pushMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_NUMBERS.name())) {
+                numbers.executeBatch();
+                pushMetric.accumulateItems(numberCount);
+                numberCount = 0;
+            }
         }
         if (dateCount > 0) {
-            dates.executeBatch();
-            dateCount = 0;
+            try (MetricHandle pushMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_DATES.name())) {
+                dates.executeBatch();
+                pushMetric.accumulateItems(dateCount);
+                dateCount = 0;
+            }
         }
         if (quantityCount > 0) {
-            quantities.executeBatch();
-            quantityCount = 0;
+            try (MetricHandle pushMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_QUANTITIES.name())) {
+                quantities.executeBatch();
+                pushMetric.accumulateItems(quantityCount);
+                quantityCount = 0;
+            }
         }
         if (locationCount > 0) {
-            locations.executeBatch();
-            locationCount = 0;
+            try (MetricHandle pushMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_LOCATIONS.name())) {
+                locations.executeBatch();
+                pushMetric.accumulateItems(locationCount);
+                locationCount = 0;
+            }
         }
         if (resourceTokenRefCount > 0) {
-            resourceTokenRefs.executeBatch();
-            resourceTokenRefCount = 0;
+            try (MetricHandle pushMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_TOKENS.name())) {
+                resourceTokenRefs.executeBatch();
+                pushMetric.accumulateItems(resourceTokenRefCount);
+                resourceTokenRefCount = 0;
+            }
         }
         if (tagCount > 0) {
-            tags.executeBatch();
-            tagCount = 0;
+            try (MetricHandle pushMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_TAGS.name())) {
+                tags.executeBatch();
+                pushMetric.accumulateItems(tagCount);
+                tagCount = 0;
+            }
         }
         if (profileCount > 0) {
-            profiles.executeBatch();
-            profileCount = 0;
+            try (MetricHandle pushMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PROFILES.name())) {
+                profiles.executeBatch();
+                pushMetric.accumulateItems(profileCount);
+                profileCount = 0;
+            }
         }
         if (securityCount > 0) {
-            security.executeBatch();
-            securityCount = 0;
+            try (MetricHandle pushMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_SECURITY.name())) {
+                security.executeBatch();
+                pushMetric.accumulateItems(securityCount);
+                securityCount = 0;
+            }
         }
         if (refCount > 0) {
-            refs.executeBatch();
-            refCount = 0;
+            try (MetricHandle pushMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_REFERENCES.name())) {
+                refs.executeBatch();
+                pushMetric.accumulateItems(refCount);
+                refCount = 0;
+            }
         }
     }
 
