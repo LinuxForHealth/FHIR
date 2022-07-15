@@ -20,6 +20,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.params.api.IParameterIdentityCache;
@@ -133,6 +134,8 @@ public class PlainPostgresParamValueProcessor extends PlainParamValueProcessor {
             insert.append("   RETURNING logical_resource_id, resource_type_id, logical_id");
 
             try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
+                PreparedStatementHelper psh = new PreparedStatementHelper(ps);
+
                 // track the logical resources we added then found
                 Set<LogicalResourceIdentKey> unresolved = new HashSet<>();
                 
@@ -147,8 +150,8 @@ public class PlainPostgresParamValueProcessor extends PlainParamValueProcessor {
     
                     // keep track of code system names because we need them later
                     resourceTypeMap.put(lr.getResourceTypeId(), lr.getResourceType());
-                    ps.setInt(1, lr.getResourceTypeId());
-                    ps.setString(2, lr.getLogicalId());
+                    psh.setInt(lr.getResourceTypeId());
+                    psh.setString(lr.getLogicalId());
                 }
                 ps.execute();
 
@@ -255,6 +258,7 @@ public class PlainPostgresParamValueProcessor extends PlainParamValueProcessor {
             Map<Integer, String> codeSystemMap = new HashMap<>();
 
             try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
+                PreparedStatementHelper psh = new PreparedStatementHelper(ps);
                 for (CommonTokenValue ctv: sub) {
                     // add all the keys to a set, then later we remove everything returned
                     // so remaining in the set will be those records where we hit a conflict
@@ -263,8 +267,8 @@ public class PlainPostgresParamValueProcessor extends PlainParamValueProcessor {
     
                     // keep track of code system names because we need them later
                     codeSystemMap.put(ctv.getCodeSystemValue().getCodeSystemId(), ctv.getCodeSystemValue().getCodeSystem());
-                    ps.setInt(1, ctv.getCodeSystemValue().getCodeSystemId());
-                    ps.setString(2, ctv.getTokenValue());
+                    psh.setInt(ctv.getCodeSystemValue().getCodeSystemId());
+                    psh.setString(ctv.getTokenValue());
                 }
                 ps.execute();
 
