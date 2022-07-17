@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
+import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.params.api.IParameterIdentityCache;
 import com.ibm.fhir.persistence.params.api.ParamSchemaConstants;
@@ -34,7 +33,7 @@ import com.ibm.fhir.persistence.params.model.CommonTokenValueKey;
  * by a sequence, which means a slightly different INSERT statement
  * in certain cases
  */
-public class DistributedPostgresParamValueProcessor extends PlainParamValueProcessor {
+public class DistributedPostgresParamValueProcessor extends PlainPostgresParamValueProcessor {
     private static final Logger logger = Logger.getLogger(DistributedPostgresParamValueProcessor.class.getName());
 
     /**
@@ -45,60 +44,13 @@ public class DistributedPostgresParamValueProcessor extends PlainParamValueProce
      * @param cache
      */
     public DistributedPostgresParamValueProcessor(Connection connection, String schemaName, IParameterIdentityCache cache) {
-        super(new PostgresTranslator(), connection, schemaName, cache);
+        super(connection, schemaName, cache);
     }
 
     @Override
-    protected String onConflict() {
-        return "ON CONFLICT DO NOTHING";
-    }
-
-    @Override
-    public void resolveCommonTokenValues(List<CommonTokenValue> unresolvedTokenValues, Map<CommonTokenValueKey, CommonTokenValue> commonTokenValueMap) throws FHIRPersistenceException {
-        Collections.sort(unresolvedTokenValues); // to avoid potential deadlocks
-        List<CommonTokenValue> missing = fetchCommonTokenValueIds(unresolvedTokenValues, commonTokenValueMap);
-
-        if (!missing.isEmpty()) {
-            // must sort again because we can't rely on the order of missing
-            Collections.sort(missing);
-
-            // For PostgreSQL, we can use the following pattern to reduce the number of round-trips we need
-            // to make with the database because it's possible to combine ON CONFLICT DO NOTHING with RETURNING.
-            // When there aren't any conflicts, the insert returns every id, so we insert and fetch the ids
-            // in a single round-trip
-            // INSERT INTO common_token_values
-            //      VALUES (?, ?),
-            //             (?, ?),
-            //             (?, ?)
-            // ON CONFLICT DO NOTHING
-            //   RETURNING common_token_value_id, code_system_id, token_value;
-            unresolvedTokenValues = addMissingCommonTokenValues(missing, commonTokenValueMap);
-
-            // All the previously missing values should now be in the database. But if there were conflicts,
-            // some of the values have been created in other transactions, so we need to fetch those values
-            // now.
-            if (unresolvedTokenValues.size() > 0) {
-                List<CommonTokenValue> bad = fetchCommonTokenValueIds(unresolvedTokenValues, commonTokenValueMap);
-                
-                if (!bad.isEmpty()) {
-                    // shouldn't happen, but let's protected against it anyway
-                    throw new FHIRPersistenceException("Failed to create all common token values");
-                }
-            }
-        }
-    }
-
-    /**
-     * PostgreSQL-specific approach to insert new values into 
-     * @param missing
-     * @param commonTokenValueMap
-     * @return unresolved ids which now need to be fetched
-     * @throws FHIRPersistenceException
-     */
     protected List<CommonTokenValue> addMissingCommonTokenValues(List<CommonTokenValue> missing, Map<CommonTokenValueKey, CommonTokenValue> commonTokenValueMap) throws FHIRPersistenceException {
         // result filled with any values we don't get a RETURNING value for
         Set<CommonTokenValueKey> unresolved = new HashSet<>();
-
 
         // There's an upper bound on how many values we can add to a single statement, so we
         // may need to break the work up into smaller chunks
@@ -113,6 +65,7 @@ public class DistributedPostgresParamValueProcessor extends PlainParamValueProce
             final String nextVal = translator.nextValue(schemaName, "fhir_sequence");
             StringBuilder insert = new StringBuilder();
             insert.append("INSERT INTO common_token_values (code_system_id, token_value, common_token_value_id) ");
+            insert.append(" OVERRIDING SYSTEM VALUE "); // allows for easier testing with plain postgres schema
             insert.append("     VALUES ");
             for (int i=0; i<sub.size(); i++) {
                 if (i > 0) {
@@ -129,6 +82,7 @@ public class DistributedPostgresParamValueProcessor extends PlainParamValueProce
             Map<Integer, String> codeSystemMap = new HashMap<>();
 
             try (PreparedStatement ps = connection.prepareStatement(insert.toString())) {
+                PreparedStatementHelper psh = new PreparedStatementHelper(ps);
                 for (CommonTokenValue ctv: sub) {
                     // add all the keys to a set, then later we remove everything returned
                     // so remaining in the set will be those records where we hit a conflict
@@ -137,8 +91,8 @@ public class DistributedPostgresParamValueProcessor extends PlainParamValueProce
     
                     // keep track of code system names because we need them later
                     codeSystemMap.put(ctv.getCodeSystemValue().getCodeSystemId(), ctv.getCodeSystemValue().getCodeSystem());
-                    ps.setInt(1, ctv.getCodeSystemValue().getCodeSystemId());
-                    ps.setString(2, ctv.getTokenValue());
+                    psh.setInt(ctv.getCodeSystemValue().getCodeSystemId());
+                    psh.setString(ctv.getTokenValue());
                 }
                 ps.execute();
 

@@ -343,7 +343,7 @@ public class FHIRRequestContext {
     /**
      * Callback to indicate that the current MetricHandle has closed, so we should set the currentMetric
      * to be its parent (which may be null if the current metric is a root-level metric).
-     * @param mhthe metric handle being closed
+     * @param mh the metric handle being closed
      * @throws IllegalStateException if the given metric does not match the currentMetric value, indicating a programming error
      */
     protected void endMetric(MetricHandle mh) {

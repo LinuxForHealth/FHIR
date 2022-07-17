@@ -169,28 +169,6 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
                 } else {
                     resource.setInteractionStatus(InteractionStatus.MODIFIED);
                     resource.setCurrentParameterHash(stmt.getString(oldParameterHashIndex));
-        
-                    // Parameter time
-                    // To keep things simple for the postgresql use-case, we just use a visitor to
-                    // handle inserts of parameters directly in the resource parameter tables.
-                    // Note we don't get any parameters for the resource soft-delete operation
-                    // Bypass the parameter insert here if we have the remoteIndexService configured
-//                    FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
-//                    final String currentParameterHash = stmt.getString(oldParameterHashIndex);
-//                    if (remoteIndexService == null
-//                            && parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
-//                            || !parameterHashB64.equals(currentParameterHash))) {
-//                        // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
-//                        JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-//                        try (MetricHandle m = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_INSERT_PARAMS.name())) {
-//                            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getLogicalResourceId(), 100,
-//                                identityCache, getResourceReferenceDAO(), getTransactionData())) {
-//                                for (ExtractedParameterValue p: parameters) {
-//                                    p.accept(pvd);
-//                                }
-//                            }
-//                        }
-//                    }
                 }
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("Successfully inserted Resource. logicalResourceId=" + resource.getLogicalResourceId() + " executionTime=" + dbCallDuration + "ms");
