@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-export LIBERTY_VERSION="22.0.0.4"
+export LIBERTY_VERSION="22.0.0.7"
 
 echo "
 Executing $0 to deploy the fhir-server web application...
