@@ -246,8 +246,19 @@ public class EverythingOperation extends AbstractOperation {
                     LOG.finest("Got " + compartmentMemberType + " resources " + (allEntries.size() - countBeforeAddingNewResources) + " for a total of " + allEntries.size());
                 }
             } catch (Exception e) {
-                FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything "
-                        + "related resources of type '" + compartmentMemberType + "' for patient " + logicalId, IssueType.EXCEPTION, e);
+                String msg = "Error retrieving $everything resources of type '" + compartmentMemberType + "' for Patient/" + logicalId;
+                IssueType issueType;
+                if (e instanceof FHIROperationException
+                        && !((FHIROperationException)e).getIssues().isEmpty()
+                        && ((FHIROperationException)e).getIssues().get(0).getCode().getValueAsEnum() == IssueType.Value.FORBIDDEN) {
+                    // special case for when the client doesn't have the necessary permissions to search for the Patient resources
+                    msg += "; caused by " + e.getMessage();
+                    issueType = ((FHIROperationException)e).getIssues().get(0).getCode();
+                } else {
+                    // in all other cases we assume its a server-side issue because there's almost no client input into $everything
+                    issueType = IssueType.EXCEPTION;
+                }
+                FHIROperationException exceptionWithIssue = buildExceptionWithIssue(msg, issueType, e);
                 LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                 throw exceptionWithIssue;
             }

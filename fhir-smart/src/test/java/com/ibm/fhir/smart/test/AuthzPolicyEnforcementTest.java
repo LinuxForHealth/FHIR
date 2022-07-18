@@ -571,7 +571,7 @@ public class AuthzPolicyEnforcementTest {
             assertEquals(e.getIssues().size(), 1);
             assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                "read permission for 'AllergyIntolerance' is not granted by any of the provided scopes: " +
+                "read permission for 'AllergyIntolerance' is not granted by any of the provided SMART scopes: " +
                 "[[" + scopeString.replace(" ", ", ") + "]]");
         }
 
@@ -671,7 +671,7 @@ public class AuthzPolicyEnforcementTest {
             assertEquals(e.getIssues().size(), 1);
             assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                "read permission for 'AllergyIntolerance' is not granted by any of the provided scopes: " +
+                "read permission for 'AllergyIntolerance' is not granted by any of the provided SMART scopes: " +
                 "[[" + scopeString.replace(" ", ", ") + "]]");
         }
 
@@ -688,7 +688,7 @@ public class AuthzPolicyEnforcementTest {
             assertEquals(e.getIssues().size(), 1);
             assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
-                "read permission for 'Medication' is not granted by any of the provided scopes: " +
+                "read permission for 'Medication' is not granted by any of the provided SMART scopes: " +
                 "[[" + scopeString.replace(" ", ", ") + "]]");
         }
     }

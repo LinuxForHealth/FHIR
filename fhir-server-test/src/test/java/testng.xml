@@ -77,4 +77,9 @@
             <package name="com.ibm.fhir.server.test.cqf" />
         </packages>
     </test>
+    <test name="SmartOnFhirEnabledTests">
+        <packages>
+            <package name="com.ibm.fhir.server.test.smart" />
+        </packages>
+    </test>
 </suite>
