@@ -13,7 +13,7 @@ echo Executing %0 to deploy the fhir-server web application...
 
 @REM Make sure that JAVA_HOME is set
 if "-%JAVA_HOME%-"=="--" (
-    echo "Error: JAVA_HOME not set; make sure JAVA_HOME points to a Java 11 JVM (or above) and then re-try."
+    echo "Error: JAVA_HOME not set; make sure JAVA_HOME points to a Java 11 JVM and then re-try."
     set rc=1
     goto :exit
 ) else (
@@ -90,26 +90,25 @@ if errorlevel 1 (
 )
 
 
-echo The FHIR Server has been successfully deployed to the
-echo Liberty runtime located at: %WLP_ROOT%
-echo The following manual steps must be completed before the server can be started:
-echo 1. The fhir-server application requires Java 11.
-echo    If you do not have one, a copy of the Java 11 SDK can be obtained at https://adoptium.net.
-echo    Set the JAVA_HOME environment variable to your Java installation
-echo    before starting the server.
-echo 2. Make sure that your selected database (e.g. PostgreSQL) is active and
-echo    ready to accept requests.
-echo 3. Deploy the schema via the fhir-persistence-schema cli jar under %BASEDIR%\tools
+echo The FHIR Server has been successfully deployed to the Liberty runtime
+echo at: %WLP_ROOT%
+echo The fhir-server application requires Java 11.
+echo If you do not have one, a copy of the Java 11 SDK can be obtained at https://adoptium.net.
+echo The following steps must be completed before the server can be started:
+echo 1. Set the JAVA_HOME environment variable for your Java installation.
+echo 2. If using a database other than the embedded derby one, make sure that your selected database
+echo    is active and ready to accept requests.
+echo 3. Deploy the database schema via the fhir-persistence-schema cli jar under %BASEDIR%\tools
 echo    and grant necessary permissions.
-echo 4. Modify the Liberty server config (server.xml) by adding/removing/modifying the xml snippets under
-echo    %WLP_ROOT%/usr/servers/defaultServer/configDropins to configure datasource definitions, 
-echo    TLS configuration (keystores), authentication, and more.
+echo 4. Modify the Liberty server config (server.xml) by adding/removing/modifying the XML snippets under
+echo    %WLP_ROOT%\usr\servers\defaultServer\configDropins to configure datasource definitions, 
+echo    TLS configuration (keystores), webapp security, and more.
 echo 5. Modify the FHIR server config (fhir-server-config.json) under
-echo    %WLP_ROOT%/usr/servers/defaultServer/config to configure the persistence, resource endpoints,
+echo    %WLP_ROOT%\usr\servers\defaultServer\config to configure the persistence, resource endpoints,
 echo    and related FHIR server features.
 echo You can start and stop the server with these commands:
-echo    %WLP_ROOT%\bin\server start
-echo    %WLP_ROOT%\bin\server stop
+echo    %WLP_ROOT%\bin\server.bat start
+echo    %WLP_ROOT%\bin\server.bat stop
 set rc=0
 goto :exit
 
