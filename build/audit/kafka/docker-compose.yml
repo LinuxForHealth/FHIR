@@ -66,15 +66,15 @@ services:
     environment:
       - BOOTSTRAP_DB=true
     command: bash -c "
-        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+        java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type derby --prop db.database=/output/derby/profile --prop db.create=Y
           --prop resourceTypes=${TENANT1_PROFILE_RESOURCE_TYPES}
           --update-schema &&
-        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+        java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type derby --prop db.database=/output/derby/reference --prop db.create=Y
           --prop resourceTypes=${TENANT1_REFERENCE_RESOURCE_TYPES}
           --update-schema &&
-        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+        java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type derby --prop db.database=/output/derby/study1 --prop db.create=Y
           --prop resourceTypes=${TENANT1_STUDY1_RESOURCE_TYPES}
           --update-schema &&
