@@ -80,7 +80,7 @@ public class ServerFHIRRetrieveProvider extends SearchParameterFHIRRetrieveProvi
                 while(it.hasNext()) {
                     results.add(it.next());
                 }
-            } else {
+            } else if (resource != null) {
                 results.add(resource);
             }
         }
@@ -97,6 +97,9 @@ public class ServerFHIRRetrieveProvider extends SearchParameterFHIRRetrieveProvi
                 SingleResourceResult<?> result = resourceHelpers.doRead(dataType, id);
                 if (result.isSuccess()) {
                     resource = result.getResource();
+                } else {
+                    // For backwards-compatibility with our old behavior
+                    throw new RuntimeException("Resource '" + dataType + "/" + id + "' not found.");
                 }
             } else {
                 resource = resourceHelpers.doSearch(dataType, /*compartment=*/null, /*compartmentId=*/null, queryParameters, DUMMY_REQUEST_URI);
