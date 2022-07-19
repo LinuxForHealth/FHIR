@@ -208,7 +208,8 @@ public class ResourceTypeHelper {
     }
 
     /**
-     * Get a list of unique resource type names for all possible FHIRVersionParam values
+     * Get a list of unique concrete resource type names for all possible FHIRVersionParam values.
+     * Does not include any abstract types.
      * @return
      */
     public static Set<String> getAllResourceTypeNames() {
