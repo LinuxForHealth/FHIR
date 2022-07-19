@@ -1,6 +1,6 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2018, 2019
+# (C) Copyright IBM Corp. 2016, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -42,10 +42,24 @@ Please specify the location of an existing WLP runtime."
     exit 3
 fi
 
+# Create the defaultServer if necessary.
+if [ ! -d "${WLP_ROOT}/usr/servers/defaultServer" ]; then
+    echo -n "
+Creating the Liberty defaultServer... "
+    ${WLP_ROOT}/bin/server create defaultServer
+    rc=$?
+    if [ $rc != 0 ]; then
+        echo "Error creating server definition: $rc"
+        exit $rc
+    else
+        echo "done!"
+    fi
+fi
+
 # Copy our server assets
 echo -n "
-Deploying fhir-server assets to server runtime environment... "
-cp -pr ${basedir}/artifacts/servers/fhir-server/* ${WLP_ROOT}/usr/servers/defaultServer/
+Deploying fhir-server assets to the server runtime environment... "
+cp -pr ${basedir}/artifacts/servers/defaultServer/* ${WLP_ROOT}/usr/servers/defaultServer/
 rc=$?
 if [ $rc != 0 ]; then
     echo "Error deploying fhir-server assets to server runtime environment: $rc"
@@ -56,7 +70,7 @@ fi
 
 # Copy our db drivers
 echo -n "
-Deploying fhir-server assets to server runtime environment... "
+Deploying database drivers to the server runtime environment... "
 cp -pr ${basedir}/artifacts/shared/* ${WLP_ROOT}/usr/shared/
 rc=$?
 if [ $rc != 0 ]; then

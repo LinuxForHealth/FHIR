@@ -51,7 +51,7 @@ echo Deploying fhir-server in location: %WLP_INSTALL_DIR%
 
 @REM If the liberty install directory doesnt exist, then create it.
 if not exist %WLP_INSTALL_DIR% (
-    echo The Liberty installation directory does not exist; will attempt to create it.
+    echo The Liberty installation directory does not exist; attempting to create it...
     mkdir %WLP_INSTALL_DIR%
     if errorlevel 1 (
         set rc=%ERRORLEVEL%
@@ -61,8 +61,8 @@ if not exist %WLP_INSTALL_DIR% (
 )
 
 @REM Unzip liberty runtime zip
-echo Extracting Liberty runtime.
-call :UnZip  %BASEDIR%\server-runtime\openliberty-runtime-%LIBERTY_VERSION%.zip\  %WLP_INSTALL_DIR%
+echo Extracting the Liberty runtime...
+call :UnZip  %BASEDIR%\openliberty-runtime-%LIBERTY_VERSION%.zip\  %WLP_INSTALL_DIR%
 if %rc% neq 0 (
     echo Error extracting liberty runtime: %rc%
     goto :exit
@@ -72,8 +72,8 @@ if %rc% neq 0 (
 set WLP_ROOT=%WLP_INSTALL_DIR%wlp
 
 @REM Create our server
-echo Creating Liberty server definition for fhir-server.
-%COMSPEC% /c %WLP_ROOT%\bin\server.bat create fhir-server
+echo Creating the Liberty defaultServer...
+%COMSPEC% /c %WLP_ROOT%\bin\server.bat create defaultServer
 if errorlevel 1 (
     set rc=%ERRORLEVEL%
     echo Error creating server definition: %rc%
@@ -81,7 +81,7 @@ if errorlevel 1 (
 )
 
 @REM Copy our server assets
-echo Deploying fhir-server assets to server runtime environment.
+echo Deploying fhir-server assets to the server runtime environment.
 xcopy /S /Y /Q %BASEDIR%\artifacts\* %WLP_ROOT%\usr\
 if errorlevel 1 (
     set rc=%ERRORLEVEL%
@@ -93,18 +93,23 @@ if errorlevel 1 (
 echo The FHIR Server has been successfully deployed to the
 echo Liberty runtime located at: %WLP_ROOT%
 echo The following manual steps must be completed before the server can be started:
-echo 1. Make sure that your selected database (e.g. Derby, DB2) is active and
-echo    ready to accept requests.
-echo 2. Modify the server.xml and fhir-server-config.json files located at %WLP_ROOT%\usr\servers\fhir-server
-echo    to properly configure the server according to your requirements.
-echo    This includes the definition of the server listener ports, as well as the selection
-echo    of the datastore and other associated configuration.
-echo 3. The fhir-server application requires Java 11.
-echo    Be sure to set the JAVA_HOME environment variable to point to your Java 11 installation
+echo 1. The fhir-server application requires Java 11.
+echo    If you do not have one, a copy of the Java 11 SDK can be obtained at https://adoptium.net.
+echo    Set the JAVA_HOME environment variable to your Java installation
 echo    before starting the server.
-echo 4. You can start and stop the server with these commands:
-echo    %WLP_ROOT%\bin\server start fhir-server
-echo    %WLP_ROOT%\bin\server stop fhir-server
+echo 2. Make sure that your selected database (e.g. PostgreSQL) is active and
+echo    ready to accept requests.
+echo 3. Deploy the schema via the fhir-persistence-schema cli jar under %BASEDIR%\tools
+echo    and grant necessary permissions.
+echo 4. Modify the Liberty server config (server.xml) by adding/removing/modifying the xml snippets under
+echo    %WLP_ROOT%/usr/servers/defaultServer/configDropins to configure datasource definitions, 
+echo    TLS configuration (keystores), authentication, and more.
+echo 5. Modify the FHIR server config (fhir-server-config.json) under
+echo    %WLP_ROOT%/usr/servers/defaultServer/config to configure the persistence, resource endpoints,
+echo    and related FHIR server features.
+echo You can start and stop the server with these commands:
+echo    %WLP_ROOT%\bin\server start
+echo    %WLP_ROOT%\bin\server stop
 set rc=0
 goto :exit
 
