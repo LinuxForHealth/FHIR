@@ -30,8 +30,10 @@ import com.ibm.fhir.persistence.params.model.LogicalResourceIdentKey;
 import com.ibm.fhir.persistence.params.model.LogicalResourceIdentValue;
 
 /**
- * Derby variant of the plain schema message handler which is needed because Derby
- * needs slightly different syntax for some queries
+ * Derby variant of the plain schema param value processor which is needed because Derby
+ * needs slightly different syntax for some queries and in particular, we need to be 
+ * very careful issuing both SQL and DML in a specific order to avoid deadlocks due
+ * to compatibility issues with shared (S) and exclusive (X) locks in Derby.
  */
 public class PlainDerbyParamValueProcessor extends PlainParamValueProcessor {
     private static final Logger logger = Logger.getLogger(PlainDerbyParamValueProcessor.class.getName());

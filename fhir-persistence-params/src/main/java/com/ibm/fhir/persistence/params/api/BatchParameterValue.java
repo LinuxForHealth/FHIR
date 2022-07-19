@@ -39,5 +39,5 @@ public abstract class BatchParameterValue {
      * Apply this parameter value to the target processor
      * @param processor
      */
-    public abstract void apply(BatchParameterProcessor processor) throws FHIRPersistenceException;
+    public abstract void apply(IBatchParameterProcessor processor) throws FHIRPersistenceException;
 }

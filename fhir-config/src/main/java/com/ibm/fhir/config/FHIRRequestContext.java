@@ -330,8 +330,7 @@ public class FHIRRequestContext {
             }
         }
 
-
-        final String parentPath = currentMetricHandle == null ? "/" : currentMetricHandle.getPath();
+        final String parentPath = (currentMetricHandle == null) ? "/" : currentMetricHandle.getPath();
         final String fullMetricName = parentPath + name;
 
         // See if this fullMetricName already exists, if not create a new instance

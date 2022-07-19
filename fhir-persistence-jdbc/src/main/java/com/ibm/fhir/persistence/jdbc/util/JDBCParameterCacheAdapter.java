@@ -44,7 +44,7 @@ public class JDBCParameterCacheAdapter implements IParameterIdentityCache {
 
     @Override
     public void addParameterName(String parameterName, int parameterNameId) {
-        // TODO
+        cache.getParameterNameCache().addEntry(parameterName, parameterNameId);
     }
 
     @Override
@@ -59,7 +59,6 @@ public class JDBCParameterCacheAdapter implements IParameterIdentityCache {
 
     @Override
     public void addCommonTokenValue(short shardKey, String codeSystem, int codeSystemId, String tokenValue, long commonTokenValueId) {
-        
         CommonTokenValue key = new CommonTokenValue(codeSystem, codeSystemId, tokenValue);
         cache.getResourceReferenceCache().addTokenValue(key, commonTokenValueId);
     }

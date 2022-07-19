@@ -1375,7 +1375,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
     /**
      * Inspect the filter expression to see if it mentions the TOKEN_VALUE
-     * or CODE_SYSTEM_ID columns. If neither of these columns is not mentioned, 
+     * or CODE_SYSTEM_ID columns. If neither of these columns is mentioned, 
      * we can optimize to use only the xx_resource_token_refs which leads to much 
      * better overall cardinality estimation by the query optimizer.
      * @param filter

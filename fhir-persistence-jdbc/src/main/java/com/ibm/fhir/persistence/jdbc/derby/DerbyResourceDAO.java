@@ -544,24 +544,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             }
         }
 
-        // To keep things simple for the Derby use-case, we just use a visitor to
-        // handle inserts of parameters directly in the resource parameter tables.
-        // Note we don't get any parameters for the resource soft-delete operation
-//        FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
-//        if (remoteIndexService == null && parameters != null && requireParameterUpdate) {
-//            // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
-//            if (logger.isLoggable(Level.FINEST)) {
-//                logger.finest("Storing parameters for: " + v_resource_type + "/" + p_logical_id);
-//            }
-//            JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-//            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100,
-//                identityCache, getResourceReferenceDAO(), getTransactionData())) {
-//                for (ExtractedParameterValue p: parameters) {
-//                    p.accept(pvd);
-//                }
-//            }
-//        }
-
         // Finally, write a record to RESOURCE_CHANGE_LOG which records each event
         // related to resources changes (issue-1955)
         String changeType = p_is_deleted ? "D" : (v_new_resource || v_currently_deleted) ? "C" : "U";

@@ -26,7 +26,7 @@ import com.ibm.fhir.persistence.params.model.ParameterNameValue;
 /**
  * Processes batched parameters
  */
-public interface BatchParameterProcessor {
+public interface IBatchParameterProcessor {
 
     /**
      * Compute the shard key value use to distribute resources among nodes

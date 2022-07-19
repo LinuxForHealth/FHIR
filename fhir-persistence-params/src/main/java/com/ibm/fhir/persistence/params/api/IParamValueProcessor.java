@@ -44,8 +44,19 @@ public interface IParamValueProcessor {
      */
     void close();
 
+    /**
+     * Push any data we've accumulated so far. This may occur
+     * if we cross a volume or functional threshold, and will
+     * always occur as the last step before the current transaction
+     * is committed.
+     * @throws FHIRPersistenceException
+     */
     void pushBatch() throws FHIRPersistenceException;
 
+    /**
+     * Call when a transaction has been rolled back because of a deadlock
+     * or other retryable error and we want to try and process the batch again
+     */
     void resetBatch();
 
     /**

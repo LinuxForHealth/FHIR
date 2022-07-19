@@ -27,7 +27,7 @@ import com.ibm.fhir.persistence.index.SecurityParameter;
 import com.ibm.fhir.persistence.index.StringParameter;
 import com.ibm.fhir.persistence.index.TagParameter;
 import com.ibm.fhir.persistence.index.TokenParameter;
-import com.ibm.fhir.persistence.params.api.BatchParameterProcessor;
+import com.ibm.fhir.persistence.params.api.IBatchParameterProcessor;
 import com.ibm.fhir.persistence.params.model.CodeSystemValue;
 import com.ibm.fhir.persistence.params.model.CommonCanonicalValue;
 import com.ibm.fhir.persistence.params.model.CommonTokenValue;
@@ -40,7 +40,7 @@ import com.ibm.fhir.persistence.params.model.ParameterNameValue;
  * JDBC statements based on the distributed (shard_key) variant
  * of the schema
  */
-public class ShardedBatchParameterProcessor implements BatchParameterProcessor {
+public class ShardedBatchParameterProcessor implements IBatchParameterProcessor {
     private static final Logger logger = Logger.getLogger(ShardedBatchParameterProcessor.class.getName());
 
     // A cache of the resource-type specific DAOs we've created

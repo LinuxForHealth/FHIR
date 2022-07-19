@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
@@ -347,12 +348,17 @@ public class PhysicalDataModel implements IDataModel {
                 for (IDatabaseObject obj: allObjects) {
                     if (tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup))) {
                         try {
-                            logger.info("Visiting[" + count + "] " + obj.getName());
+                            if (logger.isLoggable(Level.FINE)) {
+                                logger.fine("Visiting[" + count + "] " + obj.getName());
+                            }
                             obj.visit(v);
                         } catch (RuntimeException x) {
                             tx.setRollbackOnly();
                             throw x;
                         }
+                        // Limit the size of transaction to avoid SHM errors with Citus (running in docker). If that is
+                        // ever addressed, then consider increasing the number of groups we process per transaction to
+                        // perhaps get better performance.
                         if (++count == 1) {
                             // commit the current transaction and start a fresh one
                             tx.close();

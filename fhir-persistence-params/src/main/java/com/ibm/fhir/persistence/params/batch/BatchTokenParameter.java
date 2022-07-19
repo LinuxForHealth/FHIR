@@ -8,7 +8,7 @@ package com.ibm.fhir.persistence.params.batch;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.index.TokenParameter;
-import com.ibm.fhir.persistence.params.api.BatchParameterProcessor;
+import com.ibm.fhir.persistence.params.api.IBatchParameterProcessor;
 import com.ibm.fhir.persistence.params.api.BatchParameterValue;
 import com.ibm.fhir.persistence.params.model.CommonTokenValue;
 import com.ibm.fhir.persistence.params.model.ParameterNameValue;
@@ -38,7 +38,7 @@ public class BatchTokenParameter extends BatchParameterValue {
     }
 
     @Override
-    public void apply(BatchParameterProcessor processor) throws FHIRPersistenceException {
+    public void apply(IBatchParameterProcessor processor) throws FHIRPersistenceException {
         processor.process(requestShard, resourceType, logicalId, logicalResourceId, parameterNameValue, parameter, commonTokenValue);
     }
 }
