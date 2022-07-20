@@ -337,23 +337,23 @@ public class ParameterValueCollector implements IParamValueCollector {
     @Override
     public void publish(IParamValueProcessor processor) throws FHIRPersistenceException {
         // resolve any missing ids
-        try (MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_RESOLVE_LOGICAL_RESOURCES.name())) {
+        try (MetricHandle mh = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_RESOLVE_LOGICAL_RESOURCES.name())) {
             processor.resolveLogicalResourceIdents(unresolvedLogicalResourceIdents, logicalResourceIdentMap);
         }
-        try (MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_RESOLVE_PARAMETER_NAMES.name())) {
+        try (MetricHandle mh = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_RESOLVE_PARAMETER_NAMES.name())) {
             processor.resolveParameterNames(unresolvedParameterNames, parameterNameMap);
         }
-        try (MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_RESOLVE_CODE_SYSTEMS.name())) {
+        try (MetricHandle mh = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_RESOLVE_CODE_SYSTEMS.name())) {
             processor.resolveSystemValues(unresolvedSystemValues, codeSystemValueMap);
         }
-        try (MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_RESOLVE_COMMON_TOKEN_VALUES.name())) {
+        try (MetricHandle mh = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_RESOLVE_COMMON_TOKEN_VALUES.name())) {
             processor.resolveCommonTokenValues(unresolvedTokenValues, commonTokenValueMap);
         }
-        try (MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_RESOLVE_CANONICAL_VALUES.name())) {
+        try (MetricHandle mh = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_RESOLVE_CANONICAL_VALUES.name())) {
             processor.resolveCanonicalValues(unresolvedCanonicalValues, commonCanonicalValueMap);
         }
 
-        try (MetricHandle createMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_PUBLISH.name())) {
+        try (MetricHandle mh = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_PUBLISH.name())) {
             for (BatchParameterValue v: this.batchedParameterValues) {
                 processor.publish(v);
             }

@@ -506,15 +506,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
-     * Convert the extracted parameters into a package we can send to a remote service
-     * for processing then send to that service (if so configured)
-     * @param resourceType
-     * @param logicalId
-     * @param logicalResourceId
-     * @param versionId
-     * @param lastUpdated
-     * @param requestShard
-     * @param searchParameters
+     * Convert the extracted parameters into a SearchParametersTransport and either 
+     * collect the values to commit with the local transaction or send it off to a 
+     * remote indexing service (if so configured).
+     * @param resourceType the resource type name
+     * @param logicalId the logical id of the resource
+     * @param logicalResourceId the database logical_resource_id returned from add_any_resource
+     * @param versionId the latest version number of the resource
+     * @param lastUpdated the last updated time of the resource
+     * @param requestShard the shard in which to store the resource (when using the SHARDED schema variant, null otherwise)
+     * @param searchParameters the search parameters extracted from the resource
+     * @param currentParameterHash the current parameter hash returned from add_any_resource (null if this is a new resource)
      */
     private void storeSearchParameterValues(String resourceType, String logicalId, long logicalResourceId, 
             int versionId, java.time.Instant lastUpdated, String requestShard, 
