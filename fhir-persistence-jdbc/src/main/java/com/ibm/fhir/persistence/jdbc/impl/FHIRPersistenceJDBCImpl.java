@@ -52,6 +52,7 @@ import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.core.context.FHIRPagingContext;
+import com.ibm.fhir.core.trace.Trace;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
@@ -2880,6 +2881,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param securityRecs
      * @throws FHIRPersistenceException
      */
+    @Trace
     public void onCommit(Collection<ResourceTokenValueRec> records, Collection<ResourceReferenceValueRec> referenceRecords, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);

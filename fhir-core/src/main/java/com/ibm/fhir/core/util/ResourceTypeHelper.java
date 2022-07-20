@@ -207,6 +207,19 @@ public class ResourceTypeHelper {
         }
     }
 
+    /**
+     * Get a list of unique concrete resource type names for all possible FHIRVersionParam values.
+     * Does not include any abstract types.
+     * @return
+     */
+    public static Set<String> getAllResourceTypeNames() {
+        final Set<String> resourceTypes = new HashSet<>();
+        for (FHIRVersionParam v: FHIRVersionParam.values()) {
+            resourceTypes.addAll(getResourceTypesFor(v));
+        }
+        return Collections.unmodifiableSet(resourceTypes);
+    }
+
     private static Set<ResourceType> collectResourceTypesFor(FHIRVersionParam fhirVersion) {
         Set<ResourceType> set = new LinkedHashSet<>();
         for(ResourceType r : ResourceType.values()) {

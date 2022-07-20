@@ -66,4 +66,13 @@ public class ResourceTypeHelperTest {
         // "is a valid instance of Ingredient in 4.0 expected to be valid in 4.3"
         isCompatible("Ingredient", VERSION_40, VERSION_43);
     }
+
+    @Test
+    public void testAllResourceTypeNames() {
+        Set<String> allNames = ResourceTypeHelper.getAllResourceTypeNames();
+        assertTrue(allNames.contains("Patient")); // In both R4B and R4
+        assertTrue(allNames.contains("Ingredient")); // In R4B, not R4
+        assertTrue(allNames.contains("MedicinalProductInteraction")); // In R4, not R4B
+        assertFalse(allNames.contains("Resource")); // Abstract type, so not listed
+    }
 }
