@@ -50,9 +50,9 @@ import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
+import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
@@ -157,10 +157,10 @@ public class SchemaPrinter {
      * processes through using a fake connection.
      */
     public void process() {
-        // Pretend that our target is a DB2 database
+        // Pretend that our target is a PostgreSQL database
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
-        Db2Adapter adapter = new Db2Adapter(target);
+        PostgresAdapter adapter = new PostgresAdapter(target);
         ISchemaAdapter schemaAdapter = DerbyMaster.wrap(adapter);
 
         // Set up the version history service first if it doesn't yet exist
@@ -191,7 +191,7 @@ public class SchemaPrinter {
      // Pretend that our target is a DB2 database
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
-        Db2Adapter adapter = new Db2Adapter(target);
+        PostgresAdapter adapter = new PostgresAdapter(target);
         ISchemaAdapter schemaAdapter = DerbyMaster.wrap(adapter);
 
         // Set up the version history service first if it doesn't yet exist
@@ -270,7 +270,6 @@ public class SchemaPrinter {
 
     public static void main(String[] args) {
         boolean outputToFile = false;
-        boolean multitenant = false;
         boolean distributed = false;
         String outputFile = "";
 
@@ -281,9 +280,6 @@ public class SchemaPrinter {
             case "--to-file":
                 outputToFile = true;
                 break;
-            case "--multitenant":
-                multitenant = true;
-                break;
             case "--distributed":
                 distributed = true;
                 break;
@@ -292,11 +288,7 @@ public class SchemaPrinter {
             }
         }
 
-        if (multitenant && distributed) {
-            throw new IllegalArgumentException("--multitenant and --distributed are mutually exclusive");
-        }
-
-        SchemaType schemaType = multitenant ? SchemaType.MULTITENANT : distributed ? SchemaType.DISTRIBUTED : SchemaType.PLAIN;
+        SchemaType schemaType = distributed ? SchemaType.DISTRIBUTED : SchemaType.PLAIN;
 
         try {
             SchemaPrinter printer = new SchemaPrinter(outputToFile, schemaType);

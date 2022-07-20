@@ -221,16 +221,6 @@ public class FHIRDbTenantDatasourceConnectionStrategy extends FHIRDbConnectionSt
 
                 String typeValue = dsPG.getStringProperty("type");
                 DbType type = DbType.from(typeValue);
-                if (type == DbType.DB2) {
-                    // For Db2 we currently only support MULTITENANT so we force the schemaType
-                    schemaType = SchemaType.MULTITENANT;
-                } else {
-                    // Make sure for any other database of type we're not being asked to use the
-                    // multitenant variant
-                    if (schemaType == SchemaType.MULTITENANT) {
-                        throw new FHIRPersistenceDataAccessException("schemaType MULTITENANT is only supported for Db2");
-                    }
-                }
 
                 result = new FHIRDbFlavorImpl(type, schemaType);
             }

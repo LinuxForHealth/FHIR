@@ -49,7 +49,6 @@ import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
 import com.ibm.fhir.database.utils.model.AlterTableIdentityCache;
 import com.ibm.fhir.database.utils.model.BaseObject;
@@ -75,39 +74,6 @@ public class JavaBatchSchemaGeneratorTest {
     private Boolean DEBUG = Boolean.FALSE;
 
     @Test
-    public void testJavaBatchSchemaGeneratorDb2() {
-        PrintConnection connection = new PrintConnection();
-        JdbcTarget target = new JdbcTarget(connection);
-        Db2Adapter adapter = new Db2Adapter(target);
-        ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
-
-        // Set up the version history service first if it doesn't yet exist
-        CreateVersionHistory.createTableIfNeeded(Main.ADMIN_SCHEMANAME, schemaAdapter);
-
-        // Current version history for the database. This is used by applyWithHistory
-        // to determine which updates to apply and to record the new changes as they
-        // are applied
-        VersionHistoryService vhs = new VersionHistoryService(Main.ADMIN_SCHEMANAME, Main.DATA_SCHEMANAME, Main.OAUTH_SCHEMANAME, Main.BATCH_SCHEMANAME);
-        vhs.setTarget(adapter);
-
-        PhysicalDataModel pdm = new PhysicalDataModel();
-        JavaBatchSchemaGenerator generator = new JavaBatchSchemaGenerator(Main.BATCH_SCHEMANAME);
-        generator.buildJavaBatchSchema(pdm);
-        SchemaApplyContext context = SchemaApplyContext.getDefault();
-        pdm.apply(schemaAdapter, context);
-        pdm.applyFunctions(schemaAdapter, context);
-        pdm.applyProcedures(schemaAdapter, context);
-
-        if (DEBUG) {
-            for (Entry<String, String> command : commands.entrySet()) {
-                System.out.println(command.getKey() + ";");
-            }
-        }
-        assertEquals(commands.size(), 23);
-        commands.clear();
-    }
-
-    @Test(dependsOnMethods = { "testJavaBatchSchemaGeneratorDb2" })
     public void testJavaBatchSchemaGeneratorPostgres() {
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
@@ -136,7 +102,7 @@ public class JavaBatchSchemaGeneratorTest {
             }
         }
 
-        assertEquals(commands.size(), 38);
+        assertEquals(commands.size(), 24);
         commands.clear();
     }
 
@@ -144,7 +110,7 @@ public class JavaBatchSchemaGeneratorTest {
     public void testJavaBatchSchemaGeneratorCheckTags() {
         PrintConnection connection = new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
-        Db2Adapter adapter = new Db2Adapter(target);
+        PostgresAdapter adapter = new PostgresAdapter(target);
         ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
 
         // Set up the version history service first if it doesn't yet exist

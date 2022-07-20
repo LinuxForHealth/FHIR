@@ -74,8 +74,6 @@ public class UnusedTableRemovalNeedsV0021Migration implements IDatabaseSupplier<
         case POSTGRESQL:
         case CITUS:
             return checkPostgres(translator, c);
-        case DB2:
-            return checkDb2(translator, c);
         case DERBY:
             return checkDerby(translator, c);
         default:
@@ -86,21 +84,7 @@ public class UnusedTableRemovalNeedsV0021Migration implements IDatabaseSupplier<
     }
 
     /**
-     * Checks the db2 syscatalog for the tables.
-     *
-     * @param translator
-     * @param c
-     * @return
-     */
-    public boolean checkDb2(IDatabaseTranslator translator, Connection c) {
-        final String sql = "SELECT 1 FROM SYSCAT.TABLES TABS"
-                + " WHERE TABS.tabschema = ? "
-                + "     AND TABS.tabname in ( " + addParameterMarkers(TABLE_COUNT) + " )";
-        return hasTables(translator, c, sql);
-    }
-
-    /**
-     * Checks db2's sys catalog
+     * Checks derby's sys catalog
      *
      * @param translator
      * @param c

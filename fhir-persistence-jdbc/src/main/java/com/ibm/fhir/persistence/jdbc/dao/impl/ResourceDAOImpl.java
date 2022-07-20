@@ -311,22 +311,12 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         try {
             if (fromDateTime != null) {
                 stmtString = String.format(SQL_HISTORY_FROM_DATETIME, resourceType, resourceType);
-                if (isDb2Database()) {
-                    stmtString = stmtString + DB2_PAGINATION_PARMS;
-                    resources = this.runQuery(stmtString, logicalId, fromDateTime, maxResults, offset);
-                } else {
-                    stmtString = stmtString + DERBY_PAGINATION_PARMS;
-                    resources = this.runQuery(stmtString, logicalId, fromDateTime, offset, maxResults);
-                }
+                stmtString = stmtString + DERBY_PAGINATION_PARMS;
+                resources = this.runQuery(stmtString, logicalId, fromDateTime, offset, maxResults);
             } else {
                 stmtString = String.format(SQL_HISTORY, resourceType, resourceType);
-                if (isDb2Database()) {
-                    stmtString = stmtString + DB2_PAGINATION_PARMS;
-                    resources = this.runQuery(stmtString, logicalId, maxResults, offset);
-                } else {
-                    stmtString = stmtString + DERBY_PAGINATION_PARMS;
-                    resources = this.runQuery(stmtString, logicalId, offset, maxResults);
-                }
+                stmtString = stmtString + DERBY_PAGINATION_PARMS;
+                resources = this.runQuery(stmtString, logicalId, offset, maxResults);
             }
         } finally {
             log.exiting(CLASSNAME, METHODNAME, Arrays.toString(new Object[] { resources }));

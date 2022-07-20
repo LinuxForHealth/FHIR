@@ -36,7 +36,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.DropForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
-import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
@@ -69,9 +68,9 @@ public class Main {
     // Arguments requesting we drop the objects from the schema
     private boolean dropOldConstraints = true;
 
-    // The database type being populated (default: Db2)
-    private DbType dbType = DbType.DB2;
-    private IDatabaseTranslator translator = new Db2Translator();
+    // The database type being populated (default: PostgreSQL)
+    private DbType dbType = DbType.POSTGRESQL;
+    private IDatabaseTranslator translator = new PostgresTranslator();
 
     // Composite properties
     private static final String COMP = "COMP";
@@ -223,9 +222,8 @@ public class Main {
                 case CITUS:
                     translator = new CitusTranslator();
                     break;
-                case DB2:
                 default:
-                    break;
+                    throw new IllegalArgumentException("Database type not supported: " + dbType);
                 }
                 break;
             default:

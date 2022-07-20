@@ -23,12 +23,7 @@ public enum DbType {
     /**
      * Citus (Distributed PostgreSQL)
      */
-    CITUS("citus"),
-
-    /**
-     * IBM Db2
-     */
-    DB2("db2");
+    CITUS("citus");
 
     private String value;
 

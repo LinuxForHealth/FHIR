@@ -86,7 +86,6 @@ import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.common.DropPrimaryKey;
 import com.ibm.fhir.database.utils.common.DropTable;
 import com.ibm.fhir.database.utils.common.DropView;
-import com.ibm.fhir.database.utils.common.ReorgTable;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.ColumnDefBuilder;
 import com.ibm.fhir.database.utils.model.CreateIndex;
@@ -314,11 +313,6 @@ public class FhirResourceTableGroup {
             for (ColumnBase column : columns) {
                 statements.add(new AddColumn(schemaName, tableName, column));
             }
-
-            // Db2 requires a REORG before the table can be used again, so
-            // we add this as a final step. This will be ignored by database
-            // adapters that don't require it (e.g. PostgreSQL).
-            statements.add(new ReorgTable(schemaName, tableName));
         }
     }
 
@@ -492,11 +486,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         for (ColumnBase column : columns) {
             statements.add(new AddColumn(schemaName, tableName, column));
         }
-
-        // Db2 requires a REORG before the table can be used again, so
-        // we add this as a final step. This will be ignored by database
-        // adapters that don't require it (e.g. PostgreSQL).
-        statements.add(new ReorgTable(schemaName, tableName));
     }
 
     /**
@@ -563,7 +552,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                         statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_LRPT", tableName, mtId, lrpt));
                     }
 
-                    boolean needReorg = false;
                     if (priorVersion < FhirSchemaVersion.V0009.vid()) {
                         addCompositeMigrationStepsV0009(statements, tableName);
                     }
@@ -582,14 +570,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                         final String viewName = prefix + "_" + TOKEN_VALUES_V;
                         statements.add(new DropView(schemaName, viewName));
                         statements.add(new DropColumn(schemaName,  tableName, REF_VERSION_ID));
-                        needReorg = true;
                     }
-
-                    if (needReorg) {
-                        // Required for Db2, ignored otherwise
-                        statements.add(new ReorgTable(schemaName, tableName));
-                    }
-
                     return statements;
                 })
                 .build(model);

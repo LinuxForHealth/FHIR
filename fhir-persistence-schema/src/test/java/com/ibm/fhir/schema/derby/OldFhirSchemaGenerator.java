@@ -61,7 +61,6 @@ import com.ibm.fhir.database.utils.model.NopObject;
 import com.ibm.fhir.database.utils.model.ObjectGroup;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
-import com.ibm.fhir.database.utils.model.ProcedureDef;
 import com.ibm.fhir.database.utils.model.RowArrayType;
 import com.ibm.fhir.database.utils.model.RowTypeBuilder;
 import com.ibm.fhir.database.utils.model.Sequence;
@@ -127,11 +126,8 @@ public class OldFhirSchemaGenerator {
     private Set<IDatabaseObject> adminProcedureDependencies = new HashSet<>();
 
     // A NOP marker used to ensure procedures are only applied after all the create
-    // table statements are applied - to avoid DB2 catalog deadlocks
+    // table statements are applied
     private IDatabaseObject allAdminTablesComplete;
-
-    // Marker used to indicate that the admin schema is all done
-    private IDatabaseObject adminSchemaComplete;
 
     // The resource types to generate schema for
     private final Set<String> resourceTypes;
@@ -150,7 +146,7 @@ public class OldFhirSchemaGenerator {
     private Table resourceTypesTable;
 
     // A NOP marker used to ensure procedures are only applied after all the create
-    // table statements are applied - to avoid DB2 catalog deadlocks
+    // table statements are applied
     private IDatabaseObject allTablesComplete;
 
     // Privileges needed by the stored procedures
@@ -241,22 +237,6 @@ public class OldFhirSchemaGenerator {
         this.allAdminTablesComplete.addDependencies(adminProcedureDependencies);
         this.allAdminTablesComplete.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         model.addObject(allAdminTablesComplete);
-
-        // The set_tenant procedure can be created after all the admin tables are done
-        final String ROOT_DIR = "db2/";
-        ProcedureDef setTenant = model.addProcedure(this.adminSchemaName,
-                SET_TENANT,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName, ROOT_DIR + SET_TENANT.toLowerCase() + ".sql", null),
-                Arrays.asList(allAdminTablesComplete),
-                procedurePrivileges);
-        setTenant.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
-
-        // A final marker which is used to block any FHIR data schema activity until the admin schema is completed
-        this.adminSchemaComplete = new NopObject(adminSchemaName, "adminSchemaComplete");
-        this.adminSchemaComplete.addDependencies(Arrays.asList(setTenant));
-        this.adminSchemaComplete.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
-        model.addObject(adminSchemaComplete);
     }
 
     /**
@@ -374,42 +354,8 @@ public class OldFhirSchemaGenerator {
         this.allTablesComplete.addDependencies(procedureDependencies);
         model.addObject(allTablesComplete);
 
-        // These procedures just depend on the table they are manipulating and the fhir sequence. But
-        // to avoid deadlocks, we only apply them after all the tables are done, so we make all
-        // procedures depend on the allTablesComplete marker.
-        final String ROOT_DIR = "db2/";
-        ProcedureDef pd;
-        pd = model.addProcedure(this.schemaName,
-                ADD_CODE_SYSTEM,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        pd = model.addProcedure(this.schemaName,
-                ADD_PARAMETER_NAME,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_PARAMETER_NAME.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete),
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        pd = model.addProcedure(this.schemaName,
-                ADD_RESOURCE_TYPE,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_RESOURCE_TYPE.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        pd = model.addProcedure(this.schemaName,
-                ADD_ANY_RESOURCE,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        // this class is used to build the schema in Derby for testing purposes. The procedures
+        // are therefore not required
     }
 
     /**

@@ -14,7 +14,6 @@ import java.util.Objects;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
@@ -47,9 +46,6 @@ public class AddColumn implements IDatabaseStatement {
         // DatabaseTypeAdapter is needed to find the correct data type for the column.
         final IDatabaseTypeAdapter dbAdapter;
         switch (translator.getType()) {
-        case DB2:
-            dbAdapter = new Db2Adapter();
-            break;
         case DERBY:
             dbAdapter = new DerbyAdapter();
             break;

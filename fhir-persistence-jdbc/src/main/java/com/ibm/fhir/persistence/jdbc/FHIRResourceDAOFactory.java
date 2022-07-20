@@ -13,7 +13,6 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.citus.CitusTranslator;
 import com.ibm.fhir.database.utils.common.DatabaseTranslatorFactory;
-import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -25,9 +24,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
-import com.ibm.fhir.persistence.jdbc.db2.Db2ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
@@ -62,9 +59,6 @@ public class FHIRResourceDAOFactory {
 
         IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
         switch (flavor.getType()) {
-        case DB2:
-            resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
-            break;
         case DERBY:
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
             break;
@@ -98,10 +92,6 @@ public class FHIRResourceDAOFactory {
         IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
 
         switch (flavor.getType()) {
-        case DB2:
-            translator = new Db2Translator();
-            result = new ReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache, rrd);
-            break;
         case DERBY:
             translator = new DerbyTranslator();
             result = new ReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache, rrd);
@@ -145,9 +135,6 @@ public class FHIRResourceDAOFactory {
 
         IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
         switch (flavor.getType()) {
-        case DB2:
-            resourceDAO = new ResourceDAOImpl(connection, schemaName, flavor, cache, rrd);
-            break;
         case DERBY:
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, cache, rrd);
             break;
@@ -177,9 +164,6 @@ public class FHIRResourceDAOFactory {
 
         final ResourceReferenceDAO rrd;
         switch (flavor.getType()) {
-        case DB2:
-            rrd = new Db2ResourceReferenceDAO(new Db2Translator(), connection, schemaName, cache.getResourceReferenceCache(), adminSchemaName, cache.getParameterNameCache(), cache.getLogicalResourceIdentCache());
-            break;
         case DERBY:
             rrd = new DerbyResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache(), cache.getLogicalResourceIdentCache());
             break;
@@ -205,10 +189,6 @@ public class FHIRResourceDAOFactory {
     public static FhirSequenceDAO getSequenceDAO(Connection connection, FHIRDbFlavor flavor) {
         final FhirSequenceDAO result;
         switch (flavor.getType()) {
-        case DB2:
-            // Derby syntax also works for Db2
-            result = new com.ibm.fhir.persistence.jdbc.derby.FhirSequenceDAOImpl(connection);
-            break;
         case DERBY:
             result = new com.ibm.fhir.persistence.jdbc.derby.FhirSequenceDAOImpl(connection);
             break;

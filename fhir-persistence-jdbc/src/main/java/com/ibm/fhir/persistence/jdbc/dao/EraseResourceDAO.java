@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -54,7 +53,6 @@ public class EraseResourceDAO extends ResourceDAOImpl {
     private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
     private static final String CALL_POSTGRES = "{CALL %s.ERASE_RESOURCE(?, ?, ?, ?)}";
-    private static final String CALL_DB2 = "CALL %s.ERASE_RESOURCE(?, ?, ?, ?)";
 
     // The translator specific to the database type we're working with
     private final IDatabaseTranslator translator;
@@ -200,10 +198,8 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         if (eraseDto.getVersion() != null && version != 1) {
             
             // Record the affected record
-            final String INSERT_ERASED_RESOURCES = translator.getType() == DbType.DB2
-                    ? "INSERT INTO erased_resources(mt_id, erased_resource_group_id, resource_type_id, logical_id, version_id) "
-                    + "     VALUES (" + adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?)"
-                    : "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id, version_id) "
+            final String INSERT_ERASED_RESOURCES = ""
+                    + "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id, version_id) "
                     + "     VALUES (?, ?, ?, ?)";
             try (PreparedStatement stmt = getConnection().prepareStatement(INSERT_ERASED_RESOURCES)) {
                 stmt.setLong(1, erasedResourceGroupId);
@@ -255,10 +251,8 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         }
 
         // The entire logical resource is being erased, so don't include a version when we record this
-        final String INSERT_ERASED_RESOURCES = translator.getType() == DbType.DB2
-                ? "INSERT INTO erased_resources(mt_id, erased_resource_group_id, resource_type_id, logical_id) "
-                + "     VALUES (" + adminSchemaName + ".SV_TENANT_ID, ?, ?, ?)"
-                : "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id) "
+        final String INSERT_ERASED_RESOURCES = ""
+                + "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id) "
                 + "     VALUES (?, ?, ?)";
         try (PreparedStatement stmt = getConnection().prepareStatement(INSERT_ERASED_RESOURCES)) {
             stmt.setLong(1, erasedResourceGroupId);
@@ -367,9 +361,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         FhirSequenceDAO fhirSequence = FHIRResourceDAOFactory.getSequenceDAO(getConnection(), getFlavor());
         long erasedResourceGroupId = fhirSequence.nextValue();
 
-        if (DbType.DB2.equals(getFlavor().getType()) && eraseDto.getVersion() == null) {
-            runCallableStatement(CALL_DB2, erasedResourceGroupId);
-        } else if (getFlavor().isFamilyPostgreSQL() && eraseDto.getVersion() == null) {
+        if (getFlavor().isFamilyPostgreSQL() && eraseDto.getVersion() == null) {
             runCallableStatement(CALL_POSTGRES, erasedResourceGroupId);
         } else {
             // Uses the Native Java to execute a Resource Erase

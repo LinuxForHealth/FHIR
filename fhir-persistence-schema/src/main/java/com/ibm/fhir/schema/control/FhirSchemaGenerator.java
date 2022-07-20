@@ -96,7 +96,6 @@ import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropIndex;
 import com.ibm.fhir.database.utils.common.DropTable;
-import com.ibm.fhir.database.utils.common.ReorgTable;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
 import com.ibm.fhir.database.utils.model.BaseObject;
 import com.ibm.fhir.database.utils.model.CharColumn;
@@ -111,7 +110,6 @@ import com.ibm.fhir.database.utils.model.ObjectGroup;
 import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
-import com.ibm.fhir.database.utils.model.ProcedureDef;
 import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
@@ -165,17 +163,12 @@ public class FhirSchemaGenerator {
     private Table tenantsTable;
     private Table tenantKeysTable;
 
-    private static final String SET_TENANT = "SET_TENANT";
-
     // The set of dependencies common to all of our admin stored procedures
     private Set<IDatabaseObject> adminProcedureDependencies = new HashSet<>();
 
     // A NOP marker used to ensure procedures are only applied after all the create
     // table statements are applied - to avoid DB2 catalog deadlocks
     private IDatabaseObject allAdminTablesComplete;
-
-    // Marker used to indicate that the admin schema is all done
-    private IDatabaseObject adminSchemaComplete;
 
     // The resource types to generate schema for
     private final Set<String> resourceTypes;
@@ -287,21 +280,6 @@ public class FhirSchemaGenerator {
         this.allAdminTablesComplete.addDependencies(adminProcedureDependencies);
         this.allAdminTablesComplete.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         model.addObject(allAdminTablesComplete);
-
-        // The set_tenant procedure can be created after all the admin tables are done
-        final String ROOT_DIR = "db2/";
-        ProcedureDef setTenant = model.addProcedure(this.adminSchemaName, SET_TENANT, 2,
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName,
-                    ROOT_DIR + SET_TENANT.toLowerCase() + ".sql", null),
-                Arrays.asList(allAdminTablesComplete),
-                procedurePrivileges);
-        setTenant.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
-
-        // A final marker which is used to block any FHIR data schema activity until the admin schema is completed
-        this.adminSchemaComplete = new NopObject(adminSchemaName, "adminSchemaComplete");
-        this.adminSchemaComplete.addDependencies(Arrays.asList(setTenant));
-        this.adminSchemaComplete.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
-        model.addObject(adminSchemaComplete);
     }
 
     /**
@@ -429,61 +407,6 @@ public class FhirSchemaGenerator {
         this.allTablesComplete.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         this.allTablesComplete.addDependencies(procedureDependencies);
         model.addObject(allTablesComplete);
-    }
-
-    public void buildDatabaseSpecificArtifactsDb2(PhysicalDataModel model) {
-        // These procedures just depend on the table they are manipulating and the fhir sequence. But
-        // to avoid deadlocks, we only apply them after all the tables are done, so we make all
-        // procedures depend on the allTablesComplete marker.
-        final String ROOT_DIR = "db2/";
-        ProcedureDef pd = model.addProcedure(this.schemaName,
-                ADD_CODE_SYSTEM,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        pd = model.addProcedure(this.schemaName,
-                ADD_PARAMETER_NAME,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_PARAMETER_NAME.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete),
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        pd = model.addProcedure(this.schemaName,
-                ADD_RESOURCE_TYPE,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_RESOURCE_TYPE.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        pd = model.addProcedure(this.schemaName,
-            DELETE_RESOURCE_PARAMETERS,
-            FhirSchemaVersion.V0020.vid(),
-            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + DELETE_RESOURCE_PARAMETERS.toLowerCase() + ".sql", null),
-            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
-            procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        final ProcedureDef deleteResourceParameters = pd;
-
-        pd = model.addProcedure(this.schemaName,
-                ADD_ANY_RESOURCE,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete),
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        pd = model.addProcedure(this.schemaName,
-            ERASE_RESOURCE,
-            FhirSchemaVersion.V0013.vid(),
-            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql", null),
-            Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete),
-            procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
 
     public void buildDatabaseSpecificArtifactsPostgres(PhysicalDataModel model) {
@@ -640,14 +563,6 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * Are we building the Db2-specific multitenant schema variant
-     * @return
-     */
-    private boolean isMultitenant() {
-        return this.schemaType == SchemaType.MULTITENANT;
-    }
-
-    /**
      * Add the system-wide logical_resources table. Note that LOGICAL_ID is
      * denormalized, stored in both LOGICAL_RESOURCES and <RESOURCE_TYPE>_LOGICAL_RESOURCES.
      * This avoids an additional join, and simplifies the migration to this
@@ -656,7 +571,7 @@ public class FhirSchemaGenerator {
      */
     public void addLogicalResources(PhysicalDataModel pdm) {
         final String tableName = LOGICAL_RESOURCES;
-        final String mtId = isMultitenant() ? MT_ID : null;
+        final String mtId = null;
 
         final String IDX_LOGICAL_RESOURCES_RITS = "IDX_" + LOGICAL_RESOURCES + "_RITS";
         final String IDX_LOGICAL_RESOURCES_LUPD = "IDX_" + LOGICAL_RESOURCES + "_LUPD";
@@ -782,7 +697,7 @@ public class FhirSchemaGenerator {
      */
     private void addLogicalResourceIdent(PhysicalDataModel pdm) {
         final String tableName = LOGICAL_RESOURCE_IDENT;
-        final String mtId = isMultitenant() ? MT_ID : null;
+        final String mtId = null;
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // add support for distribution/sharding
@@ -1259,7 +1174,7 @@ public class FhirSchemaGenerator {
 
         // The sessionVariable is used to enable access control on every table, so we
         // provide it as a dependency
-        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, isMultitenant(), sessionVariable,
+        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, false, sessionVariable,
                 this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges, addWiths());
         for (String resourceType: this.resourceTypes) {
 
@@ -1501,7 +1416,6 @@ public class FhirSchemaGenerator {
                 .addMigration(priorVersion -> {
                     // Replace the indexes initially defined in the V0006 version with better ones
                     List<IDatabaseStatement> statements = new ArrayList<>();
-                    boolean needReorg = false;
                     if (priorVersion == FhirSchemaVersion.V0006.vid()) {
                         // Migrate the index definitions as part of the V0008 version of the schema
                         // This table was originally introduced as part of the V0006 schema, which
@@ -1509,7 +1423,7 @@ public class FhirSchemaGenerator {
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_TVLR"));
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_LRTV"));
 
-                        final String mtId = isMultitenant() ? MT_ID : null;
+                        final String mtId = null;
                         // Replace the original TVLR index on (common_token_value_id, parameter_name_id, logical_resource_id)
                         List<OrderedColumnDef> tplr = Arrays.asList(
                             new OrderedColumnDef(COMMON_TOKEN_VALUE_ID, OrderedColumnDef.Direction.ASC, null),
@@ -1534,12 +1448,6 @@ public class FhirSchemaGenerator {
                     }
                     if (priorVersion < FhirSchemaVersion.V0028.vid()) {
                         statements.add(new DropColumn(schemaName,  tableName, REF_VERSION_ID));
-                        needReorg = true;
-                    }
-
-                    if (needReorg) {
-                        // Required for Db2, ignored otherwise
-                        statements.add(new ReorgTable(schemaName, tableName));
                     }
                     return statements;
                 })
@@ -1564,7 +1472,7 @@ public class FhirSchemaGenerator {
      */
     public void addErasedResources(PhysicalDataModel pdm) {
         final String tableName = ERASED_RESOURCES;
-        final String mtId = isMultitenant() ? MT_ID : null;
+        final String mtId = null;
 
         // Each erase operation is allocated an ERASED_RESOURCE_GROUP_ID
         // value which can be used to retrieve the resource and/or
