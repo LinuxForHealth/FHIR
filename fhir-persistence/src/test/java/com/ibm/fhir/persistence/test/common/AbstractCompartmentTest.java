@@ -66,42 +66,49 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
         Observation.Builder observationBuilder = TestUtil.getMinimalResource(Observation.class).toBuilder();
         Observation.Builder observation2Builder = TestUtil.getMinimalResource(Observation.class).toBuilder();
 
-        Patient patient = TestUtil.getMinimalResource(Patient.class);
-        savedPatient = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), patient).getResource();
-        observationBuilder.subject(buildReference(savedPatient));
-        observationBuilder.performer(buildReference(savedPatient));
-        // a logical ID-only reference to a patient
-        observation2Builder.subject(Reference.builder().reference(string(savedPatient.getId())).build());
-
-        Device device = TestUtil.getMinimalResource(Device.class);
-        savedDevice = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), device).getResource();
-        observationBuilder.device(buildReference(savedDevice));
-
-        Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
-        savedEncounter = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), encounter).getResource();
-        observationBuilder.encounter(buildReference(savedEncounter));
-
-        Practitioner practitioner = TestUtil.getMinimalResource(Practitioner.class);
-        savedPractitioner = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), practitioner).getResource();
-        observationBuilder.performer(buildReference(savedPractitioner));
-
-        RelatedPerson relatedPerson = TestUtil.getMinimalResource(RelatedPerson.class);
-        savedRelatedPerson = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), relatedPerson).getResource();
-        observationBuilder.performer(buildReference(savedRelatedPerson));
-
-        savedObservation = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), observationBuilder.build()).getResource();
-        assertNotNull(savedObservation);
-        assertNotNull(savedObservation.getId());
-        assertNotNull(savedObservation.getMeta());
-        assertNotNull(savedObservation.getMeta().getVersionId().getValue());
-        assertEquals("1", savedObservation.getMeta().getVersionId().getValue());
-
-        savedObservation2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), observation2Builder.build()).getResource();
-        assertNotNull(savedObservation2);
-        assertNotNull(savedObservation2.getId());
-        assertNotNull(savedObservation2.getMeta());
-        assertNotNull(savedObservation2.getMeta().getVersionId().getValue());
-        assertEquals("1", savedObservation2.getMeta().getVersionId().getValue());
+        // transaction required to ensure that all the search parameter values are persisted (flushed)
+        // before we attempt to run any search queries
+        persistence.getTransaction().begin();
+        try {
+            Patient patient = TestUtil.getMinimalResource(Patient.class);
+            savedPatient = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), patient).getResource();
+            observationBuilder.subject(buildReference(savedPatient));
+            observationBuilder.performer(buildReference(savedPatient));
+            // a logical ID-only reference to a patient
+            observation2Builder.subject(Reference.builder().reference(string(savedPatient.getId())).build());
+    
+            Device device = TestUtil.getMinimalResource(Device.class);
+            savedDevice = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), device).getResource();
+            observationBuilder.device(buildReference(savedDevice));
+    
+            Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
+            savedEncounter = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), encounter).getResource();
+            observationBuilder.encounter(buildReference(savedEncounter));
+    
+            Practitioner practitioner = TestUtil.getMinimalResource(Practitioner.class);
+            savedPractitioner = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), practitioner).getResource();
+            observationBuilder.performer(buildReference(savedPractitioner));
+    
+            RelatedPerson relatedPerson = TestUtil.getMinimalResource(RelatedPerson.class);
+            savedRelatedPerson = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), relatedPerson).getResource();
+            observationBuilder.performer(buildReference(savedRelatedPerson));
+    
+            savedObservation = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), observationBuilder.build()).getResource();
+            assertNotNull(savedObservation);
+            assertNotNull(savedObservation.getId());
+            assertNotNull(savedObservation.getMeta());
+            assertNotNull(savedObservation.getMeta().getVersionId().getValue());
+            assertEquals("1", savedObservation.getMeta().getVersionId().getValue());
+    
+            savedObservation2 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), observation2Builder.build()).getResource();
+            assertNotNull(savedObservation2);
+            assertNotNull(savedObservation2.getId());
+            assertNotNull(savedObservation2.getMeta());
+            assertNotNull(savedObservation2.getMeta().getVersionId().getValue());
+            assertEquals("1", savedObservation2.getMeta().getVersionId().getValue());
+        } finally {
+            persistence.getTransaction().end();
+        }
     }
 
     @AfterClass

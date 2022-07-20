@@ -21,26 +21,25 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.MetricHandle;
 import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
 import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
-import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceDAO;
+import com.ibm.fhir.persistence.jdbc.util.FHIRPersistenceJDBCMetric;
 
 /**
  * Data access object for writing FHIR resources to Citus database using
@@ -238,7 +237,9 @@ public class CitusResourceDAO extends PostgresResourceDAO {
                 final int ifNoneMatchVersionIndex = psh.registerOutParameter(Types.INTEGER);
     
                 dbCallStartTime = System.nanoTime();
-                stmt.execute();
+                try (MetricHandle m = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_ADD_ANY_RESOURCE.name())) {
+                    stmt.execute();
+                }
                 dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
     
                 resource.setLogicalResourceId(logicalResourceId);
@@ -248,26 +249,7 @@ public class CitusResourceDAO extends PostgresResourceDAO {
                     resource.setIfNoneMatchVersion(stmt.getInt(ifNoneMatchVersionIndex)); // current version
                 } else {
                     resource.setInteractionStatus(InteractionStatus.MODIFIED);
-        
-                    // Parameter time
-                    // To keep things simple for the postgresql use-case, we just use a visitor to
-                    // handle inserts of parameters directly in the resource parameter tables.
-                    // Note we don't get any parameters for the resource soft-delete operation
-                    // Bypass the parameter insert here if we have the remoteIndexService configured
-                    FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
-                    final String currentParameterHash = stmt.getString(oldParameterHashIndex);
-                    if (remoteIndexService == null
-                            && parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
-                            || !parameterHashB64.equals(currentParameterHash))) {
-                        // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
-                        JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-                        try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getLogicalResourceId(), 100,
-                            identityCache, getResourceReferenceDAO(), getTransactionData())) {
-                            for (ExtractedParameterValue p: parameters) {
-                                p.accept(pvd);
-                            }
-                        }
-                    }
+                    resource.setCurrentParameterHash(stmt.getString(oldParameterHashIndex));
                 }
                 if (log.isLoggable(Level.FINE)) {
                     log.fine("Successfully inserted Resource. logicalResourceId=" + resource.getLogicalResourceId() + " executionTime=" + dbCallDuration + "ms");

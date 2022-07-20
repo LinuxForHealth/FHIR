@@ -12,17 +12,17 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.ibm.fhir.remote.index.api.IdentityCache;
-import com.ibm.fhir.remote.index.database.CommonCanonicalValueKey;
-import com.ibm.fhir.remote.index.database.CommonTokenValueKey;
-import com.ibm.fhir.remote.index.database.LogicalResourceIdentKey;
-import com.ibm.fhir.remote.index.database.ResourceTypeValue;
+import com.ibm.fhir.persistence.params.api.IParameterIdentityCache;
+import com.ibm.fhir.persistence.params.model.CommonCanonicalValueKey;
+import com.ibm.fhir.persistence.params.model.CommonTokenValueKey;
+import com.ibm.fhir.persistence.params.model.LogicalResourceIdentKey;
+import com.ibm.fhir.persistence.params.model.ResourceTypeValue;
 
 /**
  * Implementation of a cache we use to reduce the number of databases accesses
  * required to find the id for a given object key
  */
-public class IdentityCacheImpl implements IdentityCache {
+public class IdentityCacheImpl implements IParameterIdentityCache {
     private final ConcurrentHashMap<String, Integer> parameterNames = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, Integer> resourceTypes = new ConcurrentHashMap<>();
     private final Cache<String, Integer> codeSystemCache;
@@ -109,7 +109,7 @@ public class IdentityCacheImpl implements IdentityCache {
     }
 
     @Override
-    public void addCommonTokenValue(short shardKey, String codeSystem, String tokenValue, long commonTokenValueId) {
+    public void addCommonTokenValue(short shardKey, String codeSystem, int codeSystemId, String tokenValue, long commonTokenValueId) {
         this.commonTokenValueCache.put(new CommonTokenValueKey(shardKey, codeSystem, tokenValue), commonTokenValueId);
     }
 

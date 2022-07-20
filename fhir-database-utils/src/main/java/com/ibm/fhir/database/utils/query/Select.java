@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,10 @@ import static com.ibm.fhir.database.utils.query.SqlConstants.SELECT;
 import static com.ibm.fhir.database.utils.query.SqlConstants.SPACE;
 import static com.ibm.fhir.database.utils.query.SqlConstants.UNION;
 import static com.ibm.fhir.database.utils.query.SqlConstants.UNION_ALL;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
@@ -56,6 +60,7 @@ public class Select {
     // If true, the specified UNION is a UNION ALL
     private boolean unionAll = false;
 
+    private List<With> withClauses;
     /**
      * Default constructor. Not a DISTINCT select.
      */
@@ -100,6 +105,19 @@ public class Select {
         for (String c : columns) {
             selectList.addColumn(c);
         }
+    }
+
+    /**
+     * Add a new WITH clause to the select statement for example
+     * WITH alias AS (SELECT ...) SELECT ... FROM abc JOIN alias ON ... 
+     * @param selectClause
+     * @param alias
+     */
+    public void addWithClause(Select selectClause, Alias alias) {
+        if (this.withClauses == null) {
+            this.withClauses = new ArrayList<>();
+        }
+        this.withClauses.add(new With(selectClause, alias));
     }
 
     /**
@@ -210,6 +228,10 @@ public class Select {
         // Just for information purposes...should use the #render call
         // for database-specific query syntax
         StringBuilder result = new StringBuilder();
+        if (this.withClauses != null) {
+            result.append(withClauses.stream().map(w -> w.toString()).collect(Collectors.joining(", ")));
+            result.append(" ");
+        }
         result.append(SELECT);
         if (this.distinct) {
             result.append(" DISTINCT");
@@ -275,7 +297,7 @@ public class Select {
      * @return
      */
     public <T> T render(StatementRenderer<T> renderer) {
-        return renderer.select(distinct, selectList, fromClause, whereClause, groupByClause, havingClause,
+        return renderer.select(withClauses, distinct, selectList, fromClause, whereClause, groupByClause, havingClause,
             orderByClause, paginationClause, unionAll, union);
     }
 

@@ -6,11 +6,13 @@
 
 package com.ibm.fhir.config;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -63,6 +65,12 @@ public class FHIRRequestContext {
 
     private Pattern validChars = Pattern.compile("[a-zA-Z0-9_\\-]+");
     private String errorMsg = "Only [a-z], [A-Z], [0-9], '_', and '-' characters are allowed.";
+
+    // Map of all metrics currently collected (across multiple request threads)
+    private static final Map<String, CallTimeMetric> metricMap = new ConcurrentHashMap<>();
+    
+    // the current metric handle on this request thread
+    private MetricHandle currentMetricHandle;
 
     private static ThreadLocal<FHIRRequestContext> contexts = new ThreadLocal<FHIRRequestContext>() {
         @Override
@@ -301,5 +309,70 @@ public class FHIRRequestContext {
      */
     public void setReturnPreferenceDefault(boolean returnPreferenceIsDefault) {
         this.returnPreferenceDefault = returnPreferenceIsDefault;
+    }
+
+    /**
+     * Get a handle to track a new instance of a call. Metric names must not include the
+     * forward slash '/' character because it is used as a path separator
+     * @param name
+     * @return
+     */
+    public MetricHandle getMetricHandle(String name) {
+        if (name.contains("/")) {
+            throw new IllegalArgumentException("Metric names MUST NOT include the metric path separator '/'");
+        }
+
+        if (log.isLoggable(Level.FINEST)) {
+            if (currentMetricHandle != null) {
+                log.finest("getMetricHandle: '" + name + "', currentMetric is '" + currentMetricHandle.getPath() + "'");
+            } else {
+                log.finest("getMetricHandle: '" + name + "', currentMetric is '/'");
+            }
+        }
+
+        final String parentPath = (currentMetricHandle == null) ? "/" : currentMetricHandle.getPath();
+        final String fullMetricName = parentPath + name;
+
+        // See if this fullMetricName already exists, if not create a new instance
+        CallTimeMetric metric = metricMap.computeIfAbsent(fullMetricName, k -> new CallTimeMetric(fullMetricName, name));
+        this.currentMetricHandle = new MetricHandle(this, metric, currentMetricHandle);
+        return this.currentMetricHandle;
+    }
+
+    /**
+     * Callback to indicate that the current MetricHandle has closed, so we should set the currentMetric
+     * to be its parent (which may be null if the current metric is a root-level metric).
+     * @param mh the metric handle being closed
+     * @throws IllegalStateException if the given metric does not match the currentMetric value, indicating a programming error
+     */
+    protected void endMetric(MetricHandle mh) {
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest("endMetric: '" + mh.getPath() + "', currentMetric is '" + currentMetricHandle.getPath() + "'");
+        }
+
+        if (mh == this.currentMetricHandle) {
+            this.currentMetricHandle = mh.getParent();
+        } else if (currentMetricHandle == null) {
+            // programming error
+            throw new IllegalStateException("Metric being closed is '" + mh.getPath() + "' but currentMetric is not set");
+        } else {
+            // programming error
+            throw new IllegalStateException("Metric being closed is '" + mh.getPath() + "' but currentMetric is '" + currentMetricHandle.getPath() + "'");
+        }
+    }
+
+    /**
+     * Get a snapshot of the current collection of metric values and reset them.
+     * @implNote this isn't atomic, so there's a very small chance a metric could
+     * be reported after the result snapshot is calculated but before the clear()
+     * call. But this tiny error is well worth the benefit of avoiding synchronization
+     * here.
+     * @return
+     */
+    public static List<CallTimeMetric> getAndResetMetrics() {
+        List<CallTimeMetric> result = new ArrayList<CallTimeMetric>(metricMap.values());
+        metricMap.clear();
+        result.sort((a,b) -> a.getFullMetricName().compareTo(b.getFullMetricName()));
+        return result;        
     }
 }

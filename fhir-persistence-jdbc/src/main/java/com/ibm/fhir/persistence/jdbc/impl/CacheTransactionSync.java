@@ -7,14 +7,18 @@
 package com.ibm.fhir.persistence.jdbc.impl;
 
 import java.util.function.Consumer;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.transaction.Status;
 import javax.transaction.Synchronization;
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.MetricHandle;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.TransactionData;
+import com.ibm.fhir.persistence.jdbc.util.FHIRPersistenceJDBCMetric;
 
 
 /**
@@ -36,6 +40,9 @@ public class CacheTransactionSync implements Synchronization {
 
     // Called after the transaction completes (true == committed; false == rolled back)
     private final Consumer<Boolean> afterTransactionHandler;
+
+    // metric used to capture the time it takes us to perform the commit
+    private MetricHandle commitTime;
 
     /**
      * Public constructor
@@ -66,23 +73,34 @@ public class CacheTransactionSync implements Synchronization {
             logger.fine("Persisting TransactionData found in the TransactionSynchronizationRegistry");
             ((TransactionData)obj).persist();
         }
+
+        // Now that we've processed all of our before completion events, we can open the MetricHandle
+        // to measure how long it takes to perform the actual transaction commit
+        commitTime = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_COMMIT.name());
     }
 
     @Override
     public void afterCompletion(int status) {
-        if (status == Status.STATUS_COMMITTED) {
-            cache.transactionCommitted();
-            if (afterTransactionHandler != null) {
-                afterTransactionHandler.accept(Boolean.TRUE);
+        if (commitTime != null) {
+            commitTime.close();
+        }
+        try (MetricHandle m = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_AFTER_COMMIT.name())) {
+            if (status == Status.STATUS_COMMITTED) {
+                cache.transactionCommitted();
+                if (afterTransactionHandler != null) {
+                    afterTransactionHandler.accept(Boolean.TRUE);
+                }
+            } else {
+                // probably a rollback, so throw away everything
+                logger.info("Transaction failed - afterCompletion(status = " + translateStatus(status) + ")");
+                cache.transactionRolledBack();
+    
+                if (afterTransactionHandler != null) {
+                    afterTransactionHandler.accept(Boolean.FALSE);
+                }
             }
-        } else {
-            // probably a rollback, so throw away everything
-            logger.info("Transaction failed - afterCompletion(status = " + translateStatus(status) + ")");
-            cache.transactionRolledBack();
-
-            if (afterTransactionHandler != null) {
-                afterTransactionHandler.accept(Boolean.FALSE);
-            }
+        } catch (Exception x) {
+            logger.log(Level.WARNING, FHIRPersistenceJDBCMetric.M_JDBC_AFTER_COMMIT.name(), x);
         }
     }
 

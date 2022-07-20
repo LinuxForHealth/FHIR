@@ -53,7 +53,7 @@ public interface JDBCIdentityCache {
      * @return
      * @throws FHIRPersistenceException
      */
-    Integer getCanonicalId(String canonicalValue) throws FHIRPersistenceException;
+    Long getCanonicalId(String canonicalValue) throws FHIRPersistenceException;
 
     /**
      * Get the database id for the given (resourceType, logicalId) tuple. This

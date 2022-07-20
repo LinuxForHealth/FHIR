@@ -49,11 +49,14 @@ import org.apache.commons.configuration2.MapConfiguration;
 import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.cache.CachingProxy;
+import com.ibm.fhir.config.CallTimeMetric;
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.core.lifecycle.EventManager;
 import com.ibm.fhir.database.utils.derby.DerbyServerPropertiesMgr;
+import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -87,6 +90,7 @@ import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 @WebListener("IBM FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
     private static final Logger log = Logger.getLogger(FHIRServletContextListener.class.getName());
+    private static final Logger metricLogger = Logger.getLogger("com.ibm.fhir.MetricReport");
 
     private static final String ATTRNAME_WEBSOCKET_SERVERCONTAINER = "javax.websocket.server.ServerContainer";
     private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
@@ -98,6 +102,8 @@ public class FHIRServletContextListener implements ServletContextListener {
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
     private static FHIRNotificationNATSPublisher natsPublisher = null;
     private static FHIRRemoteIndexService remoteIndexService = null;
+    private static volatile boolean running = true;
+    private static Thread metricReportThread = null;
 
     private List<GraphTermServiceProvider> graphTermServiceProviders = new ArrayList<>();
     private List<RemoteTermServiceProvider> remoteTermServiceProviders = new ArrayList<>();
@@ -283,6 +289,11 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             configureTermServiceCapabilities(fhirConfig);
 
+            if (metricLogger.isLoggable(Level.FINE)) {
+                this.metricReportThread = new Thread(() -> metricReportLoop());
+                this.metricReportThread.start();
+            }
+
             // Set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
 
@@ -297,6 +308,19 @@ public class FHIRServletContextListener implements ServletContextListener {
                 log.exiting(FHIRServletContextListener.class.getName(), "contextInitialized");
             }
         }
+    }
+
+    /**
+     * Continuous loop to periodically write out any metrics we've collected
+     */
+    private void metricReportLoop() {
+        do {
+            // report metrics every minute
+            ThreadHandler.safeSleep(60000);
+            if (metricLogger.isLoggable(Level.FINE)) {
+                CallTimeMetric.render(metricLogger, FHIRRequestContext.getAndResetMetrics());
+            }
+        } while (running);
     }
 
     /**
@@ -321,6 +345,12 @@ public class FHIRServletContextListener implements ServletContextListener {
             log.entering(FHIRServletContextListener.class.getName(), "contextDestroyed");
         }
         try {
+            running = false;
+            if (metricReportThread != null) {
+                metricReportThread.interrupt();
+                metricReportThread.join();
+            }
+
             // Set our "initComplete" flag back to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
 

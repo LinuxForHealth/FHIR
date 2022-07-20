@@ -78,6 +78,11 @@ public class Resource {
      */
     private String resourcePayloadKey;
 
+    /**
+     * The existing parameter hash value
+     */
+    private String currentParameterHash;
+    
     public Resource() {
         super();
     }
@@ -231,6 +236,20 @@ public class Resource {
      */
     public void setResourcePayloadKey(String resourcePayloadKey) {
         this.resourcePayloadKey = resourcePayloadKey;
+    }
+
+    /**
+     * @return the currentParameterHash
+     */
+    public String getCurrentParameterHash() {
+        return currentParameterHash;
+    }
+
+    /**
+     * @param currentParameterHash the currentParameterHash to set
+     */
+    public void setCurrentParameterHash(String currentParameterHash) {
+        this.currentParameterHash = currentParameterHash;
     }
 }
 

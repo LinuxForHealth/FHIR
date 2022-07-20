@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.index;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * A number search parameter
@@ -71,5 +72,24 @@ public class NumberParameter extends SearchParameterValue {
      */
     public void setHighValue(BigDecimal highValue) {
         this.highValue = highValue;
+    }
+
+    @Override
+    public int hashCode() {
+        // yeah I know I could include the super hashCode in the list of values,
+        // but this avoids unnecessary boxing
+        return 31 * super.hashCode() + Objects.hash(value, lowValue, highValue);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof NumberParameter) {
+            NumberParameter that = (NumberParameter)obj;
+            return super.equals(obj)
+                    && Objects.equals(this.value, that.value)
+                    && Objects.equals(this.lowValue, that.lowValue)
+                    && Objects.equals(this.highValue, that.highValue);
+        }
+        return false;
     }
 }

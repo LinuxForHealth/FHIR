@@ -551,6 +551,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 resource.setIfNoneMatchVersion(stmt.getInt(14));
             } else {
                 resource.setInteractionStatus(InteractionStatus.MODIFIED);
+                resource.setCurrentParameterHash(currentHash);
 
                 if (large) {
                     String largeStmtString = String.format(LARGE_BLOB, resource.getResourceType());

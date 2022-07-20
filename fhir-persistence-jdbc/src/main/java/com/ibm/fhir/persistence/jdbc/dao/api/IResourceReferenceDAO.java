@@ -86,5 +86,5 @@ public interface IResourceReferenceDAO {
      * @param canonicalValue
      * @return
      */
-    Integer readCanonicalId(String canonicalValue);
+    Long readCanonicalId(String canonicalValue);
 }

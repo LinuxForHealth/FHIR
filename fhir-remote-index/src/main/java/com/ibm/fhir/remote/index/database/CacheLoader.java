@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.params.model.ResourceTypeValue;
 import com.ibm.fhir.remote.index.cache.IdentityCacheImpl;
 
 /**

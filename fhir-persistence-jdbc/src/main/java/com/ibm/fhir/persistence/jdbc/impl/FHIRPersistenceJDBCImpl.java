@@ -48,6 +48,7 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.MetricHandle;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.FHIRUtilities;
@@ -106,10 +107,21 @@ import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.fhir.persistence.index.DateParameter;
 import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.index.IndexProviderResponse;
+import com.ibm.fhir.persistence.index.LocationParameter;
+import com.ibm.fhir.persistence.index.NumberParameter;
+import com.ibm.fhir.persistence.index.ProfileParameter;
+import com.ibm.fhir.persistence.index.QuantityParameter;
+import com.ibm.fhir.persistence.index.ReferenceParameter;
 import com.ibm.fhir.persistence.index.RemoteIndexData;
+import com.ibm.fhir.persistence.index.SearchParametersTransport;
 import com.ibm.fhir.persistence.index.SearchParametersTransportAdapter;
+import com.ibm.fhir.persistence.index.SecurityParameter;
+import com.ibm.fhir.persistence.index.StringParameter;
+import com.ibm.fhir.persistence.index.TagParameter;
+import com.ibm.fhir.persistence.index.TokenParameter;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
@@ -121,6 +133,7 @@ import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTenantDatasourceConnection
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTestConnectionStrategy;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRTestTransactionAdapter;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRUserTransactionAdapter;
+import com.ibm.fhir.persistence.jdbc.connection.IFHIRTransactionAdapterCallback;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameFromProps;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameImpl;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameSupplier;
@@ -156,10 +169,20 @@ import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.util.ExtractedSearchParameters;
+import com.ibm.fhir.persistence.jdbc.util.FHIRPersistenceJDBCMetric;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
+import com.ibm.fhir.persistence.jdbc.util.JDBCParameterCacheAdapter;
 import com.ibm.fhir.persistence.jdbc.util.NewQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.ParameterHashVisitor;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
+import com.ibm.fhir.persistence.params.api.IParamValueCollector;
+import com.ibm.fhir.persistence.params.api.IParamValueProcessor;
+import com.ibm.fhir.persistence.params.api.IParameterIdentityCache;
+import com.ibm.fhir.persistence.params.api.ParamMetrics;
+import com.ibm.fhir.persistence.params.batch.ParameterValueCollector;
+import com.ibm.fhir.persistence.params.database.DistributedPostgresParamValueProcessor;
+import com.ibm.fhir.persistence.params.database.PlainDerbyParamValueProcessor;
+import com.ibm.fhir.persistence.params.database.PlainPostgresParamValueProcessor;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResponse;
 import com.ibm.fhir.persistence.payload.PayloadPersistenceResult;
@@ -187,7 +210,7 @@ import com.ibm.fhir.search.util.SearchHelper;
  * @implNote This class is request-scoped;
  *           it must be initialized for each request to reset the supplementalIssues list
  */
-public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSupplier {
+public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSupplier, IFHIRTransactionAdapterCallback {
     private static final String CLASSNAME = FHIRPersistenceJDBCImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
     private static final int DATA_BUFFER_INITIAL_SIZE = 10*1024; // 10KiB
@@ -245,6 +268,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // A list of the remote index messages we need to check we get ACKs for
     private final List<IndexProviderResponse> remoteIndexMessageList = new ArrayList<>();
 
+    // The collector used to accumulate all the search parameter values before we insert them just before commit
+    private final IParamValueCollector paramValueCollector;
+
     /**
      * Constructor for use when running as web application in WLP.
      * @throws Exception
@@ -286,6 +312,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         this.legacyWholeSystemSearchParamsEnabled =
                 fhirConfig.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
 
+        if (connectionStrategy.getFlavor().getType() != DbType.DB2) {
+            this.paramValueCollector = new ParameterValueCollector(new JDBCParameterCacheAdapter(cache));
+        } else {
+            // Db2 uses the old way for now
+            this.paramValueCollector = null;
+        }
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -346,7 +378,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         this.connectionStrategy = new FHIRDbTestConnectionStrategy(cp, buildActionChain());
 
         // For unit tests (outside of JEE), we also need our own mechanism for handling transactions
-        this.transactionAdapter = new FHIRTestTransactionAdapter(cp);
+        this.transactionAdapter = new FHIRTestTransactionAdapter(cp, this);
 
         // TODO connect the transactionAdapter to our cache so that we can handle tx events in a non-JEE world
         this.transactionDataImpl = null;
@@ -354,6 +386,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // Always want to be testing with legacy whole-system search parameters disabled
         this.legacyWholeSystemSearchParamsEnabled = false;
 
+        if (connectionStrategy.getFlavor().getType() != DbType.DB2) {
+            this.paramValueCollector = new ParameterValueCollector(new JDBCParameterCacheAdapter(cache));
+        } else {
+            // Db2 uses the old way for now
+            this.paramValueCollector = null;
+        }
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -386,7 +424,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final String METHODNAME = "create";
         log.entering(CLASSNAME, METHODNAME);
 
-        try (Connection connection = openConnection()) {
+        try (Connection connection = openConnection();
+                MetricHandle mh = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_CREATE.name())) {
             doCachePrefill(context, connection);
 
             if (context.getOffloadResponse() != null) {
@@ -419,16 +458,20 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Persist the Resource DTO.
             resourceDao.setPersistenceContext(context);
-            ExtractedSearchParameters searchParameters = this.extractSearchParameters(updatedResource, resourceDTO);
+            final ExtractedSearchParameters searchParameters;
+            try (MetricHandle mh2 = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_EXTRACT_SEARCH_PARAMS.name())) {
+                searchParameters = this.extractSearchParameters(updatedResource, resourceDTO);
+            }
             resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), parameterDao, context.getIfNoneMatch());
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' logicalResourceId=" + resourceDTO.getLogicalResourceId()
                             + ", version=" + resourceDTO.getVersionId());
             }
 
-            if (resourceDTO.getInteractionStatus() == InteractionStatus.MODIFIED) {
-                sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getLogicalResourceId(), 
-                    resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters);
+            if (resourceDTO.getInteractionStatus() == InteractionStatus.MODIFIED && searchParameters != null) {
+                storeSearchParameterValues(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getLogicalResourceId(), 
+                    resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters,
+                    resourceDTO.getCurrentParameterHash());
             }
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                     .success(true)
@@ -464,28 +507,35 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
-     * Convert the extracted parameters into a package we can send to a remote service
-     * for processing then send to that service (if so configured)
-     * @param resourceType
-     * @param logicalId
-     * @param logicalResourceId
-     * @param versionId
-     * @param lastUpdated
-     * @param requestShard
-     * @param searchParameters
+     * Convert the extracted parameters into a SearchParametersTransport and either 
+     * collect the values to commit with the local transaction or send it off to a 
+     * remote indexing service (if so configured).
+     * @param resourceType the resource type name
+     * @param logicalId the logical id of the resource
+     * @param logicalResourceId the database logical_resource_id returned from add_any_resource
+     * @param versionId the latest version number of the resource
+     * @param lastUpdated the last updated time of the resource
+     * @param requestShard the shard in which to store the resource (when using the SHARDED schema variant, null otherwise)
+     * @param searchParameters the search parameters extracted from the resource
+     * @param currentParameterHash the current parameter hash returned from add_any_resource (null if this is a new resource)
      */
-    private void sendParametersToRemoteIndexService(String resourceType, String logicalId, long logicalResourceId, 
+    private void storeSearchParameterValues(String resourceType, String logicalId, long logicalResourceId, 
             int versionId, java.time.Instant lastUpdated, String requestShard, 
-            ExtractedSearchParameters searchParameters) throws FHIRPersistenceException {
+            ExtractedSearchParameters searchParameters, String currentParameterHash) throws FHIRPersistenceException {
+
+        final SearchParametersTransportAdapter adapter = buildSearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId, versionId, lastUpdated, requestShard, searchParameters, currentParameterHash);
+
+        // store locally or remotely?
         FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
-        if (remoteIndexService != null) {
-            // convert the parameters into a form that will be easy to ship to a remote service
-            SearchParametersTransportAdapter adapter = new SearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId, 
-                versionId, lastUpdated, requestShard, searchParameters.getParameterHashB64());
-            ParameterTransportVisitor visitor = new ParameterTransportVisitor(adapter);
-            for (ExtractedParameterValue pv: searchParameters.getParameters()) {
-                pv.accept(visitor);
+        if (remoteIndexService == null) {
+            // Store the search parameters locally as part of the current transaction
+            final String parameterHashB64 = searchParameters.getParameterHashB64();
+            if (paramValueCollector != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
+                  || !parameterHashB64.equals(currentParameterHash))) {
+                accumulateSearchParameterValues(adapter.build());
             }
+        } else {
+            // Send the search parameter values over Kafka so that they can be processed using a remote service
 
             // Note that the remote index service is supposed to be multi-tenant, using
             // the tenantId from the request context on this thread, so we don't need
@@ -493,6 +543,103 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             final String kafkaPartitionKey = resourceType + "/" + logicalId;
             IndexProviderResponse ipr = remoteIndexService.submit(new RemoteIndexData(kafkaPartitionKey, adapter.build()));
             remoteIndexMessageList.add(ipr); // we'll check for an ACK just before we commit the transaction
+        }
+    }
+
+    /**
+     * Process the searchParameters and gather the unique set of underlying values we intend to store
+     * in the search parameter value tables
+     * 
+     * @param resourceType
+     * @param logicalId
+     * @param logicalResourceId
+     * @param versionId
+     * @param lastUpdated
+     * @param requestShard
+     * @param searchParameters
+     * @param currentParameterHash
+     * @return
+     */
+    private SearchParametersTransportAdapter buildSearchParametersTransportAdapter(String resourceType, String logicalId, long logicalResourceId, 
+            int versionId, java.time.Instant lastUpdated, String requestShard, 
+            ExtractedSearchParameters searchParameters, String currentParameterHash) throws FHIRPersistenceException {
+
+        SearchParametersTransportAdapter adapter = new SearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId, 
+            versionId, lastUpdated, requestShard, searchParameters.getParameterHashB64());
+        ParameterTransportVisitor visitor = new ParameterTransportVisitor(adapter);
+        for (ExtractedParameterValue pv: searchParameters.getParameters()) {
+            pv.accept(visitor);
+        }
+        return adapter;
+    }
+
+    /**
+     * Add the set of search parameter values to the overall list being maintained for the current
+     * transaction. All the values are collected first and then stored just prior to the transaction
+     * being committed
+     * @param build
+     */
+    private void accumulateSearchParameterValues(SearchParametersTransport params) throws FHIRPersistenceException {
+        final String tenantId = FHIRRequestContext.get().getTenantId();
+                
+        if (params.getStringValues() != null) {
+            for (StringParameter p: params.getStringValues()) {
+                paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
+            }
+        }
+
+        if (params.getDateValues() != null) {
+            for (DateParameter p: params.getDateValues()) {
+                paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
+            }
+        }
+
+        if (params.getNumberValues() != null) {
+            for (NumberParameter p: params.getNumberValues()) {
+                paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
+            }
+        }
+
+        if (params.getQuantityValues() != null) {
+            for (QuantityParameter p: params.getQuantityValues()) {
+                paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);                
+            }
+        }
+
+        if (params.getTokenValues() != null) {
+            for (TokenParameter p: params.getTokenValues()) {
+                paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
+            }
+        }
+
+        if (params.getLocationValues() != null) {
+            for (LocationParameter p: params.getLocationValues()) {
+                paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
+            }
+        }
+
+        if (params.getTagValues() != null) {
+            for (TagParameter p: params.getTagValues()) {
+                paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
+            }
+        }
+
+        if (params.getProfileValues() != null) {
+            for (ProfileParameter p: params.getProfileValues()) {
+                paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
+            }
+        }
+
+        if (params.getSecurityValues() != null) {
+            for (SecurityParameter p: params.getSecurityValues()) {
+                paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
+            }
+        }
+
+        if (params.getRefValues() != null) {
+            for (ReferenceParameter p: params.getRefValues()) {
+                paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
+            }
         }
     }
 
@@ -647,7 +794,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final String METHODNAME = "update";
         log.entering(CLASSNAME, METHODNAME);
 
-        try (Connection connection = openConnection()) {
+        try (Connection connection = openConnection();
+                MetricHandle mh = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_UPDATE.name())) {
             doCachePrefill(context, connection);
 
             if (context.getOffloadResponse() != null) {
@@ -684,9 +832,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
 
             // If configured, send the extracted parameters to the remote indexing service
-            if (resourceDTO.getInteractionStatus() == InteractionStatus.MODIFIED) {
-                sendParametersToRemoteIndexService(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getLogicalResourceId(), 
-                    resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters);
+            if (resourceDTO.getInteractionStatus() == InteractionStatus.MODIFIED && searchParameters != null) {
+                storeSearchParameterValues(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getLogicalResourceId(), 
+                    resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters,
+                    resourceDTO.getCurrentParameterHash()
+                    );
             }
 
             SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
@@ -753,11 +903,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             checkModifiers(searchContext, isSystemLevelSearch(resourceType));
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
+            final SchemaType schemaType = connectionStrategy.getFlavor().getSchemaType();
             queryBuilder = new NewQueryBuilder(translator, connectionStrategy.getQueryHints(), identityCache);
 
             // Skip count query if _total=none
             if (!TotalValueSet.NONE.equals(searchContext.getTotalParameter())) {
-                countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
+                countQuery = queryBuilder.buildCountQuery(resourceType, searchContext, schemaType);
                 if (countQuery != null) {
                     searchResultCount = resourceDao.searchCount(countQuery);
                     if (log.isLoggable(Level.FINE)) {
@@ -781,7 +932,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             if ((searchResultCount == null || searchResultCount > 0)
                     && !SummaryValueSet.COUNT.equals(searchContext.getSummaryParameter())
                     && searchContext.getPageSize() > 0) {
-                query = queryBuilder.buildQuery(resourceType, searchContext);
+                query = queryBuilder.buildQuery(resourceType, searchContext, schemaType);
 
                 List<String> elements = searchContext.getElementsParameters();
 
@@ -824,7 +975,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     } else {
                         Map<Integer, List<Long>> resourceTypeIdToLogicalResourceIdMap = resourceDao.searchWholeSystem(query);
                         Select wholeSystemDataQuery = queryBuilder.buildWholeSystemDataQuery(searchContext,
-                                resourceTypeIdToLogicalResourceIdMap);
+                                resourceTypeIdToLogicalResourceIdMap, schemaType);
                         resourceDTOList = resourceDao.search(wholeSystemDataQuery);
                     }
                 } else if (searchContext.hasSortParameters()) {
@@ -842,7 +993,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // resources) will be removed and _elements processing will not be done for 'include' resources.
                 if (resourceResults.size() > 0 && (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters())) {
                     List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeDTOList =
-                            newSearchForIncludeResources(searchContext, resourceType, queryBuilder, resourceDao, resourceDTOList);
+                            newSearchForIncludeResources(searchContext, resourceType, queryBuilder, resourceDao, resourceDTOList, schemaType);
                     List<ResourceResult<? extends Resource>> includeResult = this.convertResourceDTOList(resourceDao, includeDTOList, resourceType, null, searchContext.isIncludeResourceData());
                     // erased version referenced via a versioned reference will be missing the resource
                     // data field, so we need to filter those out here if resource data is being requested
@@ -877,12 +1028,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param queryBuilder - the query builder
      * @param resourceDao - the resource data access object
      * @param resourceDTOList - the list of 'match' resources
+     * @param schemaType - the type of schema we are querying
      * @return the list of 'include' resources
      * @throws Exception
      */
     private List<com.ibm.fhir.persistence.jdbc.dto.Resource> newSearchForIncludeResources(FHIRSearchContext searchContext,
         Class<? extends Resource> resourceType, NewQueryBuilder queryBuilder, ResourceDAO resourceDao,
-        List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList) throws Exception {
+        List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList, SchemaType schemaType) throws Exception {
 
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> allIncludeResources = new ArrayList<>();
 
@@ -907,7 +1059,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // Build and run the query
                 List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeResources =
                         this.runIncludeQuery(resourceType, searchContext, queryBuilder, includeParm, SearchConstants.INCLUDE,
-                            baseLogicalResourceIds, queryResultMap, resourceDao, 1, allResourceIds);
+                            baseLogicalResourceIds, queryResultMap, resourceDao, 1, allResourceIds, schemaType);
 
                 // Add new ids to de-dup list
                 allResourceIds.addAll(includeResources.stream().map(r -> r.getResourceId()).collect(Collectors.toSet()));
@@ -929,7 +1081,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // Build and run the query
                 List<com.ibm.fhir.persistence.jdbc.dto.Resource> revincludeResources =
                         this.runIncludeQuery(resourceType, searchContext, queryBuilder, revincludeParm, SearchConstants.REVINCLUDE,
-                            baseLogicalResourceIds, queryResultMap, resourceDao, 1, allResourceIds);
+                            baseLogicalResourceIds, queryResultMap, resourceDao, 1, allResourceIds, schemaType);
 
                 // Add new ids to de-dup list
                 allResourceIds.addAll(revincludeResources.stream().map(r -> r.getResourceId()).collect(Collectors.toSet()));
@@ -973,7 +1125,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             // Build and run the query
                             List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeResources =
                                     this.runIncludeQuery(resourceType, searchContext, queryBuilder, includeParm,
-                                        SearchConstants.INCLUDE, queryIds, queryResultMap, resourceDao, i+1, allResourceIds);
+                                        SearchConstants.INCLUDE, queryIds, queryResultMap, resourceDao, i+1, allResourceIds, schemaType);
 
                             // Add new ids to de-dup list
                             allResourceIds.addAll(includeResources.stream().map(r -> r.getResourceId()).collect(Collectors.toSet()));
@@ -998,7 +1150,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             // Build and run the query
                             List<com.ibm.fhir.persistence.jdbc.dto.Resource> revincludeResources =
                                     this.runIncludeQuery(resourceType, searchContext, queryBuilder, revincludeParm,
-                                        SearchConstants.REVINCLUDE, queryIds, queryResultMap, resourceDao, i+1, allResourceIds);
+                                        SearchConstants.REVINCLUDE, queryIds, queryResultMap, resourceDao, i+1, allResourceIds, schemaType);
 
                             // Add new ids to de-dup list
                             allResourceIds.addAll(revincludeResources.stream().map(r -> r.getResourceId()).collect(Collectors.toSet()));
@@ -1035,13 +1187,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param iterationLevel - the current iteration level
      * @param allResourceIds - the list of all resource IDs being returned - used
      *                         for de-duplication
+     * @param schemaType     - the type of schema we are querying
      * @return the list of resources returned from the query
      * @throws Exception
      */
     private List<com.ibm.fhir.persistence.jdbc.dto.Resource> runIncludeQuery(Class<? extends Resource> resourceType,
         FHIRSearchContext searchContext, NewQueryBuilder queryBuilder, InclusionParameter inclusionParm,
         String includeType, Set<String> queryIds, Map<Integer, Map<String, Set<String>>> queryResultMap,
-        ResourceDAO resourceDao, int iterationLevel, Set<Long> allResourceIds) throws Exception {
+        ResourceDAO resourceDao, int iterationLevel, Set<Long> allResourceIds, SchemaType schemaType) throws Exception {
 
         if (queryIds.isEmpty()) {
             return Collections.emptyList();
@@ -1050,7 +1203,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // Build the query. For the new query builder, we work in the actual long logical_resource_id
         // values, not strings. TODO keep the values as longs to avoid unnecessary overhead
         List<Long> logicalResourceIds = queryIds.stream().map(Long::parseLong).collect(Collectors.toList());
-        Select includeQuery = queryBuilder.buildIncludeQuery(resourceType, searchContext, inclusionParm, logicalResourceIds, includeType);
+        Select includeQuery = queryBuilder.buildIncludeQuery(resourceType, searchContext, inclusionParm, logicalResourceIds, includeType, schemaType);
 
         // Execute the query and filter out duplicates
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeDTOs =
@@ -1200,7 +1353,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
         }
 
-        try (Connection connection = openConnection()) {
+        try (Connection connection = openConnection();
+                MetricHandle mh = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_READ.name())) {
             doCachePrefill(context, connection);
             ResourceDAO resourceDao = makeResourceDAO(context, connection);
 
@@ -1266,7 +1420,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         Timestamp fromDateTime = null;
         int offset;
 
-        try (Connection connection = openConnection()) {
+        try (Connection connection = openConnection();
+                MetricHandle mh = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_HISTORY.name())) {
             doCachePrefill(context, connection);
             ResourceDAO resourceDao = makeResourceDAO(context, connection);
 
@@ -1421,7 +1576,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
         }
 
-        try (Connection connection = openConnection()) {
+        try (Connection connection = openConnection();
+                MetricHandle mh = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_VREAD.name())) {
             doCachePrefill(context, connection);
             ResourceDAO resourceDao = makeResourceDAO(context, connection);
 
@@ -2754,7 +2910,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // If hash in the index record is not null and it matches the hash of the extracted parameters, then no need to replace the
             // extracted search parameters in the database tables for this resource, which helps with performance during reindex.
             if (force || rir.getParameterHash() == null || !rir.getParameterHash().equals(searchParameters.getParameterHashB64())) {
-                reindexDAO.updateParameters(rir.getResourceType(), searchParameters.getParameters(), searchParameters.getParameterHashB64(), rir.getLogicalId(), rir.getLogicalResourceId());
+                reindexDAO.updateParameters(rir.getResourceType(), searchParameters.getParameters(), searchParameters.getParameterHashB64(), rir.getLogicalId(), rir.getLogicalResourceId(),
+                    this.paramValueCollector);
+                if (paramValueCollector != null) {
+                    // Instead of storing the parameter values directly, we accumulate all the values first
+                    // then store just before the commit. This reduces the amount of time we hold locks
+                    // allows us to implement more efficient batch-based SQL/DML.
+                    final java.time.Instant lastUpdated = existingResourceDTO.getLastUpdated().toInstant();
+                    final SearchParametersTransportAdapter adapter = buildSearchParametersTransportAdapter(resourceTypeClass.getSimpleName(), rir.getLogicalId(), rir.getLogicalResourceId(), existingResourceDTO.getVersionId(), lastUpdated, null, searchParameters, rir.getParameterHash());
+                    accumulateSearchParameterValues(adapter.build());
+                }
             } else {
                 log.fine(() -> "Skipping update of unchanged parameters for FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
             }
@@ -2817,6 +2982,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         Objects.requireNonNull(committed, "committed must be non-null");
 
         if (committed) {
+            // because the transaction has commited, we can publish any ids generated
+            // during parameter storage
+            if (paramValueCollector != null) {
+                paramValueCollector.publishValuesToCache();
+            }
+
             // See if we have any erase resources to clean up
             for (ErasedResourceRec err: this.eraseResourceRecs) {
                 try {
@@ -2858,6 +3029,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         remoteIndexMessageList.clear();
         payloadPersistenceResponses.clear();
         eraseResourceRecs.clear();
+        if (paramValueCollector != null) {
+            paramValueCollector.reset();
+        }
     }
 
     /**
@@ -2868,6 +3042,80 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     private ParameterTransactionDataImpl createTransactionData(String datasourceId) {
         return new ParameterTransactionDataImpl(datasourceId, this, this.userTransaction);
+    }
+
+    /**
+     * Build an {@link IParamValueProcessor} suitable for the current database and schema type.
+     * @param connection the database connection
+     * @return
+     */
+    private IParamValueProcessor makeParamValueProcessor(Connection connection) throws FHIRPersistenceException {
+        final IParamValueProcessor result;
+        final String schemaName = schemaNameSupplier.getSchemaForRequestContext(connection);
+        final IParameterIdentityCache identityCache = new JDBCParameterCacheAdapter(this.cache);
+        switch (this.connectionStrategy.getFlavor().getSchemaType()) {
+        case PLAIN:
+            if (this.connectionStrategy.getFlavor().getType() == DbType.DERBY) {
+                result = new PlainDerbyParamValueProcessor(connection, schemaName, identityCache);
+            } else {
+                result = new PlainPostgresParamValueProcessor(connection, schemaName, identityCache);
+            }
+            break;
+        case DISTRIBUTED:
+            result = new DistributedPostgresParamValueProcessor(connection, schemaName, identityCache);
+            break;
+        default:
+            throw new FHIRPersistenceException("Schema type not supported: " + connectionStrategy.getFlavor().getSchemaType().name());
+        }
+        return result;
+    }
+
+    @Override
+    public void beforeCommit() throws FHIRPersistenceException {
+        // callback made via the FHIRTestTransactionAdapter which is used for unit tests which do
+        // not have access to the global UserTransaction stuff
+        log.entering(CLASSNAME, "beforeCommit");
+        try {
+            flush();
+        } finally {
+            log.exiting(CLASSNAME, "beforeCommit");
+        }
+    }
+
+    /**
+     * Tell the persistence layer it should flush any data it has accumulated in
+     * the current transaction. Can be called prior to a commit, but the underlying
+     * implementation MUST flush before commit. Useful for unit tests which may want
+     * to interrogate the database before the transaction ends
+     * @throws FHIRPersistenceException
+     */
+    private void flush() throws FHIRPersistenceException {
+        if (this.paramValueCollector != null) {
+            try (Connection connection = openConnection();
+                    MetricHandle mh = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_FLUSH_TX_DATA.name())) {
+                IParamValueProcessor paramValueProcessor = makeParamValueProcessor(connection);
+                try {
+                    // publish all the values collected in this transaction using the paramValueProcessor
+                    this.paramValueCollector.publish(paramValueProcessor);
+    
+                    try (MetricHandle pushMetric = FHIRRequestContext.get().getMetricHandle(ParamMetrics.M_PARAM_PUSH_BATCH.name())) {
+                        // tell the paramValueProcess to push everything to the database
+                        paramValueProcessor.pushBatch();
+                    }
+                } finally {
+                    paramValueProcessor.close();
+                }
+            } catch(FHIRPersistenceFKVException e) {
+                log.log(Level.SEVERE, "FK violation", e);
+                throw e;
+            } catch(FHIRPersistenceException e) {
+                throw e;
+            } catch(Throwable e) {
+                FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while processing token value records.");
+                log.log(Level.SEVERE, fx.getMessage(), e);
+                throw fx;
+            }
+        }
     }
 
     /**
@@ -2883,18 +3131,27 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     @Trace
     public void onCommit(Collection<ResourceTokenValueRec> records, Collection<ResourceReferenceValueRec> referenceRecords, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
-        try (Connection connection = openConnection()) {
-            IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
-            rrd.persist(records, referenceRecords, profileRecs, tagRecs, securityRecs);
-        } catch(FHIRPersistenceFKVException e) {
-            log.log(Level.SEVERE, "FK violation", e);
-            throw e;
-        } catch(FHIRPersistenceException e) {
-            throw e;
-        } catch(Throwable e) {
-            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while processing token value records.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
-            throw fx;
+        if (this.paramValueCollector != null) {
+            // new way...all param data is collected using the paramValueCollector instance
+            flush();
+        } else {
+            // still using the old mechanism
+            try (Connection connection = openConnection();
+                MetricHandle mh = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_FLUSH_TX_DATA.name())) {
+
+                IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
+                rrd.persist(records, referenceRecords, profileRecs, tagRecs, securityRecs);
+        
+            } catch(FHIRPersistenceFKVException e) {
+                log.log(Level.SEVERE, "FK violation", e);
+                throw e;
+            } catch(FHIRPersistenceException e) {
+                throw e;
+            } catch(Throwable e) {
+                FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while processing token value records.");
+                log.log(Level.SEVERE, fx.getMessage(), e);
+                throw fx;
+            }
         }
 
         // At this stage we also need to check that any (async) payload offload operations related

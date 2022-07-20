@@ -25,6 +25,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.MetricHandle;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
@@ -39,6 +41,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.jdbc.util.FHIRPersistenceJDBCMetric;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
@@ -81,7 +84,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     private final IDatabaseTranslator translator;
 
     // The number of operations we allow before submitting a batch
-    protected static final int BATCH_SIZE = 100;
+    protected static final int BATCH_SIZE = 1000;
 
     /**
      * Public constructor
@@ -222,8 +225,8 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     }
 
     @Override
-    public Integer readCanonicalId(String canonicalValue) {
-        Integer result;
+    public Long readCanonicalId(String canonicalValue) {
+        Long result;
         final String SQL = ""
                 + "SELECT canonical_id "
                 + "  FROM common_canonical_values "
@@ -232,7 +235,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             ps.setString(1, canonicalValue);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                result = rs.getInt(1);
+                result = rs.getLong(1);
             } else {
                 result = null;
             }
@@ -263,6 +266,9 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         // as a batch
         final String tableName = resourceType + "_RESOURCE_TOKEN_REFS";
         DataDefinitionUtil.assertValidName(tableName);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("Inserting " + xrefs.size() + " values into " + tableName);
+        }
         final String insert = "INSERT INTO " + tableName + "("
                 + "parameter_name_id, logical_resource_id, common_token_value_id, composite_id) "
                 + "VALUES (?, ?, ?, ?)";
@@ -313,6 +319,9 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         // as a batch
         final String tableName = resourceType + "_REF_VALUES";
         DataDefinitionUtil.assertValidName(tableName);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("Inserting " + xrefs.size() + " values into " + tableName);
+        }
         final String insert = "INSERT INTO " + tableName + "("
                 + "parameter_name_id, logical_resource_id, ref_logical_resource_id, ref_version_id, composite_id) "
                 + "VALUES (?, ?, ?, ?, ?)";
@@ -551,7 +560,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             int count = 0;
             for (ResourceProfileRec xr: profiles) {
                 ps.setLong(1, xr.getLogicalResourceId());
-                ps.setInt(2, xr.getCanonicalValueId());
+                ps.setLong(2, xr.getCanonicalValueId());
 
                 // canonical version can be null
                 if (xr.getVersion() != null) {
@@ -597,7 +606,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             int count = 0;
             for (ResourceProfileRec xr: profiles) {
                 ps.setLong(1, xr.getLogicalResourceId());
-                ps.setInt(2, xr.getCanonicalValueId());
+                ps.setLong(2, xr.getCanonicalValueId());
 
                 // canonical version can be null
                 if (xr.getVersion() != null) {
@@ -844,37 +853,41 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             }
 
             final String paramListStr = paramList.toString();
-            doCommonTokenValuesUpsert(paramListStr, sortedTokenValuesSub);
+            try (MetricHandle m = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_UPSERT_COMMON_TOKEN_VALUES.name())) {
+                doCommonTokenValuesUpsert(paramListStr, sortedTokenValuesSub);
+            }
 
             // Now grab the ids for the rows we just created. If we had a RETURNING implementation
             // which worked reliably across all our database platforms, we wouldn't need this
             // second query.
             // Derby doesn't support IN LISTS with multiple members, so we have to join against
             // a VALUES again. No big deal...probably similar amount of work for the database
-            StringBuilder select = new StringBuilder();
-            select.append("     SELECT ctv.code_system_id, ctv.token_value, ctv.common_token_value_id FROM ");
-            select.append("     (VALUES ").append(paramListStr).append(" ) AS v(token_value, code_system_id) ");
-            select.append("       JOIN common_token_values ctv ");
-            select.append("              ON ctv.token_value = v.token_value ");
-            select.append("             AND ctv.code_system_id = v.code_system_id ");
-
-            // Grab the ids
-            Map<CommonTokenValue, Long> idMap = new HashMap<>();
-            try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
-                int a = 1;
-                for (CommonTokenValue tv: sortedTokenValuesSub) {
-                    ps.setString(a++, tv.getTokenValue());
-                    ps.setInt(a++, tv.getCodeSystemId());
+            final Map<CommonTokenValue, Long> idMap = new HashMap<>();
+            try (MetricHandle m = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_FETCH_NEW_COMMON_TOKEN_VALUES.name())) {
+                StringBuilder select = new StringBuilder();
+                select.append("     SELECT ctv.code_system_id, ctv.token_value, ctv.common_token_value_id FROM ");
+                select.append("     (VALUES ").append(paramListStr).append(" ) AS v(token_value, code_system_id) ");
+                select.append("       JOIN common_token_values ctv ");
+                select.append("              ON ctv.token_value = v.token_value ");
+                select.append("             AND ctv.code_system_id = v.code_system_id ");
+    
+                // Grab the ids
+                try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
+                    int a = 1;
+                    for (CommonTokenValue tv: sortedTokenValuesSub) {
+                        ps.setString(a++, tv.getTokenValue());
+                        ps.setInt(a++, tv.getCodeSystemId());
+                    }
+    
+                    ResultSet rs = ps.executeQuery();
+                    while (rs.next()) {
+                        // SELECT code_system_id, token_value...note codeSystem not required
+                        CommonTokenValue key = new CommonTokenValue(null, rs.getInt(1), rs.getString(2));
+                        idMap.put(key, rs.getLong(3));
+                    }
+                } catch (SQLException x) {
+                    throw translator.translate(x);
                 }
-
-                ResultSet rs = ps.executeQuery();
-                while (rs.next()) {
-                    // SELECT code_system_id, token_value...note codeSystem not required
-                    CommonTokenValue key = new CommonTokenValue(null, rs.getInt(1), rs.getString(2));
-                    idMap.put(key, rs.getLong(3));
-                }
-            } catch (SQLException x) {
-                throw translator.translate(x);
             }
 
             // Now update the ids for all the matching systems in our list
@@ -915,31 +928,41 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             // nothing to do
             return;
         }
+        
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
 
         // Grab the ids for all the code-systems, and upsert any misses
         List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
-        cache.resolveCodeSystems(records, systemMisses);
-        cache.resolveCodeSystems(tagRecs, systemMisses);
-        cache.resolveCodeSystems(securityRecs, systemMisses);
-        upsertCodeSystems(systemMisses);
+        try (MetricHandle m = requestContext.getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_RESOLVE_CODE_SYSTEMS.name())) {
+            cache.resolveCodeSystems(records, systemMisses);
+            cache.resolveCodeSystems(tagRecs, systemMisses);
+            cache.resolveCodeSystems(securityRecs, systemMisses);
+            upsertCodeSystems(systemMisses);
+        }
 
         // Now that all the code-systems ids are known, we can search the cache
         // for all the token values, upserting anything new
         List<ResourceTokenValueRec> valueMisses = new ArrayList<>();
-        cache.resolveTokenValues(records, valueMisses);
-        cache.resolveTokenValues(tagRecs, valueMisses);
-        cache.resolveTokenValues(securityRecs, valueMisses);
-        upsertCommonTokenValues(valueMisses);
+        try (MetricHandle m = requestContext.getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_RESOLVE_COMMON_TOKEN_VALUES.name())) {
+            cache.resolveTokenValues(records, valueMisses);
+            cache.resolveTokenValues(tagRecs, valueMisses);
+            cache.resolveTokenValues(securityRecs, valueMisses);
+            upsertCommonTokenValues(valueMisses);
+        }
 
         // Resolve all the LOGICAL_RESOURCE_IDENT records we need as reference targets
         List<ResourceReferenceValueRec> referenceMisses = new ArrayList<>();
-        logicalResourceIdentCache.resolveReferenceValues(referenceRecords, referenceMisses);
-        upsertLogicalResourceIdents(referenceMisses);
+        try (MetricHandle m = requestContext.getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_RESOLVE_LOGICAL_RESOURCE_IDENT.name())) {
+            logicalResourceIdentCache.resolveReferenceValues(referenceRecords, referenceMisses);
+            upsertLogicalResourceIdents(referenceMisses);
+        }
 
         // Process all the common canonical values
         List<ResourceProfileRec> canonicalMisses = new ArrayList<>();
-        cache.resolveCanonicalValues(profileRecs, canonicalMisses);
-        upsertCanonicalValues(canonicalMisses);
+        try (MetricHandle m = requestContext.getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_RESOLVE_CANONICAL_VALUES.name())) {
+            cache.resolveCanonicalValues(profileRecs, canonicalMisses);
+            upsertCanonicalValues(canonicalMisses);
+        }
 
         // Now split the token-value records into groups based on resource type.
         Map<String,List<ResourceTokenValueRec>> recordMap = new HashMap<>();
@@ -948,9 +971,11 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             list.add(rtv);
         }
 
-        for (Map.Entry<String, List<ResourceTokenValueRec>> entry: recordMap.entrySet()) {
-            insertResourceTokenRefs(entry.getKey(), entry.getValue());
-            insertSystemResourceTokenRefs(entry.getKey(), entry.getValue());
+        try (MetricHandle m = requestContext.getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_INSERT_TOKEN_REFS.name())) {
+            for (Map.Entry<String, List<ResourceTokenValueRec>> entry: recordMap.entrySet()) {
+                insertResourceTokenRefs(entry.getKey(), entry.getValue());
+                insertSystemResourceTokenRefs(entry.getKey(), entry.getValue());
+            }
         }
 
         // Split reference records by resource type
@@ -961,8 +986,10 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         }
 
         // process each list of reference values by resource type
-        for (Map.Entry<String, List<ResourceReferenceValueRec>> entry: referenceRecordMap.entrySet()) {
-            insertRefValues(entry.getKey(), entry.getValue());
+        try (MetricHandle m = requestContext.getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_INSERT_REF_VALUES.name())) {
+            for (Map.Entry<String, List<ResourceReferenceValueRec>> entry: referenceRecordMap.entrySet()) {
+                insertRefValues(entry.getKey(), entry.getValue());
+            }
         }
         
         // Split profile values by resource type
@@ -972,9 +999,11 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             list.add(rtv);
         }
 
-        for (Map.Entry<String, List<ResourceProfileRec>> entry: profileMap.entrySet()) {
-            insertResourceProfiles(entry.getKey(), entry.getValue());
-            insertSystemResourceProfiles(entry.getKey(), entry.getValue());
+        try (MetricHandle m = requestContext.getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_INSERT_PROFILES.name())) {
+            for (Map.Entry<String, List<ResourceProfileRec>> entry: profileMap.entrySet()) {
+                insertResourceProfiles(entry.getKey(), entry.getValue());
+                insertSystemResourceProfiles(entry.getKey(), entry.getValue());
+            }
         }
 
         // Split tag records by resource type
@@ -984,9 +1013,11 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             list.add(rtv);
         }
 
-        for (Map.Entry<String, List<ResourceTokenValueRec>> entry: tagMap.entrySet()) {
-            insertResourceTags(entry.getKey(), entry.getValue());
-            insertSystemResourceTags(entry.getKey(), entry.getValue());
+        try (MetricHandle m = requestContext.getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_INSERT_TAGS.name())) {
+            for (Map.Entry<String, List<ResourceTokenValueRec>> entry: tagMap.entrySet()) {
+                insertResourceTags(entry.getKey(), entry.getValue());
+                insertSystemResourceTags(entry.getKey(), entry.getValue());
+            }
         }
 
         // Split security records by resource type
@@ -996,9 +1027,11 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             list.add(rtv);
         }
 
-        for (Map.Entry<String, List<ResourceTokenValueRec>> entry: securityMap.entrySet()) {
-            insertResourceSecurity(entry.getKey(), entry.getValue());
-            insertSystemResourceSecurity(entry.getKey(), entry.getValue());
+        try (MetricHandle m = requestContext.getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_INSERT_SECURITY.name())) {
+            for (Map.Entry<String, List<ResourceTokenValueRec>> entry: securityMap.entrySet()) {
+                insertResourceSecurity(entry.getKey(), entry.getValue());
+                insertSystemResourceSecurity(entry.getKey(), entry.getValue());
+            }
         }
     }
 

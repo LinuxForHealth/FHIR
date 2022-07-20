@@ -9,7 +9,9 @@ package com.ibm.fhir.persistence.index;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Represents a collection of search parameters extracted from a FHIR resource
@@ -41,6 +43,7 @@ public class SearchParametersTransport {
     // The key value used for sharding the data when using a distributed database
     private String requestShard;
 
+    // The lists of unique parameter values
     private List<StringParameter> stringValues;
     private List<NumberParameter> numberValues;
     private List<QuantityParameter> quantityValues;
@@ -85,16 +88,17 @@ public class SearchParametersTransport {
      * A builder to make it easier to construct a {@link SearchParametersTransport}
      */
     public static class Builder {
-        private List<StringParameter> stringValues = new ArrayList<>();
-        private List<NumberParameter> numberValues = new ArrayList<>();
-        private List<QuantityParameter> quantityValues = new ArrayList<>();
-        private List<TokenParameter> tokenValues = new ArrayList<>();
-        private List<DateParameter> dateValues = new ArrayList<>();
-        private List<LocationParameter> locationValues = new ArrayList<>();
-        private List<TagParameter> tagValues = new ArrayList<>();
-        private List<ProfileParameter> profileValues = new ArrayList<>();
-        private List<SecurityParameter> securityValues = new ArrayList<>();
-        private List<ReferenceParameter> refValues = new ArrayList<>();
+        // values are collected into sets because we want to store only unique values
+        private Set<StringParameter> stringValues = new HashSet<>();
+        private Set<NumberParameter> numberValues = new HashSet<>();
+        private Set<QuantityParameter> quantityValues = new HashSet<>();
+        private Set<TokenParameter> tokenValues = new HashSet<>();
+        private Set<DateParameter> dateValues = new HashSet<>();
+        private Set<LocationParameter> locationValues = new HashSet<>();
+        private Set<TagParameter> tagValues = new HashSet<>();
+        private Set<ProfileParameter> profileValues = new HashSet<>();
+        private Set<SecurityParameter> securityValues = new HashSet<>();
+        private Set<ReferenceParameter> refValues = new HashSet<>();
     
         private String resourceType;
         private String logicalId;

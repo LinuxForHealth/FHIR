@@ -41,14 +41,17 @@ import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.thread.ThreadHandler;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.remote.index.api.IMessageHandler;
+import com.ibm.fhir.persistence.params.api.IMessageHandler;
+import com.ibm.fhir.persistence.params.api.IParamValueCollector;
+import com.ibm.fhir.persistence.params.api.IParamValueProcessor;
+import com.ibm.fhir.persistence.params.batch.ParameterValueCollector;
+import com.ibm.fhir.persistence.params.database.DistributedPostgresParamValueProcessor;
+import com.ibm.fhir.persistence.params.database.PlainDerbyParamValueProcessor;
+import com.ibm.fhir.persistence.params.database.PlainPostgresParamValueProcessor;
 import com.ibm.fhir.remote.index.cache.IdentityCacheImpl;
 import com.ibm.fhir.remote.index.database.CacheLoader;
-import com.ibm.fhir.remote.index.database.DistributedPostgresMessageHandler;
-import com.ibm.fhir.remote.index.database.PlainDerbyMessageHandler;
-import com.ibm.fhir.remote.index.database.PlainPostgresMessageHandler;
+import com.ibm.fhir.remote.index.database.RemoteIndexMessageHandler;
 import com.ibm.fhir.remote.index.kafka.RemoteIndexConsumer;
-import com.ibm.fhir.remote.index.sharded.ShardedPostgresMessageHandler;
 
 /**
  * Main class for the FHIR remote index service Kafka consumer
@@ -376,21 +379,26 @@ public class Main {
             if (this.dbType == DbType.CITUS) {
                 configureCitusConnection(c);
             }
+            final IParamValueCollector paramValueCollector = new ParameterValueCollector(identityCache);
+            final IParamValueProcessor paramValueProcessor;
             
             switch (schemaType) {
-            case SHARDED:
-                return new ShardedPostgresMessageHandler(instanceIdentifier, c, getSchemaName(), identityCache, maxReadyTimeMs);
             case PLAIN:
                 if (dbType == DbType.DERBY) {
-                    return new PlainDerbyMessageHandler(instanceIdentifier, c, getSchemaName(), identityCache, maxReadyTimeMs);                
+                    paramValueProcessor = new PlainDerbyParamValueProcessor(c, getSchemaName(), identityCache);
                 } else {
-                    return new PlainPostgresMessageHandler(instanceIdentifier, c, getSchemaName(), identityCache, maxReadyTimeMs);                
+                    paramValueProcessor = new PlainPostgresParamValueProcessor(c, getSchemaName(), identityCache);
                 }
+                break;
             case DISTRIBUTED:
-                return new DistributedPostgresMessageHandler(instanceIdentifier, c, getSchemaName(), identityCache, maxReadyTimeMs);                
+                paramValueProcessor = new DistributedPostgresParamValueProcessor(c, getSchemaName(), identityCache);
+                break;
             default:
                 throw new FHIRPersistenceException("Schema type not supported: " + schemaType.name());
             }
+
+            return new RemoteIndexMessageHandler(c, instanceIdentifier, maxReadyTimeMs, paramValueCollector, paramValueProcessor);
+
         } catch (SQLException x) {
             throw new FHIRPersistenceException("get connection failed", x);
         }

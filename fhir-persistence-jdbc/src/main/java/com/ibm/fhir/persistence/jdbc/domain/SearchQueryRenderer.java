@@ -63,6 +63,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.query.Operator;
 import com.ibm.fhir.database.utils.query.Select;
@@ -146,6 +147,10 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
     // Include DATA in the data fetch queries
     private final boolean includeResourceData;
+
+    // The schema variant which can affect how we construct some statements
+    private final SchemaType schemaType;
+
     /**
      * Public constructor
      * @param translator
@@ -153,14 +158,16 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @param rowOffset
      * @param rowsPerPage
      * @param includeResourceData
+     * @param schemaType
      */
     public SearchQueryRenderer(IDatabaseTranslator translator, JDBCIdentityCache identityCache,
-            int rowOffset, int rowsPerPage, boolean includeResourceData) {
+            int rowOffset, int rowsPerPage, boolean includeResourceData, SchemaType schemaType) {
         this.translator = translator;
         this.identityCache = identityCache;
         this.rowOffset = rowOffset;
         this.rowsPerPage = rowsPerPage;
         this.includeResourceData = includeResourceData;
+        this.schemaType = schemaType;
         this.legacyWholeSystemSearchParamsEnabled =
                 FHIRConfigHelper.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
     }
@@ -283,7 +290,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @return the database id, or -1 if the value does not exist
      * @throws FHIRPersistenceException
      */
-    protected int getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
+    protected long getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
         return this.identityCache.getCanonicalId(canonicalValue);
     }
 
@@ -1341,21 +1348,47 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @param paramAlias
      * @return
      */
-    protected String getTokenParamTable(ExpNode filter, String resourceType, String paramAlias) {
+    protected String getTokenParamTable(ExpNode filter, String resourceType, String paramAlias, boolean filterIsOptimized) {
+
+        final String xxTokenValues;
+        final String xxResourceTokenRefs = resourceType + "_RESOURCE_TOKEN_REFS";
+        if (filterIsOptimized) {
+            // only filters on COMMON_TOKEN_VALUE_ID so we can optimize by using only the
+            // xx_resource_token_refs table. This results in much better cardinality
+            // estimation and an a better plan
+            xxTokenValues = xxResourceTokenRefs;
+        } else {
+            // can't optimize because we filter on TOKEN_VALUE. If the schema type is distributed,
+            // this becomes a special case because COMMON_TOKEN_VALUES is distributed on TOKEN_VALUE which
+            // is not a common column in the join predicate. In this case, we have to use a WITH clause
+            // which then gets joined with the parameter table (Citus will aggregate the results of the WITH
+            // select statement on the coordinator then pass those results to the worker nodes
+            if (schemaType == SchemaType.DISTRIBUTED) {
+                xxTokenValues = xxResourceTokenRefs;
+            } else {
+                // just use the standard view
+                xxTokenValues = resourceType + "_TOKEN_VALUES_V";
+            }
+        }
+        return xxTokenValues;
+    }
+
+    /**
+     * Inspect the filter expression to see if it mentions the TOKEN_VALUE
+     * or CODE_SYSTEM_ID columns. If neither of these columns is mentioned, 
+     * we can optimize to use only the xx_resource_token_refs which leads to much 
+     * better overall cardinality estimation by the query optimizer.
+     * @param filter
+     * @param paramAlias
+     * @return
+     */
+    protected boolean isOptimizedTokenParamFilter(ExpNode filter, String paramAlias) {
         ColumnExpNodeVisitor visitor = new ColumnExpNodeVisitor(); // gathers all columns used in the filter expression
         Set<String> columns = filter.visit(visitor);
         boolean usesTokenValue = columns.contains(DataDefinitionUtil.getQualifiedName(paramAlias, TOKEN_VALUE)) ||
                                     columns.contains(DataDefinitionUtil.getQualifiedName(paramAlias, CODE_SYSTEM_ID));
-
-        final String xxTokenValues;
-        if (usesTokenValue) {
-            // can't optimize because we filter on TOKEN_VALUE
-            xxTokenValues = resourceType + "_TOKEN_VALUES_V";
-        } else {
-            // only filters on COMMON_TOKEN_VALUE_ID so we can optimize
-            xxTokenValues = resourceType + "_RESOURCE_TOKEN_REFS";
-        }
-        return xxTokenValues;
+        
+        return !usesTokenValue;
     }
 
     /**
@@ -1873,7 +1906,8 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         final ExpNode filter;
         filter = getTokenFilter(queryParm, paramAlias).getExpression();
         // which table we join against depends on the fields used by the filter expression
-        final String xxTokenValues = getTokenParamTable(filter, resourceType, paramAlias);
+        boolean isFilterOptimized = isOptimizedTokenParamFilter(filter, paramAlias);
+        final String xxTokenValues = getTokenParamTable(filter, resourceType, paramAlias, isFilterOptimized);
 
         String parameterName = queryParm.getCode();
         // Append the suffix for :text modifier
@@ -1883,19 +1917,42 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
 
         if (queryParm.getModifier() == Modifier.NOT || queryParm.getModifier() == Modifier.NOT_IN) {
             // Use a nested NOT EXISTS (...) instead of a simple join
-            SelectAdapter exists = Select.select("1");
-            exists.from(xxTokenValues, alias(paramAlias))
-                .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
-                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName));
-
-            // add the filter predicate to the exists where clause
-            exists.from().where().and(filter);
-            query.from().where().and().notExists(exists.build());
+            if (schemaType == SchemaType.DISTRIBUTED && !isFilterOptimized) {
+                // remember that the common token value filter happens within the WITH subquery
+                final String withAlias = addDistributedWithCommonTokenValue(query, filter, paramAlias);
+                SelectAdapter exists = Select.select("1");
+                exists.from(xxTokenValues, alias(paramAlias))
+                    .from(withAlias, alias(withAlias))
+                    .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+                    .and(withAlias, "COMMON_TOKEN_VALUE_ID").eq(paramAlias, "COMMON_TOKEN_VALUE_ID")
+                    ;
+    
+                query.from().where().and().notExists(exists.build());
+            } else {
+                SelectAdapter exists = Select.select("1");
+                exists.from(xxTokenValues, alias(paramAlias))
+                    .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName));
+    
+                // add the filter predicate to the exists where clause
+                exists.from().where().and(filter);
+                query.from().where().and().notExists(exists.build());
+            }
         } else {
             // Attach the parameter table to the single parameter exists join
-            query.from().innerJoin(xxTokenValues, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
-                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
-                .and(filter));
+            if (schemaType == SchemaType.DISTRIBUTED && !isFilterOptimized) {
+                // remember that the common token value filter happens within the WITH subquery
+                final String withAlias = addDistributedWithCommonTokenValue(query, filter, paramAlias);
+                query.from().innerJoin(xxTokenValues, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+                    )
+                .innerJoin(withAlias, alias(withAlias), on(withAlias, "COMMON_TOKEN_VALUE_ID").eq(paramAlias, "COMMON_TOKEN_VALUE_ID"));
+            } else {
+                query.from().innerJoin(xxTokenValues, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+                    .and(filter));
+            }
         }
 
         // We're not changing the level, so we return the same queryData we were given
@@ -2099,7 +2156,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
 
             // Reuse the same CanonicalSupport code used for param extraction to parse the search value
             ResourceProfileRec rpc = CanonicalSupport.makeResourceProfileRec(null, resourceType, -1, -1, value.getValueString(), false);
-            int canonicalId = getCanonicalId(rpc.getCanonicalValue());
+            long canonicalId = getCanonicalId(rpc.getCanonicalValue());
             whereFragment.col(paramAlias, "CANONICAL_ID").eq(canonicalId);
 
             // TODO double-check semantics of ABOVE and BELOW in this context
@@ -2273,12 +2330,17 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             final int aliasIndex = getNextAliasIndex();
             final String paramAlias = getParamAlias(aliasIndex);
             WhereFragment pf = paramFilter(currentParm, paramAlias);
+
             final String paramTable;
+            final boolean isFilterOptimized;
+            final ExpNode filter = pf.getExpression();
             if (Type.TOKEN.equals(currentParm.getType()) &&
                     !(TAG.equals(currentParm.getCode()) || SECURITY.equals(currentParm.getCode()))) {
-                paramTable = getTokenParamTable(pf.getExpression(), queryData.getResourceType(), paramAlias);
+                isFilterOptimized = isOptimizedTokenParamFilter(filter, paramAlias);
+                paramTable = getTokenParamTable(filter, queryData.getResourceType(), paramAlias, isFilterOptimized);
             } else {
                 paramTable = paramValuesTableName(queryData.getResourceType(), currentParm);
+                isFilterOptimized = true;
             }
 
             if (Type.REFERENCE.equals(currentParm.getType())) {
@@ -2298,13 +2360,18 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             } else if (currentParm.getModifier() == Modifier.NOT) {
                 // Needs to be handled as a NOT EXISTS correlated subquery
                 SelectAdapter exists = Select.select("1");
-                exists.from(paramTable, alias(paramAlias))
-                    .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID"); // correlate to parent query
-                if (this.legacyWholeSystemSearchParamsEnabled ||
-                        (!PROFILE.equals(code) && !SECURITY.equals(code) && !TAG.equals(code))) {
-                    exists.from().where().and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()));
+                if (currentParm.getType() == Type.TOKEN && schemaType == SchemaType.DISTRIBUTED && !isFilterOptimized) {
+                    // special case for Citus which needs a WITH clause to fetch rows from COMMON_TOKEN_VALUES
+                    addDistributedCommonTokenValueFilter(exists, resourceType, code, lrAlias, filter, paramTable, paramAlias, null);
+                } else {
+                    exists.from(paramTable, alias(paramAlias))
+                        .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID"); // correlate to parent query
+                    if (this.legacyWholeSystemSearchParamsEnabled ||
+                            (!PROFILE.equals(code) && !SECURITY.equals(code) && !TAG.equals(code))) {
+                        exists.from().where().and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()));
+                    }
+                    exists.from().where().and(filter);
                 }
-                exists.from().where().and(pf.getExpression());
 
                 // Add the sub-query as a NOT EXISTS filter to the main query
                 currentSubQuery.from().where().and().notExists(exists.build());
@@ -2312,16 +2379,23 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                 // Filter the query by adding a join
                 if (this.legacyWholeSystemSearchParamsEnabled ||
                         (!PROFILE.equals(code) && !SECURITY.equals(code) && !TAG.equals(code))) {
-                    currentSubQuery.from()
-                        .innerJoin(paramTable, alias(paramAlias),
-                            on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
-                            .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
-                            .and(pf.getExpression()));
+                    if (currentParm.getType() == Type.TOKEN && schemaType == SchemaType.DISTRIBUTED && !isFilterOptimized) {
+                        // special case for Citus which needs a WITH clause to fetch rows from COMMON_TOKEN_VALUES
+                        addDistributedCommonTokenValueFilter(currentSubQuery, resourceType, code, lrAlias, filter, paramTable, paramAlias, null);
+                    } else {
+                        currentSubQuery.from()
+                            .innerJoin(paramTable, alias(paramAlias),
+                                on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+                                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
+                                .and(filter));
+                    }
                 } else {
+                    // join with one of xx_profiles, xx_tags or xx_security which get their own table
+                    // and therefore do not have a parameter_name_id column
                     currentSubQuery.from()
                         .innerJoin(paramTable, alias(paramAlias),
                             on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
-                            .and(pf.getExpression()));
+                            .and(filter));
                 }
             }
         }
@@ -2489,18 +2563,88 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             // we can apply an optimization by joining against the RESOURCE_TOKEN_REFS
             // table directly.
             filter = getIdentifierFilter(queryParm, paramAlias).getExpression();
-            paramTableName = getTokenParamTable(filter, resourceType, paramAlias);
+            boolean isFilterOptimized = isOptimizedTokenParamFilter(filter, paramAlias);
+            paramTableName = getTokenParamTable(filter, resourceType, paramAlias, isFilterOptimized);
             String queryParmCode = queryParm.getCode();
             queryParmCode += SearchConstants.IDENTIFIER_MODIFIER_SUFFIX;
-            query.from().innerJoin(paramTableName, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
-                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(queryParmCode))
-                .and(filter));
+            if (schemaType == SchemaType.DISTRIBUTED && !isFilterOptimized) {
+                // Special case for the Citus/distributed variant to collect all the common_token_value_id values
+                // on the coordinator node which are then pushed down to the main query which is run on each
+                // of the worker nodes
+                addDistributedCommonTokenValueFilter(query, resourceType, queryParmCode, lrAlias, filter, paramTableName, paramAlias, null);                
+            } else {
+                query.from().innerJoin(paramTableName, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(queryParmCode))
+                    .and(filter));
+            }
         } else {
             // For V0027 we need to handle parameters that may come from xx_ref_values or xx_str_values
             return processRealReferenceParam(queryData, resourceType, queryParm);
         }
 
         return queryData;
+    }
+
+    /**
+     * Add the special token value filter we use with the DISTRIBUTED variant of the schema. Because we distribute
+     * COMMON_TOKEN_VALUES using a different distribution column, we need to perform the token_value select/filter
+     * in a WITH subquery which is then referenced in the main join. This method adds both the WITH clause and the
+     * join.
+     * @param query
+     * @param resourceType
+     * @param queryParmCode
+     * @param lrAlias
+     * @param filter
+     * @param paramTableName the xx_resource_token_refs table name
+     * @param paramAlias
+     * @param firstCompositeTableAlias table alias to join composite_id, or null if not composite
+     * @throws FHIRPersistenceException if the queryParmCode is not a valid parameter name
+     */
+    private void addDistributedCommonTokenValueFilter(SelectAdapter query, String resourceType, String queryParmCode, 
+            String lrAlias, ExpNode filter, String paramTableName, String paramAlias, String firstCompositeTableAlias) throws FHIRPersistenceException {
+
+        // Add the WITH subquery to the main select statement
+        final String withAlias = addDistributedWithCommonTokenValue(query, filter, paramAlias);
+
+        // Now we can use the withAlias as a source table in the main join
+        if (firstCompositeTableAlias == null) {
+            query.from()
+                .innerJoin(paramTableName, alias(paramAlias), 
+                    on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(queryParmCode)))
+                .innerJoin(withAlias, alias(withAlias), 
+                    on(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(withAlias, "COMMON_TOKEN_VALUE_ID"))
+                ;
+        } else {
+            // Include an additional predicate to make this a composite parameter query
+            query.from()
+            .innerJoin(paramTableName, alias(paramAlias), 
+                on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(queryParmCode))
+                .and(paramAlias, "COMPOSITE_ID").eq(firstCompositeTableAlias, "COMPOSITE_ID"))
+            .innerJoin(withAlias, alias(withAlias),
+                on(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(withAlias, "COMMON_TOKEN_VALUE_ID"))
+            ;
+        }
+    }
+
+    /**
+     * Add the select from common_token_values into a WITH clause attached to the main 
+     * select statement
+     * 
+     * @param query
+     * @param filter
+     * @param paramAlias
+     * @return the WITH alias name
+     */
+    private String addDistributedWithCommonTokenValue(SelectAdapter query, ExpNode filter, String paramAlias) {
+        final String withAlias = "w" + paramAlias; // the alias used for the WITH sub-select
+        Select selectFromCommonTokenValues = Select.select("common_token_value_id")
+                .from("common_token_values", alias(paramAlias))
+                .where(filter)
+                .build();
+        query.with(selectFromCommonTokenValues, alias(withAlias));        
+        return withAlias;
     }
 
     /**
@@ -2568,17 +2712,17 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             } else {
                 // Determine if the target value is an absolute or local reference
                 if (ReferenceUtil.isAbsolute(referenceValue)) {
-                    logger.info(() -> "reference search value: type[absolute] value[" + referenceValue + "]");
+                    logger.fine(() -> "reference search value: type[absolute] value[" + referenceValue + "]");
                     Long logicalResourceId = identityCache.getLogicalResourceId("Resource", referenceValue);
                     logicalResourceIdList.add(logicalResourceId != null ? logicalResourceId : -1);
                 } else {
                     // treat as a local reference where we don't know the type.
                     List<Long> localLogicalResourceIds = getLogicalResourceIdList(referenceValue);
                     if (localLogicalResourceIds.size() == 1) {
-                        logger.info(() -> "reference search value: type[local] value[" + referenceValue + "]");
+                        logger.fine(() -> "reference search value: type[local] value[" + referenceValue + "]");
                         logicalResourceIdList.add(localLogicalResourceIds.get(0));
                     } else if (localLogicalResourceIds.size() == 0) {
-                        logger.info(() -> "reference search value: type[local] value[" + referenceValue + "] notFound[true]");
+                        logger.fine(() -> "reference search value: type[local] value[" + referenceValue + "] notFound[true]");
                         if (logicalResourceIdList.isEmpty()) {
                             logicalResourceIdList.add(-1L); // need at least one value
                         }
@@ -2679,28 +2823,36 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         // Grab the parameter filter expression first so that we can see if it's safe to apply
         // the COMMON_TOKEN_VALUES_ID optimization
         final ExpNode filter = paramFilter(component, paramTableAlias).getExpression();
+        boolean isFilterOptimized = isOptimizedTokenParamFilter(filter, paramTableAlias);
+
         final String valuesTable;
         if (component.getType() == Type.TOKEN && filter != null) {
             // optimize token parameter joins if the expression lets us
-            valuesTable = getTokenParamTable(filter, resourceType, paramTableAlias);
+            valuesTable = getTokenParamTable(filter, resourceType, paramTableAlias, isFilterOptimized);
         } else {
             valuesTable = paramValuesTableName(resourceType, component);
         }
 
-        if (componentNum == 1) {
-            query.from().innerJoin(valuesTable, alias(paramTableAlias),
-                on(paramTableAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
-                .and(paramTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
-                .and(filter));
-
+        if (schemaType == SchemaType.DISTRIBUTED && component.getType() == Type.TOKEN && filter != null && !isFilterOptimized) {
+            // only add the composite_id join for subsequent tables
+            final String firstTableAlias = componentNum == 1 ? null : getParamAlias(firstAliasIndex);
+            addDistributedCommonTokenValueFilter(query, resourceType, parameterName, lrAlias, filter, valuesTable, paramTableAlias, firstTableAlias);
         } else {
-            // also join to the first parameter table
-            final String firstTableAlias = getParamAlias(firstAliasIndex);
-            query.from().innerJoin(valuesTable, alias(paramTableAlias),
-                on(paramTableAlias, "LOGICAL_RESOURCE_ID").eq(firstTableAlias, "LOGICAL_RESOURCE_ID")
-                .and(paramTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
-                .and(paramTableAlias, "COMPOSITE_ID").eq(firstTableAlias, "COMPOSITE_ID")
-                .and(filter));
+            if (componentNum == 1) {
+                query.from().innerJoin(valuesTable, alias(paramTableAlias),
+                    on(paramTableAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+                    .and(paramTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+                    .and(filter));
+    
+            } else {
+                // also join to the first parameter table
+                final String firstTableAlias = getParamAlias(firstAliasIndex);
+                query.from().innerJoin(valuesTable, alias(paramTableAlias),
+                    on(paramTableAlias, "LOGICAL_RESOURCE_ID").eq(firstTableAlias, "LOGICAL_RESOURCE_ID")
+                    .and(paramTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+                    .and(paramTableAlias, "COMPOSITE_ID").eq(firstTableAlias, "COMPOSITE_ID")
+                    .and(filter));
+            }
         }
         return aliasIndex;
     }
@@ -2719,45 +2871,63 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
     private void addParamTableToCompositeExists(SelectAdapter exists, String resourceType, String lrAlias,
         QueryParameter component, int componentNum, boolean addParamFilter) throws FHIRPersistenceException {
 
-        String componentTableAlias = "comp" + componentNum;
-        String parameterName = component.getCode();
+        final String componentTableAlias = "comp" + componentNum;
+        final String firstTableAlias = "comp1";
+        final String parameterName = component.getCode();
 
         // Grab the parameter filter expression first so that we can see if it's safe to apply
         // the COMMON_TOKEN_VALUES_ID optimization
         final ExpNode filter;
+        final boolean isFilterOptimized;
         if (addParamFilter) {
             filter = paramFilter(component, componentTableAlias).getExpression();
+            // which table we join against depends on the fields used by the filter expression
+            isFilterOptimized = isOptimizedTokenParamFilter(filter, componentTableAlias);
         } else {
             filter = null;
+            isFilterOptimized = false;
         }
+
         final String valuesTable;
         if (component.getType() == Type.TOKEN && filter != null) {
             // optimize token parameter joins if the expression lets us
-            valuesTable = getTokenParamTable(filter, resourceType, componentTableAlias);
+            valuesTable = getTokenParamTable(filter, resourceType, componentTableAlias, isFilterOptimized);
         } else {
+            // not a token or there's no filter expression, so we just need the param table
             valuesTable = paramValuesTableName(resourceType, component);
         }
 
         if (componentNum == 1) {
-            exists.from(valuesTable, alias(componentTableAlias))
-            .where(componentTableAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
-            .and(componentTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName));
-
-            // Parameter filter is skipped if this is coming from a missing/not missing search
-            if (addParamFilter) {
-                exists.from().where().and(filter);
+            if (component.getType() == Type.TOKEN && schemaType == SchemaType.DISTRIBUTED && addParamFilter && !isFilterOptimized) {
+                // Need to use a WITH statement so we can access COMMON_TOKEN_VALUES
+                // only add the composite_id join for subsequent tables
+                addDistributedCommonTokenValueFilter(exists, resourceType, parameterName, lrAlias, filter, valuesTable, componentTableAlias, null);
+            } else {
+                exists.from(valuesTable, alias(componentTableAlias))
+                .where(componentTableAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+                .and(componentTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName));
+    
+                // Parameter filter is skipped if this is coming from a missing/not missing search
+                if (addParamFilter) {
+                    exists.from().where().and(filter);
+                }
             }
         } else {
-            // Join to the first parameter table
-            final String firstTableAlias = "comp1";
-            exists.from().innerJoin(valuesTable, alias(componentTableAlias),
-                on(componentTableAlias, "LOGICAL_RESOURCE_ID").eq(firstTableAlias, "LOGICAL_RESOURCE_ID")
-                .and(componentTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
-                .and(componentTableAlias, "COMPOSITE_ID").eq(firstTableAlias, "COMPOSITE_ID"));
-
-            // Parameter filter is skipped if this is coming from a missing/not missing search
-            if (addParamFilter) {
-                exists.from().where().and(filter);
+            if (component.getType() == Type.TOKEN && schemaType == SchemaType.DISTRIBUTED && addParamFilter && !isFilterOptimized) {
+                // Need to use a WITH statement so we can access COMMON_TOKEN_VALUES
+                // only add the composite_id join for subsequent tables
+                addDistributedCommonTokenValueFilter(exists, resourceType, parameterName, lrAlias, filter, valuesTable, componentTableAlias, firstTableAlias);
+            } else {
+                // Join to the first parameter table
+                exists.from().innerJoin(valuesTable, alias(componentTableAlias),
+                    on(componentTableAlias, "LOGICAL_RESOURCE_ID").eq(firstTableAlias, "LOGICAL_RESOURCE_ID")
+                    .and(componentTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+                    .and(componentTableAlias, "COMPOSITE_ID").eq(firstTableAlias, "COMPOSITE_ID"));
+    
+                // Parameter filter is skipped if this is coming from a missing/not missing search
+                if (addParamFilter) {
+                    exists.from().where().and(filter);
+                }
             }
         }
     }

@@ -17,12 +17,13 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyCodeSystemDAO;
-import com.ibm.fhir.persistence.jdbc.derby.DerbyParameterNamesDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresCodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresParameterNamesDAO;
+import com.ibm.fhir.persistence.params.api.ParameterNameDAO;
+import com.ibm.fhir.persistence.params.database.DerbyParameterNamesDAO;
+import com.ibm.fhir.persistence.params.database.ParameterNameDAOImpl;
 
 /**
  * This Data Access Object implements the ParameterDAO interface for creating, updating,

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import com.ibm.fhir.database.utils.query.PaginationClause;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.database.utils.query.SelectList;
 import com.ibm.fhir.database.utils.query.WhereClause;
+import com.ibm.fhir.database.utils.query.With;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
 
 /**
@@ -29,6 +30,7 @@ public interface StatementRenderer<T> {
     /**
      * Render the select statement using each of the components, some of which
      * may be optional (null)
+     * @param withClauses
      * @param distinct
      * @param selectList
      * @param fromClause
@@ -41,8 +43,16 @@ public interface StatementRenderer<T> {
      * @param union
      * @return
      */
-    T select(boolean distinct, SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
+    T select(List<With> withClauses, boolean distinct, SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
         OrderByClause orderByClause, PaginationClause paginationClause, boolean unionAll, Select union);
+
+    /**
+     * Render a WITH foo AS (select ...) clause
+     * @param subSelect
+     * @param aliasValue
+     * @return
+     */
+    T with (T subSelect, T aliasValue);
 
     /**
      * @param items

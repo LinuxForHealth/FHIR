@@ -23,7 +23,7 @@ import org.apache.kafka.clients.consumer.OffsetCommitCallback;
 import org.apache.kafka.common.TopicPartition;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.remote.index.api.IMessageHandler;
+import com.ibm.fhir.persistence.params.api.IMessageHandler;
 
 /**
  * Kafka consumer reading remote index messages, batches the data and

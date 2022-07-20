@@ -31,15 +31,11 @@ import com.ibm.fhir.persistence.InteractionStatus;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
-import com.ibm.fhir.persistence.index.FHIRRemoteIndexService;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
@@ -47,6 +43,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
+import com.ibm.fhir.persistence.params.database.FhirRefSequenceDAOImpl;
 
 /**
  * Data access object for writing FHIR resources to an Apache Derby database.
@@ -107,6 +104,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             // to mimic out parameters from the stored procedure
             AtomicInteger outInteractionStatus = new AtomicInteger();
             AtomicInteger outIfNoneMatchVersion  = new AtomicInteger();
+            String[] outCurrentParameterHash = new String[1];
 
             long logicalResourceId = this.storeResource(resource.getResourceType(),
                 parameters,
@@ -122,7 +120,8 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 ifNoneMatch,
                 resource.getResourcePayloadKey(),
                 outInteractionStatus,
-                outIfNoneMatchVersion
+                outIfNoneMatchVersion,
+                outCurrentParameterHash
                 );
 
             dbCallDuration = (System.nanoTime() - dbCallStartTime)/1e6;
@@ -206,7 +205,8 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
             String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn,
             ParameterDAO parameterDao, Integer ifNoneMatch, String resourcePayloadKey,
-            AtomicInteger outInteractionStatus, AtomicInteger outIfNoneMatchVersion) throws Exception {
+            AtomicInteger outInteractionStatus, AtomicInteger outIfNoneMatchVersion,
+            String[] outCurrentParameterHash) throws Exception {
 
         final Calendar UTC = CalendarHelper.getCalendarForUTC();
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
@@ -476,6 +476,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
             // existing resource, so need to delete all its parameters unless they share
             // an identical hash, in which case we can bypass the delete/insert
+            outCurrentParameterHash[0] = currentParameterHash;
             requireParameterUpdate = currentParameterHash == null || currentParameterHash.isEmpty() || !currentParameterHash.equals(p_parameterHashB64);
             if (requireParameterUpdate) {
                 ParameterTableSupport.deleteFromParameterTables(conn, tablePrefix, v_logical_resource_id);
@@ -539,24 +540,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 stmt.executeUpdate();
                 if (logger.isLoggable(Level.FINEST)) {
                     logger.finest("Updated logical_resources: " + v_resource_type + "/" + p_logical_id);
-                }
-            }
-        }
-
-        // To keep things simple for the Derby use-case, we just use a visitor to
-        // handle inserts of parameters directly in the resource parameter tables.
-        // Note we don't get any parameters for the resource soft-delete operation
-        FHIRRemoteIndexService remoteIndexService = FHIRRemoteIndexService.getServiceInstance();
-        if (remoteIndexService == null && parameters != null && requireParameterUpdate) {
-            // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
-            if (logger.isLoggable(Level.FINEST)) {
-                logger.finest("Storing parameters for: " + v_resource_type + "/" + p_logical_id);
-            }
-            JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100,
-                identityCache, getResourceReferenceDAO(), getTransactionData())) {
-                for (ExtractedParameterValue p: parameters) {
-                    p.accept(pvd);
                 }
             }
         }

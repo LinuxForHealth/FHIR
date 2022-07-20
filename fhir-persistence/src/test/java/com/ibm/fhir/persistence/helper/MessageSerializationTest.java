@@ -64,7 +64,7 @@ public class MessageSerializationTest {
         adapter.securityValue("security-param", valueSystem, valueCode, wholeSystem);
         adapter.stringValue("string-param", valueString, compositeId, wholeSystem);
         adapter.tagValue("tag-param", valueSystem, valueCode, wholeSystem);
-        adapter.tokenValue("token-param", valueSystem, valueCode, compositeId);
+        adapter.tokenValue("token-param", valueSystem, valueCode, compositeId, false);
 
         sent.setData(adapter.build());
         final String payload = RemoteIndexSupport.marshallToString(sent);

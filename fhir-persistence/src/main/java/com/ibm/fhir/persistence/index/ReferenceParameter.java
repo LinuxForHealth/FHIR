@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.persistence.index;
 
+import java.util.Objects;
 
 /**
  * A local reference search parameter value
@@ -72,5 +73,24 @@ public class ReferenceParameter extends SearchParameterValue {
      */
     public void setLogicalId(String logicalId) {
         this.logicalId = logicalId;
+    }
+
+    @Override
+    public int hashCode() {
+        // yeah I know I could include the super hashCode in the list of values,
+        // but this avoids unnecessary boxing
+        return 31 * super.hashCode() + Objects.hash(resourceType, logicalId, refVersionId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ReferenceParameter) {
+            ReferenceParameter that = (ReferenceParameter)obj;
+            return super.equals(obj)
+                    && Objects.equals(this.resourceType, that.resourceType)
+                    && Objects.equals(this.logicalId, that.logicalId)
+                    && Objects.equals(this.refVersionId, that.refVersionId);
+        }
+        return false;
     }
 }

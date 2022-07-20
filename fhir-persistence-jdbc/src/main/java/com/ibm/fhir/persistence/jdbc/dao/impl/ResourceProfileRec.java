@@ -16,7 +16,7 @@ public class ResourceProfileRec extends ResourceRefRec {
 
     // The external system name and its normalized database id (when we have it)
     private final String canonicalValue;
-    private int canonicalValueId = -1;
+    private long canonicalValueId = -1;
 
     // The optional version value of the canonical uri
     private final String version;
@@ -58,7 +58,7 @@ public class ResourceProfileRec extends ResourceRefRec {
      * Getter for the database id
      * @return
      */
-    public int getCanonicalValueId() {
+    public long getCanonicalValueId() {
         return this.canonicalValueId;
     }
 
@@ -66,7 +66,7 @@ public class ResourceProfileRec extends ResourceRefRec {
      * Sets the database id for the canonicalValue record.
      * @param canonicalValueId to set
      */
-    public void setCanonicalValueId(int canonicalValueId) {
+    public void setCanonicalValueId(long canonicalValueId) {
         // because we're setting this, it can no longer be null
         this.canonicalValueId = canonicalValueId;
     }

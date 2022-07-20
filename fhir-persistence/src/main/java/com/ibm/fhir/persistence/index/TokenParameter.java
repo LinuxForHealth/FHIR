@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.persistence.index;
 
+import java.util.Objects;
 
 /**
  * A token search parameter value
@@ -72,5 +73,24 @@ public class TokenParameter extends SearchParameterValue {
      */
     public void setRefVersionId(Integer refVersionId) {
         this.refVersionId = refVersionId;
+    }
+
+    @Override
+    public int hashCode() {
+        // yeah I know I could include the super hashCode in the list of values,
+        // but this avoids unnecessary boxing
+        return 31 * super.hashCode() + Objects.hash(valueSystem, valueCode, refVersionId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof TokenParameter) {
+            TokenParameter that = (TokenParameter)obj;
+            return super.equals(obj)
+                    && Objects.equals(this.valueCode, that.valueCode)
+                    && Objects.equals(this.valueSystem, that.valueSystem)
+                    && Objects.equals(this.refVersionId, that.refVersionId);
+        }
+        return false;
     }
 }

@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.persistence.index;
 
+import java.util.Objects;
 
 /**
  * A tag search parameter value
@@ -53,5 +54,23 @@ public class TagParameter extends SearchParameterValue {
      */
     public void setValueCode(String valueCode) {
         this.valueCode = valueCode;
+    }
+
+    @Override
+    public int hashCode() {
+        // yeah I know I could include the super hashCode in the list of values,
+        // but this avoids unnecessary boxing
+        return 31 * super.hashCode() + Objects.hash(valueSystem, valueCode);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof TagParameter) {
+            TagParameter that = (TagParameter)obj;
+            return super.equals(obj)
+                    && Objects.equals(this.valueCode, that.valueCode)
+                    && Objects.equals(this.valueSystem, that.valueSystem);
+        }
+        return false;
     }
 }

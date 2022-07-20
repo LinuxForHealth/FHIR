@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ import com.ibm.fhir.database.utils.query.PaginationClause;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.database.utils.query.SelectList;
 import com.ibm.fhir.database.utils.query.WhereClause;
+import com.ibm.fhir.database.utils.query.With;
 import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
 
@@ -61,12 +62,29 @@ public class StringStatementRenderer implements StatementRenderer<String> {
     }
 
     @Override
-    public String select(boolean distinct, SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
+    public String select(List<With> withClauses, boolean distinct, SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
         OrderByClause orderByClause, PaginationClause paginationClause, boolean unionAll, Select union) {
 
         StringExpNodeVisitor whereClauseRenderer = new StringExpNodeVisitor(this.translator, this.collectBindMarkersInto, this.pretty);
 
         StringBuilder result = new StringBuilder();
+
+        if (withClauses != null) {
+            boolean first = true;
+            for (With w: withClauses) {
+                if (first) {
+                    first = false;
+                } else {
+                    result.append(",").append(NEWLINE);
+                }
+                result.append(w.render(this));
+            }
+            if (!this.pretty) {
+                // need one space before the select
+                result.append(" ");
+            }
+        }
+        
         if (this.pretty) {
             result.append(NEWLINE).append("      "); // 6 spaces
         }
@@ -227,6 +245,17 @@ public class StringStatementRenderer implements StatementRenderer<String> {
         result.append(joinFromValue);
         result.append(" ON ");
         result.append(joinOnValue);
+        return result.toString();
+    }
+
+    @Override
+    public String with(String subSelect, String aliasValue) {
+        StringBuilder result = new StringBuilder();
+        result.append("WITH ")
+            .append(aliasValue)
+            .append(" AS (")
+            .append(subSelect)
+            .append(")");
         return result.toString();
     }
 }

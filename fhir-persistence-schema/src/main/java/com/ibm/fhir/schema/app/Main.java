@@ -779,7 +779,8 @@ public class Main {
         }
 
         final boolean includedForeignKeys = schemaType != SchemaType.DISTRIBUTED;
-        if (!includedForeignKeys) {
+        // Skip all foreign key creation for Citus if we're in distributed mode
+        if (!includedForeignKeys && dbType != DbType.CITUS) {
             // Now that all the tables have been distributed, it should be safe
             // to apply the FK constraints
             final String tenantColumnName = isMultitenant() ? "mt_id" : null;
@@ -946,26 +947,37 @@ public class Main {
     /**
      * Add part of the schema drop process, we first kill all
      * the foreign key constraints. The rest of the drop is
-     * performed in a second transaction.
+     * performed in a separate transaction.
      *
      * @param pdm
      */
     private void dropForeignKeyConstraints(PhysicalDataModel pdm, String tagGroup, String tag) {
-        try (Connection c = createConnection()) {
-            try {
-                JdbcTarget target = new JdbcTarget(c);
-                IDatabaseAdapter adapter = getDbAdapter(dbType, target);
-
-                Set<Table> referencedTables = new HashSet<>();
-                DropForeignKey dropper = new DropForeignKey(adapter, referencedTables);
-                pdm.visit(dropper, tagGroup, tag, null);
-            } catch (Exception x) {
-                c.rollback();
-                throw x;
+        if (dbType == DbType.CITUS) {
+            // For Citus we need to break up the drop into smaller transactions to avoid
+            // out of shared memory errors. The drop of each FK idempotent, so we can
+            // restart if we need to
+            IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+            Set<Table> referencedTables = new HashSet<>();
+            DropForeignKey dropper = new DropForeignKey(adapter, referencedTables);
+            pdm.visit(dropper, tagGroup, tag, () -> TransactionFactory.openTransaction(connectionPool));
+        } else {
+            // For all other databases, we can drop all the FK constraints in a single transaction
+            try (Connection c = createConnection()) {
+                try {
+                    JdbcTarget target = new JdbcTarget(c);
+                    IDatabaseAdapter adapter = getDbAdapter(dbType, target);
+    
+                    Set<Table> referencedTables = new HashSet<>();
+                    DropForeignKey dropper = new DropForeignKey(adapter, referencedTables);
+                    pdm.visit(dropper, tagGroup, tag, null);
+                } catch (Exception x) {
+                    c.rollback();
+                    throw x;
+                }
+                c.commit();
+            } catch (SQLException x) {
+                throw translator.translate(x);
             }
-            c.commit();
-        } catch (SQLException x) {
-            throw translator.translate(x);
         }
     }
 

@@ -85,12 +85,13 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
     }
 
     @Override
-    public void tokenValue(String name, String valueSystem, String valueCode, Integer compositeId) {
+    public void tokenValue(String name, String valueSystem, String valueCode, Integer compositeId, boolean wholeSystem) {
         TokenParameter value = new TokenParameter();
         value.setName(name);
         value.setValueSystem(valueSystem);
         value.setValueCode(valueCode);
         value.setCompositeId(compositeId);
+        value.setWholeSystem(wholeSystem);
         builder.addTokenValue(value);
     }
 

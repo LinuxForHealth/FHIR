@@ -35,6 +35,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
+import com.ibm.fhir.persistence.params.api.IParamValueCollector;
 
 /**
  * DAO used to contain the logic required to reindex a given resource
@@ -403,7 +404,8 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * @param logicalResourceId the logical resource id
      * @throws Exception
      */
-    public void updateParameters(String tablePrefix, List<ExtractedParameterValue> parameters, String parameterHashB64, String logicalId, long logicalResourceId) throws Exception {
+    public void updateParameters(String tablePrefix, List<ExtractedParameterValue> parameters, String parameterHashB64, String logicalId, long logicalResourceId,
+            IParamValueCollector paramValueCollector) throws Exception {
 
         final String METHODNAME = "updateParameters() for " + tablePrefix + "/" + logicalId;
         logger.entering(CLASSNAME, METHODNAME);
@@ -412,9 +414,10 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         Connection connection = getConnection();
         ParameterTableSupport.deleteFromParameterTables(connection, tablePrefix, logicalResourceId);
 
-        if (parameters != null && !parameters.isEmpty()) {
+        // only perform this if paramValueCollector is null, meaning that we're still using the legacy 
+        // mechanism to support Db2 (multitenant)
+        if (parameters != null && !parameters.isEmpty() && paramValueCollector == null) {
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-            // Check if this is multitenant
             boolean isMultitenant = this.getFlavor().isMultitenant();
             try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", tablePrefix, isMultitenant, logicalResourceId, 100,
                 identityCache, getResourceReferenceDAO(), getTransactionData())) {

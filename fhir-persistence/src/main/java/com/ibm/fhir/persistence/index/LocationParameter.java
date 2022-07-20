@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.persistence.index;
 
+import java.util.Objects;
 
 /**
  * A LatLng location search parameter
@@ -55,4 +56,21 @@ public class LocationParameter extends SearchParameterValue {
         this.valueLongitude = valueLongitude;
     }
 
+    @Override
+    public int hashCode() {
+        // yeah I know I could include the super hashCode in the list of values,
+        // but this avoids unnecessary boxing
+        return 31 * super.hashCode() + Objects.hash(valueLatitude, valueLongitude);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof LocationParameter) {
+            LocationParameter that = (LocationParameter)obj;
+            return super.equals(obj)
+                    && Objects.equals(this.valueLatitude, that.valueLatitude)
+                    && Objects.equals(this.valueLongitude, that.valueLongitude);
+        }
+        return false;
+    }
 }

@@ -33,7 +33,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchExcept
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
-import com.ibm.fhir.persistence.jdbc.dao.api.FhirRefSequenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -46,6 +45,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
+import com.ibm.fhir.persistence.params.api.FhirRefSequenceDAO;
 
 /**
  * Data access object for writing FHIR resources to a PostgreSQL database.

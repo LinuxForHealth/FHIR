@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.persistence.index;
 
+import java.util.Objects;
 
 /**
  * The base class for our search parameter values. These index model classes
@@ -82,5 +83,21 @@ public class SearchParameterValue {
      */
     public void setWholeSystem(Boolean wholeSystem) {
         this.wholeSystem = wholeSystem;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, compositeId, wholeSystem);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof SearchParameterValue) {
+            SearchParameterValue that = (SearchParameterValue)obj;
+            return Objects.equals(this.name, that.name)
+                    && Objects.equals(this.compositeId, that.compositeId)
+                    && Objects.equals(this.wholeSystem, that.wholeSystem);
+        }
+        return false;
     }
 }

@@ -95,13 +95,20 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         resource2Builder.extension(extension("http://example.org/code", Code.of("value2")));
         resource3Builder.extension(extension("http://example.org/code", Code.of("value3")));
 
-        // save them in-order so that lastUpdated goes from 1 -> 3 as well
-        resource1a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("a")).build()).getResource();
-        resource1b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("b")).build()).getResource();
-        resource2a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("a")).build()).getResource();
-        resource2b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("b")).build()).getResource();
-        resource3a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("a")).build()).getResource();
-        resource3b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("b")).build()).getResource();
+        // transaction required to ensure that all the search parameter values are persisted (flushed)
+        // before we attempt to run any search queries
+        persistence.getTransaction().begin();
+        try {
+            // save them in-order so that lastUpdated goes from 1 -> 3 as well
+            resource1a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("a")).build()).getResource();
+            resource1b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("b")).build()).getResource();
+            resource2a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("a")).build()).getResource();
+            resource2b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("b")).build()).getResource();
+            resource3a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("a")).build()).getResource();
+            resource3b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("b")).build()).getResource();
+        } finally {
+            persistence.getTransaction().end();
+        }
     }
 
     @AfterClass

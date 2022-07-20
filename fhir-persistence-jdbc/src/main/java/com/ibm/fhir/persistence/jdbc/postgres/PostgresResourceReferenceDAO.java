@@ -22,10 +22,11 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentKey;
 import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentValue;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.params.api.ParamSchemaConstants;
+import com.ibm.fhir.persistence.params.api.ParameterNameDAO;
 
 /**
  * Postgres-specific extension of the {@link ResourceReferenceDAO} to work around
@@ -87,7 +88,7 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
         // Because of how PostgreSQL MVCC implementation, the insert from negative outer
         // join pattern doesn't work...you still hit conflicts. The PostgreSQL pattern
         // for upsert is ON CONFLICT DO NOTHING, which is what we use here:
-        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
+        final String nextVal = getTranslator().nextValue(getSchemaName(), ParamSchemaConstants.CANONICAL_ID_SEQ);
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO common_canonical_values (canonical_id, url) ");
         insert.append("     SELECT ").append(nextVal).append(", v.name ");

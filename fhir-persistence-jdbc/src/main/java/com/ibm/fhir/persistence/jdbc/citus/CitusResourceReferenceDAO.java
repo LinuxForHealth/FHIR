@@ -23,6 +23,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceReferenceDAO;
+import com.ibm.fhir.persistence.params.api.ParamSchemaConstants;
 
 /**
  * Citus-specific extension of the {@link ResourceReferenceDAO} to work around
@@ -93,7 +94,7 @@ public class CitusResourceReferenceDAO extends PostgresResourceReferenceDAO {
         // join pattern doesn't work...you still hit conflicts. The PostgreSQL pattern
         // for upsert is ON CONFLICT DO NOTHING, which is what we use here:
         List<Integer> sequenceValues = new ArrayList<>(sortedURLS.size());
-        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
+        final String nextVal = getTranslator().nextValue(getSchemaName(), ParamSchemaConstants.CANONICAL_ID_SEQ);
         final String SELECT = ""
                 + "SELECT " + nextVal
                 + "  FROM generate_series(1, ?)";
@@ -130,34 +131,21 @@ public class CitusResourceReferenceDAO extends PostgresResourceReferenceDAO {
     @Override
     protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> sortedTokenValues) {
         // In Citus, we can no longer use a generated id column, so we have to use
-        // values from the fhir-sequence and insert the values directly
-        List<Integer> sequenceValues = new ArrayList<>(sortedTokenValues.size());
-        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
-        final String SELECT = ""
-                + "SELECT " + nextVal
-                + "  FROM generate_series(1, ?)";
-        try (PreparedStatement ps = getConnection().prepareStatement(SELECT)) {
-            ps.setInt(1, sortedTokenValues.size());
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                sequenceValues.add(rs.getInt(1));
-            }
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, SELECT, x);
-            throw getTranslator().translate(x);
-        }
+        // values from fhir_sequence and insert the values directly. For Citus,
+        // COMMON_TOKEN_VALUES is distributed as a REFERENCE table, meaning
+        // records are copied to each node in a distributed transaction.
+        logger.fine("Inserting " + sortedTokenValues.size() + " values into COMMON_TOKEN_VALUES");
+        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_sequence");
 
         final String INSERT = ""
                 + " INSERT INTO common_token_values (common_token_value_id, token_value, code_system_id) "
-                + "      VALUES (?, ?, ?) "
+                + "      VALUES (" + nextVal + ", ?, ?) "
                 + " ON CONFLICT DO NOTHING ";
 
         try (PreparedStatement ps = getConnection().prepareStatement(INSERT)) {
-            int index=0;
             for (CommonTokenValue ctv: sortedTokenValues) {
-                ps.setInt(1, sequenceValues.get(index++));
-                ps.setString(2, ctv.getTokenValue());
-                ps.setInt(3, ctv.getCodeSystemId());
+                ps.setString(1, ctv.getTokenValue());
+                ps.setInt(2, ctv.getCodeSystemId());
                 ps.addBatch();
             }
             ps.executeBatch();

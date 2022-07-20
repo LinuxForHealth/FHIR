@@ -33,7 +33,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
     private final ThreadLocal<LinkedHashMap<CommonTokenValue, Long>> commonTokenValues = new ThreadLocal<>();
 
     // thread-local cache of canonicals
-    private final ThreadLocal<LinkedHashMap<String, Integer>> canonicalValues = new ThreadLocal<>();
+    private final ThreadLocal<LinkedHashMap<String, Long>> canonicalValues = new ThreadLocal<>();
 
     // The lru code systems cache shared at the server level
     private final LRUCache<String, Integer> codeSystemsCache;
@@ -42,7 +42,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
     private final LRUCache<CommonTokenValue, Long> tokenValuesCache;
 
     // The lru canonical values cache shared at the server level
-    private final LRUCache<String, Integer> canonicalValuesCache;
+    private final LRUCache<String, Long> canonicalValuesCache;
 
     /**
      * Public constructor
@@ -85,7 +85,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
             valMap.clear();
         }
 
-        LinkedHashMap<String,Integer> canMap = canonicalValues.get();
+        LinkedHashMap<String,Long> canMap = canonicalValues.get();
         if (canMap != null) {
             synchronized(this.canonicalValuesCache) {
                 canonicalValuesCache.update(canMap);
@@ -228,13 +228,13 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         // there's nothing in the local cache and we have to then look up everything in the shared cache
 
         // See what we have currently in our thread-local cache
-        LinkedHashMap<String,Integer> canMap = canonicalValues.get();
+        LinkedHashMap<String,Long> canMap = canonicalValues.get();
 
         List<String> foundKeys = new ArrayList<>(profileValues.size()); // for updating LRU
         List<ResourceProfileRec> needToFind = new ArrayList<>(profileValues.size()); // for the canonical values we haven't yet found
         for (ResourceProfileRec tv: profileValues) {
             if (canMap != null) {
-                Integer id = canMap.get(tv.getCanonicalValue());
+                Long id = canMap.get(tv.getCanonicalValue());
                 if (id != null) {
                     foundKeys.add(tv.getCanonicalValue());
                     tv.setCanonicalValueId(id);
@@ -252,7 +252,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         if (needToFind.size() > 0) {
             synchronized (this.canonicalValuesCache) {
                 for (ResourceProfileRec xr: needToFind) {
-                    Integer id = canonicalValuesCache.get(xr.getCanonicalValue());
+                    Long id = canonicalValuesCache.get(xr.getCanonicalValue());
                     if (id != null) {
                         xr.setCanonicalValueId(id);
 
@@ -297,8 +297,8 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
     }
 
     @Override
-    public void addCanonicalValue(String url, int id) {
-        LinkedHashMap<String,Integer> map = canonicalValues.get();
+    public void addCanonicalValue(String url, long id) {
+        LinkedHashMap<String,Long> map = canonicalValues.get();
 
         if (map == null) {
             map = new LinkedHashMap<>();
@@ -346,7 +346,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
             valMap.clear();
         }
 
-        LinkedHashMap<String,Integer> canMap = canonicalValues.get();
+        LinkedHashMap<String,Long> canMap = canonicalValues.get();
 
         if (canMap != null) {
             canMap.clear();
@@ -425,10 +425,10 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
     }
 
     @Override
-    public Integer getCanonicalId(String canonicalValue) {
-        Integer result;
+    public Long getCanonicalId(String canonicalValue) {
+        Long result;
 
-        LinkedHashMap<String,Integer> valMap = canonicalValues.get();
+        LinkedHashMap<String,Long> valMap = canonicalValues.get();
         result = valMap != null ? valMap.get(canonicalValue) : null;
         if (result == null) {
             // not found in the local cache, try the shared cache

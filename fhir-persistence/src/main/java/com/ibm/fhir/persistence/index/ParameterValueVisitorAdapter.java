@@ -54,8 +54,9 @@ public interface ParameterValueVisitorAdapter {
      * @param valueSystem
      * @param valueCode
      * @param compositeId
+     * @param wholeSystem
      */
-    void tokenValue(String name, String valueSystem, String valueCode, Integer compositeId);
+    void tokenValue(String name, String valueSystem, String valueCode, Integer compositeId, boolean wholeSystem);
 
     /**
      * Process a tag parameter

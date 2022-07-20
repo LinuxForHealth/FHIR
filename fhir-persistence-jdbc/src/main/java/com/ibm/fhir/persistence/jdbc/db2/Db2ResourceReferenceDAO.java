@@ -25,14 +25,15 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentKey;
 import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentValue;
-import com.ibm.fhir.persistence.jdbc.dao.api.ParameterNameDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterNameDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
+import com.ibm.fhir.persistence.params.api.ParamSchemaConstants;
+import com.ibm.fhir.persistence.params.api.ParameterNameDAO;
+import com.ibm.fhir.persistence.params.database.ParameterNameDAOImpl;
 
 
 /**
@@ -95,7 +96,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
     public void doCanonicalValuesUpsert(String paramList, Collection<String> sortedURLS) {
         // query is a negative outer join so we only pick the rows where
         // the row "s" from the actual table doesn't exist.
-        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
+        final String nextVal = getTranslator().nextValue(getSchemaName(), ParamSchemaConstants.CANONICAL_ID_SEQ);
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO common_canonical_values (mt_id, canonical_id, url) ");
         insert.append("     SELECT ").append(adminSchemaName).append(".sv_tenant_id, ");
@@ -266,7 +267,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
             int count = 0;
             for (ResourceProfileRec xr: profiles) {
                 ps.setLong(1, xr.getLogicalResourceId());
-                ps.setInt(2, xr.getCanonicalValueId());
+                ps.setLong(2, xr.getCanonicalValueId());
 
                 // canonical version can be null
                 if (xr.getVersion() != null) {
@@ -308,7 +309,7 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
             int count = 0;
             for (ResourceProfileRec xr: profiles) {
                 ps.setLong(1, xr.getLogicalResourceId());
-                ps.setInt(2, xr.getCanonicalValueId());
+                ps.setLong(2, xr.getCanonicalValueId());
 
                 // canonical version can be null
                 if (xr.getVersion() != null) {
@@ -503,6 +504,9 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
         // as a batch. This is the multitenant variant, so we need to inject the mt_id value
         final String tableName = resourceType + "_REF_VALUES";
         DataDefinitionUtil.assertValidName(tableName);
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("Inserting " + xrefs.size() + " values into " + tableName);
+        }
         final String insert = "INSERT INTO " + tableName + "(mt_id, "
                 + "parameter_name_id, logical_resource_id, ref_logical_resource_id, ref_version_id, composite_id) "
                 + "VALUES (" + adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?, ?)";

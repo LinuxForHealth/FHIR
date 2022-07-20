@@ -81,7 +81,7 @@ public interface ICommonTokenValuesCache {
      * @param url
      * @param id
      */
-    void addCanonicalValue(String url, int id);
+    void addCanonicalValue(String url, long id);
 
      /**
       * Add the CommonTokenValue and id to the local cache
@@ -130,5 +130,5 @@ public interface ICommonTokenValuesCache {
      * @param url
      * @return
      */
-    Integer getCanonicalId(String url);
+    Long getCanonicalId(String url);
 }
