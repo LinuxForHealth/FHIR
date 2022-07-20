@@ -100,7 +100,7 @@ echo 2. If using a database other than the embedded derby one, make sure that yo
 echo    is active and ready to accept requests.
 echo 3. Deploy the database schema via the fhir-persistence-schema cli jar under %BASEDIR%\tools
 echo    and grant necessary permissions.
-echo 4. Modify the Liberty server config (server.xml) by adding/removing/modifying the XML snippets under
+echo 4. Modify the Liberty server config by adding/removing/modifying the XML snippets under
 echo    %WLP_ROOT%\usr\servers\defaultServer\configDropins to configure datasource definitions, 
 echo    TLS configuration (keystores), webapp security, and more.
 echo 5. Modify the FHIR server config (fhir-server-config.json) under
