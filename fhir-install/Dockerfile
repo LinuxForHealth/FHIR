@@ -31,7 +31,7 @@ ARG FHIR_SERVER_VERSION=5.0.0-SNAPSHOT
 LABEL name='LinuxForHealth FHIR Server'
 LABEL version="$FHIR_SERVER_VERSION"
 LABEL summary="LinuxForHealth FHIR Server with OpenJ9 and UBI 8"
-LABEL description="The LinuxForHealth FHIR Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability."
+LABEL description="The LinuxForHealth FHIR Server is a modular Java implementation of the HL7 FHIR specification that supports versions R4 and R4B with a focus on performance and configurability."
 
 ENV FHIR_CONFIG_HOME=/opt/ol/wlp/usr/servers/defaultServer \
     WLP_LOGGING_CONSOLE_SOURCE=message,trace,accessLog,ffdc,audit \
