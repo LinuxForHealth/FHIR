@@ -12,7 +12,7 @@ import java.sql.SQLException;
 /**
  * Provides an abstract way to obtain a JDBC connection. Hides the implementation,
  * making it easier to switch between in-memory instances of Derby used for unit-tests
- * and connections to actual DB2 instances either in pure Java or JEE environments like
+ * and connections to actual database instances either in pure Java or JEE environments like
  * Liberty Profile.
  * 
  * One {@link IConnectionProvider} instance is used per data source. If you need to

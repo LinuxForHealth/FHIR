@@ -384,7 +384,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         }
 
         try {
-            // it seems that these statements are vulnerable to deadlocks in the DB2 dictionary
+            // Be aware: applying FK constraints in parallel may hit deadlocks in some database implementations
             runStatement(ddl.toString());
         } catch (Exception x) {
             logger.warning("Statement failed (" + x.getMessage() + ") " + ddl.toString());
