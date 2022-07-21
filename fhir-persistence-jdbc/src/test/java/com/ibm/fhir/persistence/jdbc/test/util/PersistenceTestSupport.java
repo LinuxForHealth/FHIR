@@ -18,12 +18,12 @@ import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
-import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
+import com.ibm.fhir.persistence.jdbc.cache.CommonValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.IdNameCache;
 import com.ibm.fhir.persistence.jdbc.cache.LogicalResourceIdentCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.search.util.SearchHelper;
@@ -53,7 +53,7 @@ public class PersistenceTestSupport {
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+            ICommonValuesCache rrc = new CommonValuesCacheImpl(100, 100, 100);
             ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
             cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
         }

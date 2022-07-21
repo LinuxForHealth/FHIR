@@ -28,7 +28,7 @@ import com.ibm.fhir.database.utils.model.With;
 /**
  * Adapter to build the plain version of the FHIR schema. Uses
  * the IDatabaseAdapter to hide the specifics of a particular
- * database flavor (like Db2, PostgreSQL, Derby etc).
+ * database flavor (like PostgreSQL, Derby etc).
  */
 public class PlainSchemaAdapter implements ISchemaAdapter {
 

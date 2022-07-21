@@ -11,26 +11,22 @@ import java.sql.Connection;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.citus.CitusTranslator;
 import com.ibm.fhir.database.utils.common.DatabaseTranslatorFactory;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.citus.CitusResourceDAO;
-import com.ibm.fhir.persistence.jdbc.citus.CitusResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.ReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.impl.CommonValuesDAO;
+import com.ibm.fhir.persistence.jdbc.derby.DerbyCommonValuesDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceDAO;
-import com.ibm.fhir.persistence.jdbc.derby.DerbyResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceDAO;
-import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceReferenceDAO;
 
 /**
  * Factory for constructing ResourceDAO implementations specific to a
@@ -57,16 +53,15 @@ public class FHIRResourceDAOFactory {
         throws IllegalArgumentException, FHIRPersistenceException {
         final ResourceDAO resourceDAO;
 
-        IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
         switch (flavor.getType()) {
         case DERBY:
-            resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+            resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, ptdi);
             break;
         case POSTGRESQL:
-            resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi, shardKey);
+            resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, ptdi, shardKey);
             break;
         case CITUS:
-            resourceDAO = new CitusResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi, shardKey);
+            resourceDAO = new CitusResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, ptdi, shardKey);
             break;
         default:
             throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());
@@ -89,17 +84,16 @@ public class FHIRResourceDAOFactory {
 
         final IDatabaseTranslator translator;
         final ReindexResourceDAO result;
-        IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
 
         switch (flavor.getType()) {
         case DERBY:
             translator = new DerbyTranslator();
-            result = new ReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache, rrd);
+            result = new ReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache);
             break;
         case POSTGRESQL:
         case CITUS:
             translator = new PostgresTranslator();
-            result = new PostgresReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache, rrd);
+            result = new PostgresReindexResourceDAO(connection, translator, parameterDao, schemaName, flavor, cache);
             break;
         default:
             throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());
@@ -133,16 +127,15 @@ public class FHIRResourceDAOFactory {
         FHIRPersistenceJDBCCache cache, Short shardKey) throws IllegalArgumentException, FHIRPersistenceException {
         final ResourceDAO resourceDAO;
 
-        IResourceReferenceDAO rrd = getResourceReferenceDAO(connection, adminSchemaName, schemaName, flavor, cache);
         switch (flavor.getType()) {
         case DERBY:
-            resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, cache, rrd);
+            resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, cache);
             break;
         case POSTGRESQL:
-            resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, cache, rrd, shardKey);
+            resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, cache, shardKey);
             break;
         case CITUS:
-            resourceDAO = new CitusResourceDAO(connection, schemaName, flavor, cache, rrd, shardKey);
+            resourceDAO = new CitusResourceDAO(connection, schemaName, flavor, cache, shardKey);
             break;
         default:
             throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());
@@ -151,27 +144,23 @@ public class FHIRResourceDAOFactory {
     }
 
     /**
-     * Get a standalone DAO to handle the inserts of the common token values and
-     * resource token refs just prior to the transaction commit
+     * Get a standalone DAO to handle the fetch of records from common_token_values 
+     * and common_canonical_values
      * @param connection
      * @param schemaName
      * @param flavor
-     * @param cache
      * @return
      */
-    public static ResourceReferenceDAO getResourceReferenceDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor,
-        FHIRPersistenceJDBCCache cache) {
+    public static CommonValuesDAO getCommonValuesDAO(Connection connection, String adminSchemaName, String schemaName, FHIRDbFlavor flavor) {
 
-        final ResourceReferenceDAO rrd;
+        final CommonValuesDAO rrd;
         switch (flavor.getType()) {
         case DERBY:
-            rrd = new DerbyResourceReferenceDAO(new DerbyTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache(), cache.getLogicalResourceIdentCache());
+            rrd = new DerbyCommonValuesDAO(new DerbyTranslator(), connection, schemaName);
             break;
         case POSTGRESQL:
-            rrd = new PostgresResourceReferenceDAO(new PostgresTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache(), cache.getLogicalResourceIdentCache());
-            break;
         case CITUS:
-            rrd = new CitusResourceReferenceDAO(new CitusTranslator(), connection, schemaName, cache.getResourceReferenceCache(), cache.getParameterNameCache(), cache.getLogicalResourceIdentCache());
+            rrd = new CommonValuesDAO(new PostgresTranslator(), connection, schemaName);
             break;
         default:
             throw new IllegalArgumentException("Unsupported database type: " + flavor.getType().name());

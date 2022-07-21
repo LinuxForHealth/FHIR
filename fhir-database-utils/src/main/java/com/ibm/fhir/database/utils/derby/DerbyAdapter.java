@@ -284,8 +284,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public String blobClause(long size, int inlineSize) {
-        // Derby doesn't support the INLINE feature (which greatly helps with
-        // performance on DB2)
+        // Derby doesn't support the INLINE feature
         return "BLOB(" + size + ")";
     }
 

@@ -681,7 +681,7 @@ public class Main {
     }
 
     /**
-     * Set up the connection pool and transaction provider for connecting to a DB2
+     * Set up the connection pool and transaction provider for connecting to a PostgreSQL
      * database
      */
     public void setupPostgresRepository() {

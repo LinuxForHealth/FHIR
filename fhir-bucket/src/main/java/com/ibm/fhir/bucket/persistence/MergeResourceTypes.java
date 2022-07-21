@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,7 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 /**
  * DAO to encapsulate all the SQL/DML used to retrieve and persist data
  * in the schema.
- * Supports: Db2 and Derby
+ * Supports: Derby
  * Does not support: PostgreSQL
  */
 public class MergeResourceTypes implements IDatabaseStatement {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,7 +33,7 @@ public interface IConnectionProvider {
     /**
      * Get the translator associated with this connection provider. Supports
      * interpretation of SQLExceptions and the ability to tweak
-     * SQL statements to handle differences between DB2 and Derby
+     * SQL statements to handle differences between databases
      * @return
      */
     public IDatabaseTranslator getTranslator();

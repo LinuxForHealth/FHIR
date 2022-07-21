@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonValuesDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.LogicalResourceIdentKey;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -46,19 +46,20 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
     // The DAO providing access to resource types
     private final ResourceDAO resourceDAO;
 
-    private final IResourceReferenceDAO resourceReferenceDAO;
+    // The DAO providing access to the normalized values in common_token_values, common_canonical_values and code_systems
+    private final ICommonValuesDAO commonValuesDAO;
 
     /**
      * Public constructor
      * @param cache
      * @param parameterDAO
-     * @param rrd
+     * @param commonValuesDAO
      */
-    public JDBCIdentityCacheImpl(FHIRPersistenceJDBCCache cache, ResourceDAO resourceDAO, ParameterDAO parameterDAO, IResourceReferenceDAO rrd) {
+    public JDBCIdentityCacheImpl(FHIRPersistenceJDBCCache cache, ResourceDAO resourceDAO, ParameterDAO parameterDAO, ICommonValuesDAO commonValuesDAO) {
         this.cache = cache;
         this.resourceDAO = resourceDAO;
         this.parameterDAO = parameterDAO;
-        this.resourceReferenceDAO = rrd;
+        this.commonValuesDAO = commonValuesDAO;
     }
 
     @Override
@@ -106,12 +107,12 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
 
     @Override
     public Integer getCodeSystemId(String codeSystemName) throws FHIRPersistenceException {
-        Integer result = cache.getResourceReferenceCache().getCodeSystemId(codeSystemName);
+        Integer result = cache.getCommonValuesCache().getCodeSystemId(codeSystemName);
         if (result == null) {
             // cache miss, so hit the database
             result = parameterDAO.readOrAddCodeSystemId(codeSystemName);
             if (result != null) {
-                cache.getResourceReferenceCache().addCodeSystem(codeSystemName, result);
+                cache.getCommonValuesCache().addCodeSystem(codeSystemName, result);
             }
         }
         return result;
@@ -130,11 +131,11 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
 
     @Override
     public Long getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
-        Long result = cache.getResourceReferenceCache().getCanonicalId(canonicalValue);
+        Long result = cache.getCommonValuesCache().getCanonicalId(canonicalValue);
         if (result == null) {
-            result = resourceReferenceDAO.readCanonicalId(canonicalValue);
+            result = commonValuesDAO.readCanonicalId(canonicalValue);
             if (result != null) {
-                cache.getResourceReferenceCache().addCanonicalValue(canonicalValue, result);
+                cache.getCommonValuesCache().addCanonicalValue(canonicalValue, result);
             } else {
                 result = -1L;
             }
@@ -145,12 +146,12 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
 
     @Override
     public Long getCommonTokenValueId(String codeSystem, String tokenValue) {
-        Long result = cache.getResourceReferenceCache().getCommonTokenValueId(codeSystem, tokenValue);
+        Long result = cache.getCommonValuesCache().getCommonTokenValueId(codeSystem, tokenValue);
         if (result == null) {
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("Cache miss. Fetching common_token_value_id from database: '" + codeSystem + "|" + tokenValue + "'");
             }
-            CommonTokenValueResult dto = resourceReferenceDAO.readCommonTokenValueId(codeSystem, tokenValue);
+            CommonTokenValueResult dto = commonValuesDAO.readCommonTokenValueId(codeSystem, tokenValue);
             if (dto != null) {
                 // Value exists in the database, so we can add this to our cache. Note that we still
                 // choose to add it the thread-local cache - this avoids any locking. The values will
@@ -160,8 +161,8 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("Adding common_token_value_id to cache: '" + codeSystem + "|" + tokenValue + "' = " + result);
                 }
-                cache.getResourceReferenceCache().addCodeSystem(codeSystem, dto.getCodeSystemId());
-                cache.getResourceReferenceCache().addTokenValue(new CommonTokenValue(codeSystem, dto.getCodeSystemId(), tokenValue), result);
+                cache.getCommonValuesCache().addCodeSystem(codeSystem, dto.getCodeSystemId());
+                cache.getCommonValuesCache().addTokenValue(new CommonTokenValue(codeSystem, dto.getCodeSystemId(), tokenValue), result);
             }
         }
         return result;
@@ -170,7 +171,7 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
     @Override
     public Set<Long> getCommonTokenValueIds(Collection<CommonTokenValue> tokenValues) {
         Set<CommonTokenValue> misses = new HashSet<>();
-        Set<Long> result = cache.getResourceReferenceCache().resolveCommonTokenValueIds(tokenValues, misses);
+        Set<Long> result = cache.getCommonValuesCache().resolveCommonTokenValueIds(tokenValues, misses);
 
         if (misses.isEmpty()) {
             return result;
@@ -180,7 +181,7 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
             logger.fine("Cache miss. Fetching common_token_value_ids from database: " + misses);
         }
 
-        Set<CommonTokenValueResult> readCommonTokenValueIds = resourceReferenceDAO.readCommonTokenValueIds(misses);
+        Set<CommonTokenValueResult> readCommonTokenValueIds = commonValuesDAO.readCommonTokenValueIds(misses);
         result.addAll(readCommonTokenValueIds.stream()
             .map(r -> r.getCommonTokenValueId())
             .collect(Collectors.toSet()));
@@ -195,7 +196,7 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
             }
             
             // The codeSystem is not required at this stage
-            cache.getResourceReferenceCache().addTokenValue(new CommonTokenValue(null, dto.getCodeSystemId(), dto.getTokenValue()), dto.getCommonTokenValueId());
+            cache.getCommonValuesCache().addTokenValue(new CommonTokenValue(null, dto.getCodeSystemId(), dto.getTokenValue()), dto.getCommonTokenValueId());
         }
 
         return result;
@@ -203,7 +204,7 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
 
     @Override
     public List<Long> getCommonTokenValueIdList(String tokenValue) {
-        return resourceReferenceDAO.readCommonTokenValueIdList(tokenValue);
+        return commonValuesDAO.readCommonTokenValueIdList(tokenValue);
     }
 
     @Override

@@ -22,10 +22,7 @@ import com.ibm.fhir.database.utils.model.With;
 
 /**
  * Abstraction of the SQL to use for a given database. This allows us to hide as
- * much as possible the differences in syntax and support between DB2 and Derby
- * (which is used for unit-testing). Derby is pretty close to DB2 in most cases,
- * but notably does not support partitioning, variables or SPL stored
- * procedures.
+ * much as possible the differences in syntax and support between databases.
  */
 public interface IDatabaseAdapter {
     /**

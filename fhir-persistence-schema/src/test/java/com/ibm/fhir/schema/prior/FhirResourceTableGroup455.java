@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -79,7 +79,6 @@ import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.ObjectGroup;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
-import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.database.utils.model.View;
@@ -96,9 +95,6 @@ public class FhirResourceTableGroup455 {
 
     // The schema we place all of our tables into
     private final String schemaName;
-
-    // The session variable we depend on for access control
-    private final SessionVariableDef sessionVariable;
 
     // Build the multitenant variant of the schema
     private final boolean multitenant;
@@ -118,9 +114,6 @@ public class FhirResourceTableGroup455 {
     private static final String COMP = "COMP";
     private static final String ROW_ID = "ROW_ID";
 
-    // suffix for the token view
-    private static final String _TOKEN_VALUES_V = "_TOKEN_VALUES_V";
-
     /**
      * The maximum number of components we can store in the X_COMPOSITES tables.
      * Per the current design, each component will add 6 columns to the table, so don't go too high.
@@ -137,12 +130,11 @@ public class FhirResourceTableGroup455 {
     /**
      * Public constructor
      */
-    public FhirResourceTableGroup455(PhysicalDataModel model, String schemaName, boolean multitenant, SessionVariableDef sessionVariable,
+    public FhirResourceTableGroup455(PhysicalDataModel model, String schemaName, boolean multitenant,
             Set<IDatabaseObject> procedureDependencies, Tablespace fhirTablespace, Collection<GroupPrivilege> privileges) {
         this.model = model;
         this.schemaName = schemaName;
         this.multitenant = multitenant;
-        this.sessionVariable = sessionVariable;
         this.procedureDependencies = procedureDependencies;
         this.fhirTablespace = fhirTablespace;
         this.resourceTablePrivileges = privileges;
@@ -210,7 +202,6 @@ public class FhirResourceTableGroup455 {
                 .addForeignKeyConstraint("FK_" + tableName + "_LRID", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 // Add indexes to avoid dead lock issue of derby, and improve Db2 performance
                 // Derby requires all columns used in where clause to be indexed, otherwise whole table lock will be
                 // used instead of row lock, which can cause dead lock issue frequently during concurrent accesses.
@@ -271,7 +262,6 @@ public class FhirResourceTableGroup455 {
                 .addPrimaryKey(tableName + "_PK", RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model);
 
         group.add(tbl);
@@ -339,7 +329,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 
@@ -392,7 +381,6 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 
@@ -434,7 +422,6 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
                 .setIdentityColumn(ROW_ID, Generated.BY_DEFAULT)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model);
 
         group.add(tbl);
@@ -534,7 +521,6 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == 1) {
@@ -598,7 +584,6 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                 .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == 1) {
@@ -665,7 +650,6 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
                 .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 
@@ -733,7 +717,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 
@@ -814,7 +797,7 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable);
+                ;
 
         tbl.addMigration(priorVersion -> {
             List<IDatabaseStatement> statements = new ArrayList<>();
@@ -887,7 +870,6 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY
                 .addForeignKeyConstraint(FK + LIST_LOGICAL_RESOURCE_ITEMS + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 
@@ -920,7 +902,6 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY
                 .addForeignKeyConstraint(FK + PATIENT_CURRENT_REFS + "_LRID", schemaName, PATIENT_LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 

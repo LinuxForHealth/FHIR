@@ -24,7 +24,6 @@ import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.ReindexResourceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
@@ -91,10 +90,9 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
      * @param schemaName
      * @param flavor
      * @param cache
-     * @param rrd
      */
-    public PostgresReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
-        super(connection, translator, parameterDao, schemaName, flavor, cache, rrd);
+    public PostgresReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache) {
+        super(connection, translator, parameterDao, schemaName, flavor, cache);
     }
 
     /**
@@ -106,11 +104,10 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
      * @param flavor
      * @param trxSynchRegistry
      * @param cache
-     * @param rrd
      */
-    public PostgresReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
+    public PostgresReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache,
         ParameterTransactionDataImpl ptdi) {
-        super(connection, translator, parameterDao, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+        super(connection, translator, parameterDao, schemaName, flavor, trxSynchRegistry, cache, ptdi);
     }
 
     @Override

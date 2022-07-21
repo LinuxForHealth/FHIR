@@ -138,18 +138,17 @@ import com.ibm.fhir.persistence.jdbc.connection.SchemaNameSupplier;
 import com.ibm.fhir.persistence.jdbc.connection.SetMultiShardModifyModeAction;
 import com.ibm.fhir.persistence.jdbc.dao.EraseResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.ReindexResourceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
+import com.ibm.fhir.persistence.jdbc.dao.impl.CommonValuesDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FetchResourceChangesDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FetchResourcePayloadsDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterTransportVisitor;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.RetrieveIndexDAO;
@@ -748,11 +747,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws FHIRPersistenceException
      * @throws IllegalArgumentException
      */
-    private ResourceReferenceDAO makeResourceReferenceDAO(Connection connection)
+    private CommonValuesDAO makeCommonValuesDAO(Connection connection)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
-        return FHIRResourceDAOFactory.getResourceReferenceDAO(connection, FhirSchemaConstants.FHIR_ADMIN,
-                schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(),
-                this.cache);
+        return FHIRResourceDAOFactory.getCommonValuesDAO(connection, FhirSchemaConstants.FHIR_ADMIN,
+                schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor());
     }
 
     /**
@@ -881,7 +879,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             connectionStrategy.applySearchOptimizerOptions(connection, SearchHelper.isCompartmentSearch(searchContext));
             ResourceDAO resourceDao = makeResourceDAO(context, connection);
             ParameterDAO parameterDao = makeParameterDAO(connection);
-            ResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
+            CommonValuesDAO rrd = makeCommonValuesDAO(connection);
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, resourceDao, parameterDao, rrd);
             List<ResourceResult<? extends Resource>> resourceResults = null;
 
@@ -3217,10 +3215,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         try (Connection connection = openConnection()) {
             doCachePrefill(context, connection);
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
-            IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
             EraseResourceDAO eraseDao = new EraseResourceDAO(connection, FhirSchemaConstants.FHIR_ADMIN, translator,
                     schemaNameSupplier.getSchemaForRequestContext(connection),
-                    connectionStrategy.getFlavor(), this.cache, rrd);
+                    connectionStrategy.getFlavor(), this.cache);
             long eraseResourceGroupId = eraseDao.erase(eraseRecord, eraseDto);
 
             // If offloading is enabled, we need to remove the corresponding offloaded resource payloads

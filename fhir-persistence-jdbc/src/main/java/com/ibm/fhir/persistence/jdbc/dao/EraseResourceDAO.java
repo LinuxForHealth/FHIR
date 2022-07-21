@@ -25,9 +25,11 @@ import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ErasedResourceRec;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 
 /**
@@ -72,11 +74,9 @@ public class EraseResourceDAO extends ResourceDAOImpl {
      * @param schemaName
      * @param flavor
      * @param cache
-     * @param rrd
      */
-    public EraseResourceDAO(Connection conn, String adminSchemaName, IDatabaseTranslator translator, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache,
-            IResourceReferenceDAO rrd) {
-        super(conn, schemaName, flavor, cache, rrd);
+    public EraseResourceDAO(Connection conn, String adminSchemaName, IDatabaseTranslator translator, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache) {
+        super(conn, schemaName, flavor, cache);
         this.adminSchemaName = adminSchemaName;
         this.translator = translator;
     }
@@ -424,5 +424,12 @@ public class EraseResourceDAO extends ResourceDAOImpl {
             LOG.log(Level.SEVERE, DEL, x);
             throw translator.translate(x);
         }
+    }
+
+    @Override
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao, Integer ifNoneMatch)
+        throws FHIRPersistenceException {
+        // NOP because ERASE doesn't need to insert the resource
+        return resource;
     }
 }

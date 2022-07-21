@@ -50,7 +50,9 @@ import com.ibm.fhir.database.utils.tenant.MaxTenantIdDAO;
 import com.ibm.fhir.database.utils.tenant.UpdateTenantStatusDAO;
 
 /**
- * Provides schema control functions common to our supported databases (DB2 and Derby)
+ * Provides schema control functions common to our supported databases:
+ *   PostgreSQL
+ *   Derby (for unit tests, not production)
  */
 public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDatabaseTypeAdapter {
     private static final Logger logger = Logger.getLogger(CommonDatabaseAdapter.class.getName());

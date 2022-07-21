@@ -111,7 +111,6 @@ import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Sequence;
-import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.database.utils.model.With;
@@ -156,9 +155,6 @@ public class FhirSchemaGenerator {
 
     // Sequence used by the admin tenant tables
     private Sequence tenantSequence;
-
-    // The session variable used for row access control. All tables depend on this
-    private SessionVariableDef sessionVariable;
 
     private Table tenantsTable;
     private Table tenantKeysTable;
@@ -273,28 +269,12 @@ public class FhirSchemaGenerator {
         addTenantSequence(model);
         addTenantTable(model);
         addTenantKeysTable(model);
-        addVariable(model);
 
         // Add a NopObject which acts as a single dependency marker for the procedure objects to depend on
         this.allAdminTablesComplete = new NopObject(adminSchemaName, "allAdminTablesComplete");
         this.allAdminTablesComplete.addDependencies(adminProcedureDependencies);
         this.allAdminTablesComplete.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         model.addObject(allAdminTablesComplete);
-    }
-
-    /**
-     * Add the session variable we need. This variable is used to support multi-tenancy
-     * via the row-based access control permission predicate.
-     * @param model
-     */
-    public void addVariable(PhysicalDataModel model) {
-        this.sessionVariable = new SessionVariableDef(adminSchemaName, "SV_TENANT_ID", FhirSchemaVersion.V0001.vid());
-        this.sessionVariable.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
-        variablePrivileges.forEach(p -> p.addToObject(this.sessionVariable));
-
-        // Make sure any admin procedures are built after the session variable
-        adminProcedureDependencies.add(this.sessionVariable);
-        model.addObject(this.sessionVariable);
     }
 
     /**
@@ -595,7 +575,6 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
-                .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // add table tuning
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -712,7 +691,6 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
-                .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // add table tuning
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -752,7 +730,6 @@ public class FhirSchemaGenerator {
                 .addUniqueIndex(unqCanonicalUrl, URL)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     // Intentionally NOP
@@ -795,7 +772,6 @@ public class FhirSchemaGenerator {
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // New Column for V0017
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -842,7 +818,6 @@ public class FhirSchemaGenerator {
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // New Column for V0017
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -886,7 +861,6 @@ public class FhirSchemaGenerator {
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // New Column for V0017
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -940,7 +914,6 @@ public class FhirSchemaGenerator {
                 .addUniqueIndex("UNQ_" + RESOURCE_CHANGE_LOG + "_CTRTRI", CHANGE_TSTAMP, RESOURCE_TYPE_ID, RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addWiths(customWiths) // Does not require fillfactor tuning
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -989,7 +962,6 @@ public class FhirSchemaGenerator {
                 .addForeignKeyConstraint(FK + tableName + "_COMP", schemaName, LOGICAL_RESOURCES, COMPARTMENT_LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // New Column for V0017
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -1042,7 +1014,6 @@ public class FhirSchemaGenerator {
                 .addForeignKeyConstraint(FK + STR_VALUES + "_RID", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // New Column for V0017
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addMigration(priorVersion -> {
@@ -1088,7 +1059,6 @@ public class FhirSchemaGenerator {
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // New Column for V0017
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addMigration(priorVersion -> {
@@ -1141,7 +1111,6 @@ public class FhirSchemaGenerator {
                 .addPrimaryKey(RESOURCE_TYPES + "_PK", RESOURCE_TYPE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .setDistributionType(DistributionType.REFERENCE) // V0027 supporting for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -1168,13 +1137,8 @@ public class FhirSchemaGenerator {
      * @param model
      */
     protected void addResourceTables(PhysicalDataModel model, IDatabaseObject... dependency) {
-        if (this.sessionVariable == null) {
-            throw new IllegalStateException("Session variable must be defined before adding resource tables");
-        }
 
-        // The sessionVariable is used to enable access control on every table, so we
-        // provide it as a dependency
-        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, false, sessionVariable,
+        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, false,
                 this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges, addWiths());
         for (String resourceType: this.resourceTypes) {
 
@@ -1225,7 +1189,6 @@ public class FhirSchemaGenerator {
                 .addPrimaryKey(PARAMETER_NAMES + "_PK", PARAMETER_NAME_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .setDistributionType(DistributionType.REFERENCE) // V0027 supporting for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -1263,7 +1226,6 @@ public class FhirSchemaGenerator {
                 .addPrimaryKey(CODE_SYSTEMS + "_PK", CODE_SYSTEM_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .setDistributionType(DistributionType.REFERENCE) // V0027 supporting for sharding
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -1331,7 +1293,6 @@ public class FhirSchemaGenerator {
                 .addForeignKeyConstraint(FK + tableName + "_CSID", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .setDistributionType(DistributionType.REFERENCE) // V0027 shard using token_value
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -1367,7 +1328,6 @@ public class FhirSchemaGenerator {
                 .addForeignKeyConstraint(FK + tableName + "_CSID", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     // Intentionally a NOP
@@ -1411,7 +1371,6 @@ public class FhirSchemaGenerator {
                 .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // table tuning
                 .addMigration(priorVersion -> {
                     // Replace the indexes initially defined in the V0006 version with better ones
@@ -1492,7 +1451,6 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
-                .enableAccessControl(this.sessionVariable)
                 .addWiths(addWiths()) // add table tuning
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();

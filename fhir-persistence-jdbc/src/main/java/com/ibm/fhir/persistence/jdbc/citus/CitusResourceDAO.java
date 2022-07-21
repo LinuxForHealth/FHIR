@@ -31,7 +31,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchExcept
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
@@ -84,8 +83,8 @@ public class CitusResourceDAO extends PostgresResourceDAO {
      * @param cache
      * @param rrd
      */
-    public CitusResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, Short shardKey) {
-        super(connection, schemaName, flavor, cache, rrd, shardKey);
+    public CitusResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, Short shardKey) {
+        super(connection, schemaName, flavor, cache, shardKey);
     }
 
     /**
@@ -99,9 +98,9 @@ public class CitusResourceDAO extends PostgresResourceDAO {
      * @param rrd
      * @param ptdi
      */
-    public CitusResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
+    public CitusResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache,
         ParameterTransactionDataImpl ptdi, Short shardKey) {
-        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi, shardKey);
+        super(connection, schemaName, flavor, trxSynchRegistry, cache, ptdi, shardKey);
     }
 
     /**

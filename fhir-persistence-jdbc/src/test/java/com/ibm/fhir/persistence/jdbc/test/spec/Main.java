@@ -40,12 +40,12 @@ import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
-import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
+import com.ibm.fhir.persistence.jdbc.cache.CommonValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.IdNameCache;
 import com.ibm.fhir.persistence.jdbc.cache.LogicalResourceIdentCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
@@ -323,7 +323,7 @@ public class Main {
         // IConnectionProvider implementation used by the persistence
         // layer to obtain connections.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+            ICommonValuesCache rrc = new CommonValuesCacheImpl(100, 100, 100);
             ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
             FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), 
                 new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
@@ -377,7 +377,7 @@ public class Main {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+        ICommonValuesCache rrc = new CommonValuesCacheImpl(100, 100, 100);
         ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
 
@@ -433,7 +433,7 @@ public class Main {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+        ICommonValuesCache rrc = new CommonValuesCacheImpl(100, 100, 100);
         ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
 

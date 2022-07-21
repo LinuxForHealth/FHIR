@@ -23,13 +23,14 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 
@@ -101,8 +102,8 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * @param cache
      * @param rrd
      */
-    public ReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
-        super(connection, schemaName, flavor, cache, rrd);
+    public ReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache) {
+        super(connection, schemaName, flavor, cache);
         this.translator = translator;
         this.parameterDao = parameterDao;
     }
@@ -118,8 +119,8 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * @param cache
      * @param rrd
      */
-    public ReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, ParameterTransactionDataImpl ptdi) {
-        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+    public ReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi) {
+        super(connection, schemaName, flavor, trxSynchRegistry, cache, ptdi);
         this.translator = translator;
         this.parameterDao = parameterDao;
 
@@ -438,5 +439,12 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             logger.log(Level.SEVERE, SQL, x);
             throw translator.translate(x);
         }
+    }
+
+    @Override
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao, Integer ifNoneMatch)
+        throws FHIRPersistenceException {
+        // NOP because for reindex we only insert the parameters - the current resource is not changed
+        return resource;
     }
 }

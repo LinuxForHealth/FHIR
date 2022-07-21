@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,7 +38,7 @@ public class MergeResources implements IDatabaseStatement {
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
 
-        // Support for PostgreSQL as well as Derby/Db2
+        // Support for PostgreSQL as well as Derby
         final String currentTimestamp = translator.currentTimestampString();
         final String dual = translator.dualTableName();
         final String source = dual == null ? "(SELECT 1)" : dual;

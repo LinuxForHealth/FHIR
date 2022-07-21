@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,7 +30,7 @@ import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavorImpl;
 import com.ibm.fhir.persistence.jdbc.dao.EraseResourceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IIdNameCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
@@ -90,7 +90,7 @@ public class EraseTestMain {
                 System.out.println("Got a Connection");
                 try {
                     FHIRDbFlavor flavor = new FHIRDbFlavorImpl(dbType, SchemaType.PLAIN);
-                    EraseResourceDAO dao = new EraseResourceDAO(c, FhirSchemaConstants.FHIR_ADMIN, translator, schemaName, flavor, new MockLocalCache(), null);
+                    EraseResourceDAO dao = new EraseResourceDAO(c, FhirSchemaConstants.FHIR_ADMIN, translator, schemaName, flavor, new MockLocalCache());
 
                     ResourceEraseRecord record = new ResourceEraseRecord();
                     EraseDTO eraseDto = new EraseDTO();
@@ -174,7 +174,7 @@ public class EraseTestMain {
         }
 
         @Override
-        public ICommonTokenValuesCache getResourceReferenceCache() {
+        public ICommonValuesCache getCommonValuesCache() {
             return null;
         }
 

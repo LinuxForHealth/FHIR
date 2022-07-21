@@ -80,9 +80,7 @@ import com.ibm.fhir.database.utils.model.ObjectGroup;
 import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
-import com.ibm.fhir.database.utils.model.ProcedureDef;
 import com.ibm.fhir.database.utils.model.Sequence;
-import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
@@ -117,13 +115,8 @@ public class FhirSchemaGenerator455 {
     // Sequence used by the admin tenant tables
     private Sequence tenantSequence;
 
-    // The session variable used for row access control. All tables depend on this
-    private SessionVariableDef sessionVariable;
-
     private Table tenantsTable;
     private Table tenantKeysTable;
-
-    private static final String SET_TENANT = "SET_TENANT";
 
     // The set of dependencies common to all of our admin stored procedures
     private Set<IDatabaseObject> adminProcedureDependencies = new HashSet<>();
@@ -237,7 +230,6 @@ public class FhirSchemaGenerator455 {
         addTenantSequence(model);
         addTenantTable(model);
         addTenantKeysTable(model);
-        addVariable(model);
 
         // Add a NopObject which acts as a single dependency marker for the procedure objects to depend on
         this.allAdminTablesComplete = new NopObject(adminSchemaName, "allAdminTablesComplete");
@@ -245,35 +237,11 @@ public class FhirSchemaGenerator455 {
         this.allAdminTablesComplete.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         model.addObject(allAdminTablesComplete);
 
-        // The set_tenant procedure can be created after all the admin tables are done
-        final String ROOT_DIR = "db2/";
-        ProcedureDef setTenant = model.addProcedure(this.adminSchemaName, SET_TENANT, 2,
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, adminSchemaName,
-                    ROOT_DIR + SET_TENANT.toLowerCase() + ".sql", null),
-                Arrays.asList(allAdminTablesComplete),
-                procedurePrivileges);
-        setTenant.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
-
         // A final marker which is used to block any FHIR data schema activity until the admin schema is completed
         this.adminSchemaComplete = new NopObject(adminSchemaName, "adminSchemaComplete");
-        this.adminSchemaComplete.addDependencies(Arrays.asList(setTenant));
+        this.adminSchemaComplete.addDependencies(Arrays.asList(allAdminTablesComplete));
         this.adminSchemaComplete.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
         model.addObject(adminSchemaComplete);
-    }
-
-    /**
-     * Add the session variable we need. This variable is used to support multi-tenancy
-     * via the row-based access control permission predicate.
-     * @param model
-     */
-    public void addVariable(PhysicalDataModel model) {
-        this.sessionVariable = new SessionVariableDef(adminSchemaName, "SV_TENANT_ID", FhirSchemaVersion.V0001.vid());
-        this.sessionVariable.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);
-        variablePrivileges.forEach(p -> p.addToObject(this.sessionVariable));
-
-        // Make sure any admin procedures are built after the session variable
-        adminProcedureDependencies.add(this.sessionVariable);
-        model.addObject(this.sessionVariable);
     }
 
     /**
@@ -382,44 +350,6 @@ public class FhirSchemaGenerator455 {
         model.addObject(allTablesComplete);
     }
 
-    public void buildDatabaseSpecificArtifactsDb2(PhysicalDataModel model) {
-        // These procedures just depend on the table they are manipulating and the fhir sequence. But
-        // to avoid deadlocks, we only apply them after all the tables are done, so we make all
-        // procedures depend on the allTablesComplete marker.
-        final String ROOT_DIR = "db2/";
-        ProcedureDef pd = model.addProcedure(this.schemaName,
-                ADD_CODE_SYSTEM,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        pd = model.addProcedure(this.schemaName,
-                ADD_PARAMETER_NAME,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_PARAMETER_NAME.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete),
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        pd = model.addProcedure(this.schemaName,
-                ADD_RESOURCE_TYPE,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_RESOURCE_TYPE.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        pd = model.addProcedure(this.schemaName,
-                ADD_ANY_RESOURCE,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
-                procedurePrivileges);
-        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-    }
-
     public void buildDatabaseSpecificArtifactsPostgres(PhysicalDataModel model) {
         // Add stored procedures/functions for postgresql.
         // Have to use different object names from DB2, because the group processing doesn't support 2 objects with the same name.
@@ -482,7 +412,6 @@ public class FhirSchemaGenerator455 {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
-                .enableAccessControl(this.sessionVariable)
                 .setVersion(FhirSchemaVersion.V0006.vid())
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -538,7 +467,6 @@ public class FhirSchemaGenerator455 {
                 .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -580,7 +508,6 @@ public class FhirSchemaGenerator455 {
                 .addForeignKeyConstraint(FK + tableName + "_COMP", schemaName, LOGICAL_RESOURCES, COMPARTMENT_LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -616,7 +543,6 @@ public class FhirSchemaGenerator455 {
                 .addForeignKeyConstraint(FK + STR_VALUES + "_RID", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(pdm);
 
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -650,7 +576,6 @@ public class FhirSchemaGenerator455 {
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == 1) {
@@ -695,7 +620,6 @@ public class FhirSchemaGenerator455 {
                 .addPrimaryKey(RESOURCE_TYPES + "_PK", RESOURCE_TYPE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model);
 
         // TODO Table should be immutable, so add support to the Builder for this
@@ -711,13 +635,7 @@ public class FhirSchemaGenerator455 {
      * @param model
      */
     protected void addResourceTables(PhysicalDataModel model, IDatabaseObject... dependency) {
-        if (this.sessionVariable == null) {
-            throw new IllegalStateException("Session variable must be defined before adding resource tables");
-        }
-
-        // The sessionVariable is used to enable access control on every table, so we
-        // provide it as a dependency
-        FhirResourceTableGroup455 frg = new FhirResourceTableGroup455(model, this.schemaName, this.multitenant, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
+        FhirResourceTableGroup455 frg = new FhirResourceTableGroup455(model, this.schemaName, this.multitenant, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
         for (String resourceType: this.resourceTypes) {
             ObjectGroup group = frg.addResourceType(resourceType);
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -761,7 +679,6 @@ public class FhirSchemaGenerator455 {
                 .addPrimaryKey(PARAMETER_NAMES + "_PK", PARAMETER_NAME_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model);
 
         this.parameterNamesTable.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -793,7 +710,6 @@ public class FhirSchemaGenerator455 {
                 .addPrimaryKey(CODE_SYSTEMS + "_PK", CODE_SYSTEM_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model);
 
         this.codeSystemsTable.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -842,7 +758,6 @@ public class FhirSchemaGenerator455 {
                 .addForeignKeyConstraint(FK + tableName + "_CSID", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -879,7 +794,6 @@ public class FhirSchemaGenerator455 {
                 .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?

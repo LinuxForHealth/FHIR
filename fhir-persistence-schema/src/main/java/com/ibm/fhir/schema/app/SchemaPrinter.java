@@ -82,11 +82,6 @@ import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
  * Without to-file, the output is the current System.out else it's schema.sql, grants.sql and stored-procedures.sql of <br>
  * the current directory.<br>
  * <br>
- * For db2 import to<br>
- * - schema.sql {@code db2 -tvf schema.sql} <br>
- * - grants.sql {@code db2 -tvf grants.sql} <br>
- * - stored-procedures.sql {@code db2 -td@ -vf stored-procedures.sql}<br>
- * <br>
  */
 public class SchemaPrinter {
     private static final String DELIMITER = ";";
