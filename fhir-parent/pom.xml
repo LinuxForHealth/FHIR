@@ -7,11 +7,11 @@
     <artifactId>fhir-parent</artifactId>
     <version>5.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>IBM FHIR Server</name>
+    <name>LinuxForHealth FHIR</name>
 
     <url>https://github.com/LinuxForHealth/fhir</url>
     <organization>
-        <name>IBM</name>
+        <name>LinuxForHealth</name>
         <url>https://github.com/LinuxForHealth/fhir</url>
     </organization>
     <issueManagement>
@@ -20,7 +20,7 @@
     <ciManagement>
         <url>https://github.com/LinuxForHealth/fhir/actions</url>
     </ciManagement>
-    <description>The IBM® FHIR® Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</description>
+    <description>The LinuxForHealth FHIR® Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</description>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -29,11 +29,16 @@
     </licenses>
     <developers>
         <developer>
-            <name>IBM Watson Health Development</name>
-            <email>fhirci@us.ibm.com</email>
-            <url>https://www.ibm.com/</url>
-            <organization>IBM Watson Health</organization>
-            <organizationUrl>http://www.ibm.com</organizationUrl>
+            <name>Lee Surprenant</name>
+            <email>lmsurpre@merative.com</email>
+            <organization>Merative</organization>
+            <organizationUrl>https://merative.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>Robin Arnold</name>
+            <email>robin.arnold@merative.com</email>
+            <organization>Merative</organization>
+            <organizationUrl>https://merative.com</organizationUrl>
         </developer>
     </developers>
 
@@ -792,6 +797,7 @@
                     <version>3.0.0-M1</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>3.1.0</version>
                     <configuration>
@@ -827,6 +833,7 @@
                     <version>3.3.0</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-scm-plugin</artifactId>
                     <version>1.13.0</version>
                     <configuration></configuration>
@@ -934,7 +941,7 @@
                         <detectLinks>true</detectLinks>
                         <!-- control display -->
                         <author>false</author>
-                        <windowtitle>IBM FHIR Server</windowtitle>
+                        <windowtitle>LinuxForHealth FHIR Server</windowtitle>
                         <doctitle>${project.name} ${project.version}</doctitle>
                         <additionalOptions>
                             <!-- makes the frames visible, disabled and going
@@ -1005,25 +1012,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.2</version>
             </plugin>
         </plugins>
     </build>
 
     <scm>
         <connection>scm:git:https://github.com/LinuxForHealth/fhir.git</connection>
-        <developerConnection>IBM</developerConnection>
-        <tag>ibm-fhir-server</tag>
         <url>https://github.com/LinuxForHealth/fhir.git</url>
     </scm>
 
@@ -1505,8 +1507,6 @@
                     <maxmemory>2g</maxmemory>
                     <!-- doclint is none, otherwise build breaks -->
                     <doclint>none</doclint>
-                    <additionalparam>-Xdoclint:none
-                        -Djava.awt.headless=true</additionalparam>
                     <detectLinks>true</detectLinks>
                     <!-- control display -->
                     <author>false</author>
@@ -1532,9 +1532,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <configuration>
-                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                </configuration>
                 <reportSets>
                     <reportSet>
                         <reports>

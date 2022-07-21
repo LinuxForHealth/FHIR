@@ -46,7 +46,7 @@ echo "Installing fhir server in ${SIT}"
 ${SIT}/fhir-server-dist/install.sh ${SIT}
 
 echo "Creating datastores for tenant1"
-DB_LOC=${SIT}/wlp/usr/servers/fhir-server/derby
+DB_LOC=${SIT}/wlp/usr/servers/defaultServer/derby
 java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
   --db-type derby --prop db.database=${DB_LOC}/fhirDB --prop db.create=Y \
   --update-schema
@@ -64,17 +64,17 @@ java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
   --update-schema
 
 echo "Copying configuration to install location..."
-rm -rf ${SIT}/wlp/usr/servers/fhir-server/config/*
-cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
-cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
+rm -rf ${SIT}/wlp/usr/servers/defaultServer/config/*
+cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/* ${SIT}/wlp/usr/servers/defaultServer/config/
+cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* ${SIT}/wlp/usr/servers/defaultServer/config/
 
 # Only copy over the Derby datasource definition for this instance
-rm -f ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides/datasource-*.xml
-mkdir -p ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides
-cp ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides/datasource.xml
+rm -f ${SIT}/wlp/usr/servers/defaultServer/configDropins/overrides/datasource-*.xml
+mkdir -p ${SIT}/wlp/usr/servers/defaultServer/configDropins/overrides
+cp ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml ${SIT}/wlp/usr/servers/defaultServer/configDropins/overrides/datasource.xml
 
 echo "Copying test artifacts to install location..."
-USERLIB=${SIT}/wlp/usr/servers/fhir-server/userlib
+USERLIB=${SIT}/wlp/usr/servers/defaultServer/userlib
 rm -rf ${USERLIB}/fhir-operation-*-tests.jar
 cp ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*.jar ${USERLIB}/
 cp ${WORKSPACE}/term/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}/
@@ -84,13 +84,13 @@ find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar
 find ${WORKSPACE}/operation/fhir-operation-member-match/target -iname 'fhir-operation*.jar' -not -iname 'fhir*-tests.jar' -exec cp -f {} ${USERLIB} \;
 
 # Update to support server enabled registry provider
-bash ${WORKSPACE}/build/update-server-registry-resource.sh ${SIT}/wlp/usr/servers/fhir-server/config/default/fhir-server-config.json
+bash ${WORKSPACE}/build/update-server-registry-resource.sh ${SIT}/wlp/usr/servers/defaultServer/config/default/fhir-server-config.json
 
 # Start up the fhir server
 echo "
 >>> Current time: " $(date)
 echo "Starting fhir server..."
-${SIT}/wlp/bin/server start fhir-server
+${SIT}/wlp/bin/server start
 echo ">>> Current time: " $(date)
 
 
@@ -126,7 +126,7 @@ zip_file=${WORKSPACE}/pre-it-logs.zip
 rm -rf ${pre_it_logs} 2>/dev/null
 mkdir -p ${pre_it_logs}
 rm -f ${zip_file} 2>/dev/null
-cp -pr ${SIT}/wlp/usr/servers/fhir-server/logs ${pre_it_logs}
+cp -pr ${SIT}/wlp/usr/servers/defaultServer/logs ${pre_it_logs}
 zip -r ${zip_file} ${pre_it_logs}
 
 # If we weren't able to detect the fhir server ready within the allotted timeframe,

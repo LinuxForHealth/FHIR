@@ -35,24 +35,12 @@ services:
         target: /opt/ol/wlp/usr/servers/defaultServer/config
         read_only: true
       - type: bind
-        source: ./workarea/volumes/dist/config
-        target: /opt/ol/wlp/usr/servers/fhir-server/config
-        read_only: true
-      - type: bind
         source: ./workarea/volumes/dist/overrides
         target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
         read_only: true
       - type: bind
-        source: ./workarea/volumes/dist/overrides
-        target: /opt/ol/wlp/usr/servers/fhir-server/configDropins/overrides
-        read_only: true
-      - type: bind
         source: ./workarea/volumes/dist/userlib
         target: /opt/ol/wlp/usr/servers/defaultServer/userlib
-        read_only: true
-      - type: bind
-        source: ./workarea/volumes/dist/userlib
-        target: /opt/ol/wlp/usr/servers/fhir-server/userlib
         read_only: true
       - type: bind
         source: ./workarea/volumes/dist/derby

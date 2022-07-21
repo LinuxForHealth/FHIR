@@ -12,7 +12,7 @@
     <fileSets>
         <fileSet>
             <directory>../fhir-server-webapp/src/main/liberty/config</directory>
-            <outputDirectory>artifacts/servers/fhir-server</outputDirectory>
+            <outputDirectory>artifacts/servers/defaultServer</outputDirectory>
             <fileMode>0755</fileMode>
         </fileSet>
         <fileSet>
@@ -24,29 +24,28 @@
     <files>
         <file>
             <source>src/main/resources/docs/README.txt</source>
-            <outputDirectory>artifacts/servers/fhir-server/docs</outputDirectory>
+            <outputDirectory>artifacts/servers/defaultServer/docs</outputDirectory>
             <fileMode>0755</fileMode>
         </file>
         <file>
             <source>../fhir-server-webapp/target/fhir-server.war</source>
-            <outputDirectory>artifacts/servers/fhir-server/apps</outputDirectory>
+            <outputDirectory>artifacts/servers/defaultServer/apps</outputDirectory>
             <fileMode>0755</fileMode>
         </file>
         <file>
             <source>../fhir-bulkdata-webapp/target/fhir-bulkdata-webapp.war</source>
-            <outputDirectory>artifacts/servers/fhir-server/apps</outputDirectory>
+            <outputDirectory>artifacts/servers/defaultServer/apps</outputDirectory>
             <fileMode>0755</fileMode>
         </file>
         <file>
             <source>../fhir-openapi/target/fhir-openapi.war</source>
-            <outputDirectory>artifacts/servers/fhir-server/apps</outputDirectory>
+            <outputDirectory>artifacts/servers/defaultServer/apps</outputDirectory>
             <fileMode>0755</fileMode>
         </file>
     </files>
     <dependencySets>
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>server-runtime</outputDirectory>
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
             <includes>
@@ -55,7 +54,7 @@
         </dependencySet>
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>artifacts/servers/fhir-server/userlib</outputDirectory>
+            <outputDirectory>artifacts/servers/defaultServer/userlib</outputDirectory>
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>
             <includes>

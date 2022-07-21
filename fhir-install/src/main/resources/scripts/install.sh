@@ -25,59 +25,49 @@ then
     LIBERTY_INSTALL_DIR=$1
 fi
 
-echo "Deploying fhir-server in location: ${LIBERTY_INSTALL_DIR}"
-
-# If the liberty install directory doesn't exist, then create it.
-if [ ! -d "$LIBERTY_INSTALL_DIR" ]; then
-    echo -n "
-The Liberty installation directory does not exist; will attempt to create it... "
-    mkdir -p $LIBERTY_INSTALL_DIR
-    rc=$?
-    if [ $rc != 0 ]; then
-    echo "Error creating installation directory: $rc"
-    exit $rc
-    else
-    echo "done!"
-    fi
-fi
-
-# Unzip liberty runtime zip
-echo -n "
-Extracting the Liberty runtime... "
-unzip -qq ${basedir}/server-runtime/openliberty-runtime-${LIBERTY_VERSION}.zip -d ${LIBERTY_INSTALL_DIR}
-rc=$?
-if [ $rc != 0 ]; then
-    echo "Error extracting liberty runtime: $rc"
-    exit $rc
-else
-    echo "done!"
-fi
+echo "Deploying in location: ${LIBERTY_INSTALL_DIR}"
 
 # Save the liberty home directory.
 LIBERTY_ROOT=${LIBERTY_INSTALL_DIR}/wlp
 
-# Determine java command to be used.
-if [ -z "$JAVA_HOME" ]; then
-    echo "
-Warning: JAVA_HOME not set; Java 11 or above is required for proper execution."
+if [ -d "$LIBERTY_ROOT" ]; then
+    # If the liberty install directory exists, make sure we actually have Liberty installed there.
+    if [ -f "${LIBERTY_ROOT}/bin/server" ]; then
+        echo "Using the existing Liberty installation:"
+        ${LIBERTY_ROOT}/bin/productInfo version
+    else
+        echo "
+Invalid installation directory specified for Liberty runtime: ${LIBERTY_ROOT}
+If the installation directory exists then it must contain a valid Liberty runtime."
+        exit 1
+    fi
+else
+    # If the liberty install directory doesn't exist, then create it.
+    echo "Extracting the Liberty runtime... "
+    unzip -qq ${basedir}/openliberty-runtime-${LIBERTY_VERSION}.zip -d ${LIBERTY_INSTALL_DIR}
+    rc=$?
+    if [ $rc != 0 ]; then
+        echo "Error extracting liberty runtime: $rc"
+        exit $rc
+    else
+        echo "done!"
+    fi
 fi
 
-# Create our server
-echo -n "
-Creating Liberty server definition for fhir-server... "
-${LIBERTY_ROOT}/bin/server create fhir-server
-rc=$?
-if [ $rc != 0 ]; then
-    echo "Error creating server definition: $rc"
-    exit $rc
-else
-    echo "done!"
+# Create the defaultServer if necessary.
+if [ ! -d "${LIBERTY_ROOT}/usr/servers/defaultServer" ]; then
+    echo "Creating the Liberty defaultServer... "
+    ${LIBERTY_ROOT}/bin/server create defaultServer
+    rc=$?
+    if [ $rc != 0 ]; then
+        echo "Error creating server definition: $rc"
+        exit $rc
+    fi
 fi
 
 # Copy our server assets
-echo -n "
-Deploying fhir-server assets to server runtime environment... "
-cp -pr ${basedir}/artifacts/* ${LIBERTY_ROOT}/usr/
+echo "Deploying fhir-server assets to the server runtime environment... "
+cp -r ${basedir}/artifacts/* ${LIBERTY_ROOT}/usr/
 rc=$?
 if [ $rc != 0 ]; then
     echo "Error deploying fhir-server assets to server runtime environment: $rc"
@@ -86,31 +76,32 @@ else
     echo "done!"
 fi
 
-
 echo "
 
-The FHIR Server has been successfully deployed to the
-Liberty runtime located at: ${LIBERTY_ROOT}
+The FHIR Server has been successfully deployed to the Liberty runtime
+at: ${LIBERTY_ROOT}
 
-The following manual steps must be completed before the server can be started:
+The fhir-server application requires Java 11.
+If you do not have one, a copy of the Java 11 SDK can be obtained at https://adoptium.net.
+The following steps must be completed before the server can be started:
 
-1) Make sure that your selected database (e.g. Derby, DB2) is active and
-   ready to accept requests.
+1) Set the JAVA_HOME environment variable for your Java installation.
 
-2) Modify the server.xml and fhir-server-config.json files located at
-   ${LIBERTY_ROOT}/usr/servers/fhir-server to properly configure the server according
-   to your requirements.
-   This includes the definition of the ports, the configuration
-   of datastore(s), and other associated configuration.
+2) If using a database other than the embedded derby one, make sure that your selected database
+   is active and ready to accept requests.
 
-3) The fhir-server application requires Java 11 or above.
-   If you do not have one, a copy of the Java 11 SDK can be obtained at https://adoptopenjdk.net.
-   Be sure to set the JAVA_HOME environment variable to point to your Java 11 installation
-   before starting the server.
+3) Deploy the database schema via the fhir-persistence-schema cli jar under ${basedir}/tools
+   and grant necessary permissions.
 
-4) You can start and stop the server with these commands:
-   ${LIBERTY_ROOT}/bin/server start fhir-server
-   ${LIBERTY_ROOT}/bin/server stop fhir-server
+4) Modify the Liberty server config (server.xml) by adding/removing/modifying the XML snippets under
+   ${LIBERTY_ROOT}/usr/servers/defaultServer/configDropins to configure datasource definitions, 
+   TLS configuration (keystores), webapp security, and more.
+
+5) Modify the FHIR server config (fhir-server-config.json) under
+   ${LIBERTY_ROOT}/usr/servers/defaultServer/config to configure the persistence, resource endpoints,
+   and related FHIR server features.
+
+You can start and stop the server with these commands:
+   ${LIBERTY_ROOT}/bin/server start
+   ${LIBERTY_ROOT}/bin/server stop
 "
-
-exit 0
