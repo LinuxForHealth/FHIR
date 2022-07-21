@@ -9,7 +9,7 @@ import Header from 'gatsby-theme-carbon/src/components/Header';
 
 const CustomHeader = (props) => (
   <Header {...props} >
-    <span>IBM&reg;</span>&nbsp;FHIR&reg;&nbsp;Server
+    LinuxForHealth&nbsp;FHIR&reg;&nbsp;Server
   </Header>
 );
 
