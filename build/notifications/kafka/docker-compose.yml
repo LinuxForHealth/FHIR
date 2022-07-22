@@ -49,7 +49,7 @@ services:
     ports:
       - 29092:29092
   fhir-server:
-    image: ibmcom/ibm-fhir-server:latest
+    image: linuxforhealth/fhir-server:latest
     depends_on:
       - kafka-1
       - kafka-2

@@ -34,7 +34,7 @@ required_build(){
 
     # Build dockerfile
     cd fhir-install
-    docker build -t ibmcom/ibm-fhir-server:latest .
+    docker build -t linuxforhealth/fhir-server:latest .
     cd ..
 }
 

@@ -22,7 +22,7 @@ package_logs(){
     mkdir -p ${it_results}/fhir-server-test
 
     # Look for the FHIR Server Container
-    containerId=$(docker ps -a | grep ibm-fhir-server | cut -d ' ' -f 1)
+    containerId=$(docker ps -a | grep fhir-server | cut -d ' ' -f 1)
     if [[ -z "${containerId}" ]]; then
         echo "Warning: Could not find fhir container!!!"
     else

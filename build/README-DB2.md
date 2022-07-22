@@ -6,7 +6,7 @@ Running fhir server integration tests using docker db2.
 ## Prerequisites
 
 - [Docker](https://www.docker.com)
-- `ibmcom/ibm-fhir-server:latest` (built from the fhir-install module)
+- `linuxforhealth/fhir-server:latest` (built from the fhir-install module)
 
 
 ## Run

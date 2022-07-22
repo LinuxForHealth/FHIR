@@ -24,7 +24,7 @@ services:
     networks:
       - fhir
   fhir:
-    image: ibmcom/ibm-fhir-server:latest
+    image: linuxforhealth/fhir-server:latest
     depends_on:
       db:
         condition: service_healthy

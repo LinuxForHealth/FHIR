@@ -33,7 +33,7 @@ services:
     ports:
       - 5432:5432
   fhir:
-    image: ibmcom/ibm-fhir-server:latest
+    image: linuxforhealth/fhir-server:latest
     hostname: fhir
     volumes:
       - type: bind
