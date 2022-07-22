@@ -63,6 +63,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -990,6 +991,20 @@ public class Main {
      * Grant only SELECT privileges to the given user to provide read-only direct schema access
      */
     protected void grantReadPrivilegesForFhirData() {
+        Objects.requireNonNull(this.grantReadTo, "grantReadTo not set");
+
+        final ISchemaAdapter adapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                // In order to SELECT from the tables, we need at least USAGE on the schema
+                adapter.grantSchemaUsage(schema.getSchemaName(), grantReadTo);
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+
         grantPrivilegesForFhirData(FhirSchemaConstants.FHIR_READ_USER_GRANT_GROUP, this.grantReadTo);
     }
 
