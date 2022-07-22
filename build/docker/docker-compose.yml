@@ -1,100 +1,127 @@
-version: '3.7'
+version: '3.8'
+
+volumes:
+  pgdata:
+    driver: local
+
 services:
+  postgres:
+    image: postgres:15beta2
+    volumes:
+      - type: volume
+        source: pgdata
+        target: /var/lib/postgresql/data/
+      - type: bind
+        source: ./postgres/init
+        target: /docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_DB: fhirdb
+      POSTGRES_USER: fhiradmin
+      POSTGRES_PASSWORD: change-password
+      PGDATA: /var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d fhirdb -U fhiradmin"]
+      interval: 5s
+      timeout: 4s
+      retries: 3
+    command: "
+      -c shared_buffers=2GB
+      -c max_connections=100
+      -c max_prepared_transactions=100
+      -c max_locks_per_transaction=128
+      "
+    ports:
+      - 5432:5432
+    networks:
+      - fhir
 
   fhir-server:
-    image: ibmcom/ibm-fhir-server
+    image: linuxforhealth/fhir-server:latest
     hostname: fhir
-    environment:
-      BATCH_DB_HOSTNAME: db2
-      BATCH_DB_SCHEMA: FHIR_JBATCH
-      BATCH_DB_NAME: FHIRDB
-      BATCH_DB_PORT: "50000"
-      BATCH_DB_SSL: "false"
-      BATCH_DB_USER: fhirserver
-      BATCH_DB_PASS: change-password
-      TRACE_SPEC: com.ibm.fhir.*=info
     volumes:
       - type: bind
-        source: ./fhir-server/volumes/config
+        source: ./fhir-server/config
         target: /opt/ol/wlp/usr/servers/defaultServer/config
         read_only: true
       - type: bind
-        source: ./fhir-server/volumes/overrides
+        source: ./fhir-server/configDropins/overrides
         target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
         read_only: true
       - type: bind
-        source: ./fhir-server/volumes/userlib
+        source: ./fhir-server/userlib
         target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
       - type: bind
-        source: ./fhir-server/volumes/bulkdata
+        source: ./fhir-server/bulkdata
         target: /output/bulkdata
+    environment:
+        TRACE_SPEC: "com.ibm.fhir.*=INFO"
+        TRACE_FILE: "stdout"
+        BATCH_DB_HOSTNAME: postgres
+        BATCH_DB_USER: fhiradmin
+        BATCH_DB_PASS: change-password
+        BATCH_DB_SSL: "false"
+        BATCH_DB_NAME: fhirdb
     command: bash -c "
-        java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
+      java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type postgresql --prop db.host=postgres --prop db.port=5432 --prop db.database=fhirdb --prop user=fhiradmin --prop password=change-password
+          --update-schema --grant-to fhirserver &&
+      java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type derby --prop db.database=/output/derby/profile --prop db.create=Y
           --prop resourceTypes=${TENANT1_PROFILE_RESOURCE_TYPES}
           --update-schema &&
-        java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
+      java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type derby --prop db.database=/output/derby/reference --prop db.create=Y
           --prop resourceTypes=${TENANT1_REFERENCE_RESOURCE_TYPES}
           --update-schema &&
-        java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
+      java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type derby --prop db.database=/output/derby/study1 --prop db.create=Y
           --prop resourceTypes=${TENANT1_STUDY1_RESOURCE_TYPES}
           --update-schema &&
-        /opt/ol/wlp/bin/server run"
+      /opt/ol/wlp/bin/server run"
     healthcheck:
-      start_period: 60s
-      interval: 10s
-      timeout: 10s
-      retries: 2
+      start_period: 32s
+      interval: 30s
+      timeout: 5s
+      retries: 3
       # https://docs.docker.com/compose/compose-file/#variable-substitution
-      test: curl -v -f -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
+      test: curl --fail -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
     ports:
+      - 9080:9080
       - 9443:9443
     depends_on:
-      - db2
-      - nats-node1
-      - nats-node2
-      - nats-node3
-      - minio
-
-  db2:
-    build:
-      context: db2
-    hostname: db2
-    privileged: true
-    tty: true
-    environment:
-      - LICENSE=accept
-      - DB2INST1_PASSWORD=change-password
-    ports:
-      - 50000:50000
+      postgres:
+        condition: service_healthy
+    networks:
+      - fhir
 
   nats-node1:
-      image: nats-streaming:0.17.0
-      container_name: nats-node1
-      volumes:
-          - ./nats:/nats
-      command: --config /nats/config-1.conf
-      ports:
-          - 4222:4222
+    image: nats-streaming:0.17.0
+    volumes:
+        - ./nats:/nats
+    command: --config /nats/config-1.conf
+    ports:
+        - 4222:4222
+    networks:
+      - fhir
   nats-node2:
-      image: nats-streaming:0.17.0
-      container_name: nats-node2
-      volumes:
-          - ./nats:/nats
-      command: --config /nats/config-2.conf
-      ports:
-          - 4223:4222
+    image: nats-streaming:0.17.0
+    volumes:
+        - ./nats:/nats
+    command: --config /nats/config-2.conf
+    ports:
+        - 4223:4222
+    networks:
+      - fhir
   nats-node3:
-      image: nats-streaming:0.17.0
-      container_name: nats-node3
-      volumes:
-          - ./nats:/nats
-      command: --config /nats/config-3.conf
-      ports:
-          - 4224:4222
+    image: nats-streaming:0.17.0
+    volumes:
+        - ./nats:/nats
+    command: --config /nats/config-3.conf
+    ports:
+        - 4224:4222
+    networks:
+    - fhir
 
   minio:
     build:
@@ -114,3 +141,9 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
+    networks:
+      - fhir
+
+networks:
+  fhir:
+    driver: bridge

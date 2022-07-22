@@ -1,0 +1,2 @@
+# On MacOS, the pre-integration tests use 'sed -i -e ...' which adds the bogus backup file
+src/test/resources/test.properties-e

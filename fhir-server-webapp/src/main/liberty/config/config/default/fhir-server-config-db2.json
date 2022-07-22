@@ -7,7 +7,6 @@
             "originalRequestUriHeaderName": "X-FHIR-FORWARDED-URL",
             "checkReferenceTypes": true,
             "conditionalDeleteMaxNumber": 10,
-            "capabilityStatementCacheTimeout": 60,
             "__comment": "The CI changes this to true, and the false is intentional as we recommend for performance reasons.",
             "serverRegistryResourceProviderEnabled": false,
             "disabledOperations": ""

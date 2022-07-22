@@ -8,7 +8,7 @@ on:
       - '.github/workflows/site.yml'
 
 jobs:
-  e2e-db2-with-bulkdata:
+  e2e-postgres:
     runs-on: ubuntu-latest
     if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
@@ -55,7 +55,6 @@ jobs:
         containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
         if [[ -z "${containerId}" ]]; then
             echo "Warning: Could not find fhir container!!!"
-            bash build/docker/docker-cleanup.sh
         else
             echo "fhir container id: $containerId"
 
@@ -66,12 +65,12 @@ jobs:
             docker cp -L $containerId:/logs ${it_results}/server-logs
         fi
         echo "Gathering integration test output"
-        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test || true
+        cp -r ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test || true
     - name: Upload logs
       if: always()
       uses: actions/upload-artifact@v2.2.0
       with:
-        name: integration-test-results-db2-${{ matrix.java }}
+        name: integration-test-results-${{ matrix.java }}
         path: integration-test-results
 
 concurrency:
