@@ -17,10 +17,9 @@ rm -rf ${CONFIG}/* 2> /dev/null
 mkdir -p ${CONFIG}
 
 echo "Copying the server config files..."
-cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/* ${CONFIG}
-cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* ${CONFIG}
-bash ${WORKSPACE}/build/update-server-registry-resource.sh ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json
-cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json ${CONFIG}/default/fhir-server-config.json
+cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/* ${CONFIG}/
+cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* ${CONFIG}/
+cp ${CONFIG}/default/fhir-server-config-postgresql-complete.json ${CONFIG}/default/fhir-server-config.json
 
 echo "Replacing datasource content in server configDropins..."
 OVERRIDES="${WORKSPACE}/build/docker/fhir-server/configDropins/overrides"

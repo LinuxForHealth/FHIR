@@ -43,11 +43,11 @@ cleanup_prior(){
 # copy_server_config - Copy assembled files
 copy_server_config(){
     echo "Copying installation zip files..."
-    cp ${WORKSPACE}/fhir-install/target/fhir-server-distribution.zip $DIST
+    cp ${WORKSPACE}/fhir-install/target/fhir-server-distribution.zip ${DIST}
 
     echo "Copying fhir configuration files..."
-    cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST
-    cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* $DIST/config
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config ${DIST}
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* ${DIST}/config
     bash ${WORKSPACE}/build/update-server-registry-resource.sh ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json
     cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json $DIST/config/default/fhir-server-config.json
 

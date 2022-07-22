@@ -30,8 +30,8 @@ config(){
     chmod -R 777 ${WORKSPACE}/build/notifications/kafka/workarea/output/
 
     echo "Copying fhir configuration files..."
-    cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST
-    cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* $DIST/config
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config ${DIST}
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* ${DIST}/config
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"

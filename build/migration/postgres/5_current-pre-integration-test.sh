@@ -25,8 +25,8 @@ config(){
     # Setup the Configurations for Migration
     echo "Copying fhir configuration files..."
     mkdir -p ${DIST}/config
-    cp -r ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/config $DIST
-    cp -r ${WORKSPACE}/fhir/fhir-server-webapp/src/test/liberty/config/config/* $DIST/config
+    cp -r ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/config ${DIST}
+    cp -r ${WORKSPACE}/fhir/fhir-server-webapp/src/test/liberty/config/config/* ${DIST}/config
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"

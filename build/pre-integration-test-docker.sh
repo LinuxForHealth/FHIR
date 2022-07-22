@@ -42,8 +42,8 @@ echo "Bringing up the test environment... be patient, this will take a minute"
 docker-compose up -d
 echo ">>> Current time: " $(date)
 
-# Print 50 seconds of logs
-(docker-compose logs --timestamps --follow & P=$! && sleep 50 && kill $P)
+# Print 60 seconds of logs
+#(docker-compose logs --timestamps --follow & P=$! && sleep 60 && kill $P)
 
 # Gather up all the server logs so we can trouble-shoot any problems during startup
 cd -
@@ -70,7 +70,7 @@ echo "Waiting for fhir-server to complete initialization..."
 healthcheck_url='https://localhost:9443/fhir-server/api/v4/$healthcheck'
 tries=0
 status=0
-while [ $status -ne 200 -a $tries -lt 10 ]; do
+while [ $status -ne 200 -a $tries -lt 30 ]; do
     tries=$((tries + 1))
     set +o errexit
     cmd="curl --max-time 5 -k -s -o ${WORKSPACE}/health.json -w "%{http_code}" -u fhiruser:change-password $healthcheck_url"

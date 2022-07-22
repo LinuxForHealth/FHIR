@@ -11,7 +11,7 @@ set -ex
 DIST="${WORKSPACE}/build/reindex/postgres/workarea/volumes/dist"
 
 # pre_integration
-pre_integration(){
+pre_integration() {
     cleanup
     setup_docker
     config
@@ -19,12 +19,12 @@ pre_integration(){
 }
 
 # setup_docker - setup docker
-setup_docker(){
+setup_docker() {
     docker build -t test/fhir-pg .
 }
 
 # config - update configuration
-config(){
+config() {
     DIST="${WORKSPACE}/build/reindex/postgres/workarea/volumes/dist"
 
     echo "Create the db volume..."
@@ -33,8 +33,8 @@ config(){
     # Setup the Configurations for Reindex
     echo "Copying fhir configuration files..."
     mkdir -p ${DIST}/config
-    cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST
-    cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* $DIST/config
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config ${DIST}
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* ${DIST}/config
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
@@ -53,7 +53,7 @@ config(){
 }
 
 # cleanup - cleanup existing docker
-cleanup(){
+cleanup() {
     # Stand up a docker container running the fhir server configured for integration tests
     echo "Bringing down any containers that might already be running as a precaution"
     docker-compose kill
@@ -61,7 +61,7 @@ cleanup(){
 }
 
 # bringup
-bringup(){
+bringup() {
     echo "Bringing up containers >>> Current time: " $(date)
     # Startup db
     docker-compose up --remove-orphans -d db
@@ -149,7 +149,7 @@ bringup(){
 }
 
 # is_ready_to_run - is this ready to run?
-is_ready_to_run(){
+is_ready_to_run() {
     echo "Preparing environment for fhir-server integration tests..."
     if [ -z "${WORKSPACE}" ]
     then
