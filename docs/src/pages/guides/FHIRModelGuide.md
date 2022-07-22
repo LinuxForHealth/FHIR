@@ -41,7 +41,7 @@ Observation bodyWeight = Observation.builder()
         .value(Decimal.of(200))
         .system(Uri.of("http://unitsofmeasure.org"))
         .code(Code.of("[lb_av]"))
-        .unit(string("lbs"))
+        .unit("lbs")
         .build())
     .build();
 ```
@@ -60,30 +60,47 @@ Several static factory / utility methods are also used:
 - `Canonical.of(...)`
 - `Uri.of(...)`
 - `Code.of(...)`
-- `String.string(...)` (via static import)
 
 Many of the primitive data types contain this type of "helper" method.
 
-Fields from an immutable model object may be copied back into a builder object using the `toBuilder()` method:
+## Modifying a model object
+
+Although model objects are immutable, the `toBuilder()` method can be used to construct a builder with the same values.
+This builder can then be modified and built into a new model object.
 ```
-bodyWeight = bodyWeight.toBuilder()
+Observation modifiedBodyWeight = bodyWeight.toBuilder()
     .value(bodyWeight.getValue().as(Quantity.class).toBuilder()
         .value(Decimal.of(210))
         .build())
     .build();
 ```
 
+Alternatively, if the fhir-path module is included, objects can be modified via FHIRPathUtil or FHIRPathPatch.
+```
+// Using FHIRPathUtil
+Observation patchedBodyWeight1 = FHIRPathUtil.replace(bodyWeight, "Observation.value.value", Decimal.of(210));
+
+// Using FHIRPathPatch (useful if applying a series of patches to many resource instances)
+FHIRPathPatch patch = FHIRPathPatch.builder()
+    .replace("Observation.value.value", Decimal.of(210))
+    .build();
+Observation patchedBodyWeight2 = patch.apply(bodyWeight);
+```
+
 ## Parsing a Resource from an InputStream or Reader
 
 ```
-// Parse from InputStream
+// Parse JSON from InputStream
 InputStream in = getInputStream("JSON/bodyweight.json");
 Observation observation = FHIRParser.parser(Format.JSON).parse(in);
 
-// Parse from Reader
+// Parse JSON from Reader
 Reader reader = getReader("JSON/bodyweight.json");
 Observation observation = FHIRParser.parser(Format.JSON).parse(reader);
 ```
+
+The model also supports parsing XML.
+If you already have JSON or XML in a java.lang.String, you can wrap that in a StringReader.
 
 ## Generating JSON and XML formats from a Resource instance
 
@@ -102,9 +119,24 @@ The `FHIRGenerator` interface has a separate factory method that takes `boolean 
 FHIRGenerator.generator(Format.JSON, true).generate(bodyWeight, System.out);
 ```
 
+To generate either format to a java.lang.String, you can pass the generate method a StringWriter.
+
+## Evaluating FHIRPath expressions on a Resource instance
+
+The fhir-path module implements HL7 FHIRPath 2.0 for evaluating FHIRPath expressions against the model objects.
+
+For example:
+```
+EvaluationContext evaluationContext = new EvaluationContext(bodyWeight);
+Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(evaluationContext, "Observation.value.as(Quantity).value >= 200");
+assert(FHIRPathUtil.isTrue(result));
+```
+
+The `EvaluationContext` class builds a `FHIRPathTree` from a FHIR resource or element. A `FHIRPathTree` is a tree of labeled nodes that wrap FHIR elements and are used by the FHIRPath evaluation engine (`FHIRPathEvaluator`).
+
 ## Validating a Resource instance
 
-Schema-level validation occurs during object construction. This includes validation of cardinality constraints and value domains. Additional validation of constraints specified in the model is performed using the `FHIRValidator` class.
+Schema-level validation occurs during object construction. This includes validation of cardinality constraints and value domains. Additional validation of constraints specified in the model is performed using the `FHIRValidator` class from the fhir-validation module.
 
 ```
 Observation observation = getObservation();
@@ -118,12 +150,17 @@ for (Issue issue : issues) {
 }
 ```
 
-## Evaluating FHIRPath expressions on a Resource instance
+See the [Validation Guide](FHIRValidationGuide) for more information.
 
+## Using the FHIR model with JAX-RS
+
+Java and XML - Restful Services (JAX-RS) is an API specification for building and consuming HTTP-based interfaces in Java.
+The LinuxForHealth fhir-core module defines FHIR media types (`application/fhir+xml` and `application/json+xml`) and the fhir-provider module implements JAX-RS providers that use the fhir-model Parsers and Generators to read and write these media types.
+
+To integrate the LinuxForHealth JAX-RS providers with your own JAX-RS implementation, you must register a provider. For example, when building a JAX-RS client:
 ```
-EvaluationContext evaluationContext = new EvaluationContext(bodyWeight);
-Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(evaluationContext, "Observation.value.as(Quantity).value >= 200");
-assert(FHIRPathUtil.isTrue(result));
+ClientBuilder cb = ClientBuilder.newBuilder()
+        .register(new FHIRProvider(RuntimeType.CLIENT));
 ```
 
-The `EvaluationContext` class builds a `FHIRPathTree` from a FHIR resource or element. A `FHIRPathTree` is a tree of labeled nodes that wrap FHIR elements and are used by the FHIRPath evaluation engine (`FHIRPathEvaluator`).
+There are other providers for working with FHIR data through the jakarta.json API (`FHIRJsonProvider`) and JSONPatch (`FHIRJsonPatchProvider`).
