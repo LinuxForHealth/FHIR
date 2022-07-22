@@ -483,6 +483,127 @@ The TransactionManager controls the timeout of database queries.
 
 To modify the default transaction timeout value, set the environment variable `FHIR_TRANSACTION_MANAGER_TIMEOUT` or enter the value in the server.env file at the root of the WLP fhir-server instance. Example values are `120s` (seconds) or `2m` (minutes).
 
+### 3.3.2 Payload Offload for Azure Blob
+
+The LinuxForHealth FHIR Server can be configured to store the resource payload records in an Azure Blob container. Each record is stored as a JSON string with UTF-8 encoding. The LinuxForHealth FHIR Server relies on the blob service to compress/encrypt the data at rest. The blob service must apply the necessary security controls required when storing PHI, and connection to the service must use an encrypted transport.
+
+#### 3.3.2.1 Payload Offload Configuration for Azure Blob
+
+To enable payload offloading using Azure Blob storage, complete the steps summarized below:
+
+1. Pick a container name to use for each tenant/datasource combination;
+2. Create a database.properties file with connection information for the FHIRSERVER user (not FHIRADMIN);
+3. Configure payload offloading in the main `default/fhir-server-config.json` file;
+4. Configure payload offloading in each tenant-specific `fhir-server-config.json` file;
+5. Create the container using the Azure Blob user interface, the Azure Blob API or the LinuxForHealth FHIR Server fhir-persistence-blob-app-*-cli.jar tool;
+6. (Optional) Periodically run the reconciliation tool to remove any orphan resource records from the offload datastore. See the fhir-persistence-blob-app project [README](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-blob-app/README.md) for more information.
+
+Take the following restrictions into account:
+
+1. Payload offloading is enabled at the server level. Offloading cannot be enabled/disabled on a per-tenant basis. If you want to support offloading for just one tenant, use a different IBM FHIR Server instance;
+2. Payload offloading must be configured prior to ingesting any resource data;
+3. Payload offloading must not be disabled after resource data has been ingested;
+4. When payload offloading is enabled, FHIR resources are limited to 5000 MiB in size when rendered as uncompressed JSON. The practical limit is likely to be lower due to memory usage and typical socket and transaction timeouts.
+
+
+#### 3.3.2.2 Pick a Container Name
+
+Each tenant/datasource combination requires its own container. Use a name that can be easily identified as belonging to the tenant and datasource, subject to the Azure Blob service naming restrictions.
+
+#### 3.3.2.3 Create the `database.properties` file
+
+Create a properties file containing the RDBMS connection information. Note that the user should not be the FHIRADMIN user which is only used by the RDBMS schema creation tool. Use the database user configured in the IBM FHIR Server `datasource.xml` file. Following the principle of least privilege access, this user typically has just the right set of privileges for the application to use objects in the FHIR data (`fhirdata`) schema:
+
+```
+db.host=localhost
+db.port=5432
+db.database=fhirdb
+user=fhirserver
+password=change-password
+currentSchema=fhirdata
+```
+
+#### 3.3.2.4 Add Payload Offload Configuration to `default/fhir-server-config.json`
+
+In the main `default/fhir-server-config.json`, configure the `fhirServer/persistence/factoryClassname` as shown below and add a `fhirServer/persistence/payload` block containing the connection information for each datasource you have defined under `fhirServer/persistence/datasources` (typically there is just one datasource called `default`). 
+```
+{
+    "__comment": "FHIR Server configuration",
+    "fhirServer": {
+        ...
+        "persistence": {
+            "factoryClassname": "com.ibm.fhir.persistence.blob.FHIRPersistenceJDBCBlobFactory",
+            "datasources": {
+                "default": {
+                    ...
+                }
+            },
+            "payload": {
+                "default": {
+                    "__comment": "Azure Blob (azurite docker) configuration for storing FHIR resource payload data",
+                    "type": "azure.blob",
+                    "connectionProperties" : {
+                        "connectionString": "your-azure-connection-string",
+                        "containerName": "default-default"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+Container names allowed by Azure Blob are more restrictive than LinuxForHealth FHIR Server tenant and datasource names (for example they must be lower case and `_` is not allowed - see the [official documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction#containers) for more details). For this reason, the container name for each tenant and datasource must be specified in the `fhirServer/persistence/payload/connectionProperties/containerName` property.
+
+#### 3.3.2.5 Configure Payload Offloading Per Tenant
+
+In each tenant `fhir-server-config.json` file, add a `fhirServer/persistence/payload` block containing the connection information for each datasource you have defined under `fhirServer/persistence/datasources` (typically there is just one datasource called `default`). 
+
+```
+{
+    "__comment": "LinuxForHealth FHIR Server configuration",
+    "fhirServer": {
+        ...
+        "persistence": {
+            "datasources": {
+                "default": {
+                    ...
+                }
+            },
+            "payload": {
+                "default": {
+                    "__comment": "Azure Blob configuration for storing FHIR resource payload data",
+                    "type": "azure.blob",
+                    "connectionProperties" : {
+                        "connectionString": "your-azure-connection-string",
+                        "containerName": "default-default"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+
+#### 3.3.2.6 Create the Container
+
+The container can be created using the Azure Blob service or by running the following command:
+
+```
+java -jar fhir-persistence-blob-app-*-cli.jar \
+    --fhir-config-dir /path/to/wlp/usr/servers/defaultServer \
+    --tenant-id <tenant-id> \
+    --ds-id <ds-id> \
+    --create-container \
+    --no-dry-run
+```
+
+The container name will be read from the tenant's fhir-server-config.json configuration, so it is important to complete that configuration step before running this command.
+
+The command is designed to be idempotent - it checks first to see if the container already exists before attempting to create it. If the container is otherwise created after the exists check but before the create command is issued, the command will fail (this is a very small window).
+
+
 ## 3.4 “Update/Create” feature
 Normally, the _update_ operation is invoked with a FHIR resource which represents a new version of an existing resource. The resource specified in the _update_ operation would contain the same id of that existing resource. If a resource containing a non-existent id were specified in the _update_ invocation, an error would result.
 
@@ -2169,6 +2290,10 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/notifications/nats/truststorePassword`|string|The password for the truststore.|
 |`fhirServer/notifications/nats/keystoreLocation`|string|The file location of the keystore to use for TLS.|
 |`fhirServer/notifications/nats/keystorePassword`|string|The password for the keystore.|
+|`fhirServer/persistence/payload/<datasourceId>/type`|string| `azure.blob` for Azure Blob offloading. |
+|`fhirServer/persistence/payload/<datasourceId>/connectionProperties`|map| Connection properties for Azure Blob |
+|`fhirServer/persistence/payload/<datasourceId>/connectionProperties/connectionString`|string| The Azure Blob service connection string. |
+|`fhirServer/persistence/payload/<datasourceId>/connectionProperties/containerName`|string| The name of the Azure Blob container created to store the payload offload data. |
 |`fhirServer/persistence/factoryClassname`|string|The name of the factory class to use for creating instances of the persistence layer implementation.|
 |`fhirServer/persistence/common/updateCreateEnabled`|boolean|A boolean flag which indicates whether or not the 'update/create' feature should be enabled in the selected persistence layer.|
 |`fhirServer/persistence/datasources`|map|A map containing datasource definitions. See [Section 3.3.1 The JDBC persistence layer](#331-the-jdbc-persistence-layer) for more information.|
@@ -2350,6 +2475,10 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/notifications/nats/truststorePassword`||
 |`fhirServer/notifications/nats/keystoreLocation`||
 |`fhirServer/notifications/nats/keystorePassword`||
+|`fhirServer/persistence/payload/<datasourceId>/type`||
+|`fhirServer/persistence/payload/<datasourceId>/connectionProperties`||
+|`fhirServer/persistence/payload/<datasourceId>/connectionProperties/connectionString`||
+|`fhirServer/persistence/payload/<datasourceId>/connectionProperties/containerName`||
 |`fhirServer/persistence/factoryClassname`|com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory|
 |`fhirServer/persistence/common/updateCreateEnabled`|true|
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
@@ -2525,6 +2654,10 @@ Cases where that behavior is not supported are marked below with an `N` in the `
 |`fhirServer/notifications/nats/truststorePassword`|N|N||
 |`fhirServer/notifications/nats/keystoreLocation`|N|N||
 |`fhirServer/notifications/nats/keystorePassword`|N|N||
+|`fhirServer/persistence/payload/<datasourceId>/type`|Y|N|N|
+|`fhirServer/persistence/payload/<datasourceId>/connectionProperties`|Y|N|N|
+|`fhirServer/persistence/payload/<datasourceId>/connectionProperties/connectionString`|Y|N|N|
+|`fhirServer/persistence/payload/<datasourceId>/connectionProperties/containerName`|Y|N|N|
 |`fhirServer/persistence/factoryClassname`|N|N||
 |`fhirServer/persistence/common/updateCreateEnabled`|N|N||
 |`fhirServer/persistence/datasources`|Y|N|N|
