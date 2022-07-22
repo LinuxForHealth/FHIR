@@ -15,6 +15,7 @@ public class Menu {
     public static final String PROP_FILE = "--prop-file";
     public static final String SCHEMA_NAME = "--schema-name";
     public static final String GRANT_TO = "--grant-to";
+    public static final String GRANT_READ_TO = "--grant-read-to";
     public static final String TARGET = "--target";
     public static final String UPDATE_PROC = "--update-proc";
     public static final String CHECK_COMPATIBILITY = "--check-compatibility";
@@ -58,6 +59,7 @@ public class Menu {
         MI_PROP_FILE(PROP_FILE, "path-to-property-file", "loads the properties from a file"),
         MI_SCHEMA_NAME(SCHEMA_NAME, "schema-name" , "uses the schema as specified, must be valid."),
         MI_GRANT_TO(GRANT_TO, "username", "uses the user as specified, must be valid.\nand grants permission to the username"),
+        MI_GRANT_READ_TO(GRANT_READ_TO, "username", "uses the user as specified, must be valid.\nand grants read (select) permission on FHIR data tables to the username"),
         MI_TARGET(TARGET, "TYPE schemaName", "The schemaName and type [BATCH,OAUTH,DATA]"),
         MI_UPDATE_PROC(UPDATE_PROC, "", "updates the stored procedure for a specific tenant"),
         MI_CHECK_COMPATIBILITY(CHECK_COMPATIBILITY, "", "checks feature compatibility"),

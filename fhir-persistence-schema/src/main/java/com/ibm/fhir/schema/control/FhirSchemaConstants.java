@@ -33,6 +33,7 @@ public class FhirSchemaConstants {
     public static final String FHIR_USER_GRANT_GROUP = "fhiruser";
     public static final String FHIR_BATCH_GRANT_GROUP = "fhirbatch";
     public static final String FHIR_OAUTH_GRANT_GROUP = "fhiroauth";
+    public static final String FHIR_READ_USER_GRANT_GROUP = "fhirreaduser";
 
     public static final String FHIR_SEQUENCE = "FHIR_SEQUENCE";
     public static final String FHIR_REF_SEQUENCE = "FHIR_REF_SEQUENCE";

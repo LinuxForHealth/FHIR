@@ -196,9 +196,6 @@ public class FhirSchemaGenerator {
     // Privileges needed for access to the FHIR resource data tables
     private List<GroupPrivilege> resourceTablePrivileges = new ArrayList<>();
 
-    // Privileges needed for reading the sv_tenant_id variable
-    private List<GroupPrivilege> variablePrivileges = new ArrayList<>();
-
     // Privileges needed for using the fhir sequence
     private List<GroupPrivilege> sequencePrivileges = new ArrayList<>();
 
@@ -241,10 +238,8 @@ public class FhirSchemaGenerator {
         resourceTablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.UPDATE));
         resourceTablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.DELETE));
 
-        // FHIRSERVER gets only READ privilege to the SV_TENANT_ID variable. The only way FHIRSERVER can
-        // set (write to) SV_TENANT_ID is by calling the SET_TENANT stored procedure, which requires
-        // both TENANT_NAME and TENANT_KEY to be provided.
-        variablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.READ));
+        // SELECT privileges for special users requiring direct read-only access to the tables
+        resourceTablePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_READ_USER_GRANT_GROUP, Privilege.SELECT));
 
         // FHIRSERVER gets to use the FHIR sequence
         sequencePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.USAGE));

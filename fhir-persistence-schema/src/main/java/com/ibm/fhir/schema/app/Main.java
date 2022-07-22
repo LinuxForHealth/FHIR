@@ -21,6 +21,7 @@ import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_OAUTH;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SPLIT_TRANSACTION;
 import static com.ibm.fhir.schema.app.menu.Menu.FORCE;
 import static com.ibm.fhir.schema.app.menu.Menu.FORCE_UNUSED_TABLE_REMOVAL;
+import static com.ibm.fhir.schema.app.menu.Menu.GRANT_READ_TO;
 import static com.ibm.fhir.schema.app.menu.Menu.GRANT_TO;
 import static com.ibm.fhir.schema.app.menu.Menu.HELP;
 import static com.ibm.fhir.schema.app.menu.Menu.POOL_SIZE;
@@ -109,7 +110,6 @@ import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 import com.ibm.fhir.database.utils.version.CreateControl;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
-import com.ibm.fhir.database.utils.version.SchemaConstants;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.schema.app.menu.Menu;
@@ -207,6 +207,9 @@ public class Main {
 
     // The database user we will grant tenant data access privileges to
     private String grantTo;
+
+    // The database user we will grant read-only data access privileges to (usually null)
+    private String grantReadTo;
 
     // Action flag related to Vacuuming:
     private boolean updateVacuum = false;
@@ -388,6 +391,9 @@ public class Main {
                         if (this.grantTo != null) {
                             adapter.grantSchemaUsage(schema.getSchemaName(), grantTo);
                         }
+                        if (this.grantReadTo != null) {
+                            adapter.grantSchemaUsage(schema.getSchemaName(), grantReadTo);
+                        }
                         c.commit();
                     }
 
@@ -529,6 +535,10 @@ public class Main {
                     // Apply privileges if asked
                     if (grantTo != null) {
                         grantPrivilegesForFhirData();
+                    }
+
+                    if (grantReadTo != null) {
+                        grantReadPrivilegesForFhirData();
                     }
 
                     // Finally, update the whole schema version
@@ -972,21 +982,33 @@ public class Main {
         }
     }
 
+    protected void grantPrivilegesForFhirData() {
+        grantPrivilegesForFhirData(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, this.grantTo);
+    }
+
+    /**
+     * Grant only SELECT privileges to the given user to provide read-only direct schema access
+     */
+    protected void grantReadPrivilegesForFhirData() {
+        grantPrivilegesForFhirData(FhirSchemaConstants.FHIR_READ_USER_GRANT_GROUP, this.grantReadTo);
+    }
+
     /**
      * Apply grants to the FHIR data schema objects
+     * @param privilegeGroupName identifies the group of privileges to apply
      */
-    protected void grantPrivilegesForFhirData() {
+    protected void grantPrivilegesForFhirData(String privilegeGroupName, String targetUser) {
 
         final ISchemaAdapter schemaAdapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildFhirDataSchemaModel(pdm);
-                pdm.applyGrants(schemaAdapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+                pdm.applyGrants(schemaAdapter, privilegeGroupName, targetUser);
 
                 // Grant SELECT on WHOLE_SCHEMA_VERSION to the FHIR server user
                 // Note the constant comes from SchemaConstants on purpose
-                CreateWholeSchemaVersion.grantPrivilegesTo(schemaAdapter, schema.getSchemaName(), SchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+                CreateWholeSchemaVersion.grantPrivilegesTo(schemaAdapter, schema.getSchemaName(), privilegeGroupName, targetUser);
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
@@ -1056,14 +1078,19 @@ public class Main {
         }
 
         if (grantFhirSchema) {
-            grantPrivilegesForFhirData();
+            if (grantTo != null) {
+                grantPrivilegesForFhirData();
+            }
+            if (grantReadTo != null) {
+                grantReadPrivilegesForFhirData();                
+            }
         }
 
-        if (grantOauthSchema) {
+        if (grantOauthSchema && grantTo != null) {
             grantPrivilegesForOAuth();
         }
 
-        if (grantJavaBatchSchema) {
+        if (grantJavaBatchSchema && grantTo != null) {
             grantPrivilegesForBatch();
         }
     }
@@ -1118,6 +1145,16 @@ public class Main {
 
                     // Force upper-case because user names are case-insensitive
                     this.grantTo = args[i].toUpperCase();
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case GRANT_READ_TO:
+                if (++i < args.length) {
+                    DataDefinitionUtil.assertValidName(args[i]);
+
+                    // Force upper-case because user names are case-insensitive
+                    this.grantReadTo = args[i].toUpperCase();
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
@@ -1800,9 +1837,10 @@ public class Main {
             createSchemas();
         } else if (updateProc) {
             updateProcedures();
-        } else if (grantTo != null) {
-            // Finally, if --grant-to has been specified on its own, we simply rerun all the grants
-            // which allows granting server to more than one user if that's required
+        } else if (grantTo != null || grantReadTo != null) {
+            // Finally, if --grant-to or --grant-read-to has been specified on its own, 
+            // we simply rerun all the grants which allows granting server to more than 
+            // one user if that's required
             grantPrivileges();
         }
 

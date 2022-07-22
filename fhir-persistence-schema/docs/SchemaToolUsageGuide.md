@@ -385,6 +385,19 @@ The detail rows are tab-separated, making it easy to load the data into a spread
 2. The size report is intended as a guide to understand the relative space distribution of objects in the IBM FHIR Server data schema. The report is not intended to replace database utilities for calculating the total size of the database.
 
 ----------------------------------------------------------------
+# Read-Only Access to FHIR Data Tables
+
+Some services may want direct access to the LinuxForHealth FHIR Server tables. In most cases this access will be read-only. To facilitate this, create a database user and then issue the following command to grant SELECT privilege on all the resource data tables to the specified user:
+
+``` shell
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
+--db-type postgresql \
+--prop-file fhiradmin.properties \
+--schema-name FHIRDATA \
+--grant-read-to your-read-only-user 
+```
+
+----------------------------------------------------------------
 # List of IBM FHIR Server Persistence Schema Tool Flags
 
 |Flag|Variable|Description|
@@ -393,7 +406,8 @@ The detail rows are tab-separated, making it easy to load the data into a spread
 |--prop-file|path-to-property-file|loads the properties from a file|
 |--schema-name|schema-name|uses the schema as specified, must be valid.|
 |--grant-to|username|uses the user as specified, must be valid.
-and grants permission to the username|
+|--grant-read-to|username|uses the user as specified, must be valid.
+and grants read (select) permission on FHIR data tables to the username|
 |--target|TYPE schemaName|The schemaName and type [BATCH,OAUTH,DATA]|
 |--update-proc||updates the stored procedure for a specific schema|
 |--check-compatibility||checks feature compatibility|
