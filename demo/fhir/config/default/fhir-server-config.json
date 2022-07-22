@@ -54,7 +54,7 @@
       "Device": {
         "searchParameters": {
           "type": "http://hl7.org/fhir/SearchParameter/Device-type",
-          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "patient": "http://hl7.org/fhir/SearchParameter/Device-patient",
           "*": "*"
         }
       },
@@ -72,7 +72,7 @@
         "searchParameters": {
           "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
           "period": "http://hl7.org/fhir/SearchParameter/DocumentReference-period",
-          "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
+          "date": "http://hl7.org/fhir/SearchParameter/DocumentReference-date",
           "status": "http://hl7.org/fhir/SearchParameter/DocumentReference-status",
           "category": "http://hl7.org/fhir/SearchParameter/DocumentReference-category",
           "type": "http://hl7.org/fhir/SearchParameter/clinical-type",
