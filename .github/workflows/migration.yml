@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        datastore: [ 'db2', 'postgres' ]
+        datastore: [ 'postgres' ]
         release: ${{fromJSON(needs.setup.outputs.version_tag)}}
       fail-fast: false
     steps:
