@@ -28,14 +28,14 @@ sudo chmod -R 0750 ${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/d
 docker-compose up --remove-orphans -d db
 
 echo "Debug Details >>> "
-docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Status'
+docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres").State.Status'
 
 echo "Debug All Details >>> "
 sleep 15
 docker container inspect postgres_db_1 | jq -r '.[]'
 docker container logs postgres_db_1
 cx=0
-while [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Health.Status' | grep starting | wc -l) -eq 1 ]
+while [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres").State.Health.Status' | grep starting | wc -l) -eq 1 ]
 do
     echo "Waiting on startup of db ${cx}"
     cx=$((cx + 1))

@@ -66,7 +66,7 @@ bringup() {
     # Startup db
     docker-compose up --remove-orphans -d db
     cx=0
-    while [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Running' | grep false | wc -l) -eq 1 ]
+    while [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres").State.Running' | grep false | wc -l) -eq 1 ]
     do
         echo "Waiting on startup of db ${cx}"
         cx=$((cx + 1))
@@ -103,7 +103,7 @@ bringup() {
     Docker container status:"
     docker ps -a
 
-    containerId=$(docker ps -a | grep postgres_fhir-server_1 | cut -d ' ' -f 1)
+    containerId=$(docker ps -a | grep fhir-server | cut -d ' ' -f 1)
     if [[ -z "${containerId}" ]]
     then
         echo "Warning: Could not find the fhir container!!!"

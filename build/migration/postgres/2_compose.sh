@@ -64,15 +64,20 @@ config(){
     mkdir -p ${DIST}/overrides
     if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty ]
     then
-        cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
+        # Patch the db service's hostname if necessary (prior to 5.0 we used "postgres_postgres_1")
+        sed 's/serverName="postgres_postgres_1"/serverName="postgres"/g' ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml > ${DIST}/overrides/datasource-postgresql.xml
+        #cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides/
         if [ -d ${WORKSPACE}/prev/fhir-server-webapp/src/test/liberty ]; then
-            cp ${WORKSPACE}/prev/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml ${DIST}/overrides
+            cp ${WORKSPACE}/prev/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml ${DIST}/overrides/
         else
-            cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+        
+            cp ${WORKSPACE}/prev/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides/
         fi
     else
-        cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
-        cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+        # Patch the db service's hostname if necessary (prior to 5.0 we used "postgres_postgres_1")
+        sed 's/serverName="postgres_postgres_1"/serverName="postgres"/g' ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml > ${DIST}/overrides/datasource-postgresql.xml
+        #cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides/
+        cp ${WORKSPACE}/prev/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides/
     fi
 
     # Move over the test configurations
@@ -112,11 +117,11 @@ bringup(){
     docker-compose up --remove-orphans -d db
     cx=0
     echo "Debug Details >>> "
-    docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Status'
+    docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres").State.Status'
     echo "Debug All Details >>> "
     docker container inspect postgres_db_1 | jq -r '.[]'
     docker container logs postgres_db_1
-    while [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Health.Status' | grep starting | wc -l) -eq 1 ]
+    while [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres").State.Health.Status' | grep starting | wc -l) -eq 1 ]
     do
         echo "Waiting on startup of db ${cx}"
         cx=$((cx + 1))
