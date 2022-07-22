@@ -30,7 +30,7 @@ jobs:
         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
         mvn -B install --file fhir-parent -DskipTests -P include-fhir-igs,integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
-        mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3 -Ddocker.buildArg.VERBOSE=false
     - name: free disk space
       run: |
         # create and remove a 200 MB file to make sure we have the room needed later
