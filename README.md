@@ -1,5 +1,5 @@
 ## LinuxForHealth FHIR Server
-The LinuxForHealth FHIR® Server (formerly the IBM® FHIR® Server) is a modular Java implementation of version 4 of the [HL7 FHIR specification](https://hl7.org/fhir/R4B/http.html) with a focus on performance and configurability.
+The LinuxForHealth FHIR® Server (formerly the IBM® FHIR® Server) is a modular Java implementation of the [HL7 FHIR specification](https://hl7.org/fhir/R4B/http.html) that supports versions R4 and R4B with a focus on performance and configurability.
 
 For a detailed description of FHIR conformance, see https://linuxforhealth.github.io/FHIR/Conformance.
 
