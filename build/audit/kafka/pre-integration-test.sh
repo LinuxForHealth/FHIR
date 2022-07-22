@@ -5,10 +5,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
-
-set -o errexit
-set -o nounset
-set -o pipefail
+set -ex
 
 DIST="${WORKSPACE}/build/audit/kafka/workarea/volumes/dist"
 
@@ -37,7 +34,7 @@ config(){
     USERLIB="${DIST}/userlib"
     mkdir -p $USERLIB
     find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
-    cp ${WORKSPACE}/fhir-operation-test/target/fhir-operation-*.jar ${USERLIB}
+    cp ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*.jar ${USERLIB}
     cp ${WORKSPACE}/term/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}
     echo "Finished copying fhir-server dependencies..."
 
@@ -76,7 +73,7 @@ bringup(){
     Docker container status:"
     docker ps -a
 
-    containerId=$(docker ps -a | grep kafka_fhir-server_1 | cut -d ' ' -f 1)
+    containerId=$(docker ps -a | grep fhir-server | cut -d ' ' -f 1)
     if [[ -z "${containerId}" ]]; then
         echo "Warning: Could not find the fhir container!!!"
     else
