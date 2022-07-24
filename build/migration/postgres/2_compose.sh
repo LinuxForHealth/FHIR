@@ -6,8 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-set -e
-set -x
+set -ex
 
 # create compose
 pre_integration(){
