@@ -740,21 +740,17 @@ public class Main {
      *           DerbyBootstrapper.populateResourceTypeAndParameterNameTableEntries
      *           and DerbyFhirDatabase.populateResourceTypeAndParameterNameTableEntries
      *           The reason is there are three different ways of managing the transaction.
-     * @param tenantId
-     *            the mt_id that is used to setup the partition.
-     *            passing in null signals not multi-tenant.
      */
-    protected void populateResourceTypeAndParameterNameTableEntries(Integer tenantId) {
+    protected void populateResourceTypeAndParameterNameTableEntries() {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try (Connection c = connectionPool.getConnection();) {
-                String logTenantId = tenantId != null ? Integer.toString(tenantId) : "default";
-                logger.info("tenantId [" + logTenantId + "] is being pre-populated with lookup table data.");
+                logger.info("Populating schema with lookup table data.");
                 PopulateResourceTypes populateResourceTypes =
-                        new PopulateResourceTypes(schema.getAdminSchemaName(), schema.getSchemaName(), tenantId);
+                        new PopulateResourceTypes(schema.getSchemaName());
                 populateResourceTypes.run(translator, c);
 
                 PopulateParameterNames populateParameterNames =
-                        new PopulateParameterNames(schema.getAdminSchemaName(), schema.getSchemaName(), tenantId);
+                        new PopulateParameterNames(schema.getSchemaName());
                 populateParameterNames.run(translator, c);
                 logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
             } catch (SQLException ex) {
