@@ -1,0 +1,388 @@
+{
+  "__comment": "FHIR Server configuration for testing bulkdata, notifications, and dbType postgresql",
+  "fhirServer": {
+    "core": {
+      "tenantIdHeaderName": "X-FHIR-TENANT-ID",
+      "datastoreIdHeaderName": "X-FHIR-DSID",
+      "originalRequestUriHeaderName": "X-FHIR-FORWARDED-URL",
+      "checkReferenceTypes": true,
+      "conditionalDeleteMaxNumber": 10,
+      "__comment": "The CI changes this to true, and the false is intentional as we recommend for performance reasons.",
+      "serverRegistryResourceProviderEnabled": true,
+      "disabledOperations": ""
+    },
+    "resources": {
+      "AllergyIntolerance": {
+        "searchParameters": {
+          "clinical-status": "http://hl7.org/fhir/SearchParameter/AllergyIntolerance-clinical-status",
+          "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
+          "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "CarePlan": {
+        "searchParameters": {
+          "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
+          "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
+          "status": "http://hl7.org/fhir/SearchParameter/CarePlan-status",
+          "category": "http://hl7.org/fhir/SearchParameter/CarePlan-category",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "CareTeam": {
+        "searchParameters": {
+          "status": "http://hl7.org/fhir/SearchParameter/CareTeam-status",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "Condition": {
+        "searchParameters": {
+          "onset-date": "http://hl7.org/fhir/SearchParameter/Condition-onset-date",
+          "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
+          "clinical-status": "http://hl7.org/fhir/SearchParameter/Condition-clinical-status",
+          "category": "http://hl7.org/fhir/SearchParameter/Condition-category",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "Device": {
+        "searchParameters": {
+          "type": "http://hl7.org/fhir/SearchParameter/Device-type",
+          "patient": "http://hl7.org/fhir/SearchParameter/Device-patient",
+          "*": "*"
+        }
+      },
+      "DiagnosticReport": {
+        "searchParameters": {
+          "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
+          "status": "http://hl7.org/fhir/SearchParameter/DiagnosticReport-status",
+          "category": "http://hl7.org/fhir/SearchParameter/DiagnosticReport-category",
+          "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "DocumentReference": {
+        "searchParameters": {
+          "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+          "period": "http://hl7.org/fhir/SearchParameter/DocumentReference-period",
+          "date": "http://hl7.org/fhir/SearchParameter/DocumentReference-date",
+          "status": "http://hl7.org/fhir/SearchParameter/DocumentReference-status",
+          "category": "http://hl7.org/fhir/SearchParameter/DocumentReference-category",
+          "type": "http://hl7.org/fhir/SearchParameter/clinical-type",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "Encounter": {
+        "searchParameters": {
+          "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+          "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
+          "class": "http://hl7.org/fhir/SearchParameter/Encounter-class",
+          "status": "http://hl7.org/fhir/SearchParameter/Encounter-status",
+          "type": "http://hl7.org/fhir/SearchParameter/clinical-type",
+          "identifier": "http://hl7.org/fhir/SearchParameter/clinical-identifier",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "ExplanationOfBenefit": {
+        "searchParameters": {
+          "identifier": "http://hl7.org/fhir/SearchParameter/ExplanationOfBenefit-identifier",
+          "provider": "http://hl7.org/fhir/SearchParameter/ExplanationOfBenefit-provider",
+          "patient": "http://hl7.org/fhir/SearchParameter/ExplanationOfBenefit-patient",
+          "care-team": "http://hl7.org/fhir/SearchParameter/ExplanationOfBenefit-care-team",
+          "coverage": "http://hl7.org/fhir/SearchParameter/ExplanationOfBenefit-coverage",
+          "*": "*"
+        }
+      },
+      "Goal": {
+        "searchParameters": {
+          "target-date": "http://hl7.org/fhir/SearchParameter/Goal-target-date",
+          "lifecycle-status": "http://hl7.org/fhir/SearchParameter/Goal-lifecycle-status",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "Immunization": {
+        "searchParameters": {
+          "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
+          "status": "http://hl7.org/fhir/SearchParameter/Immunization-status",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "Location": {
+        "searchParameters": {
+          "address-postalcode": "http://hl7.org/fhir/SearchParameter/Location-address-postalcode",
+          "address-city": "http://hl7.org/fhir/SearchParameter/Location-address-city",
+          "address-state": "http://hl7.org/fhir/SearchParameter/Location-address-state",
+          "name": "http://hl7.org/fhir/SearchParameter/Location-name",
+          "address": "http://hl7.org/fhir/SearchParameter/Location-address",
+          "*": "*"
+        }
+      },
+      "MedicationDispense": {
+        "searchParameters": {
+          "status": "http://hl7.org/fhir/SearchParameter/medications-status",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "MedicationRequest": {
+        "searchParameters": {
+          "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
+          "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
+          "status": "http://hl7.org/fhir/SearchParameter/medications-status",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "authoredon": "http://hl7.org/fhir/SearchParameter/MedicationRequest-authoredon",
+          "intent": "http://hl7.org/fhir/SearchParameter/MedicationRequest-intent",
+          "encounter": "http://hl7.org/fhir/SearchParameter/medications-encounter",
+          "*": "*"
+        }
+      },
+      "Observation": {
+        "searchParameters": {
+          "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
+          "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
+          "status": "http://hl7.org/fhir/SearchParameter/Observation-status",
+          "category": "http://hl7.org/fhir/SearchParameter/Observation-category",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "Organization": {
+        "searchParameters": {
+          "name": "http://hl7.org/fhir/SearchParameter/Organization-name",
+          "address": "http://hl7.org/fhir/SearchParameter/Organization-address",
+          "*": "*"
+        }
+      },
+      "Patient": {
+        "searchParameters": {
+          "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+          "birthdate": "http://hl7.org/fhir/SearchParameter/individual-birthdate",
+          "family": "http://hl7.org/fhir/SearchParameter/individual-family",
+          "name": "http://hl7.org/fhir/SearchParameter/Patient-name",
+          "given": "http://hl7.org/fhir/SearchParameter/individual-given",
+          "identifier": "http://hl7.org/fhir/SearchParameter/Patient-identifier",
+          "gender": "http://hl7.org/fhir/SearchParameter/individual-gender",
+          "*": "*"
+        }
+      },
+      "Practitioner": {
+        "searchParameters": {
+          "name": "http://hl7.org/fhir/SearchParameter/Practitioner-name",
+          "identifier": "http://hl7.org/fhir/SearchParameter/Practitioner-identifier",
+          "*": "*"
+        }
+      },
+      "PractitionerRole": {
+        "searchParameters": {
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "practitioner": "http://hl7.org/fhir/SearchParameter/PractitionerRole-practitioner",
+          "specialty": "http://hl7.org/fhir/SearchParameter/PractitionerRole-specialty",
+          "*": "*"
+        }
+      },
+      "Procedure": {
+        "searchParameters": {
+          "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
+          "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
+          "status": "http://hl7.org/fhir/SearchParameter/Procedure-status",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "ServiceRequest": {
+        "searchParameters": {
+          "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
+          "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+          "*": "*"
+        }
+      },
+      "Resource": {
+        "searchParameters": {
+          "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+          "_lastUpdated": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+          "_profile": "http://hl7.org/fhir/SearchParameter/Resource-profile",
+          "_security": "http://hl7.org/fhir/SearchParameter/Resource-security",
+          "_source": "http://hl7.org/fhir/SearchParameter/Resource-source",
+          "_tag": "http://hl7.org/fhir/SearchParameter/Resource-tag"
+        }
+      }
+    },
+    "security": {
+      "cors": true,
+      "basic": {
+        "enabled": true
+      },
+      "certificates": {
+        "enabled": true
+      },
+      "oauth": {
+        "enabled": false,
+        "smart": {
+          "enabled": false
+        }
+      }
+    },
+    "notifications": {
+      "common": {
+        "__comment_includeResourceTypes": [
+          "QuestionnaireResponse",
+          "CarePlan",
+          "MedicationAdministration",
+          "Device",
+          "DeviceComponent",
+          "DeviceMetric",
+          "MedicationOrder",
+          "Observation"
+        ]
+      },
+      "websocket": {
+        "enabled": true
+      },
+      "kafka": {
+        "enabled": false,
+        "topicName": "fhirNotifications",
+        "connectionProperties": {
+          "group.id": "securing-kafka-group",
+          "bootstrap.servers": "localhost:9093",
+          "security.protocol": "SSL",
+          "ssl.truststore.location": "resources/security/kafka.client.truststore.p12",
+          "ssl.truststore.password": "change-password",
+          "ssl.keystore.location": "resources/security/kafka.client.keystore.p12",
+          "ssl.keystore.password": "change-password",
+          "ssl.key.password": "change-password",
+          "ssl.truststore.type": "PKCS12",
+          "ssl.keystore.type": "PKCS12",
+          "acks": "all",
+          "retries": "60",
+          "request.timeout.ms": "10000",
+          "max.block.ms": "60000",
+          "max.in.flight.requests.per.connection": "5"
+        }
+      },
+      "nats": {
+        "enabled": true,
+        "cluster": "nats-streaming",
+        "channel": "fhirNotifications",
+        "clientId": "fhir-server",
+        "servers": "nats://nats-node1:4222,nats://nats-node2:4222,nats://nats-node3:4222",
+        "useTLS": false,
+        "truststoreLocation": "resources/security/nats.client.truststore.jks",
+        "truststorePassword": "change-password",
+        "keystoreLocation": "resources/security/nats.client.keystore.jks",
+        "keystorePassword": "change-password"
+      }
+    },
+    "audit": {
+      "serviceClassName": "com.ibm.fhir.audit.impl.NopService",
+      "serviceProperties": {}
+    },
+    "persistence": {
+      "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+      "common": {
+        "__comment": "Configuration properties common to all persistence layer implementations",
+        "updateCreateEnabled": true
+      },
+      "jdbc": {
+        "__comment": "Configuration properties for the JDBC persistence implementation",
+        "enableCodeSystemsCache": true,
+        "enableParameterNamesCache": true,
+        "enableResourceTypesCache": true
+      },
+      "datasources": {
+        "default": {
+          "type": "postgresql",
+          "currentSchema": "fhirdata",
+          "searchOptimizerOptions": {
+            "from_collapse_limit": 12,
+            "join_collapse_limit": 12
+          }
+        }
+      }
+    },
+    "bulkdata": {
+      "enabled": true,
+      "core": {
+        "api": {
+          "url": "https://localhost:9443/ibm/api/batch",
+          "user": "fhiradmin",
+          "password": "change-password",
+          "truststore": "resources/security/fhirTrustStore.p12",
+          "truststorePassword": "change-password",
+          "trustAll": true
+        },
+        "cos": {
+          "partUploadTriggerSizeMB": 10,
+          "objectSizeThresholdMB": 200,
+          "objectResourceCountThreshold": 200000,
+          "useServerTruststore": true
+        },
+        "file": {
+          "writeTriggerSizeMB": 1,
+          "sizeThresholdMB": 200,
+          "resourceCountThreshold": 200000
+        },
+        "pageSize": 100,
+        "batchIdEncryptionKey": "change-password",
+        "maxPartitions": 5,
+        "maxInputs": 5
+      },
+      "storageProviders": {
+        "default": {
+          "type": "file",
+          "fileBase": "/output/bulkdata",
+          "duplicationCheck": false,
+          "validateResources": false
+        },
+        "minio": {
+          "type": "aws-s3",
+          "bucketName": "fhirbulkdata",
+          "location": "us",
+          "endpointInternal": "https://minio:9000",
+          "endpointExternal": "https://localhost:9000",
+          "auth": {
+            "type": "hmac",
+            "accessKeyId": "minio",
+            "secretAccessKey": "change-password"
+          },
+          "enableParquet": false,
+          "disableBaseUrlValidation": true,
+          "disableOperationOutcomes": true,
+          "duplicationCheck": false,
+          "validateResources": false,
+          "create": false,
+          "presigned": true
+        },
+        "azure": {
+          "type": "azure-blob",
+          "_type": "ibm-cos|aws-s3|file|https|azure-blob",
+          "bucketName": "fhirbulkdata",
+          "auth": {
+            "type": "connection",
+            "connection": "DefaultEndpointsProtocol=https;AccountName=XYZ;AccountKey=XYZKEY;EndpointSuffix=core.windows.net"
+          },
+          "disableOperationOutcomes": true,
+          "duplicationCheck": false,
+          "validateResources": false,
+          "create": false
+        }
+      }
+    },
+    "operations": {
+      "erase": {
+        "enabled": true,
+        "allowedRoles": [
+          "FHIROperationAdmin",
+          "FHIRUsers"
+        ]
+      }
+    }
+  }
+}

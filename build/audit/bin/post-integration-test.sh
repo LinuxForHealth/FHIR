@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2020, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
+set -ex
 
 # audit_post - executes for each AUDIT post integration steps
 audit_post(){

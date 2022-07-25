@@ -7,11 +7,11 @@
     <artifactId>fhir-parent</artifactId>
     <version>5.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>IBM FHIR Server</name>
+    <name>LinuxForHealth FHIR</name>
 
     <url>https://github.com/LinuxForHealth/fhir</url>
     <organization>
-        <name>IBM</name>
+        <name>LinuxForHealth</name>
         <url>https://github.com/LinuxForHealth/fhir</url>
     </organization>
     <issueManagement>
@@ -20,7 +20,7 @@
     <ciManagement>
         <url>https://github.com/LinuxForHealth/fhir/actions</url>
     </ciManagement>
-    <description>The IBM® FHIR® Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</description>
+    <description>The LinuxForHealth FHIR® Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</description>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -29,11 +29,16 @@
     </licenses>
     <developers>
         <developer>
-            <name>IBM Watson Health Development</name>
-            <email>fhirci@us.ibm.com</email>
-            <url>https://www.ibm.com/</url>
-            <organization>IBM Watson Health</organization>
-            <organizationUrl>http://www.ibm.com</organizationUrl>
+            <name>Lee Surprenant</name>
+            <email>lmsurpre@merative.com</email>
+            <organization>Merative</organization>
+            <organizationUrl>https://merative.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>Robin Arnold</name>
+            <email>robin.arnold@merative.com</email>
+            <organization>Merative</organization>
+            <organizationUrl>https://merative.com</organizationUrl>
         </developer>
     </developers>
 
@@ -169,7 +174,7 @@
             <dependency>
                 <groupId>io.openliberty</groupId>
                 <artifactId>openliberty-runtime</artifactId>
-                <version>22.0.0.4</version>
+                <version>22.0.0.7</version>
                 <type>zip</type>
             </dependency>
             <dependency>
@@ -180,22 +185,22 @@
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-rs-client</artifactId>
-                <version>3.5.2</version>
+                <version>3.5.3</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxrs</artifactId>
-                <version>3.5.2</version>
+                <version>3.5.3</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-transports-http-hc</artifactId>
-                <version>3.5.2</version>
+                <version>3.5.3</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-features-logging</artifactId>
-                <version>3.5.2</version>
+                <version>3.5.3</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.websocket</groupId>
@@ -323,7 +328,7 @@
             <dependency>
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
             </dependency>
             <dependency>
                 <groupId>io.nats</groupId>
@@ -333,7 +338,7 @@
             <dependency>
                 <groupId>io.nats</groupId>
                 <artifactId>jnats</artifactId>
-                <version>2.15.1</version>
+                <version>2.15.5</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.microprofile.jwt</groupId>
@@ -467,12 +472,12 @@
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
-                <version>3.21.1</version>
+                <version>3.21.2</version>
             </dependency>
             <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protoc</artifactId>
-                <version>3.20.1</version>
+                <version>3.21.2</version>
                 <type>pom</type>
             </dependency>
             <dependency>
@@ -683,7 +688,7 @@
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-stdlib</artifactId>
-                <version>1.7.0</version>
+                <version>1.7.10</version>
             </dependency>
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -787,8 +792,9 @@
                     <version>3.0.0-M1</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>3.0.0</version>
+                    <version>3.1.0</version>
                     <configuration>
                         <rules>
                             <dependencyConvergence />
@@ -822,6 +828,7 @@
                     <version>3.3.0</version>
                 </plugin>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-scm-plugin</artifactId>
                     <version>1.13.0</version>
                     <configuration></configuration>
@@ -849,7 +856,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>10.3</version>
+                            <version>10.3.1</version>
                         </dependency>
                     </dependencies>
                     <executions>
@@ -929,7 +936,7 @@
                         <detectLinks>true</detectLinks>
                         <!-- control display -->
                         <author>false</author>
-                        <windowtitle>IBM FHIR Server</windowtitle>
+                        <windowtitle>LinuxForHealth FHIR Server</windowtitle>
                         <doctitle>${project.name} ${project.version}</doctitle>
                         <additionalOptions>
                             <!-- makes the frames visible, disabled and going
@@ -1000,25 +1007,20 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.2</version>
             </plugin>
         </plugins>
     </build>
 
     <scm>
         <connection>scm:git:https://github.com/LinuxForHealth/fhir.git</connection>
-        <developerConnection>IBM</developerConnection>
-        <tag>ibm-fhir-server</tag>
         <url>https://github.com/LinuxForHealth/fhir.git</url>
     </scm>
 
@@ -1500,8 +1502,6 @@
                     <maxmemory>2g</maxmemory>
                     <!-- doclint is none, otherwise build breaks -->
                     <doclint>none</doclint>
-                    <additionalparam>-Xdoclint:none
-                        -Djava.awt.headless=true</additionalparam>
                     <detectLinks>true</detectLinks>
                     <!-- control display -->
                     <author>false</author>
@@ -1527,9 +1527,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <configuration>
-                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                </configuration>
                 <reportSets>
                     <reportSet>
                         <reports>

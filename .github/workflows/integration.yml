@@ -8,7 +8,7 @@ on:
       - '.github/workflows/site.yml'
 
 jobs:
-  e2e-db2-with-bulkdata:
+  e2e-postgres:
     runs-on: ubuntu-latest
     if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
@@ -30,7 +30,7 @@ jobs:
         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
         mvn -B install --file fhir-parent -DskipTests -P include-fhir-igs,integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
-        mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3 -Ddocker.buildArg.VERBOSE=false
     - name: free disk space
       run: |
         # create and remove a 200 MB file to make sure we have the room needed later
@@ -55,7 +55,6 @@ jobs:
         containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
         if [[ -z "${containerId}" ]]; then
             echo "Warning: Could not find fhir container!!!"
-            bash build/docker/docker-cleanup.sh
         else
             echo "fhir container id: $containerId"
 
@@ -66,12 +65,12 @@ jobs:
             docker cp -L $containerId:/logs ${it_results}/server-logs
         fi
         echo "Gathering integration test output"
-        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test || true
+        cp -r ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test || true
     - name: Upload logs
       if: always()
       uses: actions/upload-artifact@v2.2.0
       with:
-        name: integration-test-results-db2-${{ matrix.java }}
+        name: integration-test-results-${{ matrix.java }}
         path: integration-test-results
 
 concurrency:

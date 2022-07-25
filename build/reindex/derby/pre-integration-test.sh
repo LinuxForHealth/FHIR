@@ -18,14 +18,15 @@ pre_integration() {
 # config - update configuration
 config() {
     DIST="${WORKSPACE}/build/reindex/derby/workarea/volumes/dist"
+    
     echo "Create the db volume..."
-    mkdir -p "${DIST}/db"
+    mkdir -p ${DIST}/db
 
     # Setup the Configurations for Reindex
     echo "Copying fhir configuration files..."
-    mkdir -p "${DIST}/config"
-    cp -r "${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config" "$DIST"
-    cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* "$DIST/config"
+    mkdir -p ${DIST}/config
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config ${DIST}
+    cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* ${DIST}/config
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"

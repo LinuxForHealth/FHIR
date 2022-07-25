@@ -383,6 +383,7 @@ The detail rows are tab-separated, making it easy to load the data into a spread
 **Notes:**
 1. The size report is only supported on PostgreSQL databases.
 2. The size report is intended as a guide to understand the relative space distribution of objects in the IBM FHIR Server data schema. The report is not intended to replace database utilities for calculating the total size of the database.
+3. The size report is not supported on Citus because not all the required size data can be collected.
 
 ----------------------------------------------------------------
 # Read-Only Access to FHIR Data Tables

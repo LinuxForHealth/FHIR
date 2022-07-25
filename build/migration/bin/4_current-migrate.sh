@@ -19,7 +19,7 @@ run_migrate(){
     mvn -T2C -B install --file fhir-parent -DskipTests -P include-fhir-igs,integration --no-transfer-progress
 
     cd fhir-install
-    docker build -t ibmcom/ibm-fhir-server:snapshot .
+    docker build --build-arg VERBOSE=false -t ibmcom/ibm-fhir-server:snapshot .
     cd ..
     popd > /dev/null
 

@@ -1152,6 +1152,69 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         assertEquals("Resource 'Patient/" + patient.getId() + "' is deleted.", oo.getIssue().get(0).getDetails().getText().getValue());
     }
 
+    @Test(groups = { "fhir-patch" })
+    public void testConditionalFhirPatch() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = buildPatient();
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        String patientId = getLocationLogicalId(response);
+
+        // create a copy of the patient and update it using the model API
+        Patient.Builder patientBuilder = patient.toBuilder();
+        List<HumanName> name = new ArrayList<>(patient.getName());
+        patientBuilder.name(Collections.singletonList(
+            name.get(0).toBuilder()
+                .given(string("Jack"))
+                .build()));
+
+        Parameters patch = Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name(string("operation"))
+                    .part(Parameter.builder()
+                        .name(string("type"))
+                        .value(Code.of("add"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("path"))
+                        .value(string("Patient.name[0]"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("name"))
+                        .value(string("given"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("value"))
+                        .value(string("Jack"))
+                        .build())
+                    .build())
+                .build();
+
+        Entity<Parameters> patchEntity = Entity.entity(patch, FHIRMediaType.APPLICATION_FHIR_JSON);
+        // perform the conditional patch
+        response = target.path("Patient")
+                .queryParam("_id", patientId)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .method("PATCH", patchEntity, Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+
+        // Next, call the 'read' API to retrieve the new patient and verify it.
+        response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+
+        patientBuilder.meta(responsePatient.getMeta());
+        Patient updatedPatient = patientBuilder.build();
+
+        Assert.assertEquals(updatedPatient, responsePatient);
+    }
+
     private void assertGoodGetResponse(Bundle.Entry entry, int expectedStatusCode, HTTPReturnPreference returnPref) throws Exception {
         assertNotNull(entry);
         Bundle.Entry.Response response = entry.getResponse();

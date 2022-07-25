@@ -22,7 +22,7 @@ required_build(){
     mvn -B install --file fhir-parent -DskipTests -P include-fhir-igs,integration --no-transfer-progress
 
     # Build dockerfile
-    mvn -B dockerfile:build -f fhir-install --no-transfer-progress
+    mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Ddocker.buildArg.VERBOSE=false
 }
 
 # audit_build - executes for each audit type.

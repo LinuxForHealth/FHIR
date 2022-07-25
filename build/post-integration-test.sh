@@ -29,7 +29,7 @@ mkdir -p ${it_results}/server-logs
 mkdir -p ${it_results}/fhir-server-test
 
 echo "Gathering post-test server logs..."
-cp -pr ${SIT}/wlp/usr/servers/fhir-server/logs ${it_results}/server-logs
+cp -pr ${SIT}/wlp/usr/servers/defaultServer/logs ${it_results}/server-logs
 
 echo "Gathering integration test output"
 cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test

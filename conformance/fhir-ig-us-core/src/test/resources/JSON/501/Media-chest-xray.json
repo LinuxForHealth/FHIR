@@ -1,0 +1,50 @@
+{
+    "resourceType": "Media",
+    "id": "chest-xray",
+    "meta": {
+        "extension": [
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+                "valueString": "Chest Xray Example"
+            },
+            {
+                "url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+                "valueMarkdown": "This is an example Media xray image that is reference by the *US Core DiagnosticReport Note Profile*."
+            }
+        ]
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource \"chest-xray\" </p></div><p><b>status</b>: completed</p><p><b>type</b>: Image <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/R4/codesystem-media-type.html\">Media Type</a>#image)</span></p><p><b>modality</b>: Plain chest X-ray (procedure) <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://browser.ihtsdotools.org/\">SNOMED CT</a>#399208008)</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Patient/example</a> \" SHAW\"</p><p><b>created</b>: 2019-02-04 07:43:30+0000</p><p><b>issued</b>: Feb 4, 2019 7:43:30 PM</p></div>"
+    },
+    "status": "completed",
+    "type": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/media-type",
+                "code": "image",
+                "display": "Image"
+            }
+        ]
+    },
+    "modality": {
+        "coding": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "399208008",
+                "display": "Plain chest X-ray (procedure)"
+            }
+        ]
+    },
+    "subject": {
+        "reference": "Patient/example"
+    },
+    "createdDateTime": "2019-02-04T19:43:30.000Z",
+    "issued": "2019-02-04T19:43:30.000Z",
+    "content": {
+        "id": "a1",
+        "contentType": "image/jpeg",
+        "url": "http://example.org/fhir/Binary/A12345",
+        "creation": "2019-02-04T19:43:30.000Z"
+    }
+}

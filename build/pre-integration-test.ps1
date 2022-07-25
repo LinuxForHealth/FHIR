@@ -52,7 +52,7 @@ Write-Host ' - Directory - ' $SIT
 # Create datastores for tenant1
 Write-Host 'Creating datastores for tenant1'
 [string]$SCHEMATOOL = $SIT + '\fhir-server-dist\tools\fhir-persistence-schema-*-cli.jar' | Resolve-Path
-[string]$DB_LOC = $SIT + '\wlp\usr\servers\fhir-server\derby'
+[string]$DB_LOC = $SIT + '\wlp\usr\servers\defaultServer\derby'
 java -jar $SCHEMATOOL `
   --db-type derby --prop db.database=${DB_LOC}\fhirDB --prop db.create=Y `
   --update-schema
@@ -71,18 +71,18 @@ java -jar $SCHEMATOOL `
 
 # If the Config Exists, let's wipe it outfind
 Write-Host 'Copying configuration to install location'
-$RM_ITEM=[string]$SIT + '\wlp\usr\servers\fhir-server\config'
+$RM_ITEM=[string]$SIT + '\wlp\usr\servers\defaultServer\config'
 If ( Test-Path $RM_ITEM ) {
     Write-Host 'Removing -> ' $RM_ITEM
     Remove-Item -path $RM_ITEM -Recurse -Force
 }
-$RM_ITEM2=[string]$SIT + '\wlp\usr\servers\fhir-server\configDropins'
+$RM_ITEM2=[string]$SIT + '\wlp\usr\servers\defaultServer\configDropins'
 If ( Test-Path $RM_ITEM2 ) {
     Write-Host 'Removing -> ' $RM_ITEM2
     Remove-Item -path $RM_ITEM2 -Recurse -Force
 }
 
-$SERVER_ROOT=[string]$SIT + '\wlp\usr\servers\fhir-server\'
+$SERVER_ROOT=[string]$SIT + '\wlp\usr\servers\defaultServer\'
 New-Item -Path $SERVER_ROOT -Name 'config' -ItemType 'directory'
 New-Item -Path $SERVER_ROOT -Name 'configDropins' -ItemType 'directory'
 $CONFIGS_DROPINS=[string]$SERVER_ROOT + 'configDropins\'
@@ -91,30 +91,30 @@ New-Item -Path $CONFIGS_DROPINS -Name 'overrides' -ItemType 'directory'
 
 # Copy over the Files for default, tenant1, tenant2
 $DR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\config\*'
-$DR_ITEM_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\config\'
+$DR_ITEM_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\defaultServer\config\'
 Copy-Item $DR_ITEM -Destination $DR_ITEM_DST -Recurse
 
 $DR_ITEM1=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\test\liberty\config\config\*'
-Copy-Item $DR_ITEM1 -Destination $DR_ITEM_DST -Recurse
+Copy-Item $DR_ITEM1 -Destination $DR_ITEM_DST -Recurse -Force
 
 # Only copy over the Derby datasource definition for this instance
 $OVR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\configDropins\defaults\datasource.xml'
-$OVR_ITEM_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\defaults\datasource.xml'
+$OVR_ITEM_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\defaultServer\configDropins\defaults\datasource.xml'
 Copy-Item $OVR_ITEM -Destination $OVR_ITEM_DST
 $OVR_ITEM2=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\test\liberty\config\configDropins\overrides\datasource-derby.xml'
-$OVR_ITEM_DST2=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\overrides\datasource-derby.xml'
+$OVR_ITEM_DST2=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\defaultServer\configDropins\overrides\datasource-derby.xml'
 Copy-Item $OVR_ITEM2 -Destination $OVR_ITEM_DST2
 $OVR_ITEM3=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\configDropins\disabled\jvm.options'
-$OVR_ITEM_DST3=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\overrides\jvm.options'
+$OVR_ITEM_DST3=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\defaultServer\configDropins\overrides\jvm.options'
 Copy-Item $OVR_ITEM3 -Destination $OVR_ITEM_DST3
 
 Write-Host 'Copying test artifacts to install location'
 $CP_ITEM=[string]$DIR_WORKSPACE + '\operation\fhir-operation-test\target\fhir-operation-test-*.jar'
-$USERLIB_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\userlib'
-$USERLIB_DIR=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server'
+$USERLIB_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\defaultServer\userlib'
+$USERLIB_DIR=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\defaultServer'
 
 Write-Host 'Update the serverRegistryResourceProviderEnabled to True'
-$CONFIG_JSON=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\config\default\fhir-server-config.json'
+$CONFIG_JSON=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\defaultServer\config\default\fhir-server-config.json'
 $FHIR_SERVER_CONFIG = Get-Content $CONFIG_JSON -raw | ConvertFrom-Json
 $FHIR_SERVER_CONFIG.fhirServer.core.serverRegistryResourceProviderEnabled = [bool]::Parse('True')
 $FHIR_SERVER_CONFIG | ConvertTo-Json -depth 32 | set-content $CONFIG_JSON
@@ -133,7 +133,7 @@ Write-Host '>>> Current time: ' $DATE_PS
 
 Write-Host 'Starting fhir server'
 $PROC=$SIT + '\wlp\bin\server'
-& $PROC start fhir-server
+& $PROC start
 
 # Get the Updated Start Time
 $DATE_PS=[System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Greenwich Standard Time').ToString('t')
@@ -202,7 +202,7 @@ If (Test-Path -Path $pre_it_logs) {
 
 New-Item -Path $SIT -Name 'pre-it-logs' -ItemType 'directory'
 
-$LOG_DIR=[string]$SIT + '\wlp\usr\servers\fhir-server\logs'
+$LOG_DIR=[string]$SIT + '\wlp\usr\servers\defaultServer\logs'
 Copy-Item -Path $LOG_DIR -destination $pre_it_logs -Recurse
 
 # Create the Zip File

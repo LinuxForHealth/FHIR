@@ -465,32 +465,6 @@ public class BasicServerTest extends FHIRServerTestBase {
         assertTrue(outcome.getIssue().size() > 0);
     }
 
-    @Test( groups = { "server-basic" })
-    public void testCreateImmunizationWithInvalidSearchParameter() throws Exception {
-        // This test takes advantage of a issue with the 4.0.1 spec (https://jira.hl7.org/browse/FHIR-25173)
-        // to verify that supplemental warnings that are added by the persistence layer will make it to the response
-        WebTarget target = getWebTarget();
-        Immunization resource = TestUtil.getMinimalResource(Immunization.class);
-        // 1. Add narrative text to avoid dom-6 (A resource should have narrative for robust management)
-        // 2. Set occurrence to a String to get the searchparameter warning added by the persistence layer
-        resource = resource.toBuilder()
-                .text(Narrative.builder()
-                    .status(NarrativeStatus.EMPTY)
-                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">test</div>"))
-                    .build())
-                .occurrence(string("now"))
-                .build();
-        Entity<Resource> entity = Entity.entity(resource, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Immunization").request()
-                    .header("Prefer", "return=OperationOutcome")
-                    .post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        OperationOutcome outcome = response.readEntity(OperationOutcome.class);
-        assertNotNull(outcome);
-        assertTrue(outcome.getIssue().size() > 0);
-        assertTrue(outcome.getIssue().get(0).getDetails().getText().getValue().startsWith("Skipping search parameter 'date'"));
-    }
-
     /**
      * Tests the update of the original patient that was previously created.
      */

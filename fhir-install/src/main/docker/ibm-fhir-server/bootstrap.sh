@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ----------------------------------------------------------------------------
-# (C) Copyright IBM Corp. 2021
+# (C) Copyright IBM Corp. 2021, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
@@ -20,7 +20,7 @@ SCRIPT_NAME="$(basename ${BASH_SOURCE[0]})"
 
 CUR_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-FHIR_PERSISTENCE_SCHEMA_CLI_LOCATION="/opt/ibm-fhir-server/tools"
+FHIR_PERSISTENCE_SCHEMA_CLI_LOCATION="/opt/fhir-server/tools"
 
 PERFORM_BOOTSTRAP_DB=${BOOTSTRAP_DB}
 [ -z "${BOOTSTRAP_DB}" ] && PERFORM_BOOTSTRAP_DB="false"

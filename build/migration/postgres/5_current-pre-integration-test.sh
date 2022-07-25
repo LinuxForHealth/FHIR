@@ -25,8 +25,8 @@ config(){
     # Setup the Configurations for Migration
     echo "Copying fhir configuration files..."
     mkdir -p ${DIST}/config
-    cp -r ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/config $DIST
-    cp -r ${WORKSPACE}/fhir/fhir-server-webapp/src/test/liberty/config/config/* $DIST/config
+    cp -r ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/config ${DIST}
+    cp -r ${WORKSPACE}/fhir/fhir-server-webapp/src/test/liberty/config/config/* ${DIST}/config
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
@@ -70,11 +70,11 @@ bringup(){
     docker-compose up --remove-orphans -d db
     cx=0
     echo "Debug Details >>> "
-    docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Status'
+    docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres").State.Status'
     echo "Debug All Details >>> "
     docker container inspect postgres_db_1 | jq -r '.[]'
     docker container logs postgres_db_1
-    while [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Health.Status' | grep starting | wc -l) -eq 1 ]
+    while [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres").State.Health.Status' | grep starting | wc -l) -eq 1 ]
     do
         echo "Waiting on startup of db ${cx}"
         cx=$((cx + 1))
@@ -105,9 +105,6 @@ bringup(){
     rm -rf ${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/derby
     DB_LOC="${WORKSPACE}/fhir/build/migration/postgres/workarea/volumes/dist/derby"
     mkdir -p ${DB_LOC}
-    java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
-        --db-type derby --prop db.database=${DB_LOC}/fhirDB --prop db.create=Y \
-        --update-schema
     java -jar ${WORKSPACE}/fhir/fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar \
         --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
         --update-schema

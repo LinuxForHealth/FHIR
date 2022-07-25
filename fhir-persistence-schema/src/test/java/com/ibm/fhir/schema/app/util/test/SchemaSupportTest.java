@@ -50,11 +50,17 @@ public class SchemaSupportTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testBadName() {
+        SchemaSupport util = new SchemaSupport();
+        
+        util.getResourceTypeFromTableName("BADTABLENAME");
+    }
+
+    @Test
     public void testUnknown() {
         SchemaSupport util = new SchemaSupport();
         
-        // should generate IllegalArgumentException
-        util.getResourceTypeFromTableName("NOT_A_TABLE");
+        assertNull(util.getResourceTypeFromTableName("BAD_TABLE"));
     }
 
     @Test

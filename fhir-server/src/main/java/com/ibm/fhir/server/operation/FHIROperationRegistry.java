@@ -45,7 +45,7 @@ public class FHIROperationRegistry {
             String operationCode = "unknown code";
             try {
                 FHIROperation operation = iterator.next();
-                log.info(() -> "Found FHIROperation implementation class: " + operation.getClass().getName());
+                log.fine(() -> "Found FHIROperation implementation class: " + operation.getClass().getName());
                 // This is actually the code.
                 operationCode = operation.getName();
                 if (!isValid(operation)) {
@@ -91,10 +91,8 @@ public class FHIROperationRegistry {
             }
         }
 
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("Discovered " + operationMap.size() + " custom operation implementations:");
-            log.fine(operationMap.toString());
-        }
+        log.info("Discovered " + operationMap.size() + " extended operation implementations:");
+        log.info(operationMap.toString());
     }
 
     private boolean isValid(FHIROperation operation) throws FHIRValidationException, FHIRValidationException {
