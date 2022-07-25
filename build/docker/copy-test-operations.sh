@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2020
+# (C) Copyright IBM Corp. 2016, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
-set -e
+set -ex
 
 if [[ -z "${WORKSPACE}" ]]; then
     echo "ERROR: WORKSPACE environment variable not set!"
@@ -12,7 +12,7 @@ if [[ -z "${WORKSPACE}" ]]; then
 fi
 
 echo "Removing old test operations..."
-USERLIB="${WORKSPACE}/build/docker/fhir-server/volumes/userlib"
+USERLIB="${WORKSPACE}/build/docker/fhir-server/userlib"
 rm -rf $USERLIB/* 2> /dev/null
 mkdir -p $USERLIB
 

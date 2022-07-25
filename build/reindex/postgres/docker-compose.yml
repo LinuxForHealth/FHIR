@@ -2,10 +2,10 @@ version: '3.9'
 services:
   db:
     image: test/fhir-pg
+    hostname: postgres
     shm_size: 256MB
     tty: true
     stdin_open: true
-    hostname: postgres_postgres_1
     volumes:
       - type: bind
         source: ./workarea/volumes/dist/db
@@ -33,7 +33,7 @@ services:
     ports:
       - 5432:5432
   fhir:
-    image: ibmcom/ibm-fhir-server:latest
+    image: linuxforhealth/fhir-server:latest
     hostname: fhir
     volumes:
       - type: bind
@@ -49,7 +49,10 @@ services:
         target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
     command: bash -c "
-      java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar --db-type postgresql --prop db.host=postgres_postgres_1 --prop db.port=5432 --prop db.database=fhirdb --prop user=fhiradmin --prop password=change-password --update-schema --grant-to fhirserver &&
+      java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
+        --db-type postgresql --prop db.host=postgres --prop db.port=5432 --prop db.database=fhirdb
+        --prop user=fhiradmin --prop password=change-password
+        --update-schema --grant-to fhirserver &&
       /opt/ol/wlp/bin/server run"
     healthcheck:
       start_period: 32s

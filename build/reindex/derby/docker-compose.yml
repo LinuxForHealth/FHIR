@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   fhir:
-    image: ibmcom/ibm-fhir-server:latest
+    image: linuxforhealth/fhir-server:latest
     hostname: fhir
     volumes:
       - type: bind

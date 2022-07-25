@@ -95,7 +95,7 @@ $DR_ITEM_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\defaultServer\config
 Copy-Item $DR_ITEM -Destination $DR_ITEM_DST -Recurse
 
 $DR_ITEM1=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\test\liberty\config\config\*'
-Copy-Item $DR_ITEM1 -Destination $DR_ITEM_DST -Recurse
+Copy-Item $DR_ITEM1 -Destination $DR_ITEM_DST -Recurse -Force
 
 # Only copy over the Derby datasource definition for this instance
 $OVR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\configDropins\defaults\datasource.xml'
