@@ -17,7 +17,6 @@ import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
-import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.With;
 
 /**
@@ -55,21 +54,10 @@ public interface IDatabaseAdapter {
     public void dropTablespace(String tablespaceName);
 
     /**
-     * Detach the partition
-     *
-     * @param schemaName
-     * @param tableName
-     * @param partitionName
-     * @param newTableName
-     */
-    public void detachPartition(String schemaName, String tableName, String partitionName, String newTableName);
-
-    /**
      * Build the create table DDL
      *
      * @param schemaName
      * @param name
-     * @param tenantColumnName optional column name to enable multi-tenancy
      * @param columns
      * @param primaryKey
      * @param identity
@@ -78,7 +66,7 @@ public interface IDatabaseAdapter {
      * @param checkConstraints
      * @param distributionContext
      */
-    public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns,
+    public void createTable(String schemaName, String name, List<ColumnBase> columns,
             PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
             DistributionContext distributionContext);
 
@@ -97,14 +85,6 @@ public interface IDatabaseAdapter {
      * @param column
      */
     public void alterTableAddColumn(String schemaName, String tableName, ColumnBase column);
-
-    /**
-     * Reorg the table if the underlying database supports it. Required after
-     * columns are added/removed from a table.
-     * @param schemaName
-     * @param tableName
-     */
-    public void reorgTable(String schemaName, String tableName);
 
     /**
      * Create ROW type used for passing values to stored procedures e.g.:
@@ -161,12 +141,11 @@ public interface IDatabaseAdapter {
      * @param schemaName
      * @param tableName
      * @param indexName
-     * @param tenantColumnName
      * @param indexColumns
      * @param includeColumns
      * @param distributionContext
      */
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName,
             List<OrderedColumnDef> indexColumns, List<String> includeColumns, DistributionContext distributionContext);
 
     /**
@@ -174,11 +153,10 @@ public interface IDatabaseAdapter {
      * @param schemaName
      * @param tableName
      * @param indexName
-     * @param tenantColumnName
      * @param indexColumns
      * @param distributionContext
      */
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName,
             List<OrderedColumnDef> indexColumns, DistributionContext distributionContext);
 
     /**
@@ -186,65 +164,10 @@ public interface IDatabaseAdapter {
      * @param schemaName
      * @param tableName
      * @param indexName
-     * @param tenantColumnName
      * @param indexColumns
      */
-    public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+    public void createIndex(String schemaName, String tableName, String indexName,
             List<OrderedColumnDef> indexColumns);
-
-    /**
-     *
-     * <pre>
-     * CREATE VARIABLE ptng.session_tenant INT DEFAULT NULL;
-     * </pre>
-     *
-     * @param schemaName
-     * @param variableName
-     */
-    public void createIntVariable(String schemaName, String variableName);
-
-    /**
-     *
-     * <pre>
-     * CREATE OR REPLACE PERMISSION ROW_ACCESS ON ptng.patients FOR ROWS WHERE patients.mt_id =
-     * ptng.session_tenant ENFORCED FOR ALL ACCESS ENABLE;
-     * </pre>
-     *
-     * @param schemaName
-     * @param permissionName
-     * @param tableName
-     * @param predicate
-     */
-    public void createOrReplacePermission(String schemaName, String permissionName, String tableName, String predicate);
-
-    /**
-     *
-     *
-     * <pre> ALTER TABLE <tbl> ACTIVATE ROW ACCESS CONTROL
-     * </pre>
-     *
-     * @param schemaName
-     * @param tableName
-     */
-    public void activateRowAccessControl(String schemaName, String tableName);
-
-    /**
-     * Deactivate row access control on a table ALTER TABLE <tbl> DEACTIVATE ROW
-     * ACCESS CONTROL
-     *
-     * @param schemaName
-     * @param tableName
-     */
-    public void deactivateRowAccessControl(String schemaName, String tableName);
-
-    /**
-     * Build the DML statement for setting a session variable
-     *
-     * @param schemaName
-     * @param variableName
-     * @param value
-     */
-    public void setIntVariable(String schemaName, String variableName, int value);
 
     /**
      * Drop table from the schema
@@ -276,89 +199,11 @@ public interface IDatabaseAdapter {
      * @param targetSchema
      * @param targetTable
      * @param targetColumnName
-     * @param tenantColumnName
      * @param columns
      * @param enforced
      */
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
-            String targetTable, String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced);
-
-    /**
-     * Allocate a new tenant
-     *
-     * @param adminSchemaName
-     * @param schemaName
-     * @param tenantName
-     * @param tenantKey
-     * @param tenantSalt
-     * @param idSequenceName
-     * @return
-     */
-    public int allocateTenant(String adminSchemaName, String schemaName, String tenantName, String tenantKey,
-            String tenantSalt, String idSequenceName);
-
-    /**
-     * Delete all the metadata associated with the given tenant identifier, as long as the
-     * tenant status is DROPPED.
-     * @param tenantId
-     */
-    public void deleteTenantMeta(String adminSchemaName, int tenantId);
-
-    /**
-     * Get the tenant id for the given schema and tenant name
-     *
-     * @param adminSchemaName
-     * @param tenantName
-     * @return
-     */
-    public int findTenantId(String adminSchemaName, String tenantName);
-
-    /**
-     * Create the partitions on each of these tables
-     *
-     * @param tables
-     * @param schemaName
-     * @param newTenantId
-     * @param extentSizeKB
-     */
-    public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId, int extentSizeKB);
-
-    /**
-     * Add a new tenant partition to each of the tables in the collection. Idempotent, so can
-     * be run to add partitions for existing tenants to new tables
-     * @param tables
-     * @param schemaName
-     * @param newTenantId
-     */
-    public void addNewTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId);
-
-    /**
-     * Detach the partition associated with the tenantId from each of the given tables
-     *
-     * @param tables
-     * @param schemaName
-     * @param tenantId
-     * @param tenantStagingTable
-     */
-    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId);
-
-    /**
-     * Drop the tables which were created by the detach partition operation (as
-     * part of tenant deprovisioning).
-     * @param tables
-     * @param schemaName
-     * @param tenantId
-     */
-    public void dropDetachedPartitions(Collection<Table> tables, String schemaName, int tenantId);
-
-    /**
-     * Update the tenant status
-     *
-     * @param adminSchemaName
-     * @param tenantId
-     * @param status
-     */
-    public void updateTenantStatus(String adminSchemaName, int tenantId, TenantStatus status);
+            String targetTable, String targetColumnName, List<String> columns, boolean enforced);
 
     /**
      *
@@ -532,12 +377,6 @@ public interface IDatabaseAdapter {
      * @param toUser
      */
     public void grantFunctionPrivileges(String schemaName, String functionName, Collection<Privilege> privileges, String toUser);
-
-    /**
-     * Drop the tablespace associated with the given tenantId
-     * @param tenantId
-     */
-    public void dropTenantTablespace(int tenantId);
 
     /**
      * Disable the FK with the given constraint name

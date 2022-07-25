@@ -59,10 +59,7 @@ import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.FunctionDef;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.ProcedureDef;
-import com.ibm.fhir.database.utils.model.RowArrayType;
-import com.ibm.fhir.database.utils.model.RowType;
 import com.ibm.fhir.database.utils.model.Sequence;
-import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
@@ -155,27 +152,9 @@ public class JavaBatchSchemaGeneratorTest {
         }
 
         @Override
-        public void visited(RowArrayType rowArrayType) {
-            checkObjectTags(rowArrayType);
-            super.visited(rowArrayType);
-        }
-
-        @Override
-        public void visited(RowType rowType) {
-            checkObjectTags(rowType);
-            super.visited(rowType);
-        }
-
-        @Override
         public void visited(Sequence sequence) {
             checkObjectTags(sequence);
             super.visited(sequence);
-        }
-
-        @Override
-        public void visited(SessionVariableDef sessionVariableDef) {
-            checkObjectTags(sessionVariableDef);
-            super.visited(sessionVariableDef);
         }
 
         @Override

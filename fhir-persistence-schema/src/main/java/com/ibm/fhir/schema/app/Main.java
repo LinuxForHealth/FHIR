@@ -716,9 +716,8 @@ public class Main {
         if (!includedForeignKeys && dbType != DbType.CITUS) {
             // Now that all the tables have been distributed, it should be safe
             // to apply the FK constraints
-            final String mtId = null;
             ISchemaAdapter adapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
-            AddForeignKey adder = new AddForeignKey(adapter, mtId);
+            AddForeignKey adder = new AddForeignKey(adapter);
             pdm.visit(adder, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP, () -> TransactionFactory.openTransaction(connectionPool));
         }        
     }

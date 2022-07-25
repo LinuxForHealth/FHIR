@@ -52,26 +52,26 @@ public class DistributedSchemaAdapter extends PlainSchemaAdapter {
     }
 
     @Override
-    public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey, IdentityDef identity,
+    public void createTable(String schemaName, String name, List<ColumnBase> columns, PrimaryKeyDef primaryKey, IdentityDef identity,
         String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints, DistributionType distributionType, String distributionColumnName) {
 
         DistributionContext dc = createContext(distributionType, distributionColumnName);
-        databaseAdapter.createTable(schemaName, name, tenantColumnName, columns, primaryKey, identity, tablespaceName, withs, checkConstraints, dc);
+        databaseAdapter.createTable(schemaName, name, columns, primaryKey, identity, tablespaceName, withs, checkConstraints, dc);
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns,
         List<String> includeColumns, DistributionType distributionType, String distributionColumnName) {
         DistributionContext dc = createContext(distributionType, distributionColumnName);
-        databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns, dc);
+        databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns, dc);
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns,
         DistributionType distributionType, String distributionColumnName) {
 
         DistributionContext dc = createContext(distributionType, distributionColumnName);
-        databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, dc);
+        databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, indexColumns, dc);
     }
 
     @Override

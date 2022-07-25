@@ -193,7 +193,6 @@ public class FhirResourceTableGroup455 {
         // We also have a FK constraint pointing back to that table to try and keep
         // things sensible.
         Table tbl = Table.builder(schemaName, tableName)
-                .setTenantColumnName(MT_ID)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
@@ -249,7 +248,6 @@ public class FhirResourceTableGroup455 {
         final String tableName = prefix + _RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setTenantColumnName(MT_ID)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(        RESOURCE_ID,              false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,              false)
@@ -270,7 +268,6 @@ public class FhirResourceTableGroup455 {
         // Issue 1331. LAST_UPDATED should be indexed now that we're using it
         // in search queries
         CreateIndex idxLastUpdated = CreateIndex.builder()
-                .setTenantColumnName(MT_ID)
                 .setSchemaName(schemaName)
                 .setTableName(tableName)
                 .setVersionTrackingName(tableName) // cover up a defect in how we name this index in VERSION_HISTORY
@@ -313,7 +310,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // Parameters are tied to the logical resource
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(         STR_VALUE, msb,  true)
@@ -366,7 +362,6 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addIntColumn(        CODE_SYSTEM_ID,      false)
@@ -407,7 +402,6 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0006.vid())
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(               ROW_ID,    false)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
@@ -450,22 +444,10 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
         // for reference strings is actually the resource type of the reference - this is useful
         // for building chained reference queries, and is well worth the minor cost of an extra join
         StringBuilder select = new StringBuilder();
-        if (this.multitenant) {
-            // Make sure we include MT_ID in both the select list and join condition. It's needed
-            // in the join condition to give the optimizer the best chance at finding a good nested
-            // loop strategy
-            select.append("SELECT ref.").append(MT_ID);
-            select.append(", ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id ");
-            select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
-            select.append(resourceTokenRefs.getName()).append(" AS ref ");
-            select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
-            select.append("   AND ctv.").append(MT_ID).append(" = ").append("ref.").append(MT_ID);
-        } else {
-            select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id ");
-            select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
-            select.append(resourceTokenRefs.getName()).append(" AS ref ");
-            select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
-        }
+        select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.ref_version_id ");
+        select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
+        select.append(resourceTokenRefs.getName()).append(" AS ref ");
+        select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
 
         View view = View.builder(schemaName, viewName)
                 .setVersion(FhirSchemaVersion.V0007.vid())
@@ -506,7 +488,6 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(2)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addTimestampColumn(      DATE_START,      true)
@@ -569,7 +550,6 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(2)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(       NUMBER_VALUE,       true)
@@ -634,7 +614,6 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(     LATITUDE_VALUE,       true)
@@ -696,7 +675,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(              CODE, 255, false)
@@ -768,7 +746,6 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY
         Table.Builder tbl = Table.builder(schemaName, tableName)
                 .setVersion(2)  // Version 1 used enforced foreign key constraints which lead to issue #781.
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID, false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false);
 
@@ -832,7 +809,6 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY
                 CreateIndex compIdx = CreateIndex.builder()
                         .setSchemaName(schemaName)
                         .setTableName(tableName)
-                        .setTenantColumnName(MT_ID)
                         .setIndexName("IDX_" + tableName + "_LRPN")
                         .setVersion(FhirSchemaVersion.V0006.vid())
                         .addColumn(LOGICAL_RESOURCE_ID)
@@ -862,7 +838,6 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY
 
         Table tbl = Table.builder(schemaName, LIST_LOGICAL_RESOURCE_ITEMS)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn( LOGICAL_RESOURCE_ID,      false)
                 .addIntColumn(       RESOURCE_TYPE_ID,      false)
                 .addVarcharColumn(    ITEM_LOGICAL_ID, lib,  true)
@@ -892,7 +867,6 @@ ALTER TABLE device_composites ADD CONSTRAINT fk_device_composites_r  FOREIGN KEY
 
         Table tbl = Table.builder(schemaName, PATIENT_CURRENT_REFS)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(         LOGICAL_RESOURCE_ID,      false)
                 .addVarcharColumn(      CURRENT_PROBLEMS_LIST, lib,  true)
                 .addVarcharColumn(   CURRENT_MEDICATIONS_LIST, lib,  true)

@@ -128,14 +128,13 @@ public class ForeignKeyConstraint extends Constraint {
      * Apply the FK constraint to the given target
      * @param schemaName
      * @param name
-     * @param tenantColumnName
      * @param target
      * @param sourceDistributionType
      */
-    public void apply(String schemaName, String name, String tenantColumnName, ISchemaAdapter target, DistributionType sourceDistributionType) {
+    public void apply(String schemaName, String name, ISchemaAdapter target, DistributionType sourceDistributionType) {
         // make this idempotent to support upgrade scenarios
         if (!target.doesForeignKeyConstraintExist(schemaName, name, getConstraintName())) {
-            target.createForeignKeyConstraint(getConstraintName(), schemaName, name, targetSchema, targetTable, targetColumnName, tenantColumnName, columns, enforced, sourceDistributionType,
+            target.createForeignKeyConstraint(getConstraintName(), schemaName, name, targetSchema, targetTable, targetColumnName, columns, enforced, sourceDistributionType,
                 targetIsReference);
         }
     }

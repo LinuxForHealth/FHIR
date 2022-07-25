@@ -27,27 +27,14 @@ import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.IDatabaseTypeAdapter;
-import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
-import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
-import com.ibm.fhir.database.utils.model.Table;
-import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.model.With;
-import com.ibm.fhir.database.utils.tenant.AddTenantDAO;
-import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
-import com.ibm.fhir.database.utils.tenant.CreateOrReplaceViewDAO;
-import com.ibm.fhir.database.utils.tenant.DeleteTenantDAO;
-import com.ibm.fhir.database.utils.tenant.DropViewDAO;
-import com.ibm.fhir.database.utils.tenant.FindTenantIdDAO;
-import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
-import com.ibm.fhir.database.utils.tenant.MaxTenantIdDAO;
-import com.ibm.fhir.database.utils.tenant.UpdateTenantStatusDAO;
 
 /**
  * Provides schema control functions common to our supported databases:
@@ -199,25 +186,22 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName,
         List<OrderedColumnDef> indexColumns, List<String> includeColumns, DistributionContext distributionContext) {
-        indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns, true);
         runStatement(ddl);
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName,
         List<OrderedColumnDef> indexColumns, DistributionContext distributionContext) {
-        indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
     }
 
     @Override
-    public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+    public void createIndex(String schemaName, String tableName, String indexName,
         List<OrderedColumnDef> indexColumns) {
-        indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, true);
         runStatement(ddl);
     }
@@ -352,17 +336,10 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
     @Override
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
-        String targetTable, String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced) {
+        String targetTable, String targetColumnName, List<String> columns, boolean enforced) {
 
         String tableName = DataDefinitionUtil.getQualifiedName(schemaName, name);
         String targetName = DataDefinitionUtil.getQualifiedName(targetSchema, targetTable);
-
-        // Add the tenant column as a prefix to the list of columns if we have a multi-tenant table
-        List<String> cols = new ArrayList<>(columns.size() + 1);
-        if (tenantColumnName != null) {
-            cols.add(tenantColumnName);
-        }
-        cols.addAll(columns);
 
         StringBuilder ddl = new StringBuilder();
         ddl.append("ALTER TABLE ");
@@ -370,7 +347,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         ddl.append(" ADD CONSTRAINT ");
         ddl.append(constraintName);
         ddl.append(" FOREIGN KEY(");
-        ddl.append(DataDefinitionUtil.join(cols));
+        ddl.append(DataDefinitionUtil.join(columns));
         ddl.append(") REFERENCES ");
         ddl.append(targetName);
         if (!Objects.isNull(targetColumnName) && !targetColumnName.isEmpty()) {
@@ -413,68 +390,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         }
     }
 
-    @Override
-    public int allocateTenant(String adminSchemaName, String schemaName, String tenantName, String tenantKey, String tenantSalt, String idSequenceName) {
-        // Need a mutable integer
-        int tenantId = 0;
-        do {
-            // Check if this tenant already exists first
-            GetTenantDAO tid = new GetTenantDAO(adminSchemaName, tenantName);
-            Tenant tenant = runStatement(tid);
-            if (tenant != null) {
-                tenantId = tenant.getTenantId();
-            }
-            else {
-                // get the current max tenant id
-                MaxTenantIdDAO dao = new MaxTenantIdDAO(adminSchemaName);
-                Integer maxTenantId = runStatement(dao);
-                tenantId = maxTenantId == null || maxTenantId < 0 ? 1 : maxTenantId + 1;
-
-                // Now try to create the new tenant using this new id
-                try {
-                    logger.info("Trying new tenant record: " + tenantId + ", " + tenantName);
-                    AddTenantDAO adder = new AddTenantDAO(adminSchemaName, tenantId, tenantName);
-                    runStatement(adder);
-                }
-                catch (UniqueConstraintViolationException x) {
-                    // Concurrent operation, so try again
-                    logger.info("Duplicate value, so try the next one");
-                    tenantId = 0;
-                }
-            }
-        } while (tenantId == 0);
-
-        // Now attach the tenant key to the tenant:
-        AddTenantKeyDAO adder = new AddTenantKeyDAO(adminSchemaName, tenantId, tenantKey, tenantSalt, idSequenceName);
-        runStatement(adder);
-
-        return tenantId;
-    }
-
-    /**
-     * Update the tenant status
-     * @param adminSchemaName
-     * @param tenantId
-     * @param status
-     */
-    @Override
-    public void updateTenantStatus(String adminSchemaName, int tenantId, TenantStatus status) {
-
-        UpdateTenantStatusDAO dao = new UpdateTenantStatusDAO(adminSchemaName, tenantId, status);
-        runStatement(dao);
-    }
-
-    /**
-     * Add a new tenant partition to each of the tables in the collection. Idempotent, so can
-     * be run to add partitions for existing tenants to new tables
-     * @param tables
-     * @param schemaName
-     * @param newTenantId
-     */
-    @Override
-    public void addNewTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId) {
-        // NOP for all databases except Db2
-    }
     /**
      * Run the statement using the connectionProvider to obtain a new
      * connection. Also, there should be a transaction open on the current
@@ -620,12 +535,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         runStatement(cmd);
     }
 
-    @Override
-    public int findTenantId(String adminSchemaName, String tenantName) {
-        FindTenantIdDAO dao = new FindTenantIdDAO(adminSchemaName, tenantName);
-        return runStatement(dao);
-    }
-
     /**
      * get the privileges as a comma-separated string
      * @param privileges
@@ -692,12 +601,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     }
 
     @Override
-    public void deleteTenantMeta(String adminSchemaName, int tenantId) {
-        DeleteTenantDAO dao = new DeleteTenantDAO(adminSchemaName, tenantId);
-        runStatement(dao);
-    }
-
-    @Override
     public void dropIndex(String schemaName, String indexName) {
         // Create the qualified name, making sure the input is also secure
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, indexName);
@@ -741,14 +644,6 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         ddl.append(" ADD COLUMN ");
         ddl.append(col);
         runStatement(ddl.toString());
-
-        // required for Db2
-        reorgTable(schemaName, tableName);
-    }
-
-    @Override
-    public void reorgTable(String schemaName, String tableName) {
-        // NOP, unless overridden by a subclass (Db2Adapter, for example)
     }
 
     @Override

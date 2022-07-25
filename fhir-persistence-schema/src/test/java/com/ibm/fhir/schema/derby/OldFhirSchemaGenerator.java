@@ -17,12 +17,10 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_REF_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.LATITUDE_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.LONGITUDE_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
@@ -61,8 +59,6 @@ import com.ibm.fhir.database.utils.model.NopObject;
 import com.ibm.fhir.database.utils.model.ObjectGroup;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Privilege;
-import com.ibm.fhir.database.utils.model.RowArrayType;
-import com.ibm.fhir.database.utils.model.RowTypeBuilder;
 import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
@@ -343,7 +339,6 @@ public class OldFhirSchemaGenerator {
         final String tableName = LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
@@ -374,7 +369,6 @@ public class OldFhirSchemaGenerator {
 
         // logical_resources (0|1) ---- (*) token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addIntColumn(        CODE_SYSTEM_ID,      false)
                 .addVarcharColumn(       TOKEN_VALUE, tvb,  true)
@@ -407,7 +401,6 @@ public class OldFhirSchemaGenerator {
         final int msb = MAX_SEARCH_STRING_BYTES;
 
         Table tbl = Table.builder(schemaName, STR_VALUES)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(         STR_VALUE, msb,  true)
                 .addVarcharColumn(   STR_VALUE_LCASE, msb,  true)
@@ -440,7 +433,6 @@ public class OldFhirSchemaGenerator {
         final String logicalResourcesTable = LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addTimestampColumn(      DATE_VALUE_DROPPED_COLUMN,6,    true)
                 .addTimestampColumn(      DATE_START,6,    true)
@@ -483,7 +475,6 @@ public class OldFhirSchemaGenerator {
     protected void addResourceTypes(PhysicalDataModel model) {
 
         resourceTypesTable = Table.builder(schemaName, RESOURCE_TYPES)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(    RESOURCE_TYPE_ID,      false)
                 .addVarcharColumn(   RESOURCE_TYPE,  64, false)
                 .addUniqueIndex(IDX + "unq_resource_types_rt", RESOURCE_TYPE)
@@ -556,7 +547,6 @@ public class OldFhirSchemaGenerator {
         String[] prfIncludeCols = {PARAMETER_NAME_ID};
 
         parameterNamesTable = Table.builder(schemaName, PARAMETER_NAMES)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,              false)
                 .addVarcharColumn(    PARAMETER_NAME,         255, false)
                 .addUniqueIndex(IDX + "PARAMETER_NAME_RTNM", Arrays.asList(prfIndexCols), Arrays.asList(prfIncludeCols))
@@ -587,7 +577,6 @@ public class OldFhirSchemaGenerator {
     protected void addCodeSystems(PhysicalDataModel model) {
 
         codeSystemsTable = Table.builder(schemaName, CODE_SYSTEMS)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(      CODE_SYSTEM_ID,         false)
                 .addVarcharColumn(CODE_SYSTEM_NAME,    255, false)
                 .addUniqueIndex(IDX + "CODE_SYSTEM_CINM", CODE_SYSTEM_NAME)
@@ -661,41 +650,6 @@ public class OldFhirSchemaGenerator {
     }
 
     /**
-     *<pre>
-    t_latlng_values AS ROW ( parameter_name_id      INT, latitude_value      DOUBLE, longitude_value     DOUBLE)';
-    t_latlng_values_arr AS ' || CURRENT SCHEMA || '.t_latlng_values ARRAY[256]';
-    </pre>
-     * @param pdm
-     * @param dob
-     */
-    protected IDatabaseObject addLatLngValuesTypes(PhysicalDataModel pdm, IDatabaseObject dob) {
-
-        // Add the row type first
-        RowTypeBuilder strValuesBuilder = new RowTypeBuilder();
-        strValuesBuilder
-            .setSchemaName(this.schemaName)
-            .setTypeName("t_latlng_values")
-            .addBigIntColumn(PARAMETER_NAME_ID, false)
-            .addDoubleColumn(LATITUDE_VALUE, false)
-            .addDoubleColumn(LONGITUDE_VALUE, false);
-
-        IDatabaseObject rt = strValuesBuilder.build();
-        rt.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rt.addDependencies(Arrays.asList(dob));
-        procedureDependencies.add(rt);
-        pdm.addObject(rt);
-
-        // Followed by the corresponding array type
-        IDatabaseObject rat = new RowArrayType(schemaName, "t_latlng_values_arr", FhirSchemaVersion.V0001.vid(), "t_latlng_values", ARRAY_SIZE);
-        rat.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-        rat.addDependencies(Arrays.asList(rt));
-        procedureDependencies.add(rat);
-        pdm.addObject(rat);
-
-        return rat;
-    }
-
-    /**
      * Visitor for the resource types
      * @param consumer
      */
@@ -704,5 +658,4 @@ public class OldFhirSchemaGenerator {
             consumer.accept(resourceType);
         }
     }
-
 }

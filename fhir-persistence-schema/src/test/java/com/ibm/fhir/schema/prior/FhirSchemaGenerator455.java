@@ -400,7 +400,6 @@ public class FhirSchemaGenerator455 {
         final String IDX_LOGICAL_RESOURCES_RITS = "IDX_" + LOGICAL_RESOURCES + "_RITS";
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
@@ -427,9 +426,8 @@ public class FhirSchemaGenerator455 {
 
                         // Add the new index on REINDEX_TSTAMP. This index is special because it's the
                         // first index in our schema to use DESC.
-                        final String mtId = this.multitenant ? MT_ID : null;
                         List<OrderedColumnDef> indexCols = Arrays.asList(new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null));
-                        statements.add(new CreateIndexStatement(schemaName, IDX_LOGICAL_RESOURCES_RITS, tableName, mtId, indexCols));
+                        statements.add(new CreateIndexStatement(schemaName, IDX_LOGICAL_RESOURCES_RITS, tableName, indexCols));
                     }
                     return statements;
                 })
@@ -455,7 +453,6 @@ public class FhirSchemaGenerator455 {
 
         // logical_resources (0|1) ---- (*) token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addIntColumn(        CODE_SYSTEM_ID,      false)
                 .addVarcharColumn(       TOKEN_VALUE, tvb,  true)
@@ -497,7 +494,6 @@ public class FhirSchemaGenerator455 {
         // a given patient (for example).
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0006.vid())
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(     COMPARTMENT_NAME_ID,      false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
                 .addTimestampColumn(LAST_UPDATED, false)
@@ -530,7 +526,6 @@ public class FhirSchemaGenerator455 {
         final int msb = MAX_SEARCH_STRING_BYTES;
 
         Table tbl = Table.builder(schemaName, STR_VALUES)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(         STR_VALUE, msb,  true)
                 .addVarcharColumn(   STR_VALUE_LCASE, msb,  true)
@@ -564,7 +559,6 @@ public class FhirSchemaGenerator455 {
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(2)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addTimestampColumn(      DATE_START,6,    true)
                 .addTimestampColumn(        DATE_END,6,    true)
@@ -613,7 +607,6 @@ public class FhirSchemaGenerator455 {
     protected void addResourceTypes(PhysicalDataModel model) {
 
         resourceTypesTable = Table.builder(schemaName, RESOURCE_TYPES)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(    RESOURCE_TYPE_ID,      false)
                 .addVarcharColumn(   RESOURCE_TYPE,  64, false)
                 .addUniqueIndex(IDX + "unq_resource_types_rt", RESOURCE_TYPE)
@@ -672,7 +665,6 @@ public class FhirSchemaGenerator455 {
         String[] prfIncludeCols = {PARAMETER_NAME_ID};
 
         parameterNamesTable = Table.builder(schemaName, PARAMETER_NAMES)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,              false)
                 .addVarcharColumn(    PARAMETER_NAME,         255, false)
                 .addUniqueIndex(IDX + "PARAMETER_NAME_RTNM", Arrays.asList(prfIndexCols), Arrays.asList(prfIncludeCols))
@@ -703,7 +695,6 @@ public class FhirSchemaGenerator455 {
     protected void addCodeSystems(PhysicalDataModel model) {
 
         codeSystemsTable = Table.builder(schemaName, CODE_SYSTEMS)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(      CODE_SYSTEM_ID,         false)
                 .addVarcharColumn(CODE_SYSTEM_NAME,    255, false)
                 .addUniqueIndex(IDX + "CODE_SYSTEM_CINM", CODE_SYSTEM_NAME)
@@ -748,7 +739,6 @@ public class FhirSchemaGenerator455 {
         final String tableName = COMMON_TOKEN_VALUES;
         commonTokenValuesTable = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0006.vid())
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(     COMMON_TOKEN_VALUE_ID,                          false)
                 .setIdentityColumn(   COMMON_TOKEN_VALUE_ID, Generated.ALWAYS)
                 .addIntColumn(               CODE_SYSTEM_ID,                          false)
@@ -782,7 +772,6 @@ public class FhirSchemaGenerator455 {
         // logical_resources (0|1) ---- (*) resource_token_refs
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0006.vid())
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true) // support for null token value entries
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)

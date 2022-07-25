@@ -14,14 +14,12 @@ import com.ibm.fhir.database.utils.api.DistributionType;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.ISchemaAdapter;
-import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.model.CheckConstraint;
 import com.ibm.fhir.database.utils.model.ColumnBase;
 import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
-import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.With;
 
 
@@ -60,19 +58,9 @@ public class PlainSchemaAdapter implements ISchemaAdapter {
     }
 
     @Override
-    public void detachPartition(String schemaName, String tableName, String partitionName, String newTableName) {
-        databaseAdapter.detachPartition(schemaName, tableName, partitionName, newTableName);
-    }
-
-    @Override
-    public boolean useSessionVariable() {
-        return databaseAdapter.useSessionVariable();
-    }
-
-    @Override
-    public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey, IdentityDef identity,
+    public void createTable(String schemaName, String name, List<ColumnBase> columns, PrimaryKeyDef primaryKey, IdentityDef identity,
         String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints, DistributionType distributionType, String distributionColumnName) {
-        databaseAdapter.createTable(schemaName, name, tenantColumnName, columns, primaryKey, identity, tablespaceName, withs, checkConstraints, null);
+        databaseAdapter.createTable(schemaName, name, columns, primaryKey, identity, tablespaceName, withs, checkConstraints, null);
     }
 
     @Override
@@ -86,26 +74,6 @@ public class PlainSchemaAdapter implements ISchemaAdapter {
     }
 
     @Override
-    public void reorgTable(String schemaName, String tableName) {
-        databaseAdapter.reorgTable(schemaName, tableName);
-    }
-
-    @Override
-    public void createRowType(String schemaName, String typeName, List<ColumnBase> columns) {
-        databaseAdapter.createRowType(schemaName, typeName, columns);
-    }
-
-    @Override
-    public void createArrType(String schemaName, String typeName, String valueType, int arraySize) {
-        databaseAdapter.createArrType(schemaName, typeName, valueType, arraySize);
-    }
-
-    @Override
-    public void dropType(String schemaName, String typeName) {
-        databaseAdapter.dropType(schemaName, typeName);
-    }
-
-    @Override
     public void createOrReplaceProcedure(String schemaName, String procedureName, Supplier<String> supplier) {
         databaseAdapter.createOrReplaceProcedure(schemaName, procedureName, supplier);
     }
@@ -116,45 +84,20 @@ public class PlainSchemaAdapter implements ISchemaAdapter {
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns,
         List<String> includeColumns, DistributionType distributionType, String distributionColumnName) {
-        databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns, null);
+        databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns, null);
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns,
         DistributionType distributionType, String distributionColumnName) {
-        databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, null);
+        databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, indexColumns, null);
     }
 
     @Override
-    public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns, DistributionType distributionType) {
-        databaseAdapter.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
-    }
-
-    @Override
-    public void createIntVariable(String schemaName, String variableName) {
-        databaseAdapter.createIntVariable(schemaName, variableName);
-    }
-
-    @Override
-    public void createOrReplacePermission(String schemaName, String permissionName, String tableName, String predicate) {
-        databaseAdapter.createOrReplacePermission(schemaName, permissionName, tableName, predicate);
-    }
-
-    @Override
-    public void activateRowAccessControl(String schemaName, String tableName) {
-        databaseAdapter.activateRowAccessControl(schemaName, tableName);
-    }
-
-    @Override
-    public void deactivateRowAccessControl(String schemaName, String tableName) {
-        databaseAdapter.deactivateRowAccessControl(schemaName, tableName);
-    }
-
-    @Override
-    public void setIntVariable(String schemaName, String variableName, int value) {
-        databaseAdapter.setIntVariable(schemaName, variableName, value);
+    public void createIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns, DistributionType distributionType) {
+        databaseAdapter.createIndex(schemaName, tableName, indexName, indexColumns);
     }
 
     @Override
@@ -163,59 +106,9 @@ public class PlainSchemaAdapter implements ISchemaAdapter {
     }
 
     @Override
-    public void dropPermission(String schemaName, String permissionName) {
-        databaseAdapter.dropPermission(schemaName, permissionName);
-    }
-
-    @Override
-    public void dropVariable(String schemaName, String variableName) {
-        databaseAdapter.dropVariable(schemaName, variableName);
-    }
-
-    @Override
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema, String targetTable,
-        String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced, DistributionType distributionType, boolean targetIsReference) {
-        databaseAdapter.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, tenantColumnName, columns, enforced);
-    }
-
-    @Override
-    public int allocateTenant(String adminSchemaName, String schemaName, String tenantName, String tenantKey, String tenantSalt, String idSequenceName) {
-        return databaseAdapter.allocateTenant(adminSchemaName, schemaName, tenantName, tenantKey, tenantSalt, idSequenceName);
-    }
-
-    @Override
-    public void deleteTenantMeta(String adminSchemaName, int tenantId) {
-        databaseAdapter.deleteTenantMeta(adminSchemaName, tenantId);
-    }
-
-    @Override
-    public int findTenantId(String adminSchemaName, String tenantName) {
-        return databaseAdapter.findTenantId(adminSchemaName, tenantName);
-    }
-
-    @Override
-    public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId, int extentSizeKB) {
-        databaseAdapter.createTenantPartitions(tables, schemaName, newTenantId, extentSizeKB);
-    }
-
-    @Override
-    public void addNewTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId) {
-        databaseAdapter.addNewTenantPartitions(tables, schemaName, newTenantId);
-    }
-
-    @Override
-    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId) {
-        databaseAdapter.removeTenantPartitions(tables, schemaName, tenantId);
-    }
-
-    @Override
-    public void dropDetachedPartitions(Collection<Table> tables, String schemaName, int tenantId) {
-        databaseAdapter.dropDetachedPartitions(tables, schemaName, tenantId);
-    }
-
-    @Override
-    public void updateTenantStatus(String adminSchemaName, int tenantId, TenantStatus status) {
-        databaseAdapter.updateTenantStatus(adminSchemaName, tenantId, status);
+        String targetColumnName, List<String> columns, boolean enforced, DistributionType distributionType, boolean targetIsReference) {
+        databaseAdapter.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, columns, enforced);
     }
 
     @Override
@@ -302,11 +195,6 @@ public class PlainSchemaAdapter implements ISchemaAdapter {
     @Override
     public void grantFunctionPrivileges(String schemaName, String functionName, Collection<Privilege> privileges, String toUser) {
         databaseAdapter.grantFunctionPrivileges(schemaName, functionName, privileges, toUser);
-    }
-
-    @Override
-    public void dropTenantTablespace(int tenantId) {
-        databaseAdapter.dropTenantTablespace(tenantId);
     }
 
     @Override

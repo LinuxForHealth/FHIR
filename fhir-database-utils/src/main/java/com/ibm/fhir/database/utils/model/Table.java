@@ -43,9 +43,6 @@ public class Table extends BaseObject {
 
     private final Tablespace tablespace;
 
-    // The column to use when making this table multi-tenant (if supported by the the target)
-    private final String tenantColumnName;
-
     // The rules to distribute the table in a distributed RDBMS implementation (Citus)
     private final DistributionType distributionType;
 
@@ -66,7 +63,6 @@ public class Table extends BaseObject {
      * @param schemaName
      * @param name
      * @param version
-     * @param tenantColumnName
      * @param columns
      * @param pk
      * @param identity
@@ -84,14 +80,13 @@ public class Table extends BaseObject {
      * @param distributionColumnName
      * @param create
      */
-    public Table(String schemaName, String name, int version, String tenantColumnName, 
+    public Table(String schemaName, String name, int version, 
             Collection<ColumnBase> columns, PrimaryKeyDef pk,
             IdentityDef identity, Collection<IndexDef> indexes, Collection<ForeignKeyConstraint> fkConstraints,
             Tablespace tablespace, List<IDatabaseObject> dependencies, Map<String,String> tags,
             Collection<GroupPrivilege> privileges, List<Migration> migrations, List<With> withs, List<CheckConstraint> checkConstraints,
             DistributionType distributionType, String distributionColumnName, boolean create) {
         super(schemaName, name, DatabaseObjectType.TABLE, version, migrations);
-        this.tenantColumnName = tenantColumnName;
         this.columns.addAll(columns);
         this.primaryKey = pk;
         this.identity = identity;
@@ -129,14 +124,6 @@ public class Table extends BaseObject {
     }
 
     /**
-     * Getter for the optional tenant id column name
-     * @return
-     */
-    public String getTenantColumnName() {
-        return this.tenantColumnName;
-    }
-
-    /**
      * Getter for the create flag
      * @return
      */
@@ -160,19 +147,19 @@ public class Table extends BaseObject {
         }
 
         final String tsName = this.tablespace == null ? null : this.tablespace.getName();
-        target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, 
+        target.createTable(getSchemaName(), getObjectName(), this.columns, 
             this.primaryKey, this.identity, tsName, this.withs, this.checkConstraints,
             this.distributionType, this.distributionColumnName);
 
         // Now add any indexes associated with this table
         for (IndexDef idx: this.indexes) {
-            idx.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target, this.distributionType, this.distributionColumnName);
+            idx.apply(getSchemaName(), getObjectName(), target, this.distributionType, this.distributionColumnName);
         }
 
         if (context.isIncludeForeignKeys()) {
             // Foreign key constraints
             for (ForeignKeyConstraint fkc: this.fkConstraints) {
-                fkc.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target, this.distributionType);
+                fkc.apply(getSchemaName(), getObjectName(), target, this.distributionType);
             }
         }
     }
@@ -827,7 +814,7 @@ public class Table extends BaseObject {
 
             // Our schema objects are immutable by design, so all initialization takes place
             // through the constructor
-            return new Table(getSchemaName(), getObjectName(), this.version, this.tenantColumnName, buildColumns(), this.primaryKey, this.identity, this.indexes.values(),
+            return new Table(getSchemaName(), getObjectName(), this.version, buildColumns(), this.primaryKey, this.identity, this.indexes.values(),
                     enabledFKConstraints, this.tablespace, allDependencies, tags, privileges, migrations, withs, checkConstraints, distributionType,
                     distributionColumnName, create);
         }
@@ -918,15 +905,6 @@ public class Table extends BaseObject {
          */
         public Builder addPrivileges(Collection<GroupPrivilege> gps) {
             this.privileges.addAll(gps);
-            return this;
-        }
-
-        /**
-         * Setter to configure this table for multitenancy when supported by the target database type
-         * @return
-         */
-        public Builder setTenantColumnName(String name) {
-            this.tenantColumnName = name;
             return this;
         }
 

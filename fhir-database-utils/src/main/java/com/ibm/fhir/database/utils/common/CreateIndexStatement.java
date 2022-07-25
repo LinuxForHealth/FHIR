@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,6 @@ public class CreateIndexStatement implements IDatabaseStatement {
     private final String schemaName;
     private final String indexName;
     private final String tableName;
-    private final String tenantColumnName;
     private final List<OrderedColumnDef> columns;
     private final boolean unique;
 
@@ -37,18 +36,14 @@ public class CreateIndexStatement implements IDatabaseStatement {
      * @param tenantColumnName
      * @param columns
      */
-    public CreateIndexStatement(String schemaName, String indexName, String tableName, String tenantColumnName, List<OrderedColumnDef> columns) {
+    public CreateIndexStatement(String schemaName, String indexName, String tableName, List<OrderedColumnDef> columns) {
         DataDefinitionUtil.assertValidName(schemaName);
         DataDefinitionUtil.assertValidName(indexName);
         DataDefinitionUtil.assertValidName(tableName);
-        if (tenantColumnName != null) {
-            DataDefinitionUtil.assertValidName(tenantColumnName);
-        }
 
         this.schemaName = schemaName;
         this.indexName = indexName;
         this.tableName = tableName;
-        this.tenantColumnName = tenantColumnName;
         this.columns = new ArrayList<>(columns);
         this.unique = false;
     }
@@ -62,18 +57,14 @@ public class CreateIndexStatement implements IDatabaseStatement {
      * @param columns
      * @param unique
      */
-    public CreateIndexStatement(String schemaName, String indexName, String tableName, String tenantColumnName, List<OrderedColumnDef> columns, boolean unique) {
+    public CreateIndexStatement(String schemaName, String indexName, String tableName, List<OrderedColumnDef> columns, boolean unique) {
         DataDefinitionUtil.assertValidName(schemaName);
         DataDefinitionUtil.assertValidName(indexName);
         DataDefinitionUtil.assertValidName(tableName);
-        if (tenantColumnName != null) {
-            DataDefinitionUtil.assertValidName(tenantColumnName);
-        }
 
         this.schemaName = schemaName;
         this.indexName = indexName;
         this.tableName = tableName;
-        this.tenantColumnName = tenantColumnName;
         this.columns = new ArrayList<>(columns);
         this.unique = unique;
     }
@@ -81,20 +72,11 @@ public class CreateIndexStatement implements IDatabaseStatement {
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
 
-        List<OrderedColumnDef> cols;
-        if (this.tenantColumnName == null) {
-            cols = this.columns;
-        } else {
-            // prepend the column list with the tenant column
-            cols = new ArrayList<>(this.columns.size() + 1);
-            cols.add(new OrderedColumnDef(tenantColumnName, null, null));
-            cols.addAll(this.columns);
-        }
         final String ddl;
         if (this.unique) {
-            ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, cols, translator.isIndexUseSchemaPrefix());
+            ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, this.columns, translator.isIndexUseSchemaPrefix());
         } else {
-            ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, cols, translator.isIndexUseSchemaPrefix());
+            ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, this.columns, translator.isIndexUseSchemaPrefix());
         }
 
         try (Statement s = c.createStatement()) {

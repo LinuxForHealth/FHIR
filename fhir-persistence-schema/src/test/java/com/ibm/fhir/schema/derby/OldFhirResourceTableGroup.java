@@ -32,7 +32,6 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LONGITUDE_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
@@ -171,7 +170,6 @@ public class OldFhirResourceTableGroup {
         // We also have a FK constraint pointing back to that table to try and keep
         // things sensible.
         Table tbl = Table.builder(schemaName, tableName)
-                .setTenantColumnName(MT_ID)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
@@ -227,7 +225,6 @@ public class OldFhirResourceTableGroup {
         final String tableName = prefix + _RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setTenantColumnName(MT_ID)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(        RESOURCE_ID,              false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,              false)
@@ -275,7 +272,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // Parameters are tied to the logical resource
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(         STR_VALUE, msb,  true)
@@ -323,7 +319,6 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addIntColumn(        CODE_SYSTEM_ID,      false)
@@ -374,7 +369,6 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addTimestampColumn(      DATE_VALUE_DROPPED_COLUMN,      true)
@@ -425,7 +419,6 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(       NUMBER_VALUE,       true)
@@ -470,7 +463,6 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(     LATITUDE_VALUE,       true)
@@ -527,7 +519,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(              CODE, 255, false)
@@ -593,7 +584,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         // Parameters are tied to the logical resource
         Table.Builder tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID, false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false);
 
@@ -642,7 +632,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, LIST_LOGICAL_RESOURCE_ITEMS)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn( LOGICAL_RESOURCE_ID,      false)
                 .addIntColumn(       RESOURCE_TYPE_ID,      false)
                 .addVarcharColumn(    ITEM_LOGICAL_ID, lib,  true)
@@ -672,7 +661,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, PATIENT_CURRENT_REFS)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(         LOGICAL_RESOURCE_ID,      false)
                 .addVarcharColumn(      CURRENT_PROBLEMS_LIST, lib,  true)
                 .addVarcharColumn(   CURRENT_MEDICATIONS_LIST, lib,  true)

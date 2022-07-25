@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -124,26 +123,6 @@ public class MigrateV0021AbstractTypeRemoval implements IDatabaseStatement {
             LOG.info("VersionHistoryService: removed =[" + vhsChanged + "]");
         } catch (SQLException x) {
             throw translator.translate(x);
-        }
-    }
-
-    /**
-     * checks the data tables on all partitions
-     * @param translator
-     * @param c
-     */
-    private void checkDataInAllPartitionedTenantTables(IDatabaseTranslator translator, Connection c) {
-        GetTenantList list = new GetTenantList(adminSchemaName);
-        List<TenantInfo> tenants = list.run(translator, c);
-
-        for (TenantInfo tenant : tenants) {
-            final String stmtVariable = String.format("SET %s.SV_TENANT_ID = %d", adminSchemaName, tenant.getTenantId());
-            try (Statement s = c.createStatement();) {
-                s.execute(stmtVariable);
-            } catch (SQLException x) {
-                throw translator.translate(x);
-            }
-            checkDataTables(translator, c);
         }
     }
 

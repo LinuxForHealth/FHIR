@@ -39,7 +39,6 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_I
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_IDENT;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LONGITUDE_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE_HIGH;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE_LOW;
@@ -111,9 +110,6 @@ public class FhirResourceTableGroup {
     // The schema we place all of our tables into
     private final String schemaName;
 
-    // Build the multitenant variant of the schema
-    private final boolean multitenant;
-
     // All the tables created by this component
     @SuppressWarnings("unused")
     private final Set<IDatabaseObject> procedureDependencies;
@@ -133,12 +129,11 @@ public class FhirResourceTableGroup {
     /**
      * Public constructor
      */
-    public FhirResourceTableGroup(PhysicalDataModel model, String schemaName, boolean multitenant,
-            Set<IDatabaseObject> procedureDependencies, Tablespace fhirTablespace, Collection<GroupPrivilege> privileges,
-            List<With> withs) {
+    public FhirResourceTableGroup(PhysicalDataModel model, String schemaName, 
+            Set<IDatabaseObject> procedureDependencies, Tablespace fhirTablespace, 
+            Collection<GroupPrivilege> privileges, List<With> withs) {
         this.model = model;
         this.schemaName = schemaName;
-        this.multitenant = multitenant;
         this.procedureDependencies = procedureDependencies;
         this.fhirTablespace = fhirTablespace;
         this.resourceTablePrivileges = privileges;
@@ -203,7 +198,6 @@ public class FhirResourceTableGroup {
         // things sensible.
         Table.Builder builder = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
@@ -334,7 +328,6 @@ public class FhirResourceTableGroup {
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(          RESOURCE_ID,                     false)
@@ -371,7 +364,6 @@ public class FhirResourceTableGroup {
         // Issue 1331. LAST_UPDATED should be indexed now that we're using it
         // in search queries
         CreateIndex idxLastUpdated = CreateIndex.builder()
-                .setTenantColumnName(MT_ID)
                 .setSchemaName(schemaName)
                 .setTableName(tableName)
                 .setVersionTrackingName(tableName) // cover up a defect in how we name this index in VERSION_HISTORY
@@ -418,7 +410,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 // .addBigIntColumn(             ROW_ID,      false) // Removed by issue-1683 - composites refactor
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -502,7 +493,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0028.vid()) // V0028: ref_version_id removed because refs are now stored in xx_ref_values
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
@@ -525,14 +515,13 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_TVLR"));
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_LRTV"));
 
-                        final String mtId = multitenant ? MT_ID : null;
                         // Replace the original TVLR index on (common_token_value_id, parameter_name_id, logical_resource_id)
                         List<OrderedColumnDef> tplr = Arrays.asList(
                             new OrderedColumnDef(COMMON_TOKEN_VALUE_ID, OrderedColumnDef.Direction.ASC, null),
                             new OrderedColumnDef(PARAMETER_NAME_ID, OrderedColumnDef.Direction.ASC, null),
                             new OrderedColumnDef(LOGICAL_RESOURCE_ID, OrderedColumnDef.Direction.ASC, null)
                             );
-                        statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_TPLR", tableName, mtId, tplr));
+                        statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_TPLR", tableName, tplr));
 
                         // Replace the original LRTV index with a new index on (logical_resource_id, parameter_name_id, common_token_value_id)
                         List<OrderedColumnDef> lrpt = Arrays.asList(
@@ -540,7 +529,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                             new OrderedColumnDef(PARAMETER_NAME_ID, OrderedColumnDef.Direction.ASC, null),
                             new OrderedColumnDef(COMMON_TOKEN_VALUE_ID, OrderedColumnDef.Direction.ASC, null)
                             );
-                        statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_LRPT", tableName, mtId, lrpt));
+                        statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_LRPT", tableName, lrpt));
                     }
 
                     if (priorVersion < FhirSchemaVersion.V0009.vid()) {
@@ -587,7 +576,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // logical_resources (1) ---- (*) patient_ref_values (*) ---- (0|1) logical_resource_ident
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0028.vid()) // V0028: tweak vacuum and fillfactor
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addIntColumn(           PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(      LOGICAL_RESOURCE_ID,    false)
@@ -633,7 +621,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // logical_resources (1) ---- (*) patient_profiles (*) ---- (0|1) common_canonical_values
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addBigIntColumn(          CANONICAL_ID,    false)
                 .addBigIntColumn(   LOGICAL_RESOURCE_ID,    false)
@@ -681,7 +668,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // logical_resources (1) ---- (*) patient_tags (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)
@@ -724,7 +710,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // logical_resources (1) ---- (*) patient_security (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)
@@ -775,22 +760,10 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // for reference strings is actually the resource type of the reference - this is useful
         // for building chained reference queries, and is well worth the minor cost of an extra join
         StringBuilder select = new StringBuilder();
-        if (this.multitenant) {
-            // Make sure we include MT_ID in both the select list and join condition. It's needed
-            // in the join condition to give the optimizer the best chance at finding a good nested
-            // loop strategy
-            select.append("SELECT ref.").append(MT_ID);
-            select.append(", ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.common_token_value_id, ref." + COMPOSITE_ID);
-            select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
-            select.append(resourceTokenRefs.getName()).append(" AS ref ");
-            select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
-            select.append("   AND ctv.").append(MT_ID).append(" = ").append("ref.").append(MT_ID);
-        } else {
-            select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.common_token_value_id, ref." + COMPOSITE_ID);
-            select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
-            select.append(resourceTokenRefs.getName()).append(" AS ref ");
-            select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
-        }
+        select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.common_token_value_id, ref." + COMPOSITE_ID);
+        select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
+        select.append(resourceTokenRefs.getName()).append(" AS ref ");
+        select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
 
         View view = View.builder(schemaName, viewName)
                 .setVersion(FhirSchemaVersion.V0028.vid())
@@ -819,26 +792,12 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         IDatabaseObject refValues = model.findTable(schemaName, prefix + "_" + REF_VALUES);
 
         StringBuilder select = new StringBuilder();
-        if (this.multitenant) {
-            // Make sure we include MT_ID in both the select list and join condition. It's needed
-            // in the join condition to give the optimizer the best chance at finding a good nested
-            // loop strategy
-            select.append("SELECT ref.").append(MT_ID).append(", ");
-            select.append("       ref.parameter_name_id, lri.resource_type_id, lri.logical_id, ref.logical_resource_id, ");
-            select.append("       ref.ref_version_id, ref.ref_logical_resource_id, ref.composite_id, ");
-            select.append("       lri.logical_id AS ref_value ");
-            select.append("  FROM ").append(logicalResourceIdent.getName()).append(" AS lri, ");
-            select.append(refValues.getName()).append(" AS ref ");
-            select.append(" WHERE lri.logical_resource_id = ref.ref_logical_resource_id ");
-            select.append("   AND lri.").append(MT_ID).append(" = ").append("ref.").append(MT_ID);
-        } else {
-            select.append("SELECT ref.parameter_name_id, lri.resource_type_id, lri.logical_id, ref.logical_resource_id, ");
-            select.append("       ref.ref_version_id, ref.ref_logical_resource_id, ref.composite_id, ");
-            select.append("       lri.logical_id AS ref_value ");
-            select.append("  FROM ").append(logicalResourceIdent.getName()).append(" AS lri, ");
-            select.append(refValues.getName()).append(" AS ref ");
-            select.append(" WHERE lri.logical_resource_id = ref.ref_logical_resource_id ");
-        }
+        select.append("SELECT ref.parameter_name_id, lri.resource_type_id, lri.logical_id, ref.logical_resource_id, ");
+        select.append("       ref.ref_version_id, ref.ref_logical_resource_id, ref.composite_id, ");
+        select.append("       lri.logical_id AS ref_value ");
+        select.append("  FROM ").append(logicalResourceIdent.getName()).append(" AS lri, ");
+        select.append(refValues.getName()).append(" AS ref ");
+        select.append(" WHERE lri.logical_resource_id = ref.ref_logical_resource_id ");
 
         View view = View.builder(schemaName, viewName)
                 .setVersion(FhirSchemaVersion.V0027.vid())
@@ -877,7 +836,6 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -943,7 +901,6 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -1016,7 +973,6 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -1088,7 +1044,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -1146,7 +1101,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, LIST_LOGICAL_RESOURCE_ITEMS)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn( LOGICAL_RESOURCE_ID,      false)
@@ -1189,7 +1143,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, PATIENT_CURRENT_REFS)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
-                .setTenantColumnName(MT_ID)
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(         LOGICAL_RESOURCE_ID,      false)

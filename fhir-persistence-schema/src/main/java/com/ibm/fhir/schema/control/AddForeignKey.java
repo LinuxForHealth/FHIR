@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,20 +23,18 @@ public class AddForeignKey extends DataModelVisitorBase {
 
     // The database adapter used to issue changes to the database
     private final ISchemaAdapter adapter;
-    private final String tenantColumnName;
     /**
      * Public constructor
      * @param adapter
      */
-    public AddForeignKey(ISchemaAdapter adapter, String tenantColumnName) {
+    public AddForeignKey(ISchemaAdapter adapter) {
         this.adapter = adapter;
-        this.tenantColumnName = tenantColumnName;
     }
 
     @Override
     public void visited(Table fromChildTable, ForeignKeyConstraint fk) {
         // Enable (add) the FK constraint
         logger.info(String.format("Adding foreign key: %s.%s[%s]", fromChildTable.getSchemaName(), fromChildTable.getObjectName(), fk.getConstraintName()));
-        fk.apply(fromChildTable.getSchemaName(), fromChildTable.getObjectName(), this.tenantColumnName, adapter, fromChildTable.getDistributionType());
+        fk.apply(fromChildTable.getSchemaName(), fromChildTable.getObjectName(), adapter, fromChildTable.getDistributionType());
     }
 }

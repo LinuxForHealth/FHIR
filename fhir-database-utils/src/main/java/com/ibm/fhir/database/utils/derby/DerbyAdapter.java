@@ -7,7 +7,6 @@
 package com.ibm.fhir.database.utils.derby;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,7 +32,6 @@ import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
-import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.With;
 
 /**
@@ -79,58 +77,20 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
+    public void createTable(String schemaName, String name, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
             IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
             DistributionContext distributionContext) {
-        // Derby doesn't support partitioning, so we ignore tenantColumnName
-        if (tenantColumnName != null) {
-            warnOnce(MessageKey.MULTITENANCY, "Derby does not support multi-tenancy on: [" + name + "]");
-        }
-
-        // We also ignore tablespace for Derby
+        // We ignore tablespace for Derby
         String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, identity, null, With.EMPTY, checkConstraints);
         runStatement(ddl);
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns,
             List<String> includeColumns, DistributionContext distributionContext) {
 
         // Derby doesn't support include columns, so we just have to create a normal index
-        createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionContext);
-    }
-
-    @Override
-    public void createIntVariable(String schemaName, String variableName) {
-        warnOnce(MessageKey.CREATE_VAR, "Derby does not support CREATE VARIABLE for: " + variableName);
-    }
-
-    @Override
-    public void createOrReplacePermission(String schemaName, String permissionName, String tableName, String predicate) {
-        warnOnce(MessageKey.CREATE_PERM, "Derby does not support CREATE PERMISSION for: " + permissionName);
-    }
-
-    @Override
-    public void activateRowAccessControl(String schemaName, String tableName) {
-        warnOnce(MessageKey.ENABLE_ROW_ACCESS, "Derby does not support ROW ACCESS CONTROL for table: " + tableName);
-    }
-
-    @Override
-    public void setIntVariable(String schemaName, String variableName, int value) {
-        // As this is a runtime issue, we throw as an exception instead of
-        // simply logging a warning. This shouldn't be called in the case
-        // of a Derby database
-        throw new IllegalStateException("setIntVariable not supported on Derby for: " + variableName);
-    }
-
-    @Override
-    public void deactivateRowAccessControl(String schemaName, String tableName) {
-        warnOnce(MessageKey.DISABLE_ROW_ACCESS, "Derby does not support ROW ACCESS CONTROL for table: " + tableName);
-    }
-
-    @Override
-    public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId, int extentSizeKB) {
-        warnOnce(MessageKey.PARTITIONING, "Derby does not support tenant partitioning");
+        createUniqueIndex(schemaName, tableName, indexName, indexColumns, distributionContext);
     }
 
     @Override
@@ -190,16 +150,6 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
                 logger.warning(ddl + "; TABLE not found");
             }
         }
-    }
-
-    @Override
-    public void detachPartition(String schemaName, String tableName, String partitionName, String newTableName) {
-        warnOnce(MessageKey.PARTITIONING, "Detach partition not supported in Derby");
-    }
-
-    @Override
-    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId) {
-        warnOnce(MessageKey.PARTITIONING, "Remove tenant partitions not supported in Derby");
     }
 
     @Override
@@ -301,11 +251,10 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
-        String targetTable, String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced) {
+        String targetTable, String targetColumnName, List<String> columns, boolean enforced) {
         // If enforced=false, skip the constraint because Derby doesn't support unenforced constraints
         if (enforced) {
-            // Make the call, but without the tenantColumnName because Derby doesn't support our multi-tenant implementation
-            super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, null, columns, true);
+            super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, columns, true);
         }
     }
 
@@ -331,7 +280,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
             for (ForeignKeyConstraint constraint : afk.getConstraints()) {
                 createForeignKeyConstraint(constraint.getConstraintName(), afk.getSchemaName(), afk.getTableName(),
                     constraint.getTargetSchema(), constraint.getTargetTable(), constraint.getTargetColumnName(),
-                    afk.getTenantColumnName(), constraint.getColumns(), constraint.isEnforced());
+                    constraint.getColumns(), constraint.isEnforced());
             }
         } else {
             super.runStatement(stmt);
@@ -354,16 +303,6 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         } catch (DuplicateNameException | DuplicateSchemaException e) {
             logger.log(Level.WARNING, "The schema '" + schemaName + "' already exists; proceed with caution.");
         }
-    }
-
-    @Override
-    public void dropDetachedPartitions(Collection<Table> tables, String schemaName, int tenantId) {
-        warnOnce(MessageKey.PARTITIONING, "Partitioning not supported in Derby");
-    }
-
-    @Override
-    public void dropTenantTablespace(int tenantId) {
-        logger.fine("Drop tablespace not supported in Derby");
     }
 
     @Override
