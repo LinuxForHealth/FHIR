@@ -517,6 +517,7 @@ public class Main {
                 boolean isNewDb = updateSchema(pdm, getDataSchemaType());
 
                 if (this.exitStatus == EXIT_OK) {
+                    populateResourceTypeAndParameterNameTableEntries();
 
                     // backfill the resource_change_log table if needed
                     backfillResourceChangeLog();
@@ -734,7 +735,7 @@ public class Main {
      }
 
     /**
-     * populates for the given tenantId the RESOURCE_TYPE table.
+     * populates the RESOURCE_TYPE table.
      *
      * @implNote if you update this method, be sure to update
      *           DerbyBootstrapper.populateResourceTypeAndParameterNameTableEntries
