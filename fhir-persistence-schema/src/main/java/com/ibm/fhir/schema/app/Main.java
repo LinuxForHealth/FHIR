@@ -288,10 +288,10 @@ public class Main {
 
     // Force schema update even if whole-schema-version is current
     private boolean force = false;
-    
+
     // Report on database size metrics
     private boolean showDbSize;
-    
+
     // Include detail output in the report (default is no)
     private boolean showDbSizeDetail = false;
 
@@ -787,7 +787,7 @@ public class Main {
             ISchemaAdapter adapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
             AddForeignKey adder = new AddForeignKey(adapter, tenantColumnName);
             pdm.visit(adder, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP, () -> TransactionFactory.openTransaction(connectionPool));
-        }        
+        }
     }
 
     /**
@@ -966,7 +966,7 @@ public class Main {
                 try {
                     JdbcTarget target = new JdbcTarget(c);
                     IDatabaseAdapter adapter = getDbAdapter(dbType, target);
-    
+
                     Set<Table> referencedTables = new HashSet<>();
                     DropForeignKey dropper = new DropForeignKey(adapter, referencedTables);
                     pdm.visit(dropper, tagGroup, tag, null);
@@ -1058,6 +1058,9 @@ public class Main {
         final ISchemaAdapter schemaAdapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
+                // This may have been granted as part of creating the schema, but it won't hurt to make sure
+                schemaAdapter.grantSchemaUsage(schema.getSchemaName(), grantTo);
+
                 PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildFhirDataSchemaModel(pdm);
                 pdm.applyGrants(schemaAdapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
@@ -1080,6 +1083,9 @@ public class Main {
         final ISchemaAdapter schemaAdapter = getSchemaAdapter(SchemaType.PLAIN, dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
+                // This may have been granted as part of creating the schema, but it won't hurt to make sure
+                schemaAdapter.grantSchemaUsage(schema.getOauthSchemaName(), grantTo);
+
                 PhysicalDataModel pdm = new PhysicalDataModel(false);
                 buildOAuthSchemaModel(pdm);
                 pdm.applyGrants(schemaAdapter, FhirSchemaConstants.FHIR_OAUTH_GRANT_GROUP, grantTo);
@@ -1100,6 +1106,9 @@ public class Main {
         final ISchemaAdapter schemaAdapter = getSchemaAdapter(SchemaType.PLAIN, dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
+                // This may have been granted as part of creating the schema, but it won't hurt to make sure
+                schemaAdapter.grantSchemaUsage(schema.getJavaBatchSchemaName(), grantTo);
+
                 PhysicalDataModel pdm = new PhysicalDataModel(false);
                 buildJavaBatchSchemaModel(pdm);
                 pdm.applyGrants(schemaAdapter, FhirSchemaConstants.FHIR_BATCH_GRANT_GROUP, grantTo);
@@ -2556,7 +2565,7 @@ public class Main {
                 SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
                 adapter.runStatement(setTenantId);
 
-                logger.info("V0027 Migration: Populating LOGICAL_RESOURCE_IDENT for tenant['" 
+                logger.info("V0027 Migration: Populating LOGICAL_RESOURCE_IDENT for tenant['"
                         + ti.getTenantName() + "' in schema '" + ti.getTenantSchema() + "']");
 
                 dataMigrationForV0027(adapter, ti.getTenantSchema());

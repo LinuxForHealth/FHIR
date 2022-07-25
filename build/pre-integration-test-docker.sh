@@ -78,15 +78,18 @@ while [ $status -ne 200 -a $tries -lt 30 ]; do
     status=$($cmd)
     set -o errexit
     echo "Status code: $status"
-    if [ $status -ne 200 ]
-    then
+    if [ $status -ne 200 ]; then
+       if [ $status -eq 500 ]; then
+         echo "Server error on attempt ${tries}:"
+         cat ${WORKSPACE}/health.json
+         exit 1
+       fi
        echo "Sleeping 10 secs..."
        sleep 10
     fi
 done
 
-if [ $status -ne 200 ]
-then
+if [ $status -ne 200 ]; then
     echo "Could not establish a connection to the fhir-server within $tries REST API invocations!"
     exit 1
 fi
