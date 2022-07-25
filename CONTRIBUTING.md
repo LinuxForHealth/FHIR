@@ -94,7 +94,7 @@ Leave the code better than you found it.
 
 ### Branch naming convention
 
-issue-#[number]
+issue-[number]
 
 ### Commit message convention
 
