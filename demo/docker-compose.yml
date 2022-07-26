@@ -1,36 +1,42 @@
-version: '3.7'
+version: '3.8'
+volumes:
+  pgdata:
+    driver: local
 services:
   postgres:
-    build:
-      context: postgres
-      dockerfile: Dockerfile
-    shm_size: 256MB
+    image: postgres:15beta2
+    # https://dba.stackexchange.com/q/275378/46472
+    shm_size: 3GB
     volumes:
+      - type: volume
+        source: pgdata
+        target: /var/lib/postgresql/data/
       - type: bind
-        source: ./postgres/db
-        target: /db
-    sysctls:
-      net.core.somaxconn: 256
-      net.ipv4.tcp_syncookies: 0
-      # To use all of 2 gigabytes
-      kernel.shmmax: 1055092736
-      kernel.shmall: 257591
-    privileged: true
+        source: ./postgres/init
+        target: /docker-entrypoint-initdb.d
     environment:
-      PG_TRUST_LOCALNET: 'true'
-    command: tail -f /dev/null
+      POSTGRES_DB: fhirdb
+      POSTGRES_USER: fhiradmin
+      POSTGRES_PASSWORD: change-password
+      PGDATA: /var/lib/postgresql/data/pgdata
     healthcheck:
-      start_period: 21s
       test: ["CMD-SHELL", "pg_isready -d fhirdb -U fhiradmin"]
-      interval: 10s
-      timeout: 5s
+      interval: 5s
+      timeout: 4s
       retries: 3
+    command: "
+      -c shared_buffers=2GB
+      -c max_wal_size=3GB
+      -c max_connections=100
+      -c max_prepared_transactions=100
+      -c max_locks_per_transaction=128
+      "
     networks:
       - fhir
     ports:
       - 5432:5432
   fhir-server:
-    image: ibmcom/ibm-fhir-server:latest
+    image: linuxforhealth/fhir-server:latest
     hostname: fhir
     volumes:
       - type: bind
@@ -67,7 +73,7 @@ services:
       timeout: 5s
       retries: 3
       # https://docs.docker.com/compose/compose-file/#variable-substitution
-      test: curl -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
+      test: curl --fail -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
     ports:
       - 9080:9080
       - 9443:9443
