@@ -1,8 +1,8 @@
-# IBM FHIR Server - fhir-persistence-schema
+# LinuxForHealth FHIR Server - fhir-persistence-schema
 
-Builds and manages the multi-tenant FHIR R4/R4B RDBMS schema for PostgreSQL and includes Derby support for testing.
+Builds and manages the LinuxForHealth FHIR R4/R4B RDBMS schema for PostgreSQL and includes Derby support for testing.
 
-This module is built into two different jar files. The default jar is included with the IBM FHIR Server web application and is used for bootstrapping Apache Derby databases (if configured). There is also an executable command line interface (cli) version of this jar that packages this module with all of its dependencies.
+This module is built into two different jar files. The default jar is included with the LinuxForHealth FHIR Server web application and is used for bootstrapping Apache Derby databases (if configured). There is also an executable command line interface (cli) version of this jar that packages this module with all of its dependencies.
 
 The executable command line interface (cli) version of this module can be downloaded from the project [Releases tab](https://github.com/LinuxForHealth/FHIR/releases).
 
@@ -37,7 +37,7 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 
 Note: Replace `${VERSION}` with the version of the jar you're using or use the wildcard `*` to match any version.
 
-3. Run the schema tool CLI again to create the tables and indexes in the `fhirdata` schema. We recommend following the least-privilege access model, so the IBM FHIR Server should connect using a non-admin user. Use the `--grant-to` option to grant the correct privileges to the non-admin user created for the IBM FHIR Server (the user `fhirserver` in the following example):
+3. Run the schema tool CLI again to create the tables and indexes in the `fhirdata` schema. We recommend following the least-privilege access model, so the LinuxForHealth FHIR Server should connect using a non-admin user. Use the `--grant-to` option to grant the correct privileges to the non-admin user created for the LinuxForHealth FHIR Server (the user `fhirserver` in the following example):
 
 ``` shell
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \

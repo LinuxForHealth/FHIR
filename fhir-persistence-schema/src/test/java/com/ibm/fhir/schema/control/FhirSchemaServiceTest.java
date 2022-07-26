@@ -101,7 +101,6 @@ public class FhirSchemaServiceTest {
         model.apply(schemaAdapter, context);
     }
 
-
     @Test
     public void testDrop() {
 

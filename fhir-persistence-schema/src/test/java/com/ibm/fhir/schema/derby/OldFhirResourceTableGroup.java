@@ -69,8 +69,6 @@ import com.ibm.fhir.schema.control.FhirSchemaTags;
  *
  * @implNote This is a copy of the FhirResourceTableGroup class from the IBM FHIR Server 4.0.1 release.
  *           Its copied to here in order to provide the DerbyMigrationTest with a way of creating the old schema.
- *           Moving forward, we expect to download and use the executable jar (fhir-persistence-schema-*-cli.jar)
- *           to create older versions of the schema, but version 4.0.1 doesn't support Derby so we can't.
  */
 public class OldFhirResourceTableGroup {
     // The model containing all the tables for the entire schema
@@ -109,6 +107,12 @@ public class OldFhirResourceTableGroup {
 
     /**
      * Public constructor
+     * 
+     * @param model
+     * @param schemaName
+     * @param procedureDependencies
+     * @param fhirTablespace
+     * @param privileges
      */
     public OldFhirResourceTableGroup(PhysicalDataModel model, String schemaName,
             Set<IDatabaseObject> procedureDependencies, Tablespace fhirTablespace, Collection<GroupPrivilege> privileges) {

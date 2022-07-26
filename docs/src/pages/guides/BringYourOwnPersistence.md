@@ -44,7 +44,7 @@ Presently, the `fhir-persistence-schema` and `fhir-persistence-jdbc` modules wor
 1. Print the DDL and manually tweak it for your desired database; or
 2. Add configuration to control which IDatabaseAdapter and IDatabaseTranslator are used.
 
-Note, the Postgres implementation uses Functions, and the Derby implementation is JDBC.
+Note, the Postgres implementation uses Functions and the Derby implementation is JDBC.
 
 Finally, the `fhir-persistence-jdbc` module provides the default implementation of the `FHIRPersistence` interface.
 

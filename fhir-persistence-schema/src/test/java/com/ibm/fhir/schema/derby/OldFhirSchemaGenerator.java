@@ -72,8 +72,6 @@ import com.ibm.fhir.schema.control.SchemaGeneratorUtil;
  *
  * @implNote This is a copy of the FhirSchemaGenerator class from the IBM FHIR Server 4.0.1 release.
  *           Its copied to here in order to provide the DerbyMigrationTest with a way of creating the old schema.
- *           Moving forward, we expect to download and use the executable jar (fhir-persistence-schema-*-cli.jar)
- *           to create older versions of the schema, but version 4.0.1 doesn't support Derby so we can't.
  */
 public class OldFhirSchemaGenerator {
 
