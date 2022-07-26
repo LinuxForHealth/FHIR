@@ -34,12 +34,12 @@ public class JDBCParameterCacheAdapter implements IParameterIdentityCache {
 
     @Override
     public Integer getCodeSystemId(String codeSystem) {
-        return cache.getResourceReferenceCache().getCodeSystemId(codeSystem);
+        return cache.getCommonValuesCache().getCodeSystemId(codeSystem);
     }
 
     @Override
     public Long getCommonTokenValueId(short shardKey, String codeSystem, String tokenValue) {
-        return cache.getResourceReferenceCache().getCommonTokenValueId(codeSystem, tokenValue);
+        return cache.getCommonValuesCache().getCommonTokenValueId(codeSystem, tokenValue);
     }
 
     @Override
@@ -49,23 +49,23 @@ public class JDBCParameterCacheAdapter implements IParameterIdentityCache {
 
     @Override
     public Long getCommonCanonicalValueId(short shardKey, String url) {
-        return cache.getResourceReferenceCache().getCanonicalId(url);
+        return cache.getCommonValuesCache().getCanonicalId(url);
     }
 
     @Override
     public void addCommonCanonicalValue(short shardKey, String url, long commonCanonicalValueId) {
-        cache.getResourceReferenceCache().addCanonicalValue(url, commonCanonicalValueId);
+        cache.getCommonValuesCache().addCanonicalValue(url, commonCanonicalValueId);
     }
 
     @Override
     public void addCommonTokenValue(short shardKey, String codeSystem, int codeSystemId, String tokenValue, long commonTokenValueId) {
         CommonTokenValue key = new CommonTokenValue(codeSystem, codeSystemId, tokenValue);
-        cache.getResourceReferenceCache().addTokenValue(key, commonTokenValueId);
+        cache.getCommonValuesCache().addTokenValue(key, commonTokenValueId);
     }
 
     @Override
     public void addCodeSystem(String codeSystem, int codeSystemId) {
-        cache.getResourceReferenceCache().addCodeSystem(codeSystem, codeSystemId);
+        cache.getCommonValuesCache().addCodeSystem(codeSystem, codeSystemId);
     }
 
     @Override

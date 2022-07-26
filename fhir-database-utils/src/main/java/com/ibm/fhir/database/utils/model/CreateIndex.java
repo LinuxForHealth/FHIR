@@ -26,9 +26,6 @@ public class CreateIndex extends BaseObject {
     // The index definition to apply to the data model
     private final IndexDef indexDef;
     
-    // The name of the tenant column when used for multi-tenant databases
-    private final String tenantColumnName;
-
     // The table name the index will be created on
     private final String tableName;
 
@@ -48,7 +45,6 @@ public class CreateIndex extends BaseObject {
         super(schemaName, versionTrackingName, DatabaseObjectType.INDEX, version);
         this.tableName = tableName;
         this.indexDef = indexDef;
-        this.tenantColumnName = tenantColumnName;
         this.distributionType = distributionType;
         this.distributionColumnName = distributionColumnName;
         
@@ -67,7 +63,7 @@ public class CreateIndex extends BaseObject {
      * @return
      */
     public CreateIndexStatement createStatement() {
-        return indexDef.createStatement(getSchemaName(), this.tableName, this.tenantColumnName);
+        return indexDef.createStatement(getSchemaName(), this.tableName);
     }
     
 
@@ -98,7 +94,7 @@ public class CreateIndex extends BaseObject {
     @Override
     public void apply(ISchemaAdapter target, SchemaApplyContext context) {
         long start = System.nanoTime();
-        indexDef.apply(getSchemaName(), getTableName(), tenantColumnName, target, distributionType, distributionColumnName);
+        indexDef.apply(getSchemaName(), getTableName(), target, distributionType, distributionColumnName);
         
         if (logger.isLoggable(Level.FINE)) {
             long end = System.nanoTime();
@@ -273,16 +269,6 @@ public class CreateIndex extends BaseObject {
             
             return new CreateIndex(schemaName, versionTrackingName, tableName, version,
                 new IndexDef(indexName, indexCols, unique), tenantColumnName, distributionType, distributionColumnName);
-        }
-        
-        /**
-         * Sets the tenantColumnName property
-         * @param name
-         * @return
-         */
-        public Builder setTenantColumnName(String name) {
-            this.tenantColumnName = name;
-            return this;
         }
     }
 }

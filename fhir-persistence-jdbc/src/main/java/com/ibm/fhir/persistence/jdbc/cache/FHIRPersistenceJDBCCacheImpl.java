@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IIdNameCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
@@ -27,7 +27,7 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
 
     private final INameIdCache<Integer> parameterNameCache;
 
-    private final ICommonTokenValuesCache resourceReferenceCache;
+    private final ICommonValuesCache commonValuesCache;
 
     private final ILogicalResourceIdentCache logicalResourceIdentCache;
 
@@ -39,23 +39,23 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
      * @param resourceTypeCache
      * @param resourceTypeNameCache
      * @param parameterNameCache
-     * @param resourceReferenceCache
+     * @param commonValuesCache
      * @param logicalResourceIdentCache
      */
     public FHIRPersistenceJDBCCacheImpl(INameIdCache<Integer> resourceTypeCache, IIdNameCache<Integer> resourceTypeNameCache,
-            INameIdCache<Integer> parameterNameCache, ICommonTokenValuesCache resourceReferenceCache, ILogicalResourceIdentCache logicalResourceIdentCache) {
+            INameIdCache<Integer> parameterNameCache, ICommonValuesCache commonValuesCache, ILogicalResourceIdentCache logicalResourceIdentCache) {
         this.resourceTypeCache = resourceTypeCache;
         this.resourceTypeNameCache = resourceTypeNameCache;
         this.parameterNameCache = parameterNameCache;
-        this.resourceReferenceCache = resourceReferenceCache;
+        this.commonValuesCache = commonValuesCache;
         this.logicalResourceIdentCache = logicalResourceIdentCache;
     }
 
     /**
      * @return the resourceReferenceCache
      */
-    public ICommonTokenValuesCache getResourceReferenceCache() {
-        return resourceReferenceCache;
+    public ICommonValuesCache getCommonValuesCache() {
+        return commonValuesCache;
     }
 
     /**
@@ -92,7 +92,7 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
         resourceTypeCache.updateSharedMaps();
         resourceTypeNameCache.updateSharedMaps();
         parameterNameCache.updateSharedMaps();
-        resourceReferenceCache.updateSharedMaps();
+        commonValuesCache.updateSharedMaps();
         logicalResourceIdentCache.updateSharedMaps();
     }
 
@@ -102,7 +102,7 @@ public class FHIRPersistenceJDBCCacheImpl implements FHIRPersistenceJDBCCache {
         resourceTypeCache.clearLocalMaps();
         resourceTypeNameCache.clearLocalMaps();
         parameterNameCache.clearLocalMaps();
-        resourceReferenceCache.clearLocalMaps();
+        commonValuesCache.clearLocalMaps();
         logicalResourceIdentCache.clearLocalMaps();
     }
 

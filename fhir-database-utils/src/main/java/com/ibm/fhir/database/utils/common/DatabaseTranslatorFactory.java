@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.common;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.citus.CitusTranslator;
-import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
@@ -28,9 +27,6 @@ public class DatabaseTranslatorFactory {
         switch (type) {
         case DERBY:
             result = new DerbyTranslator();
-            break;
-        case DB2:
-            result = new Db2Translator();
             break;
         case POSTGRESQL:
             result = new PostgresTranslator();

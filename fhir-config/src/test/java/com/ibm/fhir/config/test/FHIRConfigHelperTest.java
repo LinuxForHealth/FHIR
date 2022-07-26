@@ -357,7 +357,7 @@ public class FHIRConfigHelperTest {
         PropertyGroup dsPG = FHIRConfigHelper.getPropertyGroup(dsPropertyName);
         assertNotNull(dsPG);
         String type = dsPG.getStringProperty("type");
-        assertEquals("db2", type);
+        assertEquals("postgresql", type);
     }
 
     /**

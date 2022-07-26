@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,7 +30,7 @@ import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavorImpl;
 import com.ibm.fhir.persistence.jdbc.dao.EraseResourceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IIdNameCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
@@ -90,7 +90,7 @@ public class EraseTestMain {
                 System.out.println("Got a Connection");
                 try {
                     FHIRDbFlavor flavor = new FHIRDbFlavorImpl(dbType, SchemaType.PLAIN);
-                    EraseResourceDAO dao = new EraseResourceDAO(c, FhirSchemaConstants.FHIR_ADMIN, translator, schemaName, flavor, new MockLocalCache(), null);
+                    EraseResourceDAO dao = new EraseResourceDAO(c, FhirSchemaConstants.FHIR_ADMIN, translator, schemaName, flavor, new MockLocalCache());
 
                     ResourceEraseRecord record = new ResourceEraseRecord();
                     EraseDTO eraseDto = new EraseDTO();
@@ -115,15 +115,8 @@ public class EraseTestMain {
      * determines the flavor and schema of the execution.
      */
     public void determineFlavorAndSchema() {
-        if (inProperties.getProperty("type") != null && inProperties.getProperty("type").equals("db2")) {
-            dbType = DbType.DB2;
-            if (inProperties.getProperty("db2.schemaName") != null) {
-                schemaName = inProperties.getProperty("db2.schemaName");
-            }
-        } else {
-            if (inProperties.getProperty("postgres.schemaName") != null) {
-                schemaName = inProperties.getProperty("db2.schemaName");
-            }
+        if (inProperties.getProperty("postgres.schemaName") != null) {
+            schemaName = inProperties.getProperty("postgres.schemaName");
         }
     }
 
@@ -131,10 +124,7 @@ public class EraseTestMain {
      * process args
      */
     public void processArgs() {
-        String prefix = "db2.";
-        if (dbType == DbType.POSTGRESQL) {
-            prefix = "postgres.";
-        }
+        final String prefix = "postgres.";
         dbProperties = new Properties();
         for (Entry<Object, Object> prop : inProperties.entrySet()) {
             String key = (String) prop.getKey();
@@ -184,7 +174,7 @@ public class EraseTestMain {
         }
 
         @Override
-        public ICommonTokenValuesCache getResourceReferenceCache() {
+        public ICommonValuesCache getCommonValuesCache() {
             return null;
         }
 

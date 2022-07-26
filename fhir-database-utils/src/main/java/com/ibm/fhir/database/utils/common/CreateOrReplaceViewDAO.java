@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.database.utils.tenant;
+package com.ibm.fhir.database.utils.common;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * Executes a CREATE OR REPLACE VIEW statement

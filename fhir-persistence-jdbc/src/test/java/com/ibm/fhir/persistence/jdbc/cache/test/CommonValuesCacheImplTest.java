@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,20 +13,20 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
+import com.ibm.fhir.persistence.jdbc.cache.CommonValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 
 /**
- * unit test for {@link CommonTokenValuesCacheImpl}
+ * unit test for {@link CommonValuesCacheImpl}
  */
-public class ResourceReferenceCacheImplTest {
+public class CommonValuesCacheImplTest {
 
     @Test
     public void testExternalSystemNames() {
         // A cache with a limited size of 3 code systems and 2 token values
         // For this test to work, we have to make sure we can always resolve
         // all the code systems, so don't make the cache size smaller than 3
-        CommonTokenValuesCacheImpl impl = new CommonTokenValuesCacheImpl(3, 2, 1);
+        CommonValuesCacheImpl impl = new CommonValuesCacheImpl(3, 2, 1);
         impl.addCodeSystem("sys1", 1);
         impl.addCodeSystem("sys2", 2);
         impl.addCodeSystem("sys3", 3);

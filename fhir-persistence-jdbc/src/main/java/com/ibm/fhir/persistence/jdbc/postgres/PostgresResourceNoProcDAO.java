@@ -33,11 +33,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchExcept
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
-import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
@@ -66,13 +62,13 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
 
-    public PostgresResourceNoProcDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
-        super(connection, schemaName, flavor, cache, rrd);
+    public PostgresResourceNoProcDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache) {
+        super(connection, schemaName, flavor, cache);
     }
 
-    public PostgresResourceNoProcDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
+    public PostgresResourceNoProcDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache,
         ParameterTransactionDataImpl ptdi) {
-        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+        super(connection, schemaName, flavor, trxSynchRegistry, cache, ptdi);
     }
 
     @Override
@@ -427,18 +423,6 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                 stmt.executeUpdate();
                 if (logger.isLoggable(Level.FINEST)) {
                     logger.finest("Updated logical_resources: " + v_resource_type + "/" + p_logical_id);
-                }
-            }
-        }
-
-        // Note we don't get any parameters for the resource soft-delete operation
-        if (parameters != null && requireParameterUpdate) {
-            // PostgreSQL doesn't support partitioned multi-tenancy, so we disable it on the DAO:
-            JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100,
-                identityCache, getResourceReferenceDAO(), getTransactionData())) {
-                for (ExtractedParameterValue p: parameters) {
-                    p.accept(pvd);
                 }
             }
         }

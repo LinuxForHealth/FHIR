@@ -28,7 +28,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.citus.CitusTranslator;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
-import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
@@ -99,13 +98,8 @@ public class ParameterCounter {
                 schemaName = "FHIRDATA";
             }
             break;
-        case DB2:
         default:
-            translator = new Db2Translator();
-            if (schemaName == null) {
-                schemaName = "FHIRDATA";
-            }
-            break;
+            throw new IllegalStateException("Database type not supported: " + dbType);
         }
 
         if (databasePropertiesFile == null) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,9 +13,7 @@ import java.util.Properties;
 import com.ibm.fhir.database.utils.model.DbType;
 
 /**
- * Lets us adjust DDL/DML/SQL statements to match the target database. This
- * is needed because DB2 and Derby have a few differences, and we need to
- * tweak the SQL in order to support all the unit tests we want/need
+ * Lets us adjust DDL/DML/SQL statements to match the target database.
  */
 public interface IDatabaseTranslator {
 

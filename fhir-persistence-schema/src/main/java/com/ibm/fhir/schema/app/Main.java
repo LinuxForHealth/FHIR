@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.schema.app;
 
-import static com.ibm.fhir.schema.app.menu.Menu.ADD_TENANT_KEY;
-import static com.ibm.fhir.schema.app.menu.Menu.ALLOCATE_TENANT;
 import static com.ibm.fhir.schema.app.menu.Menu.CHECK_COMPATIBILITY;
 import static com.ibm.fhir.schema.app.menu.Menu.CONFIRM_DROP;
 import static com.ibm.fhir.schema.app.menu.Menu.CREATE_SCHEMAS;
@@ -15,37 +13,25 @@ import static com.ibm.fhir.schema.app.menu.Menu.CREATE_SCHEMA_BATCH;
 import static com.ibm.fhir.schema.app.menu.Menu.CREATE_SCHEMA_FHIR;
 import static com.ibm.fhir.schema.app.menu.Menu.CREATE_SCHEMA_OAUTH;
 import static com.ibm.fhir.schema.app.menu.Menu.DB_TYPE;
-import static com.ibm.fhir.schema.app.menu.Menu.DELETE_TENANT_META;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_ADMIN;
-import static com.ibm.fhir.schema.app.menu.Menu.DROP_DETACHED;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_BATCH;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_FHIR;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SCHEMA_OAUTH;
 import static com.ibm.fhir.schema.app.menu.Menu.DROP_SPLIT_TRANSACTION;
-import static com.ibm.fhir.schema.app.menu.Menu.DROP_TENANT;
 import static com.ibm.fhir.schema.app.menu.Menu.FORCE;
 import static com.ibm.fhir.schema.app.menu.Menu.FORCE_UNUSED_TABLE_REMOVAL;
-import static com.ibm.fhir.schema.app.menu.Menu.FREEZE_TENANT;
+import static com.ibm.fhir.schema.app.menu.Menu.GRANT_READ_TO;
 import static com.ibm.fhir.schema.app.menu.Menu.GRANT_TO;
 import static com.ibm.fhir.schema.app.menu.Menu.HELP;
-import static com.ibm.fhir.schema.app.menu.Menu.LIST_TENANTS;
 import static com.ibm.fhir.schema.app.menu.Menu.POOL_SIZE;
 import static com.ibm.fhir.schema.app.menu.Menu.PROP;
 import static com.ibm.fhir.schema.app.menu.Menu.PROP_FILE;
-import static com.ibm.fhir.schema.app.menu.Menu.REFRESH_TENANTS;
-import static com.ibm.fhir.schema.app.menu.Menu.REVOKE_ALL_TENANT_KEYS;
-import static com.ibm.fhir.schema.app.menu.Menu.REVOKE_TENANT_KEY;
 import static com.ibm.fhir.schema.app.menu.Menu.SCHEMA_NAME;
 import static com.ibm.fhir.schema.app.menu.Menu.SCHEMA_TYPE;
 import static com.ibm.fhir.schema.app.menu.Menu.SHOW_DB_SIZE;
 import static com.ibm.fhir.schema.app.menu.Menu.SHOW_DB_SIZE_DETAIL;
-import static com.ibm.fhir.schema.app.menu.Menu.SKIP_ALLOCATE_IF_TENANT_EXISTS;
 import static com.ibm.fhir.schema.app.menu.Menu.TARGET;
-import static com.ibm.fhir.schema.app.menu.Menu.TENANT_KEY;
-import static com.ibm.fhir.schema.app.menu.Menu.TENANT_KEY_FILE;
-import static com.ibm.fhir.schema.app.menu.Menu.TENANT_NAME;
-import static com.ibm.fhir.schema.app.menu.Menu.TEST_TENANT;
 import static com.ibm.fhir.schema.app.menu.Menu.THREAD_POOL_SIZE;
 import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_PROC;
 import static com.ibm.fhir.schema.app.menu.Menu.UPDATE_SCHEMA;
@@ -60,7 +46,6 @@ import static com.ibm.fhir.schema.app.menu.Menu.VACUUM_TRESHOLD;
 import static com.ibm.fhir.schema.app.util.CommonUtil.configureLogger;
 import static com.ibm.fhir.schema.app.util.CommonUtil.getDbAdapter;
 import static com.ibm.fhir.schema.app.util.CommonUtil.getPropertyAdapter;
-import static com.ibm.fhir.schema.app.util.CommonUtil.getRandomKey;
 import static com.ibm.fhir.schema.app.util.CommonUtil.getSchemaAdapter;
 import static com.ibm.fhir.schema.app.util.CommonUtil.loadDriver;
 import static com.ibm.fhir.schema.app.util.CommonUtil.logClasspath;
@@ -72,15 +57,13 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -102,8 +85,6 @@ import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.api.TableSpaceRemovalException;
-import com.ibm.fhir.database.utils.api.TenantStatus;
-import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.citus.CitusTranslator;
 import com.ibm.fhir.database.utils.citus.ConfigureConnectionDAO;
@@ -112,16 +93,11 @@ import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.common.SchemaInfoObject;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
-import com.ibm.fhir.database.utils.db2.Db2GetTenantVariable;
-import com.ibm.fhir.database.utils.db2.Db2SetTenantVariable;
-import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DatabaseObjectType;
 import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Table;
-import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.postgres.GatherTablesDataModelVisitor;
 import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
@@ -130,25 +106,17 @@ import com.ibm.fhir.database.utils.postgres.PostgresVacuumSettingDAO;
 import com.ibm.fhir.database.utils.schema.LeaseManager;
 import com.ibm.fhir.database.utils.schema.LeaseManagerConfig;
 import com.ibm.fhir.database.utils.schema.SchemaVersionsManager;
-import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
-import com.ibm.fhir.database.utils.tenant.DeleteTenantKeyDAO;
-import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
 import com.ibm.fhir.database.utils.version.CreateControl;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.CreateWholeSchemaVersion;
-import com.ibm.fhir.database.utils.version.SchemaConstants;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.schema.app.menu.Menu;
-import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
 import com.ibm.fhir.schema.control.AddForeignKey;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLog;
-import com.ibm.fhir.schema.control.BackfillResourceChangeLogDb2;
-import com.ibm.fhir.schema.control.DisableForeignKey;
 import com.ibm.fhir.schema.control.DropForeignKey;
-import com.ibm.fhir.schema.control.EnableForeignKey;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.schema.control.FhirSchemaVersion;
@@ -156,25 +124,19 @@ import com.ibm.fhir.schema.control.GetLogicalResourceNeedsV0014Migration;
 import com.ibm.fhir.schema.control.GetLogicalResourceNeedsV0027Migration;
 import com.ibm.fhir.schema.control.GetResourceChangeLogEmpty;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
-import com.ibm.fhir.schema.control.GetTenantInfo;
-import com.ibm.fhir.schema.control.GetTenantList;
 import com.ibm.fhir.schema.control.GetXXLogicalResourceNeedsMigration;
 import com.ibm.fhir.schema.control.InitializeLogicalResourceDenorms;
 import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.MigrateV0014LogicalResourceIsDeletedLastUpdated;
 import com.ibm.fhir.schema.control.MigrateV0021AbstractTypeRemoval;
 import com.ibm.fhir.schema.control.MigrateV0027LogicalResourceIdent;
-import com.ibm.fhir.schema.control.MigrateV0027LogicalResourceIdentMT;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
-import com.ibm.fhir.schema.control.SetTenantIdDb2;
-import com.ibm.fhir.schema.control.TenantInfo;
 import com.ibm.fhir.schema.control.UnusedTableRemovalNeedsV0021Migration;
 import com.ibm.fhir.schema.model.ResourceType;
 import com.ibm.fhir.schema.model.Schema;
 import com.ibm.fhir.schema.size.CitusSizeCollector;
-import com.ibm.fhir.schema.size.Db2SizeCollector;
 import com.ibm.fhir.schema.size.FHIRDbSizeModel;
 import com.ibm.fhir.schema.size.ISizeCollector;
 import com.ibm.fhir.schema.size.ISizeReport;
@@ -206,9 +168,8 @@ public class Main {
     private static final double NANOS = 1e9;
 
     // Indicates if the feature is enabled for the DbType
-    public List<DbType> MULTITENANT_FEATURE_ENABLED = Arrays.asList(DbType.DB2);
-    public List<DbType> STORED_PROCEDURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL, DbType.CITUS);
-    public List<DbType> PRIVILEGES_FEATURE_ENABLED = Arrays.asList(DbType.DB2, DbType.POSTGRESQL, DbType.CITUS);
+    public List<DbType> STORED_PROCEDURE_ENABLED = Arrays.asList(DbType.POSTGRESQL, DbType.CITUS);
+    public List<DbType> PRIVILEGES_FEATURE_ENABLED = Arrays.asList(DbType.POSTGRESQL, DbType.CITUS);
 
     // Properties accumulated as we parse args and read configuration files
     private final Properties properties = new Properties();
@@ -246,11 +207,11 @@ public class Main {
     private boolean dropJavaBatchSchema = false;
     private boolean grantJavaBatchSchema = false;
 
-    // Tenant Key
-    private boolean skipIfTenantExists = false;
-
     // The database user we will grant tenant data access privileges to
     private String grantTo;
+
+    // The database user we will grant read-only data access privileges to (usually null)
+    private String grantReadTo;
 
     // Action flag related to Vacuuming:
     private boolean updateVacuum = false;
@@ -269,20 +230,6 @@ public class Main {
     // Optional subset of resource types (for faster schema builds when testing)
     private Set<String> resourceTypeSubset;
 
-    // Tenant management
-    private boolean allocateTenant;
-    private boolean refreshTenants;
-    private boolean dropTenant;
-    private boolean freezeTenant;
-    private String tenantName;
-    private boolean testTenant;
-    private String tenantKey;
-    private boolean listTenants;
-    private boolean dropDetached;
-    private boolean deleteTenantMeta;
-    private boolean revokeTenantKey;
-    private boolean revokeAllTenantKeys;
-
     // Forces the removal of tables if data exists
     private boolean forceUnusedTableRemoval = false;
 
@@ -297,13 +244,6 @@ public class Main {
 
     // Split drops into multiple transactions?
     private boolean dropSplitTransaction = false;
-
-    // Tenant Key Output or Input File
-    private String tenantKeyFileName;
-    private TenantKeyFileUtil tenantKeyFileUtil = new TenantKeyFileUtil();
-
-    // The tenant name for when we want to add a new tenant key
-    private String addKeyForTenant;
 
     // What status to leave with
     private int exitStatus = EXIT_OK;
@@ -366,7 +306,7 @@ public class Main {
      */
     protected void buildAdminSchemaModel(PhysicalDataModel pdm) {
         // Add the tenant and tenant_keys tables and any other admin schema stuff
-        SchemaType adminSchemaType = isMultitenant() ? SchemaType.MULTITENANT : SchemaType.PLAIN;
+        final SchemaType adminSchemaType = SchemaType.PLAIN;
         FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), adminSchemaType);
         gen.buildAdminSchema(pdm);
     }
@@ -453,6 +393,9 @@ public class Main {
                         if (this.grantTo != null) {
                             adapter.grantSchemaUsage(schema.getSchemaName(), grantTo);
                         }
+                        if (this.grantReadTo != null) {
+                            adapter.grantSchemaUsage(schema.getSchemaName(), grantReadTo);
+                        }
                         c.commit();
                     }
 
@@ -524,9 +467,6 @@ public class Main {
 
         gen.buildSchema(pdm);
         switch (dbType) {
-        case DB2:
-            gen.buildDatabaseSpecificArtifactsDb2(pdm);
-            break;
         case DERBY:
             logger.info("No database specific artifacts");
             break;
@@ -578,16 +518,7 @@ public class Main {
                 boolean isNewDb = updateSchema(pdm, getDataSchemaType());
 
                 if (this.exitStatus == EXIT_OK) {
-                    // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
-                    // Otherwise, populate the resource types and parameters names (codes) now
-                    if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-                        populateResourceTypeAndParameterNameTableEntries(null);
-                    }
-
-                    if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-                        logger.info("Refreshing tenant partitions");
-                        refreshTenants();
-                    }
+                    populateResourceTypeAndParameterNameTableEntries();
 
                     // backfill the resource_change_log table if needed
                     backfillResourceChangeLog();
@@ -607,6 +538,10 @@ public class Main {
                     // Apply privileges if asked
                     if (grantTo != null) {
                         grantPrivilegesForFhirData();
+                    }
+
+                    if (grantReadTo != null) {
+                        grantReadPrivilegesForFhirData();
                     }
 
                     // Finally, update the whole schema version
@@ -783,9 +718,8 @@ public class Main {
         if (!includedForeignKeys && dbType != DbType.CITUS) {
             // Now that all the tables have been distributed, it should be safe
             // to apply the FK constraints
-            final String tenantColumnName = isMultitenant() ? "mt_id" : null;
             ISchemaAdapter adapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
-            AddForeignKey adder = new AddForeignKey(adapter, tenantColumnName);
+            AddForeignKey adder = new AddForeignKey(adapter);
             pdm.visit(adder, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP, () -> TransactionFactory.openTransaction(connectionPool));
         }        
     }
@@ -802,27 +736,23 @@ public class Main {
      }
 
     /**
-     * populates for the given tenantId the RESOURCE_TYPE table.
+     * populates the RESOURCE_TYPE table.
      *
      * @implNote if you update this method, be sure to update
      *           DerbyBootstrapper.populateResourceTypeAndParameterNameTableEntries
      *           and DerbyFhirDatabase.populateResourceTypeAndParameterNameTableEntries
      *           The reason is there are three different ways of managing the transaction.
-     * @param tenantId
-     *            the mt_id that is used to setup the partition.
-     *            passing in null signals not multi-tenant.
      */
-    protected void populateResourceTypeAndParameterNameTableEntries(Integer tenantId) {
+    protected void populateResourceTypeAndParameterNameTableEntries() {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try (Connection c = connectionPool.getConnection();) {
-                String logTenantId = tenantId != null ? Integer.toString(tenantId) : "default";
-                logger.info("tenantId [" + logTenantId + "] is being pre-populated with lookup table data.");
+                logger.info("Populating schema with lookup table data.");
                 PopulateResourceTypes populateResourceTypes =
-                        new PopulateResourceTypes(schema.getAdminSchemaName(), schema.getSchemaName(), tenantId);
+                        new PopulateResourceTypes(schema.getSchemaName());
                 populateResourceTypes.run(translator, c);
 
                 PopulateParameterNames populateParameterNames =
-                        new PopulateParameterNames(schema.getAdminSchemaName(), schema.getSchemaName(), tenantId);
+                        new PopulateParameterNames(schema.getSchemaName());
                 populateParameterNames.run(translator, c);
                 logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
             } catch (SQLException ex) {
@@ -1050,21 +980,47 @@ public class Main {
         }
     }
 
+    protected void grantPrivilegesForFhirData() {
+        grantPrivilegesForFhirData(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, this.grantTo);
+    }
+
+    /**
+     * Grant only SELECT privileges to the given user to provide read-only direct schema access
+     */
+    protected void grantReadPrivilegesForFhirData() {
+        Objects.requireNonNull(this.grantReadTo, "grantReadTo not set");
+
+        final ISchemaAdapter adapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                // In order to SELECT from the tables, we need at least USAGE on the schema
+                adapter.grantSchemaUsage(schema.getSchemaName(), grantReadTo);
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
+
+        grantPrivilegesForFhirData(FhirSchemaConstants.FHIR_READ_USER_GRANT_GROUP, this.grantReadTo);
+    }
+
     /**
      * Apply grants to the FHIR data schema objects
+     * @param privilegeGroupName identifies the group of privileges to apply
      */
-    protected void grantPrivilegesForFhirData() {
+    protected void grantPrivilegesForFhirData(String privilegeGroupName, String targetUser) {
 
         final ISchemaAdapter schemaAdapter = getSchemaAdapter(getDataSchemaType(), dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildFhirDataSchemaModel(pdm);
-                pdm.applyGrants(schemaAdapter, FhirSchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+                pdm.applyGrants(schemaAdapter, privilegeGroupName, targetUser);
 
                 // Grant SELECT on WHOLE_SCHEMA_VERSION to the FHIR server user
                 // Note the constant comes from SchemaConstants on purpose
-                CreateWholeSchemaVersion.grantPrivilegesTo(schemaAdapter, schema.getSchemaName(), SchemaConstants.FHIR_USER_GRANT_GROUP, grantTo);
+                CreateWholeSchemaVersion.grantPrivilegesTo(schemaAdapter, schema.getSchemaName(), privilegeGroupName, targetUser);
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
@@ -1134,26 +1090,21 @@ public class Main {
         }
 
         if (grantFhirSchema) {
-            grantPrivilegesForFhirData();
+            if (grantTo != null) {
+                grantPrivilegesForFhirData();
+            }
+            if (grantReadTo != null) {
+                grantReadPrivilegesForFhirData();                
+            }
         }
 
-        if (grantOauthSchema) {
+        if (grantOauthSchema && grantTo != null) {
             grantPrivilegesForOAuth();
         }
 
-        if (grantJavaBatchSchema) {
+        if (grantJavaBatchSchema && grantTo != null) {
             grantPrivilegesForBatch();
         }
-    }
-
-    /**
-     * Do we want to build the multitenant variant of the schema (currently only supported
-     * by DB2)
-     *
-     * @return
-     */
-    protected boolean isMultitenant() {
-        return dataSchemaType == SchemaType.MULTITENANT;
     }
 
     /**
@@ -1162,729 +1113,6 @@ public class Main {
      */
     protected SchemaType getDataSchemaType() {
         return this.dataSchemaType;
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-    // The following methods are related to Multi-Tenant only.
-    /**
-     * Add a new tenant key so that we can rotate the values (add a
-     * new key, update config files, then remove the old key). This
-     * avoids any service interruption.
-     */
-    protected void addTenantKey() {
-        if (!isMultitenant()) {
-            return;
-        }
-
-        // Only if the Tenant Key file is provided as a parameter is it not null.
-        // in this case we want special behavior.
-        if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
-            tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
-        } else {
-            tenantKey = getRandomKey();
-        }
-
-        // The salt is used when we hash the tenantKey. We're just using SHA-256 for
-        // the hash here, not multiple rounds of a password hashing algorithm. It's
-        // sufficient in our case because we are using a 32-byte random value as the
-        // key, giving 256 bits of entropy.
-        final String tenantSalt = getRandomKey();
-
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey, false);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                GetTenantDAO tid = new GetTenantDAO(schema.getAdminSchemaName(), addKeyForTenant);
-                Tenant tenant = adapter.runStatement(tid);
-
-                if (tenant != null) {
-                    // Attach the new tenant key to the tenant:
-                    AddTenantKeyDAO adder =
-                            new AddTenantKeyDAO(schema.getAdminSchemaName(), tenant.getTenantId(), tenantKey, tenantSalt, FhirSchemaConstants.TENANT_SEQUENCE);
-                    adapter.runStatement(adder);
-                } else {
-                    throw new IllegalArgumentException("Tenant does not exist: " + addKeyForTenant);
-                }
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-
-        if (tenantKeyFileName == null) {
-            // Generated
-            logger.info("New tenant key: " + addKeyForTenant + " [key=" + tenantKey + "]");
-        } else {
-            // Loaded from File
-            logger.info("New tenant key from file: " + addKeyForTenant + " [tenantKeyFileName=" + tenantKeyFileName + "]");
-            if (!tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
-                tenantKeyFileUtil.writeTenantFile(tenantKeyFileName, tenantKey);
-            }
-        }
-
-    }
-
-    /**
-     * checks if tenant name and tenant key exists.
-     *
-     * @param adapter
-     *            the db2 adapter as this is a db2 feature only now
-     * @param tenantName
-     *            the tenant's name
-     * @param tenantKey
-     *            tenant key
-     * @param skip
-     *            whether or not to skip over cases where this tenantName/tenantKey combination already exists
-     *
-     * @throws IllegalArgumentException if the tenantName/tenantKey combination already exists and the {@code skip} argument is false
-     *
-     * @return indicates if the tenantName/tenantKey exists
-     */
-    protected boolean checkIfTenantNameAndTenantKeyExists(Db2Adapter adapter, String tenantName, String tenantKey, boolean skip) {
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                final String sql =
-                        "SELECT t.tenant_status FROM fhir_admin.tenants t WHERE t.tenant_name = ? "
-                                + "AND EXISTS (SELECT 1 FROM fhir_admin.tenant_keys tk WHERE tk.mt_id = t.mt_id "
-                                + "AND tk.tenant_hash = sysibm.hash(tk.tenant_salt || ?, 2))";
-                try (PreparedStatement stmt = connectionPool.getConnection().prepareStatement(sql)) {
-                    stmt.setString(1, tenantName);
-                    stmt.setString(2, tenantKey);
-                    if (stmt.execute()) {
-                        try (ResultSet resultSet = stmt.getResultSet();) {
-                            if (resultSet.next()) {
-                                if (skip) {
-                                    return true;
-                                } else {
-                                    throw new IllegalArgumentException("tenantName and tenantKey already exists");
-                                }
-                            }
-                        }
-                    } else {
-                        throw new IllegalArgumentException("Problem checking the results");
-                    }
-                } catch (SQLException e) {
-                    throw new IllegalArgumentException("Exception when querying backend to verify tenant key and tenant name", e);
-                }
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Allocate this tenant, creating new partitions if required.
-     */
-    protected void allocateTenant() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            return;
-        }
-
-        // Make sure only a single instance of this is running on a given schema
-        LeaseManager leaseManager = new LeaseManager(this.translator, connectionPool, transactionProvider, schema.getAdminSchemaName(), schema.getSchemaName(),
-            leaseManagerConfig);
-
-        try {
-            if (!leaseManager.waitForLease(waitForUpdateLeaseSeconds)) {
-                throw new ConcurrentUpdateException("Concurrent update (allocate-tenant) for FHIR data schema: '" + schema.getSchemaName() + "'");
-            }
-
-            // IMPORTANT! Check the schema name aligns with the actual schema for this tenant
-            checkSchemaForTenant();
-
-            // The key we'll use for this tenant. This key should be used in subsequent
-            // activities related to this tenant, such as setting the tenant context.
-            if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
-                // Only if the Tenant Key file is provided as a parameter is it not null.
-                // in this case we want special behavior.
-                tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
-            } else {
-                tenantKey = getRandomKey();
-            }
-
-            // The salt is used when we hash the tenantKey. We're just using SHA-256 for
-            // the hash here, not multiple rounds of a password hashing algorithm. It's
-            // sufficient in our case because we are using a 32-byte random value as the
-            // key, giving 256 bits of entropy.
-            final String tenantSalt = getRandomKey();
-
-            Db2Adapter adapter = new Db2Adapter(connectionPool);
-
-            // Conditionally skip if the tenant name and key exist (this enables idempotency)
-            boolean skip = checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey, skipIfTenantExists);
-            if (skip) {
-                return;
-            }
-
-            if (tenantKeyFileName == null) {
-                logger.info("Allocating new tenant: " + tenantName + " [key=" + tenantKey + "]");
-            } else {
-                logger.info("Allocating new tenant: " + tenantName + " [tenantKeyFileName=" + tenantKeyFileName + "]");
-            }
-
-            // Open a new transaction and associate it with our connection pool. Remember
-            // that we don't support distributed transactions, so all connections within
-            // this transaction must come from the same pool
-            int tenantId;
-            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-                try {
-                    tenantId =
-                            adapter.allocateTenant(schema.getAdminSchemaName(), schema.getSchemaName(), tenantName, tenantKey, tenantSalt, FhirSchemaConstants.TENANT_SEQUENCE);
-
-                    // The tenant-id is important because this is also used to identify the partition number
-                    logger.info("Tenant Id[" + tenantName + "] = [" + tenantId + "]");
-                } catch (DataAccessException x) {
-                    // Something went wrong, so mark the transaction as failed
-                    tx.setRollbackOnly();
-                    throw x;
-                }
-            }
-
-            // Build/update the tables as well as the stored procedures
-            FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), schema.getSchemaName(), getDataSchemaType());
-            PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
-            gen.buildSchema(pdm);
-
-            // Get the data model to create the table partitions. This is threaded, so transactions are
-            // handled within each thread by the adapter. This means we should probably pull some of
-            // that logic out of the adapter and handle it at a higher level. Note...the extent size used
-            // for the partitions needs to match the extent size of the original table tablespace (FHIR_TS)
-            // so this must be constant.
-            pdm.addTenantPartitions(adapter, schema.getSchemaName(), tenantId, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
-
-            // Fill any static data tables (which are also partitioned by tenant)
-            // Prepopulate the Resource Type Tables and Parameters Name/Code Table
-            populateResourceTypeAndParameterNameTableEntries(tenantId);
-
-            // Now all the table partitions have been allocated, we can mark the tenant as ready
-            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-                try {
-                    adapter.updateTenantStatus(schema.getAdminSchemaName(), tenantId, TenantStatus.ALLOCATED);
-                } catch (DataAccessException x) {
-                    // Something went wrong, so mark the transaction as failed
-                    tx.setRollbackOnly();
-                    throw x;
-                }
-            }
-
-            if (grantTo != null) {
-                // If the --grant-to has been given, we also need to apply that here, although
-                // this really ought to be done when the schema is first built
-                grantPrivileges();
-            }
-
-            if (tenantKeyFileName == null) {
-                logger.info("Allocated tenant: " + tenantName + " [key=" + tenantKey + "] with Id = " + tenantId);
-                logger.info("The tenantKey JSON follows: \t\n{\"tenantKey\": \"" + tenantKey + "\"}");
-            } else {
-                logger.info("Allocated tenant: " + tenantName + " [tenantKeyFileName=" + tenantKeyFileName + "] with Id = "
-                        + tenantId);
-                if (!tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
-                    tenantKeyFileUtil.writeTenantFile(tenantKeyFileName, tenantKey);
-                }
-            }
-        } finally {
-            leaseManager.cancelLease();
-        }
-    }
-
-    /**
-     * Run a check to make sure that if the tenant already exists its schema
-     * matches the specified schema. This prevents users from accidentally
-     * creating a second instance of a tenant in a different schema
-     */
-    protected void checkSchemaForTenant() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            // only relevant for databases which support multiple tenants within one schema (like Db2)
-            return;
-        }
-        List<TenantInfo> tenants = getTenantList();
-
-        // Scan over the list to see if the tenant we are working with
-        // already exists
-        for (TenantInfo ti : tenants) {
-            if (ti.getTenantName().equals(this.tenantName)) {
-                if (ti.getTenantSchema() == null) {
-                    // The schema is empty so no chance of adding tenants
-                    throw new IllegalArgumentException("Schema '" + schema.getSchemaName() + "'"
-                            + " for tenant '" + ti.getTenantName() + "'"
-                            + " does not contain a valid IBM FHIR Server schema");
-                } else if (!ti.getTenantSchema().equalsIgnoreCase(schema.getSchemaName())) {
-                    // The given schema name doesn't match where we think this tenant
-                    // should be located, so throw an error before any damage is done
-                    throw new IllegalArgumentException("--schema-name argument '" + schema.getSchemaName()
-                            + "' does not match schema '" + ti.getTenantSchema() + "' for tenant '"
-                            + ti.getTenantName() + "'");
-                }
-            }
-        }
-    }
-
-    /**
-     * Get the list of tenants and the schemas each is currently defined in. Because
-     * this tenant-schema mapping isn't stored directly, it has to be inferred by
-     * looking up the schema from one of the tables we know should exist. The schema
-     * name may therefore be null if the tenant record (in FHIR_ADMIN.TENANTS) exists,
-     * but all the tables from that schema have been dropped.
-     *
-     * @return
-     */
-    protected List<TenantInfo> getTenantList() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            return Collections.emptyList();
-        }
-
-        // Similar to the allocate tenant processing, except in this case we want to
-        // make sure that each table has all the tenant partitions required. This is
-        // to handle the case where a schema update has added a new table.
-        List<TenantInfo> tenants;
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                GetTenantList rtListGetter = new GetTenantList(schema.getAdminSchemaName());
-                tenants = adapter.runStatement(rtListGetter);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-
-        return tenants;
-    }
-
-    /**
-     * Make sure all the tables has a partition created for the configured tenant
-     */
-    protected void refreshTenants() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            return;
-        }
-
-        // Similar to the allocate tenant processing, except in this case we want to
-        // make sure that each table has all the tenant partitions required. This is
-        // to handle the case where a schema update has added a new table.
-        List<TenantInfo> tenants = getTenantList();
-
-        // make sure the list is sorted by tenantId. Lambdas really do clean up this sort of code
-        tenants.sort((TenantInfo left, TenantInfo right) -> left.getTenantId() < right.getTenantId() ? -1 : left.getTenantId() > right.getTenantId() ? 1 : 0);
-        for (TenantInfo ti : tenants) {
-            // For issue 1847 we only want to process for the named data schema if one is provided
-            // If no -schema-name arg is given, we process all tenants.
-            if (ti.getTenantSchema() != null && (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema()))) {
-                // It's crucial we use the correct schema for each particular tenant, which
-                // is why we have to build the PhysicalDataModel separately for each tenant
-                FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), ti.getTenantSchema(), getDataSchemaType());
-                PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
-                gen.buildSchema(pdm);
-
-                Db2Adapter adapter = new Db2Adapter(connectionPool);
-                pdm.addNewTenantPartitions(adapter, ti.getTenantSchema(), ti.getTenantId());
-            }
-        }
-    }
-
-    /**
-     * List the tenants currently configured
-     */
-    protected void listTenants() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            return;
-        }
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                GetTenantList rtListGetter = new GetTenantList(schema.getAdminSchemaName());
-                List<TenantInfo> tenants = adapter.runStatement(rtListGetter);
-
-                System.out.println(TenantInfo.getHeader());
-                tenants.forEach(System.out::println);
-            } catch (UndefinedNameException x) {
-                System.out.println("The FHIR_ADMIN schema appears not to be deployed with the TENANTS table");
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-    }
-
-    /**
-     * Check that we can call the set_tenant procedure successfully (which means
-     * that the
-     * tenant record exists in the tenants table)
-     */
-    protected void testTenant() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            return;
-        }
-
-        if (this.tenantName == null || this.tenantName.isEmpty()) {
-            throw new IllegalStateException("Missing tenant name");
-        }
-
-        // Part of Bring your own Tenant Key
-        if (tenantKeyFileName != null) {
-            // Only if the Tenant Key file is provided as a parameter is it not null.
-            // in this case we want special behavior.
-            tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
-        }
-
-        if (this.tenantKey == null || this.tenantKey.isEmpty()) {
-            throw new IllegalArgumentException("No tenant-key value provided");
-        }
-
-        logger.info("Testing tenant: [" + tenantName + "]");
-
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                // The tenants table, variable and set_tenant procedure are all located in
-                // the admin schema. The data access user only has execute privileges on the
-                // set_tenant procedure and read access to the variable. The variable can
-                // only be set by calling the stored procedure
-                Db2SetTenantVariable cmd = new Db2SetTenantVariable(schema.getAdminSchemaName(), tenantName, tenantKey);
-                adapter.runStatement(cmd);
-
-                Db2GetTenantVariable getter = new Db2GetTenantVariable(schema.getAdminSchemaName());
-                Integer tid = adapter.runStatement(getter);
-                if (tid == null) {
-                    throw new IllegalStateException("SV_TENANT_ID not set!");
-                }
-
-                // Print the id from the session variable (used for access control)
-                logger.info("tenantName='" + tenantName + "', tenantId=" + tid);
-
-                // Now let's check we can run a select against one our tenant-based
-                // tables
-                GetResourceTypeList rtListGetter = new GetResourceTypeList(schema.getSchemaName());
-                List<ResourceType> rtList = adapter.runStatement(rtListGetter);
-                rtList.forEach(rt -> logger.info("ResourceType: " + rt.toString()));
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-    }
-
-    protected TenantInfo getTenantInfo() {
-        TenantInfo result;
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            throw new IllegalStateException("Not a multi-tenant database");
-        }
-
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-
-            try {
-                GetTenantInfo command = new GetTenantInfo(schema.getAdminSchemaName(), tenantName);
-                result = adapter.runStatement(command);
-
-                if (result == null) {
-                    logger.info("Use --list-tenants to display the current tenants");
-                    throw new IllegalArgumentException("Tenant '" + tenantName + "' not found in admin schema " + schema.getAdminSchemaName());
-                }
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-
-        // make sure we set the schema name correctly if it couldn't be found in the database
-        // (which happens after all the partitions for a particular tenant are detached)
-        String tenantSchema = result.getTenantSchema();
-        if (tenantSchema == null || tenantSchema.isEmpty()) {
-            // the schema can no longer be derived from the database, so we
-            // need it to be provided on the command line.
-            if (schema.getSchemaName() == null || schema.getSchemaName().isEmpty()) {
-                throw new IllegalArgumentException("Must provide the tenant schema with --schema-name");
-            }
-            result.setTenantSchema(schema.getSchemaName());
-        } else {
-            // if a schema name was provided on the command line, let's double-check it matches
-            // the schema used for this tenant in the database
-            if (!tenantSchema.equalsIgnoreCase(schema.getSchemaName())) {
-                throw new IllegalArgumentException("--schema-name '" + schema.getSchemaName() + "' argument does not match tenant schema: '"
-                        + tenantSchema + "'");
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Mark the tenant so that it can no longer be accessed (this prevents
-     * the SET_TENANT method from authenticating the tenantName/tenantKey
-     * pair, so the SV_TENANT_ID variable never gets set).
-     *
-     * @return the TenantInfo associated with the tenant
-     */
-    protected TenantInfo freezeTenant() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            throw new IllegalStateException("Not a multi-tenant database");
-        }
-
-        TenantInfo result = getTenantInfo();
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-
-        logger.info("Marking tenant for drop: " + tenantName);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-
-            try {
-                // Mark the tenant as frozen before we proceed with dropping anything
-                if (result.getTenantStatus() == TenantStatus.ALLOCATED) {
-                    adapter.updateTenantStatus(schema.getAdminSchemaName(), result.getTenantId(), TenantStatus.FROZEN);
-                }
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-        return result;
-    }
-
-    /**
-     * Deallocate this tenant, dropping all the related partitions. This needs to be
-     * idempotent because there are steps which must be run in separate transactions
-     * (due to how Db2 handles detaching partitions). This is further complicated by
-     * referential integrity constraints in the schema. See:
-     * - https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.partition.doc/doc/t0021576.html
-     *
-     * The workaround described in the above link is:
-     * // Change the RI constraint to informational:
-     * 1. ALTER TABLE child ALTER FOREIGN KEY fk NOT ENFORCED;
-     *
-     * 2. ALTER TABLE parent DETACH PARTITION p0 INTO TABLE pdet;
-     *
-     * 3. SET INTEGRITY FOR child OFF;
-     *
-     * // Change the RI constraint back to enforced:
-     * 4. ALTER TABLE child ALTER FOREIGN KEY fk ENFORCED;
-     *
-     * 5. SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
-     * 6. Assuming that the CHILD table does not have any dependencies on partition P0,
-     * 7. and that no updates on the CHILD table are permitted until this UOW is complete,
-     * no RI violation is possible during this UOW.
-     *
-     * COMMIT WORK;
-     *
-     * Unfortunately, #7 above essentially requires that all writes cease until the
-     * UOW is completed and the integrity is enabled again on all the child (leaf)
-     * tables. Of course, this could be relaxed if the application is trusted not
-     * to mess up the referential integrity...which we know to be true for the
-     * FHIR server persistence layer.
-     *
-     * If the risk is deemed too high, tenant removal should be performed in a
-     * maintenance window.
-     */
-    protected void dropTenant() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            return;
-        }
-
-        // Mark the tenant as being dropped. This should prevent it from
-        // being used in any way because the SET_TENANT stored procedure
-        // will reject any request for the tenant being dropped.
-        TenantInfo tenantInfo = freezeTenant();
-
-        // Build the model of the data (FHIRDATA) schema which is then used to drive the drop
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), getDataSchemaType());
-        PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
-        gen.buildSchema(pdm);
-
-        // Detach the tenant partition from each of the data tables
-        detachTenantPartitions(pdm, tenantInfo);
-
-        // this may not complete successfully because Db2 runs the detach as an async
-        // process. Just need to run --drop-detached to clean up.
-        dropDetachedPartitionTables(pdm, tenantInfo);
-    }
-
-    /**
-     * Drop any tables which have previously been detached. The detach process is asynchronous,
-     * so this is a sort of garbage collection, sweeping up cruft left in the database.
-     */
-    protected void dropDetachedPartitionTables() {
-
-        TenantInfo tenantInfo = getTenantInfo();
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(schema.getAdminSchemaName(), tenantInfo.getTenantSchema(), getDataSchemaType());
-        PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
-        gen.buildSchema(pdm);
-
-        dropDetachedPartitionTables(pdm, tenantInfo);
-    }
-
-    /**
-     * Drop any tables which have previously been detached. Once all tables have been
-     * dropped, we go on to drop the tablespace. If the tablespace drop is successful,
-     * we know the cleanup is complete so we can update the tenant status accordingly
-     *
-     * @param pdm
-     * @param tenantInfo
-     */
-    protected void dropDetachedPartitionTables(PhysicalDataModel pdm, TenantInfo tenantInfo) {
-        // In a new transaction, drop any of the tables that were created by
-        // the partition detach operation.
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                pdm.dropDetachedPartitions(adapter, tenantInfo.getTenantSchema(), tenantInfo.getTenantId());
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-
-        // We can drop the tenant's tablespace only after all the table drops have been committed
-        logger.info("Dropping tablespace for tenant " + tenantInfo.getTenantId() + "/" + tenantName);
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            boolean retry = true;
-            int wait = 0;
-            while (retry) {
-                try {
-                    retry = false;
-                    // With all the objects removed, it should be safe to remove the tablespace
-                    pdm.dropTenantTablespace(adapter, tenantInfo.getTenantId());
-                } catch (DataAccessException x) {
-                    boolean error = x instanceof DataAccessException && x.getCause() instanceof SQLException
-                            && (((SQLException) x.getCause()).getErrorCode() == -282);
-                    if (error && wait++ <= 30) {
-                        retry = true;
-                        logger.warning("Waiting on async dettach dependency to finish - count '" + wait + "'");
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            throw new DataAccessException(e);
-                        }
-                    } else if (error) {
-                        throw new TableSpaceRemovalException(x.getCause());
-                    } else {
-                        // Something went wrong, so mark the transaction as failed
-                        tx.setRollbackOnly();
-                        throw x;
-                    }
-                }
-            }
-        }
-
-        // Now all the table partitions have been allocated, we can mark the tenant as dropped
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                adapter.updateTenantStatus(schema.getAdminSchemaName(), tenantInfo.getTenantId(), TenantStatus.DROPPED);
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-    }
-
-    /**
-     * Temporarily suspend RI so that tables which are the subject of foreign
-     * key relationships can have their partitions dropped. A bit frustrating
-     * to have to go through this, because the child table partition will be
-     * detached before the parent anyway, so theoretically this workaround
-     * shouldn't be necessary.
-     * ALTER TABLE child ALTER FOREIGN KEY fk NOT ENFORCED;
-     * ALTER TABLE parent DETACH PARTITION p0 INTO TABLE pdet;
-     * SET INTEGRITY FOR child OFF;
-     * ALTER TABLE child ALTER FOREIGN KEY fk ENFORCED;
-     * SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
-     */
-    protected void detachTenantPartitions(PhysicalDataModel pdm, TenantInfo tenantInfo) {
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                // collect the set of all child tables with FK relationships to
-                // partitioned tables
-                Set<Table> childTables = new HashSet<>();
-
-                // ALTER TABLE child ALTER FOREIGN KEY fk NOT ENFORCED;
-                pdm.visit(new DisableForeignKey(adapter, childTables));
-
-                // ALTER TABLE parent DETACH PARTITION p0 INTO TABLE pdet;
-                pdm.detachTenantPartitions(adapter, tenantInfo.getTenantSchema(), tenantInfo.getTenantId());
-
-                // SET INTEGRITY FOR child OFF;
-                childTables.forEach(t -> adapter.setIntegrityOff(t.getSchemaName(), t.getObjectName()));
-
-                // ALTER TABLE child ALTER FOREIGN KEY fk ENFORCED;
-                pdm.visit(new EnableForeignKey(adapter));
-
-                // SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
-                childTables.forEach(t -> adapter.setIntegrityUnchecked(t.getSchemaName(), t.getObjectName()));
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-
-    }
-
-    /**
-     * Delete all the metadata associated with the named tenant.
-     */
-    protected void deleteTenantMeta() {
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-        TenantInfo tenantInfo = getTenantInfo();
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                if (tenantInfo.getTenantStatus() == TenantStatus.DROPPED) {
-                    adapter.deleteTenantMeta(schema.getAdminSchemaName(), tenantInfo.getTenantId());
-                } else {
-                    throw new IllegalStateException("Cannot delete tenant meta data until status is " + TenantStatus.DROPPED.name());
-                }
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
-    }
-
-    /**
-     * revokes a tenant key or if no tenant key is specified remove all of them for the
-     * given tenant.
-     */
-    protected void revokeTenantKey() {
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            return;
-        }
-
-        TenantInfo tenantInfo = getTenantInfo();
-        int tenantId = tenantInfo.getTenantId();
-
-        // Only if the Tenant Key file is provided as a parameter is it not null.
-        // in this case we want special behavior.
-        if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
-            tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
-        }
-
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                DeleteTenantKeyDAO dtk = new DeleteTenantKeyDAO(schema.getAdminSchemaName(), tenantId, tenantKey);
-
-                Db2Adapter adapter = new Db2Adapter(connectionPool);
-                adapter.runStatement(dtk);
-                int count = dtk.getCount();
-                logger.info("Tenant Key revoked for '" + tenantInfo.getTenantName() + "' total removed=[" + count + "]");
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
-            }
-        }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -1933,6 +1161,16 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
+            case GRANT_READ_TO:
+                if (++i < args.length) {
+                    DataDefinitionUtil.assertValidName(args[i]);
+
+                    // Force upper-case because user names are case-insensitive
+                    this.grantReadTo = args[i].toUpperCase();
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
             case TARGET:
                 if (++i < args.length) {
                     DataDefinitionUtil.assertValidName(args[i]);
@@ -1972,27 +1210,6 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case ADD_TENANT_KEY:
-                if (++i < args.length) {
-                    this.addKeyForTenant = args[i];
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case REVOKE_TENANT_KEY:
-                if (++i >= args.length) {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                this.tenantName = args[i];
-                this.revokeTenantKey = true;
-                break;
-            case REVOKE_ALL_TENANT_KEYS:
-                if (++i >= args.length) {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                this.tenantName = args[i];
-                this.revokeAllTenantKeys = true;
-                break;
             case UPDATE_PROC:
                 this.updateProc = true;
                 break;
@@ -2001,38 +1218,6 @@ public class Main {
                 break;
             case DROP_ADMIN:
                 this.dropAdmin = true;
-                break;
-            case TEST_TENANT:
-                if (++i < args.length) {
-                    this.tenantName = args[i];
-                    this.testTenant = true;
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case TENANT_NAME:
-                if (++i < args.length) {
-                    this.tenantName = args[i];
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case TENANT_KEY:
-                if (++i < args.length) {
-                    this.tenantKey = args[i];
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case TENANT_KEY_FILE:
-                if (++i < args.length) {
-                    tenantKeyFileName = args[i];
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case LIST_TENANTS:
-                this.listTenants = true;
                 break;
             case UPDATE_SCHEMA:
                 this.updateFhirSchema = true;
@@ -2175,57 +1360,6 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 break;
-            case ALLOCATE_TENANT:
-                if (++i < args.length) {
-                    this.tenantName = args[i];
-                    this.allocateTenant = true;
-                    this.dropTenant = false;
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case REFRESH_TENANTS:
-                this.refreshTenants = true;
-                this.allocateTenant = false;
-                this.dropTenant = false;
-                break;
-            case DROP_TENANT:
-                if (++i < args.length) {
-                    this.tenantName = args[i];
-                    this.dropTenant = true;
-                    this.allocateTenant = false;
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case FREEZE_TENANT:
-                if (++i < args.length) {
-                    this.tenantName = args[i];
-                    this.freezeTenant = true;
-                    this.dropTenant = false;
-                    this.allocateTenant = false;
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case DROP_DETACHED:
-                if (++i < args.length) {
-                    this.tenantName = args[i];
-                    this.dropDetached = true;
-                    this.dropTenant = false;
-                    this.allocateTenant = false;
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case DELETE_TENANT_META:
-                if (++i < args.length) {
-                    this.tenantName = args[i];
-                    this.deleteTenantMeta = true;
-                } else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
             case DB_TYPE:
                 if (++i < args.length) {
                     this.dbType = DbType.from(args[i]);
@@ -2243,17 +1377,9 @@ public class Main {
                     translator = new CitusTranslator();
                     dataSchemaType = SchemaType.DISTRIBUTED; // by default
                     break;
-                case DB2:
-                    translator = new Db2Translator();
-                    dataSchemaType = SchemaType.MULTITENANT;
-                    break;
                 default:
                     break;
                 }
-                break;
-            // Skips the allocateTenant action if the tenant exists (e.g. a shortcircuit)
-            case SKIP_ALLOCATE_IF_TENANT_EXISTS:
-                skipIfTenantExists = true;
                 break;
             case FORCE_UNUSED_TABLE_REMOVAL:
                 forceUnusedTableRemoval = true;
@@ -2340,54 +1466,15 @@ public class Main {
      * Perform the special data migration steps required for the V0010 version of the schema
      */
     protected void applyDataMigrationForV0010() {
-        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            // Process each tenant one-by-one
-            List<TenantInfo> tenants = getTenantList();
-            for (TenantInfo ti : tenants) {
-
-                // If no --schema-name override was specified, we process all tenants, otherwise we
-                // process only tenants which belong to the override schema name
-                if (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema())) {
-                    dataMigrationForV0010(ti);
-                }
-            }
-        } else {
-            doMigrationForV0010();
-        }
+        doMigrationForV0010();
     }
 
     protected void applyDataMigrationForV0014() {
-        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            // Process each tenant one-by-one
-            List<TenantInfo> tenants = getTenantList();
-            for (TenantInfo ti : tenants) {
-
-                // If no --schema-name override was specified, we process all tenants, otherwise we
-                // process only tenants which belong to the override schema name
-                if (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema())) {
-                    dataMigrationForV0014(ti);
-                }
-            }
-        } else {
-            dataMigrationForV0014();
-        }
+        dataMigrationForV0014();
     }
 
     protected void applyDataMigrationForV0027() {
-        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            // Process each tenant one-by-one
-            List<TenantInfo> tenants = getTenantList();
-            for (TenantInfo ti : tenants) {
-
-                // If no --schema-name override was specified, we process all tenants, otherwise we
-                // process only tenants which belong to the override schema name
-                if (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema())) {
-                    dataMigrationForV0027(ti);
-                }
-            }
-        } else {
-            dataMigrationForV0027();
-        }
+        dataMigrationForV0027();
     }
 
     /**
@@ -2431,40 +1518,6 @@ public class Main {
     }
 
     /**
-     * Migrate the IS_DELETED data for the given tenant
-     *
-     * @param ti
-     */
-    private void dataMigrationForV0010(TenantInfo ti) {
-        // Multi-tenant schema so we know this is Db2:
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-
-        Set<String> resourceTypes = getResourceTypes();
-
-        // Process each update in its own transaction so we don't stress the tx log space
-        for (String resourceTypeName : resourceTypes) {
-            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-                try {
-                    SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
-                    adapter.runStatement(setTenantId);
-
-                    GetXXLogicalResourceNeedsMigration needsMigrating = new GetXXLogicalResourceNeedsMigration(schema.getSchemaName(), resourceTypeName);
-                    if (adapter.runStatement(needsMigrating)) {
-                        logger.info("V0010 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES.IS_DELETED "
-                                + "for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
-                        InitializeLogicalResourceDenorms cmd = new InitializeLogicalResourceDenorms(schema.getSchemaName(), resourceTypeName);
-                        adapter.runStatement(cmd);
-                    }
-                } catch (DataAccessException x) {
-                    // Something went wrong, so mark the transaction as failed
-                    tx.setRollbackOnly();
-                    throw x;
-                }
-            }
-        }
-    }
-
-    /**
      * Perform the data migration for V0010 (non-multi-tenant schema)
      */
     private void doMigrationForV0010() {
@@ -2496,37 +1549,6 @@ public class Main {
     }
 
     /**
-     * Migrate the LOGICAL_RESOURCE IS_DELETED and LAST_UPDATED data for the given tenant
-     *
-     * @param ti
-     */
-    private void dataMigrationForV0014(TenantInfo ti) {
-        // Multi-tenant schema so we know this is Db2:
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-
-        List<ResourceType> resourceTypes = getResourceTypesList(adapter, schema.getSchemaName());
-
-        // Process each update in its own transaction so we don't over-stress the tx log space
-        for (ResourceType resourceType : resourceTypes) {
-            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-                try {
-                    SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
-                    adapter.runStatement(setTenantId);
-
-                    logger.info("V0014 Migration: Updating " + "LOGICAL_RESOURCES.IS_DELETED and LAST_UPDATED for " + resourceType.toString()
-                            + " for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
-
-                    dataMigrationForV0014(adapter, ti.getTenantSchema(), resourceType);
-                } catch (DataAccessException x) {
-                    // Something went wrong, so mark the transaction as failed
-                    tx.setRollbackOnly();
-                    throw x;
-                }
-            }
-        }
-    }
-
-    /**
      * Migrate the LOGICAL_RESOURCE IS_DELETED and LAST_UPDATED data
      */
     private void dataMigrationForV0014() {
@@ -2543,27 +1565,6 @@ public class Main {
                     tx.setRollbackOnly();
                     throw x;
                 }
-            }
-        }
-    }
-
-    private void dataMigrationForV0027(TenantInfo ti) {
-        // Multi-tenant schema so we know this is Db2:
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-
-        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-            try {
-                SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
-                adapter.runStatement(setTenantId);
-
-                logger.info("V0027 Migration: Populating LOGICAL_RESOURCE_IDENT for tenant['" 
-                        + ti.getTenantName() + "' in schema '" + ti.getTenantSchema() + "']");
-
-                dataMigrationForV0027(adapter, ti.getTenantSchema());
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
             }
         }
     }
@@ -2614,13 +1615,8 @@ public class Main {
     private void dataMigrationForV0027(IDatabaseAdapter adapter, String schemaName) {
         GetLogicalResourceNeedsV0027Migration needsMigrating = new GetLogicalResourceNeedsV0027Migration(schemaName);
         if (adapter.runStatement(needsMigrating)) {
-            if (this.dataSchemaType == SchemaType.MULTITENANT) {
-                MigrateV0027LogicalResourceIdentMT cmd = new MigrateV0027LogicalResourceIdentMT(schemaName);
-                adapter.runStatement(cmd);
-            } else {
-                MigrateV0027LogicalResourceIdent cmd = new MigrateV0027LogicalResourceIdent(schemaName);
-                adapter.runStatement(cmd);
-            }
+            MigrateV0027LogicalResourceIdent cmd = new MigrateV0027LogicalResourceIdent(schemaName);
+            adapter.runStatement(cmd);
         }
     }
 
@@ -2628,63 +1624,15 @@ public class Main {
      * Backfill the RESOURCE_CHANGE_LOG table if it is empty
      */
     protected void backfillResourceChangeLog() {
-        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
-            // Process each tenant one-by-one
-            List<TenantInfo> tenants = getTenantList();
-            for (TenantInfo ti : tenants) {
-
-                // If no --schema-name override was specified, we process all tenants, otherwise we
-                // process only tenants which belong to the override schema name
-                if (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema())) {
-                    backfillResourceChangeLogDb2(ti);
-                }
-            }
-        } else {
-            // Not a multi-tenant database, so we only have to do this once
-            IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
-            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-                try {
-                    GetResourceChangeLogEmpty isEmpty = new GetResourceChangeLogEmpty(schema.getSchemaName());
-                    if (adapter.runStatement(isEmpty)) {
-                        // change log is empty, so we need to backfill it with data
-                        doBackfill(adapter);
-                    } else {
-                        logger.info("RESOURCE_CHANGE_LOG has data so skipping backfill");
-                    }
-                } catch (DataAccessException x) {
-                    // Something went wrong, so mark the transaction as failed
-                    tx.setRollbackOnly();
-                    throw x;
-                }
-            }
-        }
-    }
-
-    /**
-     * backfill the resource_change_log table if it is empty
-     */
-    protected void backfillResourceChangeLogDb2(TenantInfo ti) {
-
-        Db2Adapter adapter = new Db2Adapter(connectionPool);
-
-        Set<String> resourceTypes = getResourceTypes();
-
+        IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
-                adapter.runStatement(setTenantId);
-
                 GetResourceChangeLogEmpty isEmpty = new GetResourceChangeLogEmpty(schema.getSchemaName());
                 if (adapter.runStatement(isEmpty)) {
                     // change log is empty, so we need to backfill it with data
-                    for (String resourceTypeName : resourceTypes) {
-                        logger.info("Backfilling RESOURCE_CHANGE_LOG with " + resourceTypeName
-                                + " resources for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
-                        BackfillResourceChangeLogDb2 backfill = new BackfillResourceChangeLogDb2(schema.getSchemaName(), resourceTypeName);
-                        adapter.runStatement(backfill);
-                    }
+                    doBackfill(adapter);
                 } else {
-                    logger.info("RESOURCE_CHANGE_LOG has data for tenant '" + ti.getTenantName() + "' so skipping backfill");
+                    logger.info("RESOURCE_CHANGE_LOG has data so skipping backfill");
                 }
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
@@ -2813,9 +1761,6 @@ public class Main {
             logger.warning("**** Citus size report is incomplete ****");
             collector = new CitusSizeCollector(model);
             break;
-        case DB2:
-            collector = new Db2SizeCollector(model, this.tenantName);
-            break;
         case DERBY:
             collector = null;
             logger.severe("Size report not supported for Derby databases");
@@ -2892,8 +1837,6 @@ public class Main {
 
         if (showDbSize) {
             generateDbSizeReport();
-        } else if (addKeyForTenant != null) {
-            addTenantKey();
         } else if (updateVacuum) {
             updateVacuumSettings();
         } else if (this.dropAdmin || this.dropFhirSchema || this.dropJavaBatchSchema || this.dropOauthSchema) {
@@ -2909,32 +1852,10 @@ public class Main {
             createSchemas();
         } else if (updateProc) {
             updateProcedures();
-        } else if (this.allocateTenant) {
-            allocateTenant();
-        } else if (this.listTenants) {
-            listTenants();
-        } else if (this.refreshTenants) {
-            refreshTenants();
-        } else if (this.testTenant) {
-            testTenant();
-        } else if (this.freezeTenant) {
-            freezeTenant();
-        } else if (this.dropDetached) {
-            dropDetachedPartitionTables();
-        } else if (this.deleteTenantMeta) {
-            deleteTenantMeta();
-        } else if (this.dropTenant) {
-            dropTenant();
-        } else if (this.revokeTenantKey) {
-            revokeTenantKey();
-        } else if (this.revokeAllTenantKeys) {
-            if (this.tenantKey != null) {
-                throw new IllegalArgumentException("[ERROR] --tenant-key <key-value> should not be specified together with --drop-all-tenant-keys");
-            }
-            revokeTenantKey();
-        } else if (grantTo != null) {
-            // Finally, if --grant-to has been specified on its own, we simply rerun all the grants
-            // which allows granting server to more than one user if that's required
+        } else if (grantTo != null || grantReadTo != null) {
+            // Finally, if --grant-to or --grant-read-to has been specified on its own, 
+            // we simply rerun all the grants which allows granting server to more than 
+            // one user if that's required
             grantPrivileges();
         }
 

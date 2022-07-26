@@ -7,7 +7,6 @@
         <feature>jaxrs-2.1</feature>
         <feature>servlet-4.0</feature>
         <feature>jsonp-1.1</feature>
-        <!-- the db2 jcc driver for 11.5.0.0 doesn't fully implement jdbc-4.2 -->
         <feature>jdbc-4.1</feature>
         <feature>websocket-1.1</feature>
         <feature>localConnector-1.0</feature>
@@ -89,9 +88,6 @@
     </library>
 
     <!-- Shared library definitions for the supported database types -->
-    <library id="sharedLibDb2">
-        <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
-    </library>
     <library id="sharedLibDerby">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
     </library>

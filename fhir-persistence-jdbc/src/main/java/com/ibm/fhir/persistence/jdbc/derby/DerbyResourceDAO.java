@@ -34,7 +34,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchExcept
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -66,8 +65,15 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
     private static final DerbyTranslator translator = new DerbyTranslator();
 
-    public DerbyResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
-        super(connection, schemaName, flavor, cache, rrd);
+    /**
+     * Public constructor
+     * @param connection
+     * @param schemaName
+     * @param flavor
+     * @param cache
+     */
+    public DerbyResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache) {
+        super(connection, schemaName, flavor, cache);
     }
 
     /**
@@ -75,9 +81,11 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * for a stand-alone full FHIR server.
      * @param strat the connection strategy
      * @param trxSynchRegistry
+     * @param cache
+     * @param ptdi
      */
-    public DerbyResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, ParameterTransactionDataImpl ptdi) {
-        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+    public DerbyResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi) {
+        super(connection, schemaName, flavor, trxSynchRegistry, cache, ptdi);
     }
 
     @Override
@@ -180,8 +188,8 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * This works because we never delete a logical_resource record, and so don't have to deal
      * with concurrency issues caused when deletes are mingled with inserts/updates
      *
-     * Note the execution flow aligns very closely with the DB2 stored procedure
-     * implementation (fhir-persistence-schema/src/main/resources/db2/add_any_resource.sql)
+     * Note the execution flow aligns very closely with the PostgreSQL stored procedure
+     * implementation (fhir-persistence-schema/src/main/resources/postgres/add_any_resource.sql)
      *
      * @param tablePrefix
      * @param parameters

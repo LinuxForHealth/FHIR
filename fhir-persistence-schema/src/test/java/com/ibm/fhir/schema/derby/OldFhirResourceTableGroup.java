@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,7 +32,6 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LONGITUDE_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.NUMBER_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
@@ -61,7 +60,6 @@ import com.ibm.fhir.database.utils.model.GroupPrivilege;
 import com.ibm.fhir.database.utils.model.IDatabaseObject;
 import com.ibm.fhir.database.utils.model.ObjectGroup;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
-import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.schema.control.FhirSchemaTags;
@@ -71,8 +69,6 @@ import com.ibm.fhir.schema.control.FhirSchemaTags;
  *
  * @implNote This is a copy of the FhirResourceTableGroup class from the IBM FHIR Server 4.0.1 release.
  *           Its copied to here in order to provide the DerbyMigrationTest with a way of creating the old schema.
- *           Moving forward, we expect to download and use the executable jar (fhir-persistence-schema-*-cli.jar)
- *           to create older versions of the schema, but version 4.0.1 doesn't support Derby so we can't.
  */
 public class OldFhirResourceTableGroup {
     // The model containing all the tables for the entire schema
@@ -80,9 +76,6 @@ public class OldFhirResourceTableGroup {
 
     // The schema we place all of our tables into
     private final String schemaName;
-
-    // The session variable we depend on for access control
-    private final SessionVariableDef sessionVariable;
 
     // All the tables created by this component
     @SuppressWarnings("unused")
@@ -114,12 +107,17 @@ public class OldFhirResourceTableGroup {
 
     /**
      * Public constructor
+     * 
+     * @param model
+     * @param schemaName
+     * @param procedureDependencies
+     * @param fhirTablespace
+     * @param privileges
      */
-    public OldFhirResourceTableGroup(PhysicalDataModel model, String schemaName, SessionVariableDef sessionVariable,
+    public OldFhirResourceTableGroup(PhysicalDataModel model, String schemaName,
             Set<IDatabaseObject> procedureDependencies, Tablespace fhirTablespace, Collection<GroupPrivilege> privileges) {
         this.model = model;
         this.schemaName = schemaName;
-        this.sessionVariable = sessionVariable;
         this.procedureDependencies = procedureDependencies;
         this.fhirTablespace = fhirTablespace;
         this.resourceTablePrivileges = privileges;
@@ -176,7 +174,6 @@ public class OldFhirResourceTableGroup {
         // We also have a FK constraint pointing back to that table to try and keep
         // things sensible.
         Table tbl = Table.builder(schemaName, tableName)
-                .setTenantColumnName(MT_ID)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
@@ -185,7 +182,6 @@ public class OldFhirResourceTableGroup {
                 .addForeignKeyConstraint("FK_" + tableName + "_LRID", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 // Add indexes to avoid dead lock issue of derby, and improve Db2 performance
                 // Derby requires all columns used in where clause to be indexed, otherwise whole table lock will be
                 // used instead of row lock, which can cause dead lock issue frequently during concurrent accesses.
@@ -233,7 +229,6 @@ public class OldFhirResourceTableGroup {
         final String tableName = prefix + _RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setTenantColumnName(MT_ID)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(        RESOURCE_ID,              false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,              false)
@@ -246,7 +241,6 @@ public class OldFhirResourceTableGroup {
                 .addPrimaryKey(tableName + "_PK", RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model);
 
         group.add(tbl);
@@ -282,7 +276,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // Parameters are tied to the logical resource
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(         STR_VALUE, msb,  true)
@@ -298,7 +291,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 
@@ -331,7 +323,6 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addIntColumn(        CODE_SYSTEM_ID,      false)
@@ -346,7 +337,6 @@ ALTER TABLE device_token_values ADD CONSTRAINT fk_device_token_values_r  FOREIGN
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 
@@ -383,7 +373,6 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addTimestampColumn(      DATE_VALUE_DROPPED_COLUMN,      true)
@@ -401,7 +390,6 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 
@@ -435,7 +423,6 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(       NUMBER_VALUE,       true)
@@ -448,7 +435,6 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                 .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 
@@ -481,7 +467,6 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(     LATITUDE_VALUE,       true)
@@ -497,7 +482,6 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
                 .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 
@@ -539,7 +523,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(             ROW_ID,      false)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(              CODE, 255, false)
@@ -560,7 +543,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 
@@ -606,7 +588,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         // Parameters are tied to the logical resource
         Table.Builder tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID, false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false);
 
@@ -635,8 +616,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable);
-
+                ;
         Table composites = tbl.build(model);
         group.add(composites);
         model.addTable(composites);
@@ -656,7 +636,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, LIST_LOGICAL_RESOURCE_ITEMS)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn( LOGICAL_RESOURCE_ID,      false)
                 .addIntColumn(       RESOURCE_TYPE_ID,      false)
                 .addVarcharColumn(    ITEM_LOGICAL_ID, lib,  true)
@@ -664,7 +643,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .addForeignKeyConstraint(FK + LIST_LOGICAL_RESOURCE_ITEMS + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 
@@ -687,7 +665,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, PATIENT_CURRENT_REFS)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setTenantColumnName(MT_ID)
                 .addBigIntColumn(         LOGICAL_RESOURCE_ID,      false)
                 .addVarcharColumn(      CURRENT_PROBLEMS_LIST, lib,  true)
                 .addVarcharColumn(   CURRENT_MEDICATIONS_LIST, lib,  true)
@@ -697,7 +674,6 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .addForeignKeyConstraint(FK + PATIENT_CURRENT_REFS + "_LRID", schemaName, PATIENT_LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
-                .enableAccessControl(this.sessionVariable)
                 .build(model)
                 ;
 

@@ -25,8 +25,6 @@ import com.ibm.fhir.database.utils.citus.CitusAdapter;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.common.LogFormatter;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
-import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.model.DbType;
@@ -108,8 +106,6 @@ public final class CommonUtil {
 
     public static JdbcPropertyAdapter getPropertyAdapter(DbType dbType, Properties props) {
         switch (dbType) {
-        case DB2:
-            return new Db2PropertyAdapter(props);
         case DERBY:
             return new DerbyPropertyAdapter(props);
         case POSTGRESQL:
@@ -122,8 +118,6 @@ public final class CommonUtil {
 
     public static IDatabaseAdapter getDbAdapter(DbType dbType, JdbcTarget target) {
         switch (dbType) {
-        case DB2:
-            return new Db2Adapter(target);
         case DERBY:
             return new DerbyAdapter(target);
         case POSTGRESQL:
@@ -147,8 +141,6 @@ public final class CommonUtil {
         switch (schemaType) {
         case PLAIN:
             return new FhirSchemaAdapter(dbAdapter);
-        case MULTITENANT:
-            return new FhirSchemaAdapter(dbAdapter);
         case DISTRIBUTED:
             return new DistributedSchemaAdapter(dbAdapter, DEFAULT_DISTRIBUTION_COLUMN);
         case SHARDED:
@@ -169,8 +161,6 @@ public final class CommonUtil {
         switch (schemaType) {
         case PLAIN:
             return new FhirSchemaAdapter(dbAdapter);
-        case MULTITENANT:
-            return new FhirSchemaAdapter(dbAdapter);
         case DISTRIBUTED:
             return new DistributedSchemaAdapter(dbAdapter, DEFAULT_DISTRIBUTION_COLUMN);
         case SHARDED:
@@ -182,8 +172,6 @@ public final class CommonUtil {
 
     public static IDatabaseAdapter getDbAdapter(DbType dbType, IConnectionProvider connectionProvider) {
         switch (dbType) {
-        case DB2:
-            return new Db2Adapter(connectionProvider);
         case DERBY:
             return new DerbyAdapter(connectionProvider);
         case POSTGRESQL:

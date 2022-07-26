@@ -3,7 +3,6 @@ This readme applies to all files in this folder:
 # Datasources used for server integration tests
 
 ```
-datasource-db2.xml
 datasource-derby.xml
 datasource-postgresql.xml
 ```

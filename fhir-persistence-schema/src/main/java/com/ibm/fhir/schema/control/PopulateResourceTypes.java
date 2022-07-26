@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,40 +34,24 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 public class PopulateResourceTypes implements IDatabaseStatement {
 
     private static final Logger LOGGER = Logger.getLogger(PopulateResourceTypes.class.getName());
-    private final String adminSchemaName;
     private final String schemaName;
-    private final Integer tenantId;
 
     private static final String Y = "Y";
 
-    public PopulateResourceTypes(String adminSchemaName, String schemaName, Integer tenantId) {
-        this.adminSchemaName = adminSchemaName;
+    /**
+     * Public constructor
+     * @param schemaName
+     */
+    public PopulateResourceTypes(String schemaName) {
         this.schemaName = schemaName;
-        this.tenantId = tenantId;
     }
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        final String stmtVariable = String.format("SET %s.SV_TENANT_ID = %d", adminSchemaName, tenantId);
-        final String stmtResourceTypeInsert;
         final String RESOURCE_TYPES = String.format("SELECT resource_type_id, resource_type, retired FROM %s.resource_types", schemaName);
-        if (tenantId != null) {
-            stmtResourceTypeInsert = String.format("INSERT INTO %s.resource_types (mt_id, resource_type_id, resource_type) "
-                    + "VALUES (%s.sv_tenant_id, ?, ?)", schemaName, adminSchemaName);
-        } else {
-            stmtResourceTypeInsert = String.format("INSERT INTO %s.resource_types (resource_type_id, resource_type) "
+        final String stmtResourceTypeInsert = String.format("INSERT INTO %s.resource_types (resource_type_id, resource_type) "
                     + "VALUES (?, ?)", schemaName);
-        }
         final String stmtResourceTypeUpdate = String.format("UPDATE %s.resource_types SET retired = 'Y' WHERE resource_type = ?", schemaName);
-
-        // Only if it's multitenant is tenantId not null.
-        if (tenantId != null) {
-            try (Statement s = c.createStatement();) {
-                s.execute(stmtVariable);
-            } catch (SQLException e) {
-                throw translator.translate(e);
-            }
-        }
 
         Map<String, Integer> values = new HashMap<>();
         List<String> previouslyRetiredTypes = new ArrayList<>();

@@ -1,12 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc;
 
-import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IIdNameCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
@@ -30,10 +30,10 @@ public interface FHIRPersistenceJDBCCache {
     void clearNeedToPrefill();
 
     /**
-     * Getter for the common token values cache
+     * Getter for the common values cache
      * @return
      */
-    ICommonTokenValuesCache getResourceReferenceCache();
+    ICommonValuesCache getCommonValuesCache();
 
     /**
      * Getter for the cache handling lookups for logical_resource_id values

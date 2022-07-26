@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,24 +35,9 @@ public interface DataModelVisitor {
     public void visited(ProcedureDef procedureDef);
 
     /**
-     * @param rowArrayType
-     */
-    public void visited(RowArrayType rowArrayType);
-
-    /**
-     * @param rowType
-     */
-    public void visited(RowType rowType);
-
-    /**
      * @param sequence
      */
     public void visited(Sequence sequence);
-
-    /**
-     * @param sessionVariableDef
-     */
-    public void visited(SessionVariableDef sessionVariableDef);
 
     /**
      * @param tablespace

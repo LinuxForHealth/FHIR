@@ -44,7 +44,7 @@ public class ShardedSchemaAdapter extends FhirSchemaAdapter {
     }
 
     @Override
-    public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey, IdentityDef identity,
+    public void createTable(String schemaName, String name, List<ColumnBase> columns, PrimaryKeyDef primaryKey, IdentityDef identity,
         String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints, DistributionType distributionType, String distributionColumnName) {
         // If the table is distributed, we need to inject the distribution column into the columns list. This same
         // column will need to be injected into each of the index definitions
@@ -63,11 +63,11 @@ public class ShardedSchemaAdapter extends FhirSchemaAdapter {
 
         actualColumns.addAll(columns);
         DistributionContext dc = new DistributionContext(distributionType, shardColumnName);
-        databaseAdapter.createTable(schemaName, name, tenantColumnName, actualColumns, primaryKey, identity, tablespaceName, withs, checkConstraints, dc);
+        databaseAdapter.createTable(schemaName, name, actualColumns, primaryKey, identity, tablespaceName, withs, checkConstraints, dc);
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns,
         List<String> includeColumns, DistributionType distributionType, String distributionColumnName) {
         
         List<OrderedColumnDef> actualColumns = new ArrayList<>(indexColumns);
@@ -78,11 +78,11 @@ public class ShardedSchemaAdapter extends FhirSchemaAdapter {
 
         // Create the index using the modified set of index columns
         DistributionContext dc = new DistributionContext(distributionType, shardColumnName);
-        databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, actualColumns, includeColumns, dc);
+        databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, actualColumns, includeColumns, dc);
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns,
         DistributionType distributionType, String distributionColumnName) {
 
         List<OrderedColumnDef> actualColumns = new ArrayList<>(indexColumns);
@@ -93,18 +93,18 @@ public class ShardedSchemaAdapter extends FhirSchemaAdapter {
 
         // Create the index using the modified set of index columns
         DistributionContext dc = new DistributionContext(distributionType, shardColumnName);
-        databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, actualColumns, dc);
+        databaseAdapter.createUniqueIndex(schemaName, tableName, indexName, actualColumns, dc);
     }
 
     @Override
-    public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns, DistributionType distributionType) {
+    public void createIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns, DistributionType distributionType) {
         // Create the index using the modified set of index columns
-        databaseAdapter.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns);
+        databaseAdapter.createIndex(schemaName, tableName, indexName, indexColumns);
     }
 
     @Override
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema, String targetTable,
-        String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced, DistributionType distributionType, boolean targetIsReference) {
+        String targetColumnName, List<String> columns, boolean enforced, DistributionType distributionType, boolean targetIsReference) {
         // If both this and the target table are distributed, we need to add the distributionColumnName
         // to the FK relationship definition. If the target is a reference, it won't have the shard_key
         // column because the table is fully replicated across all nodes and therefore any FK relationship
@@ -113,6 +113,6 @@ public class ShardedSchemaAdapter extends FhirSchemaAdapter {
         if (distributionType == DistributionType.DISTRIBUTED && !targetIsReference) {
             newCols.add(shardColumnName);
         }
-        databaseAdapter.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, tenantColumnName, newCols, enforced);
+        databaseAdapter.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, newCols, enforced);
     }
 }

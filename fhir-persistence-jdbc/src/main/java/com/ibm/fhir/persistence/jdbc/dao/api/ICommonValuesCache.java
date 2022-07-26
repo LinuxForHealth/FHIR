@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
  * likely to be too many unique token-values to cache, so these need
  * to be retrieved on-demand and managed as LRU.
  */
-public interface ICommonTokenValuesCache {
+public interface ICommonValuesCache {
 
     /**
      * Take the records we've touched in the current thread and update the

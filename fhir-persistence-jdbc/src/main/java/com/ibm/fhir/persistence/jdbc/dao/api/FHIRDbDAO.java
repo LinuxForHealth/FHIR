@@ -26,11 +26,6 @@ public interface FHIRDbDAO {
     Connection getConnection() throws FHIRPersistenceDBConnectException;
 
     /**
-     * @return true if this DAO is connected to a DB2 database.
-     */
-    boolean isDb2Database();
-
-    /**
      * Get the database flavor, which describes the database type and
      * its capabilities (e.g. is it multi-tenant?)
      * @return

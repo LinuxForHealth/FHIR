@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -41,7 +41,7 @@ public class DropForeignKeyConstraint implements IDatabaseStatement {
     public void run(IDatabaseTranslator translator, Connection c) {
         String qTableName = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
 
-        // Need to account for the syntax differences betweeb Db2/Derby and PostgreSQL
+        // Need to account for the syntax differences between Derby and PostgreSQL
         // DB2: ALTER TABLE tbl DROP FOREIGN KEY fkConstraintName
         // PostgreSQL: ALTER TABLE tbl DROP CONSTRAINT fkConstraintName
         for (String constraintName : constraintNames) {

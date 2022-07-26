@@ -35,12 +35,6 @@
             <package name="com.ibm.fhir.server.test.bulkdata" />
         </packages>
     </test>
-    <test name="Db2Tests">
-        <packages>
-            <!-- All of these Db2 tests are skipped by default, and enabled in test.properties -->
-            <package name="com.ibm.fhir.server.test.db2" />
-        </packages>
-    </test>
     <test name="KafkaTests">
         <packages>
             <!-- All of these Kafka tests are skipped by default, and enabled in test.properties -->

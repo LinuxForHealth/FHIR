@@ -20,9 +20,7 @@ import com.ibm.fhir.database.utils.model.Table;
  * admin schema. This makes it easier to keep data private so that tenants
  * aren't able to see the schema version used by other tenants, but do
  * get to see their own tenant version. This is because the table will
- * contain only one row. For Db2 multitenant, all tenants
- * in a schema share the same version, so we don't need to add mt_id,
- * making things a little simpler.
+ * contain only one row.
  * <p>
  */
 public class CreateWholeSchemaVersion {

@@ -11,9 +11,6 @@ package com.ibm.fhir.schema.control;
  */
 public class FhirSchemaConstants {
 
-    // This limit is used to limit db2 size in a stored procedure.
-    public static final int STORED_PROCEDURE_SIZE_LIMIT = 1048576;
-
     // Make sure the connection pool is sized larger than the thread pool
     public static final int CONNECTION_POOL_HEADROOM = 9;
 
@@ -36,6 +33,7 @@ public class FhirSchemaConstants {
     public static final String FHIR_USER_GRANT_GROUP = "fhiruser";
     public static final String FHIR_BATCH_GRANT_GROUP = "fhirbatch";
     public static final String FHIR_OAUTH_GRANT_GROUP = "fhiroauth";
+    public static final String FHIR_READ_USER_GRANT_GROUP = "fhirreaduser";
 
     public static final String FHIR_SEQUENCE = "FHIR_SEQUENCE";
     public static final String FHIR_REF_SEQUENCE = "FHIR_REF_SEQUENCE";

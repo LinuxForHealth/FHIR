@@ -16,9 +16,6 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
-import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
-import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
@@ -65,9 +62,6 @@ public class DatabaseSupport implements IConnectionProvider, ITransactionProvide
      */
     public void init() {
         switch (this.dbType) {
-        case DB2:
-            configureForDb2();
-            break;
         case DERBY:
             configureForDerby();
             break;
@@ -96,27 +90,7 @@ public class DatabaseSupport implements IConnectionProvider, ITransactionProvide
     }
 
     /**
-     * Set up the connection pool and transaction provider for connecting to a DB2
-     * database
-     */
-    private void configureForDb2() {
-
-        this.translator = new Db2Translator();
-        try {
-            Class.forName(translator.getDriverClassName());
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException(e);
-        }
-
-        Db2PropertyAdapter propertyAdapter = new Db2PropertyAdapter(dbProperties);
-        IConnectionProvider cp = new JdbcConnectionProvider(translator, propertyAdapter);
-        this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
-        this.adapter = new Db2Adapter(connectionPool);
-        this.transactionProvider = new SimpleTransactionProvider(connectionPool);
-    }
-
-    /**
-     * Set up the connection pool and transaction provider for connecting to a DB2
+     * Set up the connection pool and transaction provider for connecting to a PostgreSQL
      * database
      */
     private void configureForPostgresql() {

@@ -64,9 +64,6 @@ import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
-import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
-import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
@@ -644,9 +641,6 @@ public class Main {
         // if we're only running the client-load or reindex helper modes
         if (this.dbType != null) {
             switch (this.dbType) {
-            case DB2:
-                setupDb2Repository();
-                break;
             case DERBY:
                 setupDerbyRepository();
                 break;
@@ -687,31 +681,7 @@ public class Main {
     }
 
     /**
-     * Set up the connection pool and transaction provider for connecting to a DB2
-     * database
-     */
-    public void setupDb2Repository() {
-        if (schemaName == null) {
-            schemaName = DEFAULT_SCHEMA_NAME;
-        }
-
-        this.translator = new Db2Translator();
-        try {
-            Class.forName(translator.getDriverClassName());
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException(e);
-        }
-
-        Db2PropertyAdapter propertyAdapter = new Db2PropertyAdapter(dbProperties);
-        IConnectionProvider cp = new JdbcConnectionProvider(translator, propertyAdapter);
-        this.connectionPool = new PoolConnectionProvider(cp, connectionPoolSize);
-        this.adapter = new Db2Adapter(connectionPool);
-        this.schemaAdapter = new PlainSchemaAdapter(adapter);
-        this.transactionProvider = new SimpleTransactionProvider(connectionPool);
-    }
-
-    /**
-     * Set up the connection pool and transaction provider for connecting to a DB2
+     * Set up the connection pool and transaction provider for connecting to a PostgreSQL
      * database
      */
     public void setupPostgresRepository() {
