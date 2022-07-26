@@ -13,11 +13,14 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.mockito.ArgumentCaptor;
@@ -58,6 +61,7 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceSupport;
+import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
@@ -156,6 +160,106 @@ public class FHIRRestHelperTest {
         Bundle.Entry.Response response = entry.getResponse();
         assertEquals(response.getLocation().getValue(), "Patient/generated-0/_history/1");
         assertEquals(response.getStatus().getValue(), "201");
+    }
+
+    @Test
+    public void testAfterSearchInterceptor() throws Exception {
+        final String testResourceId = "testAfterSearchInterceptor";
+        FHIRPersistenceInterceptor interceptor = new FHIRPersistenceInterceptor() {
+
+            @Override
+            public void afterSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+                assertNotNull(event.getFhirResource());
+                final Resource searchResult = event.getFhirResource();
+                
+                if (searchResult.is(Bundle.class)) {
+                    Bundle searchResultBundle = searchResult.as(Bundle.class);
+    
+                    // The interceptor is global, so we may get calls from other tests which we should just ignore
+                    boolean foundTarget = false;
+                    for (Bundle.Entry entry: searchResultBundle.getEntry()) {
+                        Resource r = entry.getResource();
+                        if (r != null && testResourceId.equals(r.getId())) {
+                            foundTarget = true;
+                            break;
+                        }
+                    }
+                    
+                    if (foundTarget) {
+                        // Inject a new patient into the bundle and update the event
+                        Patient patient = Patient.builder()
+                                .id("42")
+                                .generalPractitioner(Reference.builder()
+                                    .reference(string("Practitioner/42"))
+                                    .build())
+                                .build();
+        
+                        Bundle.Entry.Response patientEntry = Bundle.Entry.Response.builder()
+                                .status("200")
+                                .id("ber42")
+                                .build();
+                        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                                .resource(patient)
+                                .response(patientEntry)
+                                .build();
+        
+                        searchResultBundle = searchResultBundle.toBuilder()
+                                .entry(bundleEntry).build();
+                        event.setFhirResource(searchResultBundle);
+                    }
+                }
+            }
+        };
+        FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(interceptor);
+
+        // Create the search response for our persistence mock
+        Patient patient = Patient.builder()
+            .name(HumanName.builder()
+                .given(string("John"))
+                .family(string("Doe"))
+                .build())
+            .id(testResourceId) // so the interceptor knows it is this test
+            .meta(Meta.builder()
+                .lastUpdated(Instant.now())
+                .versionId(Id.of("1"))
+                .build())
+            .build();
+
+        MultiResourceResult searchResult = MultiResourceResult.builder()
+                .resourceResult(ResourceResult.from(patient))
+                .success(true)
+                .build();
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        @SuppressWarnings("unchecked")
+        SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
+        when(mockResult.getResource()).thenReturn(patient);
+
+        when(persistence.generateResourceId()).thenReturn("generated-0");
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.read(any(), any(), any())).thenReturn(mockResult);
+        when(persistence.search(any(), any())).thenReturn(searchResult);
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
+        // Call doSearch
+        MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
+        Bundle searchResponse = helper.doSearch("Patient", null, null, queryParameters, "uri");
+        assertNotNull(searchResponse);
+        // Verify that the search result contains both patient 123 and patient 42 (which was
+        // injected by the afterSearch interceptor)
+        boolean got123 = false;
+        boolean got42 = false;
+        for (Bundle.Entry entry: searchResponse.getEntry()) {
+            assertNotNull(entry.getResource());
+            if (testResourceId.equals(entry.getResource().getId())) {
+                got123 = true;
+            }
+            if ("42".equals(entry.getResource().getId())) {
+                got42 = true;
+            }
+        }
+        assertTrue(got123);
+        assertTrue(got42);
     }
 
     /**

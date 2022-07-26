@@ -1401,6 +1401,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Invoke the 'afterSearch' interceptor methods.
             getInterceptorMgr().fireAfterSearchEvent(event);
 
+            // Interceptors might want to change the response bundle, so make sure pick up the new value.
+            // Protect against an interceptor returning something other than a Bundle
+            Resource afterSearchEventValue = event.getFhirResource();
+            if (afterSearchEventValue.is(Bundle.class)) {
+                bundle = afterSearchEventValue.as(Bundle.class);
+            }
+
             // Commit our transaction if we started one before.
             txn.commit();
             txn = null;
