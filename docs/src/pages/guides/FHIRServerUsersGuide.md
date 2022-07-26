@@ -1786,7 +1786,7 @@ The following table describes the JSON fields of the CADF audit log entries logg
 |`typeURI`                                             |TypeURI property of the CADF event entity. Value is always "http://schemas.dmtf.org/cloud/audit/1.0/event".|
 |`attachments`                                         |Note: Contains FHIR server-specific audit event data.|
 |`attachments/contentType`                             |FHIR server-specific audit event data content type. Value is always "application/json".|
-|`attachments/content`                                 |Note: Contents of this field (with its subfields) is encoded as Base64.
+|`attachments/content`                                 |Note: Contents of this field (with its subfields) is encoded as Base64 with a 4-byte header.
 |`attachments/content/request_unique_id`               |Globally unique identifier for the FHIR server request.|
 |`attachments/content/action`                          |FHIR action type. Possible values are "C" (create), "U" (update), "R" (read), "D" (delete), "P" (patch), and "O" (custom operation).|
 |`attachments/content/operation_name`                  |FHIR custom operation name.|
