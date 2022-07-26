@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.database.utils.common.DatabaseTranslatorFactory;
-import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.query.QueryUtil;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -434,11 +433,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     protected Resource createDTO(ResultSet resultSet, boolean hasResourceTypeId) throws FHIRPersistenceDataAccessException {
         // Can be overridden by subclasses that need to return DTOs.
         return null;
-    }
-
-    @Override
-    public boolean isDb2Database() {
-        return this.flavor.getType() == DbType.DB2;
     }
 
     protected FHIRPersistenceDataAccessException buildExceptionWithIssue(String msg, IssueType issueType)

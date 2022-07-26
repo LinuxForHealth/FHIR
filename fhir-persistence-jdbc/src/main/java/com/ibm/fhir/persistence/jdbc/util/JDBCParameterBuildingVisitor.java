@@ -86,7 +86,6 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
     private static final boolean FORCE_CASE_SENSITIVE = true;
 
     // Datetime Limits from
-    // DB2: https://www.ibm.com/support/knowledgecenter/en/SSEPGG_11.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0001029.html
     // Derby: https://db.apache.org/derby/docs/10.0/manuals/reference/sqlj271.html
     private static final Timestamp SMALLEST_TIMESTAMP = Timestamp.from(
             ZonedDateTime.parse("0001-01-01T00:00:00.000000Z").toInstant());

@@ -70,21 +70,20 @@ public class IndexDef {
      * 
      * @param schemaName
      * @param tableName
-     * @param tenantColumnName
      * @param target
      * @param distributionType
      * @param distributionColumn
      */
-    public void apply(String schemaName, String tableName, String tenantColumnName, ISchemaAdapter target,
+    public void apply(String schemaName, String tableName, ISchemaAdapter target,
             DistributionType distributionType, String distributionColumn) {
         if (includeColumns != null && includeColumns.size() > 0) {
-            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, includeColumns, distributionType, distributionColumn);
+            target.createUniqueIndex(schemaName, tableName, indexName, indexColumns, includeColumns, distributionType, distributionColumn);
         }
         else if (unique) {
-            target.createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionType, distributionColumn);
+            target.createUniqueIndex(schemaName, tableName, indexName, indexColumns, distributionType, distributionColumn);
         }
         else {
-            target.createIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionType);
+            target.createIndex(schemaName, tableName, indexName, indexColumns, distributionType);
         }
     }
 
@@ -101,10 +100,9 @@ public class IndexDef {
      * Create a statement which can be used to create vendor-specific DDL
      * @param schemaName
      * @param tableName
-     * @param tenantColumnName
      * @return
      */
-    public CreateIndexStatement createStatement(String schemaName, String tableName, String tenantColumnName) {
-        return new CreateIndexStatement(schemaName, indexName, tableName, tenantColumnName, indexColumns);
+    public CreateIndexStatement createStatement(String schemaName, String tableName) {
+        return new CreateIndexStatement(schemaName, indexName, tableName, indexColumns);
     }
 }

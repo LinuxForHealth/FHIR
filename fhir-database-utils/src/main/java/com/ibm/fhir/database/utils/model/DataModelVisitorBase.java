@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,22 +35,7 @@ public class DataModelVisitorBase implements DataModelVisitor {
     }
 
     @Override
-    public void visited(RowArrayType rowArrayType) {
-        // NOP
-    }
-
-    @Override
-    public void visited(RowType rowType) {
-        // NOP
-    }
-
-    @Override
     public void visited(Sequence sequence) {
-        // NOP
-    }
-
-    @Override
-    public void visited(SessionVariableDef sessionVariableDef) {
         // NOP
     }
 

@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.test.db2;
+package com.ibm.fhir.server.test.large;
 
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -25,7 +25,7 @@ import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
- * This test checks LARGE files are branching correctly in the Stored Procedure
+ * This test checks LARGE resources are stored correctly
  * this test is opaque to any other persistence layer and the history is properly returned.
  */
 public class LargeResourceTest extends FHIRServerTestBase {

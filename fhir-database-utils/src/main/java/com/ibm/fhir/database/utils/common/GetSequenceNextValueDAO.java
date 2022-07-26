@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,7 +45,7 @@ public class GetSequenceNextValueDAO implements IDatabaseSupplier<Long> {
     public Long run(IDatabaseTranslator translator, Connection c) {
         // you can't get the current value before calling next value in a given session,
         // so we simply bump the sequence number. The translator is used to support
-        // our different database flavors (e.g. Derby, DB2 and PostgreSQL)
+        // our different database flavors (e.g. Derby and PostgreSQL)
         final String SQL = translator.selectSequenceNextValue(schemaName, sequenceName);
 
         try (PreparedStatement ps = c.prepareStatement(SQL)) {

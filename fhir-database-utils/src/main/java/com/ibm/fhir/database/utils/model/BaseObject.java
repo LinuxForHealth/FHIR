@@ -206,9 +206,9 @@ public abstract class BaseObject implements IDatabaseObject {
     @Override
     public void applyTx(ISchemaAdapter target, SchemaApplyContext context, ITransactionProvider tp, IVersionHistoryService vhs) {
         // Wrap the apply operation in its own transaction, as this is likely
-        // being executed from a thread-pool. DB2 has some issues with deadlocks
-        // on its catalog tables (SQLCODE=-911, SQLSTATE=40001, SQLERRMC=2) when
-        // applying schema changes in parallel, so we need a little retry loop.
+        // being executed from a thread-pool. The retry loop is required to
+        // cover any deadlocks we might encounter caused by issuing DDL in
+        // parallel.
         int remainingAttempts = 10;
         while (remainingAttempts-- > 0) {
             try (ITransaction tx = tp.getTransaction()) {

@@ -17,12 +17,6 @@ import com.ibm.fhir.database.utils.model.DbType;
 public interface FHIRDbFlavor {
 
     /**
-     * Does the database support multi-tenancy?
-     * @return
-     */
-    public boolean isMultitenant();
-
-    /**
      * What type of schema is this
      * @return
      */

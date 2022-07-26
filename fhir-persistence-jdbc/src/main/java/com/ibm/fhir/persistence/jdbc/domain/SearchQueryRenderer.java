@@ -3183,7 +3183,6 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             return "R.DATA";
         } else {
             switch (translator.getType()) {
-            case DB2:
             case DERBY:
                 return "CAST(NULL AS BLOB) AS DATA";
             case POSTGRESQL:

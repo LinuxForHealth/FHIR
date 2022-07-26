@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -26,9 +25,11 @@ import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.FHIRResourceDAOFactory;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FhirSequenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ErasedResourceRec;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 
 /**
@@ -54,7 +55,6 @@ public class EraseResourceDAO extends ResourceDAOImpl {
     private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
     private static final String CALL_POSTGRES = "{CALL %s.ERASE_RESOURCE(?, ?, ?, ?)}";
-    private static final String CALL_DB2 = "CALL %s.ERASE_RESOURCE(?, ?, ?, ?)";
 
     // The translator specific to the database type we're working with
     private final IDatabaseTranslator translator;
@@ -74,11 +74,9 @@ public class EraseResourceDAO extends ResourceDAOImpl {
      * @param schemaName
      * @param flavor
      * @param cache
-     * @param rrd
      */
-    public EraseResourceDAO(Connection conn, String adminSchemaName, IDatabaseTranslator translator, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache,
-            IResourceReferenceDAO rrd) {
-        super(conn, schemaName, flavor, cache, rrd);
+    public EraseResourceDAO(Connection conn, String adminSchemaName, IDatabaseTranslator translator, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache) {
+        super(conn, schemaName, flavor, cache);
         this.adminSchemaName = adminSchemaName;
         this.translator = translator;
     }
@@ -200,10 +198,8 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         if (eraseDto.getVersion() != null && version != 1) {
             
             // Record the affected record
-            final String INSERT_ERASED_RESOURCES = translator.getType() == DbType.DB2
-                    ? "INSERT INTO erased_resources(mt_id, erased_resource_group_id, resource_type_id, logical_id, version_id) "
-                    + "     VALUES (" + adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?)"
-                    : "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id, version_id) "
+            final String INSERT_ERASED_RESOURCES = ""
+                    + "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id, version_id) "
                     + "     VALUES (?, ?, ?, ?)";
             try (PreparedStatement stmt = getConnection().prepareStatement(INSERT_ERASED_RESOURCES)) {
                 stmt.setLong(1, erasedResourceGroupId);
@@ -255,10 +251,8 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         }
 
         // The entire logical resource is being erased, so don't include a version when we record this
-        final String INSERT_ERASED_RESOURCES = translator.getType() == DbType.DB2
-                ? "INSERT INTO erased_resources(mt_id, erased_resource_group_id, resource_type_id, logical_id) "
-                + "     VALUES (" + adminSchemaName + ".SV_TENANT_ID, ?, ?, ?)"
-                : "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id) "
+        final String INSERT_ERASED_RESOURCES = ""
+                + "INSERT INTO erased_resources(erased_resource_group_id, resource_type_id, logical_id) "
                 + "     VALUES (?, ?, ?)";
         try (PreparedStatement stmt = getConnection().prepareStatement(INSERT_ERASED_RESOURCES)) {
             stmt.setLong(1, erasedResourceGroupId);
@@ -367,9 +361,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         FhirSequenceDAO fhirSequence = FHIRResourceDAOFactory.getSequenceDAO(getConnection(), getFlavor());
         long erasedResourceGroupId = fhirSequence.nextValue();
 
-        if (DbType.DB2.equals(getFlavor().getType()) && eraseDto.getVersion() == null) {
-            runCallableStatement(CALL_DB2, erasedResourceGroupId);
-        } else if (getFlavor().isFamilyPostgreSQL() && eraseDto.getVersion() == null) {
+        if (getFlavor().isFamilyPostgreSQL() && eraseDto.getVersion() == null) {
             runCallableStatement(CALL_POSTGRES, erasedResourceGroupId);
         } else {
             // Uses the Native Java to execute a Resource Erase
@@ -432,5 +424,12 @@ public class EraseResourceDAO extends ResourceDAOImpl {
             LOG.log(Level.SEVERE, DEL, x);
             throw translator.translate(x);
         }
+    }
+
+    @Override
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao, Integer ifNoneMatch)
+        throws FHIRPersistenceException {
+        // NOP because ERASE doesn't need to insert the resource
+        return resource;
     }
 }

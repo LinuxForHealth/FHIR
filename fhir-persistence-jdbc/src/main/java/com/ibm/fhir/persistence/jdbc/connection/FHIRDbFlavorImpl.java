@@ -29,11 +29,6 @@ public class FHIRDbFlavorImpl implements FHIRDbFlavor {
         this.type = type;
         this.schemaType = schemaType;
     }
-    
-    @Override
-    public boolean isMultitenant() {
-        return this.schemaType == SchemaType.MULTITENANT;
-    }
 
     @Override
     public DbType getType() {

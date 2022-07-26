@@ -53,14 +53,9 @@ public class CitusAdapter extends PostgresAdapter {
     }
 
     @Override
-    public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
+    public void createTable(String schemaName, String name, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
         IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
         DistributionContext distributionContext) {
-
-        // We don't use partitioning for multi-tenancy in our Citus implementation, so ignore the mt_id column
-        if (tenantColumnName != null) {
-            warnOnce(MessageKey.MULTITENANCY, "Citus does not support multi-tenancy: " + name);
-        }
 
         if (distributionContext != null) {
             // Build a Citus-specific create table statement
@@ -68,7 +63,7 @@ public class CitusAdapter extends PostgresAdapter {
             runStatement(ddl);
         } else {
             // building a plain schema, so we can use the standard PostgreSQL method
-            super.createTable(schemaName, name, tenantColumnName, columns, primaryKey, identity, tablespaceName, withs, checkConstraints, distributionContext);
+            super.createTable(schemaName, name, columns, primaryKey, identity, tablespaceName, withs, checkConstraints, distributionContext);
         }
     }
 
@@ -150,7 +145,7 @@ public class CitusAdapter extends PostgresAdapter {
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName,
         List<OrderedColumnDef> indexColumns, DistributionContext distributionContext) {
         // For Citus, we are prevented from creating a unique index unless the index contains
         // the distribution column

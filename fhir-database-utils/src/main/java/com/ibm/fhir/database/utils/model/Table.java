@@ -41,13 +41,7 @@ public class Table extends BaseObject {
     // All the FK constraints used by this table
     private final List<ForeignKeyConstraint> fkConstraints = new ArrayList<>();
 
-    // enable access control
-    private final SessionVariableDef accessControlVar;
-
     private final Tablespace tablespace;
-
-    // The column to use when making this table multi-tenant (if supported by the the target)
-    private final String tenantColumnName;
 
     // The rules to distribute the table in a distributed RDBMS implementation (Citus)
     private final DistributionType distributionType;
@@ -69,7 +63,6 @@ public class Table extends BaseObject {
      * @param schemaName
      * @param name
      * @param version
-     * @param tenantColumnName
      * @param columns
      * @param pk
      * @param identity
@@ -87,20 +80,18 @@ public class Table extends BaseObject {
      * @param distributionColumnName
      * @param create
      */
-    public Table(String schemaName, String name, int version, String tenantColumnName, 
+    public Table(String schemaName, String name, int version, 
             Collection<ColumnBase> columns, PrimaryKeyDef pk,
             IdentityDef identity, Collection<IndexDef> indexes, Collection<ForeignKeyConstraint> fkConstraints,
-            SessionVariableDef accessControlVar, Tablespace tablespace, List<IDatabaseObject> dependencies, Map<String,String> tags,
+            Tablespace tablespace, List<IDatabaseObject> dependencies, Map<String,String> tags,
             Collection<GroupPrivilege> privileges, List<Migration> migrations, List<With> withs, List<CheckConstraint> checkConstraints,
             DistributionType distributionType, String distributionColumnName, boolean create) {
         super(schemaName, name, DatabaseObjectType.TABLE, version, migrations);
-        this.tenantColumnName = tenantColumnName;
         this.columns.addAll(columns);
         this.primaryKey = pk;
         this.identity = identity;
         this.indexes.addAll(indexes);
         this.fkConstraints.addAll(fkConstraints);
-        this.accessControlVar = accessControlVar;
         this.tablespace = tablespace;
         this.withs = withs;
         this.checkConstraints.addAll(checkConstraints);
@@ -133,14 +124,6 @@ public class Table extends BaseObject {
     }
 
     /**
-     * Getter for the optional tenant id column name
-     * @return
-     */
-    public String getTenantColumnName() {
-        return this.tenantColumnName;
-    }
-
-    /**
      * Getter for the create flag
      * @return
      */
@@ -164,32 +147,20 @@ public class Table extends BaseObject {
         }
 
         final String tsName = this.tablespace == null ? null : this.tablespace.getName();
-        target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, 
+        target.createTable(getSchemaName(), getObjectName(), this.columns, 
             this.primaryKey, this.identity, tsName, this.withs, this.checkConstraints,
             this.distributionType, this.distributionColumnName);
 
         // Now add any indexes associated with this table
         for (IndexDef idx: this.indexes) {
-            idx.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target, this.distributionType, this.distributionColumnName);
+            idx.apply(getSchemaName(), getObjectName(), target, this.distributionType, this.distributionColumnName);
         }
 
         if (context.isIncludeForeignKeys()) {
             // Foreign key constraints
             for (ForeignKeyConstraint fkc: this.fkConstraints) {
-                fkc.apply(getSchemaName(), getObjectName(), this.tenantColumnName, target, this.distributionType);
+                fkc.apply(getSchemaName(), getObjectName(), target, this.distributionType);
             }
-        }
-
-        // Apply tenant access control if required
-        if (this.accessControlVar != null) {
-            // The accessControlVar represents a DB2 session variable. Programs must set this value
-            // for the current tenant when executing any SQL (both reads and writes) on
-            // tables with this access control enabled
-            final String variableName = accessControlVar.getQualifiedName();
-            final String tenantPermission = getObjectName() + "_TENANT";
-            final String predicate = getQualifiedName() + ".MT_ID = " + variableName;
-            target.createOrReplacePermission(getSchemaName(), tenantPermission, getObjectName(), predicate);
-            target.activateRowAccessControl(getSchemaName(), getObjectName());
         }
     }
 
@@ -200,17 +171,6 @@ public class Table extends BaseObject {
         } else if (this.getVersion() > priorVersion) {
             for (Migration step : migrations) {
                 step.migrateFrom(priorVersion).stream().forEachOrdered(target::runStatement);
-            }
-            // Re-apply tenant access control if required
-            if (this.accessControlVar != null && this.create) {
-                // The accessControlVar represents a DB2 session variable. Programs must set this value
-                // for the current tenant when executing any SQL (both reads and writes) on
-                // tables with this access control enabled
-                final String variableName = accessControlVar.getQualifiedName();
-                final String tenantPermission = getObjectName() + "_TENANT";
-                final String predicate = getQualifiedName() + ".MT_ID = " + variableName;
-                target.createOrReplacePermission(getSchemaName(), tenantPermission, getObjectName(), predicate);
-                target.activateRowAccessControl(getSchemaName(), getObjectName());
             }
         }
     }
@@ -225,12 +185,6 @@ public class Table extends BaseObject {
 
     @Override
     public void drop(ISchemaAdapter target) {
-        if (this.accessControlVar != null) {
-            target.deactivateRowAccessControl(getSchemaName(), getObjectName());
-
-            final String tenantPermission = getObjectName() + "_TENANT";
-            target.dropPermission(getSchemaName(), tenantPermission);
-        }
         target.dropTable(getSchemaName(), getObjectName());
     }
 
@@ -279,9 +233,6 @@ public class Table extends BaseObject {
 
         // The tablespace to use for this table [optional]
         private Tablespace tablespace;
-
-        // The variable to use for access control (when set)
-        private SessionVariableDef accessControlVar;
 
         // Privileges to be granted on this table
         private List<GroupPrivilege> privileges = new ArrayList<>();
@@ -863,8 +814,8 @@ public class Table extends BaseObject {
 
             // Our schema objects are immutable by design, so all initialization takes place
             // through the constructor
-            return new Table(getSchemaName(), getObjectName(), this.version, this.tenantColumnName, buildColumns(), this.primaryKey, this.identity, this.indexes.values(),
-                    enabledFKConstraints, this.accessControlVar, this.tablespace, allDependencies, tags, privileges, migrations, withs, checkConstraints, distributionType,
+            return new Table(getSchemaName(), getObjectName(), this.version, buildColumns(), this.primaryKey, this.identity, this.indexes.values(),
+                    enabledFKConstraints, this.tablespace, allDependencies, tags, privileges, migrations, withs, checkConstraints, distributionType,
                     distributionColumnName, create);
         }
 
@@ -933,18 +884,6 @@ public class Table extends BaseObject {
         }
 
         /**
-         * Switch on access control for this table
-         */
-        public Builder enableAccessControl(SessionVariableDef var) {
-            this.accessControlVar = var;
-
-            // Add the session variable as a dependency for this table
-            this.dependencies.add(var);
-
-            return this;
-        }
-
-        /**
          * @param tagName
          * @param tagValue
          * @return
@@ -966,17 +905,6 @@ public class Table extends BaseObject {
          */
         public Builder addPrivileges(Collection<GroupPrivilege> gps) {
             this.privileges.addAll(gps);
-            return this;
-        }
-
-        /**
-         * Setter to configure this table for multitenancy. Multitenancy support depends on the target
-         * ...which in this case means DB2 supports it (using partitioning) but Derby does not...so for
-         * Derby, we don't create the extra column or FK relationships back to the TENANTS table.
-         * @return
-         */
-        public Builder setTenantColumnName(String name) {
-            this.tenantColumnName = name;
             return this;
         }
 

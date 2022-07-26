@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -147,11 +147,11 @@ public class DerbyFhirDatabase implements AutoCloseable, IConnectionProvider {
     
             if (!populated) {
                 PopulateResourceTypes populateResourceTypes =
-                        new PopulateResourceTypes(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
+                        new PopulateResourceTypes(SCHEMA_NAME);
                 populateResourceTypes.run(translator, connection);
     
                 PopulateParameterNames populateParameterNames =
-                        new PopulateParameterNames(ADMIN_SCHEMA_NAME, SCHEMA_NAME, null);
+                        new PopulateParameterNames(SCHEMA_NAME);
                 populateParameterNames.run(translator, connection);
                 logger.info("Finished prepopulating the resource type and search parameter code/name tables tables");
             } else {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 /**
  * Provides an abstract way to obtain a JDBC connection. Hides the implementation,
  * making it easier to switch between in-memory instances of Derby used for unit-tests
- * and connections to actual DB2 instances either in pure Java or JEE environments like
+ * and connections to actual database instances either in pure Java or JEE environments like
  * Liberty Profile.
  * 
  * One {@link IConnectionProvider} instance is used per data source. If you need to
@@ -33,7 +33,7 @@ public interface IConnectionProvider {
     /**
      * Get the translator associated with this connection provider. Supports
      * interpretation of SQLExceptions and the ability to tweak
-     * SQL statements to handle differences between DB2 and Derby
+     * SQL statements to handle differences between databases
      * @return
      */
     public IDatabaseTranslator getTranslator();

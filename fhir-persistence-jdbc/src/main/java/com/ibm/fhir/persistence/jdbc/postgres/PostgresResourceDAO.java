@@ -33,7 +33,6 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchExcept
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.FHIRDAOConstants;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -87,14 +86,32 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
     // The (optional) shard key used with sharded databases
     private final Short shardKey;
 
-    public PostgresResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, Short shardKey) {
-        super(connection, schemaName, flavor, cache, rrd);
+    /**
+     * Public constructor used in runtimes without UserTransaction support
+     * @param connection
+     * @param schemaName
+     * @param flavor
+     * @param cache
+     * @param shardKey
+     */
+    public PostgresResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, Short shardKey) {
+        super(connection, schemaName, flavor, cache);
         this.shardKey = shardKey;
     }
 
-    public PostgresResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd,
+    /**
+     * Public constructor used when UserTransaction is available
+     * @param connection
+     * @param schemaName
+     * @param flavor
+     * @param trxSynchRegistry
+     * @param cache
+     * @param ptdi
+     * @param shardKey
+     */
+    public PostgresResourceDAO(Connection connection, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache,
         ParameterTransactionDataImpl ptdi, Short shardKey) {
-        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+        super(connection, schemaName, flavor, trxSynchRegistry, cache, ptdi);
         this.shardKey = shardKey;
     }
 

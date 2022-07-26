@@ -13,8 +13,8 @@ import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
+import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.database.utils.version.VersionHistoryService;
 import com.ibm.fhir.schema.app.JavaBatchSchemaGeneratorTest.ConfirmTagsVisitor;
@@ -27,7 +27,7 @@ public class DataSchemaGeneratorTest {
         JavaBatchSchemaGeneratorTest test = new JavaBatchSchemaGeneratorTest();
         PrintConnection connection = test.new PrintConnection();
         JdbcTarget target = new JdbcTarget(connection);
-        Db2Adapter adapter = new Db2Adapter(target);
+        PostgresAdapter adapter = new PostgresAdapter(target);
         ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
 
         // Set up the version history service first if it doesn't yet exist

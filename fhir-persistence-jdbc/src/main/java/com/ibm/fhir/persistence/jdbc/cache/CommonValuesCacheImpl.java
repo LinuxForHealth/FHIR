@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020, 2021
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
@@ -22,9 +22,9 @@ import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 
 /**
  * Implementation of a cache used for lookups of entities related
- * to local and external resource references
+ * to tokens, canonicals and code systems
  */
-public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
+public class CommonValuesCacheImpl implements ICommonValuesCache {
 
     // We use LinkedHashMap for the local map because we also need to maintain order
     // of insertion to make sure we have correct LRU behavior when updating the shared cache
@@ -50,7 +50,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
      * @param tokenValueCacheSize
      * @param canonicalCacheSize
      */
-    public CommonTokenValuesCacheImpl(int codeSystemCacheSize, int tokenValueCacheSize, int canonicalCacheSize) {
+    public CommonValuesCacheImpl(int codeSystemCacheSize, int tokenValueCacheSize, int canonicalCacheSize) {
 
         // LRU cache for quick lookup of code-systems and token-values
         codeSystemsCache = new LRUCache<>(codeSystemCacheSize);

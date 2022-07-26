@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,10 +17,7 @@ import com.ibm.fhir.database.utils.model.DataModelVisitor;
 import com.ibm.fhir.database.utils.model.ForeignKeyConstraint;
 import com.ibm.fhir.database.utils.model.FunctionDef;
 import com.ibm.fhir.database.utils.model.ProcedureDef;
-import com.ibm.fhir.database.utils.model.RowArrayType;
-import com.ibm.fhir.database.utils.model.RowType;
 import com.ibm.fhir.database.utils.model.Sequence;
-import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 
@@ -75,22 +72,7 @@ public class VacuumSettingsTableDataModelVisitor implements DataModelVisitor {
     }
 
     @Override
-    public void visited(RowArrayType rowArrayType) {
-        // NOP
-    }
-
-    @Override
-    public void visited(RowType rowType) {
-        // NOP
-    }
-
-    @Override
     public void visited(Sequence sequence) {
-        // NOP
-    }
-
-    @Override
-    public void visited(SessionVariableDef sessionVariableDef) {
         // NOP
     }
 

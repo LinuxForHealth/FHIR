@@ -1,20 +1,19 @@
-# The IBM FHIR Server - Schema Design and Management
+# The LinuxForHealth FHIR Server - Schema Design and Management
 
-_Note_: the following description is based on the standard Derby/PostgreSQL variant of the schema. For Db2, the logical model is the same, but the physical model uses table partitioning and row-based access control (RBAC) to support multi-tenancy. To facilitate this, all the primary and foreign key relationships are prefixed with a multi-tenant identifier `mt_id`. A complete description of the Db2 multi-tenant design can be found [here](DB2MultiTenancy.md). Other variations across databases are discussed in this document.
+The LinuxForHealth FHIR Server schema comes in two flavors:
+1. PLAIN - used for Derby and PostgreSQL
+2. DISTRIBUTED - used for Citus
 
-Currently it is not possible to deploy the single-tenant variant of the schema without RBAC to Db2. GitHub [issue-840](https://github.com/LinuxForHealth/FHIR/issues/840) has been opened to address this. 
-
+The description below applies mostly to both variants. Differences in the DISTRIBUTED schema are discussed at the end.
 
 ----------------------------------------------------------------
 # Overview and Concepts
 
-The IBM FHIR schema is managed in code and is applied to a target database using a JDBC connection. This simplifies development of Derby-based unit-tests, allows a common schema definition to be used across multiple database flavors and simplifies deployment in cloud scenarios.
+The LinuxForHealth FHIR schema is managed in code and is applied to a target database using a JDBC connection. This simplifies development of Derby-based unit-tests, allows a common schema definition to be used across multiple database flavors and simplifies deployment in cloud scenarios.
 
-Because the data model dependencies are understood by the code, the schema creation process can be parallelized to reduce deployment times. In practice, however, we've found that the number of threads must be limited due to driving contention in the internal catalog tables (in DB2, for example). We have also found that some parallel object create operations cause internal database deadlocks (notably creating foreign key relationships). The implementation contains a retry loop, but may fail if the retry limit is exceeded. Note that these deadlocks are internal to Db2, not the more common kind typically caused by poor application code.
+Because the data model dependencies are understood by the code, the schema creation process can be parallelized to reduce deployment times. In practice, however, we've found that the number of threads must be limited due to driving contention in the internal catalog tables. We have also found that some parallel object create operations cause internal database deadlocks (notably creating foreign key relationships). The implementation contains a retry loop, but may fail if the retry limit is exceeded. Note that these deadlocks are internal to the database implementation, not the more common kind typically caused by poor application code.
 
-The `FHIR_ADMIN` schema is used to manage meta-data related to the actual data schemas. A single database instance can be used to support multiple FHIR data schemas, as long as the FHIR_ADMIN schema structure doesn't change. At the time of writing, the IBM FHIR Server does not support more than one FHIR_ADMIN schema in a single database. If a use-case arises where this is required, it is simply a matter of identifying in code where FHIR_ADMIN is used as a constant and replacing instances with a configurable property, although an implementation may also want to consider protecting individual schemas from accidentally being managed by more than one FHIR_ADMIN schema. One possible use-case for this sharing is using a database instance for schema development work.
-
-The `FHIR_ADMIN` schema also plays an important role in managing tenants in the Db2 multi-tenant implementation. See the [Db2 Multi-Tenant Schema Design](DB2MultiTenancy.md) for more details.
+The `FHIR_ADMIN` schema is used to manage meta-data related to the actual data schemas. A single database instance can be used to support multiple FHIR data schemas, as long as the FHIR_ADMIN schema structure doesn't change. At the time of writing, the LinuxForHealth FHIR Server does not support more than one FHIR_ADMIN schema in a single database. If a use-case arises where this is required, it is simply a matter of identifying in code where FHIR_ADMIN is used as a constant and replacing instances with a configurable property, although an implementation may also want to consider protecting individual schemas from accidentally being managed by more than one FHIR_ADMIN schema. One possible use-case for this sharing is using a database instance for schema development work.
 
 **Table: VERSION_HISTORY**
 
@@ -32,10 +31,6 @@ The following table highlights the main differences among the database implement
 
 | Database   | Variation |
 | --------   | ----------|
-| DB2        | Multi-tenant. Supports multiple but isolated tenants within one database/schema |
-| DB2        | An SPL stored procedure is used to implement the resource storage logic, reducing the number of application server to database round-trips, improving performance |
-| DB2        | Uses `FHIR_TS` tablespace for admin tables, and a tablespace per tenant |
-| DB2        | `FHIR_TS` is created using a small extent size for efficiency |
 | PostgreSQL | Uses a function for the resource persistence logic |
 | PostgreSQL | TEXT type used instead of CLOB for large data values |
 | Derby      | Resource persistence is implemented at the DAO layer as a sequence of individual statements instead of one procedure call. At a functional level, the process is identical. Simplifies debugging and supports easier unit-test construction. |
@@ -44,7 +39,7 @@ The following table highlights the main differences among the database implement
 ----------------------------------------------------------------
 # Schema Design - Physical Data Model
 
-The IBM FHIR Server persists resources using tables defined in a data schema (usually FHIRDATA, but this can be anything). Multiple data schemas can exist in the same database, all managed from a single FHIR_ADMIN schema.
+The LinuxForHealth FHIR Server persists resources using tables defined in a data schema (usually FHIRDATA, but this can be anything). Multiple data schemas can exist in the same database, all managed from a single FHIR_ADMIN schema.
 
 The resource-specific tables are generated by the `FhirResourceTableGroup` class which is called for each concrete resource type being provisioned.
 
@@ -65,7 +60,7 @@ By convention, tables are named using the plural form of the data they represent
 
 ## TABLESPACES
 
-The Db2 multi-tenant schema variant uses a tablespace per tenant. All other database implementations use the default tablespace.
+All database implementations create schema objects in the default tablespace.
 
 ----------------------------------------------------------------
 ## Schema: FHIR_ADMIN
@@ -75,13 +70,9 @@ The Schema FHIR_ADMIN is deployed once per database and contains tables used to 
 | Object | Notes | Purpose |
 | ----- | ----- | ------- |
 | VERSION_HISTORY | | Table used to track the schema version number for each of the managed objects in the data schema (usually FHIRDATA) |
-| TENANTS | Db2 only | Table for mapping between tenant name and the tenant id used to isolate the tenant's data in the data schema |
-| TENANT_KEYS | Db2 only | Authorization keys allocated to a given given. A tenant can have multiple valid keys at any point in time to support rolling key changes (add new before remove old).
-| TENANT_SEQUENCE | Db2 only | Sequence used to provide unique mt_id values for allocated tenants |
-| SET_TENANT | Db2 only | Stored procedure. The only way for FHIRUSER to set the value of the SV_TENANT_ID session variable.
-
-
-These table definitions are more completely described in [DB2MultiTenancy.md](DB2MultiTenancy.md). 
+| TENANTS | legacy | Deprecated |
+| TENANT_KEYS | legacy | Deprecated |
+| TENANT_SEQUENCE | legacy | Deprecated |
 
 ## Logical Resources, Resource Versions and Search Parameters
 
@@ -101,7 +92,7 @@ The following table describes the difference among the different key column name
 | LOGICAL_RESOURCE_ID | The database assigned primary key for the LOGICAL_RESOURCES table |
 | RESOURCE_ID | The database assigned primary key for the RESOURCES table |
 
-The following table describes the purpose of each table or group of tables in the IBM FHIR Server data schema:
+The following table describes the purpose of each table or group of tables in the LinuxForHealth FHIR Server data schema:
 
 | Table Name | Type | Description |
 | ---------- | ------ | --------------- |
@@ -178,7 +169,7 @@ Indexes:
     "idx_logical_resources_rits" btree (reindex_tstamp DESC)
 ```
 
-Rows in the `LOGICAL_RESOURCES` are locked for update during ingestion to protect data integrity. Only the rows for the resources being changed are locked. The IBM FHIR Server tries hard to apply locks in a deterministic order to avoid deadlocks but this isn't always possible. Deadlocks may sometimes occur when processing transaction bundles involving overlapping data.
+Rows in the `LOGICAL_RESOURCES` are locked for update during ingestion to protect data integrity. Only the rows for the resources being changed are locked. The LinuxForHealth FHIR Server tries hard to apply locks in a deterministic order to avoid deadlocks but this isn't always possible. Deadlocks may sometimes occur when processing transaction bundles involving overlapping data.
 
 Each logical resource also has a record in a resource-specific table. This table shares the same `LOGICAL_RESOURCE_ID` value for its primary key as the global `LOGICAL_RESOURCES` table. This table is used as the "parent table" for the search parameter table foreign keys. Using resource-specific tables for search parameters is an optimization of the schema design and provides the following benefits:
 
@@ -226,15 +217,15 @@ The first version of a resource is given a `VERSION_ID` value of 1 and each subs
 
 To optimize certain queries, the `RESOURCE_ID` for the most recent version of a resource is referenced from the `[resourceType]_LOGICAL_RESOURCES` table with the `CURRENT_RESOURCE_ID` column. This is not enforced by a foreign key because the `[resourceType]_LOGICAL_RESOURCES` record is created first and already contains the intended value of the current `RESOURCE_ID` which has been obtained from a sequence. This approach avoids an extra `UPDATE` on `[resourceType]_LOGICAL_RESOURCES` which is expensive during ingestion.
 
-The IBM FHIR Server uses soft-delete when processing a FHIR `DELETE` interaction. This creates a new version of the resource with a minimal resource data value and the `IS_DELETED` flag = `Y`. Soft-deletes do not delete existing database records. The `$erase` custom operation can be used to remove all traces of a resource from a database.
+The LinuxForHealth FHIR Server uses soft-delete when processing a FHIR `DELETE` interaction. This creates a new version of the resource with a minimal resource data value and the `IS_DELETED` flag = `Y`. Soft-deletes do not delete existing database records. The `$erase` custom operation can be used to remove all traces of a resource from a database.
 
-All timestamps stored in the IBM FHIR Server schema are UTC.
+All timestamps stored in the LinuxForHealth FHIR Server schema are UTC.
 
 For more details on how the resource payload data is stored, see the next section.
 
 ## Scanning Resources
 
-The IBM FHIR Server implements the whole-system `_history` endpoint to fetch resources in the order they were ingested into the system. This endpoint is described in the IBM FHIR Server [Conformance Guide](https://linuxforhealth.github.io/FHIR/Conformance/#whole-system-history). This service is backed by the `RESOURCE_CHANGE_LOG` table which records the identity of each resource version as it is ingested. The table is indexed on `CHANGE_TSTAMP` which reflects the UTC last-modified timestamp for that version of the resource.
+The LinuxForHealth FHIR Server implements the whole-system `_history` endpoint to fetch resources in the order they were ingested into the system. This endpoint is described in the LinuxForHealth FHIR Server [Conformance Guide](https://linuxforhealth.github.io/FHIR/Conformance/#whole-system-history). This service is backed by the `RESOURCE_CHANGE_LOG` table which records the identity of each resource version as it is ingested. The table is indexed on `CHANGE_TSTAMP` which reflects the UTC last-modified timestamp for that version of the resource.
 
 ```
 fhirdb=> \d fhirdata.resource_change_log
@@ -257,7 +248,7 @@ As reflected in the whole-system-history REST API, the `RESOURCE_CHANGE_LOG` tab
 1. Ordered by `RESOURCE_ID`, following the natural order of the primary key
 2. Ordered by `CHANGE_TSTAMP`, following the timeline of resources as they arrive
 
-Filtering and ordering based on `RESOURCE_ID` is the simplest approach because there are no duplicates to deal with although care is still required when reading data near the current time (within the window of the maximum transaction timeout time). This is because ids are allocated before the transaction commits. It is therefore possible for records with a smaller `RESOURCE_ID` value to appear after records which have already been committed. This is not a limitation of the IBM FHIR Server, but just a side-effect that is common in systems like this.
+Filtering and ordering based on `RESOURCE_ID` is the simplest approach because there are no duplicates to deal with although care is still required when reading data near the current time (within the window of the maximum transaction timeout time). This is because ids are allocated before the transaction commits. It is therefore possible for records with a smaller `RESOURCE_ID` value to appear after records which have already been committed. This is not a limitation of the LinuxForHealth FHIR Server, but just a side-effect that is common in systems like this.
 
 The `change_tstamp` column can be used to scan from a point in time and a LIMIT clause can be used to restrict the size of the result set. The last returned `CHANGE_TSTAMP` value can be used in the next fetch to iterate forwards over all the data. Note that because two or more resources may share the same `CHANGE_TSTAMP` value, it's important to scan `WHERE CHANGE_TSTAMP >= ?` not just `WHERE CHANGE_TSTAMP > ?`. The reader must be prepared to handle resources which appeared in previous scan showing up again. It is reasonable to assume that only a handful of resources will share the same timestamp, but it is important to make sure that the LIMIT value exceeds this number to avoid being stuck in a continuous loop.
 
@@ -313,7 +304,7 @@ yields:
 ```
 
 
-The resource object can be more easily retrieved from the IBM FHIR Server REST API using a versioned read (VREAD) interaction:
+The resource object can be more easily retrieved from the LinuxForHealth FHIR Server REST API using a versioned read (VREAD) interaction:
 
 ```
   GET [server:port]/fhir-server/api/v4/Patient/1748a37e5f5-57e8e823-d532-4e38-a92e-210404273e53/_history/1
@@ -418,7 +409,7 @@ fhirdb=# select * from fhirdata.common_canonical_values;
 
 This section describes how the schema tool manages the upgrade of schemas. Use of the schema management tool is described [here](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema/docs/SchemaToolUsageGuide.md).
 
-The schema is managed using the class `com.ibm.fhir.schema.app.Main`. The `Main` class uses `FhirSchemaGenerator` to build a `PhysicalDataModel` which represents the schema as a Java data structure. This schema model is then applied to a database using an implementation of `IDatabaseAdapter` specific to the target database type (Derby, PostgreSQL or DB2). The adapter implements calls such as `createTable` and constructs the DDL statement appropriate for the target database. In some cases where the object type is not supported or not required for the given target database, the adapter can simply perform no operation (NOP).
+The schema is managed using the class `com.ibm.fhir.schema.app.Main`. The `Main` class uses `FhirSchemaGenerator` to build a `PhysicalDataModel` which represents the schema as a Java data structure. This schema model is then applied to a database using an implementation of `IDatabaseAdapter` specific to the target database type (Derby, PostgreSQL or Citus). The adapter implements calls such as `createTable` and constructs the DDL statement appropriate for the target database. In some cases where the object type is not supported or not required for the given target database, the adapter can simply perform no operation (NOP).
 
 The code models dependencies among the various objects such as foreign key relationships between tables. Others relationships are marked explicitly, such as stored procedure dependency on tables. To keep things simple, there are some `NopObject` markers used as a barrier during parallel deployment. This barrier is used to collect together a lot of dependencies into one place, allowing subsequent operations to just depend on the barrier object instead of each having to individually express a dependency to lots of objects.
 
@@ -429,7 +420,6 @@ The following example shows how we define a table in the schema. In this case, w
  2       final String tableName = LOGICAL_RESOURCES;
  3
  4       Table tbl = Table.builder(schemaName, tableName)
- 5               .setTenantColumnName(MT_ID)
  6               .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
  7               .addIntColumn(RESOURCE_TYPE_ID, false)
  8               .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
@@ -438,7 +428,6 @@ The following example shows how we define a table in the schema. In this case, w
 11                .setTablespace(fhirTablespace)
 12                .addPrivileges(resourceTablePrivileges)
 13                .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
-14                .enableAccessControl(this.sessionVariable)
 15                .build(pdm);
 
 16        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -452,21 +441,17 @@ Notes:
 
 **Line 4.** Database objects are created using the fluent builder pattern to create an immutable definition.
 
-**Line 5.** MT_ID is used as the tenant column. The tenant column is handled as an explicit property (rather than just addIntColumn) because it allows us to ignore it later depending on the database target the model is being applied to. Currenly only Db2 supports our multi-tenant design.
-
 **Line 6.** Adds a column to table definition.
 
 **Line 9.** Specifies the primary key. The columns in the PK definition must be added before addPrimaryKey is called.
 
 **Line 10.** Adds a unique index to the table.
 
-**Line 11.** Identifies the tablespace to be used for this table. All tables are created in a specific tablespace `FHIR_TS` created with a smaller than typical extent size. The model contains a large number of tables and indexes, and in the multi-tenant schema, the initial table/partition never holds any data. Using a smaller extent size significantly improves schema deployment time because the database has to allocate fewer pages for each object, and this also reduces waste from allocating space that would never be used.
+**Line 11.** Identifies the tablespace to be used for this table when supported by the target database type.
 
 **Line 12.** Adds the list of privileges that need to be applied to this table.
 
 **Line 13.** Adds a foreign key relationship to a target table, which is RESOURCE_TYPES in this case.
-
-**Line 14.** Adds access control to this table. Used only when the target database is Db2. 
 
 **Line 15.** Fluent pattern - builds the immutable `Table` object. The model is passed as a parameter to permit some integrity checking, helping to ensure that the resulting object is valid before it is applied to any database.
 
@@ -497,7 +482,7 @@ A new `logical_resource_ident` table has been added. This table is now the prima
 
 Schema version V0027 changes the way reference search parameter values are stored. Prior to V0027, reference parameters were treated as tokens and stored in the `common_token_values` table, with the `xx_resource_token_refs` providing the many-to-many mapping between the logical resource record in `xx_logical_resources` and `common_token_values`.
 
-As of schema version V0027, the reference mapping is now stored in `xx_ref_values` with the normalized referenced value stored in the `logical_resource_ident` table. This is useful, because it reduces the size of the `common_token_values` table, allowing it to be treated as a REFERENCE table when using the distributed schema in Citus. This arrangement also makes it more efficient to store local references (references between resources both stored within the same IBM FHIR Server database). Each logical_resource_ident record includes a foreign key referencing the resource type. Where the reference is an external reference (perhaps a URL pointing to another FHIR server), the target of the resource may not be known, in which case the `logical_resource_ident` record is assigned the `resource_type_id` for the `Resource` resource type.
+As of schema version V0027, the reference mapping is now stored in `xx_ref_values` with the normalized referenced value stored in the `logical_resource_ident` table. This is useful, because it reduces the size of the `common_token_values` table, allowing it to be treated as a REFERENCE table when using the distributed schema in Citus. This arrangement also makes it more efficient to store local references (references between resources both stored within the same LinuxForHealth FHIR Server database). Each logical_resource_ident record includes a foreign key referencing the resource type. Where the reference is an external reference (perhaps a URL pointing to another FHIR server), the target of the resource may not be known, in which case the `logical_resource_ident` record is assigned the `resource_type_id` for the `Resource` resource type.
 
 During schema migration, the schema tool will check to see if the `logical_resource_ident` table is empty, and if so, will populate the table with each record from the `logical_resources` table.
 
@@ -587,14 +572,7 @@ if the version in the table is less than the version being applied, the framewor
 of calling CREATE with the table definition. **Care** should be taken to ensure that the migrated schema matches a freshly applied schema.
 See [Testing migrations](#testing-migrations) for information on verifying the fidelity of the schema migrations.
 
-NOTE: In Db2, certain alter table statements require a table REORG before the table becomes usable again. Additionally, the REORG
-may commit the current "unit of work" which can prevent the "all or nothing" semantics of the migration. For these reasons, its recommended
-to:
-1. avoid destructive changes like dropping columns;
-2. backup the database before invoking a migration; and
-3. perform the migration offline
-
-In this way, if a new resource is added to the specification, the schema utility automatically provisions the corresponding table on the next execution of the fhir-persistence-schema `--update-schema` action. 
+In this way, if a new resource is added to the specification, the schema utility automatically provisions the corresponding table on the next execution of the fhir-persistence-schema `--update-schema` action.
 
 Common reasons to modify the Resource tables are: 
 
@@ -612,24 +590,14 @@ Common reasons to modify the Resource tables are:
     - If there is a new or altered SearchParameter `code` added to the server, the SearchParameter values are only changed if/when the resource is updated. 
     - If a `SearchParameter.code` is removed, the corresponding parameter remains until the resource is reprocessed.  The code to parameter mapping remains in `PARAMETER_NAMES` table until manually removed. 
 
-Each of these tables has row-level permissions based on the conditional READ-only global variable `SV_TENANT_ID`. For example, for AUDITEVENT_COMPOSITES:
-
-``` sql
-CREATE PERMISSION FHIRDATA.AUDITEVENT_COMPOSITES_TENANT
-    ON FHIRDATA.AUDITEVENT_COMPOSITES FOR ROWS
-    WHERE FHIRDATA.AUDITEVENT_COMPOSITES.MT_ID = FHIR_ADMIN.SV_TENANT_ID 
-    ENFORCED FOR ALL ACCESS ENABLE ;
-```
-
-For security reasons, these permissions should not be removed, migrated, or altered. However, they are automatically REPLACED by the framework after applying migration steps to a given table (required for Db2).
 
 ## Managing Stored Procedures
 
-*Db2 Multi-tenant and PostgreSQL Only*
+*PostgreSQL and Citus Only*
 
 In the tenant's schema, there are four stored procedures `add_code_system`, `add_parameter_name`, `add_resource_type`, and `add_any_resource` which are created.
 
-Procedures are applied as CREATE OR REPLACE so the version number does not need to be increased, although assigning a higher number can help protect against accidentally overwriting a procedure with an older version.
+Procedures are applied as CREATE OR REPLACE so the version number does not need to be increased.
 
 ``` java
 ProcedureDef pd = model.addProcedure(this.schemaName, 
@@ -646,25 +614,21 @@ If you change the stored procedure signature, the `fhir-persistence-schema` does
 
 ## Managing GRANTS
 
-The Db2 data definition secures data access using `GRANT` predicates. To update or change, use the `--grant-to` predicate to apply the grants.
+The schema definition secures data access using `GRANT` predicates. To update or change, use the `--grant-to` predicate to apply the grants.
 
 If a grant is removed from the Java code, a manual process must be followed to remove or change the grant for the corresponding tables, procedures and variables.
 
 # Testing migrations
 
-We currently have two migration tests in place; one for Apache Derby which runs with the Maven build and one for Db2 which runs as part of the CI pipeline.
+We currently have two migration tests in place; one for Apache Derby which runs with the Maven build and one for PostgreSQL which runs as part of the CI pipeline.
 
-With each release of the IBM FHIR Server, these tests should be expanded to cover [at least] the migrations from the previous version.
+With each release of the LinuxForHealth FHIR Server, these tests should be expanded to cover [at least] the migrations from the previous version.
 
 ## Testing migrations with Apache Derby
 
 The `fhir-persistence-schema` project includes a single DerbyMigrationTest. Currently, this test invokes a copy of the FhirSchemaGenerator that was extracted from version 4.0.1 of the `fhir-persistence-schema` project and added directly to the package.
 
 This was necessary because version 4.0.1 of the fhir-persistence-schema cli doesn't support deploying schemas for Apache Derby. However, starting with 4.1.0, we should use the released cli jar to deploy the previous versions of the schema. This will ensure the validity of the test and improve maintainability.
-
-## Testing migrations with IBM Db2
-
-The `fhir-install` module contains scripts for building Docker containers of the IBM FHIR Server and IBM Db2 and, optionally, bringing them up via `docker-compose`. When releasing new versions of the IBM FHIR Server, the `SCHEMA_VERSION` variable should be updated within `fhir-install/docker/copy-dependencies-db2-migration.sh` in order to test migrations from the previously released version of the `fhir-persistencne-schema` module.
 
 ## Distributed Schema Support for Citus
 
@@ -741,13 +705,17 @@ Also, if an index on a DISTRIBUTED table does not include the distribution colum
                 .addUniqueIndex("UNQ_" + LOGICAL_RESOURCES, RESOURCE_TYPE_ID, LOGICAL_ID)
 ```
 
-For the `DISTRIBUTED` schema type variant, uniqueness of the {resource_type_id, logical_id} tuple can no longer be enforced by the above unique index on `logical_resources`, because `logical_resources` is distributed by `logical_resource_id` and this column is not part of the index definition. Instead, the IBM FHIR Server relies on the new `logical_resource_ident` table to manage uniqueness of this tuple, and the `resource_type_id` and `logical_id` columns in `logical_resources` are just denormalized copies of the data.
+For the `DISTRIBUTED` schema type variant, uniqueness of the {resource_type_id, logical_id} tuple can no longer be enforced by the above unique index on `logical_resources`, because `logical_resources` is distributed by `logical_resource_id` and this column is not part of the index definition. Instead, the LinuxForHealth FHIR Server relies on the new `logical_resource_ident` table to manage uniqueness of this tuple, and the `resource_type_id` and `logical_id` columns in `logical_resources` are just denormalized copies of the data.
+
+In addition, the Citus `DISTRIBUTED` schema type variant uses a different definition for `common_token_values`. In order to efficiently distribute the data in the table, the distribution column is `token_value` and the primary key is `token_value`, `code_system_id`.
+
+Foreign key constraints are also disabled due to the requirement to serialize the distribution of some inserts which greatly impacts ingestion throughput.
 
 ### Distributed Procedures/Functions
 
 The following description uses the term stored procedure for simplicity even though some implementations use stored functions.
 
-For the `PLAIN` schema type variant, the IBM FHIR Server uses a stored procedure called `add_any_resource` to create or update the database `logical_resources`, `xx_logical_resources` and `xx_resources` records (where `xx` represents the resource type name). Using a stored procedure improves ingestion performance by reducing the number of database round-trips required to execute the required logic.
+For the `PLAIN` schema type variant, the LinuxForHealth FHIR Server uses a stored procedure called `add_any_resource` to create or update the database `logical_resources`, `xx_logical_resources` and `xx_resources` records (where `xx` represents the resource type name). Using a stored procedure improves ingestion performance by reducing the number of database round-trips required to execute the required logic.
 
 For the `DISTRIBUTED` schema type variant, the logic has been split into two procedures as follows:
 
@@ -775,8 +743,6 @@ The distribution step can take some time due to the amount of DDL Citus must exe
 
 ## References and Additional Reading
 - [Git Issue: Document the schema migration process on the project wiki #270](https://github.com/LinuxForHealth/FHIR/issues/270)
-- [Db2 11.5: Extent sizes in table spaces](https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.dbobj.doc/doc/c0004964.html)
-- [Db2 11.5: Altering table spaces](https://www.ibm.com/support/producthub/db2/docs/content/SSEPGG_11.5.0/com.ibm.db2.luw.admin.dbobj.doc/doc/t0005096.html)
 - [Citus Data Modeling](https://docs.citusdata.com/en/v11.0-beta/sharding/data_modeling.html)
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

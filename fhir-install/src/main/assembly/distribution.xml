@@ -76,15 +76,6 @@
         </dependencySet>
         <dependencySet>
             <useProjectArtifact>false</useProjectArtifact>
-            <outputDirectory>artifacts/shared/resources/lib/db2</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>com.ibm.db2:jcc</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
             <outputDirectory>artifacts/shared/resources/lib/postgresql</outputDirectory>
             <directoryMode>0755</directoryMode>
             <fileMode>0755</fileMode>

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,6 +56,6 @@ public class Constants {
     public static final int IMPORT_RETRY_TIMES = 1;
     public static final int COS_REQUEST_TIMEOUT = 10000;
     // Batch writing to DB can take long time which can make the idle COS/S3 client connection timeout, so set the client socket timeout
-    // to 120 seconds which is the default DB2 timeout.
+    // to 120 seconds which is the default liberty transaction timeout.
     public static final int COS_SOCKET_TIMEOUT = 120000;
 }

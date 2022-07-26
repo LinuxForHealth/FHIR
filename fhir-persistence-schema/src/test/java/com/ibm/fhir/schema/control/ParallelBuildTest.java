@@ -18,8 +18,8 @@ import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
 import com.ibm.fhir.database.utils.common.PrintTarget;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
+import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.core.service.TaskService;
 
@@ -47,7 +47,7 @@ public class ParallelBuildTest {
         ExecutorService pool = Executors.newFixedThreadPool(40);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
-        Db2Adapter adapter = new Db2Adapter(tgt);
+        PostgresAdapter adapter = new PostgresAdapter(tgt);
         ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
         SchemaApplyContext context = SchemaApplyContext.getDefault();
         model.collect(collector, schemaAdapter, context, new TransactionProviderTest(), vhs);

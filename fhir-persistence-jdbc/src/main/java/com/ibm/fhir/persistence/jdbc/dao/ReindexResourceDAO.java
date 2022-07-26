@@ -23,19 +23,16 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
-import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
-import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
-import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
-import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
+import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
-import com.ibm.fhir.persistence.params.api.IParamValueCollector;
 
 /**
  * DAO used to contain the logic required to reindex a given resource
@@ -105,8 +102,8 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * @param cache
      * @param rrd
      */
-    public ReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd) {
-        super(connection, schemaName, flavor, cache, rrd);
+    public ReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, FHIRPersistenceJDBCCache cache) {
+        super(connection, schemaName, flavor, cache);
         this.translator = translator;
         this.parameterDao = parameterDao;
     }
@@ -122,8 +119,8 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * @param cache
      * @param rrd
      */
-    public ReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, IResourceReferenceDAO rrd, ParameterTransactionDataImpl ptdi) {
-        super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
+    public ReindexResourceDAO(Connection connection, IDatabaseTranslator translator, ParameterDAO parameterDao, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry, FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi) {
+        super(connection, schemaName, flavor, trxSynchRegistry, cache, ptdi);
         this.translator = translator;
         this.parameterDao = parameterDao;
 
@@ -404,8 +401,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * @param logicalResourceId the logical resource id
      * @throws Exception
      */
-    public void updateParameters(String tablePrefix, List<ExtractedParameterValue> parameters, String parameterHashB64, String logicalId, long logicalResourceId,
-            IParamValueCollector paramValueCollector) throws Exception {
+    public void updateParameters(String tablePrefix, List<ExtractedParameterValue> parameters, String parameterHashB64, String logicalId, long logicalResourceId) throws Exception {
 
         final String METHODNAME = "updateParameters() for " + tablePrefix + "/" + logicalId;
         logger.entering(CLASSNAME, METHODNAME);
@@ -413,22 +409,6 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         // no need to close
         Connection connection = getConnection();
         ParameterTableSupport.deleteFromParameterTables(connection, tablePrefix, logicalResourceId);
-
-        // only perform this if paramValueCollector is null, meaning that we're still using the legacy 
-        // mechanism to support Db2 (multitenant)
-        if (parameters != null && !parameters.isEmpty() && paramValueCollector == null) {
-            JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-            boolean isMultitenant = this.getFlavor().isMultitenant();
-            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", tablePrefix, isMultitenant, logicalResourceId, 100,
-                identityCache, getResourceReferenceDAO(), getTransactionData())) {
-                for (ExtractedParameterValue p: parameters) {
-                    p.accept(pvd);
-                }
-            } catch (SQLException x) {
-                logger.log(Level.SEVERE, "inserting parameters", x);
-                throw translator.translate(x);
-            }
-        }
 
         // Update the parameter hash in the LOGICAL_RESOURCES table
         updateParameterHash(connection, logicalResourceId, parameterHashB64);
@@ -459,5 +439,12 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             logger.log(Level.SEVERE, SQL, x);
             throw translator.translate(x);
         }
+    }
+
+    @Override
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao, Integer ifNoneMatch)
+        throws FHIRPersistenceException {
+        // NOP because for reindex we only insert the parameters - the current resource is not changed
+        return resource;
     }
 }

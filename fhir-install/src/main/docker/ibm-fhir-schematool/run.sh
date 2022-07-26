@@ -147,7 +147,7 @@ function process_cmd_properties {
 }
 
 # process_cert - extracts the cert from the JSON file
-# This is only valid if it's postgres (but may be useful for db2)
+# This is only valid if it's postgres
 function process_cert {
     DB_CERT=$(get_property db.cert .persistence[0].db.certificate_base64)
     if [ ! -z "${DB_CERT}" ] && [ $DB_CERT != 'empty' ]
@@ -158,40 +158,6 @@ function process_cert {
 
 ##############################################################################
 # Database Specific Wrapper for Commmon Calls
-
-# _call_db2 - local function to call db2
-# INPUT: Single String of additional parameters
-function _call_db2 {
-    INPUT="$1"
-
-    # Get the variables
-    DB_HOSTNAME=$(get_property db.host .persistence[0].db.host)
-    DB_PORT=$(get_property db.port .persistence[0].db.port)
-    DB_NAME=$(get_property db.database .persistence[0].db.database)
-    DB_USER=$(get_property user .persistence[0].db.user)
-    DB_PASSWORD=$(get_property password .persistence[0].db.password)
-
-    # Check the SSL config and create the SSL_STANZA
-    DB_SSL_DB2=$(get_property sslConnection .persistence[0].db.ssl)
-    SSL_STANZA=""
-    if [ "${DB_SSL_DB2}" = "true" ]
-    then
-        SSL_STANZA="--prop sslConnection=true "
-    fi
-
-    # since we are generating, we can debug this... with set +x
-    set -x
-    /opt/java/openjdk/bin/java -Dlog.dir=${SCHEMA_TOOL_LOCATION}/workarea -jar ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \
-        --prop "db.host=${DB_HOSTNAME}" \
-        --prop "db.port=${DB_PORT}" \
-        --prop "db.database=${DB_NAME}" \
-        --prop "user=${DB_USER}" \
-        --prop "password=${DB_PASSWORD}" \
-        ${SSL_STANZA} \
-        --db-type db2 \
-        ${INPUT} 2>&1 | tee ${SCHEMA_TOOL_LOCATION}/workarea/out.log
-    set +x
-}
 
 # _call_postgres - local function to call postgres
 function _call_postgres {
@@ -227,101 +193,6 @@ function _call_postgres {
 }
 
 ##############################################################################
-# Db2 Specific Functions
-
-# allocate_tenant - calls the allocation routine for the tenant
-# **Db2 Only*
-function allocate_tenant { 
-    DB_TYPE=$(get_property db.type .persistence[0].db.type)
-    if [ "${DB_TYPE}" = "db2" ]
-    then
-        # Get the variable
-        TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
-        TENANT_KEY=$(get_property tenant.key .persistence[0].tenant.key)
-
-        # Tenant Key
-        TK_FILE_STANZA=""
-        TK_FILE='/opt/schematool/workarea/persistence.key'
-        if [ ! -z "${TENANT_KEY}" ]
-        then
-            echo "${TENANT_KEY}" > ${TK_FILE}
-        else
-            # not specified by the client, so we're randomly generating and inlining it
-            TENANT_KEY=$(openssl rand -base64 32)
-            echo "TENANT_KEY: ${TENANT_KEY}"
-            echo "${TENANT_KEY}" > ${TK_FILE}
-            echo "tenant.key=${TENANT_KEY}" >> ${TOOL_INPUT_FILE}
-        fi
-
-        # Only in the case where we have a file we are loading we hit the issue
-        # where we need to override the default behavior of exiting on failure.
-        set +o errexit
-        set +o pipefail
-
-        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
-        then
-            SCHEMA_FHIR="FHIRDATA"
-        fi
-
-        _call_db2 "--schema-name ${SCHEMA_FHIR} --allocate-tenant ${TENANT_NAME} --tenant-key-file ${TK_FILE} --pool-size 5 --skip-allocate-if-tenant-exists "
-
-        # Tenant Key and Name already exist
-        ALREADY_EXISTS=$(grep "tenantName and tenantKey already exists" ${SCHEMA_TOOL_LOCATION}/workarea/out.log)
-        if [ ! -z "${ALREADY_EXISTS}" ]
-        then
-            error_warn "Unexpected failure in allocate-tenant"
-            exit 3;
-        fi
-
-        TENANT_KEY=$(get_property tenant.key .persistence[0].tenant.key)
-
-        # Always reset
-        set -o errexit
-        set -o pipefail
-    fi
-}
-
-# test_tenant - tests the tenant connectivity and the key are correct
-# **Db2 Only*
-function test_tenant { 
-    DB_TYPE=$(get_property db.type .persistence[0].db.type)
-    if [ "${DB_TYPE}" = "db2" ]
-    then
-        info "Starting the Test Tenant"
-        # Get the variable
-        TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
-        TENANT_KEY=$(get_property tenant.key .persistence[0].tenant.key)
-        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
-        then
-            SCHEMA_FHIR="FHIRDATA"
-        fi
-        _call_db2 "--test-tenant ${TENANT_NAME} --tenant-key ${TENANT_KEY} --schema-name ${SCHEMA_FHIR} --pool-size 1"
-        echo "Successful Setup of: "
-        echo "TENANT_NAME: ${TENANT_NAME}"
-        echo "TENANT_KEY: ${TENANT_KEY}"
-    fi
-}
-
-# deallocate_tenant - calls the deallocation routine for the tenant
-# **Db2 Only*
-function deallocate_tenant { 
-    DB_TYPE=$(get_property db.type .persistence[0].db.type)
-    if [ "${DB_TYPE}" = "db2" ]
-    then
-        # Get the variable
-        TENANT_NAME=$(get_property tenant.name .persistence[0].tenant.name)
-        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
-        then
-            SCHEMA_FHIR="FHIRDATA"
-        fi
-        _call_db2 "--drop-tenant ${TENANT_NAME} --pool-size 1 --schema-name ${SCHEMA_FHIR}"
-    fi
-}
-
-##############################################################################
 # General Database Functions
 
 # grant_to_dbuser - grant dbuser so the IBM FHIR Server can use it.
@@ -352,35 +223,10 @@ function grant_to_dbuser {
             SCHEMA_FHIR="FHIRDATA"
         fi
 
-        if [ "${DB_TYPE}" = "db2" ]
-        then
-            _call_db2 "--grant-to ${TARGET_USER} --target BATCH ${SCHEMA_BATCH} --target OAUTH "${SCHEMA_OAUTH}" --target DATA ${SCHEMA_FHIR} --pool-size 5"
-        elif [ "${DB_TYPE}" = "postgresql" ]
+        if [ "${DB_TYPE}" = "postgresql" ]
         then
             _call_postgres "--grant-to ${TARGET_USER} --target BATCH ${SCHEMA_BATCH} --target OAUTH "${SCHEMA_OAUTH}" --target DATA ${SCHEMA_FHIR} --pool-size 5"
         fi
-    fi
-}
-
-# refresh_tenants - refreshes the tenants so they get the latest partititions.
-function refresh_tenants { 
-    DB_TYPE=$(get_property db.type .persistence[0].db.type)
-    if [ "${DB_TYPE}" = "db2" ]
-    then
-        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
-        then
-            SCHEMA_FHIR="FHIRDATA"
-        fi
-
-        set +o errexit
-        set +o pipefail
-        _call_db2 "--refresh-tenants --schema-name ${SCHEMA_FHIR} --pool-size 5"
-        set -o errexit
-        set -o pipefail
-    elif [ "${DB_TYPE}" = "postgresql" ]
-    then
-        echo "Skipping refresh-tenants as it's not needed on 'postgresql'"
     fi
 }
 
@@ -389,26 +235,7 @@ function refresh_tenants {
 function drop_schema {
     SCHEMA=$1
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
-    if [ "${DB_TYPE}" = "db2" ]
-    then
-        # Pick off the schemas
-        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
-        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
-        then
-            SCHEMA_OAUTH="FHIR_OAUTH"
-        fi
-        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
-        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
-        then
-            SCHEMA_BATCH="FHIR_JBATCH"
-        fi
-        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
-        then
-            SCHEMA_FHIR="FHIRDATA"
-        fi
-        _call_db2 "--drop-schema-fhir --schema-name ${SCHEMA_FHIR} --drop-schema-batch ${SCHEMA_BATCH} --drop-schema-oauth ${SCHEMA_OAUTH} --pool-size 2 --confirm-drop --drop-admin"
-    elif [ "${DB_TYPE}" = "postgresql" ]
+    if [ "${DB_TYPE}" = "postgresql" ]
     then
         # Pick off the schemas
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
@@ -427,18 +254,6 @@ function drop_schema {
             SCHEMA_FHIR="FHIRDATA"
         fi
         _call_postgres "--drop-schema-fhir --schema-name ${SCHEMA_FHIR} --drop-schema-batch ${SCHEMA_BATCH} --drop-schema-oauth ${SCHEMA_OAUTH} --pool-size 2 --confirm-drop --drop-admin"
-    fi
-}
-
-# has_more_tenants - checks the list of tenants are NOT in the allocated state
-function has_more_tenants { 
-    MORE_TENANTS=""
-    DB_TYPE=$(get_property db.type .persistence[0].db.type)
-    if [ "${DB_TYPE}" = "db2" ]
-    then 
-        # Check if the database has more tenants left
-        # if there are more tenants, then we don't want  to drop anything
-        MORE_TENANTS="$(_call_db2 \"--list-tenants\" | grep -c ALLOCATED)"
     fi
 }
 
@@ -495,26 +310,7 @@ function drop_schema_batch {
 function create_schema {
     info "creating the schema"
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
-    if [ "${DB_TYPE}" = "db2" ]
-    then
-        # Pick off the schemas
-        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
-        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
-        then
-            SCHEMA_OAUTH="FHIR_OAUTH"
-        fi
-        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
-        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
-        then
-            SCHEMA_BATCH="FHIR_JBATCH"
-        fi
-        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
-        then
-            SCHEMA_FHIR="FHIRDATA"
-        fi
-        _call_db2 "--create-schema-oauth ${SCHEMA_OAUTH} --create-schema-batch ${SCHEMA_BATCH} --create-schema-fhir ${SCHEMA_FHIR} --pool-size 2"
-    elif [ "${DB_TYPE}" = "postgresql" ]
+    if [ "${DB_TYPE}" = "postgresql" ]
     then
         # Pick off the schemas
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
@@ -540,25 +336,7 @@ function create_schema {
 # update_schema 
 function update_schema {
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
-    if [ "${DB_TYPE}" = "db2" ]
-    then
-        SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
-        if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
-        then
-            SCHEMA_OAUTH="FHIR_OAUTH"
-        fi
-        SCHEMA_BATCH=$(get_property schema.name.batch .persistence[0].schema.batch)
-        if [ -z "${SCHEMA_BATCH}" ] || [ "null" = "${SCHEMA_BATCH}" ]
-        then
-            SCHEMA_BATCH="FHIR_JBATCH"
-        fi
-        SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
-        if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
-        then
-            SCHEMA_FHIR="FHIRDATA"
-        fi
-        _call_db2 "--update-schema-fhir ${SCHEMA_FHIR} --update-schema-batch ${SCHEMA_BATCH} --update-schema-oauth ${SCHEMA_OAUTH} --pool-size 1"
-    elif [ "${DB_TYPE}" = "postgresql" ]
+    if [ "${DB_TYPE}" = "postgresql" ]
     then
         SCHEMA_OAUTH=$(get_property schema.name.oauth .persistence[0].schema.oauth)
         if [ -z "${SCHEMA_OAUTH}" ] || [ "null" = "${SCHEMA_OAUTH}" ]
@@ -598,7 +376,6 @@ function check_network_path {
     DB_HOSTNAME=$(get_property db.host .persistence[0].db.host)
     DB_PORT=$(get_property db.port .persistence[0].db.port)
     DB_SSL_PG=$(get_property ssl .persistence[0].db.ssl)
-    DB_SSL_DB2=$(get_property sslConnection .persistence[0].db.ssl)
 
     # intentionally using ftp as it's generally available, and make no difference on this check
     info "Activating Network Path Connection..."
@@ -623,26 +400,7 @@ function check_network_path {
 # check_database_credentials - checks the database credentials using the schema tool
 function check_database_credentials { 
     DB_TYPE=$(get_property db.type .persistence[0].db.type)
-    if [ "${DB_TYPE}" = "db2" ]
-    then 
-        DB_HOSTNAME=$(get_property db.host .persistence[0].db.host)
-        DB_PORT=$(get_property db.port .persistence[0].db.port)
-        DB_USER=$(get_property user .persistence[0].db.user)
-        DB_PASSWORD=$(get_property password .persistence[0].db.password)
-        DB_NAME=$(get_property db.database .persistence[0].db.database)
-
-        DB_SSL_DB2=$(get_property sslConnection .persistence[0].db.ssl)
-        SSL_CONNECTION="false"
-        if [ "$DB_SSL_DB2" = "true" ]
-        then
-            SSL_CONNECTION="true"
-        fi
-
-        # Eventually, we can pack the jar in here, and call this directly.
-        #/opt/java/openjdk/bin/java -cp ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \ 
-        #    com.ibm.db2.jcc.DB2Jcc -url "jdbc:db2://${DB_HOSTNAME}:${DB_PORT}/${DB_NAME}:sslConnection=${SSL_CONNECTION};" \
-        #    -user "${DB_USER}" -password "${DB_PASSWORD}" -tracing
-    elif [ "${DB_TYPE}" = "postgresql" ]
+    if [ "${DB_TYPE}" = "postgresql" ]
     then 
         DB_HOSTNAME=$(get_property db.host .persistence[0].db.host)
         DB_PORT=$(get_property db.port .persistence[0].db.port)
@@ -672,11 +430,6 @@ function onboard_behavior {
         create_schema
         update_schema
         grant_to_dbuser
-
-        # Db2 only
-        allocate_tenant
-        refresh_tenants
-        test_tenant
     else
         info "The onboarding deployment flow is skipped"
     fi
@@ -687,8 +440,6 @@ function offboard_behavior {
     if [ "${TOOL_SKIP}" != "true" ]
     then
         info "Starting the offboard behavior"
-        # Db2 only
-        deallocate_tenant
 
         # All Databases
         drop_schema_fhir
@@ -705,10 +456,7 @@ function custom_behavior {
     then
         info "Starting the custom behavior"
 
-        if [ "${DB_TYPE}" = "db2" ]
-        then
-            _call_db2 "$@"
-        elif [ "${DB_TYPE}" = "postgresql" ]
+        if [ "${DB_TYPE}" = "postgresql" ]
         then
             _call_postgres "$@"
         fi

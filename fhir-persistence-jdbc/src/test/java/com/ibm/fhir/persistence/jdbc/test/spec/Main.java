@@ -6,11 +6,9 @@
 
 package com.ibm.fhir.persistence.jdbc.test.spec;
 
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -21,13 +19,9 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.config.DefaultFHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfigProvider;
-import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
-import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
-import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyNetworkTranslator;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
@@ -46,21 +40,16 @@ import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
-import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
+import com.ibm.fhir.persistence.jdbc.cache.CommonValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.IdNameCache;
 import com.ibm.fhir.persistence.jdbc.cache.LogicalResourceIdentCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
-import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ILogicalResourceIdentCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
 import com.ibm.fhir.schema.derby.DerbyFhirDatabase;
 import com.ibm.fhir.validation.test.ValidationProcessor;
-
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
-import jakarta.json.JsonReaderFactory;
 
 /**
  * Integration test using a multi-tenant schema in DB2 as the target for the
@@ -93,7 +82,6 @@ public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
 
     private static final int EXIT_RUNTIME_ERROR = 1;
-    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
     // The persistence API
     protected FHIRPersistence persistence = null;
@@ -102,8 +90,6 @@ public class Main {
     protected Properties configProps = new Properties();
 
     private String schemaName = "FHIRDATA"; // default
-    private String tenantName;
-    private String tenantKey;
 
     // The name of the index file to use
     private Index index;
@@ -126,10 +112,10 @@ public class Main {
 
     // mode of operation
     private static enum Operation {
-        DB2, DERBY, DERBYNETWORK, POSTGRESQL, CITUS, PARSE
+        DERBY, DERBYNETWORK, POSTGRESQL, CITUS, PARSE
     }
 
-    private Operation mode = Operation.DB2;
+    private Operation mode = Operation.POSTGRESQL;
 
 
     /**
@@ -171,25 +157,9 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for --read-iterations argument at posn: " + i);
                 }
                 break;
-            case "--tenant-key":
-                if (++i < args.length) {
-                    this.tenantKey = args[i];
-                }
-                else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
             case "--schema-name":
                 if (++i < args.length) {
                     this.schemaName = args[i];
-                }
-                else {
-                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
-                }
-                break;
-            case "--tenant-name":
-                if (++i < args.length) {
-                    this.tenantName = args[i];
                 }
                 else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
@@ -298,9 +268,6 @@ public class Main {
      */
     protected void process() throws Exception {
         switch (this.mode) {
-        case DB2:
-            processDB2();
-            break;
         case DERBY:
             processDerby();
             break;
@@ -315,90 +282,6 @@ public class Main {
             processParse();
             break;
         }
-    }
-
-    /**
-     * Configure the property group to inject the tenantKey, which is the only attribute
-     * required for this scenario
-     * @param configProvider
-     * @throws Exception
-     */
-    protected void configure(TestFHIRConfigProvider configProvider) throws Exception {
-
-        final String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/default";
-
-        // The bare necessities we need to provide to the persistence layer in this case
-        final String jsonString = " {" +
-                "    \"tenantKey\": \"" + this.tenantKey + "\"," +
-                "    \"type\": \"db2\"," +
-                "    \"multitenant\": true" +
-                "}";
-
-        try (JsonReader reader = JSON_READER_FACTORY.createReader(new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8)))) {
-            JsonObject jsonObj = reader.readObject();
-            PropertyGroup pg = new PropertyGroup(jsonObj);
-            configProvider.addPropertyGroup(dsPropertyName, pg);
-        }
-    }
-
-
-    /**
-     * Process the examples
-     * @throws Exception
-     */
-    protected void processDB2() throws Exception {
-
-        // Set up a connection provider pointing to the DB2 instance described
-        // by the configProps
-        JdbcPropertyAdapter adapter = new Db2PropertyAdapter(configProps);
-        Db2Translator translator = new Db2Translator();
-        JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
-        PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
-        ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
-        TestFHIRConfigProvider configProvider = new TestFHIRConfigProvider(new DefaultFHIRConfigProvider());
-        configure(configProvider);
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
-        ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
-
-        // Provide the credentials we need for accessing a multi-tenant schema (if enabled)
-        // Must set this BEFORE we create our persistence object
-        if (this.tenantName == null || tenantKey == null) {
-            throw new IllegalArgumentException("Either tenant-key or tenant-name was not provided");
-        }
-
-        long start = System.nanoTime();
-        DriverMetrics dm = new DriverMetrics();
-        // create a custom list of operations to apply in order to each resource
-        List<ITestResourceOperation> operations = new ArrayList<>();
-        populateOperationsList(operations, dm);
-
-        R4JDBCExamplesProcessor processor = new R4JDBCExamplesProcessor(
-                operations,
-                this.configProps,
-                connectionPool,
-                this.tenantName,
-                this.tenantKey,
-                transactionProvider,
-                configProvider,
-                cache);
-
-        // The driver will iterate over all the JSON examples in the R4 specification, parse
-        // the resource and call the processor.
-        R4ExamplesDriver driver = new R4ExamplesDriver();
-        driver.setProcessor(processor);
-        driver.setMetrics(dm);
-        // enable optional validation
-        if (this.validate) {
-            driver.setValidator(new ValidationProcessor());
-        }
-        if (pool != null) {
-            driver.setPool(pool, maxInflight);
-        }
-        runDriver(driver);
-
-        long elapsed = (System.nanoTime() - start) / DriverMetrics.NANOS_MS;
-        renderReport(dm, elapsed);
     }
 
     /**
@@ -440,7 +323,7 @@ public class Main {
         // IConnectionProvider implementation used by the persistence
         // layer to obtain connections.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+            ICommonValuesCache rrc = new CommonValuesCacheImpl(100, 100, 100);
             ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
             FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), 
                 new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
@@ -494,7 +377,7 @@ public class Main {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+        ICommonValuesCache rrc = new CommonValuesCacheImpl(100, 100, 100);
         ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
 
@@ -550,7 +433,7 @@ public class Main {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+        ICommonValuesCache rrc = new CommonValuesCacheImpl(100, 100, 100);
         ILogicalResourceIdentCache lric = new LogicalResourceIdentCacheImpl(100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc, lric);
 

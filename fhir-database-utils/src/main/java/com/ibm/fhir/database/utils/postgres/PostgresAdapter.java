@@ -37,7 +37,6 @@ import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
-import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.With;
 
 /**
@@ -99,14 +98,9 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
+    public void createTable(String schemaName, String name, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
             IdentityDef identity, String tablespaceName, List<With> withs, List<CheckConstraint> checkConstraints,
             DistributionContext distributionContext) {
-
-        // PostgreSql doesn't support partitioning, so we ignore tenantColumnName
-        if (tenantColumnName != null) {
-            warnOnce(MessageKey.MULTITENANCY, "PostgreSql does not support multi-tenancy: " + name);
-        }
 
         // We also ignore tablespace for PostgreSql
         String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, identity, null, withs, checkConstraints);
@@ -114,43 +108,10 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName, List<OrderedColumnDef> indexColumns,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName, List<OrderedColumnDef> indexColumns,
             List<String> includeColumns, DistributionContext distributionContext) {
         // PostgreSql doesn't support include columns, so we just have to create a normal index
-        createUniqueIndex(schemaName, tableName, indexName, tenantColumnName, indexColumns, distributionContext);
-    }
-
-    @Override
-    public void createIntVariable(String schemaName, String variableName) {
-        warnOnce(MessageKey.CREATE_VAR, "PostgreSql does not support CREATE VARIABLE for: " + variableName);
-    }
-
-    @Override
-    public void createOrReplacePermission(String schemaName, String permissionName, String tableName, String predicate) {
-        warnOnce(MessageKey.CREATE_PERM, "PostgreSql does not support CREATE PERMISSION for: " + permissionName);
-    }
-
-    @Override
-    public void activateRowAccessControl(String schemaName, String tableName) {
-        warnOnce(MessageKey.ENABLE_ROW_ACCESS, "PostgreSql does not support ROW ACCESS CONTROL for table: " + tableName);
-    }
-
-    @Override
-    public void setIntVariable(String schemaName, String variableName, int value) {
-        // As this is a runtime issue, we throw as an exception instead of
-        // simply logging a warning. This shouldn't be called in the case
-        // of a PostgreSql database
-        throw new IllegalStateException("setIntVariable not supported on PostgreSql for: " + variableName);
-    }
-
-    @Override
-    public void deactivateRowAccessControl(String schemaName, String tableName) {
-        warnOnce(MessageKey.DISABLE_ROW_ACCESS, "PostgreSql does not support ROW ACCESS CONTROL for table: " + tableName);
-    }
-
-    @Override
-    public void createTenantPartitions(Collection<Table> tables, String schemaName, int newTenantId, int extentSizeKB) {
-        warnOnce(MessageKey.PARTITIONING, "PostgreSql does not support tenant partitioning");
+        createUniqueIndex(schemaName, tableName, indexName, indexColumns, distributionContext);
     }
 
     @Override
@@ -176,16 +137,6 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
     @Override
     public void dropTablespace(String tablespaceName) {
         warnOnce(MessageKey.TABLESPACE, "Drop tablespace not supported in PostgreSql");
-    }
-
-    @Override
-    public void detachPartition(String schemaName, String tableName, String partitionName, String newTableName) {
-        warnOnce(MessageKey.PARTITIONING, "Detach partition not supported in PostgreSql");
-    }
-
-    @Override
-    public void removeTenantPartitions(Collection<Table> tables, String schemaName, int tenantId) {
-        warnOnce(MessageKey.PARTITIONING, "Remove tenant partitions not supported in PostgreSql");
     }
 
     @Override
@@ -272,11 +223,10 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createForeignKeyConstraint(String constraintName, String schemaName, String name, String targetSchema,
-        String targetTable, String targetColumnName, String tenantColumnName, List<String> columns, boolean enforced) {
+        String targetTable, String targetColumnName, List<String> columns, boolean enforced) {
         // If enforced=false, skip the constraint because PostgreSQL doesn't support unenforced constraints
         if (enforced) {
-            // Make the call, but without the tenantColumnName because PostgreSQL doesn't support our multi-tenant implementation
-            super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, null, columns, true);
+            super.createForeignKeyConstraint(constraintName, schemaName, name, targetSchema, targetTable, targetColumnName, columns, true);
         }
     }
 
@@ -294,7 +244,7 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
             for (ForeignKeyConstraint constraint : afk.getConstraints()) {
                 createForeignKeyConstraint(constraint.getConstraintName(), afk.getSchemaName(), afk.getTableName(),
                     constraint.getTargetSchema(), constraint.getTargetTable(), constraint.getTargetColumnName(),
-                    afk.getTenantColumnName(), constraint.getColumns(), constraint.isEnforced());
+                    constraint.getColumns(), constraint.isEnforced());
             }
         } else {
             super.runStatement(stmt);
@@ -302,18 +252,16 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
     }
 
     @Override
-    public void createUniqueIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+    public void createUniqueIndex(String schemaName, String tableName, String indexName,
         List<OrderedColumnDef> indexColumns, DistributionContext distributionContext) {
-        indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         // Postgresql doesn't support index name prefixed with the schema name.
         String ddl = DataDefinitionUtil.createUniqueIndex(schemaName, tableName, indexName, indexColumns, !USE_SCHEMA_PREFIX);
         runStatement(ddl);
     }
 
     @Override
-    public void createIndex(String schemaName, String tableName, String indexName, String tenantColumnName,
+    public void createIndex(String schemaName, String tableName, String indexName,
         List<OrderedColumnDef> indexColumns) {
-        indexColumns = prefixTenantColumn(tenantColumnName, indexColumns);
         // Postgresql doesn't support index name prefixed with the schema name.
         String ddl = DataDefinitionUtil.createIndex(schemaName, tableName, indexName, indexColumns, !USE_SCHEMA_PREFIX);
         runStatement(ddl);
@@ -361,16 +309,6 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
     public void dropProcedure(String schemaName, String procedureName) {
         final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, procedureName);
         logger.fine("Drop procedure not run on [" + objectName + "]. This is as expected");
-    }
-
-    @Override
-    public void dropDetachedPartitions(Collection<Table> tables, String schemaName, int tenantId) {
-        warnOnce(MessageKey.PARTITIONING, "Partitioning not supported. This is as expected");
-    }
-
-    @Override
-    public void dropTenantTablespace(int tenantId) {
-        logger.fine("Drop tablespace not supported. This is as expected");
     }
 
     @Override

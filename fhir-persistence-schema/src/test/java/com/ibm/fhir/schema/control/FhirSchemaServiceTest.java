@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.schema.control;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -20,11 +18,9 @@ import com.ibm.fhir.database.utils.api.SchemaApplyContext;
 import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
 import com.ibm.fhir.database.utils.common.PrintTarget;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
-import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
-import com.ibm.fhir.database.utils.model.Table;
+import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.version.CreateVersionHistory;
 import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.core.service.TaskService;
@@ -38,9 +34,9 @@ public class FhirSchemaServiceTest {
     private static final String ADMIN_SCHEMA_NAME = "ADMIN_FHIR";
 
     @Test
-    public void testDb2TableCreation() {
+    public void testPostgresTableCreation() {
 
-        logger.info("Testing DB2 schema creation");
+        logger.info("Testing PostgreSQL schema creation");
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
@@ -51,8 +47,8 @@ public class FhirSchemaServiceTest {
         // Print the statements instead of executing them against a database
         PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
 
-        // Pretend that our target is a DB2 database
-        Db2Adapter adapter = new Db2Adapter(tgt);
+        // Pretend that our target is a PostgreSQL database
+        PostgresAdapter adapter = new PostgresAdapter(tgt);
         ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
         SchemaApplyContext context = SchemaApplyContext.getDefault();
         model.apply(schemaAdapter, context);
@@ -60,7 +56,7 @@ public class FhirSchemaServiceTest {
 
     @Test
     public void testParallelTableCreation() {
-        logger.info("Testing DB2 parallel schema build");
+        logger.info("Testing PostgreSQL parallel schema build");
 
         // Create an instance of the service and use it to test creation
         // of the FHIR schema
@@ -74,7 +70,7 @@ public class FhirSchemaServiceTest {
         ExecutorService pool = Executors.newFixedThreadPool(40);
         ITaskCollector collector = taskService.makeTaskCollector(pool);
         PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
-        Db2Adapter adapter = new Db2Adapter(tgt);
+        PostgresAdapter adapter = new PostgresAdapter(tgt);
         ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
         SchemaApplyContext context = SchemaApplyContext.getDefault();
         model.collect(collector, schemaAdapter, context, new TransactionProviderTest(), vhs);
@@ -106,27 +102,6 @@ public class FhirSchemaServiceTest {
     }
 
     @Test
-    public void testTenantPartitioning() {
-
-        // Create an instance of the service and use it to test creation
-        // of the FHIR schema
-        FhirSchemaGenerator gen = new FhirSchemaGenerator(ADMIN_SCHEMA_NAME, SCHEMA_NAME, SchemaType.PLAIN);
-        PhysicalDataModel model = new PhysicalDataModel();
-        gen.buildSchema(model);
-
-        // Pretend that our target is a DB2 database. Need to use a connection provider
-        // for this particular
-        // test
-        Db2Translator translator = new Db2Translator();
-        ConnectionProviderTestImpl cp = new ConnectionProviderTestImpl(translator);
-        Db2Adapter adapter = new Db2Adapter(cp);
-
-        // Exercise the partitioning
-        List<Table> tables = new ArrayList<>();
-        adapter.createTenantPartitions(tables, SCHEMA_NAME, 10, FhirSchemaConstants.FHIR_TS_EXTENT_KB);
-    }
-
-    @Test
     public void testDrop() {
 
         logger.info("Testing schema drop");
@@ -140,8 +115,11 @@ public class FhirSchemaServiceTest {
         // Print the statements instead of executing them against a database
         PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
 
-        // Pretend that our target is a DB2 database
-        Db2Adapter adapter = new Db2Adapter(tgt);
+        // Pretend that our target is a Derby database
+        DerbyAdapter adapter = new DerbyAdapter(tgt) {
+            // need to avoid running the actual statement because we don't have a database for this test
+            public boolean doesTableExist(String schemaName, String tableName) { return false; };
+        };
         ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
         model.drop(schemaAdapter);
     }
@@ -151,8 +129,11 @@ public class FhirSchemaServiceTest {
         // Create a simple print target so all we see is the DDL
         PrintTarget tgt = new PrintTarget(null, logger.isLoggable(Level.FINE));
 
-        // Pretend that our target is a DB2 database
-        Db2Adapter adapter = new Db2Adapter(tgt);
+        // Pretend that our target is a Derby database
+        DerbyAdapter adapter = new DerbyAdapter(tgt) {
+            // need to avoid running the actual statement because we don't have a database for this test
+            public boolean doesTableExist(String schemaName, String tableName) { return false; };
+        };
         ISchemaAdapter schemaAdapter = new PlainSchemaAdapter(adapter);
         CreateVersionHistory.createTableIfNeeded(ADMIN_SCHEMA_NAME, schemaAdapter);
 

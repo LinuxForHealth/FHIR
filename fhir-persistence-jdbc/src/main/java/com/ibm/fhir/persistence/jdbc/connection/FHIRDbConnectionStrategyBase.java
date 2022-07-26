@@ -102,12 +102,6 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
 
                 SchemaType schemaType = SchemaType.PLAIN;
                 DbType type = DbType.from(typeValue);
-                if (type == DbType.DB2) {
-                    // We make this absolute for now. May change in the future if we
-                    // support a single-tenant schema in DB2.
-                    schemaType = SchemaType.MULTITENANT;
-                }
-
                 result = new FHIRDbFlavorImpl(type, schemaType);
             } catch (Exception x) {
                 log.log(Level.SEVERE, "No type property found for datastore '" + datastoreId + "'", x);
