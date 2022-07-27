@@ -265,7 +265,7 @@ For example, the fhir-server-config snippet from above would have a correspondin
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
         <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="sharedLibPostgres"/>
         <properties.postgresql
-             serverName="postgres_postgres_1"
+             serverName="postgres"
              portNumber="5432"
              databaseName="fhirdb"
              user="fhirserver"
