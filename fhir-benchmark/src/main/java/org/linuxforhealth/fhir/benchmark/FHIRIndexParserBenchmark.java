@@ -31,7 +31,7 @@ import org.linuxforhealth.fhir.model.parser.exception.FHIRParserException;
 public class FHIRIndexParserBenchmark {
     @State(Scope.Benchmark)
     public static class FHIRParserState {
-        public static final Index INDEX = Index.PROFILES_PDEX_PLAN_NET_JSON;
+        public static final Index INDEX = Index.PERFORMANCE_JSON;
 
         Set<String> JSON_SPEC_EXAMPLES = new HashSet<>();
 
