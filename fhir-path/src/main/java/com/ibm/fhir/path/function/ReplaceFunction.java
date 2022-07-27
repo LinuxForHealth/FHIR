@@ -6,9 +6,8 @@
 
 package com.ibm.fhir.path.function;
 
-import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
+import static com.ibm.fhir.path.util.FHIRPathUtil.checkStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getStringValue;
-import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 
 import java.util.Collection;
@@ -35,9 +34,7 @@ public class ReplaceFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (!hasStringValue(context)) {
-            return empty();
-        }
+        checkStringValue(context);
         return singleton(getStringValue(context).replace(getStringValue(arguments.get(0)), getStringValue(arguments.get(1))));
     }
 }

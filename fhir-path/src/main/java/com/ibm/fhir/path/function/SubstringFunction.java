@@ -9,9 +9,8 @@ package com.ibm.fhir.path.function;
 import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getInteger;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getStringValue;
-import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
-
+import static com.ibm.fhir.path.util.FHIRPathUtil.checkStringValue;
 import java.util.Collection;
 import java.util.List;
 
@@ -37,9 +36,8 @@ public class SubstringFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (!hasStringValue(context)) {
-            return empty();
-        }
+        
+        checkStringValue(context);
         
         FHIRPathStringValue value = getStringValue(context);
         

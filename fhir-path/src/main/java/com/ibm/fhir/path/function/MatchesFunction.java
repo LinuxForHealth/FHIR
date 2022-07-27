@@ -8,9 +8,8 @@ package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
-import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
+import static com.ibm.fhir.path.util.FHIRPathUtil.checkStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getStringValue;
-import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
 
 import java.util.Collection;
 import java.util.List;
@@ -37,9 +36,7 @@ public class MatchesFunction extends FHIRPathAbstractFunction {
     
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (!hasStringValue(context)) {
-            return empty();
-        }
+        checkStringValue(context);
         
         FHIRPathStringValue string = getStringValue(context);
         FHIRPathStringValue regex = getStringValue(arguments.get(0));

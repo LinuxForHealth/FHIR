@@ -7,10 +7,10 @@
 package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.path.FHIRPathStringValue.stringValue;
+import static com.ibm.fhir.path.util.FHIRPathUtil.checkStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getSystemValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasSystemValue;
-import static com.ibm.fhir.path.util.FHIRPathUtil.isSingleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 
 import java.util.Collection;
@@ -38,9 +38,7 @@ public class ToStringFunction extends FHIRPathAbstractFunction {
 
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (!isSingleton(context)) {
-            return empty();
-        }
+        checkStringValue(context);
         if (hasSystemValue(context)) {
             FHIRPathSystemValue value = getSystemValue(context);
             return singleton(stringValue(value.toString()));
