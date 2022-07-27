@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,7 @@ import jakarta.json.JsonValue.ValueType;
 
 /**
  * A minimal alternative to the com.auth0:java-jwt library.
- * This flavor mimics the java-jwt API but implement only the [very small] subset of functionality that is
+ * This flavor mimics the java-jwt API but implements only the [very small] subset of functionality that is
  * actually needed by the fhir-smart policy enforcement.
  */
 public class JWT {
@@ -53,6 +53,9 @@ public class JWT {
         }
 
         public Claim getClaim(String name) {
+            if (data.containsKey(name) && data.get(name) == null) {
+                return new Claim(JsonValue.NULL);
+            }
             return new Claim(data.get(name));
         }
     }
@@ -98,11 +101,18 @@ public class JWT {
             return Collections.unmodifiableList(list);
         }
 
+        /**
+         * @return true if the claim exists and has a value of null; otherwise false
+         */
         public boolean isNull() {
-            if (value == null || value.getValueType() == ValueType.NULL) {
-                return true;
-            }
-            return false;
+            return value != null && value.getValueType() == ValueType.NULL;
+        }
+
+        /**
+         * @return true if the claim is missing entirely
+         */
+        public boolean isMissing() {
+            return value == null;
         }
     }
 }
