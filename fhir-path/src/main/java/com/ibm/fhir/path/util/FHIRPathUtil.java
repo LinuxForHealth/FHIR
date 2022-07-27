@@ -1256,4 +1256,18 @@ public final class FHIRPathUtil {
         }
         return true;
     }
+    
+    /**
+     * Check if the given collection item is Singleton.
+     * @param nodes
+     * @return
+     *  @throws IllegalArgumentException if the given collection item has more than one item
+     */
+    public static boolean checkSingleton(Collection<FHIRPathNode> nodes) {
+        if(!isSingleton(nodes)) {
+            throw new IllegalArgumentException("Input collection must not contain more than one item, but found " + nodes.size());
+            
+        }
+        return true;
+    }
 }

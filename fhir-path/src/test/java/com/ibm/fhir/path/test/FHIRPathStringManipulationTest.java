@@ -192,15 +192,9 @@ public class FHIRPathStringManipulationTest {
         evaluator.evaluate(appointment, "Appointment.participant.toString()");
     }
     
-    @Test(expectedExceptions = FHIRPathException.class, expectedExceptionsMessageRegExp = ".*Input collection item must be of type String, but found 'Identifier'*" )
-    public void testToStringFunctionForCollectionWithNonStringType() throws Exception {
-        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-        evaluator.evaluate(appointment, "Appointment.identifier.toString()");
-    }
-
    
     private static Appointment readAppointment() {
-        try (Reader reader = ExamplesUtil.resourceReader("json/spec/appointment-example3.json")) {
+        try (Reader reader = ExamplesUtil.resourceReader("json/spec/appointment-example-request.json")) {
             return FHIRParser.parser(Format.JSON).parse(reader);
         } catch (Exception e) {
             throw new Error(e);
