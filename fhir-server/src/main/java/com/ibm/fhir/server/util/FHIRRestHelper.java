@@ -1177,6 +1177,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Invoke the 'afterRead' interceptor methods.
             getInterceptorMgr().fireAfterReadEvent(event);
 
+            // Update the result if the interceptor changed it
+            result = result.replace(event.getFhirResource());
+
             if (result.getResource() == null && throwExcOnNull) {
                 if (result.isDeleted()) {
                     throw new FHIRResourceDeletedException("Resource '" + type + "/" + id + "' is deleted.");
@@ -1246,6 +1249,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Invoke the 'afterVread' interceptor methods.
             getInterceptorMgr().fireAfterVreadEvent(event);
+
+            // Update the result if the interceptor changed it
+            srr = srr.replace(event.getFhirResource());
 
             if (srr.getResource() == null) {
                 if (srr.isDeleted()) {
@@ -1318,6 +1324,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Invoke the 'afterHistory' interceptor methods.
             getInterceptorMgr().fireAfterHistoryEvent(event);
+
+            // Update the result if the interceptor changed it
+            Resource x = event.getFhirResource();
+            if (x != null && x.is(Bundle.class)) {
+                bundle = x.as(Bundle.class);
+            }
 
             // Commit our transaction if we started one before.
             txn.commit();
@@ -1404,7 +1416,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Interceptors might want to change the response bundle, so make sure pick up the new value.
             // Protect against an interceptor returning something other than a Bundle
             Resource afterSearchEventValue = event.getFhirResource();
-            if (afterSearchEventValue.is(Bundle.class)) {
+            if (afterSearchEventValue != null && afterSearchEventValue.is(Bundle.class)) {
                 bundle = afterSearchEventValue.as(Bundle.class);
             }
 
@@ -3315,6 +3327,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Invoke the 'afterHistory' interceptor methods.
         event.setFhirResource(bundle);
         getInterceptorMgr().fireAfterHistoryEvent(event);
+
+        // See if the interceptor modified the result bundle
+        Resource x = event.getFhirResource();
+        if (x != null && x.is(Bundle.class)) {
+            bundle = x.as(Bundle.class);
+        }
 
         return bundle;
     }
