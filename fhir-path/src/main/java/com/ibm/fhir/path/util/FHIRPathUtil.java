@@ -1238,36 +1238,4 @@ public final class FHIRPathUtil {
         }
         return null;
     }
-    
-    /**
-     * Check if the given collection item is of type String.
-     * @param nodes
-     * @return
-     *  @throws IllegalArgumentException if the given collection item has more than one item or if the given collection item is not of type String
-     */
-    public static boolean checkStringValue(Collection<FHIRPathNode> nodes) {
-        if(!isSingleton(nodes)) {
-            throw new IllegalArgumentException("Input collection must not contain more than one item, but found " + nodes.size());
-            
-        } else if(!hasStringValue(nodes)) {
-            FHIRPathNode node = getSingleton(nodes);
-            throw new IllegalArgumentException("Input collection item must be of type String, but found '"+node.type().getName()+ "'");
-            
-        }
-        return true;
-    }
-    
-    /**
-     * Check if the given collection item is Singleton.
-     * @param nodes
-     * @return
-     *  @throws IllegalArgumentException if the given collection item has more than one item
-     */
-    public static boolean checkSingleton(Collection<FHIRPathNode> nodes) {
-        if(!isSingleton(nodes)) {
-            throw new IllegalArgumentException("Input collection must not contain more than one item, but found " + nodes.size());
-            
-        }
-        return true;
-    }
 }

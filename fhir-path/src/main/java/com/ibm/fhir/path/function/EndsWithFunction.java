@@ -8,7 +8,6 @@ package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
-import static com.ibm.fhir.path.util.FHIRPathUtil.checkStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getStringValue;
 
 import java.util.Collection;
@@ -17,7 +16,7 @@ import java.util.List;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
-public class EndsWithFunction extends FHIRPathAbstractFunction {
+public class EndsWithFunction extends FHIRPathStringAbstractFunction {
     @Override
     public String getName() {
         return "endsWith";
@@ -34,8 +33,8 @@ public class EndsWithFunction extends FHIRPathAbstractFunction {
     }
     
     @Override
-    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        checkStringValue(context);
+    public Collection<FHIRPathNode> doApply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        
         return getStringValue(context).endsWith(getStringValue(arguments.get(0))) ? SINGLETON_TRUE : SINGLETON_FALSE;
     }
 }

@@ -10,7 +10,7 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getInteger;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
-import static com.ibm.fhir.path.util.FHIRPathUtil.checkStringValue;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -18,7 +18,7 @@ import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathStringValue;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
-public class SubstringFunction extends FHIRPathAbstractFunction {
+public class SubstringFunction extends FHIRPathStringAbstractFunction {
     @Override
     public String getName() {
         return "substring";
@@ -35,9 +35,7 @@ public class SubstringFunction extends FHIRPathAbstractFunction {
     }
     
     @Override
-    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        
-        checkStringValue(context);
+    public Collection<FHIRPathNode> doApply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
         
         FHIRPathStringValue value = getStringValue(context);
         
