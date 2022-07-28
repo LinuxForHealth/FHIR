@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-FROM postgres:12.3-alpine
+FROM postgres:12-alpine
 
 # Hard Coded environment values
 ENV POSTGRES_DB fhirdb
