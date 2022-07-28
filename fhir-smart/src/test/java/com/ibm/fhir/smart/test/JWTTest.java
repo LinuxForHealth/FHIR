@@ -6,6 +6,7 @@
 package com.ibm.fhir.smart.test;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.security.KeyPair;
@@ -32,6 +33,7 @@ public class JWTTest {
     private String jwtNoSig = com.auth0.jwt.JWT.create()
             .withClaim("string", testString)
             .withClaim("array", testList)
+            .withClaim("null", (Boolean)null)
             .sign(Algorithm.none());
 
     @Test
@@ -41,9 +43,13 @@ public class JWTTest {
         assertEquals(decodedJwt.getClaim("string").asList(), null);
         assertEquals(decodedJwt.getClaim("array").asList(), testList);
         assertEquals(decodedJwt.getClaim("array").asString(), null);
-        assertTrue(decodedJwt.getClaim("bogus").isNull());
         assertEquals(decodedJwt.getClaim("bogus").asString(), null);
         assertEquals(decodedJwt.getClaim("bogus").asList(), null);
+
+        assertTrue(decodedJwt.getClaim("missing").isMissing());
+        assertTrue(decodedJwt.getClaim("null").isNull());
+        assertFalse(decodedJwt.getClaim("missing").isNull());
+        assertFalse(decodedJwt.getClaim("null").isMissing());
     }
 
     @Test
@@ -56,6 +62,7 @@ public class JWTTest {
         String jwtWithSig = com.auth0.jwt.JWT.create()
                 .withClaim("string", testString)
                 .withClaim("array", testList)
+                .withClaim("null", (Boolean)null)
                 .sign(Algorithm.RSA256(publicKey, privateKey));
 
         DecodedJWT decodedJwt = JWT.decode(jwtWithSig);
@@ -63,9 +70,13 @@ public class JWTTest {
         assertEquals(decodedJwt.getClaim("string").asList(), null);
         assertEquals(decodedJwt.getClaim("array").asList(), testList);
         assertEquals(decodedJwt.getClaim("array").asString(), null);
-        assertTrue(decodedJwt.getClaim("bogus").isNull());
         assertEquals(decodedJwt.getClaim("bogus").asString(), null);
         assertEquals(decodedJwt.getClaim("bogus").asList(), null);
+
+        assertTrue(decodedJwt.getClaim("missing").isMissing());
+        assertTrue(decodedJwt.getClaim("null").isNull());
+        assertFalse(decodedJwt.getClaim("missing").isNull());
+        assertFalse(decodedJwt.getClaim("null").isMissing());
     }
 
     /**
