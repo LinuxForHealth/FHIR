@@ -6,7 +6,7 @@ services:
   postgres:
     image: postgres:15beta2
     # https://dba.stackexchange.com/q/275378/46472
-    shm_size: 3GB
+    shm_size: 256MB
     volumes:
       - type: volume
         source: pgdata
@@ -21,6 +21,7 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d fhirdb -U fhiradmin"]
+      start_period: 22s
       interval: 5s
       timeout: 4s
       retries: 3
