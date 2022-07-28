@@ -22,12 +22,23 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
+import com.ibm.fhir.model.type.Canonical;
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.DateTime;
+import com.ibm.fhir.model.type.Decimal;
+import com.ibm.fhir.model.type.Meta;
+import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.ObservationStatus;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.path.exception.FHIRPathException;
+import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.path.util.FHIRPathUtil;
 
 /**
@@ -83,6 +94,49 @@ public class FHIRPathUtilPatchTest {
     private void testRemoveExtensionUrl() throws FHIRPathException, FHIRPatchException {
         Patient modifiedPatient = FHIRPathUtil.add(patient, "Patient", "extension", FHIRUtil.DATA_ABSENT_REASON_UNKNOWN);
         modifiedPatient = FHIRPathUtil.delete(modifiedPatient, "Patient.extension[0].url");
+    }
+
+    /**
+     * Testing the sample from our Model Guide
+     */
+    @Test
+    private void testReplaceObservatonValue() throws FHIRPathException, FHIRPatchException {
+        Observation bodyWeight = Observation.builder()
+                .meta(Meta.builder()
+                    .profile(Canonical.of("http://hl7.org/fhir/StructureDefinition/bodyweight"))
+                    .build())
+                .status(ObservationStatus.FINAL)
+                .effective(DateTime.builder()
+                    .value("2019-01-01")
+                    .build())
+                .category(CodeableConcept.builder()
+                    .coding(Coding.builder()
+                        .system(Uri.of("http://terminology.hl7.org/CodeSystem/observation-category"))
+                        .code(Code.of("vital-signs"))
+                        .build())
+                    .build())
+                .code(CodeableConcept.builder()
+                    .coding(Coding.builder()
+                        .system(Uri.of("http://loinc.org"))
+                        .code(Code.of("29463-7"))
+                        .build())
+                    .build())
+                .value(Quantity.builder()
+                    .value(Decimal.of(200))
+                    .system(Uri.of("http://unitsofmeasure.org"))
+                    .code(Code.of("[lb_av]"))
+                    .unit("lbs")
+                    .build())
+                .build();
+
+        Observation patchedBodyWeight1 = FHIRPathUtil.replace(bodyWeight, "Observation.value.value", Decimal.of(210));
+
+        FHIRPathPatch patch = FHIRPathPatch.builder()
+                .replace("Observation.value.value", Decimal.of(210))
+                .build();
+        Observation patchedBodyWeight2 = patch.apply(bodyWeight);
+
+        assertEquals(patchedBodyWeight1, patchedBodyWeight2);
     }
 
     /**
