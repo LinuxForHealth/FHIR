@@ -68,7 +68,7 @@ public class FHIRRequestContext {
 
     // Map of all metrics currently collected (across multiple request threads)
     private static final Map<String, CallTimeMetric> metricMap = new ConcurrentHashMap<>();
-    
+
     // the current metric handle on this request thread
     private MetricHandle currentMetricHandle;
 
@@ -134,6 +134,10 @@ public class FHIRRequestContext {
         this.bulk = bulk;
     }
 
+    /**
+     * @param tenantId An alphanumeric string (optionally with '-' or '_' chars); not null
+     * @throws FHIRException
+     */
     public void setTenantId(String tenantId) throws FHIRException {
         Matcher matcher = validChars.matcher(tenantId);
         if (matcher.matches()) {
@@ -166,7 +170,7 @@ public class FHIRRequestContext {
 
     /**
      * Get the shard key string value provided by the request. This value is
-     * not filtered in any way because the value eventually gets hashed into 
+     * not filtered in any way because the value eventually gets hashed into
      * a short (2 byte integer number) before being used.
      * @return
      */
@@ -373,6 +377,6 @@ public class FHIRRequestContext {
         List<CallTimeMetric> result = new ArrayList<CallTimeMetric>(metricMap.values());
         metricMap.clear();
         result.sort((a,b) -> a.getFullMetricName().compareTo(b.getFullMetricName()));
-        return result;        
+        return result;
     }
 }
