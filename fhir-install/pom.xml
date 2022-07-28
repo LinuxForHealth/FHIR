@@ -59,6 +59,12 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-persistence-blob-app</artifactId>
+            <version>${project.version}</version>
+            <classifier>cli</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-swagger-generator</artifactId>
             <version>${project.version}</version>
             <classifier>cli</classifier>
