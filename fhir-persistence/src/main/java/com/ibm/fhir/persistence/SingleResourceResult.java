@@ -18,6 +18,7 @@ import com.ibm.fhir.model.util.ValidationSupport;
  */
 public class SingleResourceResult<T extends Resource> {
     // The resourceResult will only be set if success == true
+    // Note: if you add/modify any members here, be sure to also update the #replace(T newResource) method
     private final ResourceResult<T> resourceResult;
     private final boolean success;
     private final OperationOutcome outcome;
@@ -148,6 +149,40 @@ public class SingleResourceResult<T extends Resource> {
      */
     public int getVersion() {
         return resourceResult != null ? resourceResult.getVersion() : 0;
+    }
+
+    /**
+     * Obtain a copy of this {@link SingleResourceResult} with the resource value replaced
+     * with the given newResource parameter. As an optimization, if the newResource equals
+     * the current value, this object is returned.
+     * @implNote this function needs its own generic so that it can be called with
+     * a plain Resource value. Unfortunately this means we need to force a type cast
+     * in order to return 'this' as an optimization for when the resource doesn't
+     * need to be changed (which is the most common case).
+     * @param newResource
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public <X extends Resource> SingleResourceResult<X> replace(X newResource) {
+        // we can't allow an interceptor to change the success status
+        if (newResource == null || newResource == getResource() || !isSuccess()) {
+            // no need to change the resource, so we can simply return this
+            return (SingleResourceResult<X>)this;
+        }
+
+        // Build a new instance copying all the values from this but replacing the resource
+        return new Builder<X>()
+                .success(isSuccess()) // will be true
+                .interactionStatus(this.interactionStatus)
+                .ifNoneMatchVersion(getIfNoneMatchVersion())
+                .resource(newResource) // the updated resource value
+                .outcome(getOutcome())
+                .deleted(isDeleted())
+                .version(getVersion())
+                .logicalId(getLogicalId())
+                .resourceTypeName(getResourceTypeName())
+                .build()
+                ;
     }
 
     // result builder

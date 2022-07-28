@@ -8,16 +8,22 @@ package com.ibm.fhir.server.util;
 
 import static com.ibm.fhir.model.type.String.string;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 import org.mockito.ArgumentCaptor;
@@ -58,6 +64,10 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceSupport;
+import com.ibm.fhir.persistence.InteractionStatus;
+import com.ibm.fhir.persistence.MultiResourceResult;
+import com.ibm.fhir.persistence.ResourceChangeLogRecord;
+import com.ibm.fhir.persistence.ResourceChangeLogRecord.ChangeType;
 import com.ibm.fhir.persistence.ResourceResult;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceEvent;
@@ -156,6 +166,414 @@ public class FHIRRestHelperTest {
         Bundle.Entry.Response response = entry.getResponse();
         assertEquals(response.getLocation().getValue(), "Patient/generated-0/_history/1");
         assertEquals(response.getStatus().getValue(), "201");
+    }
+
+    @Test
+    public void testAfterReadInterceptor() throws Exception {
+        final String testResourceId = UUID.randomUUID().toString();
+        final String afterResourceId = UUID.randomUUID().toString();
+        FHIRPersistenceInterceptor interceptor = new FHIRPersistenceInterceptor() {
+
+            @Override
+            public void afterRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+                // change the id of the resource (not a good idea in real-life, of course, but easy
+                // to code the test). Only update the resource if it matches the test resource used
+                // in this method...the interceptors are global and cannot be removed.
+                final Resource resourceIn = event.getFhirResource();
+                if (resourceIn != null && resourceIn.getId() != null && resourceIn.getId().equals(testResourceId)) {
+                    final Resource resourceOut = resourceIn.toBuilder().id(afterResourceId).build();
+                    event.setFhirResource(resourceOut);
+                }
+            }
+        };
+        FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(interceptor);
+
+        // Create the search response for our persistence mock
+        Patient patient = Patient.builder()
+            .name(HumanName.builder()
+                .given(string("John"))
+                .family(string("Doe"))
+                .build())
+            .id(testResourceId) // so the interceptor knows it is this test
+            .meta(Meta.builder()
+                .lastUpdated(Instant.now())
+                .versionId(Id.of("1"))
+                .build())
+            .build();
+
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
+                .resource(patient)
+                .success(true)
+                .interactionStatus(InteractionStatus.READ)
+                .build();
+
+        when(persistence.generateResourceId()).thenReturn("generated-0");
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.read(any(), any(), any())).thenReturn(resourceResult);
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
+        SingleResourceResult<? extends Resource> readResult = helper.doRead("Patient", testResourceId);
+        assertNotNull(readResult);
+        assertNotNull(readResult.getResource());
+        assertNotNull(readResult.getResource().getId());
+        assertEquals(readResult.getResource().getId(), afterResourceId);
+    }
+    
+    @Test
+    public void testAfterVReadInterceptor() throws Exception {
+        final String testResourceId = UUID.randomUUID().toString();
+        final String afterResourceId = UUID.randomUUID().toString();
+        FHIRPersistenceInterceptor interceptor = new FHIRPersistenceInterceptor() {
+
+            @Override
+            public void afterVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+                // change the id of the resource (not a good idea in real-life, of course, but easy
+                // to code the test). Only update the resource if it matches the test resource used
+                // in this method...the interceptors are global and cannot be removed.
+                assertNotNull(event.getFhirResource());
+                final Resource resourceIn = event.getFhirResource();
+                if (resourceIn != null && resourceIn.getId() != null && resourceIn.getId().equals(testResourceId)) {
+                    final Resource resourceOut = resourceIn.toBuilder().id(afterResourceId).build();
+                    event.setFhirResource(resourceOut);
+                }
+            }
+        };
+        FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(interceptor);
+
+        // Create the search response for our persistence mock
+        Patient patient = Patient.builder()
+            .name(HumanName.builder()
+                .given(string("John"))
+                .family(string("Doe"))
+                .build())
+            .id(testResourceId) // so the interceptor knows it is this test
+            .meta(Meta.builder()
+                .lastUpdated(Instant.now())
+                .versionId(Id.of("1"))
+                .build())
+            .build();
+
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
+                .resource(patient)
+                .success(true)
+                .interactionStatus(InteractionStatus.READ)
+                .build();
+
+        when(persistence.generateResourceId()).thenReturn("generated-0");
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.vread(any(), any(), any(), any())).thenReturn(resourceResult);
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
+        SingleResourceResult<? extends Resource> readResult = helper.doVRead("Patient", testResourceId, "1");
+        assertNotNull(readResult);
+        assertNotNull(readResult.getResource());
+        assertNotNull(readResult.getResource().getId());
+        assertEquals(readResult.getResource().getId(), afterResourceId);
+    }
+
+    @Test
+    public void testAfterSearchInterceptor() throws Exception {
+        final String testResourceId = "testAfterSearchInterceptor";
+        FHIRPersistenceInterceptor interceptor = new FHIRPersistenceInterceptor() {
+
+            @Override
+            public void afterSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+                assertNotNull(event.getFhirResource());
+                final Resource searchResult = event.getFhirResource();
+                
+                if (searchResult.is(Bundle.class)) {
+                    Bundle searchResultBundle = searchResult.as(Bundle.class);
+    
+                    // The interceptor is global, so we may get calls from other tests which we should just ignore
+                    boolean foundTarget = false;
+                    for (Bundle.Entry entry: searchResultBundle.getEntry()) {
+                        Resource r = entry.getResource();
+                        if (r != null && testResourceId.equals(r.getId())) {
+                            foundTarget = true;
+                            break;
+                        }
+                    }
+                    
+                    if (foundTarget) {
+                        // Inject a new patient into the bundle and update the event
+                        Patient patient = Patient.builder()
+                                .id("42")
+                                .generalPractitioner(Reference.builder()
+                                    .reference(string("Practitioner/42"))
+                                    .build())
+                                .build();
+        
+                        Bundle.Entry.Response patientEntry = Bundle.Entry.Response.builder()
+                                .status("200")
+                                .id("ber42")
+                                .build();
+                        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                                .resource(patient)
+                                .response(patientEntry)
+                                .build();
+        
+                        searchResultBundle = searchResultBundle.toBuilder()
+                                .entry(bundleEntry).build();
+                        event.setFhirResource(searchResultBundle);
+                    }
+                }
+            }
+        };
+        FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(interceptor);
+
+        // Create the search response for our persistence mock
+        Patient patient = Patient.builder()
+            .name(HumanName.builder()
+                .given(string("John"))
+                .family(string("Doe"))
+                .build())
+            .id(testResourceId) // so the interceptor knows it is this test
+            .meta(Meta.builder()
+                .lastUpdated(Instant.now())
+                .versionId(Id.of("1"))
+                .build())
+            .build();
+
+        MultiResourceResult searchResult = MultiResourceResult.builder()
+                .resourceResult(ResourceResult.from(patient))
+                .success(true)
+                .build();
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        @SuppressWarnings("unchecked")
+        SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
+        when(mockResult.getResource()).thenReturn(patient);
+
+        when(persistence.generateResourceId()).thenReturn("generated-0");
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.read(any(), any(), any())).thenReturn(mockResult);
+        when(persistence.search(any(), any())).thenReturn(searchResult);
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
+        // Call doSearch
+        MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
+        Bundle searchResponse = helper.doSearch("Patient", null, null, queryParameters, "uri");
+        assertNotNull(searchResponse);
+        // Verify that the search result contains both patient 123 and patient 42 (which was
+        // injected by the afterSearch interceptor)
+        boolean gotTestResource = false;
+        boolean got42 = false;
+        for (Bundle.Entry entry: searchResponse.getEntry()) {
+            assertNotNull(entry.getResource());
+            if (testResourceId.equals(entry.getResource().getId())) {
+                gotTestResource = true;
+            }
+            if ("42".equals(entry.getResource().getId())) {
+                got42 = true;
+            }
+        }
+        assertTrue(gotTestResource);
+        assertTrue(got42);
+    }
+
+    @Test
+    public void testAfterHistoryInterceptor() throws Exception {
+        final String testResourceId = UUID.randomUUID().toString();
+        final String afterResourceId = UUID.randomUUID().toString();
+        FHIRPersistenceInterceptor interceptor = new FHIRPersistenceInterceptor() {
+
+            @Override
+            public void afterHistory(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+                assertNotNull(event.getFhirResource());
+                final Resource historyResult = event.getFhirResource();
+                
+                if (historyResult.is(Bundle.class)) {
+                    Bundle historyResultBundle = historyResult.as(Bundle.class);
+    
+                    // The interceptor is global, so we may get calls from other tests which we should just ignore
+                    boolean foundTarget = false;
+                    for (Bundle.Entry entry: historyResultBundle.getEntry()) {
+                        Resource r = entry.getResource();
+                        if (r != null && testResourceId.equals(r.getId())) {
+                            foundTarget = true;
+                            break;
+                        }
+                    }
+                    
+                    if (foundTarget) {
+                        // Inject a new patient into the bundle and update the event
+                        Patient patient = Patient.builder()
+                                .id(afterResourceId)
+                                .generalPractitioner(Reference.builder()
+                                    .reference(string("Practitioner/42"))
+                                    .build())
+                                .build();
+        
+                        Bundle.Entry.Response patientEntry = Bundle.Entry.Response.builder()
+                                .status("200")
+                                .id("ber42")
+                                .build();
+                        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                                .resource(patient)
+                                .response(patientEntry)
+                                .build();
+        
+                        historyResultBundle = historyResultBundle.toBuilder()
+                                .entry(bundleEntry).build();
+                        event.setFhirResource(historyResultBundle);
+                    }
+                }
+            }
+        };
+        FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(interceptor);
+
+        // Create the search response for our persistence mock
+        Patient patient = Patient.builder()
+            .name(HumanName.builder()
+                .given(string("John"))
+                .family(string("Doe"))
+                .build())
+            .id(testResourceId) // so the interceptor knows it is this test
+            .meta(Meta.builder()
+                .lastUpdated(Instant.now())
+                .versionId(Id.of("1"))
+                .build())
+            .build();
+
+        MultiResourceResult historyResult = MultiResourceResult.builder()
+                .resourceResult(ResourceResult.from(patient))
+                .success(true)
+                .build();
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        @SuppressWarnings("unchecked")
+        SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
+        when(mockResult.getResource()).thenReturn(patient);
+
+        when(persistence.generateResourceId()).thenReturn("generated-0");
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.read(any(), any(), any())).thenReturn(mockResult);
+        when(persistence.history(any(), any(), any())).thenReturn(historyResult);
+        FHIRRequestContext.get().setOriginalRequestUri("test");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
+        // Call doSearch
+        MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
+        Bundle historyResponse = helper.doHistory("Patient", testResourceId, queryParameters, "test");
+        assertNotNull(historyResponse);
+        // Verify that the history result contains both original and injected patient resources
+        boolean gotTestResource = false;
+        boolean gotAfter = false;
+        for (Bundle.Entry entry: historyResponse.getEntry()) {
+            assertNotNull(entry.getResource());
+            if (testResourceId.equals(entry.getResource().getId())) {
+                gotTestResource = true;
+            }
+            if (afterResourceId.equals(entry.getResource().getId())) {
+                gotAfter = true;
+            }
+        }
+        assertTrue(gotTestResource);
+        assertTrue(gotAfter);
+    }
+
+    @Test
+    public void testAfterSystemHistoryInterceptor() throws Exception {
+        final String testResourceId = UUID.randomUUID().toString();
+        final String afterResourceId = UUID.randomUUID().toString();
+        FHIRPersistenceInterceptor interceptor = new FHIRPersistenceInterceptor() {
+
+            @Override
+            public void afterHistory(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+                assertNotNull(event.getFhirResource());
+                final Resource historyResult = event.getFhirResource();
+                
+                if (historyResult.is(Bundle.class)) {
+                    Bundle historyResultBundle = historyResult.as(Bundle.class);
+    
+                    // The interceptor is global, so we may get calls from other tests which we should just ignore
+                    boolean foundTarget = false;
+                    for (Bundle.Entry entry: historyResultBundle.getEntry()) {
+                        Resource r = entry.getResource();
+                        if (r != null && testResourceId.equals(r.getId())) {
+                            foundTarget = true;
+                            break;
+                        }
+                    }
+                    
+                    if (foundTarget) {
+                        // Inject a new patient into the bundle and update the event
+                        Patient patient = Patient.builder()
+                                .id(afterResourceId)
+                                .generalPractitioner(Reference.builder()
+                                    .reference(string("Practitioner/42"))
+                                    .build())
+                                .build();
+        
+                        Bundle.Entry.Response patientEntry = Bundle.Entry.Response.builder()
+                                .status("200")
+                                .id("ber42")
+                                .build();
+                        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                                .resource(patient)
+                                .response(patientEntry)
+                                .build();
+        
+                        historyResultBundle = historyResultBundle.toBuilder()
+                                .entry(bundleEntry).build();
+                        event.setFhirResource(historyResultBundle);
+                    }
+                }
+            }
+        };
+        FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(interceptor);
+
+        // Create the search response for our persistence mock
+        Patient patient = Patient.builder()
+            .name(HumanName.builder()
+                .given(string("John"))
+                .family(string("Doe"))
+                .build())
+            .id(testResourceId) // so the interceptor knows it is this test
+            .meta(Meta.builder()
+                .lastUpdated(Instant.now())
+                .versionId(Id.of("1"))
+                .build())
+            .build();
+
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        @SuppressWarnings("unchecked")
+        SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
+        when(mockResult.getResource()).thenReturn(patient);
+
+        List<ResourceChangeLogRecord> changesResult = new ArrayList<>();
+        changesResult.add(new ResourceChangeLogRecord("Patient", testResourceId, 1, 1L, java.time.Instant.now(), ChangeType.CREATE));
+        List<Resource> resourceList = new ArrayList<>();
+        resourceList.add(patient);
+        when(persistence.generateResourceId()).thenReturn("generated-0");
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.readResourcesForRecords(any())).thenReturn(resourceList);
+        when(persistence.changes(any(), anyInt(), any(), any(), any(), any(), anyBoolean(), any())).thenReturn(changesResult);
+        FHIRRequestContext.get().setOriginalRequestUri("https://fhir.example.com/r4/_history");
+        FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
+        // Call system level history
+        MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
+        Bundle historyResponse = helper.doHistory(queryParameters, "test", null);
+        assertNotNull(historyResponse);
+        // Verify that the history result contains both original and injected patient resources
+        boolean gotTestResource = false;
+        boolean gotAfter = false;
+        for (Bundle.Entry entry: historyResponse.getEntry()) {
+            assertNotNull(entry.getResource());
+            if (testResourceId.equals(entry.getResource().getId())) {
+                gotTestResource = true;
+            }
+            if (afterResourceId.equals(entry.getResource().getId())) {
+                gotAfter = true;
+            }
+        }
+        assertTrue(gotTestResource);
+        assertTrue(gotAfter);
     }
 
     /**
@@ -2059,13 +2477,17 @@ public class FHIRRestHelperTest {
             .build();
 
         FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
-        @SuppressWarnings("unchecked")
-        SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
-        when(mockResult.getResource()).thenReturn(patient);
 
+        // Need to use a real SingleResourceResult, not a mock one
+        SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
+            .resource(patient)
+            .success(true)
+            .interactionStatus(InteractionStatus.READ)
+            .build();
+        
         when(persistence.generateResourceId()).thenReturn("generated-0");
         when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
-        when(persistence.read(any(), any(), any())).thenReturn(mockResult);
+        when(persistence.read(any(), any(), any())).thenReturn(resourceResult);
         FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Call doDelete, the interceptor will check if the events are set
@@ -2077,20 +2499,21 @@ public class FHIRRestHelperTest {
      */
     @Test
     public void testDeleteDeleted() throws Exception {
-
-
-        // Mock up the result that the persistence layer will return from its read call
-        @SuppressWarnings("unchecked")
-        SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
-        when(mockResult.getResource()).thenReturn(null);
-        when(mockResult.getVersion()).thenReturn(2);
-        when(mockResult.isDeleted()).thenReturn(true);
-
+        // Make sure we're using a real resource, not a mocked one so that replace works correctly
+        // when it is called inside FHIRRestHelper#doRead
+        SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
+                .deleted(true)
+                .version(2)
+                .success(true)
+                .interactionStatus(InteractionStatus.READ)
+                .build()
+                ;
+        
         // Mock up the persistence impl
         FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
         when(persistence.generateResourceId()).thenReturn("generated-0");
         when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
-        when(persistence.read(any(), any(), any())).thenReturn(mockResult);
+        when(persistence.read(any(), any(), any())).thenReturn(resourceResult);
         FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // Call doDelete, check that the response contains the version of the deleted resource
@@ -2151,16 +2574,17 @@ public class FHIRRestHelperTest {
                 .build();
 
         FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
-        @SuppressWarnings("unchecked")
-        SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
-        when(mockResult.getResource()).thenReturn(patientWithId);
+        SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
+            .resource(patientWithId)
+            .success(true)
+            .interactionStatus(InteractionStatus.READ)
+            .build();
 
         when(persistence.generateResourceId()).thenReturn("generated-0");
         when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
-        when(persistence.read(any(), any(), any())).thenReturn(mockResult);
-        // when(persistence.create(any(), any())).thenReturn(mockResult);
-        when(persistence.create(any(), any())).thenReturn(mockResult);
-        when(persistence.update(any(), any())).thenReturn(mockResult);
+        when(persistence.read(any(), any(), any())).thenReturn(resourceResult);
+        when(persistence.create(any(), any())).thenReturn(resourceResult);
+        when(persistence.update(any(), any())).thenReturn(resourceResult);
         FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
 
         // The helper must pass the resource updated by the interceptor to the persistence#create method
