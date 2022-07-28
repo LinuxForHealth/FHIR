@@ -7,7 +7,6 @@
 package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.path.FHIRPathStringValue.stringValue;
-import static com.ibm.fhir.path.util.FHIRPathUtil.checkSingleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getSystemValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasSystemValue;
