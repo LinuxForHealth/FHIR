@@ -28,15 +28,15 @@ public abstract class FHIRPathStringAbstractFunction extends FHIRPathAbstractFun
      */
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if(context.isEmpty()) {
+        if (context.isEmpty()) {
             return empty();
         }
-        if(!isSingleton(context)) {
+        if (!isSingleton(context)) {
             throw new IllegalArgumentException("Input collection must not contain more than one item, but found " + context.size());
             
-        } else if(!hasStringValue(context)) {
+        } else if (!hasStringValue(context)) {
             FHIRPathNode node = getSingleton(context);
-            if(node.type() == FHIRPathType.FHIR_STRING) {
+            if (node.type() == FHIRPathType.FHIR_STRING) {
                 return empty();
             }
             throw new IllegalArgumentException("Input collection item must be of type String, but found '"+node.type().getName()+ "'");

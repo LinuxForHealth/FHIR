@@ -38,7 +38,10 @@ public class ToStringFunction extends FHIRPathAbstractFunction {
 
     @Override
     public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if(!isSingleton(context)) {
+        if (context.isEmpty()) {
+            return empty();
+        }
+        if (!isSingleton(context)) {
             throw new IllegalArgumentException("Input collection must not contain more than one item, but found " + context.size());
             
         }
