@@ -7,6 +7,8 @@ volumes:
 services:
   postgres:
     image: postgres:15beta2
+    # https://dba.stackexchange.com/q/275378/46472
+    shm_size: 2GB
     volumes:
       - type: volume
         source: pgdata
@@ -24,8 +26,11 @@ services:
       interval: 5s
       timeout: 4s
       retries: 3
+    # "Larger settings for shared_buffers usually require a corresponding increase in max_wal_size, 
+    # to spread out the process of writing large quantities of new or changed data over a longer period of time."
     command: "
-      -c shared_buffers=2GB
+      -c shared_buffers=1GB
+      -c max_wal_size=2GB
       -c max_connections=100
       -c max_prepared_transactions=100
       -c max_locks_per_transaction=128
