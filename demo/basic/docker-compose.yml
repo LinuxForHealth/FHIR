@@ -63,9 +63,15 @@ services:
         TRACE_FILE: "stdout"
     command: bash -c "
       java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
-        --db-type postgresql --prop db.host=postgres --prop db.port=5432 --prop db.database=fhirdb --prop user=fhiradmin --prop password=change-password
-        --prop resourceTypes=AllergyIntolerance,CarePlan,CareTeam,CodeSystem,Condition,Consent,Coverage,Device,DiagnosticReport,DocumentReference,Encounter,ExplanationOfBenefit,Goal,Group,Immunization,List,Location,Medication,MedicationAdministration,MedicationDispense,MedicationRequest,MedicationStatement,Observation,Organization,Patient,Practitioner,PractitionerRole,Procedure,Provenance,StructureDefinition,ValueSet
-        --update-schema --grant-to fhirserver &&
+          --db-type postgresql --prop db.host=postgres --prop db.port=5432 --prop db.database=fhirdb --prop user=fhiradmin --prop password=change-password
+          --create-schemas &&
+      java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type postgresql --prop db.host=postgres --prop db.port=5432 --prop db.database=fhirdb --prop user=fhiradmin --prop password=change-password
+          --prop resourceTypes=AllergyIntolerance,CarePlan,CareTeam,CodeSystem,Condition,Consent,Coverage,Device,DiagnosticReport,DocumentReference,Encounter,ExplanationOfBenefit,Goal,Group,Immunization,List,Location,Medication,MedicationAdministration,MedicationDispense,MedicationRequest,MedicationStatement,Observation,Organization,Patient,Practitioner,PractitionerRole,Procedure,Provenance,StructureDefinition,ValueSet
+          --update-schema-fhir --grant-to fhirserver &&
+      java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type postgresql --prop db.host=postgres --prop db.port=5432 --prop db.database=fhirdb --prop user=fhiradmin --prop password=change-password
+          --update-schema-batch --grant-to fhirbatch &&
       /opt/ol/wlp/bin/server run"
     healthcheck:
       start_period: 32s
