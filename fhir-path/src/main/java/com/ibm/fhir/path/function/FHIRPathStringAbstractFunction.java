@@ -10,6 +10,7 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getSingleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isSingleton;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isStringSubType;
 
 import java.util.Collection;
 import java.util.List;
@@ -40,14 +41,8 @@ public abstract class FHIRPathStringAbstractFunction extends FHIRPathAbstractFun
             
         } else if (!hasStringValue(context)) {
             FHIRPathNode node = getSingleton(context);
-            FHIRPathType nodeChildType = 
-                   node.children() != null && !node.children().isEmpty() 
-                     && node.children().iterator().hasNext() && node.children().iterator().next().type() != null ? node.children().iterator().next().type() : FHIRPathType.FHIR_ANY;
-                    
-            if (nodeChildType == FHIRPathType.FHIR_EXTENSION) {
-                if( logger.isLoggable(Level.FINE) ) {
-                    logger.fine(String.format("collection item is of extension type %s", node.type().getName()));
-                }
+            if (isStringSubType(node)) {
+                logger.fine("collection item does not have a value, returning empty");
                 return empty();
             }
             throw new IllegalArgumentException("Input collection item must be of type String, but found '"+node.type().getName()+ "'");
