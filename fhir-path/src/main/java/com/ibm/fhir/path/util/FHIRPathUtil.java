@@ -1253,6 +1253,7 @@ public final class FHIRPathUtil {
                 || node.type() == FHIRPathType.FHIR_ID  // included for consistency with spec
                 || node.type() == FHIRPathType.FHIR_UUID 
                 || node.type() == FHIRPathType.FHIR_MARKDOWN 
-                || node.type() == FHIRPathType.FHIR_BASE64BINARY;
+                || node.type() == FHIRPathType.FHIR_BASE64BINARY
+                || node.type() == FHIRPathType.SYSTEM_STRING;
     }
 }

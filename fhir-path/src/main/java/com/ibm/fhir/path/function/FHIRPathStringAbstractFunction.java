@@ -45,7 +45,7 @@ public abstract class FHIRPathStringAbstractFunction extends FHIRPathAbstractFun
                 logger.fine("collection item does not have a value, returning empty");
                 return empty();
             }
-            throw new IllegalArgumentException("Input collection item must be of type String, but found '"+node.type().getName()+ "'");
+            throw new IllegalArgumentException("Input collection item must be of type String, but found '" + node.type().getName() + "'");
             
         }
         return doApply(evaluationContext, context, arguments);    
