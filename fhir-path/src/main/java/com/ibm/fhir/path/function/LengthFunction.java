@@ -7,9 +7,7 @@
 package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.path.FHIRPathIntegerValue.integerValue;
-import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getStringValue;
-import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 
 import java.util.Collection;
@@ -18,7 +16,7 @@ import java.util.List;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
-public class LengthFunction extends FHIRPathAbstractFunction {
+public class LengthFunction extends FHIRPathStringAbstractFunction {
     @Override
     public String getName() {
         return "length";
@@ -35,10 +33,8 @@ public class LengthFunction extends FHIRPathAbstractFunction {
     }
 
     @Override
-    public Collection<FHIRPathNode> apply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
-        if (!hasStringValue(context)) {
-            return empty();
-        }
+    public Collection<FHIRPathNode> doApply(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+       
         return singleton(integerValue(getStringValue(context).length()));
     }
 }

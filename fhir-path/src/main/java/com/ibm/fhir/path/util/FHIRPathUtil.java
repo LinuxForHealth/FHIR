@@ -1238,4 +1238,22 @@ public final class FHIRPathUtil {
         }
         return null;
     }
+    
+    /**
+     * returns true if the node is a String or if FHIR element can be automatically converted to System.String 
+     * https://www.hl7.org/fhir/fhirpath.html#types
+     * @param node
+     * @return boolean
+     */
+    public static boolean isStringSubType(FHIRPathNode node) {
+        return node.type() == FHIRPathType.FHIR_STRING 
+                || node.type() == FHIRPathType.FHIR_URI 
+                || node.type() == FHIRPathType.FHIR_CODE 
+                || node.type() == FHIRPathType.FHIR_OID 
+                || node.type() == FHIRPathType.FHIR_ID  // included for consistency with spec
+                || node.type() == FHIRPathType.FHIR_UUID 
+                || node.type() == FHIRPathType.FHIR_MARKDOWN 
+                || node.type() == FHIRPathType.FHIR_BASE64BINARY
+                || node.type() == FHIRPathType.SYSTEM_STRING;
+    }
 }
