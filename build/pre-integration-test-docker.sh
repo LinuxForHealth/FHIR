@@ -8,7 +8,7 @@
 # Exit the script if any commands fail
 set -e
 # Print each command before executing it
-set -x
+#set -x
 # This allows subshells to inheret the options above
 export SHELLOPTS
 

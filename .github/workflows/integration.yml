@@ -44,7 +44,7 @@ jobs:
       run: |
         # github actions lets you set this on re-run to diagnose the test failure
         # so we tap into that here to have each line of our scripts printed
-        if [ -z ${{ secrets.ACTIONS_STEP_DEBUG }} ]; then
+        if [ -n "${{ secrets.ACTIONS_STEP_DEBUG }}" ]; then
           set -x
           export SHELLOPTS
         fi
