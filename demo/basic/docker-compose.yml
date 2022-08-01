@@ -4,9 +4,9 @@ volumes:
     driver: local
 services:
   postgres:
-    image: postgres:15beta2
+    image: postgres:14-alpine
     # https://dba.stackexchange.com/q/275378/46472
-    shm_size: 3GB
+    shm_size: 256MB
     volumes:
       - type: volume
         source: pgdata
@@ -21,9 +21,12 @@ services:
       PGDATA: /var/lib/postgresql/data/pgdata
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -d fhirdb -U fhiradmin"]
+      start_period: 22s
       interval: 5s
       timeout: 4s
       retries: 3
+      # "Larger settings for shared_buffers usually require a corresponding increase in max_wal_size, 
+      # to spread out the process of writing large quantities of new or changed data over a longer period of time."
     command: "
       -c shared_buffers=2GB
       -c max_wal_size=3GB
@@ -31,10 +34,10 @@ services:
       -c max_prepared_transactions=100
       -c max_locks_per_transaction=128
       "
-    networks:
-      - fhir
     ports:
       - 5432:5432
+    networks:
+      - fhir
   fhir-server:
     image: linuxforhealth/fhir-server:latest
     hostname: fhir
