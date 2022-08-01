@@ -48,7 +48,7 @@ copy_server_config(){
     echo "Copying fhir configuration files..."
     cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config ${DIST}
     cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* ${DIST}/config
-    bash ${WORKSPACE}/build/update-server-registry-resource.sh ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json
+    bash ${WORKSPACE}/build/common/update-server-registry-resource.sh ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json
     cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config-postgresql.json $DIST/config/default/fhir-server-config.json
 
     # Note the overrides folder is specifically mounted to the docker image under configDropins/overrides

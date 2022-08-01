@@ -40,7 +40,7 @@ config(){
 
     # Move over the test configurations
     cp -r ${WORKSPACE}/build/audit/kafka/resources/* ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/
-    bash ${WORKSPACE}/build/update-server-registry-resource.sh ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/fhir-server-config-audit-cicd.json
+    bash ${WORKSPACE}/build/common/update-server-registry-resource.sh ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/fhir-server-config-audit-cicd.json
     mv ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/fhir-server-config-audit-cicd.json ${WORKSPACE}/build/audit/kafka/workarea/volumes/dist/config/default/fhir-server-config.json
 }
 

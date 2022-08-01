@@ -43,7 +43,7 @@ config(){
 
     # Move over the test configurations
     cp -r ${WORKSPACE}/build/notifications/kafka/resources/* ${WORKSPACE}/build/notifications/kafka/workarea/volumes/dist/config/default/
-    bash ${WORKSPACE}/build/update-server-registry-resource.sh ${WORKSPACE}/build/notifications/kafka/workarea/volumes/dist/config/default/fhir-server-config-notifications-cicd.json
+    bash ${WORKSPACE}/build/common/update-server-registry-resource.sh ${WORKSPACE}/build/notifications/kafka/workarea/volumes/dist/config/default/fhir-server-config-notifications-cicd.json
     mv ${WORKSPACE}/build/notifications/kafka/workarea/volumes/dist/config/default/fhir-server-config-notifications-cicd.json ${WORKSPACE}/build/notifications/kafka/workarea/volumes/dist/config/default/fhir-server-config.json
 }
 

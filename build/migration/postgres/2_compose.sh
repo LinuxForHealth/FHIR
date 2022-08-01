@@ -81,7 +81,7 @@ config(){
 
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating publishing"
-    bash ${WORKSPACE}/fhir/build/update-server-registry-resource.sh ${DIST}/config/default/fhir-server-config-postgresql.json
+    bash ${WORKSPACE}/fhir/build/common/update-server-registry-resource.sh ${DIST}/config/default/fhir-server-config-postgresql.json
     cp -f ${DIST}/config/default/fhir-server-config-postgresql.json ${DIST}/config/default/fhir-server-config.json
 
     echo "Reporting the files in the 'userlib' folder:"

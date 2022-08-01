@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
-
 ###############################################################################
 # (C) Copyright IBM Corp. 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
-
-set -ex
 
 # Enables Features in the fhir-server-config.json using jq 
 

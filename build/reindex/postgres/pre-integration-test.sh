@@ -47,7 +47,7 @@ config() {
 
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating"
-    bash ${WORKSPACE}/build/update-server-registry-resource.sh ${DIST}/config/default/fhir-server-config-postgresql.json
+    bash ${WORKSPACE}/build/common/update-server-registry-resource.sh ${DIST}/config/default/fhir-server-config-postgresql.json
     mv ${DIST}/config/default/fhir-server-config-postgresql.json \
         ${DIST}/config/default/fhir-server-config.json
 }

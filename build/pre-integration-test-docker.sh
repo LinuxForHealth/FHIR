@@ -107,7 +107,7 @@ while [ $status -ne 200 -a $tries -lt 30 ]; do
 done
 
 if [ $status -ne 200 ]; then
-    echo "Could not establish a connection to the fhir-server within $tries REST API invocations!"
+    echo "Could not establish a connection to the fhir-server within ${tries} REST API invocations!"
     exit 1
 fi
 

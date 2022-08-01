@@ -35,7 +35,7 @@ config() {
 
     # Move over the test configurations
     echo "Checking dynamic resource provider"
-    bash ${WORKSPACE}/build/update-server-registry-resource.sh ${DIST}/config/default/fhir-server-config.json
+    bash ${WORKSPACE}/build/common/update-server-registry-resource.sh ${DIST}/config/default/fhir-server-config.json
 }
 
 # cleanup - cleanup existing docker
