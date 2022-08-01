@@ -268,7 +268,7 @@
         }
       },
       "nats": {
-        "enabled": true,
+        "enabled": false,
         "cluster": "nats-streaming",
         "channel": "fhirNotifications",
         "clientId": "fhir-server",

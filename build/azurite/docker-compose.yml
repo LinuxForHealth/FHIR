@@ -109,34 +109,6 @@ services:
     networks:
       - fhir
 
-  nats-node1:
-    image: nats-streaming:0.24
-    volumes:
-        - ./nats:/nats
-    command: --config /nats/config-1.conf
-    ports:
-        - 4222:4222
-    networks:
-      - fhir
-  nats-node2:
-    image: nats-streaming:0.24
-    volumes:
-        - ./nats:/nats
-    command: --config /nats/config-2.conf
-    ports:
-        - 4223:4222
-    networks:
-      - fhir
-  nats-node3:
-    image: nats-streaming:0.24
-    volumes:
-        - ./nats:/nats
-    command: --config /nats/config-3.conf
-    ports:
-        - 4224:4222
-    networks:
-    - fhir
-
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
     volumes:
