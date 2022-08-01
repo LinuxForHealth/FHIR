@@ -1,7 +1,9 @@
 version: '3.8'
+
 volumes:
   pgdata:
     driver: local
+
 services:
   postgres:
     image: postgres:14-alpine
@@ -38,6 +40,7 @@ services:
       - 5432:5432
     networks:
       - fhir
+
   fhir-server:
     image: linuxforhealth/fhir-server:latest
     hostname: fhir
@@ -91,6 +94,7 @@ services:
         condition: service_healthy
     networks:
       - fhir
+
 networks:
   fhir:
     driver: bridge
