@@ -1,15 +1,13 @@
 #!/usr/bin/env bash
-
 ###############################################################################
-# (C) Copyright IBM Corp. 2021
+# (C) Copyright IBM Corp. 2021, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-set -ex
-
 ###############################################################################
 # spins for a set time until the server is up
+###############################################################################
 wait_for_it(){
     # Wait until the fhir server is up and running...
     echo "Waiting for fhir-server to complete initialization..."

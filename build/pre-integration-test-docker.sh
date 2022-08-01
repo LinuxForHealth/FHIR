@@ -4,13 +4,24 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
-set -ex
+
+# Exit the script if any commands fail
+set -e
+# Print each command before executing it
+set -x
+# This allows subshells to inheret the options above
+export SHELLOPTS
 
 # The full path to the directory of this script, no matter where its called from
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 export WORKSPACE="$( dirname "${DIR}" )"
 
-echo "Preparing environment for fhir-server integration tests..."
+if [ -z ${1} ]; then
+  echo "This script requires an argument that points to one of the integration folders"
+  exit 1
+fi
+
+echo "Preparing environment for the ${1} fhir-server integration tests..."
 
 # Log output locations
 pre_it_logs=${WORKSPACE}/pre-it-logs
@@ -21,21 +32,27 @@ rm -rf ${pre_it_logs} 2>/dev/null
 rm -f ${zip_file}
 mkdir -p ${pre_it_logs}
 
+# Set the working directory
+cd ${DIR}/${1}
+
+# Source the tenant1 datastore variables
 . ${WORKSPACE}/build/common/set_tenant1_datastore_vars.sh
 
-# Set the working directory
-cd ${DIR}/docker
-
 echo "Bringing down any containers that might already be running as a precaution..."
-docker-compose kill
-docker-compose rm -f
+docker compose kill
+docker compose rm -f
 
 # Set up the server config files
-./copy-server-config.sh
-./copy-test-operations.sh
+${WORKSPACE}/build/common/copy-server-config.sh
+${WORKSPACE}/build/common/copy-test-operations.sh
 
 # Set up for the bulkdata tests
-./bulkdata-setup.sh
+${WORKSPACE}/build/common/bulkdata-setup.sh
+
+# Delegate to the specific test env for further configuration
+echo "Configuring the FHIR Server for ${1}"
+./configure.sh
+echo "Finished configuring the FHIR Server for ${1}"
 
 # Stand up a docker container running the fhir server configured for integration tests
 echo "Bringing up the test environment... be patient, this will take a minute"
@@ -51,9 +68,9 @@ echo "
 Docker container status:"
 docker ps -a
 
-containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
-if [[ -z "${containerId}" ]]; then
-    echo "Warning: Could not find the fhir container!!!"
+containerId=$(docker ps -a | grep ${1}-fhir-server | cut -d ' ' -f 1)
+if [ -z "${containerId}" ]; then
+    echo "Warning: Could not find the fhir-server container!!!"
 else
     echo "fhir container id: $containerId"
 
@@ -95,4 +112,3 @@ if [ $status -ne 200 ]; then
 fi
 
 echo "The fhir-server appears to be running..."
-exit 0

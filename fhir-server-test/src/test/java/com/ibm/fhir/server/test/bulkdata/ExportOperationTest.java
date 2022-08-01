@@ -113,6 +113,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     // Disabled by default
     private static boolean ON = false;
+    private static boolean S3_ON = false;
 
     public static final boolean DEBUG = false;
     private String exportStatusUrl;
@@ -126,6 +127,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         ON = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.export.enabled", "false"));
+        S3_ON = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.export.s3.enabled", "false"));
         path = testProperties.getProperty("test.bulkdata.path");
 
         if (!ON) {
@@ -770,29 +772,30 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = true)
     public void testBaseExportToS3() throws Exception {
-        if (ON) {
-            List<String> types = Arrays.asList("Patient");
-            Response response = doPost(
-                    BASE_VALID_URL,
-                    FHIRMediaType.APPLICATION_FHIR_JSON,
-                    FORMAT_NDJSON,
-                    Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    types,
-                    null,
-                    "minio",
-                    "minio");
-            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
-
-            // check the content-location that's returned.
-            String contentLocation = response.getHeaderString("Content-Location");
-            if (DEBUG) {
-                System.out.println("Content Location: " + contentLocation);
-            }
-
-            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
-            exportStatusUrl = contentLocation;
-            checkExportStatus(false, true, types);
+        if (!S3_ON) {
+            throw new SkipException("Export to S3 is not enabled");
         }
+        List<String> types = Arrays.asList("Patient");
+        Response response = doPost(
+                BASE_VALID_URL,
+                FHIRMediaType.APPLICATION_FHIR_JSON,
+                FORMAT_NDJSON,
+                Instant.of("2019-01-01T08:21:26.94-04:00"),
+                types,
+                null,
+                "minio",
+                "minio");
+        assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+        // check the content-location that's returned.
+        String contentLocation = response.getHeaderString("Content-Location");
+        if (DEBUG) {
+            System.out.println("Content Location: " + contentLocation);
+        }
+
+        assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+        exportStatusUrl = contentLocation;
+        checkExportStatus(false, true, types);
     }
 
     @Test
@@ -881,28 +884,29 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
     public void testPatientExportToS3() throws Exception {
-        if (ON) {
-            List<String> types = Arrays.asList("Observation", "Condition", "Patient");
-            Response response = doPost(
-                    PATIENT_VALID_URL,
-                    FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
-                    Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    types,
-                    null,
-                    "minio",
-                    "minio");
-            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
-
-            // check the content-location that's returned.
-            String contentLocation = response.getHeaderString("Content-Location");
-            if (DEBUG) {
-                System.out.println("Content Location: " + contentLocation);
-            }
-
-            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
-            exportStatusUrl = contentLocation;
-            checkExportStatus(true, true, types);
+        if (!S3_ON) {
+            throw new SkipException("Export to S3 is not enabled");
         }
+        List<String> types = Arrays.asList("Observation", "Condition", "Patient");
+        Response response = doPost(
+                PATIENT_VALID_URL,
+                FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
+                Instant.of("2019-01-01T08:21:26.94-04:00"),
+                types,
+                null,
+                "minio",
+                "minio");
+        assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+        // check the content-location that's returned.
+        String contentLocation = response.getHeaderString("Content-Location");
+        if (DEBUG) {
+            System.out.println("Content Location: " + contentLocation);
+        }
+
+        assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+        exportStatusUrl = contentLocation;
+        checkExportStatus(true, true, types);
     }
 
     /**
@@ -963,28 +967,29 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
     public void testGroupExportToS3() throws Exception {
-        if (ON) {
-            List<String> types = Arrays.asList("Patient", "Group", "Condition", "Observation");
-            Response response = doPost(
-                    GROUP_VALID_URL.replace("?", savedGroupId2),
-                    FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
-                    Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    types,
-                    null,
-                    "minio",
-                    "minio");
-            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
-
-            // check the content-location that's returned.
-            String contentLocation = response.getHeaderString("Content-Location");
-            if (DEBUG) {
-                System.out.println("Content Location: " + contentLocation);
-            }
-
-            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
-            exportStatusUrl = contentLocation;
-            checkGroupExportStatus(true, types);
+        if (!S3_ON) {
+            throw new SkipException("Export to S3 is not enabled");
         }
+        List<String> types = Arrays.asList("Patient", "Group", "Condition", "Observation");
+        Response response = doPost(
+                GROUP_VALID_URL.replace("?", savedGroupId2),
+                FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
+                Instant.of("2019-01-01T08:21:26.94-04:00"),
+                types,
+                null,
+                "minio",
+                "minio");
+        assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+        // check the content-location that's returned.
+        String contentLocation = response.getHeaderString("Content-Location");
+        if (DEBUG) {
+            System.out.println("Content Location: " + contentLocation);
+        }
+
+        assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+        exportStatusUrl = contentLocation;
+        checkGroupExportStatus(true, types);
     }
 
     private void checkGroupExportStatus(boolean s3, List<String> types) throws Exception {

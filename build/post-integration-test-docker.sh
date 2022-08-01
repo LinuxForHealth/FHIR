@@ -4,13 +4,24 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
+
+# Exit the script if any commands fail
+set -e
+# Print each command before executing it
 set -x
+# This allows subshells to inheret the options above
+export SHELLOPTS
 
 # The full path to the directory of this script, no matter where its called from
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-WORKSPACE="$( dirname "${DIR}" )"
+export WORKSPACE="$( dirname "${DIR}" )"
 
-echo "Performing integration test post-processing..."
+if [ -z ${1} ]; then
+  echo "This script requires an argument that points to one of the integration folders"
+  exit 1
+fi
+
+echo "Bringing down environment for the ${1} fhir-server integration tests..."
 
 # Log output locations
 it_results=${WORKSPACE}/integration-test-results
@@ -21,9 +32,9 @@ rm -rf ${it_results} 2>/dev/null
 mkdir -p ${it_results}/server-logs
 mkdir -p ${it_results}/fhir-server-test
 
-containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
-if [[ -z "${containerId}" ]]; then
-    echo "Warning: Could not find fhir container!!!"
+containerId=$(docker ps -a | grep ${1}-fhir-server | cut -d ' ' -f 1)
+if [ -z "${containerId}" ]; then
+    echo "Warning: Could not find fhir-server container!!!"
 else
     echo "fhir container id: $containerId"
 
@@ -38,9 +49,7 @@ echo "Gathering integration test output"
 cp -r ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
 
 echo "Bringing down the fhir server docker container(s)..."
-cd ${DIR}/docker
+cd ${DIR}/${1}
 docker-compose down
 
 echo "Integration test post-processing completed!"
-
-exit 0

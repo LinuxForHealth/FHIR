@@ -1,0 +1,30 @@
+<server>
+    <variable name="DB_LOC" defaultValue="derby"/>
+
+    <!-- ============================================================== -->
+    <!-- TENANT: tenant1; DSID: profile; TYPE: read-write               -->
+    <!-- ============================================================== -->
+    <dataSource id="fhirTenant1Profile" jndiName="jdbc/fhir_tenant1_profile" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s" isolationLevel="TRANSACTION_READ_COMMITTED">
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
+        <properties.derby.embedded databaseName="${DB_LOC}/profile"/>
+        <connectionManager maxPoolSize="50" minPoolSize="10"/>
+    </dataSource>
+
+    <!-- ============================================================== -->
+    <!-- TENANT: tenant1; DSID: reference; TYPE: read-write             -->
+    <!-- ============================================================== -->
+    <dataSource id="fhirTenant1Reference" jndiName="jdbc/fhir_tenant1_reference" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s" isolationLevel="TRANSACTION_READ_COMMITTED">
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
+        <properties.derby.embedded databaseName="${DB_LOC}/reference"/>
+        <connectionManager maxPoolSize="50" minPoolSize="10"/>
+    </dataSource>
+
+    <!-- ============================================================== -->
+    <!-- TENANT: tenant1; DSID: study1; TYPE: read-write                -->
+    <!-- ============================================================== -->
+    <dataSource id="fhirTenant1Study1" jndiName="jdbc/fhir_tenant1_study1" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s" isolationLevel="TRANSACTION_READ_COMMITTED">
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
+        <properties.derby.embedded databaseName="${DB_LOC}/study1"/>
+        <connectionManager maxPoolSize="50" minPoolSize="10"/>
+    </dataSource>
+</server>

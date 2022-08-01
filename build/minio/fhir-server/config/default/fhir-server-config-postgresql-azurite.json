@@ -341,32 +341,12 @@
           "duplicationCheck": false,
           "validateResources": false
         },
-        "minio": {
-          "type": "aws-s3",
-          "bucketName": "fhirbulkdata",
-          "location": "us",
-          "endpointInternal": "https://minio:9000",
-          "endpointExternal": "https://localhost:9000",
-          "auth": {
-            "type": "hmac",
-            "accessKeyId": "minio",
-            "secretAccessKey": "change-password"
-          },
-          "enableParquet": false,
-          "disableBaseUrlValidation": true,
-          "disableOperationOutcomes": true,
-          "duplicationCheck": false,
-          "validateResources": false,
-          "create": false,
-          "presigned": true
-        },
         "azure": {
           "type": "azure-blob",
-          "_type": "ibm-cos|aws-s3|file|https|azure-blob",
-          "bucketName": "fhirbulkdata",
+          "bucketName": "bulkdata",
           "auth": {
             "type": "connection",
-            "connection": "DefaultEndpointsProtocol=https;AccountName=XYZ;AccountKey=XYZKEY;EndpointSuffix=core.windows.net"
+            "connection": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;"
           },
           "disableOperationOutcomes": true,
           "duplicationCheck": false,

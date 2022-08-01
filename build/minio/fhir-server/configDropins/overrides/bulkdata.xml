@@ -1,0 +1,55 @@
+<server description="fhir-server">
+    <!-- 
+        This configDropin work with PostgreSQL and user-password
+    -->
+    <featureManager>
+        <feature>batch-1.0</feature>
+        <feature>batchManagement-1.0</feature>
+    </featureManager>
+    
+    <batchPersistence jobStoreRef="BatchDatabaseStore"/>
+    <databaseStore id="BatchDatabaseStore" dataSourceRef="fhirbatchDS" schema="FHIR_JBATCH" tablePrefix="" createTables="false"/>
+
+    <authorization-roles id="com.ibm.ws.batch">
+        <security-role id="batchAdmin" name="batchAdmin">
+            <user id="batchAdminUser" name="fhiradmin"/>
+        </security-role>
+        <security-role id="batchSubmitter" name="batchSubmitter">
+            <user id="batchSubmitterUser" name="fhiruser"/>
+        </security-role>
+        <security-role id="batchMonitor" name="batchMonitor">
+            <user id="batchMonitorUser1" name="fhiradmin"/>
+            <user id="batchMonitorUser2" name="fhiruser"/>
+        </security-role>
+    </authorization-roles>
+
+    <webApplication id="fhir-bulkdata-webapp" location="fhir-bulkdata-webapp.war" name="fhir-bulkdata-webapp">
+        <classloader privateLibraryRef="configResources,fhirUserLib"/>
+        <application-bnd>
+            <security-role id="users" name="FHIRUsers">
+                <group id="bulkUsersGroup" name="FHIRUsers"/>
+            </security-role>
+        </application-bnd>
+    </webApplication>
+
+    <variable name="BATCH_DB_HOSTNAME" defaultValue=""/>
+    <variable name="BATCH_DB_NAME" defaultValue="FHIRDB"/>
+    <variable name="BATCH_DB_SCHEMA" defaultValue="FHIR_JBATCH"/>
+    <variable name="BATCH_DB_PORT" defaultValue="5432"/>
+    <variable name="BATCH_DB_USER" defaultValue="fhirserver"/>
+    <variable name="BATCH_DB_PASS" defaultValue=""/>
+    <variable name="BATCH_DB_SSL" defaultValue="true"/>
+    <variable name="BATCH_DB_SSL_CERT_PATH" defaultValue=""/>
+
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
+        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="sharedLibPostgres"/>
+        <properties.postgresql
+            databaseName="${BATCH_DB_NAME}"
+            portNumber="${BATCH_DB_PORT}"
+            serverName="${BATCH_DB_HOSTNAME}"
+            user="${BATCH_DB_USER}"
+            password="${BATCH_DB_PASS}" 
+            ssl="${BATCH_DB_SSL}"
+            sslCert="${BATCH_DB_SSL_CERT_PATH}"/>
+    </dataSource>
+</server>

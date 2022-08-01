@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
-set -ex
 
 if [[ -z "${WORKSPACE}" ]]; then
     echo "ERROR: WORKSPACE environment variable not set!"
@@ -12,17 +11,17 @@ if [[ -z "${WORKSPACE}" ]]; then
 fi
 
 echo "Removing the old server config..."
-CONFIG="${WORKSPACE}/build/docker/fhir-server/config"
+CONFIG="fhir-server/config"
 rm -rf ${CONFIG}/* 2> /dev/null
 mkdir -p ${CONFIG}
 
 echo "Copying the server config files..."
 cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/* ${CONFIG}/
 cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* ${CONFIG}/
-cp ${CONFIG}/default/fhir-server-config-postgresql-complete.json ${CONFIG}/default/fhir-server-config.json
+cp ${CONFIG}/default/fhir-server-config-postgresql-minio.json ${CONFIG}/default/fhir-server-config.json
 
 echo "Replacing datasource content in server configDropins..."
-OVERRIDES="${WORKSPACE}/build/docker/fhir-server/configDropins/overrides"
+OVERRIDES="fhir-server/configDropins/overrides"
 rm -rf ${OVERRIDES}/* 2> /dev/null
 mkdir -p ${OVERRIDES}
 

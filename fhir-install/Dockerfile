@@ -18,7 +18,6 @@ RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
     mv /tmp/fhir-server-dist/tools /opt/fhir-server/tools
 COPY src/main/docker/ibm-fhir-server/bootstrap.properties /opt/ol/wlp/usr/servers/defaultServer/
 COPY src/main/docker/ibm-fhir-server/bootstrap.sh /opt/fhir-server/
-
 # ----------------------------------------------------------------------------
 # Stage: Runnable
 
@@ -61,13 +60,10 @@ RUN mkdir -p /config/configDropins/overrides && \
     chmod -R 775 /opt/ol/wlp/usr/servers/defaultServer/configDropins/defaults
 
 # This block ensures the latest software is picked up.
-
 USER root
-
 RUN yum update -y && \
     yum clean all && \
     rm -rf /var/cache/yum
-
 USER 1001
 
 # Set the working directory to the liberty defaultServer

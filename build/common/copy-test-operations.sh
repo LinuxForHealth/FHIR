@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
-set -ex
 
 if [[ -z "${WORKSPACE}" ]]; then
     echo "ERROR: WORKSPACE environment variable not set!"
@@ -12,7 +11,7 @@ if [[ -z "${WORKSPACE}" ]]; then
 fi
 
 echo "Removing old test operations..."
-USERLIB="${WORKSPACE}/build/docker/fhir-server/userlib"
+USERLIB="fhir-server/userlib"
 rm -rf $USERLIB/* 2> /dev/null
 mkdir -p $USERLIB
 
