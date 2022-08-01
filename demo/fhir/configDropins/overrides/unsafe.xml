@@ -1,8 +1,0 @@
-<server>
-    <!-- Serve non-TLS traffic on port 9080 -->
-    <httpEndpoint id="defaultHttpEndpoint" httpPort="9080"/>
-    <virtualHost id="default_host" allowedFromEndpointRef="defaultHttpEndpoint">
-        <hostAlias>*:9443</hostAlias>
-        <hostAlias>localhost:9080</hostAlias>
-    </virtualHost>
-</server>

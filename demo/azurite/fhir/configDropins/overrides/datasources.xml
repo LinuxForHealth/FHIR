@@ -1,0 +1,31 @@
+<server>
+    <!-- ============================================================== -->
+    <!-- TENANT: default; DSID: default; TYPE: read-write               -->
+    <!-- ============================================================== -->
+    <dataSource id="fhirDatasourceDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="sharedLibPostgres"/>
+        <properties.postgresql
+             serverName="postgres"
+             portNumber="5432"
+             databaseName="fhirdb"
+             user="fhirserver"
+             password="change-password"
+             currentSchema="fhirdata"
+         />
+        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="0"/>
+    </dataSource>
+
+    <!-- The default bulkdata.xml config includes a batchPersistence element that
+    references a databaseStore that references a dataSource with id=fhirbatchDS, meaning
+    that this dataSource will be automatically picked up and used for bulkdata jobs. -->
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="sharedLibPostgres"/>
+        <properties.postgresql
+            serverName="postgres"
+            portNumber="5432"
+            databaseName="fhirdb"
+            user="fhirbatch"
+            password="change-password"
+          />
+    </dataSource>
+</server>

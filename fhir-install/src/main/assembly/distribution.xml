@@ -90,6 +90,7 @@
             <fileMode>0755</fileMode>
             <includes>
                 <include>${project.groupId}:fhir-persistence-schema:jar:cli</include>
+                <include>${project.groupId}:fhir-persistence-blob-app:jar:cli</include>
             </includes>
         </dependencySet>
     </dependencySets>

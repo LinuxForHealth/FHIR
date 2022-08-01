@@ -3,13 +3,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package com.ibm.fhir.persistence.blob.app;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,8 +41,8 @@ public class Main {
     private final Properties databaseProperties = new Properties();
 
     private String fhirConfigDir;
-    private String tenantId;
-    private String dsId;
+    private String tenantId = "default";
+    private String dsId = "default";
     private DbType dbType;
     private boolean reconcile;
     private boolean createContainer;
@@ -165,6 +166,10 @@ public class Main {
             throw new IllegalArgumentException("--fhir-config-dir does not point to a directory: '" + this.fhirConfigDir + "'");
         }
 
+        if (!Files.isDirectory(f.toPath().resolve("config"))) {
+            throw new IllegalArgumentException("--fhir-config-dir must be the parent of a directory named 'config'");
+        }
+
         FHIRConfiguration.setConfigHome(fhirConfigDir);
 
         boolean didSomething = false;
@@ -187,7 +192,7 @@ public class Main {
             doReads();
             didSomething = true;
         }
-        
+
         if (!didSomething) {
             throw new IllegalArgumentException("Must specify at least one action");
         }
@@ -228,7 +233,7 @@ public class Main {
             // bad args on the CLI
             throw new IllegalArgumentException("Missing database configuration which is required to run reconciliation");
         }
-        
+
         if (this.resourceTypeMaps == null || !this.resourceTypeMaps.isInitialized()) {
             throw new IllegalStateException("ResourceTypeMaps not initialized");
         }
