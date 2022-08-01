@@ -25,8 +25,8 @@ services:
       interval: 5s
       timeout: 4s
       retries: 3
-      # "Larger settings for shared_buffers usually require a corresponding increase in max_wal_size, 
-      # to spread out the process of writing large quantities of new or changed data over a longer period of time."
+    # "Larger settings for shared_buffers usually require a corresponding increase in max_wal_size, 
+    # to spread out the process of writing large quantities of new or changed data over a longer period of time."
     command: "
       -c shared_buffers=2GB
       -c max_wal_size=3GB
