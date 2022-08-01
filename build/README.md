@@ -19,6 +19,7 @@ docker build fhir-install -t linuxforhealth/fhir-server
 
 ## Running the integration tests locally
 
+Steps to install the server to the local filesystem at the root of the project and execute the tests.
 These commands are expected to work on MacOS and/or Linux. For Windows, use the PowerShell (.ps1) variants instead.
 
 ### Prerequisites
@@ -46,6 +47,16 @@ From the root of the project (aka the "WORKSPACE"):
 
 ## Running the integraiton tests using docker compose
 
+Steps to run a dockerized LinuxForHealth FHIR Server and associated services.
+The specific services to run are defined in the docker-compose.yml files within the corresponding "environment" directories:
+
+Directory Name | Environment Description
+--- | ---
+minio | FHIR Server with a PostgreSQL backend, MinIO for bulk import/export, and NATS notifications
+azurite | FHIR Server with a PostgreSQL backend, payload offloading to Azurite, and Azurite for bulk import/export
+
+The commands are expected to work on MacOS and/or Linux.
+
 ### Prerequisites
 
 - [Docker](https://www.docker.com)
@@ -56,10 +67,10 @@ From the root of the project (aka the "WORKSPACE"):
 From the root of the project (aka the "WORKSPACE"):
 1. Set up and start the containers 
     ```sh
-    build/pre-integration-test-docker.sh
+    build/pre-integration-test-docker.sh ${environment}
     ```
     
-   Note: If you are testing NATS notifications, invoke the NATS subscriber via `node fhir-server-test/src/test/nodejs/nats-subscriber`.  If this is your first time, install the dependencies first by installing [Node.js](https://nodejs.org/en/download) (if not already installed) and running `(cd fhir-server-test/src/test/nodejs && npm install)`.  
+   Note: If you are testing NATS notifications, invoke the NATS subscriber via `node fhir-server-test/src/test/nodejs/nats-subscriber`.  If this is your first time, install the dependencies first by installing [Node.js](https://nodejs.org/en/download) (if not already installed) and running `(cd fhir-server-test/src/test/nodejs && npm install)`.
     
 2. Run the tests. 
     ```sh
@@ -68,13 +79,13 @@ From the root of the project (aka the "WORKSPACE"):
 
 3. Collect logs and tear down the containers
     ```sh
-    build/post-integration-test-docker.sh
+    build/post-integration-test-docker.sh ${environment}
     ```
 
 ### Details
 
 The `pre-integration-test-docker.sh` script will:
-1. Configure volume mounts under build/docker/fhir-server and add the data and configuration needed for the tests.
+1. Configure volume mounts under the specified directory name and add the data and configuration needed for the tests.
 2. Bring up the containers and configure the database.
 3. Wait for the fhir-server healthcheck to pass and then exit.
 

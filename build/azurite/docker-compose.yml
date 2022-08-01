@@ -71,6 +71,9 @@ services:
         BATCH_DB_SSL: "false"
         BATCH_DB_NAME: fhirdb
     command: bash -c "
+      java -jar /opt/fhir-server/tools/fhir-persistence-blob-app-*-cli.jar
+          --fhir-config-dir /opt/ol/wlp/usr/servers/defaultServer
+          --create-container --no-dry-run &&
       java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type postgresql --prop db.host=postgres --prop db.port=5432 --prop db.database=fhirdb --prop user=fhiradmin --prop password=change-password
           --create-schemas &&

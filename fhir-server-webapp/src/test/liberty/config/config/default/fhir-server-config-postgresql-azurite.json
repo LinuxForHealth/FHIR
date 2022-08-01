@@ -305,6 +305,16 @@
             "join_collapse_limit": 12
           }
         }
+      },
+      "payload": {
+        "default": {
+            "__comment": "Azure Blob (azurite docker) configuration for storing FHIR resource payload data",
+            "type": "azure.blob",
+            "connectionProperties" : {
+                "connectionString": "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;",
+                "containerName": "default"
+            }
+        }
       }
     },
     "bulkdata": {
