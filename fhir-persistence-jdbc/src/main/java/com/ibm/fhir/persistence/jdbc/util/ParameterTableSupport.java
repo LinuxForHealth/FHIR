@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+
 /**
  * Support functions for managing the search parameter value tables
  */
@@ -17,13 +19,14 @@ public class ParameterTableSupport {
 
     /**
      * Delete any current parameters from the whole-system and resource-specific parameter tables
-     * for the given resourcetype and logical_resource_id
+     * for the given resourceType and logical_resource_id
      * @param conn
-     * @param tablePrefix
+     * @param resourceType
      * @param v_logical_resource_id
      * @throws SQLException
      */
-    public static void deleteFromParameterTables(Connection conn, String tablePrefix, long v_logical_resource_id) throws SQLException {
+    public static void deleteFromParameterTables(Connection conn, String resourceType, long v_logical_resource_id) throws SQLException {
+        final String tablePrefix = DataDefinitionUtil.assertValidName(resourceType);
         deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
         deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
         deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
