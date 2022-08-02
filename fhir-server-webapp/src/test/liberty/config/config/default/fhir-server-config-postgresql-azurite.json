@@ -346,12 +346,6 @@
       },
       "storageProviders": {
         "default": {
-          "type": "file",
-          "fileBase": "/output/bulkdata",
-          "duplicationCheck": false,
-          "validateResources": false
-        },
-        "azure": {
           "type": "azure-blob",
           "bucketName": "bulkdata",
           "auth": {
