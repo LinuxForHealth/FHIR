@@ -166,20 +166,6 @@ cos.socket.timeout=60000
 cos.max.keys=1000
 ```
 
-#### The db2.properties file
-
-```
-db.host=<DB2-HOST-NAME>
-db.port=<DB2-PORT>
-db.database=<DB2-DATABASE>
-user=<DB2-USER>
-password=<DB2-PASSWORD>
-sslConnection=true
-sslTrustStoreLocation=/path/to/dbTruststore.p12
-sslTrustStorePassword=<TRUSTSTORE-PASSWORD>
-currentSchema=FHIRBUCKET
-```
-
 #### The postgres.properties file
 
 ```
@@ -196,7 +182,7 @@ currentSchema=FHIRBUCKET
 
 #### The derby.properties file
 
-Db2 and PostgreSQL are the preferred databases for hosting the fhir-bucket schema. Derby can, however, be used for development. The derby.properties file must be configured as follows:
+PostgreSQL is the preferred database for hosting the fhir-bucket schema. Derby can, however, be used for development. The derby.properties file must be configured as follows:
 
 ```
 db.database=derby/bucketDB
@@ -208,17 +194,6 @@ The name of the Derby database can be anything (without spaces) but must be cont
 ### Schema Deployment
 
 As a one-time activity, the schema objects can be created using the following command:
-
-```
-#!/usr/bin/env bash
-
-JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-*-SNAPSHOT-cli.jar"
-
-java -jar "${JAR}"               \
-  --db-type db2                  \
-  --db-properties db2.properties \
-  --create-schema
-```
 
 If using a local Derby instance:
 
@@ -268,19 +243,19 @@ The following script can be used to run the bucket loader from a local build:
 
 JAR="~/git/FHIR/fhir-bucket/target/fhir-bucket-*-SNAPSHOT-cli.jar"
 
-java -jar "${JAR}"                  \
-  --bootstrap-schema                \
-  --db-type db2                     \
-  --db-properties db2.properties    \
-  --cos-properties cos.properties   \
-  --fhir-properties fhir.properties \
-  --bucket example-bucket           \
-  --tenant-name example-tenant      \
-  --file-type NDJSON                \
-  --max-concurrent-fhir-requests 40 \
-  --max-concurrent-json-files 10    \
-  --max-concurrent-ndjson-files 1   \
-  --connection-pool-size 20         \
+java -jar "${JAR}"                     \
+  --bootstrap-schema                   \
+  --db-type postgresql                 \
+  --db-properties postgres.properties  \
+  --cos-properties cos.properties      \
+  --fhir-properties fhir.properties    \
+  --bucket example-bucket              \
+  --tenant-name example-tenant         \
+  --file-type NDJSON                   \
+  --max-concurrent-fhir-requests 40    \
+  --max-concurrent-json-files 10       \
+  --max-concurrent-ndjson-files 1      \
+  --connection-pool-size 20            \
   --incremental
 ```
 
@@ -293,14 +268,6 @@ To run using Derby, change the relevant arguments to:
 ...
 ```
 
-To run using PostgreSQL, change the relevant arguments to:
-
-```
-...
-  --db-type postgresql                 \
-  --db-properties postgres.properties  \
-...
-```
 
 The `--immediate-local` option can be used to load files from a local file-system without the need for a FHIRBUCKET database or connection to COS:
 
@@ -366,7 +333,7 @@ Note that the --scan-local-dir [path-name] option must still be provided.
 | Property Name | Description |
 | -------------------- | -----|
 | `--bootstrap-schema` | Creates/updates the schema as an initial step before starting the main workload. Simplifies cloud deployment scenarios by avoiding the need for a separate job. Ensures only one instance will try to update the schema at a time. Do not specify `--create-schema` when using this option. |
-| `--db-type type` | where `type` is one of: db2, derby, postgresql. Specifies the type of database to use for the FHIRBUCKET tracking data. |
+| `--db-type type` | where `type` is one of: derby, postgresql. Specifies the type of database to use for the FHIRBUCKET tracking data. |
 | `--create-schema` | Creates a new or updates an existing database schema. The program will exit after the schema operations have completed.|
 | `--schema-name` | The custom schema used for FHIRBUCKET tracking data. The default is `FHIRBUCKET`.|
 | `--tenant-name fhir-tenant-name` | The IBM FHIR Server tenant name|
@@ -406,10 +373,10 @@ Note that the --scan-local-dir [path-name] option must still be provided.
 |db.port | The database server port|
 |db.database | The name of the database|
 |user | A username with connect and admin permissions on the target database|
-|password | The user password for connecting to the database|
-|sslConnection | true or anything else, true triggers JDBC to use ssl, an example --prop sslConnection=true |
+|password | The user password for connecting to the database |
+|ssl | true or anything else, true triggers JDBC to use ssl, an example --prop ssl=true |
 
-A sample properties file can be found at https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence-schema/db2.properties
+A sample properties file can be found at https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence-schema/postgres.properties
 
 *COS Properties* 
 
@@ -471,36 +438,6 @@ See the com.ibm.fhir.bucket.persistence.FhirBucketSchema class for details (colu
 The `resource_bundle_loads` table contains timestamp fields marking the start and end of processing. The end time is only updated if the bundle is completed before the loader is stopped. 
 
 Each `logical_resources` record contains a `created_tstamp` column which marks the time when the record was created in the FHIRBUCKET database.
-
-
-
-#### Db2 Analytic Queries
-
-To compute an approximate resources-per-second rate for each NDJSON bundle:
-```
-SET CURRENT SCHEMA FHIRBUCKET;
-
-SELECT loader_instance_id, substr(object_name, 1, 24) object_name, resource_type, resource_count, resource_count / run_seconds AS resources_per_second,
-       timestampdiff(2, bundle_end - bundle_start) bundle_duration
-  FROM (
-       SELECT lr.loader_instance_id, resource_type_id, rb.object_name, count(*) AS resource_count,
-              timestampdiff(2, max(lr.created_tstamp) - min(lr.created_tstamp)) run_seconds,
-              min(rb.load_started) bundle_start,
-              max(rb.load_completed) bundle_end
-         FROM logical_resources lr,
-              resource_bundles rb
-        WHERE lr.loader_instance_id IS NOT NULL
-          AND rb.resource_bundle_id = lr.resource_bundle_id
-          AND rb.load_completed IS NOT NULL
-     GROUP BY lr.loader_instance_id, resource_type_id, rb.object_name
-     ) lr,
-       resource_types rt
- WHERE rt.resource_type_id = lr.resource_type_id
-   AND lr.run_seconds > 0
-;
-```
-
-The resource rate is calculated using the first and last creation timestamps from the logical_resources table.
 
 #### PostgreSQL Analytic Queries
 

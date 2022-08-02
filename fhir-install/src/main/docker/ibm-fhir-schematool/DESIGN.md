@@ -14,7 +14,7 @@ The design is such that it COULD, but does not support multiple input files at t
 When the container is started, the container process one of two flows:
 
 * Schema Onboarding - creates and updates a schema and apply grants
-* Schema Offboarding - deletes a tenant (Db2) and removes data if there are no tenants left.
+* Schema Offboarding - drops a schema
 
 **Schema Onboarding Flow**
 
@@ -32,10 +32,6 @@ The schema onboarding flow setup add a new tenant or update the database to the 
     1. If connectivity succeeds, proceed.
 1. Create the schema
 1. Update the Schema 
-1. Check if Db2:
-    1. If Db2, allocate tenant and save output.
-    1. If Db2, test the allocated tenant
-    1. If not Db2, proceed.
 1. Grant permissions to the IBM FHIR Server database user
 
 **Schema Offboarding Flow**
@@ -48,10 +44,6 @@ The schema offboarding flow offboards the current schema, while preserving the s
 1. Check if **BEHAVIOR** set to OFFBOARD:
     1. If not `BEHAVIOR['OFFBOARD']`, skip. 
     1. If `BEHAVIOR['OFFBOARD']`, proceed.
-1. Check if Db2: 
-    1. If Db2, then deallocate tenant
-    1. If not Db2, then proceed.
-1. If (Db2 and no more tenants) or Postgres, then proceed:
     1. Drop FHIR Schema
     1. Drop Java Batch
     1. Drop OAuth

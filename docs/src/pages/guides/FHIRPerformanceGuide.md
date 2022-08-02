@@ -26,8 +26,7 @@ permalink: /FHIRServerPerformanceGuide/
         - [4.1.3 Transaction Id Wraparound](#413-transaction-id-wraparound)
         - [4.1.4 Vacuum Monitoring](#414-vacuum-monitoring)
         - [4.1.5 Max Locks](#415-max-locks)
-    - [4.2 IBM Db2](#42-ibm-db2)
-    - [4.3 Derby](#43-derby)
+    - [4.2 Derby](#42-derby)
 - [5 Ingestion Scenarios](#5-ingestion-scenarios)
     - [5.1 Logical Id Generation](#51-logical-id-generation)
     - [5.2 Conditional Update](#52-conditional-update)
@@ -94,7 +93,6 @@ The following sizes are guidelines only. You should test and measure for your sp
 Terminology:
 * **tenant_name** - the name/id of a tenant. Used interchangeably with tenant_id;
 * **tenant_id** - the name/id of a tenant. Used interchangeably with tenant_name;
-* **tenant_key** - a password fragment used in Db2 to verify tenant access ;
 * **datastore** - represents a logical database used by the persistence layer to store/retrieve FHIR resources;
 * **datasource** - the JTA object from which the persistence layer code can obtain JDBC connections to the underlying database. A datastore may include multiple datasource definitions used for different purposes;
 * **ds-id** - an identifier representing a datastore used for a tenant.
@@ -110,14 +108,13 @@ Liberty Profile uses an executor service to handle incoming HTTP/S requests. By 
 
 ### 3.1.2. Database Max Connections
 
-Db2 and PostgreSQL limit the maximum number of open connections. It is important to configure the database in conjunction with the Liberty Profile datasource connection pools to avoid connection failures which will result in HTTP 500 errors being returned from the IBM FHIR Server.
+PostgreSQL limits the maximum number of open connections. It is important to configure the database in conjunction with the Liberty Profile datasource connection pools to avoid connection failures which will result in HTTP 500 errors being returned from the IBM FHIR Server.
 
 Assuming there are N instances of the IBM FHIR Server, the recommended connection limits should be configured as follows:
 
 
 | Database     |          Property Name          | Recommended Setting  |
 | ------------ | ------------------------------- | -------------------- |
-| IBM Db2      | MAX_CONNECTIONS/MAX_COORDAGENTS | maxPoolSize * N + 20 |
 | PostgreSQL   |                 max_connections | maxPoolSize * N + 15 |
 | Derby        |                             N/A |                  N/A |
 
@@ -448,12 +445,7 @@ max_locks_per_transaction = 128		# min 10
 
 This change requires a database restart.
 
-## 4.2. IBM Db2
-
-TBD.
-
-
-## 4.3. Derby
+## 4.2. Derby
 
 Derby is not recommended for production use and therefore tuning Derby will not be addressed in this guide.
 

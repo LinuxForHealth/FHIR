@@ -36,7 +36,7 @@ The GitHub Action is parameterized with a matrix for each migration based on the
 ``` yaml
 strategy:
   matrix:
-    datastore: [ 'db2', 'postgres' ]
+    datastore: [ 'postgres' ]
     target: ['previous', 'last']
 ```
 
@@ -86,7 +86,7 @@ The following files are the files that orchestrate datastore specific tasks as w
 
 The logs are in the workarea under each datastore specific set of scripts.
 
-Consult the reference implementation (`db2`) to start a new migration job.
+Consult the reference implementation (`postgres`) to start a new migration job.
 
 ## Testing the Automation
 
