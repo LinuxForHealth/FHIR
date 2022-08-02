@@ -75,13 +75,6 @@ public abstract class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceD
                     "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                     "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 
-    // @formatter:off
-    //                                                                                 0                 1
-    //                                                                                 1 2 3 4 5 6 7 8 9 0 1 2 3 4
-    // @formatter:on
-    // Don't forget that we must account for IN and OUT parameters.
-    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-
     // Read version history of the resource identified by its logical-id
     private static final String SQL_HISTORY =
             "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY " +

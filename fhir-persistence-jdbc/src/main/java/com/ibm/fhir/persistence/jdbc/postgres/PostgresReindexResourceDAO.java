@@ -7,11 +7,13 @@
 package com.ibm.fhir.persistence.jdbc.postgres;
 
 import java.security.SecureRandom;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.time.Instant;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -81,6 +83,9 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
             + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid, parameter_hash "
             ;
+
+    // Delete all the resource parameter values associated with the given resource
+    private static final String SQL_DELETE_RESOURCE_PARAMETERS = "{CALL %s.delete_resource_parameters(?,?,?)}";
 
     /**
      * Public constructor
@@ -182,5 +187,21 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
         }
 
         return result;
+    }
+
+    @Override
+    protected void deleteResourceParameters(String resourceTypeName, long logicalResourceId) throws SQLException {
+        // for PostgreSQL we can use the stored procedure/function to delete all the parameters. This
+        // uses the same delete function that is used during initial ingestion
+        final Connection connection = getConnection(); // do not close
+        final String stmtString = String.format(SQL_DELETE_RESOURCE_PARAMETERS, getSchemaName());
+
+        try (CallableStatement stmt = connection.prepareCall(stmtString)) {
+            int arg = 1;
+            stmt.setString(arg++, resourceTypeName);
+            stmt.setLong(arg++, logicalResourceId);
+            stmt.registerOutParameter(arg, Types.BIGINT);
+            stmt.execute();
+        }
     }
 }
