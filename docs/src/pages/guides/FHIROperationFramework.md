@@ -1,19 +1,22 @@
 ---
 layout: default
-title: IBM FHIR Server - Extended Operations Framework
-date:  2020-10-05
+title: Extended Operations Framework
+date:  2022-08-02
 ---
 
-# IBM FHIR Server - Extended Operations Framework
+# Extended Operations Framework
 
-The HL7 FHIR Specification describes a [framework](https://hl7.org/fhir/R4B/operations.html) of extended operations for the REST API.
+The HL7 FHIR Specification describes a [framework](https://hl7.org/fhir/R4B/operations.html) for operations that go beyond the strandard REST API.
 
-This framework defines REST endpoints at the Base Server (System), scoped to specific resources (Type) and scoped to specific instances.
-- **System** - https://my-server.com/fhir-server/api/v4/$convert - Convert from one format to another
-- **Type** - https://my-server.com/fhir-server/api/v4/Patient/$export - Retrieve all the data from the Patient compartment
-- **Instance** - https://my-server.com/fhir-server/api/v4/Patient/1-2-3-4/$export - Retrieve a specific Patient data from the Patient compartment data
+This framework defines REST endpoints at three different levels.
 
-A list of operations supported by the IBM FHIR Server is listed at https://linuxforhealth.github.io/FHIR/Conformance/#extended-operations
+Level | Example | Description
+--- | --- | ---
+**System** | https://my-server.com/fhir-server/api/v4/$convert | Convert from one format to another
+**Type** | https://my-server.com/fhir-server/api/v4/Patient/$export | Retrieve all the data from the Patient compartment
+**Instance** | https://my-server.com/fhir-server/api/v4/Patient/1-2-3-4/$export |Retrieve a specific Patient data from the Patient compartment data
+
+A list of operations supported by the LinuxForHealth FHIR Server is listed at https://linuxforhealth.github.io/FHIR/Conformance/#extended-operations
 
 ## Calling an Operation
 There are two types of operation invocation requests:
@@ -22,13 +25,12 @@ There are two types of operation invocation requests:
   - For operations with no input parameters, no body is required.
   - For operations with a single input parameter named “resource”, the Parameters wrapper can be omitted.
 - Simple (via GET)
-  - Only simple input parameters (i.e. no complex datatypes like ‘Identifier’ or ‘Reference’), operations can be invoked via HTTP GET by passing the parameters in the URL.
+  - Operations with only primitive input parameters (i.e. no complex datatypes like ‘Identifier’ or ‘Reference’) can be invoked via HTTP GET by passing the parameters in the URL.
 
 ### Example: Complex
 
 *Request*
-
-``` sh
+```sh
 curl --location --request POST 'https://localhost:9443/fhir-server/api/v4/Patient/$validate' \
 --header 'Authorization: Basic CHANGEME' \
 --header 'Content-Type: application/json' \
@@ -44,29 +46,17 @@ curl --location --request POST 'https://localhost:9443/fhir-server/api/v4/Patien
      {
       "use": "official",
       "family": "Chalmers",
-      "given": [
-       "Peter",
-       "James"
-      ]
+      "given": ["Peter", "James"]
      }
     ]
    }
   }
- ],
- "meta": {
-  "tag": [
-   {
-    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
-    "code": "HTEST",
-    "display": "test health data"
-   }
-  ]
- }
+ ]
 }'
 ```
 
 *Response*
-``` json
+```json
 {
   "resourceType": "OperationOutcome",
   "id": "NoError",
@@ -115,9 +105,9 @@ curl --location --request GET 'https://localhost:9443/fhir-server/api/v4/$health
 ```
 
 ## Inspecting a FHIR Server’s Capability Statement (Operations)
-Each FHIR server is expected to have a Capability Statement outlining the System, Type and Instance operations, and advertising them via the metadata endpoint.
+Each FHIR server is expected to advertise its System, Type, and Instance-level operations in a CapabilityStatement resource served from the `[base]/metadata` endpoint.
 
-To check the Type and Instance operations, you can check using this curl/jq command.
+To check the Type and Instance operations, you can use this curl/jq command.
 
 `curl -k --location --request GET 'https://localhost:9443/fhir-server/api/v4/metadata' | jq -r '.rest[].resource[].operation[].name' | sort -u`
 
@@ -151,7 +141,7 @@ import
 
 # The Specification in More Detail
 
-Each Operation per [the specification](https://hl7.org/fhir/R4B/operations.html#defining) is an [OperationDefinition](https://hl7.org/fhir/R4B/operationdefinition.html) Resource.
+Each Operation per [the specification](https://hl7.org/fhir/R4B/operations.html#defining) is defined by an [OperationDefinition](https://hl7.org/fhir/R4B/operationdefinition.html) resource.
 
 The elements needed are:
 - Unique Name of the Operation - `OperationDefinition.name`
@@ -168,31 +158,31 @@ The elements needed are:
   - Be sure to have a return parameter
   - Typically this is a FHIR Resource
 
-An example operation is [$validate](https://hl7.org/fhir/R4B/resource-operation-validate.html). The OperationDefinition is at [validation.json](https://github.com/LinuxForHealth/FHIR/blob/main/operation/fhir-operation-validate/src/main/resources/validate.json).
+# The LinuxForHealth Extended Operations Framework implementation
 
-# IBM FHIR Server Extended Operations Framework
+The LinuxForHealth FHIR Server has integrated the Extended Operations Framework into the code base.
 
-The IBM FHIR Server has integrated the Extended Operations Framework into the code base.
+![Framework](https://raw.githubusercontent.com/wiki/LinuxForHealth/FHIR/operation/operation-framework.png)
 
-![Framework](https://raw.githubusercontent.com/wiki/IBM/FHIR/operation/operation-framework.png)
+Upon startup of the LinuxForHealth FHIR Server webapplication, the FHIR Operation Registry uses the Java ServiceLoader framework. Each Operation is registered with the FHIROperationRegistry using `META-INF/services/com.ibm.fhir.server.operation.spi.FHIROperation` which lists each of the classes that implement the FHIROperation interface
 
-Upon startup of the IBM FHIR Server webapplication, the FHIR Operation Registry uses the Java ServiceLoader framework. Each Operation is registered with the FHIROperationRegistry using `META-INF/services/com.ibm.fhir.server.operation.spi.FHIROperation` which lists each of the classes that extends the `AbstractOperation`.
+For each implementation, the framework calls FHIROperation.getDefinition() to get the OperationDefinition and uses that do determine which endpoint to server the operation from (based on the defined operation levels, resource types, and "code").
 
-Upon receiving a request, the REST Layer checks to see if the JAX-RS path parameter `${operationName}` from a System, Type or Instance call is a registered Operation. If the operationName exists and is valid, the framework invokes the specific Operation for that specific Operation type.
+Upon receiving a request, the REST Layer checks to see if the JAX-RS path parameter `${operationName}` from a System, Type or Instance call is a registered Operation. If a FHIROperation exists in the registry with a "code" that matches the passed operationName, and it is valid for the level / resource type request, the framework calls FHIROperation.invoke() for that specific Operation type.
 
-The Operation's custom logic is executed using the specific Operation logic, and the Persistence Helper is used to access the helper methods to start and end the transaction.
+To make implementing custom operations easier, the LinuxForHealth FHIR Server provides an `AbstractOperation` class that provides input and output handling, while delegating to concrete implementations for the OperationDefinition and operation business logic.
 
-The Operation's custom logic builds a valid Parameters resource as a response to the client, and the framework serializes back to the client.
+For operations that are defined in the base FHIR specification, like [$validate](https://hl7.org/fhir/R4B/resource-operation-validate.html), the OperationDefinition can be retrieved from the built-in [FHIRRegistry](https://github.com/LinuxForHealth/FHIR/blob/6933926b8862d6515336f495e50ee7f66e5bcc15/operation/fhir-operation-validate/src/main/java/com/ibm/fhir/operation/validate/ValidateOperation.java#L40-L41).
 
-Note, once the Operation is loaded it is available until the server is restarted and redoes the ServiceLoader discovery.
+Note that once the Operation is loaded it is available until the server is restarted and redoes the ServiceLoader discovery.
 
 ## Code Examples
-There are a number of examples in the [IBM/FHIR repo](https://github.com/LinuxForHealth/FHIR/tree/main/operation).
+There are a number of examples in the [LinuxForHealth/FHIR repo](https://github.com/LinuxForHealth/FHIR/tree/main/operation).
 
 ## Installation of an Operation
-The Operations are installed into the `userlib` folder of the IBM FHIR Server. Some solutions are installing the operation as a layer in a docker image, or mount it as a volume.
+The Operations are installed into the `userlib` folder of the LinuxForHealth FHIR Server. Some solutions are installing the operation as a layer in a docker image, or mount it as a volume.
 
-![install location](https://raw.githubusercontent.com/wiki/IBM/FHIR/operation/installation-location.png)
+![install location](https://raw.githubusercontent.com/wiki/LinuxForHealth/FHIR/operation/installation-location.png)
 
 ## Building a FHIR Operation
 To build a FHIR Operation, a great starting point is the GitHub repo.
@@ -344,5 +334,5 @@ You can return null as a Parameters object - `return FHIROperationUtil.getOutput
 # Questions and Support
 If you need further support, you can reach out to the development team at:
 
-- [Zulip: ibm](https://chat.fhir.org/#narrow/stream/212434-ibm)
+- [Zulip: LinuxForHealth]([https://chat.fhir.org/#narrow/stream/212434-ibm](https://chat.fhir.org/#narrow/stream/212434-LinuxForHealth))
 - [GitHub: issues](https://github.com/LinuxForHealth/FHIR/issues)
