@@ -168,7 +168,8 @@ public class ImportOperationAzureTest extends FHIRServerTestBase {
             // 200 mean export is finished
             status = response.getStatus();
 
-            assertTrue(status == Response.Status.OK.getStatusCode() || status == Response.Status.ACCEPTED.getStatusCode());
+            assertTrue(status == Response.Status.OK.getStatusCode() || status == Response.Status.ACCEPTED.getStatusCode(),
+                    "Status " + status + " should be OK or ACCEPTED");
 
             Thread.sleep(5000);
             totalTime += 5000;

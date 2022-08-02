@@ -19,13 +19,11 @@ cp ${CONFIG}/default/fhir-server-config-postgresql-minio.json ${CONFIG}/default/
 # Enable the file-based import/export tests and set the path to the output dir
 sed -i -e 's/test.bulkdata.export.enabled = false/test.bulkdata.export.enabled = true/g' ${TEST_RESOURCES}/test.properties
 sed -i -e 's/test.bulkdata.import.enabled = false/test.bulkdata.import.enabled = true/g' ${TEST_RESOURCES}/test.properties
-sed -i -e "s:test.bulkdata.path = .*:test.bulkdata.path = ${PWD}/${BULKDATA}:" ${TEST_RESOURCES}/test.properties
+sed -i -e "s:test.bulkdata.path = .*:test.bulkdata.path = ${WORKSPACE}/build/minio/fhir-server/bulkdata:" ${TEST_RESOURCES}/test.properties
 
 # Enable the S3-based import/export tests
 sed -i -e 's/test.bulkdata.import.s3.enabled = false/test.bulkdata.import.s3.enabled = true/g' ${TEST_RESOURCES}/test.properties
 sed -i -e 's/test.bulkdata.export.s3.enabled = false/test.bulkdata.export.s3.enabled = true/g' ${TEST_RESOURCES}/test.properties
-
-TEST_RESOURCES="${WORKSPACE}/fhir-server-test/src/test/resources"
 
 S3_BULKDATA="${WORKSPACE}/build/minio/minio/miniodata/bulkdata/"
 mkdir -p ${S3_BULKDATA}
