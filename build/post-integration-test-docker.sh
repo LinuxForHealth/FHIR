@@ -46,10 +46,16 @@ else
 fi
 
 echo "Gathering integration test output"
-cp -r ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+if [ -e ${WORKSPACE}/fhir-server-test/target/surefire-reports ]; then
+    cp -r ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+fi
+
+# Source the tenant1 datastore variables; not strictly needed here
+# but avoids "variable is not set" docker compose warnings
+. ${WORKSPACE}/build/common/set_tenant1_datastore_vars.sh
 
 echo "Bringing down the fhir server docker container(s)..."
 cd ${DIR}/${1}
-docker-compose down
+docker compose down
 
 echo "Integration test post-processing completed!"
