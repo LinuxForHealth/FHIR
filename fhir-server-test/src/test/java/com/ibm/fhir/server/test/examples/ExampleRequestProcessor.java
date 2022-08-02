@@ -77,7 +77,8 @@ public class ExampleRequestProcessor implements IExampleProcessor {
 
         // Build a new resource and then call the 'create' API.
         long postStart = System.nanoTime();
-        Entity<Resource> entity = Entity.entity(resource, FHIRMediaType.APPLICATION_FHIR_JSON);
+        // Explicitly use fhirVersion 4.3 so that we can use all the R4B resource types
+        Entity<Resource> entity = Entity.entity(resource, FHIRMediaType.APPLICATION_FHIR_43_JSON_TYPE);
         Response response = target.path(resourceTypeName).request()
                 .header(FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME, tenantId)
                 .post(entity, Response.class);
