@@ -164,7 +164,7 @@ The LinuxForHealth FHIR Server has integrated the Extended Operations Framework 
 
 ![Framework](https://raw.githubusercontent.com/wiki/LinuxForHealth/FHIR/operation/operation-framework.png)
 
-Upon startup of the LinuxForHealth FHIR Server webapplication, the FHIR Operation Registry uses the Java ServiceLoader framework. Each Operation is registered with the FHIROperationRegistry using `META-INF/services/com.ibm.fhir.server.operation.spi.FHIROperation` which lists each of the classes that implement the FHIROperation interface
+On startup, the FHIR Operation Registry uses the Java ServiceLoader framework. Each Operation is registered with the FHIROperationRegistry using `META-INF/services/com.ibm.fhir.server.operation.spi.FHIROperation` which lists each of the classes that implement the FHIROperation interface
 
 For each implementation, the framework calls FHIROperation.getDefinition() to get the OperationDefinition and uses that do determine which endpoint to server the operation from (based on the defined operation levels, resource types, and "code").
 
