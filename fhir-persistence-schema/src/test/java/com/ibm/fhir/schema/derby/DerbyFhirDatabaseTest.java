@@ -15,7 +15,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -25,6 +24,7 @@ import java.util.stream.Collectors;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.ITransaction;
@@ -58,7 +58,6 @@ public class DerbyFhirDatabaseTest {
     private static final String ADMIN_SCHEMA_NAME = Main.ADMIN_SCHEMANAME;
     private final Instant lastUpdated = Instant.now();
     private static final String SCHEMA_NAME = "FHIRDATA";
-    private static final IDatabaseTranslator translator = new DerbyTranslator();
     private final String EVIDENCE_LOGICAL_ID = UUID.randomUUID().toString();
     private final String parameterHash = "1Z+NWYZb739Ava9Pd/d7wt2xecKmC2FkfLlCCml0I5M=";
 
@@ -194,18 +193,18 @@ public class DerbyFhirDatabaseTest {
                 DerbyAdapter adapter = new DerbyAdapter(tgt);
                 
                 // validate table data when the table is empty
-                TableHasData cmd = new TableHasData("FHIRDATA", "evidence_logical_resources");
+                TableHasData cmd = new TableHasData(SCHEMA_NAME, "evidence_logical_resources", adapter);
                 assertFalse(adapter.runStatement(cmd));
-                cmd = new TableHasData("FHIRDATA", "evidencevariable_logical_resources");
+                cmd = new TableHasData(SCHEMA_NAME, "evidencevariable_logical_resources", adapter);
                 assertFalse(adapter.runStatement(cmd));
                 
                 // add records to evidence_logical_resources and evidencevariable_logical_resources tables
-                prepareTestDataForTestTableHasDataFunction(connection);
+                prepareTestDataForTestTableHasDataFunction(connection, adapter);
                 
                 //validate table data
-                cmd = new TableHasData("FHIRDATA", "evidence_logical_resources");
+                cmd = new TableHasData(SCHEMA_NAME, "evidence_logical_resources", adapter);
                 assertTrue(adapter.runStatement(cmd));
-                cmd = new TableHasData("FHIRDATA", "evidencevariable_logical_resources");
+                cmd = new TableHasData(SCHEMA_NAME, "evidencevariable_logical_resources", adapter);
                 assertTrue(adapter.runStatement(cmd));
                 connection.rollback(); // roll back the changes 
             } catch (Throwable t) {
@@ -216,16 +215,18 @@ public class DerbyFhirDatabaseTest {
      
     }
 
+    
     /**
      * Prepare test data for test table has data function.
      *
-     * @param connnection the connection
+     * @param connection the connection
+     * @param adapter the adapter
      * @throws SQLException the SQL exception
      */
-    private void prepareTestDataForTestTableHasDataFunction(Connection connection) throws SQLException {
+    private void prepareTestDataForTestTableHasDataFunction(Connection connection, IDatabaseAdapter adapter) throws SQLException {
         int resourceTypeId = getResourceType(connection); 
         
-        long logicalResourceId = getNextLogicalId(connection); 
+        long logicalResourceId = getNextLogicalId(connection, adapter); 
         
         final String insertLogicalResource = "INSERT INTO logical_resources(logical_resource_id, resource_type_id, logical_id, last_updated, is_deleted, parameter_hash)"
                 + " VALUES (?,?,?,?,?,?)";
@@ -261,11 +262,12 @@ public class DerbyFhirDatabaseTest {
           
           try (PreparedStatement stmt = connection.prepareStatement(insertEvidenceLogicalResource)) {
               // bind parameters
-              stmt.setLong(1, logicalResourceId);
-              stmt.setString(2, "evidence123");
-              stmt.setString(3, "N");
-              stmt.setTimestamp(4, lastUpdated); 
-              stmt.setInt(5, 1); 
+              PreparedStatementHelper psh = new PreparedStatementHelper(stmt);
+              psh.setLong(logicalResourceId)
+              .setString("evidence123")
+              .setString("N")
+              .setTimestamp(lastUpdated)
+              .setInt(1);
               stmt.executeUpdate();
           }
     }
@@ -274,21 +276,14 @@ public class DerbyFhirDatabaseTest {
      * Gets the next logical id.
      *
      * @param connection the connection
+     * @param adapter the adapter
      * @return the next logical id
      * @throws SQLException the SQL exception
      * @throws IllegalStateException the illegal state exception
      */
-    private long getNextLogicalId(Connection connection) throws SQLException, IllegalStateException {
-        final String getNextLogicalId = translator.selectSequenceNextValue(SCHEMA_NAME, "fhir_sequence");
-        long logicalResourceId;
-        try (Statement s = connection.createStatement()) {
-            ResultSet rs = s.executeQuery(getNextLogicalId);
-            if (rs.next()) {
-                logicalResourceId = rs.getLong(1);
-            } else {
-                throw new IllegalStateException("no row from '" + getNextLogicalId + "'");
-            }
-        }
+    private long getNextLogicalId(Connection connection, IDatabaseAdapter adapter) throws SQLException, IllegalStateException {
+        GetSequenceNextValueDAO cv = new GetSequenceNextValueDAO(SCHEMA_NAME, FhirSchemaConstants.FHIR_SEQUENCE);
+        Long logicalResourceId = adapter.runStatement(cv);
         return logicalResourceId;
     }
 

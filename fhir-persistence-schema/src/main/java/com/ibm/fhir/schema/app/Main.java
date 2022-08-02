@@ -2053,12 +2053,12 @@ public class Main {
      * @param schemaName the schema name
      */
     private boolean checkIfDataExistsForV0030(IDatabaseAdapter adapter, String schemaName) {
-        TableHasData cmd = new TableHasData(schemaName, "evidence_logical_resources");
+        TableHasData cmd = new TableHasData(schemaName, "evidence_logical_resources", adapter);
         if (adapter.runStatement(cmd)) {
             logger.severe("At least one Evidence resource exists. Cannot upgrade " + schemaName);
             return true;
         }
-        cmd = new TableHasData(schemaName, "evidencevariable_logical_resources");
+        cmd = new TableHasData(schemaName, "evidencevariable_logical_resources", adapter);
         if (adapter.runStatement(cmd)) {
             logger.severe("At least one EvidenceVariable resource exists. Cannot upgrade " + schemaName);
             return true;
