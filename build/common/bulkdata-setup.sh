@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
-set -ex
 
 if [[ -z "${WORKSPACE}" ]]; then
     echo "ERROR: WORKSPACE environment variable not set!"

@@ -32,7 +32,7 @@ rm -rf ${it_results} 2>/dev/null
 mkdir -p ${it_results}/server-logs
 mkdir -p ${it_results}/fhir-server-test
 
-containerId=$(docker ps -a | grep ${1}-fhir-server | cut -d ' ' -f 1)
+containerId=$(docker ps -a | grep ${1}[-_]fhir-server | cut -d ' ' -f 1)
 if [ -z "${containerId}" ]; then
     echo "Warning: Could not find fhir-server container!!!"
 else

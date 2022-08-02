@@ -68,7 +68,7 @@ echo "
 Docker container status:"
 docker ps -a
 
-containerId=$(docker ps -a | grep ${1}-fhir-server | cut -d ' ' -f 1)
+containerId=$(docker ps -a | grep ${1}[-_]fhir-server | cut -d ' ' -f 1)
 if [ -z "${containerId}" ]; then
     echo "Warning: Could not find the fhir-server container!!!"
 else
