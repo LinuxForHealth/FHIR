@@ -133,6 +133,7 @@ import com.ibm.fhir.schema.control.MigrateV0027LogicalResourceIdent;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
+import com.ibm.fhir.schema.control.TableHasData;
 import com.ibm.fhir.schema.control.UnusedTableRemovalNeedsV0021Migration;
 import com.ibm.fhir.schema.model.ResourceType;
 import com.ibm.fhir.schema.model.Schema;
@@ -542,6 +543,14 @@ public class Main {
 
                     if (grantReadTo != null) {
                         grantReadPrivilegesForFhirData();
+                    }
+                    
+                    // fail the schema-update if there are existing Evidence or EvidenceVariable resource instances
+                    int currentSchemaVersion = svm.getVersionForSchema();
+                    if (currentSchemaVersion < FhirSchemaVersion.V0030.vid()) {
+                        if (checkIfDataExistsForV0030()) {
+                            throw new IllegalStateException("Cannot update schema due to existing Evidence or EvidenceVariable resource instances");
+                        }
                     }
 
                     // Finally, update the whole schema version
@@ -2013,5 +2022,47 @@ public class Main {
         // as we genuinely want to exit with the correct status here. The code-scan tool
         // really ought to be able to see that this is a main function in a J2SE environment
         System.exit(exitStatus);
+    }
+    
+    /**
+     * Check if data exists for V0030(Evidence or EvidenceVariable resource instances).
+     *
+     * @return true, if successful
+     */
+    private boolean checkIfDataExistsForV0030() {
+
+        IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                return checkIfDataExistsForV0030(adapter, schema.getSchemaName());
+            } catch (DataAccessException dae) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw dae;
+            }
+        }
+        
+    }
+
+    
+    /**
+     * Check if data exists for V0030(Evidence or EvidenceVariable resource instances).
+     *
+     * @param adapter the database adapter
+     * @param schemaName the schema containing the FHIR data tables
+     */
+    private boolean checkIfDataExistsForV0030(IDatabaseAdapter adapter, String schemaName) {
+        TableHasData cmd = new TableHasData(schemaName, "evidence_logical_resources", adapter);
+        if (adapter.runStatement(cmd)) {
+            logger.severe("At least one Evidence resource exists. Cannot upgrade " + schemaName);
+            return true;
+        }
+        cmd = new TableHasData(schemaName, "evidencevariable_logical_resources", adapter);
+        if (adapter.runStatement(cmd)) {
+            logger.severe("At least one EvidenceVariable resource exists. Cannot upgrade " + schemaName);
+            return true;
+        }
+        return false;
     }
 }

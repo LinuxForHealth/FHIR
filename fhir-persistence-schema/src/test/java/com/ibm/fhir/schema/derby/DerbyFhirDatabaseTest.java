@@ -12,13 +12,20 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
+import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ISchemaAdapter;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
@@ -26,9 +33,11 @@ import com.ibm.fhir.database.utils.api.SchemaType;
 import com.ibm.fhir.database.utils.common.GetSequenceNextValueDAO;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.common.PlainSchemaAdapter;
+import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
 import com.ibm.fhir.database.utils.common.SchemaInfoObject;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
+import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DatabaseObjectType;
 import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
@@ -39,6 +48,7 @@ import com.ibm.fhir.schema.app.Main;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
 import com.ibm.fhir.schema.control.GetXXLogicalResourceNeedsMigration;
+import com.ibm.fhir.schema.control.TableHasData;
 
 /**
  * Unit test for the DerbyFhirDatabase utility
@@ -46,6 +56,10 @@ import com.ibm.fhir.schema.control.GetXXLogicalResourceNeedsMigration;
 public class DerbyFhirDatabaseTest {
     private static final String DB_NAME = "target/derby/fhirDB";
     private static final String ADMIN_SCHEMA_NAME = Main.ADMIN_SCHEMANAME;
+    private final Instant lastUpdated = Instant.now();
+    private static final String SCHEMA_NAME = "FHIRDATA";
+    private final String EVIDENCE_LOGICAL_ID = UUID.randomUUID().toString();
+    private final String parameterHash = "1Z+NWYZb739Ava9Pd/d7wt2xecKmC2FkfLlCCml0I5M=";
 
     @Test
     public void testFhirSchema() throws Exception {
@@ -57,6 +71,7 @@ public class DerbyFhirDatabaseTest {
             System.out.println("FHIR database created successfully.");
             checkDatabase(db, db.getSchemaName());
             testMigrationFunction(db);
+            testTableHasDataFunction(db);
         }
 
         // Now that we've got an existing database, let's try the creation again...which should be a NOP
@@ -161,5 +176,134 @@ public class DerbyFhirDatabaseTest {
         Long result = adapter.runStatement(cv);
         assertNotNull(result);
         assertTrue(result >= FhirSchemaConstants.FHIR_REF_SEQUENCE_START);
+    }
+    
+    /**
+     * test to check if data exists in the given table.
+     *
+     * @param cp the connection provider
+     * @throws SQLException
+     */
+    protected void testTableHasDataFunction(IConnectionProvider cp) throws SQLException {
+        
+        
+        try (Connection connection = cp.getConnection()) {
+            try {
+                JdbcTarget tgt = new JdbcTarget(connection);
+                DerbyAdapter adapter = new DerbyAdapter(tgt);
+                
+                // validate table data when the table is empty
+                TableHasData cmd = new TableHasData(SCHEMA_NAME, "evidence_logical_resources", adapter);
+                assertFalse(adapter.runStatement(cmd));
+                cmd = new TableHasData(SCHEMA_NAME, "evidencevariable_logical_resources", adapter);
+                assertFalse(adapter.runStatement(cmd));
+                
+                // add records to evidence_logical_resources and evidencevariable_logical_resources tables
+                prepareTestDataForTestTableHasDataFunction(connection, adapter);
+                
+                //validate table data
+                cmd = new TableHasData(SCHEMA_NAME, "evidence_logical_resources", adapter);
+                assertTrue(adapter.runStatement(cmd));
+                cmd = new TableHasData(SCHEMA_NAME, "evidencevariable_logical_resources", adapter);
+                assertTrue(adapter.runStatement(cmd));
+                connection.rollback(); // roll back the changes 
+            } catch (Throwable t) {
+                connection.rollback();
+                throw t;
+            }
+        }
+     
+    }
+
+    
+    /**
+     * Prepare test data to check if data exists in the given table.
+     *
+     * @param connection the JDBC connection
+     * @param adapter the database adapter
+     * @throws SQLException
+     */
+    private void prepareTestDataForTestTableHasDataFunction(Connection connection, IDatabaseAdapter adapter) throws SQLException {
+        int resourceTypeId = getResourceType(connection); 
+        
+        long logicalResourceId = getNextLogicalId(connection, adapter); 
+        
+        final String insertLogicalResource = "INSERT INTO logical_resources(logical_resource_id, resource_type_id, logical_id, last_updated, is_deleted, parameter_hash)"
+                + " VALUES (?,?,?,?,?,?)";
+        final Timestamp lastUpdated = Timestamp.from(this.lastUpdated);
+        try (PreparedStatement ps = connection.prepareStatement(insertLogicalResource)) {
+            PreparedStatementHelper psh = new PreparedStatementHelper(ps);
+            psh.setLong(logicalResourceId)
+            .setInt(resourceTypeId)
+            .setString(EVIDENCE_LOGICAL_ID)
+            .setTimestamp(lastUpdated)
+            .setString("N")
+            .setString(parameterHash);
+            ps.executeUpdate();
+        }
+        addLogicalData(connection, logicalResourceId, lastUpdated, "evidence_logical_resources"); 
+        addLogicalData(connection, logicalResourceId, lastUpdated, "evidencevariable_logical_resources"); 
+        
+    }
+
+    /**
+     * Adds test data to logical resource table.
+     *
+     * @param connnection the JDBC connection
+     * @param logicalResourceId the logical resource ID (primary key) of a specific resource
+     * @param lastUpdated the last updated time stamp(When the resource version last changed)
+     * @param tableName the table name
+     * @throws SQLException
+     */
+    private void addLogicalData(Connection connection, long logicalResourceId, final Timestamp lastUpdated, String tableName) throws SQLException {
+        final String insertEvidenceLogicalResource =
+          "INSERT INTO " + tableName + "(logical_resource_id, logical_id, is_deleted, last_updated, version_id)"
+          + " VALUES (?,?,?,?,?)";
+          
+          try (PreparedStatement stmt = connection.prepareStatement(insertEvidenceLogicalResource)) {
+              // bind parameters
+              PreparedStatementHelper psh = new PreparedStatementHelper(stmt);
+              psh.setLong(logicalResourceId)
+              .setString("evidence123")
+              .setString("N")
+              .setTimestamp(lastUpdated)
+              .setInt(1);
+              stmt.executeUpdate();
+          }
+    }
+
+    /**
+     * Gets the next value from the sequence FHIR_SEQUENCE.
+     *
+     * @param connection the JDBC connection
+     * @param adapter the database adapter
+     * @return long - the next value from the sequence FHIR_SEQUENCE
+     * @throws SQLException
+     * @throws IllegalStateException
+     */
+    private long getNextLogicalId(Connection connection, IDatabaseAdapter adapter) throws SQLException, IllegalStateException {
+        GetSequenceNextValueDAO cv = new GetSequenceNextValueDAO(SCHEMA_NAME, FhirSchemaConstants.FHIR_SEQUENCE);
+        Long logicalResourceId = adapter.runStatement(cv);
+        return logicalResourceId;
+    }
+
+  
+    /**
+     * Gets the id associated with the name of the passed Resource type from the Resource_Types table.
+     *
+     * @param connection the connection
+     * @return int - the resource type id(the id associated with the name of the passed Resource type)
+     * @throws SQLException
+     */
+    private int getResourceType(Connection connection) throws SQLException {
+        final String SELECT_RESOURCE_TYPES = "SELECT resource_type, resource_type_id FROM resource_types where resource_type = 'Evidence' ";
+        int resourceTypeId = 0;
+        try (PreparedStatement ps = connection.prepareStatement(SELECT_RESOURCE_TYPES)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                resourceTypeId = rs.getInt(2);
+            }
+        }
+        return resourceTypeId;
     }
 }
