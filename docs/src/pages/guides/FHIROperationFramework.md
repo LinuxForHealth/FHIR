@@ -6,7 +6,7 @@ date:  2022-08-02
 
 # Extended Operations Framework
 
-The HL7 FHIR Specification describes a [framework](https://hl7.org/fhir/R4B/operations.html) for operations that go beyond the strandard REST API.
+The HL7 FHIR Specification describes a [framework](https://hl7.org/fhir/R4B/operations.html) for operations that go beyond the standard REST API.
 
 This framework defines REST endpoints at three different levels.
 
