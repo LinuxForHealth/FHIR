@@ -17,7 +17,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- * Check to see if we have any data in the given table.
+ * Check if data exists in the given table.
  */
 public class TableHasData implements IDatabaseSupplier<Boolean> {
 
@@ -33,11 +33,11 @@ public class TableHasData implements IDatabaseSupplier<Boolean> {
     
    
     /**
-     * Instantiates a new table has data.
+     * Instantiates a new TableHasData.
      *
-     * @param schemaName the schema name
+     * @param schemaName the schema containing the FHIR data tables
      * @param tableName the table name
-     * @param adapter the adapter
+     * @param adapter the database adapter
      */
     public TableHasData(String schemaName, String tableName, IDatabaseAdapter adapter) {
         this.schemaName =DataDefinitionUtil.assertValidName(schemaName);
@@ -47,8 +47,8 @@ public class TableHasData implements IDatabaseSupplier<Boolean> {
 
     /**
      * Execute the statement using the connection and return the value.
-     * @param translator the translator
-     * @param c the c
+     * @param translator the translator to adjust DDL/DML/SQL statements to match the target database
+     * @param c the JDBC connection
      * @return the boolean. Returns true if data is available in the given table 
      */
     @Override

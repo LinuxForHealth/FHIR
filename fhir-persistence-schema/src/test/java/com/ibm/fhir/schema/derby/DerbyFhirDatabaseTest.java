@@ -179,10 +179,10 @@ public class DerbyFhirDatabaseTest {
     }
     
     /**
-     * Test table has data function.
+     * test to check if data exists in the given table.
      *
-     * @param cp the cp
-     * @throws SQLException the SQL exception
+     * @param cp the connection provider
+     * @throws SQLException
      */
     protected void testTableHasDataFunction(IConnectionProvider cp) throws SQLException {
         
@@ -217,11 +217,11 @@ public class DerbyFhirDatabaseTest {
 
     
     /**
-     * Prepare test data for test table has data function.
+     * Prepare test data to check if data exists in the given table.
      *
-     * @param connection the connection
-     * @param adapter the adapter
-     * @throws SQLException the SQL exception
+     * @param connection the JDBC connection
+     * @param adapter the database adapter
+     * @throws SQLException
      */
     private void prepareTestDataForTestTableHasDataFunction(Connection connection, IDatabaseAdapter adapter) throws SQLException {
         int resourceTypeId = getResourceType(connection); 
@@ -247,13 +247,13 @@ public class DerbyFhirDatabaseTest {
     }
 
     /**
-     * Adds the logical data.
+     * Adds test data to logical resource table.
      *
-     * @param connnection the connection
-     * @param logicalResourceId the logical resource id
-     * @param lastUpdated the last updated
+     * @param connnection the JDBC connection
+     * @param logicalResourceId the logical resource ID (primary key) of a specific resource
+     * @param lastUpdated the last updated time stamp(When the resource version last changed)
      * @param tableName the table name
-     * @throws SQLException the SQL exception
+     * @throws SQLException
      */
     private void addLogicalData(Connection connection, long logicalResourceId, final Timestamp lastUpdated, String tableName) throws SQLException {
         final String insertEvidenceLogicalResource =
@@ -273,13 +273,13 @@ public class DerbyFhirDatabaseTest {
     }
 
     /**
-     * Gets the next logical id.
+     * Gets the next value from the sequence FHIR_SEQUENCE.
      *
-     * @param connection the connection
-     * @param adapter the adapter
-     * @return the next logical id
-     * @throws SQLException the SQL exception
-     * @throws IllegalStateException the illegal state exception
+     * @param connection the JDBC connection
+     * @param adapter the database adapter
+     * @return long - the next value from the sequence FHIR_SEQUENCE
+     * @throws SQLException
+     * @throws IllegalStateException
      */
     private long getNextLogicalId(Connection connection, IDatabaseAdapter adapter) throws SQLException, IllegalStateException {
         GetSequenceNextValueDAO cv = new GetSequenceNextValueDAO(SCHEMA_NAME, FhirSchemaConstants.FHIR_SEQUENCE);
@@ -289,11 +289,11 @@ public class DerbyFhirDatabaseTest {
 
   
     /**
-     * Gets the resource type.
+     * Gets the id associated with the name of the passed Resource type from the Resource_Types table.
      *
      * @param connection the connection
-     * @return the resource type
-     * @throws SQLException the SQL exception
+     * @return int - the resource type id(the id associated with the name of the passed Resource type)
+     * @throws SQLException
      */
     private int getResourceType(Connection connection) throws SQLException {
         final String SELECT_RESOURCE_TYPES = "SELECT resource_type, resource_type_id FROM resource_types where resource_type = 'Evidence' ";

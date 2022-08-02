@@ -2049,8 +2049,8 @@ public class Main {
     /**
      * Check if data exists for V0030(Evidence or EvidenceVariable resource instances).
      *
-     * @param adapter the adapter
-     * @param schemaName the schema name
+     * @param adapter the database adapter
+     * @param schemaName the schema containing the FHIR data tables
      */
     private boolean checkIfDataExistsForV0030(IDatabaseAdapter adapter, String schemaName) {
         TableHasData cmd = new TableHasData(schemaName, "evidence_logical_resources", adapter);
