@@ -334,5 +334,5 @@ You can return null as a Parameters object - `return FHIROperationUtil.getOutput
 # Questions and Support
 If you need further support, you can reach out to the development team at:
 
-- [Zulip: LinuxForHealth]([https://chat.fhir.org/#narrow/stream/212434-ibm](https://chat.fhir.org/#narrow/stream/212434-LinuxForHealth))
+- [Zulip: LinuxForHealth](https://chat.fhir.org/#narrow/stream/212434-LinuxForHealth)
 - [GitHub: issues](https://github.com/LinuxForHealth/FHIR/issues)
