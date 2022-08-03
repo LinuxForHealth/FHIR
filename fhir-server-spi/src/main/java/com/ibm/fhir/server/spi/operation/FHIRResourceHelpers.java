@@ -549,4 +549,14 @@ public interface FHIRResourceHelpers {
      * @throws FHIROperationException
      */
     List<Issue> validateResource(Resource resource) throws FHIROperationException;
+    
+    /**
+     * Validate if the persistence layer implementation supports the "delete" operation.
+     *
+     * @param type the resource type 
+     * @param id the resource logical ID
+     * @return A list of validation errors and warnings
+     * @throws FHIROperationException the FHIR operation exception
+     */
+    List<Issue> validateDeleteResource(String type, String id) throws FHIROperationException;
 }
