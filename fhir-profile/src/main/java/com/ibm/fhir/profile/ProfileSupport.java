@@ -153,11 +153,17 @@ public final class ProfileSupport {
     }
 
     private static Set<String> getConstraintKeyDifferential(ElementDefinition elementDefinition) {
+        ElementDefinition baseDefinition = getBaseDefinition(elementDefinition);
+        if (baseDefinition == null) {
+//            throw new IllegalStateException("unable to find the base definition for " + elementDefinition.getId());
+            return Collections.emptySet();
+        }
+
         if (elementDefinition.getConstraint().isEmpty()) {
             return Collections.emptySet();
         }
         Set<String> keys = new HashSet<>(getConstraintKeys(elementDefinition));
-        keys.removeAll(getConstraintKeys(getBaseDefinition(elementDefinition)));
+        keys.removeAll(getConstraintKeys(baseDefinition));
         keys.removeAll(getReferencedProfileConstraintKeys(elementDefinition));
         return keys;
     }
@@ -291,6 +297,10 @@ public final class ProfileSupport {
         }
     }
 
+    /**
+     * @param path
+     * @return the ElementDefinition for the path or null if it can't be found
+     */
     public static ElementDefinition getElementDefinition(String path) {
         String url = getUrl(path);
         Map<String, ElementDefinition> elementDefinitionMap = getElementDefinitionMap(url);
@@ -332,7 +342,13 @@ public final class ProfileSupport {
         return constraintKeys;
     }
 
+    /**
+     * @param elementDefinition not null
+     * @return the set of keys from the constraints associated with the passed elementDefinition
+     */
     public static Set<String> getConstraintKeys(ElementDefinition elementDefinition) {
+        Objects.requireNonNull(elementDefinition);
+
         Set<String> keys = new HashSet<>();
         for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
             keys.add(constraint.getKey().getValue());
