@@ -7,7 +7,7 @@ package com.ibm.fhir.operation.validate.type;
 
 /**
  * The Mode Type indicates a valid resource validation mode code.
- * @see <a href="http://hl7.org/fhir/resource-validation-mode">resource validation mode</a>
+ * @see <a href="https://hl7.org/fhir/R4B/codesystem-resource-validation-mode.html">resource validation mode</a>
  */
 public enum ModeType {
 
@@ -31,17 +31,22 @@ public enum ModeType {
      * method to validate a valid resource validation mode code.
      *
      * @param value 
-     *      A string that matches one of the allowed ModeType values
+     *      A string that matches one of the allowed ModeType values.
      * @return 
-     *      The corresponding FHIRVersionParam or null if a null value was passed or if no matching resource validation mode code is found 
+     *      The corresponding ModeType or null if a null value was passed.
+     * @throws IllegalArgumentException
+     *     If the passed string is not null and cannot be parsed into an allowed ModeType value.     
      */
     public static ModeType from(String value) {
+        if (value == null) {
+            return null;
+        }
         for(ModeType mt : ModeType.values()) {
             if (mt.value.equals(value)) {
                 return mt;
             }
         }
-        return null;
+        throw new IllegalArgumentException("Failed to find the mode type");
     }
 
     public String value() {

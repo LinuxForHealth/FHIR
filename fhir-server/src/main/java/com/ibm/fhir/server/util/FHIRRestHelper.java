@@ -3400,14 +3400,4 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Delegate to the persistence layer. Result will be null if offloading is not supported
         return persistence.storePayload(resource, logicalId, newVersionNumber, resourcePayloadKey);
     }
-    
-    @Override
-    public List<Issue> validateDeleteResource(String type, String id) throws FHIROperationException {
-        List<Issue> warnings = new ArrayList<>();
-        if (!persistence.isDeleteSupported()) {
-            warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Resource deletion of type '"
-                    + type + "' with id '" + id + "' is not supported."));
-        }
-        return warnings;
-    }
 }
