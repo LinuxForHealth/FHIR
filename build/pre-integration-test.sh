@@ -12,7 +12,7 @@ echo "Preparing environment for fhir-server integration tests..."
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 export WORKSPACE="$( dirname "${DIR}" )"
 
-. ${WORKSPACE}/build/common/set_tenant1_datastore_vars.sh
+. ${WORKSPACE}/build/common/set-tenant1-datastore-vars.sh
 
 # This script will install the fhir server on the local machine and then
 # start it up so that we can run server integration tests

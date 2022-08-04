@@ -72,7 +72,7 @@ pushd $(pwd) > /dev/null
 # Change to the migration/bin directory
 cd "prev/"
 
-bash ${WORKSPACE}/fhir/build/common/wait_for_it.sh
+bash ${WORKSPACE}/fhir/build/common/wait-for-it.sh
 run_tests "${1}"
 clean_up
 

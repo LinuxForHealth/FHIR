@@ -39,7 +39,7 @@ pushd $(pwd) > /dev/null
 cd "fhir/"
 
 # Set the tenant1 datastore environment variables
-. ${WORKSPACE}/fhir/build/common/set_tenant1_datastore_vars.sh
+. ${WORKSPACE}/fhir/build/common/set-tenant1-datastore-vars.sh
 
 run_migrate "${1}"
 

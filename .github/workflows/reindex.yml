@@ -40,7 +40,7 @@ jobs:
       if: failure()
       env:
         WORKSPACE: ${{ github.workspace }}
-      run: bash build/common/gather-logs.sh reindex ${{matrix.datastore}}
+      run: bash build/common/gather-posttest-logs.sh reindex ${{matrix.datastore}}
     - name: Upload logs
       if: always()
       uses: actions/upload-artifact@v2.2.0

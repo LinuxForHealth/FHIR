@@ -12,7 +12,7 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 export WORKSPACE="$( dirname "${DIR}" )"
 
-. ${WORKSPACE}/build/common/set_tenant1_datastore_vars.sh
+. ${WORKSPACE}/build/common/set-tenant1-datastore-vars.sh
 
 # Set the default db location
 DB_LOC=${WORKSPACE}/derby

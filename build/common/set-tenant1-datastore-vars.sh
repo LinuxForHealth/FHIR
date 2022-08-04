@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-# invoke this script with 'source' or '. set_tenant1_datastore_vars.sh'
+# invoke this script with 'source' (e.g. ". set-tenant1-datastore-vars.sh")
 # so that the variables are available in the session that invoked it
 
 # note: any edits to this file should also be made in build/pre-integration-test.ps1
