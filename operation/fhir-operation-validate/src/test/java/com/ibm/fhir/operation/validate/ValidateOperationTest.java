@@ -6,18 +6,30 @@
 package com.ibm.fhir.operation.validate;
 
 import static com.ibm.fhir.model.type.String.string;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
+import java.io.InputStream;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+
+import org.mockito.Mockito;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -28,6 +40,10 @@ import com.ibm.fhir.model.type.Xhtml;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
+import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.SingleResourceResult;
+import com.ibm.fhir.server.spi.operation.FHIROperationContext;
+import com.ibm.fhir.server.spi.operation.FHIRResourceHelpers;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 
 /**
@@ -268,4 +284,218 @@ public class ValidateOperationTest {
             fail();
         }
     }
+    
+    /**
+     * Test resource-instance level validate operation when the resource with the input logicalID is available in the database.
+     * @throws Exception 
+     */
+    @Test
+    public void testResourceInstanceLevelValidate() throws Exception {
+        Patient patient = (Patient) getTestResource("Patient.json");
+        FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
+        SingleResourceResult result = mock(SingleResourceResult.class);
+
+     // mock and return a resource when resourceHelper.doRead() is invoked from validateOperation.doInvoke
+        when(result.isSuccess()).thenReturn(true);
+        when(result.getResource()).thenReturn(patient);
+        when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> result);
+        
+        FHIROperationContext operationContext =
+                FHIROperationContext.createInstanceOperationContext("validate");
+        Parameters input = Parameters.builder()
+                .build();
+        
+        Issue expectedOutput = Issue.builder()
+                    .severity(IssueSeverity.INFORMATION)
+                    .code(IssueType.INFORMATIONAL)
+                    .details(CodeableConcept.builder()
+                        .text(string("All OK"))
+                        .build())
+                    .build();
+        Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
+        OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
+        assertEquals(operationOutcome.getIssue().size(), 1);
+        assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
+    }
+    
+    /**
+     * Test resource-instance level validate operation when the resource with the input logicalID is not available in the database.
+     * @throws Exception 
+     */
+    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*Patient with id '1' was not found*")
+    public void testResourceInstanceLevelValidateForNullResource() throws Exception {
+        Patient patient = (Patient) getTestResource("Patient.json");
+        FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
+        SingleResourceResult result = mock(SingleResourceResult.class);
+        
+        // mock and return null when resourceHelper.doRead() is invoked from validateOperation.doInvoke
+        when(result.isSuccess()).thenReturn(false);
+        when(result.getResource()).thenReturn(null);
+        when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> result);
+        
+        FHIROperationContext operationContext =
+                FHIROperationContext.createInstanceOperationContext("validate");
+        Parameters input = Parameters.builder()
+                .build();
+        
+        Issue expectedOutput = Issue.builder()
+                    .severity(IssueSeverity.INFORMATION)
+                    .code(IssueType.INFORMATIONAL)
+                    .details(CodeableConcept.builder()
+                        .text(string("All OK"))
+                        .build())
+                    .build();
+
+
+        Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
+        OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
+        assertEquals(operationOutcome.getIssue().size(), 1);
+        assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
+    }
+    
+    /**
+     * Read a mock resource from the input JSON file.
+     *
+     * @param path the path to JSON file
+     * @return Resource - A FHIR Resource object representation
+     * @throws Exception
+     */
+    private static Resource getTestResource(String path) throws Exception {
+        try (InputStream is = ClassLoader.getSystemResourceAsStream(path)) {
+            return FHIRParser.parser(Format.JSON).parse(is);
+        }
+    }
+    
+    /**
+     * Test validate operation with a invalid mode type code input. 
+     * The validate operation will fail with FHIROperationException
+     * @throws FHIROperationException 
+     */
+    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*'random' is not a valid resource validation mode*")
+    public void testInvalidValidModeTypes() throws FHIROperationException {
+            Parameters input = Parameters.builder()
+                    .parameter(Parameter.builder()
+                        .name("resource")
+                        .resource(Patient.builder()
+                            .meta(Meta.builder()
+                                .profile(Canonical.of("atLeastOne"), Canonical.of("notAllowed"))
+                                .build())
+                            .text(Narrative.builder()
+                                .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                                .status(NarrativeStatus.GENERATED)
+                                .build())
+                            .build())
+                        .build(),
+                        Parameter.builder()
+                            .name("mode")
+                            .value(Code.of("random"))
+                            .build())
+                    .build();
+           validateOperation.doInvoke(null, null, null, null, input, resourceHelper, null);
+        
+    }
+    
+    /**
+     * Test validate operation with delete mode type code. 
+     * Validate the outcome when the persistence layer implementation does not support the "delete" operation 
+     *  
+     */
+    @Test
+    public void testValidateOperationDeleteNotSupported() throws FHIROperationException {
+        
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+            Parameters input = Parameters.builder()
+                    .parameter(Parameter.builder()
+                        .name("resource")
+                        .resource(Patient.builder()
+                            .meta(Meta.builder()
+                                .profile(Canonical.of("atLeastOne"), Canonical.of("notAllowed"))
+                                .build())
+                            .text(Narrative.builder()
+                                .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                                .status(NarrativeStatus.GENERATED)
+                                .build())
+                            .build())
+                        .build(),
+                        Parameter.builder()
+                            .name("mode")
+                            .value(Code.of("delete"))
+                            .build())
+                    .build();
+            FHIROperationContext operationContext =
+                    FHIROperationContext.createInstanceOperationContext("validate");
+            operationContext.setProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL, persistence);
+            
+            // mock the persistence layer implementation not to support the "delete" operation
+            when(persistence.isDeleteSupported()).thenReturn(false);
+            
+            Issue expectedOutput = Issue.builder()
+                    .severity(IssueSeverity.WARNING)
+                    .code(IssueType.NOT_SUPPORTED)
+                    .details(CodeableConcept.builder()
+                        .text(string("Resource deletion of type 'Patient' with id '1' is not supported."))
+                        .build())
+                    .build();
+            
+            Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
+            OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
+            assertEquals(operationOutcome.getIssue().size(), 1);
+            assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
+        
+    }
+    
+    /**
+     * Test validate operation with delete mode type code. 
+     * Validate the outcome when the persistence layer implementation supports the "delete" operation 
+     * 
+     */
+    @Test
+    public void testValidateOperationDeleteSupported() throws FHIROperationException {
+        
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+            Parameters input = Parameters.builder()
+                    .parameter(Parameter.builder()
+                        .name("resource")
+                        .resource(Patient.builder()
+                            .meta(Meta.builder()
+                                .profile(Canonical.of("atLeastOne"), Canonical.of("notAllowed"))
+                                .build())
+                            .text(Narrative.builder()
+                                .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                                .status(NarrativeStatus.GENERATED)
+                                .build())
+                            .build())
+                        .build(),
+                        Parameter.builder()
+                            .name("mode")
+                            .value(Code.of("delete"))
+                            .build())
+                    .build();
+            FHIROperationContext operationContext =
+                    FHIROperationContext.createInstanceOperationContext("validate");
+            operationContext.setProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL, persistence);
+            
+            // mock the persistence layer implementation to support the "delete" operation 
+            when(persistence.isDeleteSupported()).thenReturn(true);
+            
+            Issue expectedOutput = Issue.builder()
+                    .severity(IssueSeverity.INFORMATION)
+                    .code(IssueType.INFORMATIONAL)
+                    .details(CodeableConcept.builder()
+                        .text(string("All OK"))
+                        .build())
+                    .build();
+            
+            Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
+            
+            OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
+            assertEquals(operationOutcome.getIssue().size(), 1);
+            assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
+        
+    }
+    
+    
+    
+    
+    
 }
