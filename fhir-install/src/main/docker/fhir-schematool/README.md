@@ -88,13 +88,13 @@ It's converted to base64 using `cat persistence.json | base64`. You can run loca
 *Mac*
 
 ```
-docker run  --env ENV_TOOL_INPUT=$(cat persistence.json | base64) ibmcom/ibm-fhir-schematool:latest
+docker run  --env ENV_TOOL_INPUT=$(cat persistence.json | base64) linuxforhealth/fhir-schematool:latest
 ```
 
 *Linux*
 
 ```
-docker run  --env ENV_TOOL_INPUT=$(cat persistence.json | base64 -w 0) ibmcom/ibm-fhir-schematool:latest
+docker run  --env ENV_TOOL_INPUT=$(cat persistence.json | base64 -w 0) linuxforhealth/fhir-schematool:latest
 ```
 
 An example volume mount: 
@@ -122,7 +122,7 @@ The debug behavior outputs the details of the running image:
 Using an encoded persistence.json
 
 ``` shell
-docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=debug
+docker run linuxforhealth/fhir-schematool:latest --tool.behavior=debug
 ```
 
 Output
@@ -147,20 +147,20 @@ Using an encoded persistence.json
 
 ```
 docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-offboard-example.json |base64` \
-    ibmcom/ibm-fhir-schematool:latest | tee out.log
+    linuxforhealth/fhir-schematool:latest | tee out.log
 ```
 
 *Linux*
 
 ```
 docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-offboard-example.json |base64 -w 0` \
-    ibmcom/ibm-fhir-schematool:latest | tee out.log
+    linuxforhealth/fhir-schematool:latest | tee out.log
 ```
 
 Using arguments on the commandline
 
 ``` shell
-docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=offboard --db.host=172.17.0.3 \
+docker run linuxforhealth/fhir-schematool:latest --tool.behavior=offboard --db.host=172.17.0.3 \
     --db.port=50000 --user=db2inst1 --password=change-password --db.database=fhirdb \
     --sslConnection=false --db.type=db2 --schema.name.fhir=fhirdata --grant.to=fhirserver \
     --tenant.name=default2 2>&1 | tee out.log
@@ -174,20 +174,20 @@ Using an encoded persistence.json
 
 ```
 docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-onboard-example.json |base64` \
-    ibmcom/ibm-fhir-schematool:latest | tee out.log
+    linuxforhealth/fhir-schematool:latest | tee out.log
 ```
 
 *Linux*
 
 ```
 docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-onboard-example.json |base64 -w 0` \
-    ibmcom/ibm-fhir-schematool:latest | tee out.log
+    linuxforhealth/fhir-schematool:latest | tee out.log
 ```
 
 Using arguments on the commandline
 
 ``` shell
-docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=onboard --db.host=172.17.0.3 \
+docker run linuxforhealth/fhir-schematool:latest --tool.behavior=onboard --db.host=172.17.0.3 \
     --db.port=50000 --user=db2inst1 --password=change-password --db.database=fhirdb \
     --sslConnection=false --db.type=db2 --schema.name.fhir=fhirdata --grant.to=fhirserver \
     --tenant.name=default2 2>&1 | tee out.log
@@ -198,7 +198,7 @@ docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=onboard --db.host=1
 The custom behavior only supports commandline arguments:
 
 ``` shell
-docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=onboard --list-tenants \
+docker run linuxforhealth/fhir-schematool:latest --tool.behavior=onboard --list-tenants \
     --db.host=1000.com --db.password=change-password --db.user=db2inst1
 ```
 

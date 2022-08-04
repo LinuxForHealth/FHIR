@@ -16,12 +16,10 @@ services:
       net.core.somaxconn: 256
       net.ipv4.tcp_syncookies: 0
     privileged: true
-    networks:
-      - fhir
     ports:
       - "5432:5432"
   tool:
-    image: ibmcom/ibm-fhir-schematool:latest
+    image: linuxforhealth/fhir-schematool:latest
     restart: always
     environment:
       PLACEHOLDER: change-password
@@ -37,8 +35,3 @@ services:
       kernel.shmall: 257591
     privileged: true
     command: tail -f /dev/null
-    networks:
-      - fhir
-networks:
-  fhir:
-    driver: bridge

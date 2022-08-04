@@ -1,10 +1,3 @@
----
-layout: default
-title:  IBM FHIR Server - Schema Tool - Development
-date:   2020-11-11
-permalink: /ibm-fhir-server-schema-tool-development/
----
-
 # **Design**
 
 The IBM FHIR Schema Tool provides an Docker image that wraps the `fhir-persistence-schema` executable jar. The tool is state machine which take a single configuration to establish a current and running state of the IBM FHIR Server.
@@ -62,16 +55,16 @@ The schema offboarding flow offboards the current schema, while preserving the s
 
 The configuration is drived primarily from a working directory, and in alternative circumstances backed by an Environment variable with the input.
 
-The configuration data is mounted to `/ibm-fhir-schematool/workarea/input`.
+The configuration data is mounted to `/fhir-schematool/workarea/input`.
 
 ## Logging
 1. Logging - The logging is to standard error and standard out. 
- - The logs data is put into the `/ibm-fhir-schematool/workarea/output` folder.
-2. Must Gather Flow - Each execution generates a new set of log files to the `/ibm-fhir-schematool/workarea/output` folder.
+ - The logs data is put into the `/fhir-schematool/workarea/output` folder.
+2. Must Gather Flow - Each execution generates a new set of log files to the `/fhir-schematool/workarea/output` folder.
 
 ## Docker 
-The design is to use as few layers as possible starting with `adoptopenjdk/openjdk11-openj9:ubi-minimal-jre`. 
+The design is to use as few layers as possible starting with `ibmsemeruruntime/open-11-jdk:ubi_min-jre`. 
 
-The build uses multiple layers to avoid a bloated image after the necessary updates. Using a single image results in a 500M image (per docker history ibm-fhir-schematool), versus 167M.
+The build uses multiple layers to avoid a bloated image after the necessary updates. Using a single image results in a 500M image (per docker history fhir-schematool), versus 167M.
 
-The DockerHub repository is at `ibmcom/ibm-fhir-schematool` and the team that manages it is the IBM FHIR Server team (Docker team: fhir).
+The DockerHub repository is at `linuxforhealth/fhir-schematool` and the team that manages it is the IBM FHIR Server team (Docker team: fhir).

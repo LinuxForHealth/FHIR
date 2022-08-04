@@ -1,10 +1,3 @@
----
-layout: default
-title:  IBM FHIR Server - Schema Tool - Development
-date:   2020-11-11
-permalink: /ibm-fhir-server-schema-tool-development/
----
-
 # Development
 
 The document helps developers setup the development environment for the IBM FHIR Server Schema Tool. 
@@ -13,12 +6,12 @@ The document helps developers setup the development environment for the IBM FHIR
 
 ``` shell
 export WORKSPACE=`pwd`
-cd fhir-install/src/main/docker/ibm-fhir-schematool
+cd fhir-install/src/main/docker/fhir-schematool
 mvn clean install -DskipTests -f ${WORKSPACE}/fhir-examples/
 mvn clean install -DskipTests -f ${WORKSPACE}/fhir-parent/
 ```
 
-2. Change to the `fhir-install/src/main/docker/ibm-fhir-schematool` directory
+2. Change to the `fhir-install/src/main/docker/fhir-schematool` directory
 
 3. Prep the contents
 
@@ -31,37 +24,37 @@ cp ${WORKSPACE}/LICENSE target/LICENSE
 4. Build the schema tool. 
 
 ``` shell
-docker build --tag ibm-fhir-schematool:latest .
+docker build --tag linuxforhealth/fhir-schematool:latest .
 ```
 
 or 
 
 ``` shell
-docker build --build-arg FHIR_VERSION=4.5.0 -t ibm-fhir-schematool:4.5.0 .
+docker build --build-arg FHIR_VERSION=5.0.0 -t linuxforhealth/fhir-schematool:5.0.0 .
 ```
 
 5. For Db2, change run. (You may have to edit the corresponding examples)
 
 * onboard
 ``` shell
-time docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-offboard-example.json |base64` ibm-fhir-schematool:latest | tee out.log
+time docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-offboard-example.json |base64` linuxforhealth/fhir-schematool:latest | tee out.log
 ```
 
 * offboard
 ``` shell
-time docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-onboard-example.json |base64` ibm-fhir-schematool:latest | tee out.log
+time docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-onboard-example.json |base64` linuxforhealth/fhir-schematool:latest | tee out.log
 ```
 
 6. For Postgres, run. (You may have to edit the corresponding examples)
 
 * onboard
 ``` shell
-time docker run  --env ENV_TOOL_INPUT=`cat examples/postgres/persistence-offboard-example.json |base64` ibm-fhir-schematool:latest | tee out.log
+time docker run  --env ENV_TOOL_INPUT=`cat examples/postgres/persistence-offboard-example.json |base64` linuxforhealth/fhir-schematool:latest | tee out.log
 ```
 
 * offboard
 ``` shell
-time docker run  --env ENV_TOOL_INPUT=`cat examples/postgres/persistence-onboard-example.json |base64` ibm-fhir-schematool:latest | tee out.log
+time docker run  --env ENV_TOOL_INPUT=`cat examples/postgres/persistence-onboard-example.json |base64` linuxforhealth/fhir-schematool:latest | tee out.log
 ```
 
 7. Confirm you see your changes work, and the Deployment works.

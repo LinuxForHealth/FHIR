@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ----------------------------------------------------------------------------
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
@@ -24,21 +24,21 @@ fi
 
 pushd $(pwd)
 
-cd ${WORKSPACE}/fhir-install/src/main/docker/ibm-fhir-schematool/
+cd ${WORKSPACE}/fhir-install/src/main/docker/fhir-term-graph-loader/
 
 # Copy the files over
 mkdir -p target/
-cp ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*cli.jar target/
+cp ${WORKSPACE}/term/fhir-term-graph-loader/target/fhir-term-graph-loader-*-cli.jar target/
 cp ${WORKSPACE}/LICENSE target/
 
-docker build --build-arg FHIR_VERSION=${BUILD_ID} -t ibm-fhir-schematool:latest .
-DOCKER_IMAGE=$(docker images --filter=reference='ibm-fhir-schematool:latest' --format "{{.ID}}")
+docker build --build-arg FHIR_VERSION=${BUILD_ID} -t linuxforhealth/fhir-term-loader:latest .
+DOCKER_IMAGE=$(docker images --filter=reference='linuxforhealth/fhir-term-loader:latest' --format "{{.ID}}")
 echo "Docker Image is:  ${DOCKER_IMAGE}"
 
-docker tag ${DOCKER_IMAGE} ibmcom/ibm-fhir-schematool:${BUILD_ID}
-docker tag ${DOCKER_IMAGE} ibmcom/ibm-fhir-schematool:latest
-docker push ibmcom/ibm-fhir-schematool:${BUILD_ID}
-docker push ibmcom/ibm-fhir-schematool:latest
+docker tag ${DOCKER_IMAGE} linuxforhealth/fhir-term-loader:${BUILD_ID}
+docker tag ${DOCKER_IMAGE} linuxforhealth/fhir-term-loader:latest
+docker push linuxforhealth/fhir-term-loader:${BUILD_ID}
+docker push linuxforhealth/fhir-term-loader:latest
 
 popd > /dev/null
 

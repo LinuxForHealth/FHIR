@@ -1,10 +1,3 @@
----
-layout: default
-title:  IBM FHIR Server - Bucket Tool - Development
-date:   2021-10-14
-permalink: /ibm-fhir-bucket-tool-development/
----
-
 # Development
 
 The document helps developers setup the development environment for the IBM FHIR Server - Bucket Tool. 
@@ -13,12 +6,12 @@ The document helps developers setup the development environment for the IBM FHIR
 
 ``` shell
 export WORKSPACE=`pwd`
-cd fhir-install/src/main/docker/ibm-fhir-bucket-tool
+cd fhir-install/src/main/docker/fhir-bucket-tool
 mvn clean install -DskipTests -f ${WORKSPACE}/fhir-examples/
 mvn clean install -DskipTests -f ${WORKSPACE}/fhir-parent/
 ```
 
-2. Change to the `fhir-install/src/main/docker/ibm-fhir-bucket-tool` directory
+2. Change to the `fhir-install/src/main/docker/fhir-bucket-tool` directory
 
 3. Prep the contents
 
@@ -31,13 +24,13 @@ cp ${WORKSPACE}/LICENSE target/LICENSE
 4. Build the bucket tool. 
 
 ``` shell
-docker build --build-arg FHIR_VERSION=4.10.0 -t ibm-fhir-bucket-tool:4.10.0 .
+docker build --build-arg FHIR_VERSION=5.0.0 -t linuxforhealth/fhir-bucket-tool:5.0.0 .
 ```
 
 5. Run
 
 ``` shell
-time docker run ibmcom/ibm-fhir-bucket-tool:latest $ARGS | tee out.log
+time docker run linuxforhealth/fhir-bucket-tool:latest $ARGS | tee out.log
 ```
 
 # Run a Shell Check 

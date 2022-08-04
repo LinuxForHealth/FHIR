@@ -10,8 +10,8 @@
 # Create Schemas should support in multiple ways. 
 
 # Pre Condition:
-# 1 - ibmcom/ibm-fhir-schematool must be built based on the latest.
-#       docker build -t ibmcom/ibm-fhir-schematool:latest .
+# 1 - linuxforhealth/fhir-schematool must be built based on the latest.
+#       docker build -t linuxforhealth/fhir-schematool:latest .
 
 # Post Condition: 
 # 1 - Postgres should be started

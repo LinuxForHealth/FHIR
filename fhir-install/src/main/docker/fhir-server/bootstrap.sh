@@ -8,7 +8,7 @@
 
 ##############################################################################
 # Description:
-# This script is the entrypoint used by the ibm-fhir-server docker image, and
+# This script is the entrypoint used by the fhir-server docker image, and
 # optionally bootstraps a derby database prior to running the IBM FHIR Server.
 
 set -e -o pipefail

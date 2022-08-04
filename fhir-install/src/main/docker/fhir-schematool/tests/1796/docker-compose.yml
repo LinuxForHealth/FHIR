@@ -21,7 +21,7 @@ services:
     ports:
       - "5432:5432"
   tool:
-    image: ibmcom/ibm-fhir-schematool:latest
+    image: linuxforhealth/fhir-schematool:latest
     restart: always
     environment:
       PLACEHOLDER: change-password
