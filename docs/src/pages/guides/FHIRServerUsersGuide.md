@@ -329,6 +329,21 @@ An executable `fhir-persistence-schema` jar can be downloaded from the project's
 
 Since release 4.5.5 you can set the `searchOptimizerOptions/from_collapse_limit` and `searchOptimizerOptions/join_collapse_limit` properties to improve the performance of certain search queries involving multiple search parameters. This optimization is currently only available for PostgreSQL.
 
+##### Citus
+The LinuxForHealth FHIR Server includes experimental support for Citus (distributed PostgreSQL). The Citus implementation is designed to support greater scalability at the database layer by distributing FHIR resource data across multiple database nodes. See the schema design documentation [here](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md#distributed-schema-support-for-citus) for details on how the data is distributed in a Citus database.
+
+Currently, some FHIR search queries which follow references between resources such as `_include`, `_revinclude` and `_has` do not work. Support for these search queries may be included in a future update.
+
+To use Citus:
+
+1. provision the database if it doesn't already exist
+
+2. execute the `fhir-persistence-schema` utility with a db-type of `citus` to create the necessary schemas (tables, indices, functions, etc)
+
+An executable `fhir-persistence-schema` jar can be downloaded from the project's [Releases tab](https://github.com/LinuxForHealth/FHIR/releases) and documentation can be found at https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema.
+
+Since release 4.5.5 you can set the `searchOptimizerOptions/from_collapse_limit` and `searchOptimizerOptions/join_collapse_limit` properties to improve the performance of certain search queries involving multiple search parameters. This optimization is available for PostgreSQL and Citus.
+
 ##### Other
 
 To enable the IBM FHIR Server to work with other relational database systems, see
@@ -1708,7 +1723,7 @@ This feature is useful for imports which follow a prefix pattern:
 
 
 ### 4.10.3 Integration Testing
-To integration test, there are tests in `ExportOperationTest.java` in `fhir-server-test` module with server integration test cases for system, patient and group export. Further, there are tests in `ImportOperationTest.java` in `fhir-server-test` module. These tests rely on the `fhir-server-config-postgres.json` which specifies two storageProviders.
+There are tests in the `fhir-server-test` module for system, patient and group export. These tests rely on fhir-server-config files that currently exist under `fhir-server-webapp/src/test/liberty`.
 
 ### 4.10.5 Job Logs
 Because the bulk import and export operations are built on Liberty's java batch implementation, users may need to check the [Liberty batch job logs](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_view_joblog.html) for detailed step information / troubleshooting.
@@ -2263,7 +2278,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/factoryClassname`|string|The name of the factory class to use for creating instances of the persistence layer implementation.|
 |`fhirServer/persistence/common/updateCreateEnabled`|boolean|A boolean flag which indicates whether or not the 'update/create' feature should be enabled in the selected persistence layer.|
 |`fhirServer/persistence/datasources`|map|A map containing datasource definitions. See [Section 3.3.1 The JDBC persistence layer](#331-the-jdbc-persistence-layer) for more information.|
-|`fhirServer/persistence/datasources/<datasourceId>/type`|string|`derby` or `postgresql`|
+|`fhirServer/persistence/datasources/<datasourceId>/type`|string|`derby`, `postgresql` or `citus`|
 |`fhirServer/persistence/datasources/<datasourceId>/jndiName`|string|The non-default jndiName for the datasource|
 |`fhirServer/persistence/datasources/<datasourceId>/currentSchema`|string|The current schema for the datasource|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|int| For PostgreSQL, sets the from_collapse_limit query optimizer parameter to improve search performance. If not set, the IBM FHIR Server uses a value of 12. To use the database default (8), explicitly set this value to null. |
