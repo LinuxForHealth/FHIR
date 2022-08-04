@@ -450,12 +450,6 @@ See EraseOperationTest, JdbcEraseTest, EraseTest for the corresponding tests.
 
 The following resources are useful. 
 
-*Db2*
-
-1. [Control Structures](https://www.ibm.com/docs/en/db2-for-zos/11?topic=hscisp-controlling-how-errors-are-handled-within-different-scopes-in-sql-procedure)
-2. [Get Diagnostics](https://www.ibm.com/docs/en/db2/11.1?topic=statements-get-diagnostics)
-3. [Reference](https://www.ibm.com/support/producthub/db2/docs/content/SSEPGG_11.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0000939.html)
-
 *Postgres*
 
 1. [Control Structures](https://www.postgresql.org/docs/13/plpgsql-control-structures.html)

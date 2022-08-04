@@ -16,7 +16,7 @@ The GitHub Action is parameterized with a matrix for each new `$reindex` tests. 
 ``` yaml
 strategy:
   matrix:
-    datastore: [ 'db2', 'derby', 'postgres' ]
+    datastore: [ 'derby', 'postgres' ]
 ```
 
 Each datastore layer that is tested as part of the framework uses the default build files and the files that match the `matrix.datastore` name added to the `reindex.yml`.
@@ -34,11 +34,11 @@ Each datastore layer that is tested as part of the framework uses the default bu
 |`<datastore>`/.gitignore|Ignores files related to the reindex layer's tests|
 |`README.md`|This file describing the reindex framework|
 
-Note, `<datastore>` is replaced with your reindex layer such as `db2`. 
+Note, `<datastore>` is replaced with your reindex layer such as `postgres`. 
 
 Transaction Timeout is 300 seconds.
 
-Consult the reference implementation (`db2`) to start a new reindex tests. The minimum that must be implemented are the `pre-integration-test.sh` and `.gitignore`.
+Consult the reference implementation (`postgres`) to start a new reindex tests. The minimum that must be implemented are the `pre-integration-test.sh` and `.gitignore`.
 
 ## Test the Automation
 

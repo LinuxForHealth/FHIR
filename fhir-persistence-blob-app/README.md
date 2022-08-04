@@ -8,7 +8,7 @@ If the LinuxForHealth FHIR Server terminates before this cleanup is completed or
 
 By default, the reconciliation tool will operate in `dry-run` mode which prevents the tool from making any changes (it is read-only). To enable operations to actually make changes, you must disable dry-run with the `--no-dry-run` command line option. If both `--dry-run` and `--no-dry-run` are specified, the last one wins.
 
-The following examples use PostgreSQL as the database type, but the tool also supports db2 and derby as options.
+The following examples use PostgreSQL as the database type, but the tool also supports PostgreSQL and derby as options.
 
 To identify orphan records without deleting anything, run:
 ```
@@ -139,7 +139,7 @@ The utility will read the resource-type-name to resource-type-id mapping from th
 | --tenant-id `<tenant-id>` | String | (Optional, Default="default") The tenant identifier. |
 | --ds-id `<ds-id>` | String | (Optional, Default="default") The datasource identifier. |
 | --db-properties `<db-properties>` | String | (Required for running with `--reconcile`) File name of a `.properties` file containing database connection details. |
-| --db-type `<db-type>` | String | (Required for running with `--reconcile`) The database type, `postgresql`, `db2` or `derby`. |
+| --db-type `<db-type>` | String | (Required for running with `--reconcile`) The database type, `postgresql` or `derby`. |
 | --reconcile | | Run the reconciliation process |
 | --read `<blob-key>` | String | Read the resource payload identified by its blob-key |
 | --create-container | | Create the container. The container name is obtained by reading the IBM FHIR Server tenant payload configuration. |

@@ -144,9 +144,6 @@ sslkey=
 | sslcert | PostgreSQL | The PostgreSQL SSL certificate |
 | sslrootcert | PostgreSQL | The PostgreSQL SSL root certificate |
 | sslkey | PostgreSQL | The PostgreSQL SSL key |
-| sslConnection | Db2 | true or false |
-| sslTrustStoreLocation | Db2 | Location of the p12 trust store file containing the database server certificate |
-| sslTrustStorePassword | Db2 | Password for the p12 trust store |
 
 Note: Citus configuration is the same as PostgreSQL.
 
@@ -156,7 +153,7 @@ Note: Citus configuration is the same as PostgreSQL.
 | ------ | ----------- |
 | --consumer-count {n} | The number of Kafka consumer threads to start in this instance. Multiple instances of this service can be started. The total number of consumer threads across all instances should equal the number to the number of Kafka partitions on the topic. This should maximize throughput. |
 | --kafka-properties {properties-file} | A Java properties file containing connection details for the upstream Kafka service. |
-| --db-type {type} | The type of database. One of `postgresql`, `derby`, `db2` or `citus`. |
+| --db-type {type} | The type of database. One of `postgresql`, `derby`, or `citus`. |
 | --database-properties {properties-file} | A Java properties file containing connection details for the downstream IBM FHIR Server database. |
 | --topic-name {topic} | The name of the Kafka topic to consume. Default `FHIR_REMOTE_INDEX`. |
 | --instance-identifier {uuid} | Each IBM FHIR Server cluster should be allocated a unique instance identifier. This identifier is added to each message sent over Kafka. The consumer will ignore messages unless they include the same instance identifier value. This helps to ensure that messages are processed from only intended sources. |

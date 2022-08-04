@@ -4,8 +4,8 @@ The IBM FHIR Server Schema Tool is designed to create and update the IBM FHIR Se
 
 The tool supports the following flows in one image: 
 
-* Onboarding - create SQL schemas, populate the SQL objects, grant permissions to the database user. For db2, the tool sets up a single tenant and tenant key. 
-* Offboarding - removes the schema, on Db2, if no other tenants, it deallocates the tenants
+* Onboarding - create SQL schemas, populate the SQL objects, grant permissions to the database user.
+* Offboarding - removes the schema
 * Custom - executes a single fhir-persistence-schema cli action
 * Debug - outputs debug information
 
@@ -28,15 +28,13 @@ The following is read from the properties file:
 | Name       | Purpose  |
 |------------|----------|
 | tool.behavior | Switches from the Onboarding BEHAVIOR to Offboarding BEHAVIOR flow: `[onboard\|offboard\|debug\|custom]`. |
-| db.type | The database type - `[postgresql\|db2]` |
+| db.type | The database type - `[postgresql]` |
 | db.host | The database server hostname|
 | db.port | The database server port|
 | db.database | The name of the database|
 | user | A username with connect and admin permissions on the target database|
 | password | The user password for connecting to the database|
-| sslConnection | true or anything else, true triggers JDBC to use ssl, an example --prop sslConnection=true (db2) |
 | ssl | true or anything else, true triggers JDBC to use ssl, an example --prop ssl=true (postgres) |
-| tenant.key | the tenant key is a generated key, or used to set a specific value |
 | tenant.name | the tenant name is typically default |
 | schema.name.oauth | uses the default or custom |
 | schema.name.fhir | defaults to fhirdata |
@@ -57,17 +55,13 @@ The configuration file is as follows in the examples configuration.
         {
             "db":  {
                 "host": "172.17.0.3",
-                "port": "50000",
+                "port": "5432",
                 "database": "fhirdb",
-                "user": "db2inst1",
+                "user": "postgres",
                 "password": "change-password",
-                "type": "db2",
+                "type": "postgresql",
                 "ssl": "false",
                 "certificate_base64": "empty"
-            },
-            "tenant": {
-                "name": "default3",
-                "key": "custom-key-here"
             },
             "schema": {
                 "fhir": "fhirdata",
@@ -81,9 +75,7 @@ The configuration file is as follows in the examples configuration.
 }
 ```
 
-Note, tenant only applies to db2 implementations. The tenantKey is limited in size, and if not provided is generated. You will have to pick it out of the logs. To generate a tenantKey, you can execute: `openssl rand -base64 20`.
-
-It's converted to base64 using `cat persistence.json | base64`. You can run locally using: 
+You can run locally using: 
 
 *Mac*
 
@@ -146,14 +138,14 @@ Using an encoded persistence.json
 *Mac*
 
 ```
-docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-offboard-example.json |base64` \
+docker run  --env ENV_TOOL_INPUT=`cat examples/postgres/persistence-offboard-example.json |base64` \
     ibmcom/ibm-fhir-schematool:latest | tee out.log
 ```
 
 *Linux*
 
 ```
-docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-offboard-example.json |base64 -w 0` \
+docker run  --env ENV_TOOL_INPUT=`cat examples/postgres/persistence-offboard-example.json |base64 -w 0` \
     ibmcom/ibm-fhir-schematool:latest | tee out.log
 ```
 
@@ -161,9 +153,9 @@ Using arguments on the commandline
 
 ``` shell
 docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=offboard --db.host=172.17.0.3 \
-    --db.port=50000 --user=db2inst1 --password=change-password --db.database=fhirdb \
-    --sslConnection=false --db.type=db2 --schema.name.fhir=fhirdata --grant.to=fhirserver \
-    --tenant.name=default2 2>&1 | tee out.log
+    --db.port=50000 --user=postgres --password=change-password --db.database=fhirdb \
+    --sslConnection=false --db.type=postgresql --schema.name.fhir=fhirdata --grant.to=fhirserver \
+       2>&1 | tee out.log
 ```
 
 ## Running: Onboard Behavior
@@ -173,14 +165,14 @@ Using an encoded persistence.json
 *Mac*
 
 ```
-docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-onboard-example.json |base64` \
+docker run  --env ENV_TOOL_INPUT=`cat examples/postgres/persistence-onboard-example.json |base64` \
     ibmcom/ibm-fhir-schematool:latest | tee out.log
 ```
 
 *Linux*
 
 ```
-docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-onboard-example.json |base64 -w 0` \
+docker run  --env ENV_TOOL_INPUT=`cat examples/postgres/persistence-onboard-example.json |base64 -w 0` \
     ibmcom/ibm-fhir-schematool:latest | tee out.log
 ```
 
@@ -188,18 +180,9 @@ Using arguments on the commandline
 
 ``` shell
 docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=onboard --db.host=172.17.0.3 \
-    --db.port=50000 --user=db2inst1 --password=change-password --db.database=fhirdb \
-    --sslConnection=false --db.type=db2 --schema.name.fhir=fhirdata --grant.to=fhirserver \
-    --tenant.name=default2 2>&1 | tee out.log
-```
-
-## Running: Custom Behavior
-
-The custom behavior only supports commandline arguments:
-
-``` shell
-docker run ibmcom/ibm-fhir-schematool:latest --tool.behavior=onboard --list-tenants \
-    --db.host=1000.com --db.password=change-password --db.user=db2inst1
+    --db.port=50000 --user=postgres --password=change-password --db.database=fhirdb \
+    --sslConnection=false --db.type=postgresql --schema.name.fhir=fhirdata --grant.to=fhirserver \
+      2>&1 | tee out.log
 ```
 
 ************
