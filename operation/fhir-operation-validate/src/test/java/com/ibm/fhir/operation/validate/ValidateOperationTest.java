@@ -25,7 +25,6 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -287,7 +286,12 @@ public class ValidateOperationTest {
      */
     @Test
     public void testResourceInstanceLevelValidate() throws Exception {
-        Patient patient = (Patient) getTestResource();
+        Patient patient = Patient.builder().id("test")
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
         SingleResourceResult result = mock(SingleResourceResult.class);
 
@@ -334,23 +338,6 @@ public class ValidateOperationTest {
                 .build();
 
         validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
-    }
-    
-    /**
-     * Read a mock resource from the input JSON file.
-     *
-     * @param path the path to JSON file
-     * @return Resource - A FHIR Resource object representation
-     * @throws Exception
-     */
-    private static Resource getTestResource() throws Exception {
-        
-        return Patient.builder().id("test")
-        .text(Narrative.builder()
-            .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
-            .status(NarrativeStatus.GENERATED)
-            .build())
-        .build();
     }
     
     /**
