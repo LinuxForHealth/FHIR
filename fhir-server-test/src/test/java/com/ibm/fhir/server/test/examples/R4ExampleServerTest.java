@@ -1,5 +1,5 @@
-/**
- * (C) Copyright IBM Corp. 2019, 2021
+/*
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,7 +23,7 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
  * Basic sniff test of the FHIR Server.
  */
 public class R4ExampleServerTest extends FHIRServerTestBase {
-    
+
     // the tenant id to use for the FHIR server requests
     private String tenantId;
 
@@ -39,7 +39,6 @@ public class R4ExampleServerTest extends FHIRServerTestBase {
         // Setup a Pool
         ExecutorService es = Executors.newFixedThreadPool(5);
         driver.setPool(es, 5);
-        
 
         DriverMetrics dm = new DriverMetrics();
         driver.setMetrics(dm);

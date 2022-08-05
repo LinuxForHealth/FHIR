@@ -79,7 +79,7 @@ The following files are the files that orchestrate datastore specific tasks as w
 |`fhir/build/migration/bin/6_current-reindex.sh`|Runs a reindex|
 |`fhir/build/migration/bin/7_current-integration-test.sh`|Starts the current integration tests|
 |`fhir/build/migration/bin/8_teardown.sh`|Shuts down the docker images and prunes the db|
-|`fhir/build/common/gather-logs.sh migration`|gathers the log files|
+|`fhir/build/common/gather-posttest-logs.sh migration`|gathers the log files|
 
 `fhir/` is the directory in which the `main` branch is checked out.
 `prev/` is the directory the previous release is checked out to, which is generally a tag.

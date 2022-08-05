@@ -24,7 +24,7 @@ then
     exit -1
 fi
 
-. ${WORKSPACE}/build/common/set_tenant1_datastore_vars.sh
+. ${WORKSPACE}/build/common/set-tenant1-datastore-vars.sh
 
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null

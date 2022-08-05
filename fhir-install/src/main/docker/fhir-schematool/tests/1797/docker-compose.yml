@@ -1,0 +1,44 @@
+version: '3.7'
+services:
+  db:
+    image: postgres:12-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: change-password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: fhirdb
+      PGDATA: /data/postgres
+    shm_size: 256MB
+    tty: true
+    stdin_open: true
+    hostname: db
+    sysctls:
+      net.core.somaxconn: 256
+      net.ipv4.tcp_syncookies: 0
+    privileged: true
+    networks:
+      - fhir
+    ports:
+      - "5432:5432"
+  tool:
+    image: linuxforhealth/fhir-schematool:latest
+    restart: always
+    environment:
+      PLACEHOLDER: change-password
+    tty: true
+    stdin_open: true
+    hostname: tool
+    stop_grace_period: 2m
+    sysctls:
+      net.core.somaxconn: 256
+      net.ipv4.tcp_syncookies: 0
+      # To use all of 2 gigabytes
+      kernel.shmmax: 1055092736
+      kernel.shmall: 257591
+    privileged: true
+    command: tail -f /dev/null
+    networks:
+      - fhir
+networks:
+  fhir:
+    driver: bridge

@@ -33,8 +33,6 @@ run_tests(){
         # Add || docker container logs "$(docker container ls | grep fhir_1 | awk '{print $NF}' )"
         echo "Done Running Tests"
         echo ""
-
-        # docker container logs "db2_fhir_1"
     fi
 }
 
@@ -72,7 +70,7 @@ pushd $(pwd) > /dev/null
 # Change to the migration/bin directory
 cd "prev/"
 
-bash ${WORKSPACE}/fhir/build/common/wait_for_it.sh
+bash ${WORKSPACE}/fhir/build/common/wait-for-it.sh
 run_tests "${1}"
 clean_up
 

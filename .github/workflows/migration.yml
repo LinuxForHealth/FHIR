@@ -126,7 +126,7 @@ jobs:
         if: always()
         env:
           WORKSPACE: ${{ github.workspace }}/fhir
-        run: bash fhir/build/common/gather-logs.sh migration ${{matrix.datastore}}
+        run: bash fhir/build/common/gather-posttest-logs.sh migration ${{matrix.datastore}}
 
       - name: Upload logs
         if: always()

@@ -12,7 +12,7 @@ echo "Preparing environment for fhir-server integration tests..."
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 export WORKSPACE="$( dirname "${DIR}" )"
 
-. ${WORKSPACE}/build/common/set_tenant1_datastore_vars.sh
+. ${WORKSPACE}/build/common/set-tenant1-datastore-vars.sh
 
 # This script will install the fhir server on the local machine and then
 # start it up so that we can run server integration tests
@@ -84,7 +84,7 @@ find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar
 find ${WORKSPACE}/operation/fhir-operation-member-match/target -iname 'fhir-operation*.jar' -not -iname 'fhir*-tests.jar' -exec cp -f {} ${USERLIB} \;
 
 # Update to support server enabled registry provider
-bash ${WORKSPACE}/build/update-server-registry-resource.sh ${SIT}/wlp/usr/servers/defaultServer/config/default/fhir-server-config.json
+bash ${WORKSPACE}/build/common/update-server-registry-resource.sh ${SIT}/wlp/usr/servers/defaultServer/config/default/fhir-server-config.json
 
 # Start up the fhir server
 echo "

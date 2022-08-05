@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,22 +8,22 @@ package com.ibm.fhir.model.spec.test;
 
 /**
  * Used to collect response time metrics during development
- * (e.h. test-case runs) to identify hotspots or concurrency issues. 
+ * (e.g. test-case runs) to identify hotspots or concurrency issues.
  * Not intended for runtime instrumentation.
  */
 public class DriverMetrics {
     // Number of nanoseconds in a second
     public static final double NANOS = 1e9;
-    
+
     // Number of nanoseconds in a millisecond
     public static final long NANOS_MS = 1000000L;
-    
+
     // collection of read time samples
     private final ResponseTimes readTimes = new ResponseTimes();
-    
+
     // collection of validation time samples
     private final ResponseTimes validateTimes = new ResponseTimes();
-    
+
     // collection of process time samples
     private final ResponseTimes processTimes = new ResponseTimes();
 
@@ -72,7 +72,7 @@ public class DriverMetrics {
     public void addGetTime(long ms) {
         this.getTimes.addSample(ms);
     }
-    
+
     /**
      * Render a report using the given DriverStats report generator
      * @return

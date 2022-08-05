@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -151,9 +151,6 @@ public class R4ExamplesDriver {
             if (testCount.get() > 0) {
                 long elapsed = (System.nanoTime() - start) / 1000000;
 
-                // Just for formatting
-                System.out.println();
-
                 // We count overall success if we successfully process the resource,
                 // or if we got an expected exception earlier on
                 logger.info("Overall success rate = " + successCount + "/" + testCount + " = "
@@ -180,56 +177,60 @@ public class R4ExamplesDriver {
      * @throws ExampleProcessorException
      */
     public void submitExample(List<ExampleProcessorException> errors, String file, Format format, Expectation expectation) throws ExampleProcessorException {
-        if (pool != null) {
-            // Wait until we have capacity. We do this to throttle the number of requests
-            // submitted to pool, hopefully avoiding memory issues if ever we have a really
-            // large index to process
-            lock.lock();
-            while (this.currentlySubmittedCount == this.maxInflight) {
-                try {
-                    this.inflightCondition.await(1000, TimeUnit.MILLISECONDS);
-                }
-                catch (InterruptedException x) {
-                    // NOP
-                }
-            }
-            currentlySubmittedCount++;
-            lock.unlock();
-
-            pool.execute(new Runnable() {
-
-                @Override
-                public void run() {
-                    try {
-                        processExample(file, format, expectation);
-                    } catch (ExampleProcessorException e) {
-                        lock.lock();
-                        errors.add(e);
-                        lock.unlock();
-                    }
-                    finally {
-                        lock.lock();
-                        int oldCount = currentlySubmittedCount--;
-                        if (oldCount == maxInflight) {
-                            inflightCondition.signal();
-                        }
-
-                        if (currentlySubmittedCount == 0) {
-                            runningCondition.signal();
-                        }
-                        lock.unlock();
-                    }
-                }
-            });
-        }
-        else {
+        if (pool == null) {
             // run in-line
             try {
                 processExample(file, format, expectation);
             } catch (ExampleProcessorException e) {
                 errors.add(e);
             }
+            return;
         }
+
+        // Otherwise:
+        // Wait until we have capacity. We do this to throttle the number of requests
+        // submitted to pool, hopefully avoiding memory issues if ever we have a really
+        // large index to process
+        lock.lock();
+        while (this.currentlySubmittedCount == this.maxInflight) {
+            try {
+                this.inflightCondition.await(1000, TimeUnit.MILLISECONDS);
+            }
+            catch (InterruptedException x) {
+                // NOP
+            }
+        }
+        currentlySubmittedCount++;
+        lock.unlock();
+
+        pool.execute(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    processExample(file, format, expectation);
+                } catch (ExampleProcessorException e) {
+                    lock.lock();
+                    if (firstException == null) {
+                        firstException = e;
+                    }
+                    errors.add(e);
+                    lock.unlock();
+                }
+                finally {
+                    lock.lock();
+                    int oldCount = currentlySubmittedCount--;
+                    if (oldCount == maxInflight) {
+                        inflightCondition.signal();
+                    }
+
+                    if (currentlySubmittedCount == 0) {
+                        runningCondition.signal();
+                    }
+                    lock.unlock();
+                }
+            }
+        });
     }
 
     /**
@@ -242,7 +243,7 @@ public class R4ExamplesDriver {
      * @throws ExampleProcessorException
      */
     public void processExample(String file, Format format, Expectation expectation)
-        throws ExampleProcessorException {
+            throws ExampleProcessorException {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("Processing: " + file);
         } else {
@@ -261,17 +262,15 @@ public class R4ExamplesDriver {
                 // If we parsed the resource successfully but expected it to fail, it's a failed
                 // test, so we don't try and process it any further
                 actual = Expectation.OK;
-                ExampleProcessorException error =
-                        new ExampleProcessorException(file, expectation, actual);
-                if (firstException == null) {
-                    firstException = error;
-                }
-                throw error;
+                throw new ExampleProcessorException(file, expectation, actual);
             } else {
                 // validate and process the example
                 actual = processExample(file, resource, expectation);
             }
         } catch (ExampleProcessorException e) {
+            if (firstException == null) {
+                firstException = e;
+            }
             throw e;
         } catch (FHIRParserException fpx) {
             actual = Expectation.PARSE;
@@ -318,7 +317,7 @@ public class R4ExamplesDriver {
      * @param expectation
      */
     protected Expectation processExample(String file, Resource resource, Expectation expectation)
-        throws ExampleProcessorException {
+            throws ExampleProcessorException {
         Expectation actual = Expectation.OK;
         if (validator != null) {
             long start = System.nanoTime();
@@ -388,7 +387,7 @@ public class R4ExamplesDriver {
                     // processed the resource successfully, and didn't expect an error
                     successCount.incrementAndGet();
                 }
-            } catch (Exception x) {
+            } catch (Exception e) {
                 // say in which phase we failed
                 actual = Expectation.PROCESS;
 
@@ -399,19 +398,17 @@ public class R4ExamplesDriver {
                     // processing error, but didn't expect it
                     System.out.println();
                     logger.log(Level.SEVERE, "processResource(" + file
-                            + ") unexpected failure: " + x.getMessage());
+                            + ") unexpected failure: " + e.getMessage());
 
                     // continue processing the other files
                     ExampleProcessorException error =
-                            new ExampleProcessorException(file, expectation, actual, x);
+                            new ExampleProcessorException(file, expectation, actual, e);
                     if (firstException == null) {
-                        firstException = x;
+                        firstException = e;
                     }
                     throw error;
                 }
-
-            }
-            finally {
+            } finally {
                 if (metrics != null) {
                     long processEnd = System.nanoTime();
                     long processTime = processEnd - start;

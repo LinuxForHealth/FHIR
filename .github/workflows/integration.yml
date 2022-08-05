@@ -14,6 +14,7 @@ jobs:
     strategy:
       matrix:
         java: [ '11' ]
+        environment: [ 'minio', 'azurite' ]
       fail-fast: false
     steps:
     - uses: actions/checkout@v2.3.3
@@ -41,10 +42,15 @@ jobs:
         df -h
     - name: Server Integration Tests
       run: |
-        export WORKSPACE=${GITHUB_WORKSPACE}
-        build/pre-integration-test-docker.sh
+        # github actions lets you set this on re-run to diagnose the test failure
+        # so we tap into that here to have each line of our scripts printed
+        if [ -n "${{ secrets.ACTIONS_STEP_DEBUG }}" ]; then
+          set -x
+          export SHELLOPTS
+        fi
+        build/pre-integration-test-docker.sh ${{ matrix.environment }}
         mvn -B test -DskipTests=false -f fhir-server-test --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
-        build/post-integration-test-docker.sh
+        build/post-integration-test-docker.sh ${{ matrix.environment }}
     - name: Gather error logs
       if: failure()
       run: |
@@ -70,7 +76,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v2.2.0
       with:
-        name: integration-test-results-${{ matrix.java }}
+        name: integration-test-results-${{ matrix.java }}-${{ matrix.environment }}
         path: integration-test-results
 
 concurrency:

@@ -9,14 +9,14 @@
 # Assumes that fhir-install has already been built
 docker login -u "${DOCKERHUB_USERNAME}" -p "${DOCKERHUB_TOKEN}"
 
-# Executes the build for the ibm-fhir-schematool
+# Executes the build for the linuxforhealth/fhir-schematool
 # This build runs first so that the FAILURE comes before and stops the subsequent builds/releases.
 export WORKSPACE=$(pwd)
-bash ${WORKSPACE}/fhir-install/src/main/docker/ibm-fhir-schematool/build.sh
+bash ${WORKSPACE}/fhir-install/src/main/docker/fhir-schematool/build.sh
 
-bash ${WORKSPACE}/fhir-install/src/main/docker/ibm-fhir-term-graph-loader/build.sh
+bash ${WORKSPACE}/fhir-install/src/main/docker/fhir-term-graph-loader/build.sh
 
-bash ${WORKSPACE}/fhir-install/src/main/docker/ibm-fhir-bucket-tool/build.sh
+bash ${WORKSPACE}/fhir-install/src/main/docker/fhir-bucket-tool/build.sh
 
 # create and remove a 1 GB file to make sure we have the room needed later
 df -h
