@@ -9,6 +9,7 @@ package com.ibm.fhir.operation.validate;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.type.Xhtml.xhtml;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,6 +27,9 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
+import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.operation.validate.type.ModeType;
+import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchHelper;
 import com.ibm.fhir.server.spi.operation.AbstractOperation;
@@ -46,14 +50,26 @@ public class ValidateOperation extends AbstractOperation {
             String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper, SearchHelper searchHelper) throws FHIROperationException {
         try {
             Parameter resourceParameter = getParameter(parameters, "resource");
-            if (resourceParameter == null) {
+            String resourceTypeName = resourceType != null ? resourceType.getSimpleName() : null;
+            Resource resource;
+            // If $validate is on resource-instance level, fetch the resource from database.
+            if (operationContext != null && FHIROperationContext.Type.INSTANCE.equals(operationContext.getType()) && resourceParameter == null) {
+                resource = resourceHelper.doRead(resourceTypeName, logicalId).getResource();
+                if (resource == null) {
+                    throw buildExceptionWithIssue(resourceTypeName + " with id '" + logicalId + "' was not found", IssueType.NOT_FOUND);
+                }
+            } else if (resourceParameter == null) {
                 throw buildExceptionWithIssue("Input parameter 'resource' is required for the $validate operation", IssueType.INVALID);
+            } else {
+                resource = resourceParameter.getResource();
             }
-            Resource resource = resourceParameter.getResource() ;
-
+            
             List<OperationOutcome.Issue> issues;
             Parameter profileParameter = getParameter(parameters, "profile");
             Parameter modeParameter = getParameter(parameters, "mode");
+            
+            // Only valid "mode" codes are accepted by the $validate operation.
+            validateModeParameter(modeParameter);
 
             if (profileParameter != null && profileParameter.getValue() != null) {
                 // If the 'profile' parameter is specified, always validate the resource against that profile.
@@ -66,6 +82,13 @@ public class ValidateOperation extends AbstractOperation {
                 // If the 'mode' parameter is specified and its value is 'create' or 'update', validate the resource
                 // against the FHIR server config's profile properties and the resource's asserted profiles.
                 issues = resourceHelper.validateResource(resource);
+            } else if (modeParameter != null 
+                    && modeParameter.getValue() != null
+                    && ModeType.DELETE.value().equals(modeParameter.getValue().as(Code.class).getValue())
+                    && FHIROperationContext.Type.INSTANCE.equals(operationContext.getType())) {
+                // If the 'mode' parameter is specified and its value is 'delete' and delete is invoked at the resource-instance level,
+                // validate if the persistence layer implementation supports the "delete" operation
+                issues = validateDeleteResource(resourceTypeName, logicalId, operationContext);
             } else {
                 // Standard validation against the resource's asserted profiles.
                 issues = FHIRValidator.validator().validate(resource);
@@ -104,5 +127,45 @@ public class ValidateOperation extends AbstractOperation {
                 .build();
 
         return operationOutcome;
+    }
+    
+    
+    /**
+     * Check if a resource validation mode code is valid.
+     *
+     * @param modeParameter resource validation mode code to be validated
+     * @throws FHIROperationException when the resource validation mode code is invalid
+     */
+    private void validateModeParameter(Parameter modeParameter) throws FHIROperationException {
+        if (modeParameter != null && modeParameter.getValue() != null) {
+            try {
+                ModeType.from(modeParameter.getValue().as(Code.class).getValue());
+            } catch (IllegalArgumentException e) {
+                String msg = "'" + modeParameter.getValue().as(Code.class).getValue() + "' is not a valid resource validation mode";
+                throw buildExceptionWithIssue(msg, IssueType.VALUE);
+            }
+        }
+        
+    }
+    
+    
+    /**
+     * Validate if the persistence layer implementation supports the "delete" operation.
+     *
+     * @param type the resource type 
+     * @param id the resource logical ID
+     * @param operationContext the FHIROperationContext associated with the request
+     * @return A list of validation errors and warnings
+     * @throws FHIROperationException the FHIR operation exception
+     */
+    public List<Issue> validateDeleteResource(String type, String id, FHIROperationContext operationContext) throws FHIROperationException {
+        List<Issue> warnings = new ArrayList<>();
+        FHIRPersistence persistence =
+                (FHIRPersistence) operationContext.getProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL);
+        if (!persistence.isDeleteSupported()) {
+            warnings.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Resource deletion of type '"
+                    + type + "' with id '" + id + "' is not supported."));
+        }
+        return warnings;
     }
 }
