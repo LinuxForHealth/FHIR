@@ -504,12 +504,18 @@ public class Main {
             SchemaVersionsManager svm = new SchemaVersionsManager(translator, connectionPool, transactionProvider, targetSchemaName,
                 FhirSchemaVersion.getLatestFhirSchemaVersion().vid());
             if (svm.isSchemaOld() || this.force && svm.isSchemaVersionMatch()) {
+                int currentSchemaVersion = svm.getVersionForSchema();
                 if (this.dbType == DbType.CITUS) {
                     // First version with Citus support is V0027 and we can't upgrade
                     // from before that
-                    int currentSchemaVersion = svm.getVersionForSchema();
                     if (currentSchemaVersion >= 0 && currentSchemaVersion < FhirSchemaVersion.V0027.vid()) {
                         throw new IllegalStateException("Cannot upgrade Citus databases with schema version < V0027");
+                    }
+                }
+                // fail the schema-update if there are existing Evidence or EvidenceVariable resource instances
+                if (currentSchemaVersion < FhirSchemaVersion.V0030.vid()) {
+                    if (checkIfDataExistsForV0030()) {
+                        throw new IllegalStateException("Cannot update schema due to existing Evidence or EvidenceVariable resource instances");
                     }
                 }
 
@@ -545,13 +551,7 @@ public class Main {
                         grantReadPrivilegesForFhirData();
                     }
                     
-                    // fail the schema-update if there are existing Evidence or EvidenceVariable resource instances
-                    int currentSchemaVersion = svm.getVersionForSchema();
-                    if (currentSchemaVersion < FhirSchemaVersion.V0030.vid()) {
-                        if (checkIfDataExistsForV0030()) {
-                            throw new IllegalStateException("Cannot update schema due to existing Evidence or EvidenceVariable resource instances");
-                        }
-                    }
+                    
 
                     // Finally, update the whole schema version
                     svm.updateSchemaVersion();
