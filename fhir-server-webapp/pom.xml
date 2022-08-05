@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.ibm.fhir</groupId>
+        <groupId>org.linuxforhealth.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
         <version>5.0.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
@@ -131,22 +131,22 @@
                         </dependencyGroup>
                         <dependencyGroup>
                             <dependency>
-                                <groupId>com.ibm.fhir</groupId>
+                                <groupId>org.linuxforhealth.fhir</groupId>
                                 <artifactId>fhir-operation-member-match</artifactId>
                                 <version>${project.version}</version>
                             </dependency>
                             <dependency>
-                                <groupId>com.ibm.fhir</groupId>
+                                <groupId>org.linuxforhealth.fhir</groupId>
                                 <artifactId>fhir-ig-us-core</artifactId>
                                 <version>${project.version}</version>
                             </dependency>
                             <dependency>
-                                <groupId>com.ibm.fhir</groupId>
+                                <groupId>org.linuxforhealth.fhir</groupId>
                                 <artifactId>fhir-ig-carin-bb</artifactId>
                                 <version>${project.version}</version>
                             </dependency>
                             <dependency>
-                                <groupId>com.ibm.fhir</groupId>
+                                <groupId>org.linuxforhealth.fhir</groupId>
                                 <artifactId>fhir-ig-davinci-hrex</artifactId>
                                 <version>${project.version}</version>
                             </dependency>
@@ -154,7 +154,7 @@
                         </dependencyGroup>
                         <dependencyGroup>
                             <dependency>
-                                <groupId>com.ibm.fhir</groupId>
+                                <groupId>org.linuxforhealth.fhir</groupId>
                                 <artifactId>fhir-bulkdata-webapp</artifactId>
                                 <version>${project.version}</version>
                                 <type>war</type>

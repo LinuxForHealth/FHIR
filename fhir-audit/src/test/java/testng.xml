@@ -2,31 +2,31 @@
 <suite name="FHIRAuditCadfTestSuite">
     <test name="Tests">
         <classes>
-            <class name="com.ibm.fhir.audit.cadf.test.AuditBeansTest" />
-            <class name="com.ibm.fhir.audit.cadf.test.AuditCadfTest" />
-            <class name="com.ibm.fhir.audit.cadf.test.AuditEnumTest" />
-            <class name="com.ibm.fhir.audit.AuditLogServiceTest" />
-            <class name="com.ibm.fhir.audit.cadf.test.CadfModelTest" />
+            <class name="org.linuxforhealth.fhir.audit.cadf.test.AuditBeansTest" />
+            <class name="org.linuxforhealth.fhir.audit.cadf.test.AuditCadfTest" />
+            <class name="org.linuxforhealth.fhir.audit.cadf.test.AuditEnumTest" />
+            <class name="org.linuxforhealth.fhir.audit.AuditLogServiceTest" />
+            <class name="org.linuxforhealth.fhir.audit.cadf.test.CadfModelTest" />
             
         </classes>
     </test>
     <test name="EnvironmentTests">
         <packages>
             <!-- All of these tests are automatically executed -->
-            <package name="com.ibm.fhir.audit.environment" />
+            <package name="org.linuxforhealth.fhir.audit.environment" />
         </packages>
     </test>
     <test name="MapperTests">
         <packages>
             <!-- All of these tests are automatically executed -->
-            <package name="com.ibm.fhir.audit.mapper" />
-            <package name="com.ibm.fhir.audit.mapper.impl" />
+            <package name="org.linuxforhealth.fhir.audit.mapper" />
+            <package name="org.linuxforhealth.fhir.audit.mapper.impl" />
         </packages>
     </test>
     <test name="ConfigurationTests">
         <packages>
             <!-- All of these tests are automatically executed -->
-            <package name="com.ibm.fhir.audit.configuration" />
+            <package name="org.linuxforhealth.fhir.audit.configuration" />
         </packages>
     </test>
 </suite>

@@ -433,7 +433,7 @@ The FHIRBUCKET schema tracks some useful statistics captured during the load run
 | resource_types | The FHIR model resource names |
 | logical_resources | Holds the logical id for every resource created by the FHIR server |
 
-See the com.ibm.fhir.bucket.persistence.FhirBucketSchema class for details (columns and relationships) on the above tables.
+See the org.linuxforhealth.fhir.bucket.persistence.FhirBucketSchema class for details (columns and relationships) on the above tables.
 
 The `resource_bundle_loads` table contains timestamp fields marking the start and end of processing. The end time is only updated if the bundle is completed before the loader is stopped. 
 
@@ -484,20 +484,20 @@ handlers=java.util.logging.ConsoleHandler,java.util.logging.FileHandler
 
 # Minimal console output
 java.util.logging.ConsoleHandler.level = INFO
-java.util.logging.ConsoleHandler.formatter=com.ibm.fhir.database.utils.common.LogFormatter
+java.util.logging.ConsoleHandler.formatter=org.linuxforhealth.fhir.database.utils.common.LogFormatter
 
 # INFO to the log file, unless you want to see more
 java.util.logging.FileHandler.level=INFO
 
 # 50MB * 20 files ~= 1GB of log retention
-java.util.logging.FileHandler.formatter=com.ibm.fhir.database.utils.common.LogFormatter
+java.util.logging.FileHandler.formatter=org.linuxforhealth.fhir.database.utils.common.LogFormatter
 java.util.logging.FileHandler.limit=50000000
 java.util.logging.FileHandler.count=20
 java.util.logging.FileHandler.pattern=fhirbucket-%u-%g.log
 
 
 # See FINE stuff for the scanner
-#com.ibm.fhir.bucket.scanner.level=FINE
+#org.linuxforhealth.fhir.bucket.scanner.level=FINE
 ```
 
 

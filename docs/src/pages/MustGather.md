@@ -33,7 +33,7 @@ The IBM FHIR Server - Must-Gather Information
     and/or trace.log to find the matching server-side messages related to the problem.
 
 3. If possible, please include a trace.log (or snippet) which shows the server activity when the problem occurred.
-    The liberty "traceSpecification" string should include `com.ibm.fhir.*=fine`
+    The liberty "traceSpecification" string should include `org.linuxforhealth.fhir.*=fine`
 
 # Gathering logs on Red Hat OpenShift
 

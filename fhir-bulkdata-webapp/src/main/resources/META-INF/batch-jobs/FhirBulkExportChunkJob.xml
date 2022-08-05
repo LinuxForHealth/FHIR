@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" id="bulkexportchunkjob" restartable="true" version="1.0">
     <listeners>
-        <listener ref="com.ibm.fhir.bulkdata.jbatch.export.system.ExportJobListener">
+        <listener ref="org.linuxforhealth.fhir.bulkdata.jbatch.export.system.ExportJobListener">
             <properties>
                 <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                 <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
@@ -13,10 +13,10 @@
     </listeners>
     <step id="step1">
         <listeners>
-            <listener ref="com.ibm.fhir.bulkdata.jbatch.listener.StepChunkListener"></listener>
+            <listener ref="org.linuxforhealth.fhir.bulkdata.jbatch.listener.StepChunkListener"></listener>
         </listeners>
         <chunk checkpoint-policy="custom">
-            <reader ref="com.ibm.fhir.bulkdata.jbatch.export.system.ChunkReader">
+            <reader ref="org.linuxforhealth.fhir.bulkdata.jbatch.export.system.ChunkReader">
                 <properties >
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
@@ -31,7 +31,7 @@
                     <property name="fhir.exportFormat" value="#{jobParameters['fhir.exportFormat']}"/>
                 </properties>
             </reader>
-            <writer ref="com.ibm.fhir.bulkdata.jbatch.export.system.ChunkWriter">
+            <writer ref="org.linuxforhealth.fhir.bulkdata.jbatch.export.system.ChunkWriter">
                 <properties>
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
@@ -45,7 +45,7 @@
                 </properties>
                 
             </writer>
-            <checkpoint-algorithm ref="com.ibm.fhir.bulkdata.jbatch.export.checkpoint.ExportCheckpointAlgorithm">
+            <checkpoint-algorithm ref="org.linuxforhealth.fhir.bulkdata.jbatch.export.checkpoint.ExportCheckpointAlgorithm">
                 <properties>
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
@@ -56,7 +56,7 @@
             </checkpoint-algorithm>
         </chunk>
         <partition>
-            <mapper ref="com.ibm.fhir.bulkdata.jbatch.export.system.SystemExportPartitionMapper">
+            <mapper ref="org.linuxforhealth.fhir.bulkdata.jbatch.export.system.SystemExportPartitionMapper">
                 <properties>
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
@@ -66,8 +66,8 @@
                     <property name="fhir.resourcetype" value="#{jobParameters['fhir.resourcetype']}"/>
                 </properties>
             </mapper>
-            <collector ref="com.ibm.fhir.bulkdata.jbatch.export.system.ExportPartitionCollector"/>
-            <analyzer ref="com.ibm.fhir.bulkdata.jbatch.export.system.ExportPartitionAnalyzer"/>
+            <collector ref="org.linuxforhealth.fhir.bulkdata.jbatch.export.system.ExportPartitionCollector"/>
+            <analyzer ref="org.linuxforhealth.fhir.bulkdata.jbatch.export.system.ExportPartitionAnalyzer"/>
         </partition>
     </step>
 </job>

@@ -51,8 +51,8 @@ fhirdb=#
 --check-compatibility
 
 2020-05-20 15:42:38.764 00000001    INFO .common.JdbcConnectionProvider Opening connection to database: jdbc:postgresql://localhost:5432/fhirdb
-2020-05-20 15:42:39.151 00000001    INFO   com.ibm.fhir.schema.app.Main Processing took:   0.449 s
-2020-05-20 15:42:39.152 00000001    INFO   com.ibm.fhir.schema.app.Main SCHEMA CHANGE: OK
+2020-05-20 15:42:39.151 00000001    INFO   org.linuxforhealth.fhir.schema.app.Main Processing took:   0.449 s
+2020-05-20 15:42:39.152 00000001    INFO   org.linuxforhealth.fhir.schema.app.Main SCHEMA CHANGE: OK
 
 # Test 6 - Existing Update Schema - fhir data
 --prop-file postgresql.properties

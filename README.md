@@ -41,7 +41,7 @@ helm upgrade --install --render-subchart-notes ibm-fhir-server alvearie/ibm-fhir
 See https://artifacthub.io/packages/helm/alvearie/ibm-fhir-server for more information.
 
 ### Building with the LinuxForHealth FHIR Modules
-Each of the LinuxForHealth FHIR Server modules are published to Maven Central under [com.ibm.fhir](https://repo1.maven.org/maven2/com/ibm/fhir/).
+Each of the LinuxForHealth FHIR Server modules are published to Maven Central under [org.linuxforhealth.fhir](https://repo1.maven.org/maven2/org/linuxforhealth/fhir/).
 
 To use the artifacts from a Maven project, declare the dependencies. For example, to use our visitable, thread-safe FHIR R4 object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
 
@@ -49,7 +49,7 @@ To use the artifacts from a Maven project, declare the dependencies. For example
 ...
 <dependencies>
     <dependency>
-      <groupId>com.ibm.fhir</groupId>
+      <groupId>org.linuxforhealth.fhir</groupId>
       <artifactId>fhir-model</artifactId>
       <version>${fhir.version}</version>
     </dependency>

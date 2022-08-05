@@ -8,12 +8,12 @@ package demo.ibm.fhir.operation.davinci.hrex.provider.strategy;
 
 import java.util.logging.Logger;
 
-import com.ibm.fhir.config.PropertyGroup;
-import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.resource.Parameters;
-import com.ibm.fhir.operation.davinci.hrex.configuration.ConfigurationFactory;
-import com.ibm.fhir.operation.davinci.hrex.provider.strategy.DefaultMemberMatchStrategy;
-import com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchResult;
+import org.linuxforhealth.fhir.config.PropertyGroup;
+import org.linuxforhealth.fhir.exception.FHIROperationException;
+import org.linuxforhealth.fhir.model.resource.Parameters;
+import org.linuxforhealth.fhir.operation.davinci.hrex.configuration.ConfigurationFactory;
+import org.linuxforhealth.fhir.operation.davinci.hrex.provider.strategy.DefaultMemberMatchStrategy;
+import org.linuxforhealth.fhir.operation.davinci.hrex.provider.strategy.MemberMatchResult;
 
 /**
  * Used to Demonstrate a custom Strategy

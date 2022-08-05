@@ -15,7 +15,7 @@ tests(){
   # tests to skip to ensure we can rebuild older images
   TESTS_TO_SKIP_ARR=(
     # the SPL IG has a time-sensitive constraint that causes validation failures in 4.10.2 and prior
-    com.ibm.fhir.ig.us.spl.ExamplesValidationTest
+    org.linuxforhealth.fhir.ig.us.spl.ExamplesValidationTest
   )
 
   # convert TESTS_TO_SKIP_ARR to a comma-delimited string of negated tests on a single line

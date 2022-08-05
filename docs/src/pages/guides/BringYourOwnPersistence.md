@@ -19,7 +19,7 @@ Persistence layer interfaces are defined in the `fhir-persistence` module.
 ### Configuration
 Which persistence layer is used by the server is determined by the `/fhirServer/persistence/factoryClassname` property in `fhir-server-config.json`. There is more detail on the configuration in the [LinuxForHealth FHIR Server's User Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#33-persistence-layer-configuration)
 
-When the default `com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory` is used, the returned FHIRPersistenceJDBCImpl instance will look up a corresponding datasource, by JNDI name, using the combination of the tenant id and datastore id from the request context. Specifically, the connection strategy will use the `fhirServer/persistence/<datasourceId>/jndiName` property in the tenant config, or -- if the property is omitted -- it will construct the name via the following pattern:
+When the default `org.linuxforhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory` is used, the returned FHIRPersistenceJDBCImpl instance will look up a corresponding datasource, by JNDI name, using the combination of the tenant id and datastore id from the request context. Specifically, the connection strategy will use the `fhirServer/persistence/<datasourceId>/jndiName` property in the tenant config, or -- if the property is omitted -- it will construct the name via the following pattern:
 
 ``` md
 jdbc/fhir_<tenantId>_<datasourceId>[_ro]
@@ -35,7 +35,7 @@ To add support for an alternative relational database, there are multiple module
 2. `fhir-persistence-schema`
 3. `fhir-persistence-jdbc`
 
-The `fhir-database-utils` module provides generic utilities for defining a PhysicalDataModel and applying it to a target database via the IDatabaseAdapter and IVersionHistoryService interfaces. Check out the `com.ibm.fhir.database.utils.postgres` and `com.ibm.fhir.database.utils.derby` packages to understand how you might extend the framework with support for a new database type.
+The `fhir-database-utils` module provides generic utilities for defining a PhysicalDataModel and applying it to a target database via the IDatabaseAdapter and IVersionHistoryService interfaces. Check out the `org.linuxforhealth.fhir.database.utils.postgres` and `org.linuxforhealth.fhir.database.utils.derby` packages to understand how you might extend the framework with support for a new database type.
 
 The `fhir-persistence-schema` module is used to programmatically construct DDL statements and execute them against a target database. This module uses the generic utilities in `fhir-database-utils` to deploy both an admin schema (used for tenant provisioning and schema versioning) and an application schema for the FHIR data.
 
@@ -59,19 +59,19 @@ If you are using Maven, add the following dependencies to your persistence layer
 
 ``` xml
 <dependency>
-    <groupId>com.ibm.fhir</groupId>
+    <groupId>org.linuxforhealth.fhir</groupId>
     <artifactId>fhir-persistence</artifactId>
     <version>${fhir.persistence.version}</version>
 </dependency>
 <dependency>
-    <groupId>com.ibm.fhir</groupId>
+    <groupId>org.linuxforhealth.fhir</groupId>
     <artifactId>fhir-persistence</artifactId>
     <version>${fhir.persistence.version}</version>
     <type>test-jar</type>
     <scope>test</scope>
 </dependency>
 <dependency>
-    <groupId>com.ibm.fhir</groupId>
+    <groupId>org.linuxforhealth.fhir</groupId>
     <artifactId>fhir-examples</artifactId>
     <version>${fhir.examples.version}</version>
     <scope>test</scope>
@@ -211,12 +211,12 @@ The FHIRPersistence also supports whole system `_history`. If supported, `isChan
 
 #### Search
 The [FHIR Search specification](https://hl7.org/fhir/R4B/search.html) is sprawling and difficult to implement in its entirety. At the persistence layer, search requests will include a FHIRPersistenceContext with an embedded FHIRSearchContext and a Class object to indicate the resource type(s) to search on.
-A Class of `com.ibm.fhir.model.type.Resource` is passed for searches performed at the "whole-system" level.
+A Class of `org.linuxforhealth.fhir.model.type.Resource` is passed for searches performed at the "whole-system" level.
 
 The query parameters passed in the HTTP request are parsed at the REST layer and passed to the persistence layer in the form of a FHIRSearchContext.
 The FHIRSearchContext separates "return" parameters (like `_include`, `_revinclude`, `_sort`, etc.) from search parameters and makes them available through dedicated getters.
 Each search parameter is parsed into a QueryParameter and a QueryParameterValue. [Compartment](https://hl7.org/fhir/R4B/compartmentdefinition.html) searches are converted into [chained parameters](https://hl7.org/fhir/R4B/search.html#chaining), which are represented through nested QueryParameter objects within the outermost QueryParameter.
-Check `com.ibm.fhir.search.util.SearchUtil.parseQueryParameters()` for more information.
+Check `org.linuxforhealth.fhir.search.util.SearchUtil.parseQueryParameters()` for more information.
 
 FHIRSearchContext extends FHIRPagingContext and provides the requested page size and page number to return.
 FHIRPersistence implementations are responsible for setting the total number of search results (`FHIRPagingContext.setTotalCount(int)`) for the given query.
@@ -240,8 +240,8 @@ The LinuxForHealth FHIR Server supports [extended operations](https://hl7.org/fh
 In addition to defining the interfaces, the `fhir-persistence` module includes a set of tests that you can extend to test your implementation.
 
 Most of the tests defined in this module relate to search, but they also exercise the create, update, and delete interactions in the process.
-The tests in the `com.ibm.fhir.persistence.search.test` package are organized by search parameter type and they utilize tenant-specific search parameter definitions from the `fhir-persistence/src/test/resources/config` directory and search for fields on the generated example resources at `fhir-examples/src/main/resources/json/ibm/basic`. The `fhir-examples` module is available on Maven Central [link](https://repo1.maven.org/maven2/com/ibm/fhir/fhir-examples/).
+The tests in the `org.linuxforhealth.fhir.persistence.search.test` package are organized by search parameter type and they utilize tenant-specific search parameter definitions from the `fhir-persistence/src/test/resources/config` directory and search for fields on the generated example resources at `fhir-examples/src/main/resources/json/ibm/basic`. The `fhir-examples` module is available on Maven Central [link](https://repo1.maven.org/maven2/com/ibm/fhir/fhir-examples/).
 
-For an example of how to extend these tests, see the `com.ibm.fhir.persistence.jdbc.search.test` package under `fhir-persistence-jdbc/src/test/java`.
+For an example of how to extend these tests, see the `org.linuxforhealth.fhir.persistence.jdbc.search.test` package under `fhir-persistence-jdbc/src/test/java`.
 
 Finally, the LinuxForHealth FHIR Server contains a number of end-to-end (e2e) integration tests under the [`fhir-server-test`](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-server-test) module. These tests can be executed against a running server that is configured with your persistence layer to provide further confidence in your implementation.

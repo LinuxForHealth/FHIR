@@ -164,7 +164,7 @@ The LinuxForHealth FHIR Server has integrated the Extended Operations Framework 
 
 ![Framework](https://raw.githubusercontent.com/wiki/LinuxForHealth/FHIR/operation/operation-framework.png)
 
-On startup, the FHIR Operation Registry uses the Java ServiceLoader framework. Each Operation is registered with the FHIROperationRegistry using `META-INF/services/com.ibm.fhir.server.operation.spi.FHIROperation` which lists each of the classes that implement the FHIROperation interface
+On startup, the FHIR Operation Registry uses the Java ServiceLoader framework. Each Operation is registered with the FHIROperationRegistry using `META-INF/services/org.linuxforhealth.fhir.server.operation.spi.FHIROperation` which lists each of the classes that implement the FHIROperation interface
 
 For each implementation, the framework calls FHIROperation.getDefinition() to get the OperationDefinition and uses that do determine which endpoint to server the operation from (based on the defined operation levels, resource types, and "code").
 
@@ -200,7 +200,7 @@ The pom.xml should look like:
     <artifactId>fhir-operation-myop</artifactId>
 
     <parent>
-        <groupId>com.ibm.fhir</groupId>
+        <groupId>org.linuxforhealth.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
         <version>4.4.1-SNAPSHOT</version>
         <relativePath>../../fhir-parent</relativePath>
@@ -221,12 +221,12 @@ Note, if you are using the persistence layer, you naturally get the fhir-persist
 Note, if you are including some custom libraries or other libraries, you should shade the dependencies into a single jar or deliverable.
 
 3. Add your OperationDefinition to the `src/main/resources`, such as healthcare.json.
-4. Extend the AbstractOperation in your package, such as, `com.ibm.fhir.demo.MyOperation`
-5. Create the Services Loader file `com.ibm.fhir.server.operation.spi.FHIROperation` in `src/main/resources/META-INF/services/`
+4. Extend the AbstractOperation in your package, such as, `org.linuxforhealth.fhir.demo.MyOperation`
+5. Create the Services Loader file `org.linuxforhealth.fhir.server.operation.spi.FHIROperation` in `src/main/resources/META-INF/services/`
 6. Put a single line in the package for each of the Operations that are going to be hosted in the package.
   ```
-  com.ibm.fhir.demo.MyOperation
-  com.ibm.fhir.demo.DemoOperation
+  org.linuxforhealth.fhir.demo.MyOperation
+  org.linuxforhealth.fhir.demo.DemoOperation
   ```
 7. Add the constructor, such as:
 ``` java

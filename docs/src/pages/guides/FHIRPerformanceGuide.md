@@ -202,7 +202,7 @@ The caches are isolated by tenant and specific to each datasource defined for th
 {
     "fhirServer": {
         "persistence": {
-            "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "factoryClassname": "org.linuxforhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
             "common": {
                 "__comment": "Configuration properties common to all persistence layer implementations",
                 "updateCreateEnabled": true

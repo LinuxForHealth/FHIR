@@ -57,15 +57,15 @@ run_tests(){
 
         # Test 1 - Basic Tests for Reindex
         mvn -B test -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress \
-            -DskipTests=false -Dtest="com.ibm.fhir.server.test.operation.ReindexOperationTest" | tee build/reindex/${reindex}/workarea/${reindex}-test1.log
+            -DskipTests=false -Dtest="org.linuxforhealth.fhir.server.test.operation.ReindexOperationTest" | tee build/reindex/${reindex}/workarea/${reindex}-test1.log
 
         # Test 2 - Long Run Tests *895 Resources*
         mvn -B test -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress \
-            -DskipTests=false -Dtest="com.ibm.fhir.server.test.operation.ReindexOperationLongRunTest" | tee build/reindex/${reindex}/workarea/${reindex}-test2.log
+            -DskipTests=false -Dtest="org.linuxforhealth.fhir.server.test.operation.ReindexOperationLongRunTest" | tee build/reindex/${reindex}/workarea/${reindex}-test2.log
 
         # Test 3 Phase 1
         mvn -B test -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress \
-            -DskipTests=false -Dtest="com.ibm.fhir.server.test.operation.ReindexOperationPhase1Test" | tee build/reindex/${reindex}/workarea/${reindex}-test3.log
+            -DskipTests=false -Dtest="org.linuxforhealth.fhir.server.test.operation.ReindexOperationPhase1Test" | tee build/reindex/${reindex}/workarea/${reindex}-test3.log
 
         # Update SPs
         cp -pr ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/reindex-operation/extension-search-parameters-test1.json \
@@ -79,7 +79,7 @@ run_tests(){
 
         # Test 3 Phase 2
         mvn -B test -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress \
-            -DskipTests=false -Dtest="com.ibm.fhir.server.test.operation.ReindexOperationPhase2Test" | tee build/reindex/${reindex}/workarea/${reindex}-test4.log
+            -DskipTests=false -Dtest="org.linuxforhealth.fhir.server.test.operation.ReindexOperationPhase2Test" | tee build/reindex/${reindex}/workarea/${reindex}-test4.log
 
         # Update SPs
         cp -pr ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/reindex-operation/extension-search-parameters-test2.json \
@@ -93,7 +93,7 @@ run_tests(){
 
         # Test 3 Phase 3
         mvn -B test -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress \
-            -DskipTests=false -Dtest="com.ibm.fhir.server.test.operation.ReindexOperationPhase3Test" | tee build/reindex/${reindex}/workarea/${reindex}-test5.log
+            -DskipTests=false -Dtest="org.linuxforhealth.fhir.server.test.operation.ReindexOperationPhase3Test" | tee build/reindex/${reindex}/workarea/${reindex}-test5.log
     fi
 }
 

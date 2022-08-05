@@ -65,7 +65,7 @@ services:
         source: ./bulkdata
         target: /output/bulkdata
     environment:
-        TRACE_SPEC: "com.ibm.fhir.*=FINE"
+        TRACE_SPEC: "org.linuxforhealth.fhir.*=FINE"
         TRACE_FILE: "stdout"
     command: bash -c "
       java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar

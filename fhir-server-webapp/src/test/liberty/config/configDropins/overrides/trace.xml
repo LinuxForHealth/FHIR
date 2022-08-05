@@ -1,3 +1,3 @@
 <server>
-    <logging traceFileName="stdout" traceSpecification="com.ibm.fhir.persistence.jdbc.dao.impl.*=fine:com.ibm.fhir.database.utils.query.*=FINE" traceFormat="BASIC"/>
+    <logging traceFileName="stdout" traceSpecification="org.linuxforhealth.fhir.persistence.jdbc.dao.impl.*=fine:org.linuxforhealth.fhir.database.utils.query.*=FINE" traceFormat="BASIC"/>
 </server>

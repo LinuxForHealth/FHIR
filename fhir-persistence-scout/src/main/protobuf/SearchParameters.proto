@@ -7,7 +7,7 @@ syntax = "proto3";
 
 package fhirPersistenceScale;
 
-option java_package = "com.ibm.fhir.persistence.scout";
+option java_package = "org.linuxforhealth.fhir.persistence.scout";
 option java_outer_classname = "SearchParameters";
 
 message StrValue {

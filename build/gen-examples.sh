@@ -17,5 +17,5 @@ mvn clean install -f ${WORKSPACE}/fhir-examples-generator -DskipTests -U
 
 if [[ $? -eq 0 ]]
 then
-    mvn com.ibm.fhir:fhir-examples-generator:generate-examples -f ${WORKSPACE}/fhir-examples
+    mvn org.linuxforhealth.fhir:fhir-examples-generator:generate-examples -f ${WORKSPACE}/fhir-examples
 fi
