@@ -157,7 +157,7 @@ The LinuxForHealth FHIR Server is modular and extensible. The following tables p
 |Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-tools|Code generation tools and logic for generating the FHIR object model, XML and JSON parsers, and the DefaultVisitor base class|false|
-|fhir-database-utils|Generic database utilities for working with Apache Derby and IBM Db2 relational database management systems|false|
+|fhir-database-utils|Generic database utilities for working with Apache Derby and PostgreSQL relational database management systems|false|
 |fhir-examples-generator|A utility for generating resource examples which range from minimal (only required fields) to complete (every field present)|false|
 |fhir-examples|A set of FHIR resource examples including 1) all examples from the FHIR Specification 2) a set of generated examples for test purposes|false|
 |fhir-swagger-generator|Utilities for generating Swagger 2.0 and OpenAPI 3.0 definitions for a subset of the FHIR HTTP interface|false|

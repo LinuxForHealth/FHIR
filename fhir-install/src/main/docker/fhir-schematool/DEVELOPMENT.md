@@ -33,19 +33,7 @@ or
 docker build --build-arg FHIR_VERSION=5.0.0 -t linuxforhealth/fhir-schematool:5.0.0 .
 ```
 
-5. For Db2, change run. (You may have to edit the corresponding examples)
-
-* onboard
-``` shell
-time docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-offboard-example.json |base64` linuxforhealth/fhir-schematool:latest | tee out.log
-```
-
-* offboard
-``` shell
-time docker run  --env ENV_TOOL_INPUT=`cat examples/db2/persistence-onboard-example.json |base64` linuxforhealth/fhir-schematool:latest | tee out.log
-```
-
-6. For Postgres, run. (You may have to edit the corresponding examples)
+5. For Postgres, run. (You may have to edit the corresponding examples)
 
 * onboard
 ``` shell
@@ -57,7 +45,7 @@ time docker run  --env ENV_TOOL_INPUT=`cat examples/postgres/persistence-offboar
 time docker run  --env ENV_TOOL_INPUT=`cat examples/postgres/persistence-onboard-example.json |base64` linuxforhealth/fhir-schematool:latest | tee out.log
 ```
 
-7. Confirm you see your changes work, and the Deployment works.
+6. Confirm you see your changes work, and the Deployment works.
 
     * Schema is created, or deleted
     * No Error Logs (at least unexpected)

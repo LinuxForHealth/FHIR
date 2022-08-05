@@ -33,8 +33,6 @@ run_tests(){
         # Add || docker container logs "$(docker container ls | grep fhir_1 | awk '{print $NF}' )"
         echo "Done Running Tests"
         echo ""
-
-        # docker container logs "db2_fhir_1"
     fi
 }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -79,10 +79,8 @@ import com.ibm.fhir.model.type.Xhtml;
 import com.ibm.fhir.model.util.ModelSupport;
 
 /**
- * An enumeration that contains all of the FHIR base types, FHIR complex data types, FHIRPath primitive data types, FHIR resource types,
- * FHIRPath system types and FHIRPath metamodel types needed for evaluating FHIRPath expressions
- * 
- * TODO: add R4B types in
+ * An enumeration that contains all of the FHIR base types, FHIR complex data types, FHIR resource types,
+ * FHIRPath system types and FHIRPath metamodel types needed for evaluating FHIRPath expressions.
  */
 public enum FHIRPathType {
     // FHIR base types
@@ -134,7 +132,7 @@ public enum FHIRPathType {
     FHIR_TIMING("FHIR", "Timing", FHIR_BACKBONE_ELEMENT, Timing.class),
     FHIR_TRIGGER_DEFINITION("FHIR", "TriggerDefinition", FHIR_ELEMENT, TriggerDefinition.class),
     FHIR_USAGE_CONTEXT("FHIR", "UsageContext", FHIR_ELEMENT, UsageContext.class),
-    
+
     // FHIR primitive data types
     FHIR_BASE64BINARY("FHIR", "base64Binary", FHIR_ELEMENT, Base64Binary.class),
     FHIR_BOOLEAN("FHIR", "boolean", FHIR_ELEMENT, Boolean.class),

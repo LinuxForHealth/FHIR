@@ -7,7 +7,7 @@ The design is such that it COULD, but does not support multiple input files at t
 When the container is started, the container process one of two flows:
 
 * Schema Onboarding - creates and updates a schema and apply grants
-* Schema Offboarding - deletes a tenant (Db2) and removes data if there are no tenants left.
+* Schema Offboarding - drops a schema
 
 **Schema Onboarding Flow**
 
@@ -25,10 +25,6 @@ The schema onboarding flow setup add a new tenant or update the database to the 
     1. If connectivity succeeds, proceed.
 1. Create the schema
 1. Update the Schema 
-1. Check if Db2:
-    1. If Db2, allocate tenant and save output.
-    1. If Db2, test the allocated tenant
-    1. If not Db2, proceed.
 1. Grant permissions to the IBM FHIR Server database user
 
 **Schema Offboarding Flow**
@@ -41,10 +37,6 @@ The schema offboarding flow offboards the current schema, while preserving the s
 1. Check if **BEHAVIOR** set to OFFBOARD:
     1. If not `BEHAVIOR['OFFBOARD']`, skip. 
     1. If `BEHAVIOR['OFFBOARD']`, proceed.
-1. Check if Db2: 
-    1. If Db2, then deallocate tenant
-    1. If not Db2, then proceed.
-1. If (Db2 and no more tenants) or Postgres, then proceed:
     1. Drop FHIR Schema
     1. Drop Java Batch
     1. Drop OAuth
@@ -64,7 +56,4 @@ The configuration data is mounted to `/fhir-schematool/workarea/input`.
 
 ## Docker 
 The design is to use as few layers as possible starting with `ibmsemeruruntime/open-11-jdk:ubi_min-jre`. 
-
-The build uses multiple layers to avoid a bloated image after the necessary updates. Using a single image results in a 500M image (per docker history fhir-schematool), versus 167M.
-
-The DockerHub repository is at `linuxforhealth/fhir-schematool` and the team that manages it is the IBM FHIR Server team (Docker team: fhir).
+The build uses multiple stages to avoid a bloated image after the necessary updates.

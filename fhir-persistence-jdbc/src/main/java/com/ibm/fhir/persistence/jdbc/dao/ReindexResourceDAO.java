@@ -20,6 +20,8 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.config.MetricHandle;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.CalendarHelper;
 import com.ibm.fhir.database.utils.common.PreparedStatementHelper;
@@ -32,6 +34,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.Resource;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.FHIRPersistenceJDBCMetric;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 
 /**
@@ -406,14 +409,24 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         final String METHODNAME = "updateParameters() for " + tablePrefix + "/" + logicalId;
         logger.entering(CLASSNAME, METHODNAME);
 
-        // no need to close
-        Connection connection = getConnection();
-        ParameterTableSupport.deleteFromParameterTables(connection, tablePrefix, logicalResourceId);
+        try (MetricHandle m = FHIRRequestContext.get().getMetricHandle(FHIRPersistenceJDBCMetric.M_JDBC_DELETE_RESOURCE_PARAMETERS.name())) {
+            deleteResourceParameters(tablePrefix, logicalResourceId);
+        }
 
         // Update the parameter hash in the LOGICAL_RESOURCES table
-        updateParameterHash(connection, logicalResourceId, parameterHashB64);
+        updateParameterHash(getConnection(), logicalResourceId, parameterHashB64);
 
         logger.exiting(CLASSNAME, METHODNAME);
+    }
+
+    /**
+     * Delete all the parameter values for the given resourceType/logicalResourceId
+     * @param resourceTypeName
+     * @param logicalResourceId
+     * @throws SQLException
+     */
+    protected void deleteResourceParameters(String resourceTypeName, long logicalResourceId) throws SQLException {
+        ParameterTableSupport.deleteFromParameterTables(getConnection(), resourceTypeName, logicalResourceId);        
     }
 
     /**
