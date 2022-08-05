@@ -11,8 +11,6 @@ import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
-import java.io.InputStream;
-
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -22,8 +20,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
@@ -291,7 +287,7 @@ public class ValidateOperationTest {
      */
     @Test
     public void testResourceInstanceLevelValidate() throws Exception {
-        Patient patient = (Patient) getTestResource("Patient.json");
+        Patient patient = (Patient) getTestResource();
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
         SingleResourceResult result = mock(SingleResourceResult.class);
 
@@ -312,7 +308,7 @@ public class ValidateOperationTest {
                         .text(string("All OK"))
                         .build())
                     .build();
-        Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
+        Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "test", null, input, resourceHelper, null);
         OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
         assertEquals(operationOutcome.getIssue().size(), 1);
         assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
@@ -324,7 +320,6 @@ public class ValidateOperationTest {
      */
     @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*Patient with id '1' was not found*")
     public void testResourceInstanceLevelValidateForNullResource() throws Exception {
-        Patient patient = (Patient) getTestResource("Patient.json");
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
         SingleResourceResult result = mock(SingleResourceResult.class);
         
@@ -337,20 +332,8 @@ public class ValidateOperationTest {
                 FHIROperationContext.createInstanceOperationContext("validate");
         Parameters input = Parameters.builder()
                 .build();
-        
-        Issue expectedOutput = Issue.builder()
-                    .severity(IssueSeverity.INFORMATION)
-                    .code(IssueType.INFORMATIONAL)
-                    .details(CodeableConcept.builder()
-                        .text(string("All OK"))
-                        .build())
-                    .build();
 
-
-        Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
-        OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
-        assertEquals(operationOutcome.getIssue().size(), 1);
-        assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
+        validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
     }
     
     /**
@@ -360,10 +343,14 @@ public class ValidateOperationTest {
      * @return Resource - A FHIR Resource object representation
      * @throws Exception
      */
-    private static Resource getTestResource(String path) throws Exception {
-        try (InputStream is = ClassLoader.getSystemResourceAsStream(path)) {
-            return FHIRParser.parser(Format.JSON).parse(is);
-        }
+    private static Resource getTestResource() throws Exception {
+        
+        return Patient.builder().id("test")
+        .text(Narrative.builder()
+            .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+            .status(NarrativeStatus.GENERATED)
+            .build())
+        .build();
     }
     
     /**
@@ -373,7 +360,7 @@ public class ValidateOperationTest {
      */
     @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*'random' is not a valid resource validation mode*")
     public void testInvalidValidModeTypes() throws FHIROperationException {
-            Parameters input = Parameters.builder()
+           Parameters input = Parameters.builder()
                     .parameter(Parameter.builder()
                         .name("resource")
                         .resource(Patient.builder()
@@ -403,8 +390,8 @@ public class ValidateOperationTest {
     @Test
     public void testValidateOperationDeleteNotSupported() throws FHIROperationException {
         
-        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
-            Parameters input = Parameters.builder()
+           FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+           Parameters input = Parameters.builder()
                     .parameter(Parameter.builder()
                         .name("resource")
                         .resource(Patient.builder()
@@ -493,9 +480,5 @@ public class ValidateOperationTest {
             assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
         
     }
-    
-    
-    
-    
     
 }
