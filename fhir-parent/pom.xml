@@ -509,7 +509,7 @@
             <dependency>
                 <groupId>org.foundationdb</groupId>
                 <artifactId>fdb-java</artifactId>
-                <version>7.1.7</version>
+                <version>7.1.17</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
@@ -605,7 +605,7 @@
             <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>
-                <version>3.0.5</version>
+                <version>3.1.1</version>
             </dependency>
             <dependency>
                 <!-- Netty is an open-source, asynchronous event-driven network application framework; used by org.apache.tinkerpop:gremlin-driver -->
