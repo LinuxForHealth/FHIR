@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package demo.ibm.fhir.operation.davinci.hrex.provider.strategy;
+package org.linuxforhealth.fhir.operation.davinci.hrex.demo;
 
 import java.util.logging.Logger;
 
