@@ -453,7 +453,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             }
 
             if (resourceDTO.getInteractionStatus() == InteractionStatus.MODIFIED && searchParameters != null) {
-                storeSearchParameterValues(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getLogicalResourceId(), 
+                storeSearchParameterValues(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getLogicalResourceId(),
                     resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters,
                     resourceDTO.getCurrentParameterHash());
             }
@@ -491,8 +491,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
-     * Convert the extracted parameters into a SearchParametersTransport and either 
-     * collect the values to commit with the local transaction or send it off to a 
+     * Convert the extracted parameters into a SearchParametersTransport and either
+     * collect the values to commit with the local transaction or send it off to a
      * remote indexing service (if so configured).
      * @param resourceType the resource type name
      * @param logicalId the logical id of the resource
@@ -503,8 +503,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param searchParameters the search parameters extracted from the resource
      * @param currentParameterHash the current parameter hash returned from add_any_resource (null if this is a new resource)
      */
-    private void storeSearchParameterValues(String resourceType, String logicalId, long logicalResourceId, 
-            int versionId, java.time.Instant lastUpdated, String requestShard, 
+    private void storeSearchParameterValues(String resourceType, String logicalId, long logicalResourceId,
+            int versionId, java.time.Instant lastUpdated, String requestShard,
             ExtractedSearchParameters searchParameters, String currentParameterHash) throws FHIRPersistenceException {
 
         final SearchParametersTransportAdapter adapter = buildSearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId, versionId, lastUpdated, requestShard, searchParameters, currentParameterHash);
@@ -533,7 +533,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     /**
      * Process the searchParameters and gather the unique set of underlying values we intend to store
      * in the search parameter value tables
-     * 
+     *
      * @param resourceType
      * @param logicalId
      * @param logicalResourceId
@@ -544,11 +544,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @param currentParameterHash
      * @return
      */
-    private SearchParametersTransportAdapter buildSearchParametersTransportAdapter(String resourceType, String logicalId, long logicalResourceId, 
-            int versionId, java.time.Instant lastUpdated, String requestShard, 
+    private SearchParametersTransportAdapter buildSearchParametersTransportAdapter(String resourceType, String logicalId, long logicalResourceId,
+            int versionId, java.time.Instant lastUpdated, String requestShard,
             ExtractedSearchParameters searchParameters, String currentParameterHash) throws FHIRPersistenceException {
 
-        SearchParametersTransportAdapter adapter = new SearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId, 
+        SearchParametersTransportAdapter adapter = new SearchParametersTransportAdapter(resourceType, logicalId, logicalResourceId,
             versionId, lastUpdated, requestShard, searchParameters.getParameterHashB64());
         ParameterTransportVisitor visitor = new ParameterTransportVisitor(adapter);
         for (ExtractedParameterValue pv: searchParameters.getParameters()) {
@@ -565,7 +565,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      */
     private void accumulateSearchParameterValues(SearchParametersTransport params) throws FHIRPersistenceException {
         final String tenantId = FHIRRequestContext.get().getTenantId();
-                
+
         if (params.getStringValues() != null) {
             for (StringParameter p: params.getStringValues()) {
                 paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
@@ -586,7 +586,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         if (params.getQuantityValues() != null) {
             for (QuantityParameter p: params.getQuantityValues()) {
-                paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);                
+                paramValueCollector.collect(tenantId, params.getRequestShard(), params.getResourceType(), params.getLogicalId(), params.getLogicalResourceId(), p);
             }
         }
 
@@ -816,7 +816,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // If configured, send the extracted parameters to the remote indexing service
             if (resourceDTO.getInteractionStatus() == InteractionStatus.MODIFIED && searchParameters != null) {
-                storeSearchParameterValues(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getLogicalResourceId(), 
+                storeSearchParameterValues(resourceDTO.getResourceType(), resourceDTO.getLogicalId(), resourceDTO.getLogicalResourceId(),
                     resourceDTO.getVersionId(), resourceDTO.getLastUpdated().toInstant(), context.getRequestShard(), searchParameters,
                     resourceDTO.getCurrentParameterHash()
                     );
@@ -2747,7 +2747,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     @Override
     public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, List<Long> indexIds,
-        String resourceLogicalId, boolean force) throws FHIRPersistenceException {
+            String resourceLogicalId, boolean force) throws FHIRPersistenceException {
         final String METHODNAME = "reindex";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -3125,7 +3125,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             }
         }
-        
+
         // If we're using a remote index service, check that all the messages sent to the
         // remote service have been acknowledged
         for (IndexProviderResponse ipr: this.remoteIndexMessageList) {
