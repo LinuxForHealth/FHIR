@@ -176,9 +176,9 @@ jobs:
         mkdir -p ${it_results}/fhir-server-test
         cp pre-it-logs.zip ${it_results}/
         echo "Gathering post-test server logs..."
-        cp -pr SIT/wlp/usr/servers/fhir-server/logs ${it_results}/server-logs
+        cp -r SIT/wlp/usr/servers/defaultServer/logs ${it_results}/server-logs
         echo "Gathering integration test output"
-        cp -pr ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test || true
+        cp -r ${GITHUB_WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test || true
     - name: Upload logs
       if: always()
       uses: actions/upload-artifact@v2.2.0

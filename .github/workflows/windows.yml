@@ -67,7 +67,7 @@ jobs:
         New-Item -Path $it_results -Name $DST_ST -ItemType 'directory' -Force
 
         Write-Host 'Gathering post-test server logs'
-        $SRC_ST='SIT/wlp/usr/servers/fhir-server/logs'
+        $SRC_ST='SIT/wlp/usr/servers/defaultServer/logs'
         $DST_SL_F=$it_results + '/' + $DST_SL
         Copy-Item -Path $SRC_ST -Destination $DST_SL_F -Recurse -Force -ErrorAction SilentlyContinue
 
