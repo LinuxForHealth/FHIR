@@ -9,7 +9,7 @@
         <servlet-class>com.ibm.websphere.jaxrs.server.IBMRestServlet</servlet-class>
         <init-param>
             <param-name>javax.ws.rs.Application</param-name>
-            <param-value>com.ibm.fhir.server.FHIRApplication</param-value>
+            <param-value>org.linuxforhealth.fhir.server.FHIRApplication</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
@@ -26,7 +26,7 @@
 
     <filter>
         <filter-name>FHIRRestFilter</filter-name>
-        <filter-class>com.ibm.fhir.server.filter.rest.FHIRRestServletFilter</filter-class>
+        <filter-class>org.linuxforhealth.fhir.server.filter.rest.FHIRRestServletFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>FHIRRestFilter</filter-name>

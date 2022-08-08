@@ -11,7 +11,7 @@ The query parameter near, as in `GET [base]/Location?near=-83.694810|42.256500|1
     - units - a unit of US Statue Lengths, Metric units and British Statute Lengths  per the Unit-of-Measure site - case sensitive or case insensitive unit. 
    
 
-The package `com.ibm.fhir.search.location` contains:
+The package `org.linuxforhealth.fhir.search.location` contains:
 - Unit of Measure - enumerations and lookup manager
 - Bounding Area
     - Bounding Radius a circle with a radius of distance using radians

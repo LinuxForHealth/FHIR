@@ -75,7 +75,7 @@ services:
         target: /opt/ol/wlp/usr/servers/defaultServer/apps/expanded/fhir-openapi.war/META-INF/openapi.json
         read_only: true
     environment:
-        TRACE_SPEC: "com.ibm.fhir.*=INFO"
+        TRACE_SPEC: "org.linuxforhealth.fhir.*=INFO"
         TRACE_FILE: "stdout"
     command: bash -c "
       java -jar /opt/fhir-server/tools/fhir-persistence-blob-app-*-cli.jar

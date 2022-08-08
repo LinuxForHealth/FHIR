@@ -50,13 +50,13 @@ handlers=java.util.logging.ConsoleHandler,java.util.logging.FileHandler
 
 # Console output
 java.util.logging.ConsoleHandler.level = INFO
-java.util.logging.ConsoleHandler.formatter=com.ibm.fhir.database.utils.common.LogFormatter
+java.util.logging.ConsoleHandler.formatter=org.linuxforhealth.fhir.database.utils.common.LogFormatter
 
 # What level do we want to see in the log file
 java.util.logging.FileHandler.level=INFO
 
 # Log retention: 50MB * 20 files ~= 1GB
-java.util.logging.FileHandler.formatter=com.ibm.fhir.database.utils.common.LogFormatter
+java.util.logging.FileHandler.formatter=org.linuxforhealth.fhir.database.utils.common.LogFormatter
 java.util.logging.FileHandler.limit=50000000
 java.util.logging.FileHandler.count=20
 java.util.logging.FileHandler.pattern=fhirflow-%u-%g.log

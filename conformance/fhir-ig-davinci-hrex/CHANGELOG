@@ -19,9 +19,9 @@
 
 # Known Issues
 WARNING: Slice-specific constraints: [dom-2, dom-4, dom-3, hrex-cov-1, dom-6, dom-5] found on element: Parameters.parameter:CoverageToMatch.resource are not supported
-Oct 15, 2021 11:53:57 AM com.ibm.fhir.profile.ConstraintGenerator generate
+Oct 15, 2021 11:53:57 AM org.linuxforhealth.fhir.profile.ConstraintGenerator generate
 WARNING: Constraint was not generated due to the following error: Discriminator not generated (elementDefinition: Parameters.parameter:memberPatient, profile: http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in)
-Oct 15, 2021 11:53:57 AM com.ibm.fhir.profile.ConstraintGenerator generate
+Oct 15, 2021 11:53:57 AM org.linuxforhealth.fhir.profile.ConstraintGenerator generate
 WARNING: Constraint was not generated due to the following error: Discriminator not generated (elementDefinition: Parameters.parameter:CoverageToMatch, profile: http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in)
-Oct 15, 2021 11:53:57 AM com.ibm.fhir.profile.ConstraintGenerator generate
+Oct 15, 2021 11:53:57 AM org.linuxforhealth.fhir.profile.ConstraintGenerator generate
 WARNING: Constraint was not generated due to the following error: Discriminator not generated (elementDefinition: Parameters.parameter:CoverageToLink, profile: http://hl7.org/fhir/us/davinci-hrex/StructureDefinition/hrex-parameters-member-match-in)

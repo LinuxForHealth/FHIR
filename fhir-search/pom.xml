@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.ibm.fhir</groupId>
+        <groupId>org.linuxforhealth.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
         <version>5.0.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
@@ -105,7 +105,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <systemPropertyVariables>
-                        <com.ibm.fhir.search.test.ExamplesDriverTest.index>${fhir-search.index}</com.ibm.fhir.search.test.ExamplesDriverTest.index>
+                        <org.linuxforhealth.fhir.search.test.ExamplesDriverTest.index>${fhir-search.index}</org.linuxforhealth.fhir.search.test.ExamplesDriverTest.index>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>

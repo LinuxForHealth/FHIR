@@ -47,8 +47,8 @@
         The trace specification can be set via the TRACE_SPEC environment variable (or by overriding it below).
         
         Example trace specifications: 
-        <logging traceSpecification="*=info:com.ibm.fhir.*=finer" traceFormat="BASIC"/>
-        <logging traceSpecification="com.ibm.fhir.persistence.jdbc.dao.impl.*=fine:com.ibm.fhir.database.utils.query.*=fine" traceFormat="BASIC"/>
+        <logging traceSpecification="*=info:org.linuxforhealth.fhir.*=finer" traceFormat="BASIC"/>
+        <logging traceSpecification="org.linuxforhealth.fhir.persistence.jdbc.dao.impl.*=fine:org.linuxforhealth.fhir.database.utils.query.*=fine" traceFormat="BASIC"/>
         <logging traceSpecification="${TRACE_SPEC}" traceFileName="${TRACE_FILE}" traceFormat="${TRACE_FORMAT}" consoleLogLevel="${WLP_LOGGING_CONSOLE_LOGLEVEL}"/>
         
         To send the trace messages to standard out, set TRACE_FILE to "stdout".

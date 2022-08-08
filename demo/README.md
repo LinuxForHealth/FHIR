@@ -31,7 +31,7 @@ The LinuxForHealth FHIR Server can be extended with conformance resources from F
 
 If the LinuxForHealth FHIR Server team has already packaged the desired implementation guide, you can use a command like the following to ask Maven to download the latest version of this IG jar to the mounted userlib directory:
 ```
-mvn dependency:copy -DoutputDirectory=fhir/userlib -Dartifact=com.ibm.fhir:fhir-ig-us-core:LATEST
+mvn dependency:copy -DoutputDirectory=fhir/userlib -Dartifact=org.linuxforhealth.fhir:fhir-ig-us-core:LATEST
 ```
 
 ### Limitations

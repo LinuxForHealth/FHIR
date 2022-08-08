@@ -39,10 +39,10 @@ psql postgres
 
 ## Printing the schema DDL for review
 
-To print the schema DDL for review, execute `com.ibm.fhir.schema.app.SchemaPrinter`:
+To print the schema DDL for review, execute `org.linuxforhealth.fhir.schema.app.SchemaPrinter`:
 
 ``` shell
-java -cp ./fhir-persistence-schema-${VERSION}-cli.jar com.ibm.fhir.schema.app.SchemaPrinter [--to-file]
+java -cp ./fhir-persistence-schema-${VERSION}-cli.jar org.linuxforhealth.fhir.schema.app.SchemaPrinter [--to-file]
 ```
 
 Note: Replace `${VERSION}` with the version of the jar you're using or use the wildcard `*` to match any version.

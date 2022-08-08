@@ -3,77 +3,77 @@
     <test name="ExampleTest">
         <!-- All of these tests are automatically executed and are from fhir-examples -->
         <packages>
-            <package name="com.ibm.fhir.server.test.examples" />
+            <package name="org.linuxforhealth.fhir.server.test.examples" />
         </packages>
     </test>
     <test name="ServerTests">
         <packages>
             <!-- All of these tests are automatically executed -->
-            <package name="com.ibm.fhir.server.test" />
+            <package name="org.linuxforhealth.fhir.server.test" />
         </packages>
     </test>
     <test name="ProfileTests">
         <packages>
             <!-- All of these tests are automatically executed -->
-            <package name="com.ibm.fhir.server.test.profiles" />
-            <package name="com.ibm.fhir.server.test.profiles.uscore.v311" />
-            <package name="com.ibm.fhir.server.test.profiles.uscore.v400" />
+            <package name="org.linuxforhealth.fhir.server.test.profiles" />
+            <package name="org.linuxforhealth.fhir.server.test.profiles.uscore.v311" />
+            <package name="org.linuxforhealth.fhir.server.test.profiles.uscore.v400" />
         </packages>
     </test>
     <test name="ClientTests">
         <packages>
             <!-- The first two packages of these tests are automatically executed -->
-            <package name="com.ibm.fhir.cli.test" />
-            <package name="com.ibm.fhir.client.test" />
+            <package name="org.linuxforhealth.fhir.cli.test" />
+            <package name="org.linuxforhealth.fhir.client.test" />
             <!-- The following packages of these tests are skipped by default, and enabled in test.properties -->
-            <package name="com.ibm.fhir.client.test.oauth" />
+            <package name="org.linuxforhealth.fhir.client.test.oauth" />
         </packages>
     </test>
     <test name="BulkDataTests">
         <packages>
             <!-- All of these Bulk Data tests are skipped by default, and enabled in test.properties -->
-            <package name="com.ibm.fhir.server.test.bulkdata" />
+            <package name="org.linuxforhealth.fhir.server.test.bulkdata" />
         </packages>
     </test>
     <test name="KafkaTests">
         <packages>
             <!-- All of these Kafka tests are skipped by default, and enabled in test.properties -->
-            <package name="com.ibm.fhir.server.test.kafka" />
+            <package name="org.linuxforhealth.fhir.server.test.kafka" />
         </packages>
     </test>
     <test name="WebsocketTests">
         <packages>
             <!-- All of these websocket tests are enabled by default, and disabled in test.properties -->
-            <package name="com.ibm.fhir.server.test.websocket" />
+            <package name="org.linuxforhealth.fhir.server.test.websocket" />
         </packages>
     </test>
     <test name="PerformanceTests">
         <packages>
             <!-- All of these performance tests are automatically executed and
                  the number of iterations is controlled in test.properties -->
-            <package name="com.ibm.fhir.server.test.performance" />
+            <package name="org.linuxforhealth.fhir.server.test.performance" />
         </packages>
     </test>
     <test name="TerminologyTests">
         <packages>
             <!-- All of these tests are automatically executed -->
-            <package name="com.ibm.fhir.server.test.terminology" />
+            <package name="org.linuxforhealth.fhir.server.test.terminology" />
         </packages>
     </test>
     <test name="OperationSpecificTests">
         <packages>
-            <package name="com.ibm.fhir.server.test.operation" />
+            <package name="org.linuxforhealth.fhir.server.test.operation" />
         </packages>
     </test>
     <test name="ClinicalReasoningTests">
         <packages>
-            <package name="com.ibm.fhir.server.test.cpg" />
-            <package name="com.ibm.fhir.server.test.cqf" />
+            <package name="org.linuxforhealth.fhir.server.test.cpg" />
+            <package name="org.linuxforhealth.fhir.server.test.cqf" />
         </packages>
     </test>
     <test name="SmartOnFhirEnabledTests">
         <packages>
-            <package name="com.ibm.fhir.server.test.smart" />
+            <package name="org.linuxforhealth.fhir.server.test.smart" />
         </packages>
     </test>
 </suite>

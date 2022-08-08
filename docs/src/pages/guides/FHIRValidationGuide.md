@@ -173,7 +173,7 @@ public interface FHIRRegistryResourceProvider {
 ```
 
 Package your implementation in a jar file and be sure to include its fully-qualified classname in your jar's
-`META-INF/services/com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider`, then drop this jar in the server's userlib directory to make it available to the server during startup.
+`META-INF/services/org.linuxforhealth.fhir.registry.spi.FHIRRegistryResourceProvider`, then drop this jar in the server's userlib directory to make it available to the server during startup.
 
 ### NPM package format support
 

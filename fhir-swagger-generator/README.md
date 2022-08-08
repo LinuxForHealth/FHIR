@@ -23,10 +23,10 @@ For example, to generate definitions for `read, vread, and history` on the Patie
 java -jar fhir-swagger-generator-4.6.1-cli.jar "Patient(read,vread,history);Contract(create,read,vread,history,search);RiskAssessment(read)"
 ```
 
-To generate Swagger 2.0 definitions instead, execute the com.ibm.fhir.swagger.generator.FHIRSwaggerGenerator class:
+To generate Swagger 2.0 definitions instead, execute the org.linuxforhealth.fhir.swagger.generator.FHIRSwaggerGenerator class:
 
 ```
-java -cp fhir-swagger-generator-4.6.1-cli.jar com.ibm.fhir.swagger.generator.FHIRSwaggerGenerator [OPTIONAL FILTER]
+java -cp fhir-swagger-generator-4.6.1-cli.jar org.linuxforhealth.fhir.swagger.generator.FHIRSwaggerGenerator [OPTIONAL FILTER]
 ```
 
 ## Output

@@ -41,7 +41,7 @@ The `$member-match` operation is configured for each tenant using the respective
 
 The default `$member-match` strategy executes a series of Searches on the local FHIR Server to find a Patient on the system with a Patient and Coverage (to-match).
 
-The strategy may be extended using a JAR that implements the service loader. To register a JAR, `META-INF/services/com.ibm.fhir.operation.davinci.hrex.provider.strategy.MemberMatchStrategy` the file must point to the package and class that implements `MemberMatchStrategy`.
+The strategy may be extended using a JAR that implements the service loader. To register a JAR, `META-INF/services/org.linuxforhealth.fhir.operation.davinci.hrex.provider.strategy.MemberMatchStrategy` the file must point to the package and class that implements `MemberMatchStrategy`.
 
 For implementers, there is an existing `AbstractMemberMatch` which provides a template and series of hooks to extend: 
 

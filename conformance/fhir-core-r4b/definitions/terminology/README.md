@@ -6,7 +6,7 @@ The CodeSystems to include were computed using the following commands against th
 Hint to download the latest fhir-path cli jar to current dir:
 
 ```
-$ mvn dependency:copy -DoutputDirectory=. -Dartifact=com.ibm.fhir:fhir-path:LATEST:jar:cli
+$ mvn dependency:copy -DoutputDirectory=. -Dartifact=org.linuxforhealth.fhir:fhir-path:LATEST:jar:cli
 ```
 
 1. CodeSystems included from R4B valuesets

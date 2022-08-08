@@ -67,7 +67,7 @@ More info on using `azurite` for development can be found in the official docume
 
 ### Checking Stored Values
 
-When new resources are ingested, the class `com.ibm.fhir.persistence.blob.BlobStorePayload` logs a `FINE` message which can be seen in the Liberty Profile `trace.log` file:
+When new resources are ingested, the class `org.linuxforhealth.fhir.persistence.blob.BlobStorePayload` logs a `FINE` message which can be seen in the Liberty Profile `trace.log` file:
 
 ```
 Payload storage path: 97/my-blob-5/7/b0a2fb75-1ef8-45c8-b5d7-658350fb45cc

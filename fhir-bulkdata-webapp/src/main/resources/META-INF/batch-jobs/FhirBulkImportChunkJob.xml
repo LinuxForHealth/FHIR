@@ -4,7 +4,7 @@
         <property name="fhir.cosreadsperdbbatch" value="#{jobParameters['fhir.cosreadsperdbbatch']}?:1;" />
     </properties>
     <listeners>
-        <listener ref="com.ibm.fhir.bulkdata.jbatch.load.ImportJobListener">
+        <listener ref="org.linuxforhealth.fhir.bulkdata.jbatch.load.ImportJobListener">
             <properties>
                 <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                 <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
@@ -17,10 +17,10 @@
     </listeners>
     <step id="step1">
         <listeners>
-            <listener ref="com.ibm.fhir.bulkdata.jbatch.listener.StepChunkListener"></listener>
+            <listener ref="org.linuxforhealth.fhir.bulkdata.jbatch.listener.StepChunkListener"></listener>
         </listeners>
         <chunk checkpoint-policy="item" item-count="#{jobProperties['fhir.cosreadsperdbbatch']}">
-            <reader ref="com.ibm.fhir.bulkdata.jbatch.load.ChunkReader">
+            <reader ref="org.linuxforhealth.fhir.bulkdata.jbatch.load.ChunkReader">
                 <properties>
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
@@ -35,7 +35,7 @@
                     <property name="partition.resourcetype" value="#{partitionPlan['partition.resourcetype']}"/>
                 </properties>
             </reader>
-            <writer ref="com.ibm.fhir.bulkdata.jbatch.load.ChunkWriter">
+            <writer ref="org.linuxforhealth.fhir.bulkdata.jbatch.load.ChunkWriter">
                 <properties >
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
@@ -50,7 +50,7 @@
             </writer>
         </chunk>
         <partition>
-            <mapper ref="com.ibm.fhir.bulkdata.jbatch.load.ImportPartitionMapper">
+            <mapper ref="org.linuxforhealth.fhir.bulkdata.jbatch.load.ImportPartitionMapper">
                 <properties>
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
@@ -60,7 +60,7 @@
                     <property name="fhir.dataSourcesInfo" value="#{jobParameters['fhir.dataSourcesInfo']}"/>
                 </properties>
             </mapper>
-            <collector ref="com.ibm.fhir.bulkdata.jbatch.load.ImportPartitionCollector">
+            <collector ref="org.linuxforhealth.fhir.bulkdata.jbatch.load.ImportPartitionCollector">
                 <properties>
                     <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
                     <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
@@ -70,7 +70,7 @@
                     <property name="cos.bucket.pathprefix" value="#{jobParameters['cos.bucket.pathprefix']}"/>
                 </properties>
             </collector>
-            <analyzer ref="com.ibm.fhir.bulkdata.jbatch.load.ImportPartitionAnalyzer"/>
+            <analyzer ref="org.linuxforhealth.fhir.bulkdata.jbatch.load.ImportPartitionAnalyzer"/>
         </partition>
     </step>
 </job>
