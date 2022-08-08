@@ -605,7 +605,7 @@
             <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>
-                <version>3.0.5</version>
+                <version>3.1.1</version>
             </dependency>
             <dependency>
                 <!-- Netty is an open-source, asynchronous event-driven network application framework; used by org.apache.tinkerpop:gremlin-driver -->
@@ -910,7 +910,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.4.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
