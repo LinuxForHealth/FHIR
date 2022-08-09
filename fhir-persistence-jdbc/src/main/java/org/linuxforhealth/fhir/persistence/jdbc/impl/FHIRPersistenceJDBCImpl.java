@@ -2138,7 +2138,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
-     * Augment the given allParameters list with ibm-internal parameters that represent the relationship
+     * Augment the given allParameters list with internal parameters that represent the relationship
      * between the fhirResource and its compartments. These parameter values are subsequently used
      * to improve the performance of compartment-based FHIR search queries. See
      * {@link CompartmentHelper#makeCompartmentParamName(String)} for details on how the
@@ -2206,7 +2206,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
-     * Augment the given allParameters list with ibm-internal parameters that represent the relationship
+     * Augment the given allParameters list with internal parameters that represent the relationship
      * between the url and version parameters. These parameter values are subsequently used in
      * canonical reference searches. See {@link CompartmentHelper#makeCompartmentParamName(String)} for
      * details on how the parameter name is composed.

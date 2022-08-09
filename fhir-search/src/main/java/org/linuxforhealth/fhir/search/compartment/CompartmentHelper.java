@@ -34,11 +34,11 @@ import org.linuxforhealth.fhir.search.exception.SearchExceptionUtil;
  * <br>
  * Default CompartmentDefintion:
  * <ul>
- * <li>Patient - https://hl7.org/fhir/R4/compartmentdefinition-patient.json</li>
- * <li>Encounter - https://hl7.org/fhir/R4/compartmentdefinition-encounter.json</li>
- * <li>RelatedPerson - https://hl7.org/fhir/R4/compartmentdefinition-relatedperson.json</li>
- * <li>Practitioner - https://hl7.org/fhir/R4/compartmentdefinition-practitioner.json</li>
- * <li>Device - https://hl7.org/fhir/R4/compartmentdefinition-device.json</li>
+ * <li>Patient - https://hl7.org/fhir/R4B/compartmentdefinition-patient.json</li>
+ * <li>Encounter - https://hl7.org/fhir/R4B/compartmentdefinition-encounter.json</li>
+ * <li>RelatedPerson - https://hl7.org/fhir/R4B/compartmentdefinition-relatedperson.json</li>
+ * <li>Practitioner - https://hl7.org/fhir/R4B/compartmentdefinition-practitioner.json</li>
+ * <li>Device - https://hl7.org/fhir/R4B/compartmentdefinition-device.json</li>
  * </ul>
  */
 public class CompartmentHelper {
@@ -220,7 +220,7 @@ public class CompartmentHelper {
      */
     public static String makeCompartmentParamName(String compartmentName) {
         final StringBuilder result = new StringBuilder();
-        result.append("ibm-internal-")
+        result.append("internal-")
             .append(compartmentName)
             .append("-Compartment");
         return result.toString();

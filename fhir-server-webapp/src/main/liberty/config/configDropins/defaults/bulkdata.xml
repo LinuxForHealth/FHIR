@@ -39,8 +39,9 @@
     <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="${BATCH_DB_SCHEMA}" tablePrefix="" createTables="false"/>
 
     <!--
-         The defaultHostName is set in the deployment.yaml https://github.com/Alvearie/alvearie-helm/blob/main/charts/ibm-fhir-server/templates/deployment.yaml#L159
-         and is subsequently used by the bulkdata configurations
+         The defaultHostName is subsequently used in the bulkdata configuration and must be set to avoid liberty batch issues.
+         For example, in the helm chart:
+         https://github.com/Alvearie/alvearie-helm/blob/main/charts/ibm-fhir-server/templates/deployment.yaml#L179
     -->
     <variable name="defaultHostName" value="${env.MY_POD_NAME}"/>
 </server>

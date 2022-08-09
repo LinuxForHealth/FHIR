@@ -128,26 +128,32 @@ public class AuditLogEntry {
         this.configData = configData;
     }
 
+    @Deprecated
     public String getClientCertCn() {
         return clientCertCn;
     }
 
+    @Deprecated
     public void setClientCertCn(String clientCertCn) {
         this.clientCertCn = clientCertCn;
     }
 
+    @Deprecated
     public String getClientCertIssuerOu() {
         return clientCertIssuerOu;
     }
 
+    @Deprecated
     public void setClientCertIssuerOu(String clientCertIssuerOu) {
         this.clientCertIssuerOu = clientCertIssuerOu;
     }
 
+    @Deprecated
     public String getCorrelationId() {
         return correlationId;
     }
 
+    @Deprecated
     public void setCorrelationId(String correlationId) {
         this.correlationId = correlationId;
     }

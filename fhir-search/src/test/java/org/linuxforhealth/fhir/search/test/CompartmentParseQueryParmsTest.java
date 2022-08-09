@@ -39,8 +39,8 @@ import org.linuxforhealth.fhir.search.util.SearchHelper;
  * Test the parsing of compartment related search data from SearchHelper.
  */
 public class CompartmentParseQueryParmsTest extends BaseSearchTest {
-    private static final String INTERNAL_PATIENT_COMPARTMENT_PARAM = "ibm-internal-Patient-Compartment";
-    private static final String INTERNAL_RELATEDPERSON_COMPARTMENT_PARAM = "ibm-internal-RelatedPerson-Compartment";
+    private static final String INTERNAL_PATIENT_COMPARTMENT_PARAM = "internal-Patient-Compartment";
+    private static final String INTERNAL_RELATEDPERSON_COMPARTMENT_PARAM = "internal-RelatedPerson-Compartment";
 
     /**
      * This method tests parsing compartment related query parms, passing an invalid compartment.
