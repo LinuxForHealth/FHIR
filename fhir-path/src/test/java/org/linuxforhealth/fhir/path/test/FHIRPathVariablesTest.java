@@ -19,6 +19,9 @@ import org.linuxforhealth.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContex
 import org.linuxforhealth.fhir.path.util.FHIRPathUtil;
 import org.testng.annotations.Test;
 
+/**
+ * Test FHIRPath expressions that use variables / externalConstants like %resource
+ */
 public class FHIRPathVariablesTest {
     Patient patient = Patient.builder()
             .id("test")
