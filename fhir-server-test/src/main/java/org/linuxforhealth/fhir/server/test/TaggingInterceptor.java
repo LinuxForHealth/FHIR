@@ -19,7 +19,7 @@ import org.linuxforhealth.fhir.server.spi.interceptor.FHIRPersistenceInterceptor
 import org.linuxforhealth.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
 
 /**
- * A sample persistence interceptor that adds a tag to each resource before it gets persisted.
+ * A sample persistence interceptor that adds a "before" tag to each resource before it gets persisted and an "after" tag when it is read.
  */
 public class TaggingInterceptor implements FHIRPersistenceInterceptor {
     private final Coding BEFORE_TAG = Coding.builder()
