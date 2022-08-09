@@ -46,7 +46,7 @@ public class SearchParameterAugmenter {
                 continue; // too complicated to handle this case right now
             }
 
-            Resource sampleResource = TestUtil.readExampleResource("json/ibm/complete-mock/" + base.get(0).getValue() + "-1.json");
+            Resource sampleResource = TestUtil.readExampleResource("json/complete-mock/" + base.get(0).getValue() + "-1.json");
 
             Collection<FHIRPathNode> nodes = FHIRPathEvaluator.evaluator().evaluate(sampleResource, searchParameter.getExpression().getValue());
 

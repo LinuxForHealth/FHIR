@@ -1838,7 +1838,7 @@ public class BundleTest extends FHIRServerTestBase {
         // Add 2 POST entries to create the Patient resources but use duplicate fullUrl
         // values.
         String patientLocalRef = "urn:Patient_X";
-        Patient patient = TestUtil.readExampleResource("/json/ibm/minimal/Patient-1.json");
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
         for (int i = 1; i <= 2; i++) {
             bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null, patient, patientLocalRef);
         }

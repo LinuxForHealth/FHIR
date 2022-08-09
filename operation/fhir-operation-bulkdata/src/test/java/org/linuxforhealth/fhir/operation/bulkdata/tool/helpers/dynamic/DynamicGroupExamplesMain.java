@@ -48,8 +48,8 @@ public class DynamicGroupExamplesMain {
             List<Issue> issuesBundle = FHIRValidator.validator().validate(bundle);
             issuesBundle.stream().forEach(System.out::println);
 
-            System.out.println("OK         json/ibm/bulk-data/group/"+ groupExample.filename() + "-group.json");
-            System.out.println("OK         json/ibm/bulk-data/group/"+ groupExample.filename() + "-example.json");
+            System.out.println("OK         json/bulk-data/group/"+ groupExample.filename() + "-group.json");
+            System.out.println("OK         json/bulk-data/group/"+ groupExample.filename() + "-example.json");
             try(FileOutputStream out1 = new FileOutputStream(new File(DIR + groupExample.filename() + "-group.json"));
                     FileOutputStream out2 = new FileOutputStream(new File(DIR + groupExample.filename() + "-example.json"))){
                 FHIRGenerator.generator(Format.JSON, true).generate(group, out1);

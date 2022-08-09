@@ -29,7 +29,7 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
 
     @Override
     protected Basic getBasicResource() throws Exception {
-        return TestUtil.readExampleResource("json/ibm/basic/BasicNumber.json");
+        return TestUtil.readExampleResource("json/basic/BasicNumber.json");
     }
 
     @Override

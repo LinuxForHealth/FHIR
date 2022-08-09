@@ -30,7 +30,7 @@ public class SearchNearTest extends FHIRServerTestBase {
         Location location = TestUtil.readExampleResource("json/spec/location-example.json");
         locationId = createResourceAndReturnTheLogicalId("Location", location);
 
-        Location locationAbs = TestUtil.readExampleResource("json/ibm/complete-absent/Location-1.json");
+        Location locationAbs = TestUtil.readExampleResource("json/complete-absent/Location-1.json");
         createResourceAndReturnTheLogicalId("Location", locationAbs);
 
         createResourceAndReturnTheLogicalId("PractitionerRole", buildChainedResources());

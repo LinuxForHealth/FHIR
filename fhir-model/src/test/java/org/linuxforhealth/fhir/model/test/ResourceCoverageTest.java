@@ -98,7 +98,7 @@ public class ResourceCoverageTest {
     public void testResources() throws Exception {
         for (Class<?> resourceType : ModelSupport.getResourceTypes(false)) {
                 Resource resource =
-                        TestUtil.readExampleResource("json/ibm/complete-mock/" + resourceType.getSimpleName() + "-1.json");
+                        TestUtil.readExampleResource("json/complete-mock/" + resourceType.getSimpleName() + "-1.json");
                 Method[] methods = resource.getClass().getMethods();
                 runMethods(resource, methods);
                 Class<?>[] clzs = resource.getClass().getClasses();
@@ -125,7 +125,7 @@ public class ResourceCoverageTest {
     public void testResourcesWithXml() throws Exception {
         for (Class<?> resourceType : ModelSupport.getResourceTypes(false)) {
             Resource resource =
-                    TestUtil.readExampleResource("xml/ibm/complete-mock/" + resourceType.getSimpleName() + "-1.xml");
+                    TestUtil.readExampleResource("xml/complete-mock/" + resourceType.getSimpleName() + "-1.xml");
 
             Resource.Builder builder = resource.toBuilder();
             Method[] methods = builder.getClass().getMethods();

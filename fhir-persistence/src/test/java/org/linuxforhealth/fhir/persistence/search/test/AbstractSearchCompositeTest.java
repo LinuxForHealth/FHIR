@@ -27,7 +27,7 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
 
     @Override
     protected Basic getBasicResource() throws Exception {
-        return TestUtil.readExampleResource("json/ibm/basic/BasicComposite.json");
+        return TestUtil.readExampleResource("json/basic/BasicComposite.json");
     }
 
     @Override

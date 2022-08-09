@@ -60,8 +60,8 @@ public class FHIRPathEvaluatorTest {
                 .family(String.of("Doe"))
                 .build();
 
-        Resource patient1 = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json").toBuilder().id("1").build();
-        Resource patient2 = TestUtil.readExampleResource("json/ibm/minimal/Patient-2.json").toBuilder().id("2").build();
+        Resource patient1 = TestUtil.getMinimalResource(Patient.class).toBuilder().id("1").build();
+        Resource patient2 = patient1.toBuilder().id("2").build();
 
         Patient patient = Patient.builder()
                 .id(id)

@@ -27,7 +27,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Override
     protected Basic getBasicResource() throws Exception {
-        return TestUtil.readExampleResource("json/ibm/basic/BasicToken.json");
+        return TestUtil.readExampleResource("json/basic/BasicToken.json");
     }
 
     @Override

@@ -71,7 +71,7 @@ public class LocationGeneratorMain {
 
             FHIRValidator.validator().validate(location);
 
-            System.out.println("OK         json/ibm/bulk-data/location/"+ "synthetic-mass-" + countOfLocationType + ".json");
+            System.out.println("OK         json/bulk-data/location/"+ "synthetic-mass-" + countOfLocationType + ".json");
             try(FileOutputStream out = new FileOutputStream(new File(DIR + "synthetic-mass-" + countOfLocationType + ".json"))){
                 FHIRGenerator.generator(Format.JSON, true).generate(location, out);
             }

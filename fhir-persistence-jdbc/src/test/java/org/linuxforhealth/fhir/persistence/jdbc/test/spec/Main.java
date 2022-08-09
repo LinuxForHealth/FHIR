@@ -69,7 +69,7 @@ import org.linuxforhealth.fhir.validation.test.ValidationProcessor;
  *   --expectation PARSE
  *   --file-name file:/path/to/bad.json
  *   --expectation VALIDATION
- *   --file-name json/ibm/minimal/Patient-1.json
+ *   --file-name json/minimal/Patient-1.json
  *
  *   java org.linuxforhealth.fhir.persistence.jdbc.test.spec.Main
  *   --parse

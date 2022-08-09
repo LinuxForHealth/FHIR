@@ -56,7 +56,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
         if (runIt) {
             Patient r = null;
             // Create ID with 2 Special Extensions
-            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+            try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
                 r = FHIRParser.parser(Format.JSON).parse(example);
                 Extension ext1 = Extension.builder()
                         .url("NAME1")
@@ -100,7 +100,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
     public void testReindex_String_Phase1() throws IOException, FHIRParserException, FHIRPathException {
         if (runIt) {
             Basic r = null;
-            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicString.json"))) {
+            try (Reader example = ExamplesUtil.resourceReader(("json/basic/BasicString.json"))) {
                 r = FHIRParser.parser(Format.JSON).parse(example);
                 r = r.toBuilder()
                         .id("REINDEX-STRING")
@@ -131,7 +131,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
     public void testReindex_Token_Phase1() throws IOException, FHIRParserException, FHIRPathException {
         if (runIt) {
             Basic r = null;
-            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicToken.json"))) {
+            try (Reader example = ExamplesUtil.resourceReader(("json/basic/BasicToken.json"))) {
                 r = FHIRParser.parser(Format.JSON).parse(example);
 
                 // "http://example.org/ContactPoint-noSystem"
@@ -176,7 +176,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
     public void testReindex_URI_Phase1() throws IOException, FHIRParserException, FHIRPathException {
         if (runIt) {
             Basic r = null;
-            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicURI.json"))) {
+            try (Reader example = ExamplesUtil.resourceReader(("json/basic/BasicURI.json"))) {
                 r = FHIRParser.parser(Format.JSON).parse(example);
                 r = r.toBuilder()
                         .id("REINDEX-URI")
@@ -207,7 +207,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
     public void testReindex_Reference_Phase1() throws IOException, FHIRParserException, FHIRPathException {
         if (runIt) {
             Basic r = null;
-            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicReference.json"))) {
+            try (Reader example = ExamplesUtil.resourceReader(("json/basic/BasicReference.json"))) {
                 r = FHIRParser.parser(Format.JSON).parse(example);
                 r = r.toBuilder()
                         .id("REINDEX-REFERENCE")
@@ -238,7 +238,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
     public void testReindex_Quantity_Phase1() throws IOException, FHIRParserException, FHIRPathException {
         if (runIt) {
             Basic r = null;
-            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicQuantity.json"))) {
+            try (Reader example = ExamplesUtil.resourceReader(("json/basic/BasicQuantity.json"))) {
                 r = FHIRParser.parser(Format.JSON).parse(example);
                 r = r.toBuilder()
                         .id("REINDEX-QUANTITY")
@@ -269,7 +269,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
     public void testReindex_Number_Phase1() throws IOException, FHIRParserException, FHIRPathException {
         if (runIt) {
             Basic r = null;
-            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicNumber.json"))) {
+            try (Reader example = ExamplesUtil.resourceReader(("json/basic/BasicNumber.json"))) {
                 r = FHIRParser.parser(Format.JSON).parse(example);
                 r = r.toBuilder()
                         .id("REINDEX-NUMBER")
@@ -300,7 +300,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
     public void testReindex_Date_Phase1() throws IOException, FHIRParserException, FHIRPathException {
         if (runIt) {
             Basic r = null;
-            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicDate.json"))) {
+            try (Reader example = ExamplesUtil.resourceReader(("json/basic/BasicDate.json"))) {
                 r = FHIRParser.parser(Format.JSON).parse(example);
 
                 r = r.toBuilder()
@@ -332,7 +332,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
     public void testReindex_Composite_Phase1() throws IOException, FHIRParserException, FHIRPathException {
         if (runIt) {
             Basic r = null;
-            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicComposite.json"))) {
+            try (Reader example = ExamplesUtil.resourceReader(("json/basic/BasicComposite.json"))) {
                 r = FHIRParser.parser(Format.JSON).parse(example);
                 r = r.toBuilder()
                         .id("REINDEX-COMPOSITE")
