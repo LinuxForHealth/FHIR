@@ -1,8 +1,8 @@
 # FHIR Examples
 
-This module collects a large number of FHIR examples into a single spot. The examples are organized into directories for convenience and generally follow the pattern `format/source[/category]/filename`
+This module collects a large number of FHIR examples into a single spot. The examples are organized into directories for convenience and generally follow the pattern `format/category/filename`
 
-The resources under `json/spec` and `xml/spec` were downloaded from FHIR version 4.1.0 on 2021-12-06. The JSON spec examples appear as-is, but the XML example filenames were modified (removed parenthetical content) for congruity with the previous (FHIR 4.0.0) XML examples.
+The resources under `json/spec` and `xml/spec` were downloaded from https://build.fhir.org/branches/R4B/downloads.html on 2022-05-11. The JSON spec examples appear as-is, but the XML example filenames were modified (removed parenthetical content) for congruity with the previous (FHIR 4.0.0) XML examples.
 
 Additionally, the fhir-examples module includes Java helpers for working with these examples:
 * `org.linuxforhealth.fhir.examples.Index` is an enum that mirrors the ".txt" files found at `src/main/resources`
