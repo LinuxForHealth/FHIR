@@ -37,27 +37,27 @@ If a tenant-specific extension-search-parameters.json file does not exist, the s
 The `fhir-search` module requires that the [expression](https://hl7.org/fhir/R4B/searchparameter-definitions.html#SearchParameter.expression), [type](https://hl7.org/fhir/R4B/searchparameter-definitions.html#SearchParameter.type) and [code](https://hl7.org/fhir/R4B/searchparameter-definitions.html#SearchParameter.code) be set, as in the following example:
 ```json
 {
-  "fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-color",
+  "fullUrl": "http://example.com/fhir/SearchParameter/Patient-favorite-color",
   "resource": {
     "resourceType": "SearchParameter",
     "id": "Patient-favorite-color",
-    "url": "http://ibm.com/fhir/SearchParameter/Patient-favorite-color",
+    "url": "http://example.com/fhir/SearchParameter/Patient-favorite-color",
     "version": "4.0.0",
     "name": "favorite-color",
     "status": "draft",
     "experimental": false,
     "date": "2018-12-27T22:37:54+11:00",
-    "publisher": "IBM FHIR Server Test",
+    "publisher": "LinuxForHealth FHIR Server Test",
     "contact": [{
       "telecom": [{
         "system": "url",
-        "value": "http://ibm.com/fhir"
+        "value": "http://linuxforhealth.org"
       }]
     },
     {
       "telecom": [{
         "system": "url",
-        "value": "http://ibm.com/fhir"
+        "value": "http://linuxforhealth.org"
       }]
     }],
     "description": "the patient's favorite color",
@@ -65,8 +65,8 @@ The `fhir-search` module requires that the [expression](https://hl7.org/fhir/R4B
     "base": ["Patient"],
     "type": "string",
     "xpathUsage": "normal",
-    "xpath": "f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-color']/f:valueString",
-    "expression": "Patient.extension.where(url='http://ibm.com/fhir/extension/Patient/favorite-color').value",
+    "xpath": "f:Patient/f:extension[@url='http://example.com/fhir/extension/Patient/favorite-color']/f:valueString",
+    "expression": "Patient.extension.where(url='http://example.com/fhir/extension/Patient/favorite-color').value",
     "multipleOr": true,
     "multipleAnd": true,
     "modifier": []
@@ -80,7 +80,7 @@ A couple things to note:
 
 Each time a resource is created, updated or reindexed, the IBM FHIR Server evaluates the FHIRPath expression applicable to the resource type and indexes the values of the matching elements, making these available via a search where the query parameter name matches the `code` element on the `SearchParameter` definition.
 
-In the preceding example, extension elements (on a Patient resource) with a url of `http://ibm.com/fhir/extension/Patient/favorite-color` are indexed by the `favorite-color` search parameter. To search for Patients with a favorite color of "pink", users could send an HTTP GET request to a URL like `[base]/Patient?favorite-color:exact=pink`.
+In the preceding example, extension elements (on a Patient resource) with a url of `http://example.com/fhir/extension/Patient/favorite-color` are indexed by the `favorite-color` search parameter. To search for Patients with a favorite color of "pink", users could send an HTTP GET request to a URL like `[base]/Patient?favorite-color:exact=pink`.
 
 When creating the SearchParameter FHIRPath expression, be sure to test both the FHIRPath expression and the search parameter.
 
@@ -91,7 +91,7 @@ The IBM FHIR Server team has introduced a custom SearchParameter extension that 
 
 ```json
 {
-    "url": "http://ibm.com/fhir/extension/implicit-system",
+    "url": "http://fhir.linuxforhealth.org/fhir/extension/implicit-system",
     "valueUri": "http://hl7.org/fhir/account-status"
 }
 ```

@@ -38,6 +38,7 @@ import org.linuxforhealth.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import org.linuxforhealth.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import org.linuxforhealth.fhir.bulkdata.provider.Provider;
 import org.linuxforhealth.fhir.bulkdata.provider.ProviderFactory;
+import org.linuxforhealth.fhir.core.FHIRConstants;
 import org.linuxforhealth.fhir.exception.FHIRException;
 import org.linuxforhealth.fhir.exception.FHIROperationException;
 import org.linuxforhealth.fhir.model.format.Format;
@@ -418,12 +419,11 @@ public class ChunkWriter extends AbstractItemWriter {
                                 .severity(IssueSeverity.INFORMATION)
                                 .code(IssueType.INFORMATIONAL)
                                 .details(CodeableConcept.builder()
-                                        .text(string(
-                                                "Update to an existing resource matches the stored resource's hash; skipping the update for '"
-                                                        + key + "'"))
+                                        .text("Update to an existing resource matches the stored resource's hash; "
+                                                + "skipping the update for '" + key + "'")
                                         .build())
                                 .extension(Extension.builder()
-                                        .url("https://ibm.com/fhir/bulkdata/linenumber")
+                                        .url(FHIRConstants.EXT_BASE + "bulkdata/linenumber")
                                         .value(Long.toString(line))
                                         .build())
                                 .build())
@@ -470,7 +470,7 @@ public class ChunkWriter extends AbstractItemWriter {
                                         .text(string("All OK"))
                                         .build())
                         .extension(Extension.builder()
-                                .url("https://ibm.com/fhir/bulkdata/linenumber")
+                                .url(FHIRConstants.EXT_BASE + "bulkdata/linenumber")
                                 .value(Long.toString(lineNumber))
                                 .build())
                         .build())
@@ -493,7 +493,7 @@ public class ChunkWriter extends AbstractItemWriter {
                                 .text(string("There is a warning included on the cited line"))
                                 .build())
                 .extension(Extension.builder()
-                        .url("https://ibm.com/fhir/bulkdata/linenumber")
+                        .url(FHIRConstants.EXT_BASE + "bulkdata/linenumber")
                         .value(Long.toString(lineNumber))
                         .build())
                 .build();
@@ -523,7 +523,7 @@ public class ChunkWriter extends AbstractItemWriter {
                                         + ex.getMessage() + "]"))
                                 .build())
                 .extension(Extension.builder()
-                        .url("https://ibm.com/fhir/bulkdata/linenumber")
+                        .url(FHIRConstants.EXT_BASE + "bulkdata/linenumber")
                         .value(Long.toString(lineNumber))
                         .build())
                 .build();
@@ -553,7 +553,7 @@ public class ChunkWriter extends AbstractItemWriter {
                                         + " '" + assertedResourceType + "/" + id + "'"))
                                 .build())
                 .extension(Extension.builder()
-                        .url("https://ibm.com/fhir/bulkdata/linenumber")
+                        .url(FHIRConstants.EXT_BASE + "bulkdata/linenumber")
                         .value(Long.toString(lineNumber))
                         .build())
                 .build();

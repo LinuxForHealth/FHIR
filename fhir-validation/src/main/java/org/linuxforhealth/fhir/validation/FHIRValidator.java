@@ -75,7 +75,7 @@ import net.jcip.annotations.NotThreadSafe;
  */
 @NotThreadSafe
 public class FHIRValidator {
-    public static final String SOURCE_VALIDATOR = "http://ibm.com/fhir/validation/FHIRValidator";
+    public static final String SOURCE_VALIDATOR = "http://fhir.linuxforhealth.org/validation/FHIRValidator";
 
     private static final Logger log = Logger.getLogger(FHIRValidator.class.getName());
 

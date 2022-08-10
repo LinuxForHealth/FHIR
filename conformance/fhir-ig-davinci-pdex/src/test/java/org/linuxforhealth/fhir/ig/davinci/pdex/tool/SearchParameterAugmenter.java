@@ -33,7 +33,7 @@ import org.linuxforhealth.fhir.profile.ProfileSupport;
 import org.linuxforhealth.fhir.registry.FHIRRegistry;
 
 /**
- * A utility for adding the http://ibm.com/fhir/extension/implicit-system extension
+ * A utility for adding the http://fhir.linuxforhealth.org/extension/implicit-system extension
  * to search parameters which always reference code values with a particular system
  */
 public class SearchParameterAugmenter {

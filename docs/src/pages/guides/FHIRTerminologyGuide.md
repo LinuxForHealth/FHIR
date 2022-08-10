@@ -43,9 +43,9 @@ The default implementation of `FHIRTermServiceProvider` ([RegistryTermServicePro
 The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/LinuxForHealth/FHIR/blob/main/term/fhir-term/src/main/java/com/ibm/fhir/term/service/FHIRTermService.java)) loads a list of `FHIRTermServiceProvider` instances from the ServiceLoader and includes an instance of the `RegistryTermServiceProvider`. Client code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
 
 ```java
-ValueSet valueSet = ValueSetSupport.getValueSet("http://ibm.com/fhir/ValueSet/vs1");
+ValueSet valueSet = ValueSetSupport.getValueSet("http://example.com/fhir/ValueSet/vs1");
 Coding coding = Coding.builder()
-        .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+        .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
         .version(string("1.0.0"))
         .code(Code.of("a")
         .display(string("concept a")
@@ -92,15 +92,14 @@ Here is the same example from above but going through the FHIRPath evaluator:
 
 ```java
 Coding coding = Coding.builder()
-        .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+        .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
         .version(string("1.0.0"))
         .code(Code.of("a")
         .display(string("concept a")
         .build();
 Collection<FHIRPathNode> initialContext = singleton(FHIRPathElementNode.elementNode(coding));
 FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-Collection<FHIRPathNode> result = evaluator.evaluate("%terminologies.validateCode('http://ibm.com/fhir/ValueSet/vs1', %context)");
-
+Collection<FHIRPathNode> result = evaluator.evaluate("%terminologies.validateCode('http://example.com/fhir/ValueSet/vs1', %context)");
 ```
 
 Additionally, the FHIRPath functions `subsumedBy` and `subsumes` have been implemented per: [http://hl7.org/fhir/fhirpath.html#functions](http://hl7.org/fhir/fhirpath.html#functions)

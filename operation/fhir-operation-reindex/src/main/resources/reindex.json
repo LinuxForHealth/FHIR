@@ -5,7 +5,7 @@
         "status": "generated",
         "div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>Reindex</h2><p>OPERATION: Reindex existing resources in the database</p><p>The reindex operation reads resources from the database and extracts and stores search parameters according to the latest configuration of the server.</p><p>URL: [base]/$reindex</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td>OperationOutcome</td><td/><td><p>If the operation outcome does not list any errors, then the server expected to be healthy.</p></td></tr></table></div>"
     },
-    "url": "http://ibm.com/fhir/OperationDefinition/reindex",
+    "url": "http://fhir.linuxforhealth.org/OperationDefinition/reindex",
     "name": "reindex",
     "status": "draft",
     "kind": "operation",

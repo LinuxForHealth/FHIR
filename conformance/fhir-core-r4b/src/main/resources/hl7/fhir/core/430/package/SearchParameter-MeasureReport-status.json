@@ -5,6 +5,10 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "normative"
+        },
+        {
+            "url": "http://fhir.linuxforhealth.org/extension/implicit-system",
+            "valueUri": "http://hl7.org/fhir/measure-report-status"
         }
     ],
     "url": "http://hl7.org/fhir/SearchParameter/MeasureReport-status",

@@ -897,12 +897,12 @@ If an instance contains extensions that are unknown to the server, then the serv
 ### 4.5.3 Profile validation
 The IBM FHIR Server can be extended with custom profile validation. This allows one to apply validation rules on the basis of the `Resource.meta.profile` values included on the resource instance.
 
-For example, you can configure a set of FHIRPath Constraints to run for resources that claim conformance to the `http://ibm.com/fhir/profile/partner` profile when you see an input resource like the following:
+For example, you can configure a set of FHIRPath Constraints to run for resources that claim conformance to the `http://example.com/fhir/profile/partner` profile when you see an input resource like the following:
 ```
 {
     "resourceType" : "Patient",
     "meta": {
-        "profile": [ "http://ibm.com/fhir/profile/partner" ]
+        "profile": [ "http://example.com/fhir/profile/partner" ]
     },
     "name" : [ {
         "family" : [ "Doe" ],
@@ -941,35 +941,35 @@ The following example configuration shows how to define these configuration para
             "Observation": {
                 "profiles": {
                     "atLeastOne": [
-                        "http://ibm.com/fhir/profile/partnerA",
-                        "http://ibm.com/fhir/profile/partnerB|1.0"
+                        "http://example.com/fhir/profile/partnerA",
+                        "http://example.com/fhir/profile/partnerB|1.0"
                     ],
                     "allowUnknown": false,
                     "defaultVersions": {
-                        "http://ibm.com/fhir/profile/partnerA": "1.1",
-                        "http://ibm.com/fhir/profile/partnerE": "2.0"
+                        "http://example.com/fhir/profile/partnerA": "1.1",
+                        "http://example.com/fhir/profile/partnerE": "2.0"
                     }
                 }
             },
             "Patient": {
                 "profiles": {
                     "notAllowed": [
-                        "http://ibm.com/fhir/profile/partnerC",
-                        "http://ibm.com/fhir/profile/partnerD|2.0"
+                        "http://example.com/fhir/profile/partnerC",
+                        "http://example.com/fhir/profile/partnerD|2.0"
                     ]
                 }
             },
             "Resource": {
                 "profiles": {
                     "notAllowed": [
-                        "http://ibm.com/fhir/profile/partnerF",
-                        "http://ibm.com/fhir/profile/partnerG|4.0.0",
-                        "http://ibm.com/fhir/profile/partnerH"
+                        "http://example.com/fhir/profile/partnerF",
+                        "http://example.com/fhir/profile/partnerG|4.0.0",
+                        "http://example.com/fhir/profile/partnerH"
                     ],
                     "defaultVersions": {
-                        "http://ibm.com/fhir/profile/partnerI": "1.0",
-                        "http://ibm.com/fhir/profile/partnerJ": "3.1.1",
-                        "http://ibm.com/fhir/profile/partnerK": "1.1"
+                        "http://example.com/fhir/profile/partnerI": "1.0",
+                        "http://example.com/fhir/profile/partnerJ": "3.1.1",
+                        "http://example.com/fhir/profile/partnerK": "1.1"
                     }
                 }
             }
@@ -980,22 +980,22 @@ The following example configuration shows how to define these configuration para
 ```
 
 Given this configuration, in order for an `Observation` resource to be persisted to the FHIR server:
-* The resource's `meta.profile` element must specify either the `http://ibm.com/fhir/profile/partnerA` profile or the `http://ibm.com/fhir/profile/partnerB|1.0` profile or both, based on the `fhirServer/resources/Observation/profiles/atLeastOne` list. Other profiles may be specified as well assuming they pass the following checks.
+* The resource's `meta.profile` element must specify either the `http://example.com/fhir/profile/partnerA` profile or the `http://example.com/fhir/profile/partnerB|1.0` profile or both, based on the `fhirServer/resources/Observation/profiles/atLeastOne` list. Other profiles may be specified as well assuming they pass the following checks.
 * The resource's `meta.profile` element must not specify any profile which is specified in the `fhirServer/resources/Resource/profiles/notAllowed` list. Since the `notAllowed` property is not specified in the `fhirServer/resources/Observation/profiles` section, it is inherited from the `fhirServer/resources/Resource/profiles` section if specified there.
 * The resource's `meta.profile` element must not specify any profile which is not loaded in the FHIR server, based on the `fhirServer/resources/Observation/profiles/allowUnknown` value of `false`.
-* The resource must successfully validate against all specified profiles. Note that if the `http://ibm.com/fhir/profile/partnerA` profile is specified, what is actually evaluated against and eventually passed to the FHIR validator is `http://ibm.com/fhir/profile/partnerA|1.1`. This is because the `http://ibm.com/fhir/profile/partnerA` profile is specified in the `fhirServer/resources/Observation/profiles/defaultVersions` set with a default version of `1.1`.
+* The resource must successfully validate against all specified profiles. Note that if the `http://example.com/fhir/profile/partnerA` profile is specified, what is actually evaluated against and eventually passed to the FHIR validator is `http://example.com/fhir/profile/partnerA|1.1`. This is because the `http://example.com/fhir/profile/partnerA` profile is specified in the `fhirServer/resources/Observation/profiles/defaultVersions` set with a default version of `1.1`.
 
 In order for a `Patient` resource to be persisted to the FHIR server:
 * The resource's `meta.profile` element is not required to specify any profile since the `atLeastOne` property is not specified in the `fhirServer/resources/Patient/profiles` section, nor is it specified in the `fhirServer/resources/Resource/profiles` section, where the property would be inherited from if specified. Any valid `Patient` profile may be specified assuming it passes the following checks.
-* The resource's `meta.profile` element cannot specify either the `http://ibm.com/fhir/profile/partnerC` profile or the `http://ibm.com/fhir/profile/partnerD|2.0` profile, based on the `fhirServer/resources/Patient/profiles/notAllowed` list.
+* The resource's `meta.profile` element cannot specify either the `http://example.com/fhir/profile/partnerC` profile or the `http://example.com/fhir/profile/partnerD|2.0` profile, based on the `fhirServer/resources/Patient/profiles/notAllowed` list.
 * The resource's `meta.profile` element may specify a profile which is not loaded in the FHIR server. Based on the absence of the `allowUnknown` property in the `fhirServer/resources/Patient/profiles` section, as well as the absence of that property in the `fhirServer/resources/Resource/profiles` section (where the property would be inherited from if specified), the default value of `true` is used. This means unknown profiles (not loaded in the FHIR server) will be allowed and will simply be ignored.
 * The resource must successfully validate against all specified profiles. Note that since the `defaultVersions` property is not specified in the `fhirServer/resources/Patient/profiles` section, this property will be inherited from the `fhirServer/resources/Resource/profiles/defaultVersions` property. So if a profile is specified in the resource's `meta.profile` element that is in the set of `defaultVersions` profiles, what will actually be evaluated against and eventually passed to the FHIR validator is the original profile name with its specified default version appended to it.
 
-If a profile in either the list specified by the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter or the list specified by the `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter contains a version, for example `http://ibm.com/fhir/profile/partner|1.0`, then a profile of the same name specified in the resource's `meta.profile` element will only be considered a match if it contains exactly the same version. However, if a profile in the lists specified by the configuration parameters does not contain a version, for example `http://ibm.com/fhir/profile/partner`, then a profile of the same name specified in the resource's `meta.profile` element will be considered a match whether it contains a version or not.
+If a profile in either the list specified by the `fhirServer/resources/<resourceType>/profiles/atLeastOne` configuration parameter or the list specified by the `fhirServer/resources/<resourceType>/profiles/notAllowed` configuration parameter contains a version, for example `http://example.com/fhir/profile/partner|1.0`, then a profile of the same name specified in the resource's `meta.profile` element will only be considered a match if it contains exactly the same version. However, if a profile in the lists specified by the configuration parameters does not contain a version, for example `http://example.com/fhir/profile/partner`, then a profile of the same name specified in the resource's `meta.profile` element will be considered a match whether it contains a version or not.
 
 Keep in mind that a profile name specified in the resource's `meta.profile` element could be modified due to the resource's `fhirServer/resources/<resourceType>/profiles/defaultVersions` configuration. It is this modified profile name that is used in the matching process and in the resource's validation, but only for those purposes. The `meta.profile` element of the original resource itself is not updated with the modified profile name.
 
-Using the example configuration above for the `Observation` resource type, if the profile `http://ibm.com/fhir/profile/partnerA|3.2` was specified in a resource's `meta.profile` element then it would be considered a match for the `http://ibm.com/fhir/profile/partnerA` profile specified in the `fhirServer/resources/Observation/profiles/atLeastOne` list. Conversely, if the profile `http://ibm.com/fhir/profile/partnerB` was specified in the resource's `meta.profile` element then it would *not* be considered a match for the `http://ibm.com/fhir/profile/partnerB|1.0` profile specified in the `fhirServer/resources/Observation/profiles/atLeastOne` list.
+Using the example configuration above for the `Observation` resource type, if the profile `http://example.com/fhir/profile/partnerA|3.2` was specified in a resource's `meta.profile` element then it would be considered a match for the `http://example.com/fhir/profile/partnerA` profile specified in the `fhirServer/resources/Observation/profiles/atLeastOne` list. Conversely, if the profile `http://example.com/fhir/profile/partnerB` was specified in the resource's `meta.profile` element then it would *not* be considered a match for the `http://example.com/fhir/profile/partnerB|1.0` profile specified in the `fhirServer/resources/Observation/profiles/atLeastOne` list.
 
 The IBM FHIR Server pre-packages all conformance resources from the core specification.
 

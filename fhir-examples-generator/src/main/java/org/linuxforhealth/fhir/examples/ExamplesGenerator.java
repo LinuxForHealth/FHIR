@@ -41,9 +41,9 @@ public class ExamplesGenerator {
 
     private void generate(Path basePath, String resourceName) {
         try {
-            generateResource(resourceName, minimalDataCreator, basePath, "ibm/minimal");
-            generateResource(resourceName, completeMockDataCreator, basePath, "ibm/complete-mock");
-            generateResource(resourceName, completeAbsentDataCreator, basePath, "ibm/complete-absent");
+            generateResource(resourceName, minimalDataCreator, basePath, "minimal");
+            generateResource(resourceName, completeMockDataCreator, basePath, "complete-mock");
+            generateResource(resourceName, completeAbsentDataCreator, basePath, "complete-absent");
         } catch (Exception e) {
             System.err.println("Caught exception while generating resource of type " + resourceName);
             e.printStackTrace();

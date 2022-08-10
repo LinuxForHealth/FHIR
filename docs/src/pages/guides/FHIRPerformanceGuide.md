@@ -645,7 +645,7 @@ For example, when a search parameter targets an element of type Code that has a 
 For all such search parameters in the base spec, and first-class implementation guides that we package, we have taken the liberty to add these extensions a priori. For example, for `SearchParameter-Account-status`, the following extension tells the server to process a query like `Account?status=active` as if it were specified like `Account?status=http://hl7.org/fhir/audit-event-outcome|active`:
 ```
 {
-    "url": "http://ibm.com/fhir/extension/implicit-system",
+    "url": "http://fhir.linuxforhealth.org/extension/implicit-system",
     "valueUri": "http://hl7.org/fhir/audit-event-outcome"
 }
 ```
