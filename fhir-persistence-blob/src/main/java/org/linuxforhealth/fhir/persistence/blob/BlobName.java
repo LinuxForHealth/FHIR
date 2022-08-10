@@ -20,7 +20,7 @@ public class BlobName {
     private final String resourceTypeName;
     private final int resourceTypeId;
     private final String logicalId;
-    private final int version;
+    private final int version; // can be 0 (if partial)
     private final String resourcePayloadKey; // can be null
 
     /**
@@ -55,13 +55,18 @@ public class BlobName {
         result.append("/");
         result.append(BlobPayloadSupport.encodeLogicalId(logicalId));
         result.append("/");
-        result.append(version);
-        result.append("/");
-        if (this.resourcePayloadKey != null) {
-            // note...if we don't add the resourcePayloadKey here, then the
+        if (version > 0) {
+            // note...if we don't add the version here, then the
             // trailing / is still required because this value will be used
             // as a prefix
-            result.append(resourcePayloadKey);
+            result.append(version);
+            result.append("/");
+            if (this.resourcePayloadKey != null) {
+                // note...if we don't add the resourcePayloadKey here, then the
+                // trailing / is still required because this value will be used
+                // as a prefix
+                result.append(resourcePayloadKey);
+            }
         }
         return result.toString();
     }
@@ -81,21 +86,23 @@ public class BlobName {
         result.append("/");
         result.append(logicalId); // no need to encode for messages
         result.append("/");
-        result.append(version);
-        result.append("/");
-        if (this.resourcePayloadKey != null) {
-            result.append(resourcePayloadKey);
+        if (version > 0) {
+            result.append(version);
+            result.append("/");
+            if (this.resourcePayloadKey != null) {
+                result.append(resourcePayloadKey);
+            }
         }
         return result.toString();
     }
 
     /**
-     * Is this a partial name? Partial names do not have a resourcePayloadKey and represent only
+     * Is this a partial name? Partial names do not have a version or resourcePayloadKey and represent only
      * a prefix of the path in the blob store
      * @return
      */
     public boolean isPartial() {
-        return this.resourcePayloadKey == null;
+        return this.resourcePayloadKey == null || this.version < 1;
     }
 
     /**
@@ -177,9 +184,7 @@ public class BlobName {
                 throw new IllegalStateException("No logicalId");
             }
 
-            if (this.version < 1) {
-                throw new IllegalStateException("No version");
-            }
+            // version and resourcePayloadKey can be unset
             return new BlobName(this);
         }
     }
@@ -201,8 +206,8 @@ public class BlobName {
      */
     public static BlobName create(IResourceTypeMaps resourceTypeMaps, String blobPath) {
         String[] parts = blobPath.split("/");
-        if (parts.length < 3) {
-            throw new IllegalArgumentException("blobPath must contain at least 3 parts: resourceType/logicalId/version");
+        if (parts.length < 2) {
+            throw new IllegalArgumentException("blobPath must contain at least 2 parts: resourceType/logicalId");
         }
         if (parts.length > 4) {
             throw new IllegalArgumentException("blobPath must contain no more than 4 parts: resourceType/logicalId/version/resourcePayloadKey");            
@@ -225,10 +230,13 @@ public class BlobName {
             }
         }
         builder.logicalId(BlobPayloadSupport.decodeLogicalId(parts[1]));
-        builder.version(Integer.parseInt(parts[2]));
-        if (parts.length == 4) {
-            // resourcePayloadKey is optional
-            builder.resourcePayloadKey(parts[3]);
+        // Check if a version was included
+        if (parts.length > 2) {
+            builder.version(Integer.parseInt(parts[2]));
+            if (parts.length == 4) {
+                // resourcePayloadKey is optional
+                builder.resourcePayloadKey(parts[3]);
+            }
         }
         return builder.build();
     }

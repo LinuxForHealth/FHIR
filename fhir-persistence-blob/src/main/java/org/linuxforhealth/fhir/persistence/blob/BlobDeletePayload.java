@@ -9,17 +9,19 @@ package org.linuxforhealth.fhir.persistence.blob;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceException;
+
 import com.azure.core.http.rest.Response;
 import com.azure.storage.blob.BlobAsyncClient;
 import com.azure.storage.blob.BlobContainerAsyncClient;
+import com.azure.storage.blob.models.BlobItem;
 import com.azure.storage.blob.models.DeleteSnapshotsOptionType;
-import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * DAO command to delete the configured Azure blob (holding a FHIR payload object)
  */
 public class BlobDeletePayload {
-    private static final Logger logger = Logger.getLogger(BlobReadPayload.class.getName());
+    private static final Logger logger = Logger.getLogger(BlobDeletePayload.class.getName());
     final int resourceTypeId;
     final String logicalId;
     final Integer version;
@@ -50,9 +52,10 @@ public class BlobDeletePayload {
      * @throws FHIRPersistenceException if the delete fails
      */
     public void run(BlobManagedContainer client) throws FHIRPersistenceException {
+        BlobContainerAsyncClient bcc = client.getClient();
         if (path != null) {
             // Use the given path instead of trying to reconstruct it
-            deleteSingleBlob(client, path);
+            deleteSingleBlob(bcc, path);
         } else {
             BlobName.Builder builder = BlobName.builder();
             builder.resourceTypeId(this.resourceTypeId);
@@ -66,44 +69,64 @@ public class BlobDeletePayload {
             BlobName blobName = builder.build();
             
             if (blobName.isPartial()) {
-                deleteBlobsForPrefix(client, blobName);
+                deleteBlobsUnderPrefix(bcc, blobName.toBlobPath());
             } else {
-                deleteSingleBlob(client, blobName.toBlobPath());
+                deleteSingleBlob(bcc, blobName.toBlobPath());
             }
         }
     }
 
     /**
-     * Delete all the blobs matching the prefix described by BlobName
-     * @param client
-     * @param blobName
+     * Delete all the blobs matching the prefix described by blobName
+     * @param bcc
+     * @param prefix
      * @throws FHIRPersistenceException
      */
-    private void deleteBlobsForPrefix(BlobManagedContainer client, BlobName blobName) throws FHIRPersistenceException {
-        final String prefix = blobName.toBlobPath();
+    private void deleteBlobsUnderPrefix(BlobContainerAsyncClient bcc, String prefix) {
         logger.fine(() -> "Scanning all entries to erase under prefix: '" + prefix + "'");
 
         // List blobs using the key prefix
-        BlobContainerAsyncClient bcc = client.getClient();
         bcc.listBlobsByHierarchy(prefix)
-        .doOnNext(blobItem -> deleteSingleBlob(client, blobItem.getName()))
+        .doOnNext(blobItem -> process(bcc, blobItem))
         .blockLast(); // wait for scan to complete
     }
 
     /**
-     * Delete the blob using the given resourcePayloadKey
-     * @param client
-     * @param resourcePayloadKey
+     * Process the given item. If the item is a prefix (i.e. ends in a /) then
+     * we recurse and list the contents of that path. Otherwise, retrieve the
+     * blob content at the location and display its value as text.
+     * @param bcc
+     * @param blobItem
+     * @return
+     */
+    private void process(BlobContainerAsyncClient bcc, BlobItem blobItem) {
+        final Boolean isPrefix = blobItem.isPrefix();
+        if (isPrefix != null && isPrefix) {
+            // recurse down to the next hierarchy level
+            logger.fine(() -> "Listing blobs under: '" + blobItem.getName() + "'");
+            deleteBlobsUnderPrefix(bcc, blobItem.getName());
+        } else {
+            // actual blob, so we can display the value
+            logger.fine(() -> "Fetching blob at: '" + blobItem.getName() + "'");
+            deleteSingleBlob(bcc, blobItem.getName());
+        }
+    }
+
+
+    /**
+     * Delete the blob if it exists using the given blobPath.
+     * @param bcc
+     * @param blobPath
      * @return
      * @throws FHIRPersistenceException
      */
-    private Response<Void> deleteSingleBlob(BlobManagedContainer client, String blobPath) {
+    private Response<Boolean> deleteSingleBlob(BlobContainerAsyncClient bcc, String blobPath) {
         
-        BlobAsyncClient bc = client.getClient().getBlobAsyncClient(blobPath);
+        BlobAsyncClient bc = bcc.getBlobAsyncClient(blobPath);
         try {
             // TODO return future so we can avoid waiting for response here
             logger.fine(() -> "Erasing blob: '" + blobPath + "'");
-            return bc.deleteWithResponse(DeleteSnapshotsOptionType.INCLUDE, null)
+            return bc.deleteIfExistsWithResponse(DeleteSnapshotsOptionType.INCLUDE, null)
                     .toFuture()
                     .get(); // synchronous for now
         } catch (RuntimeException rx) {
@@ -111,7 +134,7 @@ public class BlobDeletePayload {
             throw rx;
         } catch (Exception x) {
             logger.log(Level.SEVERE, "Error deleting resource payload for blobPath=" + blobPath + "'");
-            throw new RuntimeException("delete payload blob", x);
+            throw new RuntimeException("Error deleting resource payload blob: '" + blobPath + "'", x);
         }
     }
 }

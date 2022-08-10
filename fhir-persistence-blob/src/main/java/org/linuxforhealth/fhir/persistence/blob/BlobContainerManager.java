@@ -196,6 +196,9 @@ public class BlobContainerManager implements EventCallback {
         BlobServiceVersion serviceVersion = null;
         if (adapter.getServiceVersion() != null) {
             serviceVersion = BlobServiceVersion.valueOf(adapter.getServiceVersion());
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("BlobServiceVersion = " + serviceVersion.getVersion());
+            }
         }
                 
         BlobContainerAsyncClient blobContainerClient = new BlobContainerClientBuilder()

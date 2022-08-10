@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,6 +30,18 @@ public class ErasedResourceRec {
         this.versionId = versionId;
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder result = new StringBuilder();
+        result.append("ErasedResourceRec[")
+            .append(erasedResourceId)
+            .append(", ").append(resourceTypeId)
+            .append(", ").append(logicalId)
+            .append(", ").append(versionId)
+            .append("]");
+            ;
+        return result.toString();
+    }
     
     /**
      * @return the erasedResourceId
