@@ -52,6 +52,7 @@ public class CreateWholeSchemaVersion {
 
         // The FHIRUSER (sometimes FHIRSERVER) database user needs SELECT on this table
         t.addPrivilege(SchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.SELECT);
+        t.addPrivilege(SchemaConstants.FHIR_READ_USER_GRANT_GROUP, Privilege.SELECT);
 
         if (addTags) {
             t.addTag(SCHEMA_GROUP_TAG, ADMIN_GROUP);

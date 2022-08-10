@@ -1024,7 +1024,7 @@ public class Main {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 // This may have been granted as part of creating the schema, but it won't hurt to make sure
-                schemaAdapter.grantSchemaUsage(schema.getSchemaName(), grantTo);
+                schemaAdapter.grantSchemaUsage(schema.getSchemaName(), targetUser);
 
                 PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildFhirDataSchemaModel(pdm);
