@@ -11,16 +11,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.azure.core.http.HttpClient;
-import com.azure.core.http.okhttp.OkHttpAsyncHttpClientBuilder;
-import com.azure.storage.blob.BlobContainerAsyncClient;
-import com.azure.storage.blob.BlobContainerClientBuilder;
 import org.linuxforhealth.fhir.config.FHIRConfigHelper;
 import org.linuxforhealth.fhir.config.FHIRConfiguration;
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.config.PropertyGroup;
 import org.linuxforhealth.fhir.core.lifecycle.EventCallback;
 import org.linuxforhealth.fhir.core.lifecycle.EventManager;
+
+import com.azure.core.http.HttpClient;
+import com.azure.core.http.okhttp.OkHttpAsyncHttpClientBuilder;
+import com.azure.storage.blob.BlobContainerAsyncClient;
+import com.azure.storage.blob.BlobContainerClientBuilder;
+import com.azure.storage.blob.BlobServiceVersion;
 
 import okhttp3.OkHttpClient;
 
@@ -190,11 +192,17 @@ public class BlobContainerManager implements EventCallback {
         // issues for Netty.
         HttpClient httpClient = new OkHttpAsyncHttpClientBuilder(this.okHttpClient)
                 .build();
-        
+
+        BlobServiceVersion serviceVersion = null;
+        if (adapter.getServiceVersion() != null) {
+            serviceVersion = BlobServiceVersion.valueOf(adapter.getServiceVersion());
+        }
+                
         BlobContainerAsyncClient blobContainerClient = new BlobContainerClientBuilder()
                 .httpClient(httpClient)
                 .connectionString(adapter.getConnectionString())
                 .containerName(containerName)
+                .serviceVersion(serviceVersion)
                 .buildAsyncClient();
         
         return blobContainerClient;

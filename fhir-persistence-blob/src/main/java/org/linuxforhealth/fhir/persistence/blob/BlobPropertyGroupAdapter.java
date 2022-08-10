@@ -28,6 +28,9 @@ public class BlobPropertyGroupAdapter {
 
     // The property name for the Azure Blob command timeout in seconds
     public static final String PROP_TIMEOUT_SECS = "timeoutSecs";
+
+    // The property name for the optional Azure Blob service version
+    public static final String PROP_SERVICE_VERSION = "serviceVersion";
     
     // The property group we are wrapping
     private final PropertyGroup propertyGroup;
@@ -59,6 +62,19 @@ public class BlobPropertyGroupAdapter {
         } catch (Exception x) {
             logger.log(Level.SEVERE, PROP_CONTAINER_NAME, x);
             throw new IllegalArgumentException("Property group not configured " + PROP_CONTAINER_NAME);
+        }
+    }
+
+    /**
+     * Get the configured value for the Azure Blob service version
+     * @return
+     */
+    public String getServiceVersion() {
+        try {
+            return propertyGroup.getStringProperty(PROP_SERVICE_VERSION, null);
+        } catch (Exception x) {
+            logger.log(Level.SEVERE, PROP_SERVICE_VERSION, x);
+            throw new IllegalArgumentException("Property group misconfigured " + PROP_SERVICE_VERSION);
         }
     }
 
