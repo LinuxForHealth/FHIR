@@ -80,76 +80,76 @@ public class ConstraintGeneratorTest {
 
     @Test
     public static void testConstraintGenerator1() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(Organization.class, "http://ibm.com/fhir/StructureDefinition/TestOrganization", "1.0.0")
+        StructureDefinition profile = new ProfileBuilder(Organization.class, "http://example.com/fhir/StructureDefinition/TestOrganization", "1.0.0")
             .slicing("Organization.contained", slicing(discriminator(DiscriminatorType.PROFILE, "$this"), SlicingRules.OPEN))
             .slice("Organization.contained", "ProfileA", Resource.class, 1, "1")
-            .type("Organization.contained:ProfileA", type("Resource", profile("http://ibm.com/fhir/StructureDefinition/ProfileA")))
+            .type("Organization.contained:ProfileA", type("Resource", profile("http://example.com/fhir/StructureDefinition/ProfileA")))
             .build();
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-        assertEquals(constraints.get(0).expression(), "contained.where(conformsTo('http://ibm.com/fhir/StructureDefinition/ProfileA')).count() = 1");
+        assertEquals(constraints.get(0).expression(), "contained.where(conformsTo('http://example.com/fhir/StructureDefinition/ProfileA')).count() = 1");
     }
 
     @Test
     public static void testConstraintGenerator2() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(Organization.class, "http://ibm.com/fhir/StructureDefinition/TestOrganization", "1.0.0")
+        StructureDefinition profile = new ProfileBuilder(Organization.class, "http://example.com/fhir/StructureDefinition/TestOrganization", "1.0.0")
             .slicing("Organization.contained", slicing(discriminator(DiscriminatorType.PROFILE, "$this"), SlicingRules.OPEN))
             .slice("Organization.contained", "ProfileA", Resource.class, 0, "1")
-            .type("Organization.contained:ProfileA", type("Resource", profile("http://ibm.com/fhir/StructureDefinition/ProfileA")))
+            .type("Organization.contained:ProfileA", type("Resource", profile("http://example.com/fhir/StructureDefinition/ProfileA")))
             .build();
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-        assertEquals(constraints.get(0).expression(), "contained.where(conformsTo('http://ibm.com/fhir/StructureDefinition/ProfileA')).exists() implies (contained.where(conformsTo('http://ibm.com/fhir/StructureDefinition/ProfileA')).count() = 1)");
+        assertEquals(constraints.get(0).expression(), "contained.where(conformsTo('http://example.com/fhir/StructureDefinition/ProfileA')).exists() implies (contained.where(conformsTo('http://example.com/fhir/StructureDefinition/ProfileA')).count() = 1)");
     }
 
     @Test
     public static void testConstraintGenerator3() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(Organization.class, "http://ibm.com/fhir/StructureDefinition/TestOrganization", "1.0.0")
+        StructureDefinition profile = new ProfileBuilder(Organization.class, "http://example.com/fhir/StructureDefinition/TestOrganization", "1.0.0")
             .slicing("Organization.identifier", slicing(discriminator(DiscriminatorType.VALUE, "system"), SlicingRules.OPEN))
             .slice("Organization.identifier", "SliceA", Identifier.class, 1, "1")
             .cardinality("Organization.identifier:SliceA.system", 1, "1")
-            .pattern("Organization.identifier:SliceA.system", Uri.of("http://ibm.com/fhir/system/system-1"))
+            .pattern("Organization.identifier:SliceA.system", Uri.of("http://example.com/fhir/system/system-1"))
             .build();
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-        assertEquals(constraints.get(0).expression(), "identifier.where(system = 'http://ibm.com/fhir/system/system-1').count() = 1");
+        assertEquals(constraints.get(0).expression(), "identifier.where(system = 'http://example.com/fhir/system/system-1').count() = 1");
     }
 
     @Test
     public static void testConstraintGenerator4() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(Organization.class, "http://ibm.com/fhir/StructureDefinition/TestOrganization", "1.0.0")
+        StructureDefinition profile = new ProfileBuilder(Organization.class, "http://example.com/fhir/StructureDefinition/TestOrganization", "1.0.0")
             .slicing("Organization.identifier", slicing(discriminator(DiscriminatorType.VALUE, "system"), SlicingRules.OPEN))
             .slice("Organization.identifier", "SliceA", Identifier.class, 0, "1")
             .cardinality("Organization.identifier:SliceA.system", 1, "1")
-            .pattern("Organization.identifier:SliceA.system", Uri.of("http://ibm.com/fhir/system/system-1"))
+            .pattern("Organization.identifier:SliceA.system", Uri.of("http://example.com/fhir/system/system-1"))
             .build();
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-        assertEquals(constraints.get(0).expression(), "identifier.where(system = 'http://ibm.com/fhir/system/system-1').exists() implies (identifier.where(system = 'http://ibm.com/fhir/system/system-1').count() = 1)");
+        assertEquals(constraints.get(0).expression(), "identifier.where(system = 'http://example.com/fhir/system/system-1').exists() implies (identifier.where(system = 'http://example.com/fhir/system/system-1').count() = 1)");
     }
 
     @Test
     public static void testConstraintGenerator5() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(Organization.class, "http://ibm.com/fhir/StructureDefinition/TestOrganization", "1.0.0")
+        StructureDefinition profile = new ProfileBuilder(Organization.class, "http://example.com/fhir/StructureDefinition/TestOrganization", "1.0.0")
             .slicing("Organization.identifier", slicing(discriminator(DiscriminatorType.VALUE, "system"), SlicingRules.OPEN))
             .slice("Organization.identifier", "SliceA", Identifier.class, 0, "1")
             .cardinality("Organization.identifier:SliceA.system", 1, "1")
-            .pattern("Organization.identifier:SliceA.system", Uri.of("http://ibm.com/fhir/system/system-1"))
+            .pattern("Organization.identifier:SliceA.system", Uri.of("http://example.com/fhir/system/system-1"))
             .constraint("Organization.identifier:SliceA", constraint("test-1", ConstraintSeverity.ERROR, "The organization SliceB identifier value length SHALL be greater than 9 characters", "value.length() > 9"))
             .build();
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-        assertEquals(constraints.get(0).expression(), "identifier.where(system = 'http://ibm.com/fhir/system/system-1').exists() implies (identifier.where(system = 'http://ibm.com/fhir/system/system-1').count() = 1 and identifier.where(system = 'http://ibm.com/fhir/system/system-1').all(system = 'http://ibm.com/fhir/system/system-1' and (value.length() > 9)))");
+        assertEquals(constraints.get(0).expression(), "identifier.where(system = 'http://example.com/fhir/system/system-1').exists() implies (identifier.where(system = 'http://example.com/fhir/system/system-1').count() = 1 and identifier.where(system = 'http://example.com/fhir/system/system-1').all(system = 'http://example.com/fhir/system/system-1' and (value.length() > 9)))");
     }
 
     @Test
     public static void testConstraintGenerator6() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(Observation.class, "http://ibm.com/fhir/StructureDefinition/TestObservation", "1.0.0")
+        StructureDefinition profile = new ProfileBuilder(Observation.class, "http://example.com/fhir/StructureDefinition/TestObservation", "1.0.0")
             .slicing("Observation.value[x]", slicing(discriminator(DiscriminatorType.TYPE, "$this"), SlicingRules.OPEN))
             .slice("Observation.value[x]", "SliceA", Quantity.class, 1, "1")
             .type("Observation.value[x]:SliceA", type("Quantity"))
@@ -162,7 +162,7 @@ public class ConstraintGeneratorTest {
 
     @Test
     public static void testConstraintGenerator7() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(Observation.class, "http://ibm.com/fhir/StructureDefinition/TestObservation", "1.0.0")
+        StructureDefinition profile = new ProfileBuilder(Observation.class, "http://example.com/fhir/StructureDefinition/TestObservation", "1.0.0")
             .type("Observation.value[x]", type("Quantity"))
             .cardinality("Observation.value[x]", 1, "1")
             .build();
@@ -174,7 +174,7 @@ public class ConstraintGeneratorTest {
 
     @Test
     public static void testConstraintGenerator8() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(Patient.class, "http://ibm.com/fhir/StructureDefinition/TestPatient", "1.0.0")
+        StructureDefinition profile = new ProfileBuilder(Patient.class, "http://example.com/fhir/StructureDefinition/TestPatient", "1.0.0")
             .type("Patient.generalPractitioner", type("Reference", profile(), targetProfile(ProfileSupport.HL7_STRUCTURE_DEFINITION_URL_PREFIX + "Organization")))
             .build();
         ConstraintGenerator generator = new ConstraintGenerator(profile);
@@ -185,7 +185,7 @@ public class ConstraintGeneratorTest {
 
     @Test
     public static void testConstraintGenerator9() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(Patient.class, "http://ibm.com/fhir/StructureDefinition/TestPatient", "1.0.0")
+        StructureDefinition profile = new ProfileBuilder(Patient.class, "http://example.com/fhir/StructureDefinition/TestPatient", "1.0.0")
             .type("Patient.generalPractitioner", type("Reference", profile(), targetProfile(ProfileSupport.HL7_STRUCTURE_DEFINITION_URL_PREFIX + "Organization")))
             .cardinality("Patient.generalPractitioner", 1, "1")
             .build();
@@ -197,7 +197,7 @@ public class ConstraintGeneratorTest {
 
     @Test
     public static void testConstraintGenerator10() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(Patient.class, "http://ibm.com/fhir/StructureDefinition/TestPatient", "1.0.0")
+        StructureDefinition profile = new ProfileBuilder(Patient.class, "http://example.com/fhir/StructureDefinition/TestPatient", "1.0.0")
             .cardinality("Patient.name", 1, "1")
             .build();
         ConstraintGenerator generator = new ConstraintGenerator(profile);
@@ -208,38 +208,38 @@ public class ConstraintGeneratorTest {
 
     @Test
     public static void testConstraintGenerator11() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(Observation.class, "http://ibm.com/fhir/StructureDefinition/TestObservation", "1.0.0")
-            .binding("Observation.code", binding(BindingStrength.REQUIRED, "http://ibm.com/fhir/ValueSet/vs-1"))
+        StructureDefinition profile = new ProfileBuilder(Observation.class, "http://example.com/fhir/StructureDefinition/TestObservation", "1.0.0")
+            .binding("Observation.code", binding(BindingStrength.REQUIRED, "http://example.com/fhir/ValueSet/vs-1"))
             .build();
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-        assertEquals(constraints.get(0).expression(), "code.exists() and code.all(memberOf('http://ibm.com/fhir/ValueSet/vs-1', 'required'))");
+        assertEquals(constraints.get(0).expression(), "code.exists() and code.all(memberOf('http://example.com/fhir/ValueSet/vs-1', 'required'))");
     }
 
     @Test
     public static void testConstraintGenerator12() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(Observation.class, "http://ibm.com/fhir/StructureDefinition/TestObservation", "1.0.0")
-            .binding("Observation.code", binding(BindingStrength.REQUIRED, "http://ibm.com/fhir/ValueSet/vs-1", "http://ibm.com/fhir/ValueSet/max-vs-1"))
+        StructureDefinition profile = new ProfileBuilder(Observation.class, "http://example.com/fhir/StructureDefinition/TestObservation", "1.0.0")
+            .binding("Observation.code", binding(BindingStrength.REQUIRED, "http://example.com/fhir/ValueSet/vs-1", "http://example.com/fhir/ValueSet/max-vs-1"))
             .build();
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-        assertEquals(constraints.get(0).expression(), "code.exists() and code.all(memberOf('http://ibm.com/fhir/ValueSet/vs-1', 'required') and memberOf('http://ibm.com/fhir/ValueSet/max-vs-1', 'required'))");
+        assertEquals(constraints.get(0).expression(), "code.exists() and code.all(memberOf('http://example.com/fhir/ValueSet/vs-1', 'required') and memberOf('http://example.com/fhir/ValueSet/max-vs-1', 'required'))");
     }
 
     @Test
     public static void testConstraintGenerator13() throws Exception {
-        StructureDefinition profile = new ProfileBuilder(MessageHeader.class, "http://ibm.com/fhir/StructureDefinition/TestMessageHeader", "1.0.0")
+        StructureDefinition profile = new ProfileBuilder(MessageHeader.class, "http://example.com/fhir/StructureDefinition/TestMessageHeader", "1.0.0")
             .slicing("MessageHeader.focus", slicing(discriminator(DiscriminatorType.PROFILE, "$this.resolve()"), SlicingRules.OPEN))
             .slice("MessageHeader.focus", "SliceA", Reference.class, 0, "1")
-            .type("MessageHeader.focus:SliceA", type("Reference", profile(), targetProfile("http://ibm.com/fhir/StructureDefinition/ProfileA")))
+            .type("MessageHeader.focus:SliceA", type("Reference", profile(), targetProfile("http://example.com/fhir/StructureDefinition/ProfileA")))
             .build();
         System.out.println(profile);
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-        assertEquals(constraints.get(0).expression(), "focus.where(resolve().conformsTo('http://ibm.com/fhir/StructureDefinition/ProfileA')).exists() implies (focus.where(resolve().conformsTo('http://ibm.com/fhir/StructureDefinition/ProfileA')).count() = 1)");
+        assertEquals(constraints.get(0).expression(), "focus.where(resolve().conformsTo('http://example.com/fhir/StructureDefinition/ProfileA')).exists() implies (focus.where(resolve().conformsTo('http://example.com/fhir/StructureDefinition/ProfileA')).count() = 1)");
     }
 
     private void configureLogging() {

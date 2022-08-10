@@ -1,7 +1,7 @@
 {
   "resourceType": "StructureDefinition",
   "id": "my-family-member-history",
-  "url": "http://ibm.com/fhir/StructureDefinition/my-family-member-history",
+  "url": "http://example.com/fhir/StructureDefinition/my-family-member-history",
   "version": "0.1.0",
   "name": "MyFamilyMemberHistory",
   "status": "active",
@@ -868,7 +868,7 @@
             "severity": "error",
             "human": "Patient reference is a required element",
             "expression": "exists() and startsWith('Patient/')",
-            "source": "http://ibm.com/fhir/pdm/StructureDefinition/pdm-general-family-member-history-profile"
+            "source": "http://example.com/fhir/pdm/StructureDefinition/pdm-general-family-member-history-profile"
           }
         ],
         "mustSupport": true,
@@ -1164,7 +1164,7 @@
             "severity": "warning",
             "human": "The concept in the sex element must be from the specified value set 'http://hl7.org/fhir/ValueSet/administrative-gender' if possible",
             "expression": "memberOf('http://hl7.org/fhir/ValueSet/administrative-gender')",
-            "source": "http://ibm.com/fhir/pdm/StructureDefinition/pdm-general-family-member-history-profile"
+            "source": "http://example.com/fhir/pdm/StructureDefinition/pdm-general-family-member-history-profile"
           }
         ],
         "mustSupport": true,
@@ -1716,7 +1716,7 @@
         "isSummary": false,
         "binding": {
           "strength": "extensible",
-          "valueSet": "http://ibm.com/fhir/ValueSet/condition-value-set"
+          "valueSet": "http://example.com/fhir/ValueSet/condition-value-set"
         },
         "mapping": [
           {
@@ -1757,7 +1757,7 @@
         "isSummary": false,
         "binding": {
           "strength": "extensible",
-          "valueSet": "http://ibm.com/fhir/ValueSet/outcome-value-set"
+          "valueSet": "http://example.com/fhir/ValueSet/outcome-value-set"
         },
         "mapping": [
           {

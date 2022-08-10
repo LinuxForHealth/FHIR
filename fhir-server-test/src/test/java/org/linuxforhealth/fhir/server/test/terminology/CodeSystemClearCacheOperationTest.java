@@ -33,7 +33,7 @@ public class CodeSystemClearCacheOperationTest extends TerminologyOperationTestB
     public static final String BASE_VALID_URL = "/CodeSystem";
 
     public static final String CODE_SYSTEM_ID = "test";
-    public static final String CODE_SYSTEM_URL = "http://ibm.com/fhir/CodeSystem/test";
+    public static final String CODE_SYSTEM_URL = "http://example.com/fhir/CodeSystem/test";
     public static final String CODE_SYSTEM_VERSION = "1.0.0";
 
     @Override

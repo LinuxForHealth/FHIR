@@ -26,22 +26,22 @@ import org.linuxforhealth.fhir.registry.FHIRRegistry;
 public class ExtensionTest {
     @Test
     public void testExtension() throws Exception {
-        StructureDefinition structureDefinition = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/test-extension", StructureDefinition.class);
+        StructureDefinition structureDefinition = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/test-extension", StructureDefinition.class);
         ConstraintGenerator generator = new ConstraintGenerator(structureDefinition);
 
         List<Constraint> constraints = generator.generate();
         constraints.forEach(System.out::println);
         assertEquals(constraints.size(), 2);
-        assertEquals(constraints.get(1).expression(), "value.where(is(CodeableConcept)).exists() and value.where(is(CodeableConcept)).all(memberOf('http://ibm.com/fhir/ValueSet/test-value-set', 'required'))");
+        assertEquals(constraints.get(1).expression(), "value.where(is(CodeableConcept)).exists() and value.where(is(CodeableConcept)).all(memberOf('http://example.com/fhir/ValueSet/test-value-set', 'required'))");
 
         Extension extension = Extension.builder()
-                .url("http://ibm.com/fhir/pdm/StructureDefinition/test-extension")
+                .url("http://example.com/fhir/pdm/StructureDefinition/test-extension")
                 .value(string("test"))
                 .build();
 
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(extension, "value.where(is(CodeableConcept)).exists() and value.where(is(CodeableConcept)).all(memberOf('http://ibm.com/fhir/ValueSet/test-value-set', 'required'))");
+        Collection<FHIRPathNode> result = evaluator.evaluate(extension, "value.where(is(CodeableConcept)).exists() and value.where(is(CodeableConcept)).all(memberOf('http://example.com/fhir/ValueSet/test-value-set', 'required'))");
 
         System.out.println("result: " + result);
 

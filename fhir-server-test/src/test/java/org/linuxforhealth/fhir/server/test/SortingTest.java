@@ -58,7 +58,7 @@ import org.linuxforhealth.fhir.model.util.FHIRUtil;
 import org.linuxforhealth.fhir.model.util.JsonSupport;
 
 public class SortingTest extends FHIRServerTestBase {
-    private static final String TAG_SYSTEM = "http://ibm.com/fhir/sort-test";
+    private static final String TAG_SYSTEM = "http://example.com/fhir/sort-test";
     private static final String TAG_CODE = "sort-test-" + UUID.randomUUID().toString();
     private static final String TAG_DISPLAY = TAG_CODE;
     public static final Coding TAG = Coding.builder()

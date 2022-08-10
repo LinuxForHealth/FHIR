@@ -26,7 +26,7 @@ import org.linuxforhealth.fhir.term.util.CodeSystemSupport;
 public class CodeSystemSupportTest {
     @Test
     public void testGetAncestorsAndSelf1() {
-        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://ibm.com/fhir/CodeSystem/cs5|1.0.0");
+        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://example.com/fhir/CodeSystem/cs5|1.0.0");
         Set<String> actual = CodeSystemSupport.getAncestorsAndSelf(codeSystem, Code.of("r"));
         Set<String> expected = new HashSet<>(Arrays.asList("r", "p", "m"));
         Assert.assertEquals(actual, expected);
@@ -43,7 +43,7 @@ public class CodeSystemSupportTest {
 
     @Test
     public void testGetDescendantsAndSelf1() {
-        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://ibm.com/fhir/CodeSystem/cs5|1.0.0");
+        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://example.com/fhir/CodeSystem/cs5|1.0.0");
         Set<String> actual = CodeSystemSupport.getDescendantsAndSelf(codeSystem, Code.of("m"));
         Set<String> expected = new HashSet<>(Arrays.asList("m", "p", "q", "r"));
         Assert.assertEquals(actual, expected);
@@ -60,7 +60,7 @@ public class CodeSystemSupportTest {
 
     @Test
     public void testGetConceptsWithCodeValueFunction() {
-        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://ibm.com/fhir/CodeSystem/test");
+        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://example.com/fhir/CodeSystem/test");
 
         Function<Concept, String> function = CodeSystemSupport.getCodeValueFunction(codeSystem);
         Set<String> actual = CodeSystemSupport.getConcepts(codeSystem, function);

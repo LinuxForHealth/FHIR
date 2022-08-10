@@ -1,7 +1,7 @@
 {
     "resourceType": "ValueSet",
     "id": "test-intensional",
-    "url": "http://ibm.com/fhir/ValueSet/test-intensional",
+    "url": "http://example.com/fhir/ValueSet/test-intensional",
     "version": "1.0.0",
     "name": "Test Intensional Value Set",
     "title": "Test Intensional Value Set",
@@ -9,7 +9,7 @@
     "compose": {
         "include": [
             {
-                "system": "http://ibm.com/fhir/CodeSystem/test",
+                "system": "http://example.com/fhir/CodeSystem/test",
                 "version":"1.0.0",
                 "filter": [
 	                {

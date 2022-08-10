@@ -32,7 +32,7 @@
             "filename": "my-condition.json",
             "resourceType": "StructureDefinition",
             "id": "my-condition",
-            "url": "http://ibm.com/fhir/StructureDefinition/my-condition",
+            "url": "http://example.com/fhir/StructureDefinition/my-condition",
             "version": "0.1.0",
             "kind": "resource",
             "type": "Condition"
@@ -41,7 +41,7 @@
             "filename": "my-observation.json",
             "resourceType": "StructureDefinition",
             "id": "my-observation",
-            "url": "http://ibm.com/fhir/StructureDefinition/my-observation",
+            "url": "http://example.com/fhir/StructureDefinition/my-observation",
             "version": "0.1.0",
             "kind": "resource",
             "type": "Observation"
@@ -50,7 +50,7 @@
             "filename": "test-extension.json",
             "resourceType": "StructureDefinition",
             "id": "test-extension",
-            "url": "http://ibm.com/fhir/StructureDefinition/test-extension",
+            "url": "http://example.com/fhir/StructureDefinition/test-extension",
             "version": "0.1.0",
             "kind": "complex-type",
             "type": "Extension"
@@ -59,7 +59,7 @@
             "filename": "my-family-member-history.json",
             "resourceType": "StructureDefinition",
             "id": "my-family-member-history",
-            "url": "http://ibm.com/fhir/StructureDefinition/my-family-member-history",
+            "url": "http://example.com/fhir/StructureDefinition/my-family-member-history",
             "version": "0.1.0",
             "kind": "resource",
             "type": "FamilyMemberHistory"
@@ -68,7 +68,7 @@
             "filename": "test-language-primary-extension.json",
             "resourceType": "StructureDefinition",
             "id": "test-language-primary-extension",
-            "url": "http://ibm.com/fhir/StructureDefinition/test-language-primary-extension",
+            "url": "http://example.com/fhir/StructureDefinition/test-language-primary-extension",
             "version": "0.1.0",
             "kind": "complex-type",
             "type": "Extension"
@@ -77,7 +77,7 @@
             "filename": "test-language-secondary-extension.json",
             "resourceType": "StructureDefinition",
             "id": "test-language-secondary-extension",
-            "url": "http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension",
+            "url": "http://example.com/fhir/StructureDefinition/test-language-secondary-extension",
             "version": "0.1.0",
             "kind": "complex-type",
             "type": "Extension"
@@ -86,7 +86,7 @@
             "filename": "test-language-tertiary-extension.json",
             "resourceType": "StructureDefinition",
             "id": "test-language-tertiary-extension",
-            "url": "http://ibm.com/fhir/StructureDefinition/test-language-tertiary-extension",
+            "url": "http://example.com/fhir/StructureDefinition/test-language-tertiary-extension",
             "version": "0.1.0",
             "kind": "complex-type",
             "type": "Extension"
@@ -95,7 +95,7 @@
             "filename": "test-language-others-opt-extension.json",
             "resourceType": "StructureDefinition",
             "id": "test-language-others-opt-extension",
-            "url": "http://ibm.com/fhir/StructureDefinition/test-language-others-opt-extension",
+            "url": "http://example.com/fhir/StructureDefinition/test-language-others-opt-extension",
             "version": "0.1.0",
             "kind": "complex-type",
             "type": "Extension"
@@ -104,7 +104,7 @@
             "filename": "test-language-others-req-extension.json",
             "resourceType": "StructureDefinition",
             "id": "test-language-others-req-extension",
-            "url": "http://ibm.com/fhir/StructureDefinition/test-language-others-req-extension",
+            "url": "http://example.com/fhir/StructureDefinition/test-language-others-req-extension",
             "version": "0.1.0",
             "kind": "complex-type",
             "type": "Extension"
@@ -113,7 +113,7 @@
             "filename": "test-device.json",
             "resourceType": "StructureDefinition",
             "id": "test-device",
-            "url": "http://ibm.com/fhir/StructureDefinition/test-device",
+            "url": "http://example.com/fhir/StructureDefinition/test-device",
             "version": "0.1.0",
             "kind": "resource",
             "type": "Device"
@@ -122,7 +122,7 @@
             "filename": "test-reference-extension.json",
             "resourceType": "StructureDefinition",
             "id": "test-reference-extension",
-            "url": "http://ibm.com/fhir/StructureDefinition/test-reference-extension",
+            "url": "http://example.com/fhir/StructureDefinition/test-reference-extension",
             "version": "0.1.0",
             "kind": "complex-type",
             "type": "Extension"
@@ -131,7 +131,7 @@
             "filename": "test-reference-extension-with-target-profile.json",
             "resourceType": "StructureDefinition",
             "id": "test-reference-extension-with-target-profile",
-            "url": "http://ibm.com/fhir/StructureDefinition/test-reference-extension-with-target-profile",
+            "url": "http://example.com/fhir/StructureDefinition/test-reference-extension-with-target-profile",
             "version": "0.1.0",
             "kind": "complex-type",
             "type": "Extension"
@@ -140,7 +140,7 @@
             "filename": "test-reference-extension-with-multiple-target-profiles.json",
             "resourceType": "StructureDefinition",
             "id": "test-reference-extension-with-multiple-target-profiles",
-            "url": "http://ibm.com/fhir/StructureDefinition/test-reference-extension-with-multiple-target-profiles",
+            "url": "http://example.com/fhir/StructureDefinition/test-reference-extension-with-multiple-target-profiles",
             "version": "0.1.0",
             "kind": "complex-type",
             "type": "Extension"
@@ -149,7 +149,7 @@
             "filename": "test-dummy-profile.json",
             "resourceType": "StructureDefinition",
             "id": "test-dummy-profile.json",
-            "url": "http://ibm.com/fhir/StructureDefinition/test-dummy-profile",
+            "url": "http://example.com/fhir/StructureDefinition/test-dummy-profile",
             "version": "0.1.0",
             "kind": "resource",
             "type": "Observation"

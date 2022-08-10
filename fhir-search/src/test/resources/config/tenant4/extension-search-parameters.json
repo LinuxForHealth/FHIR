@@ -6,11 +6,11 @@
 	},
 	"type": "collection",
 	"entry": [{
-		"fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-measurement-type",
+		"fullUrl": "http://example.com/fhir/SearchParameter/Basic-measurement-type",
 		"resource": {
 			"resourceType": "SearchParameter",
 			"id": "Basic-measurement-type",
-			"url": "http://ibm.com/fhir/SearchParameter/Basic-measurement-type",
+			"url": "http://example.com/fhir/SearchParameter/Basic-measurement-type",
 			"version": "4.0.0",
 			"name": "measurement-type",
 			"status": "draft",
@@ -20,13 +20,13 @@
 			"contact": [{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			},
 			{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			}],
 			"description": "the type of measurement",
@@ -34,8 +34,8 @@
 			"base": ["Basic"],
 			"type": "string",
 			"xpathUsage": "normal",
-			"xpath": "f:Basic/f:extension[@url='http://ibm.com/fhir/extension/measurements']/f:extension[@url='_item']/f:extension[@url='http://ibm.com/fhir/extension/type']/f:valueString",
-			"expression" : "Basic.extension.where(url='http://ibm.com/fhir/extension/measurements').extension.where(url='_item').extension.where(url='http://ibm.com/fhir/extension/type').value",
+			"xpath": "f:Basic/f:extension[@url='http://example.com/fhir/extension/measurements']/f:extension[@url='_item']/f:extension[@url='http://example.com/fhir/extension/type']/f:valueString",
+			"expression" : "Basic.extension.where(url='http://example.com/fhir/extension/measurements').extension.where(url='_item').extension.where(url='http://example.com/fhir/extension/type').value",
 			"multipleOr": true,
 			"multipleAnd": true,
 			"modifier": []

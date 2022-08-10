@@ -32,11 +32,11 @@ public class UriTest {
     @Test
     public void testUriTrimmedUrl() throws URISyntaxException {
         String incoming =
-                "https://localhost:9443/fhir-server/api/v4/_search?_count=10&_security=http://ibm.com/fhir/security&_fudge=tag&_page=1";
+                "https://localhost:9443/fhir-server/api/v4/_search?_count=10&_security=http://example.com/fhir/security&_fudge=tag&_page=1";
         String requestUriString = incoming.split("\\?")[0];
 
         QueryParameterValue value = new QueryParameterValue();
-        value.setValueString("http://ibm.com/fhir/security");
+        value.setValueString("http://example.com/fhir/security");
         List<QueryParameterValue> values = Arrays.asList(value);
         QueryParameter parameter = new QueryParameter(Type.TOKEN, "_security", null, null, values);
 
@@ -63,11 +63,11 @@ public class UriTest {
     @Test
     public void testUriBadSecurity() throws URISyntaxException {
         String incoming =
-                "https://localhost:9443/fhir-server/api/v4/_search?_count=10&_security=http://ibm.com/fhir/security&_fudge=tag&_page=1";
+                "https://localhost:9443/fhir-server/api/v4/_search?_count=10&_security=http://example.com/fhir/security&_fudge=tag&_page=1";
         String requestUriString = incoming;
 
         QueryParameterValue value = new QueryParameterValue();
-        value.setValueString("http://ibm.com/fhir/security");
+        value.setValueString("http://example.com/fhir/security");
         List<QueryParameterValue> values = Arrays.asList(value);
         QueryParameter parameter = new QueryParameter(Type.TOKEN, "_security", null, null, values);
 

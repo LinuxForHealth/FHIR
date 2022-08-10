@@ -153,7 +153,7 @@ public class BundleValidationTest {
         practitioner = practitioner.toBuilder()
                 .id("practitioner")
                 .extension(Extension.builder()
-                    .url("http://ibm.com/fhir/ext")
+                    .url("http://example.com/fhir/ext")
                     .value(Reference.builder()
                         .reference(string("#bundle"))
                         .build())
@@ -174,7 +174,7 @@ public class BundleValidationTest {
 
         patient = patient.toBuilder()
                 .extension(Extension.builder()
-                        .url("http://ibm.com/fhir/ext")
+                        .url("http://example.com/fhir/ext")
                         .value(Reference.builder()
                             .reference(string("#bundle"))
                             .build())

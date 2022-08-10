@@ -73,7 +73,7 @@ public class MaxValueSetTest {
         //----[test-language-others-opt-extension]
         //-----------------------------------------------
 
-        StructureDefinition structureDefinition = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/test-device", StructureDefinition.class);
+        StructureDefinition structureDefinition = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/test-device", StructureDefinition.class);
         ConstraintGenerator generator = new ConstraintGenerator(structureDefinition);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 7);
@@ -83,35 +83,35 @@ public class MaxValueSetTest {
         assertEquals(constraints.get(5).expression(), "specialization.exists() implies (specialization.count() >= 1 and specialization.all(systemType.exists() and systemType.all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'extensible') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))))");
         assertEquals(constraints.get(6).expression(), "safety.exists() implies (safety.count() >= 1 and safety.all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'extensible') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required')))");
 
-        structureDefinition = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/test-language-primary-extension", StructureDefinition.class);
+        structureDefinition = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/test-language-primary-extension", StructureDefinition.class);
         generator = new ConstraintGenerator(structureDefinition);
         constraints = generator.generate();
         assertEquals(constraints.size(), 2);
         constraints.forEach(constraint -> compile(constraint.expression()));
         assertEquals(constraints.get(1).expression(), "value.where(is(CodeableConcept)).exists() and value.where(is(CodeableConcept)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))");
 
-        structureDefinition = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension", StructureDefinition.class);
+        structureDefinition = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/test-language-secondary-extension", StructureDefinition.class);
         generator = new ConstraintGenerator(structureDefinition);
         constraints = generator.generate();
         assertEquals(constraints.size(), 2);
         constraints.forEach(constraint -> compile(constraint.expression()));
         assertEquals(constraints.get(1).expression(), "value.where(is(Coding)).exists() implies (value.where(is(Coding)).exists() and value.where(is(Coding)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required')))");
 
-        structureDefinition = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/test-language-tertiary-extension", StructureDefinition.class);
+        structureDefinition = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/test-language-tertiary-extension", StructureDefinition.class);
         generator = new ConstraintGenerator(structureDefinition);
         constraints = generator.generate();
         assertEquals(constraints.size(), 2);
         constraints.forEach(constraint -> compile(constraint.expression()));
         assertEquals(constraints.get(1).expression(), "value.where(is(code)).exists() and value.where(is(code)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))");
 
-        structureDefinition = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/test-language-others-opt-extension", StructureDefinition.class);
+        structureDefinition = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/test-language-others-opt-extension", StructureDefinition.class);
         generator = new ConstraintGenerator(structureDefinition);
         constraints = generator.generate();
         assertEquals(constraints.size(), 2);
         constraints.forEach(constraint -> compile(constraint.expression()));
         assertEquals(constraints.get(1).expression(), "value.where(is(CodeableConcept)).exists() implies (value.where(is(CodeableConcept)).count() >= 1 and value.where(is(CodeableConcept)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required')))");
 
-        structureDefinition = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/test-language-others-req-extension", StructureDefinition.class);
+        structureDefinition = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/test-language-others-req-extension", StructureDefinition.class);
         generator = new ConstraintGenerator(structureDefinition);
         constraints = generator.generate();
         assertEquals(constraints.size(), 2);
@@ -195,7 +195,7 @@ public class MaxValueSetTest {
 
         // Warning for test-language-primary-extension
         device = buildDevice().toBuilder()
-                .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-primary-extension")
+                .extension(Collections.singletonList(Extension.builder().url("http://example.com/fhir/StructureDefinition/test-language-primary-extension")
                 .value(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("tlh")).build()).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
@@ -204,7 +204,7 @@ public class MaxValueSetTest {
 
         // Error for test-language-primary-extension
         device = buildDevice().toBuilder()
-                .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-primary-extension")
+                .extension(Collections.singletonList(Extension.builder().url("http://example.com/fhir/StructureDefinition/test-language-primary-extension")
                 .value(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("invalidLanguage")).build()).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
@@ -213,7 +213,7 @@ public class MaxValueSetTest {
 
         // Warning for test-language-secondary-extension
         device = buildDevice().toBuilder()
-                .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension")
+                .extension(Collections.singletonList(Extension.builder().url("http://example.com/fhir/StructureDefinition/test-language-secondary-extension")
                 .value(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("tlh")).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
@@ -222,7 +222,7 @@ public class MaxValueSetTest {
 
         // Error for test-language-secondary-extension
         device = buildDevice().toBuilder()
-                .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension")
+                .extension(Collections.singletonList(Extension.builder().url("http://example.com/fhir/StructureDefinition/test-language-secondary-extension")
                 .value(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("invalidLanguage")).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
@@ -231,7 +231,7 @@ public class MaxValueSetTest {
 
         // Warning for test-language-tertiary-extension
         device = buildDevice().toBuilder()
-                .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-tertiary-extension")
+                .extension(Collections.singletonList(Extension.builder().url("http://example.com/fhir/StructureDefinition/test-language-tertiary-extension")
                 .value(Code.of("tlh")).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
@@ -240,7 +240,7 @@ public class MaxValueSetTest {
 
         // Error for test-language-tertiary-extension
         device = buildDevice().toBuilder()
-                .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-tertiary-extension")
+                .extension(Collections.singletonList(Extension.builder().url("http://example.com/fhir/StructureDefinition/test-language-tertiary-extension")
                 .value(Code.of("invalidLanguage")).build())).build();
         issues = FHIRValidator.validator().validate(device);
         assertEquals(FHIRValidationUtil.countErrors(issues), 2);
@@ -256,16 +256,16 @@ public class MaxValueSetTest {
         Device device = Device.builder()
             .text(Narrative.builder().div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Generated</div>")).status(NarrativeStatus.GENERATED).build())
             .meta(Meta.builder()
-                .profile(Canonical.of("http://ibm.com/fhir/StructureDefinition/test-device|0.1.0"))
+                .profile(Canonical.of("http://example.com/fhir/StructureDefinition/test-device|0.1.0"))
                 .build())
             .statusReason(CodeableConcept.builder().coding(Coding.builder().system(Uri.of("http://terminology.hl7.org/CodeSystem/device-status-reason")).code(Code.of("online")).build()).build())
             .specialization(Specialization.builder()
                     .systemType(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build()).build())
-            .extension(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-primary-extension")
+            .extension(Extension.builder().url("http://example.com/fhir/StructureDefinition/test-language-primary-extension")
                     .value(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build()).build(),
-                    Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension")
+                    Extension.builder().url("http://example.com/fhir/StructureDefinition/test-language-secondary-extension")
                     .value(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of(ENGLISH_US)).build()).build(),
-                    Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-tertiary-extension")
+                    Extension.builder().url("http://example.com/fhir/StructureDefinition/test-language-tertiary-extension")
                     .value(Code.of(ENGLISH_US)).build())
             .build();
         return device;

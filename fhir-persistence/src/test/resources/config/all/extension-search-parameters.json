@@ -2,11 +2,11 @@
     "resourceType": "Bundle",
     "type": "collection",
     "entry": [{
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-boolean",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-boolean",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-boolean",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-boolean",
+            "url": "http://example.com/fhir/SearchParameter/Basic-boolean",
             "name": "boolean",
             "status": "active",
             "description": "test param",
@@ -19,11 +19,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-canonical",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-canonical",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-canonical",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-canonical",
+            "url": "http://example.com/fhir/SearchParameter/Basic-canonical",
             "name": "canonical",
             "status": "active",
             "description": "test param",
@@ -36,11 +36,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-code",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-code",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-code",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-code",
+            "url": "http://example.com/fhir/SearchParameter/Basic-code",
             "name": "code",
             "status": "active",
             "description": "test param",
@@ -53,11 +53,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-date",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-date",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-date",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-date",
+            "url": "http://example.com/fhir/SearchParameter/Basic-date",
             "name": "date",
             "status": "active",
             "description": "test param",
@@ -70,11 +70,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-dateTime",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-dateTime",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-dateTime",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-dateTime",
+            "url": "http://example.com/fhir/SearchParameter/Basic-dateTime",
             "name": "dateTime",
             "status": "active",
             "description": "test param",
@@ -87,11 +87,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-decimal",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-decimal",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-decimal",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-decimal",
+            "url": "http://example.com/fhir/SearchParameter/Basic-decimal",
             "name": "decimal",
             "status": "active",
             "description": "test param",
@@ -104,11 +104,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-id",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-id",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-id",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-id",
+            "url": "http://example.com/fhir/SearchParameter/Basic-id",
             "name": "id",
             "status": "active",
             "description": "test param",
@@ -121,11 +121,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-instant",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-instant",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-instant",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-instant",
+            "url": "http://example.com/fhir/SearchParameter/Basic-instant",
             "name": "instant",
             "status": "active",
             "description": "test param",
@@ -138,11 +138,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-integer",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-integer",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-integer",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-integer",
+            "url": "http://example.com/fhir/SearchParameter/Basic-integer",
             "name": "integer",
             "status": "active",
             "description": "test param",
@@ -155,11 +155,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-oid",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-oid",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-oid",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-oid",
+            "url": "http://example.com/fhir/SearchParameter/Basic-oid",
             "name": "oid",
             "status": "active",
             "description": "test param",
@@ -172,11 +172,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-positiveInt",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-positiveInt",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-positiveInt",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-positiveInt",
+            "url": "http://example.com/fhir/SearchParameter/Basic-positiveInt",
             "name": "positiveInt",
             "status": "active",
             "description": "test param",
@@ -189,11 +189,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-string",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-string",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-string",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-string",
+            "url": "http://example.com/fhir/SearchParameter/Basic-string",
             "name": "string",
             "status": "active",
             "description": "test param",
@@ -206,11 +206,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-time",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-time",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-time",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-time",
+            "url": "http://example.com/fhir/SearchParameter/Basic-time",
             "name": "time",
             "status": "active",
             "description": "test param",
@@ -223,11 +223,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-unsignedInt",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-unsignedInt",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-unsignedInt",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-unsignedInt",
+            "url": "http://example.com/fhir/SearchParameter/Basic-unsignedInt",
             "name": "unsignedInt",
             "status": "active",
             "description": "test param",
@@ -240,11 +240,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-uri",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-uri",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-uri",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-uri",
+            "url": "http://example.com/fhir/SearchParameter/Basic-uri",
             "name": "uri",
             "status": "active",
             "description": "test param",
@@ -257,11 +257,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-url",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-url",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-url",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-url",
+            "url": "http://example.com/fhir/SearchParameter/Basic-url",
             "name": "url",
             "status": "active",
             "description": "test param",
@@ -274,11 +274,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-uuid",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-uuid",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-uuid",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-uuid",
+            "url": "http://example.com/fhir/SearchParameter/Basic-uuid",
             "name": "uuid",
             "status": "active",
             "description": "test param",
@@ -292,11 +292,11 @@
     },
     
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Address",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Address",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Address",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-Address",
+            "url": "http://example.com/fhir/SearchParameter/Basic-Address",
             "name": "Address",
             "status": "active",
             "description": "test param",
@@ -309,11 +309,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Age",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Age",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Age",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-Age",
+            "url": "http://example.com/fhir/SearchParameter/Basic-Age",
             "name": "Age",
             "status": "active",
             "description": "test param",
@@ -326,11 +326,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-CodeableConcept",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-CodeableConcept",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-CodeableConcept",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-CodeableConcept",
+            "url": "http://example.com/fhir/SearchParameter/Basic-CodeableConcept",
             "name": "CodeableConcept",
             "status": "active",
             "description": "test param",
@@ -343,11 +343,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Coding",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Coding",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Coding",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-Coding",
+            "url": "http://example.com/fhir/SearchParameter/Basic-Coding",
             "name": "Coding",
             "status": "active",
             "description": "test param",
@@ -364,7 +364,7 @@
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-ContactPoint",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-ContactPoint",
+            "url": "http://example.com/fhir/SearchParameter/Basic-ContactPoint",
             "name": "ContactPoint",
             "status": "active",
             "description": "test param",
@@ -381,7 +381,7 @@
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Duration",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-Duration",
+            "url": "http://example.com/fhir/SearchParameter/Basic-Duration",
             "name": "Duration",
             "status": "active",
             "description": "test param",
@@ -398,7 +398,7 @@
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-HumanName",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-HumanName",
+            "url": "http://example.com/fhir/SearchParameter/Basic-HumanName",
             "name": "HumanName",
             "status": "active",
             "description": "test param",
@@ -411,11 +411,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Identifier",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Identifier",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Identifier",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-Identifier",
+            "url": "http://example.com/fhir/SearchParameter/Basic-Identifier",
             "name": "Identifier",
             "status": "active",
             "description": "test param",
@@ -428,11 +428,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Money",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Money",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Money",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-Money",
+            "url": "http://example.com/fhir/SearchParameter/Basic-Money",
             "name": "Money",
             "status": "active",
             "description": "test param",
@@ -445,11 +445,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Period",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Period",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Period",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-Period",
+            "url": "http://example.com/fhir/SearchParameter/Basic-Period",
             "name": "Period",
             "status": "active",
             "description": "test param",
@@ -462,11 +462,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Quantity",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Quantity",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Quantity",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-Quantity",
+            "url": "http://example.com/fhir/SearchParameter/Basic-Quantity",
             "name": "Quantity",
             "status": "active",
             "description": "test param",
@@ -479,11 +479,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Range",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Range",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Range",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-Range",
+            "url": "http://example.com/fhir/SearchParameter/Basic-Range",
             "name": "Range",
             "status": "active",
             "description": "test param",
@@ -496,11 +496,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Reference",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Reference",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Reference",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-Reference",
+            "url": "http://example.com/fhir/SearchParameter/Basic-Reference",
             "name": "Reference",
             "status": "active",
             "description": "test param",
@@ -513,11 +513,11 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Timing",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Timing",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Timing",
-            "url": "http://ibm.com/fhir/SearchParameter/Basic-Timing",
+            "url": "http://example.com/fhir/SearchParameter/Basic-Timing",
             "name": "Timing",
             "status": "active",
             "description": "test param",

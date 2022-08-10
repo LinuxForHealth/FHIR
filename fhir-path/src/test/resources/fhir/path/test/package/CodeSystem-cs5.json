@@ -1,7 +1,7 @@
 {
     "resourceType": "CodeSystem",
     "id": "cs5",
-    "url": "http://ibm.com/fhir/CodeSystem/cs5",
+    "url": "http://example.com/fhir/CodeSystem/cs5",
     "version": "1.0.0",
     "status": "active",
     "hierarchyMeaning": "is-a",
@@ -9,12 +9,12 @@
     "property": [
         {
             "code": "label",
-            "uri": "http://ibm.com/fhir/concept-properties#label",
+            "uri": "http://example.com/fhir/concept-properties#label",
             "type": "string"
         },
         {
             "code": "property1",
-            "uri": "http://ibm.com/fhir/concept-properties#property1",
+            "uri": "http://example.com/fhir/concept-properties#property1",
             "type": "string"
         }
     ],

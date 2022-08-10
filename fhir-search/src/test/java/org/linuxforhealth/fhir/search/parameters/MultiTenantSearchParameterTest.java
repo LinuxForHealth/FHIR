@@ -310,10 +310,10 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         copyFile(hiddenFile1, mainFile);
 
         // Verify that we can now "see" the two tenant-specific search parameters in the registry (dynamic)
-        searchParameter = registry.getResource("http://ibm.com/fhir/SearchParameter/Patient-favorite-mlb-team",
+        searchParameter = registry.getResource("http://example.com/fhir/SearchParameter/Patient-favorite-mlb-team",
                 SearchParameter.class);
         assertNotNull(searchParameter);
-        searchParameter = registry.getResource("http://ibm.com/fhir/SearchParameter/Patient-favorite-nfl-team",
+        searchParameter = registry.getResource("http://example.com/fhir/SearchParameter/Patient-favorite-nfl-team",
                 SearchParameter.class);
         assertNotNull(searchParameter);
 
@@ -328,10 +328,10 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         copyFile(hiddenFile2, mainFile);
 
         // Verify that we can now "see" only the first tenant-specific search parameter in the registry (dynamic)
-        searchParameter = registry.getResource("http://ibm.com/fhir/SearchParameter/Patient-favorite-mlb-team",
+        searchParameter = registry.getResource("http://example.com/fhir/SearchParameter/Patient-favorite-mlb-team",
                 SearchParameter.class);
         assertNotNull(searchParameter);
-        searchParameter = registry.getResource("http://ibm.com/fhir/SearchParameter/Patient-favorite-nfl-team",
+        searchParameter = registry.getResource("http://example.com/fhir/SearchParameter/Patient-favorite-nfl-team",
                 SearchParameter.class);
         assertNull(searchParameter);
 
@@ -342,10 +342,10 @@ public class MultiTenantSearchParameterTest extends BaseSearchTest {
         // can't find either search parameter in the registry.
         deleteFile(mainFile);
 
-        searchParameter = registry.getResource("http://ibm.com/fhir/SearchParameter/Patient-favorite-mlb-team",
+        searchParameter = registry.getResource("http://example.com/fhir/SearchParameter/Patient-favorite-mlb-team",
                 SearchParameter.class);
         assertNull(searchParameter);
-        searchParameter = registry.getResource("http://ibm.com/fhir/SearchParameter/Patient-favorite-nfl-team",
+        searchParameter = registry.getResource("http://example.com/fhir/SearchParameter/Patient-favorite-nfl-team",
                 SearchParameter.class);
         assertNull(searchParameter);
     }

@@ -27,7 +27,7 @@ public class SearchTagTest {
         Builder builder = ExtractorValidator.builder().strict(false);
         builder.add("_security", "security");
         builder.add("_tag", "tag");
-        builder.add("_profile", "http://ibm.com/fhir/profile/Profile");
+        builder.add("_profile", "http://example.com/fhir/profile/Profile");
 
         runTest(testFile, Patient.class, true, builder.build());
 

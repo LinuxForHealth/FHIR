@@ -22,7 +22,7 @@ import org.linuxforhealth.fhir.registry.FHIRRegistry;
 public class ObservationProfileTest {
     @Test
     public void testObservationProfile() throws Exception {
-        StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/my-observation",  StructureDefinition.class);
+        StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/my-observation",  StructureDefinition.class);
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         constraints.forEach(System.out::println);

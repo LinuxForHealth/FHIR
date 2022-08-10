@@ -1,16 +1,16 @@
 {
     "resourceType": "ValueSet",
     "id": "vs4",
-    "url": "http://ibm.com/fhir/ValueSet/vs4",
+    "url": "http://example.com/fhir/ValueSet/vs4",
     "version": "1.0.0",
     "status": "active",
     "compose": {
         "include": [
             {
-                "system": "http://ibm.com/fhir/CodeSystem/cs4"
+                "system": "http://example.com/fhir/CodeSystem/cs4"
             },
             {
-                "system": "http://ibm.com/fhir/CodeSystem/cs1",
+                "system": "http://example.com/fhir/CodeSystem/cs1",
                 "filter": [
                     {
                         "property": "concept",
@@ -20,7 +20,7 @@
                 ]
             },
             {
-                "system": "http://ibm.com/fhir/CodeSystem/cs2",
+                "system": "http://example.com/fhir/CodeSystem/cs2",
                 "filter": [
                     {
                         "property": "concept",
@@ -31,13 +31,13 @@
             },
             {
                 "valueSet": [
-                    "http://ibm.com/fhir/ValueSet/vs5"
+                    "http://example.com/fhir/ValueSet/vs5"
                 ]
             }
         ],
         "exclude": [
             {
-                "system": "http://ibm.com/fhir/CodeSystem/cs4",
+                "system": "http://example.com/fhir/CodeSystem/cs4",
                 "filter": [
                     {
                         "property": "notSelectable",

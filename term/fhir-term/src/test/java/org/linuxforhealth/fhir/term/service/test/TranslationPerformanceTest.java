@@ -21,7 +21,7 @@ public class TranslationPerformanceTest {
         long start = System.currentTimeMillis();
 
         for (int i = 0; i < ITERATIONS; i++) {
-            ConceptMap conceptMap = getConceptMap("http://ibm.com/fhir/ConceptMap/snomed-ucum");
+            ConceptMap conceptMap = getConceptMap("http://example.com/fhir/ConceptMap/snomed-ucum");
 
             Coding coding = Coding.builder()
                     .system(Uri.of("http://snomed.info/sct"))

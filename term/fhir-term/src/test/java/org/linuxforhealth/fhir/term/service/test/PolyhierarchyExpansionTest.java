@@ -26,7 +26,7 @@ import org.linuxforhealth.fhir.term.util.CodeSystemSupport;
 public class PolyhierarchyExpansionTest {
     @Test
     void testConvertCodeSystemPropertiesToNested() {
-        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://ibm.com/fhir/CodeSystem/poly|1.0.0");
+        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://example.com/fhir/CodeSystem/poly|1.0.0");
 
         CodeSystem expand = CodeSystemSupport.convertToSimpleCodeSystem(codeSystem);
         assertNotNull(expand);
@@ -57,7 +57,7 @@ public class PolyhierarchyExpansionTest {
 
     @Test(expectedExceptions = IllegalStateException.class)
     void testConvertCodeSystemPropertiesWithCycle() {
-        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://ibm.com/fhir/CodeSystem/poly|1.0.0");
+        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://example.com/fhir/CodeSystem/poly|1.0.0");
         // add a bogus concept that introduces a cycle
         codeSystem = codeSystem.toBuilder()
                 .concept(CodeSystem.Concept.builder()
@@ -82,7 +82,7 @@ public class PolyhierarchyExpansionTest {
 
     @Test
     void testExpandValueSetWithCodeSystemPolyhierarchy() {
-        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/poly|1.0.0");
+        ValueSet valueSet = getValueSet("http://example.com/fhir/ValueSet/poly|1.0.0");
 
         ValueSet expand = FHIRTermService.getInstance().expand(valueSet);
         assertNotNull(expand);

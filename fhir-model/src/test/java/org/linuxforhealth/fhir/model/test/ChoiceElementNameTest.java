@@ -34,7 +34,7 @@ public class ChoiceElementNameTest {
         try {
             Observation observation = Observation.builder()
                 .extension(Extension.builder()
-                    .url("http://ibm.com/fhir/testExtension")
+                    .url("http://example.com/fhir/testExtension")
                     .value(ObservationStatus.FINAL)
                     .build())
                 .status(ObservationStatus.FINAL)

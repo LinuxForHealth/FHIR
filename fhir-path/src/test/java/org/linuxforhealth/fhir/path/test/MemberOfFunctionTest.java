@@ -42,7 +42,7 @@ public class MemberOfFunctionTest {
     public void testMemberOfFunction1() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(Code.of("a"), "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(Code.of("a"), "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -51,7 +51,7 @@ public class MemberOfFunctionTest {
     public void testMemberOfFunction2() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(Code.of("x"), "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(Code.of("x"), "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -61,12 +61,12 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .version(string("1.0.0"))
                 .code(Code.of("a"))
                 .build();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -76,12 +76,12 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .version(string("2.0.0"))
                 .code(Code.of("a"))
                 .build();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -92,13 +92,13 @@ public class MemberOfFunctionTest {
 
         CodeableConcept codeableConcept = CodeableConcept.builder()
             .coding(Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .version(string("1.0.0"))
                 .code(Code.of("a"))
                 .build())
             .build();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -109,13 +109,13 @@ public class MemberOfFunctionTest {
 
         CodeableConcept codeableConcept = CodeableConcept.builder()
             .coding(Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .version(string("2.0.0"))
                 .code(Code.of("a"))
                 .build())
             .build();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -124,7 +124,7 @@ public class MemberOfFunctionTest {
     public void testMemberOfFunction7() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(Code.of("a"), "$this in 'http://ibm.com/fhir/ValueSet/vs1'");
+        Collection<FHIRPathNode> result = evaluator.evaluate(Code.of("a"), "$this in 'http://example.com/fhir/ValueSet/vs1'");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -134,7 +134,7 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         EvaluationContext evaluationContext = new EvaluationContext(Code.of("x"));
-        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'extensible')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "$this.memberOf('http://example.com/fhir/ValueSet/vs1', 'extensible')");
 
         Assert.assertEquals(evaluationContext.getIssues().size(), 2);
         Issue issue = evaluationContext.getIssues().get(0);
@@ -148,7 +148,7 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         EvaluationContext evaluationContext = new EvaluationContext(Code.of("x"));
-        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'preferred')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "$this.memberOf('http://example.com/fhir/ValueSet/vs1', 'preferred')");
 
         Assert.assertEquals(evaluationContext.getIssues().size(), 2);
         Issue issue = evaluationContext.getIssues().get(0);
@@ -161,7 +161,7 @@ public class MemberOfFunctionTest {
     public void testMemberOfFunction10() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(string("a"), "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(string("a"), "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -170,7 +170,7 @@ public class MemberOfFunctionTest {
     public void testMemberOfFunction11() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(string("x"), "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(string("x"), "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -179,7 +179,7 @@ public class MemberOfFunctionTest {
     public void testMemberOfFunction12() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(Uri.of("a"), "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(Uri.of("a"), "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -188,7 +188,7 @@ public class MemberOfFunctionTest {
     public void testMemberOfFunction13() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(Uri.of("x"), "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(Uri.of("x"), "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -198,11 +198,11 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Quantity quantity = Quantity.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .code(Code.of("a"))
                 .build();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -212,11 +212,11 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Quantity quantity = Quantity.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .code(Code.of("x"))
                 .build();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -226,7 +226,7 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Quantity quantity = Quantity.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .code(Code.of("a"))
                 .build();
 
@@ -234,7 +234,7 @@ public class MemberOfFunctionTest {
         FHIRPathTree tree = evaluationContext.getTree();
         Collection<FHIRPathNode> initialContext = getChildren(tree.getRoot(), "code");
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')", initialContext);
+        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "$this.memberOf('http://example.com/fhir/ValueSet/vs1')", initialContext);
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -244,7 +244,7 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Quantity quantity = Quantity.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .code(Code.of("x"))
                 .build();
 
@@ -252,7 +252,7 @@ public class MemberOfFunctionTest {
         FHIRPathTree tree = evaluationContext.getTree();
         Collection<FHIRPathNode> initialContext = getChildren(tree.getRoot(), "code");
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')", initialContext);
+        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "$this.memberOf('http://example.com/fhir/ValueSet/vs1')", initialContext);
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -528,7 +528,7 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Collection<FHIRPathNode> result = evaluator.evaluate(Code.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
-            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+            "$this.memberOf('http://example.com/fhir/ValueSet/vs1', 'required')");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -538,7 +538,7 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Collection<FHIRPathNode> result = evaluator.evaluate(Code.builder().value("x").extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
-            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+            "$this.memberOf('http://example.com/fhir/ValueSet/vs1', 'required')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -548,7 +548,7 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Collection<FHIRPathNode> result = evaluator.evaluate(Code.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
-            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1')");
+            "$this.memberOf('http://example.com/fhir/ValueSet/vs1')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -558,7 +558,7 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Collection<FHIRPathNode> result = evaluator.evaluate(Uri.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
-            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+            "$this.memberOf('http://example.com/fhir/ValueSet/vs1', 'required')");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -568,7 +568,7 @@ public class MemberOfFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Collection<FHIRPathNode> result = evaluator.evaluate(Uri.builder().value("x").extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build(),
-            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+            "$this.memberOf('http://example.com/fhir/ValueSet/vs1', 'required')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -583,7 +583,7 @@ public class MemberOfFunctionTest {
                 .value(Code.of("unknown"))
                 .build())
             .build();
-        Collection<FHIRPathNode> result = evaluator.evaluate(unknownString, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(unknownString, "$this.memberOf('http://example.com/fhir/ValueSet/vs1', 'required')");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -600,7 +600,7 @@ public class MemberOfFunctionTest {
                     .build())
                 .build();
         Collection<FHIRPathNode> result = evaluator.evaluate(unknownStringWithVal,
-            "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+            "$this.memberOf('http://example.com/fhir/ValueSet/vs1', 'required')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -613,7 +613,7 @@ public class MemberOfFunctionTest {
                 .extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build())
                 .build();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('http://example.com/fhir/ValueSet/vs1', 'required')");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -627,7 +627,7 @@ public class MemberOfFunctionTest {
                 .code(Code.of("a"))
                 .build();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('http://example.com/fhir/ValueSet/vs1', 'required')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -640,7 +640,7 @@ public class MemberOfFunctionTest {
                 .extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build())
                 .build();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('http://example.com/fhir/ValueSet/vs1', 'required')");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
@@ -654,7 +654,7 @@ public class MemberOfFunctionTest {
                 .code(Code.of("a"))
                 .build();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('http://ibm.com/fhir/ValueSet/vs1', 'required')");
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('http://example.com/fhir/ValueSet/vs1', 'required')");
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
@@ -676,14 +676,14 @@ public class MemberOfFunctionTest {
                 .build())
             .category(CodeableConcept.builder()
                 .coding(Coding.builder()
-                    .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                    .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                     .version("1.0.0")
                     .code(Code.of("a"))
                     .build())
                 .build())
             .build();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate(condition, "Condition.category.where(memberOf('http://ibm.com/fhir/ValueSet/vs1')).exists()");
+        Collection<FHIRPathNode> result = evaluator.evaluate(condition, "Condition.category.where(memberOf('http://example.com/fhir/ValueSet/vs1')).exists()");
 
         Assert.assertEquals(result, SINGLETON_TRUE);
     }

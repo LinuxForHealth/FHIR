@@ -59,8 +59,8 @@ public class SearchChainTest extends FHIRServerTestBase {
     public void testCreatePatient() throws Exception {
         WebTarget target = getWebTarget();
 
-        Coding security = Coding.builder().system(uri("http://ibm.com/fhir/security/" + strUniqueTag)).code(code(strUniqueTag)).build();
-        Coding tag = Coding.builder().system(uri("http://ibm.com/fhir/tag/" + strUniqueTag)).code(code(strUniqueTag)).build();
+        Coding security = Coding.builder().system(uri("http://example.com/fhir/security/" + strUniqueTag)).code(code(strUniqueTag)).build();
+        Coding tag = Coding.builder().system(uri("http://example.com/fhir/tag/" + strUniqueTag)).code(code(strUniqueTag)).build();
 
         // Build a new Patient and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
@@ -68,7 +68,7 @@ public class SearchChainTest extends FHIRServerTestBase {
                 .meta(Meta.builder()
                     .security(security)
                     .tag(tag)
-                    .profile(Canonical.of("http://ibm.com/fhir/profile/Profile/" + strUniqueTag))
+                    .profile(Canonical.of("http://example.com/fhir/profile/Profile/" + strUniqueTag))
                     .build())
                 .gender(AdministrativeGender.MALE).build();
 
@@ -303,7 +303,7 @@ public class SearchChainTest extends FHIRServerTestBase {
     public void testSearchPatientWithProfile() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Procedure").queryParam("subject:Patient._profile", "http://ibm.com/fhir/profile/Profile/" + strUniqueTag)
+                target.path("Procedure").queryParam("subject:Patient._profile", "http://example.com/fhir/profile/Profile/" + strUniqueTag)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -317,7 +317,7 @@ public class SearchChainTest extends FHIRServerTestBase {
     public void testSearchPatientWithTag() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Procedure").queryParam("subject:Patient._tag", "http://ibm.com/fhir/tag/" + strUniqueTag + "|" + strUniqueTag)
+                target.path("Procedure").queryParam("subject:Patient._tag", "http://example.com/fhir/tag/" + strUniqueTag + "|" + strUniqueTag)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -331,7 +331,7 @@ public class SearchChainTest extends FHIRServerTestBase {
     public void testSearchPatientWithTagSystemOnly() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Procedure").queryParam("subject:Patient._tag", "http://ibm.com/fhir/tag/" + strUniqueTag + "|")
+                target.path("Procedure").queryParam("subject:Patient._tag", "http://example.com/fhir/tag/" + strUniqueTag + "|")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -345,7 +345,7 @@ public class SearchChainTest extends FHIRServerTestBase {
     public void testSearchPatientWithSecurity() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Procedure").queryParam("subject:Patient._security", "http://ibm.com/fhir/security/" + strUniqueTag + "|" + strUniqueTag)
+                target.path("Procedure").queryParam("subject:Patient._security", "http://example.com/fhir/security/" + strUniqueTag + "|" + strUniqueTag)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -359,7 +359,7 @@ public class SearchChainTest extends FHIRServerTestBase {
     public void testSearchPatientWithSecuritySystemOnly() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Procedure").queryParam("subject:Patient._security", "http://ibm.com/fhir/security/" + strUniqueTag + "|")
+                target.path("Procedure").queryParam("subject:Patient._security", "http://example.com/fhir/security/" + strUniqueTag + "|")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());

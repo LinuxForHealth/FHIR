@@ -949,7 +949,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
                         .build())
                     .id(id)
                     .extension(Extension.builder()
-                        .url("http://ibm.com/fhir/test")
+                        .url("http://example.com/fhir/test")
                         .extension(exts)
                         .build())
                     .build();
@@ -973,7 +973,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
                         .build())
                     .id(id)
                     .extension(Extension.builder()
-                        .url("http://ibm.com/fhir/test")
+                        .url("http://example.com/fhir/test")
                         .extension(exts)
                         .build())
                     .build();
@@ -1379,7 +1379,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
                             .build())
                         .id(id)
                         .extension(Extension.builder()
-                            .url("http://ibm.com/fhir/test")
+                            .url("http://example.com/fhir/test")
                             .extension(exts)
                             .build())
                         .build();
@@ -1592,7 +1592,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
                             .build())
                         .id(id)
                         .extension(Extension.builder()
-                            .url("http://ibm.com/fhir/test")
+                            .url("http://example.com/fhir/test")
                             .extension(exts)
                             .build())
                         .build();

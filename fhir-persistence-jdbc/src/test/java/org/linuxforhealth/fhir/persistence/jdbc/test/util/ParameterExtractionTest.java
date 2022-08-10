@@ -100,7 +100,7 @@ public class ParameterExtractionTest {
             .toFormatter();
 
     private static final SearchParameter.Builder searchParamBuilder = SearchParameter.builder()
-            .url(Uri.of("http://ibm.com/fhir/test"))
+            .url(Uri.of("http://example.com/fhir/test"))
             .name(string("test-param"))
             .status(PublicationStatus.DRAFT)
             .description(Markdown.of("#Test Parameter"))

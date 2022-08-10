@@ -84,8 +84,8 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
         Patient patient = TestUtil.getMinimalResource(Patient.class);
         Device device = TestUtil.getMinimalResource(Device.class);
         Library library = TestUtil.getMinimalResource(Library.class);
-        Coding uniqueTag = Coding.builder().system(uri("http://ibm.com/fhir/tag")).code(code(now.toString())).build();
-        Coding uniqueSecurity = Coding.builder().system(uri("http://ibm.com/fhir/security")).code(code(now.toString())).build();
+        Coding uniqueTag = Coding.builder().system(uri("http://example.com/fhir/tag")).code(code(now.toString())).build();
+        Coding uniqueSecurity = Coding.builder().system(uri("http://example.com/fhir/security")).code(code(now.toString())).build();
 
         startTrx();
         // Organizations that will be referenced by a Patient
@@ -108,7 +108,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
                 .meta(Meta.builder()
                     .tag(uniqueTag)
                     .security(uniqueSecurity)
-                    .profile(Canonical.of("http://ibm.com/fhir/profile/" + now.toString())).build())
+                    .profile(Canonical.of("http://example.com/fhir/profile/" + now.toString())).build())
                 .managingOrganization(reference("Organization/" + savedOrg2.getId()))
                 .build();
         savedPatient1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedPatient1).getResource();
@@ -147,7 +147,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
         savedPatient3 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedPatient3).getResource();
 
         // a Library that is referenced by an Observation
-        savedLibrary1 = library.toBuilder().url(Uri.of("http://ibm.com/fhir/Library/abc")).version(string("1.0")).build();
+        savedLibrary1 = library.toBuilder().url(Uri.of("http://example.com/fhir/Library/abc")).version(string("1.0")).build();
         savedLibrary1 = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), savedLibrary1).getResource();
 
         // an Observation with a reference to a Patient and a Library
@@ -253,7 +253,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
     @Test
     public void testReverseChainWithProfile() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        queryParms.put("_has:Patient:organization:_profile", Collections.singletonList("http://ibm.com/fhir/profile/" + now.toString()));
+        queryParms.put("_has:Patient:organization:_profile", Collections.singletonList("http://example.com/fhir/profile/" + now.toString()));
         List<Resource> resources = runQueryTest(Organization.class, queryParms);
         assertNotNull(resources);
         assertEquals(1, resources.size());
@@ -269,7 +269,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
     @Test
     public void testReverseChainWithTag() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        queryParms.put("_has:Patient:organization:_tag", Collections.singletonList("http://ibm.com/fhir/tag|" + now.toString()));
+        queryParms.put("_has:Patient:organization:_tag", Collections.singletonList("http://example.com/fhir/tag|" + now.toString()));
         List<Resource> resources = runQueryTest(Organization.class, queryParms);
         assertNotNull(resources);
         assertEquals(1, resources.size());
@@ -285,7 +285,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
     @Test
     public void testReverseChainWithSecurity() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        queryParms.put("_has:Patient:organization:_security", Collections.singletonList("http://ibm.com/fhir/security|" + now.toString()));
+        queryParms.put("_has:Patient:organization:_security", Collections.singletonList("http://example.com/fhir/security|" + now.toString()));
         List<Resource> resources = runQueryTest(Organization.class, queryParms);
         assertNotNull(resources);
         assertEquals(1, resources.size());
@@ -626,7 +626,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
     @Test
     public void testChainWithProfile() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        queryParms.put("patient:Patient._profile", Collections.singletonList("http://ibm.com/fhir/profile/" + now.toString()));
+        queryParms.put("patient:Patient._profile", Collections.singletonList("http://example.com/fhir/profile/" + now.toString()));
         List<Resource> resources = runQueryTest(Observation.class, queryParms);
         assertNotNull(resources);
         assertEquals(2, resources.size());
@@ -646,7 +646,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
     @Test
     public void testChainWithTag() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        queryParms.put("patient:Patient._tag", Collections.singletonList("http://ibm.com/fhir/tag|" + now.toString()));
+        queryParms.put("patient:Patient._tag", Collections.singletonList("http://example.com/fhir/tag|" + now.toString()));
         List<Resource> resources = runQueryTest(Observation.class, queryParms);
         assertNotNull(resources);
         assertEquals(2, resources.size());
@@ -666,7 +666,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
     @Test
     public void testChainWithSecurity() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        queryParms.put("patient:Patient._security", Collections.singletonList("http://ibm.com/fhir/security|" + now.toString()));
+        queryParms.put("patient:Patient._security", Collections.singletonList("http://example.com/fhir/security|" + now.toString()));
         List<Resource> resources = runQueryTest(Observation.class, queryParms);
         assertNotNull(resources);
         assertEquals(2, resources.size());
@@ -686,7 +686,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
     @Test
     public void testChainWithUrl() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        queryParms.put("focus:Library.url", Collections.singletonList("http://ibm.com/fhir/Library/abc|1.0"));
+        queryParms.put("focus:Library.url", Collections.singletonList("http://example.com/fhir/Library/abc|1.0"));
         List<Resource> resources = runQueryTest(Observation.class, queryParms);
         assertNotNull(resources);
         assertEquals(1, resources.size());

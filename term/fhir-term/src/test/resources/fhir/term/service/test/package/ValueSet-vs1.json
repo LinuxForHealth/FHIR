@@ -1,13 +1,13 @@
 {
     "resourceType": "ValueSet",
     "id": "vs1",
-    "url": "http://ibm.com/fhir/ValueSet/vs1",
+    "url": "http://example.com/fhir/ValueSet/vs1",
     "version": "1.0.0",
     "status": "active",
     "compose": {
         "include": [
             {
-                "system": "http://ibm.com/fhir/CodeSystem/cs1"
+                "system": "http://example.com/fhir/CodeSystem/cs1"
             }
         ]
     }

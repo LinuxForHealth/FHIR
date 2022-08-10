@@ -17,7 +17,7 @@ public class ExpansionPerformanceTest {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
 
-        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs4|1.0.0");
+        ValueSet valueSet = getValueSet("http://example.com/fhir/ValueSet/vs4|1.0.0");
 
         for (int i = 0; i < ITERATIONS; i++) {
             FHIRTermService.getInstance().expand(valueSet);

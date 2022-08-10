@@ -47,7 +47,7 @@ import org.linuxforhealth.fhir.term.service.TranslationOutcome.Match;
 public class FHIRTermServiceTest {
     @Test
     public void testExpand1() throws Exception {
-        ValueSet expanded = FHIRTermService.getInstance().expand(getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0"));
+        ValueSet expanded = FHIRTermService.getInstance().expand(getValueSet("http://example.com/fhir/ValueSet/vs1|1.0.0"));
 
         List<String> actual = getContains(expanded.getExpansion()).stream()
             .map(contains -> contains.getCode().getValue())
@@ -58,7 +58,7 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testExpand2() throws Exception {
-        ValueSet expanded = FHIRTermService.getInstance().expand(getValueSet("http://ibm.com/fhir/ValueSet/vs2|1.0.0"));
+        ValueSet expanded = FHIRTermService.getInstance().expand(getValueSet("http://example.com/fhir/ValueSet/vs2|1.0.0"));
 
         List<String> actual = getContains(expanded.getExpansion()).stream()
             .map(contains -> contains.getCode().getValue())
@@ -69,7 +69,7 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testExpand3() throws Exception {
-        ValueSet expanded = FHIRTermService.getInstance().expand(getValueSet("http://ibm.com/fhir/ValueSet/vs3|1.0.0"));
+        ValueSet expanded = FHIRTermService.getInstance().expand(getValueSet("http://example.com/fhir/ValueSet/vs3|1.0.0"));
 
         List<String> actual = getContains(expanded.getExpansion()).stream()
             .map(contains -> contains.getCode().getValue())
@@ -80,7 +80,7 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testExpand4() throws Exception {
-        ValueSet expanded = FHIRTermService.getInstance().expand(getValueSet("http://ibm.com/fhir/ValueSet/vs4|1.0.0"));
+        ValueSet expanded = FHIRTermService.getInstance().expand(getValueSet("http://example.com/fhir/ValueSet/vs4|1.0.0"));
 
         List<String> actual = getContains(expanded.getExpansion()).stream()
             .map(contains -> contains.getCode().getValue())
@@ -91,7 +91,7 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testExpand5() throws Exception {
-        ValueSet expanded = FHIRTermService.getInstance().expand(getValueSet("http://ibm.com/fhir/ValueSet/vs5|1.0.0"));
+        ValueSet expanded = FHIRTermService.getInstance().expand(getValueSet("http://example.com/fhir/ValueSet/vs5|1.0.0"));
 
         List<String> actual = getContains(expanded.getExpansion()).stream()
             .map(contains -> contains.getCode().getValue())
@@ -103,7 +103,7 @@ public class FHIRTermServiceTest {
     @Test
     public void testLookup() throws Exception {
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
@@ -117,13 +117,13 @@ public class FHIRTermServiceTest {
     @Test
     public void testSubsumes1() throws Exception {
         Coding codingA = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
 
         Coding codingB = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
@@ -136,13 +136,13 @@ public class FHIRTermServiceTest {
     @Test
     public void testSubsumes2() throws Exception {
         Coding codingA = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
 
         Coding codingB = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("u"))
                 .build();
@@ -155,13 +155,13 @@ public class FHIRTermServiceTest {
     @Test
     public void testSubsumes3() throws Exception {
         Coding codingA = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("u"))
                 .build();
 
         Coding codingB = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
@@ -174,13 +174,13 @@ public class FHIRTermServiceTest {
     @Test
     public void testSubsumes4() throws Exception {
         Coding codingA = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("o"))
                 .build();
 
         Coding codingB = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
@@ -193,7 +193,7 @@ public class FHIRTermServiceTest {
     @Test
     public void testClosure1() throws Exception {
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("m"))
                 .build();
@@ -210,13 +210,13 @@ public class FHIRTermServiceTest {
     @Test
     public void testClosure2() throws Exception {
         Coding coding1 = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("m"))
                 .build();
 
         Coding coding2 = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("n"))
                 .build();
@@ -238,7 +238,7 @@ public class FHIRTermServiceTest {
     @Test
     public void testValidateCode1() throws Exception {
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("m"))
                 .build();
@@ -248,7 +248,7 @@ public class FHIRTermServiceTest {
                 .display(STRING_DATA_ABSENT_REASON_UNKNOWN)
                 .build();
 
-        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs5");
+        CodeSystem codeSystem = getCodeSystem("http://example.com/fhir/CodeSystem/cs5");
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
 
@@ -258,17 +258,17 @@ public class FHIRTermServiceTest {
     @Test
     public void testValidateCode2() throws Exception {
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("x"))
                 .build();
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
-                .message(string("Code 'x' was not found in system 'http://ibm.com/fhir/CodeSystem/cs5'"))
+                .message(string("Code 'x' was not found in system 'http://example.com/fhir/CodeSystem/cs5'"))
                 .build();
 
-        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs5");
+        CodeSystem codeSystem = getCodeSystem("http://example.com/fhir/CodeSystem/cs5");
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
 
@@ -277,10 +277,10 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testValidateCode3() throws Exception {
-        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs5|1.0.0");
+        ValueSet valueSet = getValueSet("http://example.com/fhir/ValueSet/vs5|1.0.0");
 
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("m"))
                 .build();
@@ -297,18 +297,18 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testValidateCode4() throws Exception {
-        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs5|1.0.0");
+        ValueSet valueSet = getValueSet("http://example.com/fhir/ValueSet/vs5|1.0.0");
 
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("x"))
                 .build();
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
-                .message(string("Code 'x' in system 'http://ibm.com/fhir/CodeSystem/cs5' is not a valid member of ValueSet" +
-                        " with URL=http://ibm.com/fhir/ValueSet/vs5 and version=1.0.0"))
+                .message(string("Code 'x' in system 'http://example.com/fhir/CodeSystem/cs5' is not a valid member of ValueSet" +
+                        " with URL=http://example.com/fhir/ValueSet/vs5 and version=1.0.0"))
                 .build();
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
@@ -319,7 +319,7 @@ public class FHIRTermServiceTest {
     @Test
     public void testValidateCode5() throws Exception {
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .version(string("1.0.0"))
                 .code(Code.of("a"))
                 .display(string("Concept a"))
@@ -330,7 +330,7 @@ public class FHIRTermServiceTest {
                 .display(string("Concept a"))
                 .build();
 
-        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs1");
+        CodeSystem codeSystem = getCodeSystem("http://example.com/fhir/CodeSystem/cs1");
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
 
@@ -340,7 +340,7 @@ public class FHIRTermServiceTest {
     @Test
     public void testValidateCode6() throws Exception {
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .version(string("1.0.0"))
                 .code(Code.of("a"))
                 .display(string("concept a"))
@@ -348,11 +348,11 @@ public class FHIRTermServiceTest {
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
-                .message(string("The display 'concept a' is incorrect for code 'a' from code system 'http://ibm.com/fhir/CodeSystem/cs1'"))
+                .message(string("The display 'concept a' is incorrect for code 'a' from code system 'http://example.com/fhir/CodeSystem/cs1'"))
                 .display(string("Concept a"))
                 .build();
 
-        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs1");
+        CodeSystem codeSystem = getCodeSystem("http://example.com/fhir/CodeSystem/cs1");
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
 
@@ -362,7 +362,7 @@ public class FHIRTermServiceTest {
     @Test
     public void testValidateCode7() throws Exception {
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs2"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs2"))
                 .version(string("1.0.0"))
                 .code(Code.of("d"))
                 .display(string("concept d"))
@@ -373,7 +373,7 @@ public class FHIRTermServiceTest {
                 .display(string("Concept d"))
                 .build();
 
-        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs2");
+        CodeSystem codeSystem = getCodeSystem("http://example.com/fhir/CodeSystem/cs2");
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
 
@@ -383,7 +383,7 @@ public class FHIRTermServiceTest {
     @Test
     public void testValidateCode8() throws Exception {
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs2"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs2"))
                 .version(string("1.0.0"))
                 .code(Code.of("d"))
                 .display(string("CONCEPT D"))
@@ -394,7 +394,7 @@ public class FHIRTermServiceTest {
                 .display(string("Concept d"))
                 .build();
 
-        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs2");
+        CodeSystem codeSystem = getCodeSystem("http://example.com/fhir/CodeSystem/cs2");
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(codeSystem, coding);
 
@@ -403,10 +403,10 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testValidateCode9() throws Exception {
-        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+        ValueSet valueSet = getValueSet("http://example.com/fhir/ValueSet/vs1|1.0.0");
 
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .version(string("1.0.0"))
                 .code(Code.of("a"))
                 .display(string("Concept a"))
@@ -424,10 +424,10 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testValidateCode10() throws Exception {
-        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+        ValueSet valueSet = getValueSet("http://example.com/fhir/ValueSet/vs1|1.0.0");
 
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .version(string("1.0.0"))
                 .code(Code.of("a"))
                 .display(string("CONCEPT A"))
@@ -435,7 +435,7 @@ public class FHIRTermServiceTest {
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
-                .message(string("The display 'CONCEPT A' is incorrect for code 'a' from code system 'http://ibm.com/fhir/CodeSystem/cs1'"))
+                .message(string("The display 'CONCEPT A' is incorrect for code 'a' from code system 'http://example.com/fhir/CodeSystem/cs1'"))
                 .display(string("Concept a"))
                 .build();
 
@@ -448,7 +448,7 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testValidateCode11() throws Exception {
-        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+        ValueSet valueSet = getValueSet("http://example.com/fhir/ValueSet/vs1|1.0.0");
 
         Coding coding = Coding.builder()
                 .code(Code.of("a"))
@@ -458,7 +458,7 @@ public class FHIRTermServiceTest {
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
                 .message(string("Code 'a' in system 'null' is not a valid member of ValueSet " +
-                        "with URL=http://ibm.com/fhir/ValueSet/vs1 and version=1.0.0"))
+                        "with URL=http://example.com/fhir/ValueSet/vs1 and version=1.0.0"))
                 .build();
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
@@ -468,17 +468,17 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testValidateCode12() throws Exception {
-        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+        ValueSet valueSet = getValueSet("http://example.com/fhir/ValueSet/vs1|1.0.0");
 
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .display(string("CONCEPT A"))
                 .build();
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
-                .message(string("Code 'null' in system 'http://ibm.com/fhir/CodeSystem/cs1' is not a valid member of ValueSet" +
-                        " with URL=http://ibm.com/fhir/ValueSet/vs1 and version=1.0.0"))
+                .message(string("Code 'null' in system 'http://example.com/fhir/CodeSystem/cs1' is not a valid member of ValueSet" +
+                        " with URL=http://example.com/fhir/ValueSet/vs1 and version=1.0.0"))
                 .build();
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, coding);
@@ -488,7 +488,7 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testValidateCode13() throws Exception {
-        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+        ValueSet valueSet = getValueSet("http://example.com/fhir/ValueSet/vs1|1.0.0");
 
         Code code = Code.of("a");
 
@@ -503,14 +503,14 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testValidateCode14() throws Exception {
-        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+        ValueSet valueSet = getValueSet("http://example.com/fhir/ValueSet/vs1|1.0.0");
 
         Code code = Code.of("x");
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
                 .message(string("Code 'x' is not a valid member of ValueSet" +
-                        " with URL=http://ibm.com/fhir/ValueSet/vs1 and version=1.0.0"))
+                        " with URL=http://example.com/fhir/ValueSet/vs1 and version=1.0.0"))
                 .build();
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, code);
@@ -520,14 +520,14 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testValidateCode15() throws Exception {
-        ValueSet valueSet = getValueSet("http://ibm.com/fhir/ValueSet/vs1|1.0.0");
+        ValueSet valueSet = getValueSet("http://example.com/fhir/ValueSet/vs1|1.0.0");
 
         Code code = Code.builder().extension(Extension.builder().url("http://hl7.org/fhir/StructureDefinition/data-absent-reason").value(Code.of("unknown")).build()).build();
 
         ValidationOutcome expected = ValidationOutcome.builder()
                 .result(Boolean.FALSE)
                 .message(string("Code 'null' is not a valid member of ValueSet" +
-                        " with URL=http://ibm.com/fhir/ValueSet/vs1 and version=1.0.0"))
+                        " with URL=http://example.com/fhir/ValueSet/vs1 and version=1.0.0"))
                 .build();
 
         ValidationOutcome actual = FHIRTermService.getInstance().validateCode(valueSet, code);
@@ -537,7 +537,7 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testTranslate1() throws Exception {
-        ConceptMap conceptMap = getConceptMap("http://ibm.com/fhir/ConceptMap/snomed-ucum");
+        ConceptMap conceptMap = getConceptMap("http://example.com/fhir/ConceptMap/snomed-ucum");
 
         Coding coding = Coding.builder()
                 .system(Uri.of("http://snomed.info/sct"))
@@ -563,7 +563,7 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testTranslate2() throws Exception {
-        ConceptMap conceptMap = getConceptMap("http://ibm.com/fhir/ConceptMap/snomed-ucum");
+        ConceptMap conceptMap = getConceptMap("http://example.com/fhir/ConceptMap/snomed-ucum");
 
         Coding coding = Coding.builder()
                 .system(Uri.of("http://snomed.info/sct"))
@@ -589,9 +589,9 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testValidateDisplay_caseSensitive() throws Exception {
-        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs1");
+        CodeSystem codeSystem = getCodeSystem("http://example.com/fhir/CodeSystem/cs1");
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .code(Code.of("a"))
                 .build();;
         ValidationOutcome outcome;
@@ -627,9 +627,9 @@ public class FHIRTermServiceTest {
 
     @Test
     public void testValidateDisplay_caseInsensitive() throws Exception {
-        CodeSystem codeSystem = getCodeSystem("http://ibm.com/fhir/CodeSystem/cs2");
+        CodeSystem codeSystem = getCodeSystem("http://example.com/fhir/CodeSystem/cs2");
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs2"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs2"))
                 .code(Code.of("d"))
                 .build();
         ValidationOutcome outcome;

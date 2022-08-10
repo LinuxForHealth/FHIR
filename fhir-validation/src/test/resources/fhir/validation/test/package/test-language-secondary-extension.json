@@ -1,7 +1,7 @@
 {
   "resourceType": "StructureDefinition",
   "id": "test-language-secondary-extension",
-  "url": "http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension",
+  "url": "http://example.com/fhir/StructureDefinition/test-language-secondary-extension",
   "version": "0.1.0",
   "name": "TestLanguageSecondaryExtension",
   "title": "Test Language Secondary Extension",
@@ -202,7 +202,7 @@
             ]
           }
         ],
-        "fixedUri": "http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension",
+        "fixedUri": "http://example.com/fhir/StructureDefinition/test-language-secondary-extension",
         "isModifier": false,
         "isSummary": false,
         "mapping": [

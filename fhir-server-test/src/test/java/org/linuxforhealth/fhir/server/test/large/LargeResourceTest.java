@@ -76,7 +76,7 @@ public class LargeResourceTest extends FHIRServerTestBase {
         patient =
                 patient.toBuilder().id(v1Patient.getId())
                 .extension(Extension.builder()
-                    .url("http://ibm.com/fhir/large-large-large/testExtension")
+                    .url("http://example.com/fhir/large-large-large/testExtension")
                     .value(Base64Binary.builder().value(value).build()).build())
                 .build();
         //@formatter:on

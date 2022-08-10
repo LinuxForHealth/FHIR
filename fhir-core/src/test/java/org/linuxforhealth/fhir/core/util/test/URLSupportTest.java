@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,15 +21,15 @@ import org.testng.annotations.Test;
 public class URLSupportTest {
     @Test
     public void testGetQueryParameters() {
-        String url = "http://ibm.com/fhir/ValueSet/generalizes?system=http://ibm.com/fhir/CodeSystem/cs5&code=r";
+        String url = "http://example.com/fhir/ValueSet/generalizes?system=http://example.com/fhir/CodeSystem/cs5&code=r";
         Map<String, List<String>> queryParameters = getQueryParameters(url);
-        Assert.assertEquals(getFirst(queryParameters, "system"), "http://ibm.com/fhir/CodeSystem/cs5");
+        Assert.assertEquals(getFirst(queryParameters, "system"), "http://example.com/fhir/CodeSystem/cs5");
         Assert.assertEquals(getFirst(queryParameters, "code"), "r");
     }
 
     @Test
     public void testGetPathSegments() {
-        String url = "http://ibm.com/fhir/ValueSet/generalizes?system=http://ibm.com/fhir/CodeSystem/cs5&code=r";
+        String url = "http://example.com/fhir/ValueSet/generalizes?system=http://example.com/fhir/CodeSystem/cs5&code=r";
         List<String> actual = getPathSegments(url);
         List<String> expected = Arrays.asList("fhir", "ValueSet", "generalizes");
         Assert.assertEquals(actual, expected);

@@ -79,7 +79,7 @@ public class ServerResolveFunctionTest {
      * Helper function to replace the previously deprecated persistence layer method which has
      * now been removed. Injects the meta elements into the resource before calling the
      * persistence update method.
-     * 
+     *
      * @param <T>
      * @param persistence
      * @param context
@@ -268,7 +268,7 @@ public class ServerResolveFunctionTest {
         CacheManager.invalidateAll(ServerResolveFunction.RESOURCE_CACHE_NAME);
         observation = observation.toBuilder()
                 .subject(Reference.builder()
-                    .reference(string("http://ibm.com/fhir-server/api/v4/Patient/12345"))
+                    .reference("http://example.com/fhir-server/api/v4/Patient/12345")
                     .build())
                 .build();
         evaluationContext = new EvaluationContext(observation);
@@ -368,10 +368,10 @@ public class ServerResolveFunctionTest {
                 FHIRPersistenceContext context,
                 Class<? extends Resource> resourceType,
                 String logicalId) throws FHIRPersistenceException {
-            
+
             List<? extends Resource> versions = map.getOrDefault(resourceType, Collections.emptyMap())
                     .getOrDefault(logicalId, Collections.emptyList());
-            
+
             // Convert the resource list to a results list
             List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>(versions.size());
             for (Resource resource: versions) {

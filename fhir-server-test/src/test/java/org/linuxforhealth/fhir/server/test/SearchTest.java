@@ -1404,7 +1404,7 @@ public class SearchTest extends FHIRServerTestBase {
         // Build a new Patient with 2 tags and one duplicated tag and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
-        Coding security = Coding.builder().system(uri("http://ibm.com/fhir/security")).code(code("security")).build();
+        Coding security = Coding.builder().system(uri("http://example.com/fhir/security")).code(code("security")).build();
         Coding tag = Coding.builder().system(uri("system")).code(code("tag")).build();
         Coding tag2 = Coding.builder().system(uri("system")).code(code("tag2")).build();
 
@@ -1414,7 +1414,7 @@ public class SearchTest extends FHIRServerTestBase {
                         .tag(tag)
                         .tag(tag)
                         .tag(tag2)
-                        .profile(Canonical.of("http://ibm.com/fhir/profile/Profile"))
+                        .profile(Canonical.of("http://example.com/fhir/profile/Profile"))
                         .build())
                 .build();
 

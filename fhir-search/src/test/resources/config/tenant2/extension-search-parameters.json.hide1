@@ -6,11 +6,11 @@
 	},
 	"type": "collection",
 	"entry": [{
-		"fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-mlb-team",
+		"fullUrl": "http://example.com/fhir/SearchParameter/Patient-favorite-mlb-team",
 		"resource": {
 			"resourceType": "SearchParameter",
 			"id": "Patient-favorite-mlb-team",
-			"url": "http://ibm.com/fhir/SearchParameter/Patient-favorite-mlb-team",
+			"url": "http://example.com/fhir/SearchParameter/Patient-favorite-mlb-team",
 			"version": "4.0.0",
 			"name": "favorite-mlb-team",
 			"status": "draft",
@@ -20,13 +20,13 @@
 			"contact": [{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			},
 			{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			}],
 			"description": "the measurement value",
@@ -34,19 +34,19 @@
 			"base": ["Patient"],
 			"type": "string",
 			"xpathUsage": "normal",
-			"xpath": "f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-mlb-team']/valueString",
-			"expression" : "Patient.extension.where(url='http://ibm.com/fhir/extension/Patient/favorite-mlb-team').value",
+			"xpath": "f:Patient/f:extension[@url='http://example.com/fhir/extension/Patient/favorite-mlb-team']/valueString",
+			"expression" : "Patient.extension.where(url='http://example.com/fhir/extension/Patient/favorite-mlb-team').value",
 			"multipleOr": true,
 			"multipleAnd": true,
 			"modifier": []
 		}
 	},
 	{
-		"fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-nfl-team",
+		"fullUrl": "http://example.com/fhir/SearchParameter/Patient-favorite-nfl-team",
 		"resource": {
 			"resourceType": "SearchParameter",
 			"id": "Patient-favorite-nfl-team",
-			"url": "http://ibm.com/fhir/SearchParameter/Patient-favorite-nfl-team",
+			"url": "http://example.com/fhir/SearchParameter/Patient-favorite-nfl-team",
 			"version": "4.0.0",
 			"name": "favorite-nfl-team",
 			"status": "draft",
@@ -56,13 +56,13 @@
 			"contact": [{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			},
 			{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			}],
 			"description": "the measurement value",
@@ -70,8 +70,8 @@
 			"base": ["Patient"],
 			"type": "string",
 			"xpathUsage": "normal",
-			"xpath": "f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-nfl-team']/valueString",
-			"expression" : "Patient.extension.where(url='http://ibm.com/fhir/extension/Patient/favorite-nfl-team').value",
+			"xpath": "f:Patient/f:extension[@url='http://example.com/fhir/extension/Patient/favorite-nfl-team']/valueString",
+			"expression" : "Patient.extension.where(url='http://example.com/fhir/extension/Patient/favorite-nfl-team').value",
 			"multipleOr": true,
 			"multipleAnd": true,
 			"modifier": []

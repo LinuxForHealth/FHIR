@@ -48,26 +48,26 @@ public class ConformsToLoopTest {
                 .key(Id.of("test-1"))
                 .severity(ConstraintSeverity.ERROR)
                 .human(string("The organization SHALL conform to the TestOrganization profile"))
-                .expression(string("conformsTo('http://ibm.com/fhir/StructureDefinition/TestOrganization')"))
-                .source(Canonical.of("http://ibm.com/fhir/StructureDefinition/TestOrganization"))
+                .expression(string("conformsTo('http://example.com/fhir/StructureDefinition/TestOrganization')"))
+                .source(Canonical.of("http://example.com/fhir/StructureDefinition/TestOrganization"))
                 .build(),
             Constraint.builder()
                 .key(Id.of("test-2"))
                 .severity(ConstraintSeverity.ERROR)
                 .human(string("The organization name length SHALL be greater than 9 characters"))
                 .expression(string("name.length() > 9"))
-                .source(Canonical.of("http://ibm.com/fhir/StructureDefinition/TestOrganization"))
+                .source(Canonical.of("http://example.com/fhir/StructureDefinition/TestOrganization"))
                 .build()));
         element.set(indexOf(structureDefinition, "Organization.partOf"), addConstraints(getElementDefinition(structureDefinition, "Organization.partOf"), Constraint.builder()
             .key(Id.of("test-3"))
             .human(string("The partOf reference SHALL resolve to an organization that conforms the TestOrganization profile"))
-            .expression(string("resolve().conformsTo('http://ibm.com/fhir/StructureDefinition/TestOrganization')"))
-            .source(Canonical.of("http://ibm.com/fhir/StructureDefinition/TestOrganization"))
+            .expression(string("resolve().conformsTo('http://example.com/fhir/StructureDefinition/TestOrganization')"))
+            .source(Canonical.of("http://example.com/fhir/StructureDefinition/TestOrganization"))
             .severity(ConstraintSeverity.ERROR)
             .build()));
 
         StructureDefinition profile = structureDefinition.toBuilder()
-            .url(Uri.of("http://ibm.com/fhir/StructureDefinition/TestOrganization"))
+            .url(Uri.of("http://example.com/fhir/StructureDefinition/TestOrganization"))
             .baseDefinition(Canonical.of("http://hl7.org/fhir/StructureDefinition/Organization"))
             .derivation(TypeDerivationRule.CONSTRAINT)
             .snapshot(structureDefinition.getSnapshot().toBuilder()
@@ -78,7 +78,7 @@ public class ConformsToLoopTest {
         FHIRRegistry.getInstance().addProvider(new FHIRRegistryResourceProviderAdapter() {
             @Override
             public FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
-                if ("http://ibm.com/fhir/StructureDefinition/TestOrganization".equals(url)) {
+                if ("http://example.com/fhir/StructureDefinition/TestOrganization".equals(url)) {
                     return FHIRRegistryResource.from(profile);
                 }
                 return null;
@@ -92,7 +92,7 @@ public class ConformsToLoopTest {
             .name(string("Test Organization"))
             .contained(Organization.builder()
                 .meta(Meta.builder()
-                    .profile(Canonical.of("http://ibm.com/fhir/StructureDefinition/TestOrganization"))
+                    .profile(Canonical.of("http://example.com/fhir/StructureDefinition/TestOrganization"))
                     .build())
                 .name(string("Child Test Organization"))
                 .partOf(Reference.builder()
@@ -100,7 +100,7 @@ public class ConformsToLoopTest {
                     .build())
                 .build())
             .build();
-        List<Issue> issues = FHIRValidator.validator().validate(organization, true, "http://ibm.com/fhir/StructureDefinition/TestOrganization");
+        List<Issue> issues = FHIRValidator.validator().validate(organization, true, "http://example.com/fhir/StructureDefinition/TestOrganization");
         assertFalse(hasErrors(issues));
     }
 
@@ -110,7 +110,7 @@ public class ConformsToLoopTest {
             .name(string("Test Organization"))
             .contained(Organization.builder()
                 .meta(Meta.builder()
-                    .profile(Canonical.of("http://ibm.com/fhir/StructureDefinition/TestOrganization"))
+                    .profile(Canonical.of("http://example.com/fhir/StructureDefinition/TestOrganization"))
                     .build())
                 .name(string("invalid"))
                 .partOf(Reference.builder()
@@ -118,7 +118,7 @@ public class ConformsToLoopTest {
                     .build())
                 .build())
             .build();
-        List<Issue> issues = FHIRValidator.validator().validate(organization, true, "http://ibm.com/fhir/StructureDefinition/TestOrganization");
+        List<Issue> issues = FHIRValidator.validator().validate(organization, true, "http://example.com/fhir/StructureDefinition/TestOrganization");
         assertTrue(hasErrors(issues));
         assertEquals(countErrors(issues), 1);
     }

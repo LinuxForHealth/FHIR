@@ -38,11 +38,11 @@ import org.linuxforhealth.fhir.model.type.Uri;
 public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest {
     public static final boolean DEBUG = false;
 
-    protected final String TAG_SYSTEM = "http://ibm.com/fhir/tag";
+    protected final String TAG_SYSTEM = "http://example.com/fhir/tag";
     protected final String TAG = UUID.randomUUID().toString();
     protected final String TAG2 = UUID.randomUUID().toString();
     protected final String TAG3 = UUID.randomUUID().toString();
-    protected final String SECURITY_SYSTEM = "http://ibm.com/fhir/security";
+    protected final String SECURITY_SYSTEM = "http://example.com/fhir/security";
     protected final String SECURITY = UUID.randomUUID().toString();
     // v3-ActReason is a "polyhierarchy" codesystem; we need https://github.com/LinuxForHealth/FHIR/issues/3448 for that one
     //protected final String CODE_SYSTEM_V3_ACT_REASON = "http://terminology.hl7.org/CodeSystem/v3-ActReason";
@@ -50,9 +50,9 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     protected final String CODE_SYSTEM_V3_PARTICIPATION_MODE = "http://terminology.hl7.org/CodeSystem/v3-ParticipationMode";
     protected final String TAG4 = "ONLINEWRIT";
     protected final String TAG4TEXT = "someSearchText";
-    protected final String PROFILE = "http://ibm.com/fhir/profile/" + UUID.randomUUID().toString();
+    protected final String PROFILE = "http://example.com/fhir/profile/" + UUID.randomUUID().toString();
     protected final String AUTHOR = "Practitioner/" + UUID.randomUUID().toString();
-    protected final String SOURCE = "http://ibm.com/fhir/source";
+    protected final String SOURCE = "http://example.com/fhir/source";
 
     @Override
     protected void setTenant() throws Exception {

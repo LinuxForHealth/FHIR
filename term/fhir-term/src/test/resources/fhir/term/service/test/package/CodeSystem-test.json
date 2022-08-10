@@ -1,7 +1,7 @@
 {
     "resourceType": "CodeSystem",
     "id": "test",
-    "url": "http://ibm.com/fhir/CodeSystem/test",
+    "url": "http://example.com/fhir/CodeSystem/test",
     "version": "1.0.0",
     "status": "active",
     "hierarchyMeaning": "is-a",
@@ -9,32 +9,32 @@
     "property": [
         {
             "code": "booleanProperty",
-            "uri": "http://ibm.com/fhir/concept-properties#booleanProperty",
+            "uri": "http://example.com/fhir/concept-properties#booleanProperty",
             "type": "boolean"
         },
         {
             "code": "codeProperty",
-            "uri": "http://ibm.com/fhir/concept-properties#codeProperty",
+            "uri": "http://example.com/fhir/concept-properties#codeProperty",
             "type": "code"
         },
         {
             "code": "dateTimeProperty",
-            "uri": "http://ibm.com/fhir/concept-properties#dateTimeProperty",
+            "uri": "http://example.com/fhir/concept-properties#dateTimeProperty",
             "type": "dateTime"
         },
         {
             "code": "decimalProperty",
-            "uri": "http://ibm.com/fhir/concept-properties#decimalProperty",
+            "uri": "http://example.com/fhir/concept-properties#decimalProperty",
             "type": "decimal"
         },
         {
             "code": "integerProperty",
-            "uri": "http://ibm.com/fhir/concept-properties#integerProperty",
+            "uri": "http://example.com/fhir/concept-properties#integerProperty",
             "type": "integer"
         },
         {
             "code": "stringProperty",
-            "uri": "http://ibm.com/fhir/concept-properties#stringProperty",
+            "uri": "http://example.com/fhir/concept-properties#stringProperty",
             "type": "string"
         }
     ],

@@ -4,13 +4,13 @@
 	"meta": {
 		"versionId": "1",
 		"lastUpdated": "2019-08-14T18:47:05.987Z",
-		"profile": ["http://ibm.com/fhir/profile/Profile"],
+		"profile": ["http://example.com/fhir/profile/Profile"],
 		"security": [{
-			"system": "http://ibm.com/fhir/security",
+			"system": "http://example.com/fhir/security",
 			"code": "security"
 		}],
 		"tag": [{
-			"system": "http://ibm.com/fhir/tag",
+			"system": "http://example.com/fhir/tag",
 			"code": "tag"
 		}]
 	},
