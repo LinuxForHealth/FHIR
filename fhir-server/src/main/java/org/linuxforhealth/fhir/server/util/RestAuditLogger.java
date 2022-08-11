@@ -7,12 +7,10 @@
 package org.linuxforhealth.fhir.server.util;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,11 +53,6 @@ public class RestAuditLogger {
 
     private static final String CLASSNAME = RestAuditLogger.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
-
-    private static final String HEADER_IBM_APP_USER = "IBM-App-User";
-    private static final String HEADER_CLIENT_CERT_CN = "IBM-App-cli-CN";
-    private static final String HEADER_CLIENT_CERT_ISSUER_OU = "IBM-App-iss-OU";
-    private static final String HEADER_CORRELATION_ID = "IBM-DP-correlationid";
 
     private static final String COMPONENT_ID = "fhir-server";
 
@@ -370,16 +363,16 @@ public class RestAuditLogger {
                 // Transaction
                 logBundleTransaction(auditLogSvc, request, requestBundle, responseBundle, startTime, endTime, responseStatus);
             }
-            
+
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
 
     /**
      * Logs the Bundle as a batch in multiple messages
-     * 
-     * @implNote batch fail or succeed as a individual processing unit. 
-     * 
+     *
+     * @implNote batch fail or succeed as a individual processing unit.
+     *
      * @param auditLogSvc
      * @param request
      * @param requestBundle
@@ -401,7 +394,7 @@ public class RestAuditLogger {
 
                 AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
 
-                populateAuditLogEntry(entry, request, responseEntry.getResource(), startTime, endTime, responseStatus); 
+                populateAuditLogEntry(entry, request, responseEntry.getResource(), startTime, endTime, responseStatus);
                 if (requestEntry.getRequest() != null && requestEntry.getRequest().getMethod() != null) {
                     boolean operation =  requestEntry.getRequest().getUrl().getValue().contains("$")
                                             || requestEntry.getRequest().getUrl().getValue().contains("/%24");
@@ -489,9 +482,9 @@ public class RestAuditLogger {
 
     /**
      * Logs the Bundle as a Transaction in a single request
-     * 
-     * @implNote transactions fail or succeed as a single processing unit. 
-     * 
+     *
+     * @implNote transactions fail or succeed as a single processing unit.
+     *
      * @param auditLogSvc
      * @param request
      * @param requestBundle
@@ -788,21 +781,11 @@ public class RestAuditLogger {
         log.entering(CLASSNAME, METHODNAME);
 
         String patientIdExtUrl;
-        List<String> userList = new ArrayList<>();
 
-        // Build a list of possible user names. Pick the first non-null user name to include in the audit log entry.
-        userList.add(request.getHeader(HEADER_IBM_APP_USER));
-        userList.add(request.getHeader(HEADER_CLIENT_CERT_CN));
-
+        // Note: we used to support overriding the user name from a specific header; that was removed for 5.0
         Principal userPrincipal = request.getUserPrincipal();
         if (userPrincipal != null) {
-            userList.add(userPrincipal.getName());
-        }
-        for (String userName : userList) {
-            if (userName != null && !userName.isEmpty()) {
-                entry.setUserName(userName);
-                break;
-            }
+            entry.setUserName(userPrincipal.getName());
         }
 
         entry.setLocation(new StringBuilder().append(request.getRemoteAddr()).append("/").append(request.getRemoteHost()).toString());
@@ -826,10 +809,6 @@ public class RestAuditLogger {
                 entry.getContext().getData().setVersionId(resource.getMeta().getVersionId().getValue());
             }
         }
-
-        entry.setClientCertCn(request.getHeader(HEADER_CLIENT_CERT_CN));
-        entry.setClientCertIssuerOu(request.getHeader(HEADER_CLIENT_CERT_ISSUER_OU));
-        entry.setCorrelationId(request.getHeader(HEADER_CORRELATION_ID));
 
         patientIdExtUrl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_AUDIT_PATIENT_ID_EXTURL, null);
         entry.setPatientId(FHIRUtil.getExtensionStringValue(resource, patientIdExtUrl));

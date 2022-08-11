@@ -132,7 +132,7 @@ public class SearchHelper {
     // compartment parameter reference which can be ignore
     private static final String COMPARTMENT_PARM_DEF = "{def}";
 
-    private static final String IBM_COMPOSITE_PREFIX = "ibm_composite_";
+    private static final String COMPOSITE_PREFIX = "internal-composite_";
 
     // The functionality is split into a new class.
     private static final Sort sort = new Sort();
@@ -2252,7 +2252,7 @@ public class SearchHelper {
      */
     public static String makeCompositeSubCode(String compositeCode, String subParameterCode) {
         final StringBuilder result = new StringBuilder();
-        result.append(IBM_COMPOSITE_PREFIX);
+        result.append(COMPOSITE_PREFIX);
         result.append(compositeCode);
         result.append("_");
         result.append(subParameterCode);

@@ -231,7 +231,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             // See SearchUtil#parseQueryParameterValuesString.
             if (system == null) {
                 // Can't find an explicit system, so see if there's an implicit one
-                // attached to the code as an (IBM-defined) extension.
+                // attached to the code as an (LinuxForHealth-defined) extension.
                 system = SearchHelper.findImplicitSystem(code.getExtension());
             }
 

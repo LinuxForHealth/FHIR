@@ -610,7 +610,7 @@ public class AuthzPolicyEnforcementTest {
                 assertEquals(searchContext.getSearchParameters().size(), 2);
                 List<QueryParameter> searchParms = searchContext.getSearchParameters();
                 QueryParameter compartmentSearchParm = searchParms.get(0);
-                assertTrue("ibm-internal-Patient-Compartment".equals(compartmentSearchParm.getCode()));
+                assertTrue("internal-Patient-Compartment".equals(compartmentSearchParm.getCode()));
                 assertEquals(compartmentSearchParm.getType(), Type.REFERENCE);
                 assertTrue(compartmentSearchParm.isInclusionCriteria());
                 assertFalse(compartmentSearchParm.isChained());

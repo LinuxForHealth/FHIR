@@ -48,7 +48,7 @@ public enum Index {
     /**
      * Both R4 spec and IBM generated examples
      */
-    ALL_XML("/spec-xml.txt", "/ibm-xml.txt"),
+    ALL_XML("/spec-xml.txt", "/generated-xml.txt"),
 
     /**
      * Small mix of spec and IBM examples used for unit tests to keep build times short
