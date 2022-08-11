@@ -88,7 +88,7 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         } catch (AssertionError x) {
             // definitely not what we were expecting, so log what the FHIR server gave us
             String msg = response.readEntity(String.class);
-            logger.warning("Response body: " + msg);
+            logger.warning("Response body for POST: " + msg);
             throw new Exception("Unexpected response for JSON file: " + jsonFile, x);
         }
         long postEnd = System.nanoTime();
@@ -102,10 +102,19 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         for (int i=0; i<this.readIterations; i++) {
             postEnd = System.nanoTime(); // update for each iteration
             response = target.path(resourceTypeName + "/" + logicalId)
-                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .request(FHIRMediaType.APPLICATION_FHIR_43_JSON_TYPE)
                     .header(FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME, tenantId)
                     .get();
-            base.assertResponse(response, Response.Status.OK.getStatusCode());
+
+            try {
+                base.assertResponse(response, Response.Status.OK.getStatusCode());
+            } catch (AssertionError x) {
+                // definitely not what we were expecting, so log what the FHIR server gave us
+                String msg = response.readEntity(String.class);
+                logger.warning("Response body for GET: " + msg);
+                throw new Exception("Unexpected response for JSON file: " + jsonFile, x);
+            }
+
             metrics.addGetTime((System.nanoTime() - postEnd) / DriverMetrics.NANOS_MS);
         }
 
