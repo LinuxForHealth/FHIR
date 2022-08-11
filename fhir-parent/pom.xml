@@ -945,8 +945,8 @@
                             <!-- Fixes the undefined redirect in search -->
                             <additionalOption>--no-module-directories</additionalOption>
                         </additionalOptions>
-                        <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                        <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                        <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>LinuxForHealth</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
+                        <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation</a><br/>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                         <author>false</author>
                         <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                         <!-- skips the three entries -->
@@ -1250,7 +1250,7 @@
                             <detectLinks>true</detectLinks>
                             <!-- control display -->
                             <author>false</author>
-                            <windowtitle>IBM FHIR Server</windowtitle>
+                            <windowtitle>LinuxForHealth FHIR Server</windowtitle>
                             <doctitle>${project.name} ${project.version}</doctitle>
                             <additionalOptions>
                                 <!-- makes the frames visible, disabled and
@@ -1259,8 +1259,8 @@
                                 <!-- Fixes the undefined redirect in search -->
                                 <additionalOption>--no-module-directories</additionalOption>
                             </additionalOptions>
-                            <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                            <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                            <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>LinuxForHealth</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
+                            <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation</a><br/>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                             <author>false</author>
                             <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                             <!-- skips the three entries -->
@@ -1505,7 +1505,7 @@
                     <detectLinks>true</detectLinks>
                     <!-- control display -->
                     <author>false</author>
-                    <windowtitle>IBM FHIR Server</windowtitle>
+                    <windowtitle>LinuxForHealth FHIR Server</windowtitle>
                     <doctitle>${project.name} ${project.version}</doctitle>
                     <additionalOptions>
                         <!-- makes the frames visible, disabled and going
@@ -1514,8 +1514,8 @@
                         <!-- Fixes the undefined redirect in search -->
                         <additionalOption>--no-module-directories</additionalOption>
                     </additionalOptions>
-                    <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                    <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                    <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>LinuxForHealth</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
+                    <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation</a><br/>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                     <author>false</author>
                     <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                     <!-- skips the three entries -->

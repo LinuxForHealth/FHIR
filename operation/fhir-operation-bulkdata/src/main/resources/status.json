@@ -7,23 +7,12 @@
   },
   "url": "http://hl7.org/fhir/uv/bulkdata/OperationDefinition/export-status",
   "version": "1.0.1",
-  "name": "BulkDataExportSTatus",
+  "name": "BulkDataExportStatus",
   "title": "FHIR Bulk Data Export (Flat FHIR) - System Level Export Status",
   "status": "active",
   "kind": "operation",
   "date": "2019-09-13T00:00:00+00:00",
-  "publisher": "IBM",
-  "contact": [
-    {
-      "name": "Paul Bastide",
-      "telecom": [
-        {
-          "system": "email",
-          "value": "pbastide@us.ibm.com"
-        }
-      ]
-    }
-  ],
+  "publisher": "LinuxForHealth",
   "description": "Checks the status of an asynchronous request",
   "code": "bulkdata-status",
   "base": "/",

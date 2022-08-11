@@ -10,8 +10,7 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 
 /**
- * @author pbastide@us.ibm.com
- *
+ * Generates an object model from FHIR conformance artifacts
  */
 public interface ModelGenerator {
 
@@ -32,7 +31,7 @@ public interface ModelGenerator {
     public void setTargetProjectBaseDirectory(String baseDirectory);
     
     /**
-     * set the limiting of the project 
+     * limit the generator to a specific target (e.g. fhir-model)
      */
     public void setLimit(boolean limit);
     

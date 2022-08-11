@@ -1,12 +1,11 @@
-# IBM FHIR Server - MAINTAINERS
-
-- Lee Surprenant - lmsurpre@us.ibm.com  
-- Robin Arnold - Robin.Arnold23@ibm.com  
-- Troy Biesterfeld - tbieste@us.ibm.com
+# LinuxForHealth FHIR Server - Maintainers
+- Lee Surprenant - lmsurpre@merative.com
+- Robin Arnold - robin.arnold@merative.com
 
 ## Emeritus
 - John Timm - johntimm@us.ibm.com  
 - Mike Schroeder - mschroed@us.ibm.com
+- Troy Biesterfeld - tbieste@us.ibm.com
 - Albert Wang
 - Paul Bastide - pbastide@us.ibm.com
 
