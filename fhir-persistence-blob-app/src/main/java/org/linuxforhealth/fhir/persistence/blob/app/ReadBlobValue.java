@@ -73,7 +73,7 @@ public class ReadBlobValue {
     }
 
     /**
-     * When the blobName does not include the resourcePayloadKey, list all matches
+     * List all matches under the given prefix
      * @param bcc
      * @param prefix
      * @throws FHIRException
@@ -83,7 +83,6 @@ public class ReadBlobValue {
 
         // List blobs using the key prefix
         bcc.listBlobsByHierarchy(prefix)
-        // .filter(blobItem -> !blobItem.getName().endsWith("/")) // skip interim paths in the hierarchy
             .doOnNext(blobItem -> process(bcc, blobItem))
             .blockLast(); // wait for scan to complete
     }

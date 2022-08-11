@@ -93,8 +93,8 @@ public class BlobDeletePayload {
 
     /**
      * Process the given item. If the item is a prefix (i.e. ends in a /) then
-     * we recurse and list the contents of that path. Otherwise, retrieve the
-     * blob content at the location and display its value as text.
+     * we recurse and process the contents of that path. Otherwise, delete the
+     * blob at the fully qualified path.
      * @param bcc
      * @param blobItem
      * @return
