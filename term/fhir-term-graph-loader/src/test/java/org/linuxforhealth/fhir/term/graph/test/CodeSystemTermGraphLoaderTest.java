@@ -34,7 +34,7 @@ public class CodeSystemTermGraphLoaderTest {
         FHIRTermGraph graph = FHIRTermGraphFactory.open(builder.getConfiguration());
         graph.dropAllVertices();
 
-        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://ibm.com/fhir/CodeSystem/test");
+        CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://example.com/fhir/CodeSystem/test");
         FHIRTermGraphLoader loader = new CodeSystemTermGraphLoader(graph, codeSystem);
         loader.load();
 

@@ -1,18 +1,18 @@
 {
     "resourceType": "ValueSet",
     "id": "vs3",
-    "url": "http://ibm.com/fhir/ValueSet/vs3",
+    "url": "http://example.com/fhir/ValueSet/vs3",
     "version": "1.0.0",
     "status": "active",
     "compose": {
         "include": [
             {
-                "system": "http://ibm.com/fhir/CodeSystem/cs3"
+                "system": "http://example.com/fhir/CodeSystem/cs3"
             }
         ],
         "exclude": [
             {
-                "system": "http://ibm.com/fhir/CodeSystem/cs3",
+                "system": "http://example.com/fhir/CodeSystem/cs3",
                 "filter": [
                     {
                         "property": "concept",

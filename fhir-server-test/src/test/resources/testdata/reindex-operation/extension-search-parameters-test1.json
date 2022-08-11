@@ -3,7 +3,7 @@
     "type": "collection",
     "entry": [
         {
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/Reindex-string",
+            "fullUrl": "http://example.com/fhir/SearchParameter/Reindex-string",
             "resource": {
                 "resourceType": "SearchParameter",
                 "url": "test-code1",
@@ -22,11 +22,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/Reindex-stringx",
+            "fullUrl": "http://example.com/fhir/SearchParameter/Reindex-stringx",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "reindex-string",
-                "url": "http://ibm.com/fhir/SearchParameter/Reindex-stringx",
+                "url": "http://example.com/fhir/SearchParameter/Reindex-stringx",
                 "name": "reindex-string",
                 "status": "active",
                 "description": "test param",
@@ -41,11 +41,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/reindex-Quantity",
+            "fullUrl": "http://example.com/fhir/SearchParameter/reindex-Quantity",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "reindex-Quantity",
-                "url": "http://ibm.com/fhir/SearchParameter/reindex-Quantity",
+                "url": "http://example.com/fhir/SearchParameter/reindex-Quantity",
                 "name": "Quantity",
                 "status": "active",
                 "description": "test param",
@@ -60,11 +60,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/reindex-Reference",
+            "fullUrl": "http://example.com/fhir/SearchParameter/reindex-Reference",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "reindex-Reference",
-                "url": "http://ibm.com/fhir/SearchParameter/reindex-Reference",
+                "url": "http://example.com/fhir/SearchParameter/reindex-Reference",
                 "name": "Reference",
                 "status": "active",
                 "description": "test param",
@@ -79,11 +79,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/reindex-date",
+            "fullUrl": "http://example.com/fhir/SearchParameter/reindex-date",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "reindex-date",
-                "url": "http://ibm.com/fhir/SearchParameter/reindex-date",
+                "url": "http://example.com/fhir/SearchParameter/reindex-date",
                 "name": "date",
                 "status": "active",
                 "description": "test param",
@@ -98,11 +98,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/reindex-decimal",
+            "fullUrl": "http://example.com/fhir/SearchParameter/reindex-decimal",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "reindex-decimal",
-                "url": "http://ibm.com/fhir/SearchParameter/reindex-decimal",
+                "url": "http://example.com/fhir/SearchParameter/reindex-decimal",
                 "name": "decimal",
                 "status": "active",
                 "description": "test param",
@@ -117,11 +117,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/reindex-Quantity",
+            "fullUrl": "http://example.com/fhir/SearchParameter/reindex-Quantity",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "reindex-Quantity",
-                "url": "http://ibm.com/fhir/SearchParameter/reindex-Quantity",
+                "url": "http://example.com/fhir/SearchParameter/reindex-Quantity",
                 "name": "Quantity",
                 "status": "active",
                 "description": "test param",
@@ -136,11 +136,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/reindex-Coding",
+            "fullUrl": "http://example.com/fhir/SearchParameter/reindex-Coding",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "reindex-Coding",
-                "url": "http://ibm.com/fhir/SearchParameter/reindex-Coding",
+                "url": "http://example.com/fhir/SearchParameter/reindex-Coding",
                 "name": "Coding",
                 "status": "active",
                 "description": "test param",
@@ -155,11 +155,11 @@
             }
         },
         {
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/reindex-code",
+            "fullUrl": "http://example.com/fhir/SearchParameter/reindex-code",
             "resource": {
               "resourceType": "SearchParameter",
               "id": "reindex-code",
-              "url": "http://ibm.com/fhir/SearchParameter/reindex-code",
+              "url": "http://example.com/fhir/SearchParameter/reindex-code",
               "name": "reindex-code",
               "status": "active",
               "description": "test param",
@@ -172,11 +172,11 @@
             }
           },
         {
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/reindex-composite-code",
+            "fullUrl": "http://example.com/fhir/SearchParameter/reindex-composite-code",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "reindex-composite-code",
-                "url": "http://ibm.com/fhir/SearchParameter/reindex-composite-code",
+                "url": "http://example.com/fhir/SearchParameter/reindex-composite-code",
                 "name": "composite-code",
                 "status": "active",
                 "description": "test param",
@@ -188,21 +188,21 @@
                 "expression": "Basic.extension.where(url='http://example.org/composite').extension",
                 "component": [
                     {
-                        "definition": "http://ibm.com/fhir/SearchParameter/reindex-code",
+                        "definition": "http://example.com/fhir/SearchParameter/reindex-code",
                         "expression": "where(url='http://example.org/code').value"
                     },
                     {
-                        "definition": "http://ibm.com/fhir/SearchParameter/reindex-code",
+                        "definition": "http://example.com/fhir/SearchParameter/reindex-code",
                         "expression": "where(url='http://example.org/code').value"
                     }
                 ]
             }
         },{
-            "fullUrl": "http://ibm.com/fhir/SearchParameter/reindex-uri",
+            "fullUrl": "http://example.com/fhir/SearchParameter/reindex-uri",
             "resource": {
                 "resourceType": "SearchParameter",
                 "id": "reindex-uri",
-                "url": "http://ibm.com/fhir/SearchParameter/reindex-uri",
+                "url": "http://example.com/fhir/SearchParameter/reindex-uri",
                 "name": "uri",
                 "status": "active",
                 "description": "test param",

@@ -1,7 +1,7 @@
 {
   "resourceType": "StructureDefinition",
   "id": "test-reference-extension-with-target-profile",
-  "url": "http://ibm.com/fhir/StructureDefinition/test-reference-extension-with-target-profile",
+  "url": "http://example.com/fhir/StructureDefinition/test-reference-extension-with-target-profile",
   "version": "0.1.0",
   "name": "TestReferenceExtensionWithTargetProfile",
   "status": "active",
@@ -202,7 +202,7 @@
             ]
           }
         ],
-        "fixedUri": "http://ibm.com/fhir/StructureDefinition/test-reference-extension",
+        "fixedUri": "http://example.com/fhir/StructureDefinition/test-reference-extension",
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -228,7 +228,7 @@
           {
             "code": "Reference",
             "targetProfile": [
-                "http://ibm.com/fhir/StructureDefinition/test-profile"
+                "http://example.com/fhir/StructureDefinition/test-profile"
             ]
           }
         ],

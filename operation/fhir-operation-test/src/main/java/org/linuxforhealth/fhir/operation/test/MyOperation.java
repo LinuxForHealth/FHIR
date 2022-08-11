@@ -34,8 +34,8 @@ public class MyOperation extends AbstractOperation {
     @Override
     protected OperationDefinition buildOperationDefinition() {
         OperationDefinition.Builder operationDefinitionBuilder =  OperationDefinition.builder()
-                .url(Uri.of("http://ibm.com/fhir/example/my-operation"))
-                .version("4.1.0")
+                .url(Uri.of("http://example.com/fhir/example/my-operation"))
+                .version("5.0.0")
                 .name("My Operation")
                 .status(PublicationStatus.DRAFT)
                 .kind(OperationKind.OPERATION)

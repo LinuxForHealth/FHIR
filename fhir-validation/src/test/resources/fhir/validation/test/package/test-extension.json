@@ -1,7 +1,7 @@
 {
   "resourceType": "StructureDefinition",
   "id": "test-extension",
-  "url": "http://ibm.com/fhir/StructureDefinition/test-extension",
+  "url": "http://example.com/fhir/StructureDefinition/test-extension",
   "version": "0.1.0",
   "name": "TestExtension",
   "title": "Test Extension",
@@ -202,7 +202,7 @@
             ]
           }
         ],
-        "fixedUri": "http://ibm.com/fhir/StructureDefinition/test-extension",
+        "fixedUri": "http://example.com/fhir/StructureDefinition/test-extension",
         "isModifier": false,
         "isSummary": false,
         "mapping": [
@@ -290,7 +290,7 @@
         "isSummary": false,
         "binding": {
           "strength": "required",
-          "valueSet": "http://ibm.com/fhir/ValueSet/test-value-set"
+          "valueSet": "http://example.com/fhir/ValueSet/test-value-set"
         },
         "mapping": [
           {

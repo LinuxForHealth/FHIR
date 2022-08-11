@@ -32,7 +32,7 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 public class LargeValueSetCreator {
-    private static final Uri TEST_URI = Uri.of("http://ibm.com/fhir/valueset/test");
+    private static final Uri TEST_URI = Uri.of("http://example.com/fhir/valueset/test");
 
     private final PodamFactory podam;
 

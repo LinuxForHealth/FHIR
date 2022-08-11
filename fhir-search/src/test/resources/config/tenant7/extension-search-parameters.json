@@ -6,7 +6,7 @@
     },
     "type": "collection",
     "entry": [{
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-multiple-birth-count",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Patient-multiple-birth-count",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Patient-multiple-birth-count",
@@ -20,13 +20,13 @@
             "contact": [{
                 "telecom": [{
                     "system": "url",
-                    "value": "http://ibm.com/fhir"
+                    "value": "http://example.com/fhir"
                 }]
             },
             {
                 "telecom": [{
                     "system": "url",
-                    "value": "http://ibm.com/fhir"
+                    "value": "http://example.com/fhir"
                 }]
             }],
             "description": "The multiple birth count has been provided and satisfies this search value",
@@ -105,7 +105,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-multiple-birth-count-basic",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Patient-multiple-birth-count-basic",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Patient-multiple-birth-count-basic",
@@ -119,13 +119,13 @@
             "contact": [{
                 "telecom": [{
                     "system": "url",
-                    "value": "http://ibm.com/fhir"
+                    "value": "http://example.com/fhir"
                 }]
             },
             {
                 "telecom": [{
                     "system": "url",
-                    "value": "http://ibm.com/fhir"
+                    "value": "http://example.com/fhir"
                 }]
             }],
             "description": "The multiple birth count has been provided and satisfies this search value",

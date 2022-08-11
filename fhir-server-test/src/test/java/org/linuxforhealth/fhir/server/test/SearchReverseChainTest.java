@@ -182,13 +182,13 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
                     .given(of("1" + tag))
                     .build())
                 .meta(Meta.builder()
-                    .profile(Canonical.of("http://ibm.com/fhir/Profile/" + tag))
+                    .profile(Canonical.of("http://example.com/fhir/Profile/" + tag))
                     .tag(Coding.builder()
-                        .system(Uri.of("http://ibm.com/fhir/tag/" + tag))
+                        .system(Uri.of("http://example.com/fhir/tag/" + tag))
                         .code(Code.of(tag))
                         .build())
                     .security(Coding.builder()
-                        .system(Uri.of("http://ibm.com/fhir/security/" + tag))
+                        .system(Uri.of("http://example.com/fhir/security/" + tag))
                         .code(Code.of(tag))
                         .build())
                     .build())
@@ -1371,7 +1371,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Organization")
-                .queryParam("_has:Patient:organization:_tag", "http://ibm.com/fhir/tag/" + tag + "|" + tag)
+                .queryParam("_has:Patient:organization:_tag", "http://example.com/fhir/tag/" + tag + "|" + tag)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -1387,7 +1387,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Organization")
-                .queryParam("_has:Patient:organization:_tag", "http://ibm.com/fhir/tag/" + tag + "|")
+                .queryParam("_has:Patient:organization:_tag", "http://example.com/fhir/tag/" + tag + "|")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -1403,7 +1403,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Organization")
-                .queryParam("_has:Patient:organization:_security", "http://ibm.com/fhir/security/" + tag + "|" + tag)
+                .queryParam("_has:Patient:organization:_security", "http://example.com/fhir/security/" + tag + "|" + tag)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -1419,7 +1419,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Organization")
-                .queryParam("_has:Patient:organization:_security", "http://ibm.com/fhir/security/" + tag + "|")
+                .queryParam("_has:Patient:organization:_security", "http://example.com/fhir/security/" + tag + "|")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -1435,7 +1435,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Organization")
-                .queryParam("_has:Patient:organization:_profile", "http://ibm.com/fhir/Profile/" + tag)
+                .queryParam("_has:Patient:organization:_profile", "http://example.com/fhir/Profile/" + tag)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());

@@ -253,7 +253,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
                                 .identifier(Identifier.builder().value(string("Device/1")).build()).build())
                                 .build())
                 .extension(Extension.builder()
-                        .url("http://ibm.com/fhir/AuditEvent/testExtension")
+                        .url("http://example.com/fhir/AuditEvent/testExtension")
                         .value(Base64Binary.builder().value(value).build()).build())
                 .build();
 

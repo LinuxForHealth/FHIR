@@ -27,7 +27,7 @@ import org.linuxforhealth.fhir.validation.FHIRValidator;
 public class FamilyMemberHistoryTest {
     @Test
     public void testFamilyMemberHistory() throws Exception {
-        StructureDefinition profile = ProfileSupport.getProfile("http://ibm.com/fhir/StructureDefinition/my-family-member-history|0.1.0");
+        StructureDefinition profile = ProfileSupport.getProfile("http://example.com/fhir/StructureDefinition/my-family-member-history|0.1.0");
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
 
@@ -35,8 +35,8 @@ public class FamilyMemberHistoryTest {
 
         assertEquals(constraints.size(), 4);
         assertEquals(constraints.get(3).expression(), "condition.count() >= 1 and condition.all("
-                + "code.exists() and code.all(memberOf('http://ibm.com/fhir/ValueSet/condition-value-set', 'extensible')) and "
-                + "(outcome.exists() implies (outcome.exists() and outcome.all(memberOf('http://ibm.com/fhir/ValueSet/outcome-value-set', 'extensible'))))"
+                + "code.exists() and code.all(memberOf('http://example.com/fhir/ValueSet/condition-value-set', 'extensible')) and "
+                + "(outcome.exists() implies (outcome.exists() and outcome.all(memberOf('http://example.com/fhir/ValueSet/outcome-value-set', 'extensible'))))"
                 + ")");
 
         InputStream in = FamilyMemberHistoryTest.class.getClassLoader().getResourceAsStream("JSON/familymemberhistory.json");

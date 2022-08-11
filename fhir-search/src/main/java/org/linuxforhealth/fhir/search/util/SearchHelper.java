@@ -1110,7 +1110,7 @@ public class SearchHelper {
     }
 
     /**
-     * Look up the http://ibm.com/fhir/extension/implicit-system extension in
+     * Look up the http://fhir.linuxforhealth.org/extension/implicit-system extension in
      * the given list of Extensions
      * @param extensions
      * @return the implicit system value, or null if not found

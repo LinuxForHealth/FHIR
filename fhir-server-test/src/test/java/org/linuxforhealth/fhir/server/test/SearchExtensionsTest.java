@@ -15,9 +15,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.Test;
-
-import org.linuxforhealth.fhir.core.FHIRConstants;
 import org.linuxforhealth.fhir.core.FHIRMediaType;
 import org.linuxforhealth.fhir.model.generator.exception.FHIRGeneratorException;
 import org.linuxforhealth.fhir.model.resource.Bundle;
@@ -33,9 +30,10 @@ import org.linuxforhealth.fhir.model.type.Extension;
 import org.linuxforhealth.fhir.model.type.Integer;
 import org.linuxforhealth.fhir.model.type.Quantity;
 import org.linuxforhealth.fhir.model.type.Uri;
+import org.testng.annotations.Test;
 
 public class SearchExtensionsTest extends FHIRServerTestBase {
-    private static final String EXTENSION_BASE_URL = FHIRConstants.EXT_BASE + "Patient/";
+    private static final String EXTENSION_BASE_URL = "http://example.com/fhir/extension/Patient/";
 
     private static final boolean DEBUG_SEARCH = false;
 
@@ -58,7 +56,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
                 .extension(Extension.builder()
                         .url(EXTENSION_BASE_URL + "favorite-code")
                         .value(CodeableConcept.builder()
-                            .coding(Coding.builder().code(Code.of("someCode-1234")).system(uri("http://ibm.com/fhir/system")).build())
+                            .coding(Coding.builder().code(Code.of("someCode-1234")).system(uri("http://example.com/fhir/system")).build())
                             .build())
                         .build())
                 .extension(Extension.builder()
@@ -273,7 +271,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
                 (Date) savedCreatedPatientWithExtensions.getExtension().get(5).getValue();
 
         /*
-         * Previously the favorite-code favorite-code=http://ibm.com/fhir/system%7CsomeCode-1234 using <code>
+         * Previously the favorite-code favorite-code=http://example.com/fhir/system%7CsomeCode-1234 using <code>
          * favoriteCode.getSystem().getValue()+ "|"</code>
          */
 

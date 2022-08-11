@@ -56,14 +56,14 @@ public class FHIRValidatorTest {
 
         String given = String.builder().value("John")
                 .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
+                    .url("http://example.com/someExtension")
                     .value(String.of("value and extension"))
                     .build())
                 .build();
 
         String otherGiven = String.builder()
                 .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
+                    .url("http://example.com/someExtension")
                     .value(String.of("extension only"))
                     .build())
                 .build();
@@ -99,11 +99,11 @@ public class FHIRValidatorTest {
         }
         assertEquals(issues.size(), 3);
         assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
-        assertTrue(issues.get(0).getDetails().getText().getValue().contains("Extension definition 'http://www.ibm.com/someExtension' is not supported"));
+        assertTrue(issues.get(0).getDetails().getText().getValue().contains("Extension definition 'http://example.com/someExtension' is not supported"));
         assertTrue(issues.get(0).getExpression().size() == 1);
         assertTrue(issues.get(0).getExpression().get(0).getValue().equals("Patient.name[0].given[0].extension[0]"));
         assertEquals(issues.get(1).getSeverity(), IssueSeverity.WARNING);
-        assertTrue(issues.get(1).getDetails().getText().getValue().contains("Extension definition 'http://www.ibm.com/someExtension' is not supported"));
+        assertTrue(issues.get(1).getDetails().getText().getValue().contains("Extension definition 'http://example.com/someExtension' is not supported"));
         assertTrue(issues.get(1).getExpression().size() == 1);
         assertTrue(issues.get(1).getExpression().get(0).getValue().equals("Patient.name[0].given[1].extension[0]"));
         assertEquals(issues.get(2).getSeverity(), IssueSeverity.WARNING);

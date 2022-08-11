@@ -19,14 +19,14 @@ import org.linuxforhealth.fhir.registry.FHIRRegistry;
 public class ProfileSupportTest {
     @Test
     public void testProfileSupport() throws Exception {
-        boolean exists = FHIRRegistry.getInstance().hasResource("http://ibm.com/fhir/StructureDefinition/test-dummy-profile", StructureDefinition.class);
+        boolean exists = FHIRRegistry.getInstance().hasResource("http://example.com/fhir/StructureDefinition/test-dummy-profile", StructureDefinition.class);
         assertTrue(exists);
 
-        StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/test-dummy-profile", StructureDefinition.class);
+        StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/test-dummy-profile", StructureDefinition.class);
         boolean applicable = ProfileSupport.isApplicable(profile, Observation.class);
         assertFalse(applicable);
 
-        profile = FHIRRegistry.getInstance().getResource("http://ibm.com/fhir/StructureDefinition/my-observation", StructureDefinition.class);
+        profile = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/my-observation", StructureDefinition.class);
         applicable = ProfileSupport.isApplicable(profile, Observation.class);
         assertTrue(applicable);
 

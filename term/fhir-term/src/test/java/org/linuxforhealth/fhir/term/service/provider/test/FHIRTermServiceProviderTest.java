@@ -36,7 +36,7 @@ public abstract class FHIRTermServiceProviderTest {
 
     @BeforeClass
     public void beforeClass() throws Exception {
-        codeSystem = CodeSystemSupport.getCodeSystem("http://ibm.com/fhir/CodeSystem/test");
+        codeSystem = CodeSystemSupport.getCodeSystem("http://example.com/fhir/CodeSystem/test");
         provider = createProvider();
     }
 

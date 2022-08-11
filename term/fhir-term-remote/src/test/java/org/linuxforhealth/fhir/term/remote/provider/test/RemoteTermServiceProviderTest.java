@@ -120,14 +120,14 @@ public class RemoteTermServiceProviderTest {
                     .password("change-password")
                     .build())
                 .supports(Supports.builder()
-                    .system("http://ibm.com/fhir/CodeSystem/test")
+                    .system("http://example.com/fhir/CodeSystem/test")
                     .version("1.0.0")
                     .build())
                 .build();
 
             provider = new RemoteTermServiceProvider(configuration);
 
-            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://ibm.com/fhir/CodeSystem/test");
+            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://example.com/fhir/CodeSystem/test");
 
             Concept concept = provider.getConcept(codeSystem, Code.of("a"));
 

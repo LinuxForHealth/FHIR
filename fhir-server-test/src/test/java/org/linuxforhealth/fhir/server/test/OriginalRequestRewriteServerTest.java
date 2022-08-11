@@ -41,7 +41,7 @@ public class OriginalRequestRewriteServerTest extends FHIRServerTestBase {
         // Build a new Patient and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         Meta.Builder meta = patient.getMeta() == null ? Meta.builder() : patient.getMeta().toBuilder();
-        meta.tag(Coding.builder().system(uri("http://ibm.com/fhir/tag")).code(code(TAG)).build());
+        meta.tag(Coding.builder().system(uri("http://example.com/fhir/tag")).code(code(TAG)).build());
         patient = patient.toBuilder()
                 .meta(meta.build())
                 .build();

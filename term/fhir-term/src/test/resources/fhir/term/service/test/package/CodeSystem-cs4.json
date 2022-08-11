@@ -1,7 +1,7 @@
 {
     "resourceType": "CodeSystem",
     "id": "cs4",
-    "url": "http://ibm.com/fhir/CodeSystem/cs4",
+    "url": "http://example.com/fhir/CodeSystem/cs4",
     "version": "1.0.0",
     "status": "active",
     "hierarchyMeaning": "is-a",
@@ -9,7 +9,7 @@
     "property": [
         {
             "code": "notSelectable",
-            "uri": "http://ibm.com/fhir/concept-properties#notSelectable",
+            "uri": "http://example.com/fhir/concept-properties#notSelectable",
             "type": "boolean"
         }
     ],

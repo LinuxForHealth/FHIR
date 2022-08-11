@@ -71,7 +71,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
                         .id("REIN-DEX-TEST-1")
                         .extension(
                             Extension.builder()
-                                .url("http://ibm.com/fhir/test")
+                                .url("http://example.com/fhir/test")
                                 .extension(exts)
                                 .build())
                         .build();

@@ -1,13 +1,13 @@
 {
     "resourceType": "ValueSet",
     "id": "poly",
-    "url": "http://ibm.com/fhir/ValueSet/poly",
+    "url": "http://example.com/fhir/ValueSet/poly",
     "version": "1.0.0",
     "status": "active",
     "compose": {
         "include": [
             {
-                "system": "http://ibm.com/fhir/CodeSystem/poly",
+                "system": "http://example.com/fhir/CodeSystem/poly",
                 "filter": [
                     {
                         "property": "concept",
@@ -17,7 +17,7 @@
                 ]
             },
             {
-                "system": "http://ibm.com/fhir/CodeSystem/poly-reverse",
+                "system": "http://example.com/fhir/CodeSystem/poly-reverse",
                 "filter": [
                     {
                         "property": "concept",

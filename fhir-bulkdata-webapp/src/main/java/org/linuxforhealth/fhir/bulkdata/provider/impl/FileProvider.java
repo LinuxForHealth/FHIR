@@ -29,6 +29,7 @@ import org.linuxforhealth.fhir.bulkdata.dto.ReadResultDTO;
 import org.linuxforhealth.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import org.linuxforhealth.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import org.linuxforhealth.fhir.bulkdata.provider.Provider;
+import org.linuxforhealth.fhir.core.FHIRConstants;
 import org.linuxforhealth.fhir.core.FHIRMediaType;
 import org.linuxforhealth.fhir.exception.FHIRException;
 import org.linuxforhealth.fhir.model.format.Format;
@@ -145,7 +146,7 @@ public class FileProvider implements Provider {
 
     /**
      * Generate an operation outcome
-     * 
+     *
      * @param lineNumber
      * @param msg
      * @return
@@ -159,7 +160,7 @@ public class FileProvider implements Provider {
                                 .text(string(msg))
                                 .build())
                 .extension(Extension.builder()
-                        .url("https://ibm.com/fhir/bulkdata/linenumber")
+                        .url(FHIRConstants.EXT_BASE + "bulkdata/linenumber")
                         .value(Long.toString(lineNumber))
                         .build())
                 .build();

@@ -5,6 +5,10 @@
         {
             "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
             "valueCode": "trial-use"
+        },
+        {
+            "url": "http://fhir.linuxforhealth.org/extension/implicit-system",
+            "valueUri": "http://hl7.org/fhir/group-type"
         }
     ],
     "url": "http://hl7.org/fhir/SearchParameter/Group-type",

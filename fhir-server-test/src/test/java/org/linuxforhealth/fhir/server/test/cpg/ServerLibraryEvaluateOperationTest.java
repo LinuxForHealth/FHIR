@@ -126,7 +126,7 @@ public class ServerLibraryEvaluateOperationTest extends BaseCPGOperationTest {
 
     @Test
     public void testLibraryEvaluateCompileError() {
-        Response response = getWebTarget().path("/Library/$evaluate").queryParam("library", "http://ibm.com/fhir/Library/CompileFailure|1.0.0").queryParam("subject", TEST_PATIENT_ID).request().get();
+        Response response = getWebTarget().path("/Library/$evaluate").queryParam("library", "http://example.com/fhir/Library/CompileFailure|1.0.0").queryParam("subject", TEST_PATIENT_ID).request().get();
         assertResponse( response, 400 );
 
         OperationOutcome outcome = response.readEntity(OperationOutcome.class);

@@ -45,14 +45,14 @@ public class FHIRXMLParserGeneratorTest {
         
         String given = String.builder().value("John")
                 .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
+                    .url("http://example.com/someExtension")
                     .value(String.of("value and extension"))
                     .build())
                 .build();
         
         String otherGiven = String.builder()
                 .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
+                    .url("http://example.com/someExtension")
                     .value(String.of("extension only"))
                     .build())
                 .build();

@@ -50,7 +50,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
         patient = patient.toBuilder()
                 .id("54321")
                 .identifier(Collections.singletonList(Identifier.builder()
-                    .system(Uri.of("http://ibm.com/fhir/patient-id"))
+                    .system(Uri.of("http://example.com/fhir/patient-id"))
                     .value(string("54321"))
                     .build()))
                 .build();
@@ -204,7 +204,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
         return Patient.builder()
                 .id("12345")
                 .identifier(Identifier.builder()
-                    .system(Uri.of("http://ibm.com/fhir/patient-id"))
+                    .system(Uri.of("http://example.com/fhir/patient-id"))
                     .value(string("12345"))
                     .build())
                 .name(HumanName.builder()

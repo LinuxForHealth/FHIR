@@ -45,7 +45,7 @@ public class FHIRPathTermFunctionTest {
     public void testExpand() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-        Collection<FHIRPathNode> result = evaluator.evaluate("%terminologies.expand('http://ibm.com/fhir/ValueSet/vs1')");
+        Collection<FHIRPathNode> result = evaluator.evaluate("%terminologies.expand('http://example.com/fhir/ValueSet/vs1')");
         assertTrue(isSingleton(result));
         assertTrue(isResourceNode(result));
         assertTrue(getResourceNode(result).resource().is(ValueSet.class));
@@ -58,7 +58,7 @@ public class FHIRPathTermFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .version(string("1.0.0"))
                 .code(Code.of("a"))
                 .build();
@@ -79,13 +79,13 @@ public class FHIRPathTermFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding codingA = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("u"))
                 .build();
 
         Coding codingB = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
@@ -100,13 +100,13 @@ public class FHIRPathTermFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding codingA = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
 
         Coding codingB = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("u"))
                 .build();
@@ -121,13 +121,13 @@ public class FHIRPathTermFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding codingA = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
 
         Coding codingB = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
@@ -142,13 +142,13 @@ public class FHIRPathTermFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding codingA = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
 
         Coding codingB = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("u"))
                 .build();
@@ -166,13 +166,13 @@ public class FHIRPathTermFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding codingA = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("u"))
                 .build();
 
         Coding codingB = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
@@ -190,13 +190,13 @@ public class FHIRPathTermFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding codingA = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
 
         Coding codingB = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("t"))
                 .build();
@@ -219,7 +219,7 @@ public class FHIRPathTermFunctionTest {
                 .build();
 
         Collection<FHIRPathNode> initialContext = singleton(FHIRPathElementNode.elementNode(coding));
-        Collection<FHIRPathNode> result = evaluator.evaluate(new EvaluationContext(), "%terminologies.translate('http://ibm.com/fhir/ConceptMap/snomed-ucum', %context)", initialContext);
+        Collection<FHIRPathNode> result = evaluator.evaluate(new EvaluationContext(), "%terminologies.translate('http://example.com/fhir/ConceptMap/snomed-ucum', %context)", initialContext);
         assertTrue(isSingleton(result));
         assertTrue(isResourceNode(result));
         assertTrue(getResourceNode(result).resource().is(Parameters.class));
@@ -253,7 +253,7 @@ public class FHIRPathTermFunctionTest {
                 .build();
 
         Collection<FHIRPathNode> initialContext = singleton(FHIRPathElementNode.elementNode(coding));
-        Collection<FHIRPathNode> result = evaluator.evaluate(new EvaluationContext(), "%terminologies.translate('http://ibm.com/fhir/ConceptMap/snomed-ucum', %context)", initialContext);
+        Collection<FHIRPathNode> result = evaluator.evaluate(new EvaluationContext(), "%terminologies.translate('http://example.com/fhir/ConceptMap/snomed-ucum', %context)", initialContext);
         assertTrue(isSingleton(result));
         assertTrue(isResourceNode(result));
         assertTrue(getResourceNode(result).resource().is(Parameters.class));
@@ -282,13 +282,13 @@ public class FHIRPathTermFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("m"))
                 .build();
 
         Collection<FHIRPathNode> initialContext = singleton(FHIRPathElementNode.elementNode(coding));
-        Collection<FHIRPathNode> result = evaluator.evaluate(new EvaluationContext(), "%terminologies.validateCS('http://ibm.com/fhir/CodeSystem/cs5', %context)", initialContext);
+        Collection<FHIRPathNode> result = evaluator.evaluate(new EvaluationContext(), "%terminologies.validateCS('http://example.com/fhir/CodeSystem/cs5', %context)", initialContext);
         assertTrue(isSingleton(result));
         assertTrue(isResourceNode(result));
         assertTrue(getResourceNode(result).resource().is(Parameters.class));
@@ -302,13 +302,13 @@ public class FHIRPathTermFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
                 .code(Code.of("x"))
                 .build();
 
         Collection<FHIRPathNode> initialContext = singleton(FHIRPathElementNode.elementNode(coding));
-        Collection<FHIRPathNode> result = evaluator.evaluate(new EvaluationContext(), "%terminologies.validateCS('http://ibm.com/fhir/CodeSystem/cs5', %context)", initialContext);
+        Collection<FHIRPathNode> result = evaluator.evaluate(new EvaluationContext(), "%terminologies.validateCS('http://example.com/fhir/CodeSystem/cs5', %context)", initialContext);
         assertTrue(isSingleton(result));
         assertTrue(isResourceNode(result));
         assertTrue(getResourceNode(result).resource().is(Parameters.class));
@@ -322,13 +322,13 @@ public class FHIRPathTermFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .version(string("1.0.0"))
                 .code(Code.of("a"))
                 .build();
 
         Collection<FHIRPathNode> initialContext = singleton(FHIRPathElementNode.elementNode(coding));
-        Collection<FHIRPathNode> result = evaluator.evaluate(new EvaluationContext(), "%terminologies.validateVS('http://ibm.com/fhir/ValueSet/vs1', %context)", initialContext);
+        Collection<FHIRPathNode> result = evaluator.evaluate(new EvaluationContext(), "%terminologies.validateVS('http://example.com/fhir/ValueSet/vs1', %context)", initialContext);
         assertTrue(isSingleton(result));
         assertTrue(isResourceNode(result));
         assertTrue(getResourceNode(result).resource().is(Parameters.class));
@@ -342,13 +342,13 @@ public class FHIRPathTermFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
         Coding coding = Coding.builder()
-                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+                .system(Uri.of("http://example.com/fhir/CodeSystem/cs1"))
                 .version(string("1.0.0"))
                 .code(Code.of("x"))
                 .build();
 
         Collection<FHIRPathNode> initialContext = singleton(FHIRPathElementNode.elementNode(coding));
-        Collection<FHIRPathNode> result = evaluator.evaluate(new EvaluationContext(), "%terminologies.validateVS('http://ibm.com/fhir/ValueSet/vs1', %context)", initialContext);
+        Collection<FHIRPathNode> result = evaluator.evaluate(new EvaluationContext(), "%terminologies.validateVS('http://example.com/fhir/ValueSet/vs1', %context)", initialContext);
         assertTrue(isSingleton(result));
         assertTrue(isResourceNode(result));
         assertTrue(getResourceNode(result).resource().is(Parameters.class));

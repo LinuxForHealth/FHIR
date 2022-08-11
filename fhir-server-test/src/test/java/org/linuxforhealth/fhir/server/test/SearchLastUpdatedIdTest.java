@@ -42,7 +42,7 @@ import org.linuxforhealth.fhir.model.type.code.NarrativeStatus;
 public class SearchLastUpdatedIdTest extends FHIRServerTestBase {
     private String patientId;
 
-    protected final String TAG_SYSTEM = "http://ibm.com/fhir/tag";
+    protected final String TAG_SYSTEM = "http://example.com/fhir/tag";
     protected final String TAG = UUID.randomUUID().toString();
 
     private final Map<String, String> TEST_CASES = new LinkedHashMap<String, String>() {

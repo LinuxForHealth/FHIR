@@ -96,7 +96,7 @@ public class ToStringTest {
         
         String given = String.builder().value("John")
                 .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
+                    .url("http://example.com/someExtension")
                     .value(String.of("value and extension"))
                     .build())
                 .build();
@@ -104,7 +104,7 @@ public class ToStringTest {
         String otherGiven = String.builder()
                 .id("someOtherId")
                 .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
+                    .url("http://example.com/someExtension")
                     .value(String.of("extension only"))
                     .build())
                 .build();

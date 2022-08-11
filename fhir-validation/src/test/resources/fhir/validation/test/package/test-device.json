@@ -389,7 +389,7 @@
             },
             "type": [{
                 "code": "Extension",
-                "profile": ["http://ibm.com/fhir/StructureDefinition/test-language-primary-extension"]
+                "profile": ["http://example.com/fhir/StructureDefinition/test-language-primary-extension"]
             }],
             "condition": ["ele-1"],
             "constraint": [{
@@ -425,7 +425,7 @@
             },
             "type": [{
                 "code": "Extension",
-                "profile": ["http://ibm.com/fhir/StructureDefinition/test-language-secondary-extension"]
+                "profile": ["http://example.com/fhir/StructureDefinition/test-language-secondary-extension"]
             }],
             "condition": ["ele-1"],
             "constraint": [{
@@ -461,7 +461,7 @@
             },
             "type": [{
                 "code": "Extension",
-                "profile": ["http://ibm.com/fhir/StructureDefinition/test-language-tertiary-extension"]
+                "profile": ["http://example.com/fhir/StructureDefinition/test-language-tertiary-extension"]
             }],
             "condition": ["ele-1"],
             "constraint": [{

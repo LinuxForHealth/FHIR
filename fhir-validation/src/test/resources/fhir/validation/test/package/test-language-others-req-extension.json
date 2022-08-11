@@ -1,7 +1,7 @@
 {
   "resourceType": "StructureDefinition",
   "id": "test-language-others-req-extension",
-  "url": "http://ibm.com/fhir/StructureDefinition/test-language-others-req-extension",
+  "url": "http://example.com/fhir/StructureDefinition/test-language-others-req-extension",
   "version": "0.1.0",
   "name": "TestLanguageOthersReqExtension",
   "title": "Test Language Others Required Extension",
@@ -202,7 +202,7 @@
             ]
           }
         ],
-        "fixedUri": "http://ibm.com/fhir/StructureDefinition/test-language-primary-extension",
+        "fixedUri": "http://example.com/fhir/StructureDefinition/test-language-primary-extension",
         "isModifier": false,
         "isSummary": false,
         "mapping": [

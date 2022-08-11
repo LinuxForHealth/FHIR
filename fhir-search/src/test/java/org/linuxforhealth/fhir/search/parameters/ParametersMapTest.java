@@ -24,7 +24,7 @@ import org.linuxforhealth.fhir.model.type.code.SearchParamType;
  */
 public class ParametersMapTest {
     SearchParameter sp_a1 = SearchParameter.builder()
-            .url(Uri.of("http://ibm.com/fhir/test/sp_a1"))
+            .url(Uri.of("http://example.com/fhir/test/sp_a1"))
             .status(PublicationStatus.ACTIVE)
             .name(string("a"))
             .description(Markdown.of("First param with code 'a'"))
@@ -34,7 +34,7 @@ public class ParametersMapTest {
             .expression(string("extension.value as String"))
             .build();
     SearchParameter sp_a2 = SearchParameter.builder()
-            .url(Uri.of("http://ibm.com/fhir/test/sp_a2"))
+            .url(Uri.of("http://example.com/fhir/test/sp_a2"))
             .status(PublicationStatus.ACTIVE)
             .name(string("a"))
             .description(Markdown.of("Second param with code 'a'"))
@@ -44,7 +44,7 @@ public class ParametersMapTest {
             .expression(string("extension.value as String"))
             .build();
     SearchParameter sp_b = SearchParameter.builder()
-            .url(Uri.of("http://ibm.com/fhir/test/sp_b"))
+            .url(Uri.of("http://example.com/fhir/test/sp_b"))
             .status(PublicationStatus.ACTIVE)
             .name(string("b"))
             .base(ResourceTypeCode.RESOURCE)
@@ -54,7 +54,7 @@ public class ParametersMapTest {
             .expression(string("extension.value as String"))
             .build();
     SearchParameter sp_b1 = SearchParameter.builder()
-            .url(Uri.of("http://ibm.com/fhir/test/sp_b"))
+            .url(Uri.of("http://example.com/fhir/test/sp_b"))
             .version("1")
             .status(PublicationStatus.ACTIVE)
             .name(string("b"))
@@ -65,7 +65,7 @@ public class ParametersMapTest {
             .expression(string("extension.value as String"))
             .build();
     SearchParameter sp_b2 = SearchParameter.builder()
-            .url(Uri.of("http://ibm.com/fhir/test/sp_b"))
+            .url(Uri.of("http://example.com/fhir/test/sp_b"))
             .version("2")
             .status(PublicationStatus.ACTIVE)
             .name(string("b"))
@@ -91,11 +91,11 @@ public class ParametersMapTest {
         assertEquals(pm.lookupByCode("a"), sp_a2);
         assertEquals(pm.lookupByCode("b"), sp_b2);
 
-        assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_a1"), sp_a1);
-        assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_a2"), sp_a2);
-        assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b"), sp_b2);
-        assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b|1"), sp_b1);
-        assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b|2"), sp_b2);
+        assertEquals(pm.lookupByCanonical("http://example.com/fhir/test/sp_a1"), sp_a1);
+        assertEquals(pm.lookupByCanonical("http://example.com/fhir/test/sp_a2"), sp_a2);
+        assertEquals(pm.lookupByCanonical("http://example.com/fhir/test/sp_b"), sp_b2);
+        assertEquals(pm.lookupByCanonical("http://example.com/fhir/test/sp_b|1"), sp_b1);
+        assertEquals(pm.lookupByCanonical("http://example.com/fhir/test/sp_b|2"), sp_b2);
 
         assertTrue(pm.codeEntries().size() == 2);
         assertTrue(pm.canonicalEntries().size() == 5); // versionless ones for a1, a2, and b2; versioned ones for b1 and b2
@@ -113,7 +113,7 @@ public class ParametersMapTest {
         assertEquals(pm.lookupByCode("b"), sp_b);
         assertEquals(pm.lookupByCode("b2"), sp_b);
 
-        assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b"), sp_b);
+        assertEquals(pm.lookupByCanonical("http://example.com/fhir/test/sp_b"), sp_b);
 
         assertTrue(pm.codeEntries().size() == 2);
         assertTrue(pm.canonicalEntries().size() == 1);
@@ -130,7 +130,7 @@ public class ParametersMapTest {
 
         assertEquals(pm.lookupByCode("b"), sp_b);
 
-        assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b"), sp_b);
+        assertEquals(pm.lookupByCanonical("http://example.com/fhir/test/sp_b"), sp_b);
 
         assertTrue(pm.codeEntries().size() == 1);
         assertTrue(pm.canonicalEntries().size() == 1);
@@ -165,7 +165,7 @@ public class ParametersMapTest {
 
         assertEquals(pm.lookupByCode("b"), sp_b);
 
-        assertEquals(pm.lookupByCanonical("http://ibm.com/fhir/test/sp_b"), sp_b);
+        assertEquals(pm.lookupByCanonical("http://example.com/fhir/test/sp_b"), sp_b);
 
         assertTrue(pm.codeEntries().size() == 1);
         assertTrue(pm.canonicalEntries().size() == 1);

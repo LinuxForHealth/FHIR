@@ -6,11 +6,11 @@
 	},
 	"type": "collection",
 	"entry": [{
-		"fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-color",
+		"fullUrl": "http://example.com/fhir/SearchParameter/Patient-favorite-color",
 		"resource": {
 			"resourceType": "SearchParameter",
 			"id": "Patient-favorite-color",
-			"url": "http://ibm.com/fhir/SearchParameter/Patient-favorite-color",
+			"url": "http://example.com/fhir/SearchParameter/Patient-favorite-color",
 			"version": "4.0.0",
 			"name": "favorite-color",
 			"status": "draft",
@@ -20,13 +20,13 @@
 			"contact": [{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			},
 			{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			}],
 			"description": "the patient's favorite color",
@@ -34,19 +34,19 @@
 			"base": ["Patient"],
 			"type": "string",
 			"xpathUsage": "normal",
-			"xpath": "f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-color']/f:valueString",
-			"expression": "Patient.extension.where(url='http://ibm.com/fhir/extension/Patient/favorite-color').value",
+			"xpath": "f:Patient/f:extension[@url='http://example.com/fhir/extension/Patient/favorite-color']/f:valueString",
+			"expression": "Patient.extension.where(url='http://example.com/fhir/extension/Patient/favorite-color').value",
 			"multipleOr": true,
 			"multipleAnd": true,
 			"modifier": []
 		}
 	},
 	{
-		"fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-number",
+		"fullUrl": "http://example.com/fhir/SearchParameter/Patient-favorite-number",
 		"resource": {
 			"resourceType": "SearchParameter",
 			"id": "Patient-favorite-number",
-			"url": "http://ibm.com/fhir/SearchParameter/Patient-favorite-number",
+			"url": "http://example.com/fhir/SearchParameter/Patient-favorite-number",
 			"version": "4.0.0",
 			"name": "favorite-number",
 			"status": "draft",
@@ -56,13 +56,13 @@
 			"contact": [{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			},
 			{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			}],
 			"description": "the patient's favorite number",
@@ -70,19 +70,19 @@
 			"base": ["Patient"],
 			"type": "number",
 			"xpathUsage": "normal",
-			"xpath": "f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-number']/f:valueInteger",
-			"expression": "Patient.extension.where(url='http://ibm.com/fhir/extension/Patient/favorite-number').value.as(Integer)",
+			"xpath": "f:Patient/f:extension[@url='http://example.com/fhir/extension/Patient/favorite-number']/f:valueInteger",
+			"expression": "Patient.extension.where(url='http://example.com/fhir/extension/Patient/favorite-number').value.as(Integer)",
 			"multipleOr": true,
 			"multipleAnd": true,
 			"modifier": []
 		}
 	},
 	{
-		"fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-code",
+		"fullUrl": "http://example.com/fhir/SearchParameter/Patient-favorite-code",
 		"resource": {
 			"resourceType": "SearchParameter",
 			"id": "Patient-favorite-code",
-			"url": "http://ibm.com/fhir/SearchParameter/Patient-favorite-code",
+			"url": "http://example.com/fhir/SearchParameter/Patient-favorite-code",
 			"version": "4.0.0",
 			"name": "favorite-code",
 			"status": "draft",
@@ -92,13 +92,13 @@
 			"contact": [{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			},
 			{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			}],
 			"description": "the patient's favorite code",
@@ -106,19 +106,19 @@
 			"base": ["Patient"],
 			"type": "token",
 			"xpathUsage": "normal",
-			"xpath": "f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-code']/f:valueCodeableConcept",
-			"expression": "Patient.extension.where(url='http://ibm.com/fhir/extension/Patient/favorite-code').value",
+			"xpath": "f:Patient/f:extension[@url='http://example.com/fhir/extension/Patient/favorite-code']/f:valueCodeableConcept",
+			"expression": "Patient.extension.where(url='http://example.com/fhir/extension/Patient/favorite-code').value",
 			"multipleOr": true,
 			"multipleAnd": true,
 			"modifier": []
 		}
 	},
 	{
-		"fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-uri",
+		"fullUrl": "http://example.com/fhir/SearchParameter/Patient-favorite-uri",
 		"resource": {
 			"resourceType": "SearchParameter",
 			"id": "Patient-favorite-uri",
-			"url": "http://ibm.com/fhir/SearchParameter/Patient-favorite-uri",
+			"url": "http://example.com/fhir/SearchParameter/Patient-favorite-uri",
 			"version": "4.0.0",
 			"name": "favorite-uri",
 			"status": "draft",
@@ -128,13 +128,13 @@
 			"contact": [{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			},
 			{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			}],
 			"description": "the patient's favorite uri",
@@ -142,19 +142,19 @@
 			"base": ["Patient"],
 			"type": "uri",
 			"xpathUsage": "normal",
-			"xpath": "f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-uri']/f:valueUri",
-			"expression": "Patient.extension.where(url='http://ibm.com/fhir/extension/Patient/favorite-uri').value",
+			"xpath": "f:Patient/f:extension[@url='http://example.com/fhir/extension/Patient/favorite-uri']/f:valueUri",
+			"expression": "Patient.extension.where(url='http://example.com/fhir/extension/Patient/favorite-uri').value",
 			"multipleOr": true,
 			"multipleAnd": true,
 			"modifier": []
 		}
 	},
 	{
-		"fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-quantity",
+		"fullUrl": "http://example.com/fhir/SearchParameter/Patient-favorite-quantity",
 		"resource": {
 			"resourceType": "SearchParameter",
 			"id": "Patient-favorite-quantity",
-			"url": "http://ibm.com/fhir/SearchParameter/Patient-favorite-quantity",
+			"url": "http://example.com/fhir/SearchParameter/Patient-favorite-quantity",
 			"version": "4.0.0",
 			"name": "favorite-quantity",
 			"status": "draft",
@@ -164,13 +164,13 @@
 			"contact": [{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			},
 			{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			}],
 			"description": "the patient's favorite quantity",
@@ -178,19 +178,19 @@
 			"base": ["Patient"],
 			"type": "quantity",
 			"xpathUsage": "normal",
-			"xpath": "f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-quantity']/f:valueQuantity",
-			"expression": "Patient.extension.where(url='http://ibm.com/fhir/extension/Patient/favorite-quantity').value",
+			"xpath": "f:Patient/f:extension[@url='http://example.com/fhir/extension/Patient/favorite-quantity']/f:valueQuantity",
+			"expression": "Patient.extension.where(url='http://example.com/fhir/extension/Patient/favorite-quantity').value",
 			"multipleOr": true,
 			"multipleAnd": true,
 			"modifier": []
 		}
 	},
 	{
-		"fullUrl": "http://ibm.com/fhir/SearchParameter/Patient-favorite-date",
+		"fullUrl": "http://example.com/fhir/SearchParameter/Patient-favorite-date",
 		"resource": {
 			"resourceType": "SearchParameter",
 			"id": "Patient-favorite-date",
-			"url": "http://ibm.com/fhir/SearchParameter/Patient-favorite-date",
+			"url": "http://example.com/fhir/SearchParameter/Patient-favorite-date",
 			"version": "4.0.0",
 			"name": "favorite-date",
 			"status": "draft",
@@ -200,13 +200,13 @@
 			"contact": [{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			},
 			{
 				"telecom": [{
 					"system": "url",
-					"value": "http://ibm.com/fhir"
+					"value": "http://example.com/fhir"
 				}]
 			}],
 			"description": "the patient's favorite date",
@@ -214,15 +214,15 @@
 			"base": ["Patient"],
 			"type": "date",
 			"xpathUsage": "normal",
-			"xpath": "f:Patient/f:extension[@url='http://ibm.com/fhir/extension/Patient/favorite-date']/f:valueDate",
-			"expression": "Patient.extension.where(url='http://ibm.com/fhir/extension/Patient/favorite-date').value",
+			"xpath": "f:Patient/f:extension[@url='http://example.com/fhir/extension/Patient/favorite-date']/f:valueDate",
+			"expression": "Patient.extension.where(url='http://example.com/fhir/extension/Patient/favorite-date').value",
 			"multipleOr": true,
 			"multipleAnd": true,
 			"modifier": []
 		}
 	},
 	{
-		"fullUrl": "http://ibm.com/fhir/SearchParameter/Encounter-diff-start-end-time",
+		"fullUrl": "http://example.com/fhir/SearchParameter/Encounter-diff-start-end-time",
 		"resource": {
 			"resourceType": "SearchParameter",
 			"id": "Encounter-diff-start-end-time",
@@ -230,7 +230,7 @@
 				"versionId": "1",
 				"lastUpdated": "2020-08-06T20:04:51.394047Z"
 			},
-			"url": "https://fhir.ibm.com/demo/diff-start-end-time",
+			"url": "http://example.com/fhir/SearchParameter/Encounter-diff-start-end-time",
 			"name": "diff-start-end-time",
 			"status": "draft",
 			"description": "Example of sophisiticated extraction using custom `between`",

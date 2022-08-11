@@ -5,7 +5,7 @@
         "status": "generated",
         "div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>clear-cache</h2><p>OPERATION: ValueSet Clear Cache</p><p>The ValueSet-clear-cache operation clears the server's cached copy of the codeset expansion of a ValueSet.</p><p>URL: [base]/ValueSet/$clear-cache</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>IN</td><td>url</td><td>0..1</td><td>string</td><td/><td><p>A canonical reference to a value set. The server must know the value set (e.g. it is defined explicitly in the server's value sets, or it is defined implicitly by some code system known to the server.</p></td></tr><tr><td>IN</td><td>valueSetVersion</td><td>0..1</td><td>string</td><td/><td><p>The identifier that is used to identify a specific version of the value set to be used when generating the expansion. This is an arbitrary value managed by the value set author and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available.</p></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td>OperationOutcome</td><td/><td><p>If the operation outcome is not present or is present but lists no errors, then the operation completed successfully.</p></td></tr></table></div>"
       },
-    "url": "http://ibm.com/fhir/OperationDefinition/ValueSet-clear-cache",
+    "url": "http://fhir.linuxforhealth.org/OperationDefinition/ValueSet-clear-cache",
     "name": "clear-cache",
     "status": "draft",
     "kind": "operation",

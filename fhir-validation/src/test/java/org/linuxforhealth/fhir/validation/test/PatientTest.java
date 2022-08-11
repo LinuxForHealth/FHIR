@@ -54,13 +54,13 @@ public class PatientTest {
         org.linuxforhealth.fhir.model.type.String given = org.linuxforhealth.fhir.model.type.String.builder()
                 .value("John")
                 .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
+                    .url("http://example.com/someExtension")
                     .value(string("value and extension"))
                     .build())
                 .build();
         org.linuxforhealth.fhir.model.type.String otherGiven = org.linuxforhealth.fhir.model.type.String.builder()
                 .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
+                    .url("http://example.com/someExtension")
                     .value(string("extension only"))
                     .build())
                 .build();

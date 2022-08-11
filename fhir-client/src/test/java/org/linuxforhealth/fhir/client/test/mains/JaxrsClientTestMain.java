@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2021
+ * (C) Copyright IBM Corp. 2016, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -113,7 +113,7 @@ public class JaxrsClientTestMain {
                 .birthDate(org.linuxforhealth.fhir.model.type.Date.of("1950-08-15"))
                 .telecom(ContactPoint.builder().system(ContactPointSystem.PHONE)
                         .use(ContactPointUse.HOME).value(string("555-1234")).build())
-                .extension(Extension.builder().url("http://ibm.com/fhir/extension/Patient/favorite-color")
+                .extension(Extension.builder().url("http://example.com/fhir/extension/Patient/favorite-color")
                         .value(string("blue")).build()).build();
         return patient;
     }

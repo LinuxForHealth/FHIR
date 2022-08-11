@@ -37,13 +37,13 @@ public class FHIRConstants {
 
     public static final String FORCE_UPDATE_HEADER = "X-FHIR-FORCE-UPDATE";
 
-    public static final String EXT_BASE = "http://ibm.com/fhir/extension/";
-    public static final String TAG_BASE = "http://ibm.com/fhir/tag/";
+    public static final String EXT_BASE = "http://fhir.linuxforhealth.org/extension/";
+    public static final String TAG_BASE = "http://fhir.linuxforhealth.org/tag/";
 
     /**
      * General parameter names that can be used with any FHIR interaction.
      *
-     * @see <a href="https://www.hl7.org/fhir/r4/http.html#parameters">https://www.hl7.org/fhir/r4/http.html#parameters</a>
+     * @see <a href="https://www.hl7.org/fhir/r4b/http.html#parameters">https://www.hl7.org/fhir/r4b/http.html#parameters</a>
      */
     public static final Set<String> GENERAL_PARAMETER_NAMES =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(FORMAT, PRETTY, SUMMARY, ELEMENTS)));

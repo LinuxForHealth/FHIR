@@ -5,7 +5,7 @@
 		"status": "generated",
 		"div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>Healthcheck</h2><p>OPERATION: Check the health of the server</p><p>The healthcheck operation checks whether the server is able to connect to the database.</p><p>URL: [base]/$healthcheck</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td>OperationOutcome</td><td/><td><p>If the operation outcome is not present or is present but lists no errors, then the server is expected to be healthy.</p></td></tr></table></div>"
 	  },
-	"url": "http://ibm.com/fhir/OperationDefinition/healthcheck",
+	"url": "http://fhir.linuxforhealth.org/OperationDefinition/healthcheck",
 	"name": "Healthcheck",
 	"status": "draft",
 	"kind": "operation",

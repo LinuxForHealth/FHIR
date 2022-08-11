@@ -5,7 +5,7 @@
 		"status": "generated",
 		"div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>retrieve-index</h2><p>OPERATION: Retrieve index IDs of resources available to reindex</p><p>The retrieve-index operation retrieves the index IDs from the database. These index IDs can then be passed into the reindex operation to indicate the specific resources to reindex.</p><p>URL: [base]/$retrieve-index</p></div>"
 	  },
-	"url": "http://ibm.com/fhir/OperationDefinition/retrieve-index",
+	"url": "http://fhir.linuxforhealth.org/OperationDefinition/retrieve-index",
 	"name": "retrieve-index",
 	"status": "draft",
 	"kind": "operation",

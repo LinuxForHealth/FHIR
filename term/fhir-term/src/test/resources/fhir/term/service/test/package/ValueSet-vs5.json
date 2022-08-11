@@ -1,13 +1,13 @@
 {
     "resourceType": "ValueSet",
     "id": "vs5",
-    "url": "http://ibm.com/fhir/ValueSet/vs5",
+    "url": "http://example.com/fhir/ValueSet/vs5",
     "version": "1.0.0",
     "status": "active",
     "compose": {
         "include": [
             {
-                "system": "http://ibm.com/fhir/CodeSystem/cs5",
+                "system": "http://example.com/fhir/CodeSystem/cs5",
                 "filter": [
                     {
                         "property": "concept",
@@ -17,7 +17,7 @@
                 ]
             },
             {
-                "system": "http://ibm.com/fhir/CodeSystem/cs5",
+                "system": "http://example.com/fhir/CodeSystem/cs5",
                 "filter": [
                     {
                         "property": "parent",
@@ -27,7 +27,7 @@
                 ]
             },
             {
-                "system": "http://ibm.com/fhir/CodeSystem/cs5",
+                "system": "http://example.com/fhir/CodeSystem/cs5",
                 "filter": [
                     {
                         "property": "label",
@@ -37,7 +37,7 @@
                 ]
             },
             {
-                "system": "http://ibm.com/fhir/CodeSystem/cs5",
+                "system": "http://example.com/fhir/CodeSystem/cs5",
                 "filter": [
                     {
                         "property": "concept",
