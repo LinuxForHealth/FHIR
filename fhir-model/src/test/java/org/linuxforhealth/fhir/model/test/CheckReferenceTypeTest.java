@@ -26,7 +26,7 @@ public class CheckReferenceTypeTest {
     public void testCheckReferenceType() throws Exception {
         boolean originalSetting = FHIRModelConfig.getCheckReferenceTypes();
 
-        try (Reader reader = ExamplesUtil.resourceReader("json/ibm/minimal/Observation-1.json")) {
+        try (Reader reader = ExamplesUtil.resourceReader("json/minimal/Observation-1.json")) {
             FHIRModelConfig.setCheckReferenceTypes(true);
             Observation observation = FHIRParser.parser(Format.JSON).parse(reader);
 

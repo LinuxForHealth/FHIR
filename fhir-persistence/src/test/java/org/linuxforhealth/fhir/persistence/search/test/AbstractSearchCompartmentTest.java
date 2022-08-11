@@ -45,7 +45,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
 
     @Override
     protected Basic getBasicResource() throws Exception {
-        Basic basic = TestUtil.readExampleResource("json/ibm/basic/BasicWithAllTypes.json");
+        Basic basic = TestUtil.readExampleResource("json/basic/BasicWithAllTypes.json");
         // Add a references to a patient and a practitioner so we can exercise those compartments
         return basic.toBuilder()
                 .subject(Reference.builder()

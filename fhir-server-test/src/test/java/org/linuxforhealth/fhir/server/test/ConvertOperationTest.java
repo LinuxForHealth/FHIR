@@ -35,15 +35,15 @@ public class ConvertOperationTest extends FHIRServerTestBase {
 
     @Test
     public void testXMLandJSON() throws Exception {
-        Resource patientFromJson = TestUtil.readExampleResource("json/ibm/complete-mock/Patient-1.json");
-        Resource patientFromXml = TestUtil.readExampleResource("xml/ibm/complete-mock/Patient-1.xml");
+        Resource patientFromJson = TestUtil.readExampleResource("json/complete-mock/Patient-1.json");
+        Resource patientFromXml = TestUtil.readExampleResource("xml/complete-mock/Patient-1.xml");
 
         assertEquals(patientFromJson, patientFromXml);
     }
 
     @Test
     public void testConvertOperation1() throws Exception {
-        try (BufferedReader reader = new BufferedReader(ExamplesUtil.resourceReader("json/ibm/complete-mock/Patient-1.json"))) {
+        try (BufferedReader reader = new BufferedReader(ExamplesUtil.resourceReader("json/complete-mock/Patient-1.json"))) {
             String input = reader.lines().collect(Collectors.joining(System.lineSeparator()));
 
             // input is JSON
@@ -75,7 +75,7 @@ public class ConvertOperationTest extends FHIRServerTestBase {
 
     @Test
     public void testConvertOperation2() throws Exception {
-        try (BufferedReader reader = new BufferedReader(ExamplesUtil.resourceReader("xml/ibm/complete-mock/Patient-1.xml"))) {
+        try (BufferedReader reader = new BufferedReader(ExamplesUtil.resourceReader("xml/complete-mock/Patient-1.xml"))) {
             String input = reader.lines().collect(Collectors.joining(System.lineSeparator()));
 
             // input is XML

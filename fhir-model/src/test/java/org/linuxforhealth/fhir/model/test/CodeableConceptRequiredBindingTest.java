@@ -24,7 +24,7 @@ import org.linuxforhealth.fhir.model.type.Uri;
 public class CodeableConceptRequiredBindingTest {
     @Test
     public void testCodeableConceptRequiredBinding() throws Exception {
-        try (Reader reader = ExamplesUtil.resourceReader("json/ibm/minimal/AllergyIntolerance-1.json")) {
+        try (Reader reader = ExamplesUtil.resourceReader("json/minimal/AllergyIntolerance-1.json")) {
             AllergyIntolerance allergyIntolerance = FHIRParser.parser(Format.JSON).parse(reader);
             
             // valid

@@ -28,7 +28,7 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
 
     @Override
     protected Basic getBasicResource() throws Exception {
-        return TestUtil.readExampleResource("json/ibm/basic/BasicURI.json");
+        return TestUtil.readExampleResource("json/basic/BasicURI.json");
     }
 
     @Override

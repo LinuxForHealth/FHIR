@@ -52,7 +52,7 @@ public class ExamplesUtil {
     
     /**
      * Return a reader for the specified example resource.
-     * The resource should be an example resource such as "json/ibm/minimal/Account-1.json".
+     * The resource should be an example resource such as "json/minimal/Account-1.json".
      * 
      * @param resource
      *          The relative path to the example resource within fhir-examples

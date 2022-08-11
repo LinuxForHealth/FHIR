@@ -240,7 +240,7 @@ The LinuxForHealth FHIR Server supports [extended operations](https://hl7.org/fh
 In addition to defining the interfaces, the `fhir-persistence` module includes a set of tests that you can extend to test your implementation.
 
 Most of the tests defined in this module relate to search, but they also exercise the create, update, and delete interactions in the process.
-The tests in the `org.linuxforhealth.fhir.persistence.search.test` package are organized by search parameter type and they utilize tenant-specific search parameter definitions from the `fhir-persistence/src/test/resources/config` directory and search for fields on the generated example resources at `fhir-examples/src/main/resources/json/ibm/basic`. The `fhir-examples` module is available on Maven Central [link](https://repo1.maven.org/maven2/com/ibm/fhir/fhir-examples/).
+The tests in the `org.linuxforhealth.fhir.persistence.search.test` package are organized by search parameter type and they utilize tenant-specific search parameter definitions from the `fhir-persistence/src/test/resources/config` directory and search for fields on the generated example resources at `fhir-examples/src/main/resources/json/basic`. The `fhir-examples` module is available on Maven Central [link](https://repo1.maven.org/maven2/org/linuxforhealth/fhir/fhir-examples/).
 
 For an example of how to extend these tests, see the `org.linuxforhealth.fhir.persistence.jdbc.search.test` package under `fhir-persistence-jdbc/src/test/java`.
 

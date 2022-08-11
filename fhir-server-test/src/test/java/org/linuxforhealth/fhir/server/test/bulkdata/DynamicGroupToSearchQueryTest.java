@@ -48,7 +48,7 @@ public class DynamicGroupToSearchQueryTest extends FHIRServerTestBase {
     public void startup() throws Exception {
         WebTarget target = getWebTarget();
 
-        group = TestUtil.readExampleResource("json/ibm/bulk-data/group/age-range-with-gender-and-exclude-group.json");
+        group = TestUtil.readExampleResource("json/bulk-data/group/age-range-with-gender-and-exclude-group.json");
         Entity<Group> entity = Entity.entity(group, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Group").request().header("Prefer", "return=representation").post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -62,7 +62,7 @@ public class DynamicGroupToSearchQueryTest extends FHIRServerTestBase {
         response = target.path("Group/" + savedGroupId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
-        Bundle bundle = (Bundle) TestUtil.readExampleResource("json/ibm/bulk-data/group/age-range-with-gender-and-exclude-example.json");
+        Bundle bundle = (Bundle) TestUtil.readExampleResource("json/bulk-data/group/age-range-with-gender-and-exclude-example.json");
         Entity<Bundle> bundleEntity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response bundleResponse = target.path("/").request().header("Prefer", "return=representation").post(bundleEntity, Response.class);
         assertResponse(bundleResponse, Response.Status.OK.getStatusCode());

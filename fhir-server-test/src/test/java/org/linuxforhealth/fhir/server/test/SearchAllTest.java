@@ -830,7 +830,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         if (bundle.getTotal().getValue() <= 5) {
             // Load 5 Resources so we go over the page size
             for (int i = 0; i < 5; i++) {
-                Basic basic = TestUtil.readExampleResource("json/ibm/minimal/Basic-1.json");
+                Basic basic = TestUtil.readExampleResource("json/minimal/Basic-1.json");
                 String id = this.createResourceAndReturnTheLogicalId("Basic", basic);
                 this.addToResourceRegistry("Basic", id);
             }

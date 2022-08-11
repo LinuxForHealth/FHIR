@@ -115,7 +115,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
      * @throws Exception
      */
     public String generateMockResource(String resourceType) throws Exception {
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/" + resourceType + "-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/" + resourceType + "-1.json"))) {
             Resource r = FHIRParser.parser(Format.JSON).parse(example);
             WebTarget target = getWebTarget();
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -137,7 +137,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
      * @throws Exception
      */
     public String generateCompleteMockResource(String resourceType) throws Exception {
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/complete-mock/" + resourceType + "-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/complete-mock/" + resourceType + "-1.json"))) {
             Resource r = FHIRParser.parser(Format.JSON).parse(example);
             WebTarget target = getWebTarget();
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -481,7 +481,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -500,7 +500,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -536,7 +536,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -573,7 +573,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -617,7 +617,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -661,7 +661,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -680,7 +680,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -715,7 +715,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -766,7 +766,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         String id = null;
         String conditionId = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -784,7 +784,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         }
 
         // Create a Condition whose subject points to version 1 of the resource we just created
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/minimal/Condition-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/minimal/Condition-1.json"))) {
             Condition condition = FHIRParser.parser(Format.JSON).parse(example);
             // inject a subject reference into the Condition we just read
             condition = condition.toBuilder().subject(Reference.builder().reference("Patient/" + id + "/_history/1").build()).build();
@@ -846,7 +846,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -865,7 +865,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -884,7 +884,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -925,7 +925,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -1213,7 +1213,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient")
@@ -1312,7 +1312,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);
@@ -1546,7 +1546,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         String id = null;
         Patient r = null;
-        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+        try (Reader example = ExamplesUtil.resourceReader(("json/fhir-operation-erase/Patient-1.json"))) {
             r = FHIRParser.parser(Format.JSON).parse(example);
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
             Response response = target.path("Patient").request().post(entity, Response.class);

@@ -15,15 +15,15 @@ public enum Index {
      * All examples in all formats
      */
     ALL("/spec-json.txt",
-        "/ibm-json.txt",
+        "/generated-json.txt",
         "/spec-xml.txt",
-        "/ibm-xml.txt"),
+        "/generated-xml.txt"),
 
     /**
      * All JSON examples
      */
     ALL_JSON("/spec-json.txt",
-        "/ibm-json.txt"),
+        "/generated-json.txt"),
 
     /**
      * Small mix of spec and IBM examples used for unit tests to keep build times short
@@ -38,7 +38,7 @@ public enum Index {
     /**
      * All IBM generated examples
      */
-    IBM_JSON("/ibm-json.txt"),
+    GENERATED_JSON("/generated-json.txt"),
 
     /**
      * R4 spec and IBM examples less than 1MB - used for concurrency tests
@@ -63,17 +63,17 @@ public enum Index {
     /**
      * All IBM generated examples
      */
-    IBM_XML("/ibm-xml.txt"),
+    GENERATED_XML("/generated-xml.txt"),
 
     /**
      * Bulk Data Location examples in JSON
      */
-    BULKDATA_LOCATION_JSON("/ibm-json-bulk-data-location.txt"),
+    BULKDATA_LOCATION_JSON("/bulk-data-location.txt"),
 
     /**
      * Bulk Data Dynamic Group examples in JSON
      */
-    BULKDATA_GROUP_JSON("/ibm-json-bulk-data-group.txt");
+    BULKDATA_GROUP_JSON("/bulk-data-group.txt");
 
     private List<String> paths = new ArrayList<>();
 

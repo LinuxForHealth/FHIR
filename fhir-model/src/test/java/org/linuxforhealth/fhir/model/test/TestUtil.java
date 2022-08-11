@@ -81,7 +81,7 @@ public class TestUtil {
      * This function reads the contents of an example resource from the specified path in fhir-examples into a Resource.
      *
      * @param fileName
-     *            the name of the file containing the example resource (e.g. "json/ibm/minimal/Patient-1.json")
+     *            the name of the file containing the example resource (e.g. "json/minimal/Patient-1.json")
      * @return the de-serialized resource
      * @throws Exception
      */
@@ -337,7 +337,7 @@ public class TestUtil {
 
         // Build filename
         String formatString = format.toString().toLowerCase();
-        String fileName = formatString + "/ibm/minimal/" + type.getSimpleName() + "-1." + formatString;
+        String fileName = formatString + "/minimal/" + type.getSimpleName() + "-1." + formatString;
 
         // Deserialize the file contents.
         try (Reader reader = ExamplesUtil.resourceReader(fileName)) {

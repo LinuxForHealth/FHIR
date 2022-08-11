@@ -33,7 +33,7 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
 
     @Override
     protected Basic getBasicResource() throws Exception {
-        return TestUtil.readExampleResource("json/ibm/basic/BasicDate.json");
+        return TestUtil.readExampleResource("json/basic/BasicDate.json");
     }
     @Override
     protected void setTenant() throws Exception {

@@ -51,7 +51,7 @@ public abstract class AbstractSearchIdAndLastUpdatedTest extends AbstractPLSearc
 
     @Override
     protected Basic getBasicResource() throws Exception {
-        return TestUtil.readExampleResource("json/ibm/basic/BasicDate.json");
+        return TestUtil.readExampleResource("json/basic/BasicDate.json");
     }
 
     private Reference buildReference(Resource resource) {
