@@ -2959,53 +2959,57 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // but we check just to be safe
         Objects.requireNonNull(committed, "committed must be non-null");
 
-        if (committed) {
-            // because the transaction has commited, we can publish any ids generated
-            // during parameter storage
-            paramValueCollector.publishValuesToCache();
+        try {
+            if (committed) {
+                // because the transaction has commited, we can publish any ids generated
+                // during parameter storage
+                paramValueCollector.publishValuesToCache();
+    
+                // See if we have any erase resources to clean up
+                for (ErasedResourceRec err: this.eraseResourceRecs) {
+                    try {
+                        erasePayload(err);
+                    } catch (Exception x) {
+                        // The transaction has already committed, so we don't want to fail
+                        // the request. This is a server-side issue now so all we can do is
+                        // log.
+                        log.log(Level.SEVERE, "failed to erase offload payload for '"
+                                + err.toString()
+                                + "'. Run reconciliation to ensure this record is removed.", x);
+                    }
+                }
+            } else {
+                // Try to delete each of the payload objects we've stored in this
+                // transaction because the transaction has been rolled back
+                if (payloadPersistenceResponses.size() > 0 && payloadPersistence == null) {
+                    throw new IllegalStateException("payloadPersistenceResponses contains items but payloadPersistence is not configured");
+                }
 
-            // See if we have any erase resources to clean up
-            for (ErasedResourceRec err: this.eraseResourceRecs) {
-                try {
-                    erasePayload(err);
-                } catch (Exception x) {
-                    // The transaction has already committed, so we don't want to fail
-                    // the request. This is a server-side issue now so all we can do is
-                    // log.
-                    log.log(Level.SEVERE, "failed to erase offload payload for '"
-                            + err.toString()
-                            + "'. Run reconciliation to ensure this record is removed.", x);
+                if (payloadPersistenceResponses.size() > 0) {
+                    log.fine("starting rollback handling for PayloadPersistenceResponse data");
+                }
+                for (PayloadPersistenceResponse ppr: payloadPersistenceResponses) {
+                    try {
+                        log.fine(() -> "tx rollback - deleting payload: " + ppr.toString());
+                        payloadPersistence.deletePayload(ppr.getResourceTypeName(), ppr.getResourceTypeId(),
+                                ppr.getLogicalId(), ppr.getVersionId(), ppr.getResourcePayloadKey());
+                    } catch (Exception x) {
+                        // Nothing more we can do other than log the issue. Any rows we can't process
+                        // here (e.g. network outage) will be orphaned. These orphaned rows
+                        // will be removed by the reconciliation process which scans the payload
+                        // persistence repository and looks for missing RDBMS records.
+                        log.log(Level.SEVERE, "rollback failed to delete payload: " + ppr.toString(), x);
+                    }
                 }
             }
-        } else {
-            // Try to delete each of the payload objects we've stored in this
-            // transaction because the transaction has been rolled back
-            if (payloadPersistenceResponses.size() > 0 && payloadPersistence == null) {
-                throw new IllegalStateException("handleRollback called but payloadPersistence is not configured");
-            }
-
-            log.fine("starting rollback handling for PayloadPersistenceResponse data");
-            for (PayloadPersistenceResponse ppr: payloadPersistenceResponses) {
-                try {
-                    log.fine(() -> "tx rollback - deleting payload: " + ppr.toString());
-                    payloadPersistence.deletePayload(ppr.getResourceTypeName(), ppr.getResourceTypeId(),
-                            ppr.getLogicalId(), ppr.getVersionId(), ppr.getResourcePayloadKey());
-                } catch (Exception x) {
-                    // Nothing more we can do other than log the issue. Any rows we can't process
-                    // here (e.g. network outage) will be orphaned. These orphaned rows
-                    // will be removed by the reconciliation process which scans the payload
-                    // persistence repository and looks for missing RDBMS records.
-                    log.log(Level.SEVERE, "rollback failed to delete payload: " + ppr.toString(), x);
-                }
-            }
+        } finally {
+            // important to clear this list after each transaction because batch bundles
+            // use the same FHIRPersistenceJDBCImpl instance for each entry
+            remoteIndexMessageList.clear();
+            payloadPersistenceResponses.clear();
+            eraseResourceRecs.clear();
+            paramValueCollector.reset();
         }
-
-        // important to clear this list after each transaction because batch bundles
-        // use the same FHIRPersistenceJDBCImpl instance for each entry
-        remoteIndexMessageList.clear();
-        payloadPersistenceResponses.clear();
-        eraseResourceRecs.clear();
-        paramValueCollector.reset();
     }
 
     /**

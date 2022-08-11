@@ -608,6 +608,32 @@ The container name will be read from the tenant's fhir-server-config.json config
 
 The command is designed to be idempotent - it checks first to see if the container already exists before attempting to create it. If the container is otherwise created after the exists check but before the create command is issued, the command will fail (this is a very small window).
 
+#### 3.3.2.7 Specifying Azure Blob Service Version [Optional]
+
+To use an older version of the Azure Blob service API, specify a serviceVersion string in the connectionProperties element:
+
+```
+{
+    "__comment": "LinuxForHealth FHIR Server configuration",
+    "fhirServer": {
+        ...
+        "persistence": {
+            ...
+            "payload": {
+                "default": {
+                    "__comment": "Azure Blob configuration for storing FHIR resource payload data",
+                    "type": "azure.blob",
+                    "connectionProperties" : {
+                        "connectionString": "your-azure-connection-string",
+                        "containerName": "default-default",
+                        "serviceVersion": "V2020_12_06"
+                    }
+                }
+            }
+        }
+    }
+}
+```
 
 ## 3.4 “Update/Create” feature
 Normally, the _update_ operation is invoked with a FHIR resource which represents a new version of an existing resource. The resource specified in the _update_ operation would contain the same id of that existing resource. If a resource containing a non-existent id were specified in the _update_ invocation, an error would result.
@@ -2273,6 +2299,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/notifications/nats/keystorePassword`|string|The password for the keystore.|
 |`fhirServer/persistence/payload/<datasourceId>/type`|string| `azure.blob` for Azure Blob offloading. |
 |`fhirServer/persistence/payload/<datasourceId>/connectionProperties`|map| Connection properties for Azure Blob |
+|`fhirServer/persistence/payload/<datasourceId>/connectionProperties/serviceVersion`|string| The Azure Blob service version name (null for latest). |
 |`fhirServer/persistence/payload/<datasourceId>/connectionProperties/connectionString`|string| The Azure Blob service connection string. |
 |`fhirServer/persistence/payload/<datasourceId>/connectionProperties/containerName`|string| The name of the Azure Blob container created to store the payload offload data. |
 |`fhirServer/persistence/factoryClassname`|string|The name of the factory class to use for creating instances of the persistence layer implementation.|
@@ -2458,6 +2485,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/payload/<datasourceId>/type`||
 |`fhirServer/persistence/payload/<datasourceId>/connectionProperties`||
 |`fhirServer/persistence/payload/<datasourceId>/connectionProperties/connectionString`||
+|`fhirServer/persistence/payload/<datasourceId>/connectionProperties/serviceVersion`||
 |`fhirServer/persistence/payload/<datasourceId>/connectionProperties/containerName`||
 |`fhirServer/persistence/factoryClassname`|org.linuxforhealth.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory|
 |`fhirServer/persistence/common/updateCreateEnabled`|true|
@@ -2637,6 +2665,7 @@ Cases where that behavior is not supported are marked below with an `N` in the `
 |`fhirServer/persistence/payload/<datasourceId>/type`|Y|N|N|
 |`fhirServer/persistence/payload/<datasourceId>/connectionProperties`|Y|N|N|
 |`fhirServer/persistence/payload/<datasourceId>/connectionProperties/connectionString`|Y|N|N|
+|`fhirServer/persistence/payload/<datasourceId>/connectionProperties/serviceVersion`|Y|N|N|
 |`fhirServer/persistence/payload/<datasourceId>/connectionProperties/containerName`|Y|N|N|
 |`fhirServer/persistence/factoryClassname`|N|N||
 |`fhirServer/persistence/common/updateCreateEnabled`|N|N||

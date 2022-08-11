@@ -65,6 +65,8 @@ podman run -d -p 10000:10000 \
 
 More info on using `azurite` for development can be found in the official documents here: https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=docker-hub.
 
+Note: you may need to specify `serviceVersion` in the LinuxForHealth FHIR Server payload connection properties if the azurite image is older than the Azure Blob client API.
+
 ### Checking Stored Values
 
 When new resources are ingested, the class `org.linuxforhealth.fhir.persistence.blob.BlobStorePayload` logs a `FINE` message which can be seen in the Liberty Profile `trace.log` file:

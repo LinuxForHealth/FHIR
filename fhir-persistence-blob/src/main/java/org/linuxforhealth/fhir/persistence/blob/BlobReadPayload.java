@@ -10,11 +10,12 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
-import com.azure.core.util.BinaryData;
-import com.azure.storage.blob.BlobAsyncClient;
 import org.linuxforhealth.fhir.model.resource.Resource;
 import org.linuxforhealth.fhir.persistence.FHIRPersistenceSupport;
 import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceException;
+
+import com.azure.core.util.BinaryData;
+import com.azure.storage.blob.BlobAsyncClient;
 
 /**
  * DAO command to store the configured payload in the Azure blob
@@ -53,9 +54,9 @@ public class BlobReadPayload {
      * @param data
      * @return
      */
-    private static <T extends Resource> T transform(Class<T> resourceType, BinaryData data) {
+    private static <T extends Resource> T transform(Class<T> resourceType, BinaryData data, List<String> elements) {
         try {
-            return FHIRPersistenceSupport.parse(resourceType, data.toStream(), null, false);
+            return FHIRPersistenceSupport.parse(resourceType, data.toStream(), elements, false);
         } catch (Exception x) {
             throw new RuntimeException(x);
         }
@@ -72,7 +73,7 @@ public class BlobReadPayload {
         logger.fine(() -> "Reading payload using storage path: " + blobPath);
         BlobAsyncClient bc = client.getClient().getBlobAsyncClient(blobPath);
         return bc.downloadContent()
-                .map(data -> transform(resourceType, data))
+                .map(data -> transform(resourceType, data, elements))
                 .toFuture();
     }
 }

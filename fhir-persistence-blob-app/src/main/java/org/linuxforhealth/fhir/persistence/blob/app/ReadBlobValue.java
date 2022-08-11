@@ -10,15 +10,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.azure.core.util.BinaryData;
-import com.azure.storage.blob.BlobAsyncClient;
-import com.azure.storage.blob.BlobContainerAsyncClient;
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.exception.FHIRException;
 import org.linuxforhealth.fhir.persistence.blob.BlobContainerManager;
 import org.linuxforhealth.fhir.persistence.blob.BlobManagedContainer;
 import org.linuxforhealth.fhir.persistence.blob.BlobName;
 import org.linuxforhealth.fhir.persistence.jdbc.dao.api.IResourceTypeMaps;
+
+import com.azure.core.util.BinaryData;
+import com.azure.storage.blob.BlobAsyncClient;
+import com.azure.storage.blob.BlobContainerAsyncClient;
+import com.azure.storage.blob.models.BlobItem;
 
 /**
  * Do a plain read of the resource blob value and print it to stdout for debugging
@@ -57,8 +59,10 @@ public class ReadBlobValue {
         try {
             if (blobName.isPartial()) {
                 // resourceTypeId/logicalId/version
-                listBlobs(bmc.getClient());                
+                final String prefix = blobName.toBlobPath();
+                listBlobs(bmc.getClient(), prefix);
             } else {
+                // fully qualified, so we can go straight to the blob
                 // resourceTypeId/logicalId/version/resourcePayloadKey
                 displaySingleValue(bmc.getClient(), this.blobName);
             }
@@ -67,19 +71,41 @@ public class ReadBlobValue {
             throw x;
         }
     }
+
     /**
-     * When the blobName does not include the resourcePayloadKey, list all matches
+     * List all matches under the given prefix
      * @param bcc
+     * @param prefix
      * @throws FHIRException
      */
-    private void listBlobs(BlobContainerAsyncClient bcc) {
-        final String prefix = blobName.toBlobPath();
+    private void listBlobs(BlobContainerAsyncClient bcc, String prefix) {
         logger.info("Scanning all entries with prefix: '" + prefix + "'");
 
         // List blobs using the key prefix
         bcc.listBlobsByHierarchy(prefix)
-        .doOnNext(blobItem -> displaySingleValue(bcc, blobItem.getName()))
-        .blockLast(); // wait for scan to complete
+            .doOnNext(blobItem -> process(bcc, blobItem))
+            .blockLast(); // wait for scan to complete
+    }
+
+    /**
+     * Process the given item. If the item is a prefix (i.e. ends in a /) then
+     * we recurse and list the contents of that path. Otherwise, retrieve the
+     * blob content at the location and display its value as text.
+     * @param bcc
+     * @param blobItem
+     * @return
+     */
+    private void process(BlobContainerAsyncClient bcc, BlobItem blobItem) {
+        final Boolean isPrefix = blobItem.isPrefix();
+        if (isPrefix != null && isPrefix) {
+            // recurse down to the next hierarchy level
+            logger.fine(() -> "Listing blobs under: '" + blobItem.getName() + "'");
+            listBlobs(bcc, blobItem.getName());
+        } else {
+            // actual blob, so we can display the value
+            logger.fine(() -> "Fetching blob at: '" + blobItem.getName() + "'");
+            displaySingleValue(bcc, blobItem.getName());
+        }
     }
 
     /**
@@ -89,12 +115,12 @@ public class ReadBlobValue {
      */
     private void displaySingleValue(BlobContainerAsyncClient bcc, String fullBlobPath) {
         // Need to parse the blob path provided by the database
-        BlobName blobName = BlobName.create(resourceTypeMaps, fullBlobPath);
         BlobAsyncClient bac = bcc.getBlobAsyncClient(fullBlobPath);
         BinaryData result = bac.downloadContent().block();
         String blobValue = new String(result.toBytes(), StandardCharsets.UTF_8);
         // Use the human-readable form of the blob-name, which translates the resource type id
         // to the resource type name
+        BlobName blobName = BlobName.create(resourceTypeMaps, fullBlobPath);
         System.out.println(blobName.toString() + ": " + blobValue);
     }
 
