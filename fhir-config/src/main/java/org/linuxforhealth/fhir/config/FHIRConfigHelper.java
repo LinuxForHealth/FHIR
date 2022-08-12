@@ -104,8 +104,8 @@ public class FHIRConfigHelper {
     }
 
     /**
-     * This generic function will perform the work of retrieving a property from either the tenant-specific config, or
-     * the default config, and then converting the resulting value to the appropriate type.
+     * This generic function will perform the work of retrieving a property from either the tenant-specific
+     * config or the default config, and then converting the resulting value to the appropriate type.
      *
      * @param propertyName
      *            the name of the property to retrieve
@@ -139,19 +139,19 @@ public class FHIRConfigHelper {
                             } else if (Double.class.equals(expectedDataType)) {
                                 result = (T) Double.valueOf((String) obj);
                             } else {
-                                throw new RuntimeException("Expected property " + propertyName + " to be of type " + expectedDataType.getName() + ", but was of type "
-                                        + obj.getClass().getName());
+                                throw new RuntimeException("Expected property " + propertyName + " to be of type "
+                                        + expectedDataType.getName() + ", but was of type " + obj.getClass().getName());
                             }
                         } else if (obj instanceof Boolean) {
                             if (String.class.equals(expectedDataType)) {
                                 result = (T) ((Boolean)obj).toString();
                             } else {
-                                throw new RuntimeException("Expected property " + propertyName + " to be of type " + expectedDataType.getName() + ", but was of type "
-                                        + obj.getClass().getName());
+                                throw new RuntimeException("Expected property " + propertyName + " to be of type "
+                                        + expectedDataType.getName() + ", but was of type " + obj.getClass().getName());
                             }
                         } else {
-                            throw new RuntimeException("Expected property " + propertyName + " to be of type " + expectedDataType.getName() + ", but was of type "
-                                    + obj.getClass().getName());
+                            throw new RuntimeException("Expected property " + propertyName + " to be of type "
+                                    + expectedDataType.getName() + ", but was of type " + obj.getClass().getName());
                         }
                     }
                 }
