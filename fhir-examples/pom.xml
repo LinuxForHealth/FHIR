@@ -6,17 +6,15 @@
     <groupId>org.linuxforhealth.fhir</groupId>
     <version>5.0.0-SNAPSHOT</version>
 
-    <name>IBM FHIR Server - Examples</name>
+    <name>LinuxForHealth FHIR Server - Examples</name>
     <url>https://github.com/LinuxForHealth/fhir</url>
     <organization>
-        <name>IBM</name>
+        <name>LinuxForHealth</name>
         <url>https://github.com/LinuxForHealth/fhir</url>
     </organization>
     <scm>
-        <url>https://github.com/LinuxForHealth/fhir.git</url>
-        <developerConnection>IBM</developerConnection>
-        <tag>ibm-fhir-server</tag>
         <connection>scm:git:https://github.com/LinuxForHealth/fhir.git</connection>
+        <url>https://github.com/LinuxForHealth/fhir.git</url>
     </scm>
     <issueManagement>
         <url>https://github.com/LinuxForHealth/fhir/issues</url>
@@ -24,7 +22,7 @@
     <ciManagement>
         <url>https://github.com/LinuxForHealth/fhir/actions</url>
     </ciManagement>
-    <description>The IBM® FHIR® Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</description>
+    <description>Examples for testing FHIR Server implementations.</description>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -33,11 +31,16 @@
     </licenses>
     <developers>
         <developer>
-            <name>IBM Watson Health Development</name>
-            <email>fhirci@us.ibm.com</email>
-            <url>https://www.ibm.com/</url>
-            <organization>IBM Watson Health</organization>
-            <organizationUrl>http://www.ibm.com</organizationUrl>
+            <name>Lee Surprenant</name>
+            <email>lmsurpre@merative.com</email>
+            <organization>Merative</organization>
+            <organizationUrl>https://merative.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>Robin Arnold</name>
+            <email>robin.arnold@merative.com</email>
+            <organization>Merative</organization>
+            <organizationUrl>https://merative.com</organizationUrl>
         </developer>
     </developers>
 
@@ -211,7 +214,7 @@
                             <detectLinks>true</detectLinks>
                             <!-- control display -->
                             <author>false</author>
-                            <windowtitle>IBM FHIR Server</windowtitle>
+                            <windowtitle>LinuxForHealth FHIR Server</windowtitle>
                             <doctitle>${project.name} ${project.version}</doctitle>
                             <additionalOptions>
                                 <!-- makes the frames visible, disabled and 
@@ -220,8 +223,8 @@
                                 <!-- Fixes the undefined redirect in search -->
                                 <additionalOption>--no-module-directories</additionalOption>
                             </additionalOptions>
-                            <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                            <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                            <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>LinuxForHealth</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
+                            <bottom><![CDATA[Copyright 2019, 2022. <a href="http://www.ibm.com">IBM Corporation</a><br/>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                             <author>false</author>
                             <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                             <!-- skips the three entries -->
@@ -437,7 +440,7 @@
                             <detectLinks>true</detectLinks>
                             <!-- control display -->
                             <author>false</author>
-                            <windowtitle>IBM FHIR Server</windowtitle>
+                            <windowtitle>LinuxForHealth FHIR Server</windowtitle>
                             <doctitle>${project.name} ${project.version}</doctitle>
                             <additionalOptions>
                                 <!-- makes the frames visible, disabled and going 
@@ -446,8 +449,8 @@
                                 <!-- Fixes the undefined redirect in search -->
                                 <additionalOption>--no-module-directories</additionalOption>
                             </additionalOptions>
-                            <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                            <bottom><![CDATA[Copyright 2019, 2021. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                            <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>LinuxForHealth</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
+                            <bottom><![CDATA[Copyright 2019, 2021. <a href="http://www.ibm.com">IBM Corporation</a><br/>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                             <author>false</author>
                             <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                             <!-- skips the three entries -->
