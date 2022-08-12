@@ -176,6 +176,7 @@ public class SingleResourceResult<T extends Resource> {
                 .interactionStatus(this.interactionStatus)
                 .ifNoneMatchVersion(getIfNoneMatchVersion())
                 .resource(newResource) // the updated resource value
+                .lastUpdated(getLastUpdated())
                 .outcome(getOutcome())
                 .deleted(isDeleted())
                 .version(getVersion())
@@ -253,6 +254,16 @@ public class SingleResourceResult<T extends Resource> {
          */
         public Builder<T> resource(T resource) {
             resourceResultBuilder.resource(resource);
+            return this;
+        }
+
+        /**
+         * The lastUpdated time read from the database.
+         * @param lastUpdated
+         * @return
+         */
+        public Builder<T> lastUpdated(Instant lastUpdated) {
+            resourceResultBuilder.lastUpdated(lastUpdated);
             return this;
         }
 
