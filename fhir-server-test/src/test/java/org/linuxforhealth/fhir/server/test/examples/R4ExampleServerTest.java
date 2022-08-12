@@ -10,14 +10,14 @@ import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.testng.annotations.Test;
-
 import org.linuxforhealth.fhir.client.FHIRClient;
 import org.linuxforhealth.fhir.examples.Index;
 import org.linuxforhealth.fhir.model.spec.test.DriverMetrics;
+import org.linuxforhealth.fhir.model.spec.test.Expectation;
 import org.linuxforhealth.fhir.model.spec.test.R4ExamplesDriver;
 import org.linuxforhealth.fhir.server.test.FHIRServerTestBase;
 import org.linuxforhealth.fhir.validation.test.ValidationProcessor;
+import org.testng.annotations.Test;
 
 /**
  * Basic sniff test of the FHIR Server.
@@ -54,5 +54,22 @@ public class R4ExampleServerTest extends FHIRServerTestBase {
     public void setUp(Properties properties) throws Exception {
         super.setUp(properties);
         this.tenantId = properties.getProperty(FHIRClient.PROPNAME_TENANT_ID, "default");
+    }
+
+    /**
+     * This main can be used to easily test just a single example.
+     * Expected usage includes manual troubleshooting for a failing
+     * resource after executing the full index via TestNG.
+     */
+    public static void main(String[] args) throws Exception {
+        final R4ExampleServerTest test = new R4ExampleServerTest();
+        final R4ExamplesDriver driver = new R4ExamplesDriver();
+
+        test.setUp();
+
+        DriverMetrics dm = new DriverMetrics();
+        driver.setProcessor(new ExampleRequestProcessor(test, "default", dm, 1));
+
+        driver.processExample("json/spec/activitydefinition-example.json", Expectation.OK);
     }
 }

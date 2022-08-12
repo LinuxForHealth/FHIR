@@ -31,8 +31,8 @@ import com.ibm.cloud.objectstorage.services.s3.model.PutObjectResult;
 import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import org.linuxforhealth.fhir.model.resource.Resource;
+import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceException;
-import org.linuxforhealth.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import org.linuxforhealth.fhir.persistence.payload.PayloadReader;
 import org.linuxforhealth.fhir.persistence.util.InputOutputByteStream;
 
