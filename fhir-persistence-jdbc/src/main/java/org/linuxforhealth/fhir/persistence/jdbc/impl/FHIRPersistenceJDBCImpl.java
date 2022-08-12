@@ -1352,6 +1352,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .resource(resource)
                     .deleted(resourceIsDeleted) // true if we read something and the is_deleted flag was set
                     .version(resourceDTO != null ? resourceDTO.getVersionId() : 0)
+                    .lastUpdated(resourceDTO != null ? resourceDTO.getLastUpdated().toInstant() : null)
                     .interactionStatus(InteractionStatus.READ)
                     .outcome(getOutcomeIfResourceNotFound(resourceDTO, resourceType.getSimpleName(), logicalId))
                     .build();
