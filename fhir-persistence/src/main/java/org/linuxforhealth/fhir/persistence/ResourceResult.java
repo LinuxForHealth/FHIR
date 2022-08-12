@@ -185,6 +185,12 @@ public class ResourceResult<T extends Resource> {
          */
         public Builder<T> resource(T resource) {
             this.resource = resource;
+            
+            if (resource != null && resource.getMeta() != null && resource.getMeta().getLastUpdated() != null) {
+                // if we've been given a resource with a lastUpdated field, make sure this lastUpdated value is set
+                // from it so we know it matches.
+                this.lastUpdated = FHIRPersistenceSupport.getLastUpdatedFromResource(resource);
+            }
             return this;
         }
 

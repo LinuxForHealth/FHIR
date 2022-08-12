@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -138,6 +139,9 @@ public class FHIRPersistenceSupport {
      * @return
      */
     public static Instant getLastUpdatedFromResource(Resource resource) {
+        Objects.requireNonNull(resource.getMeta(), "Resource must have a meta element");
+        Objects.requireNonNull(resource.getMeta().getLastUpdated(), "Resource must have a lastUpdated value");
+
         org.linuxforhealth.fhir.model.type.Instant lastUpdated = resource.getMeta().getLastUpdated();
         return lastUpdated.getValue().toInstant();
     }
@@ -146,10 +150,14 @@ public class FHIRPersistenceSupport {
      * Get the lastUpdated time to use for the next version of a resource. If a current
      * version of the resource exists, pass its lastUpdated time as the currenLastUpdated
      * parameter (all times should be UTC).
+     * If the gap falls within a grace period of 2 seconds, then we make the new lastUpdated
+     * time equal the current time + 1 ms to maintain consistent ordering. Clusters should easily
+     * be able to maintain clocks synchronized within 2 seconds if they are configured with a
+     * reliable network time service.
      * @param currentLastUpdated
      * @return
      */
-    public static org.linuxforhealth.fhir.model.type.Instant getNewLastUpdatedInstant(Instant currentLastUpdated) {
+    public static org.linuxforhealth.fhir.model.type.Instant getNewLastUpdatedInstant(Instant currentLastUpdated) throws FHIRPersistenceException {
         Instant lastUpdated = Instant.now();
         // Clocks may drift or not be perfectly aligned in clusters. Updates for a given
         // resource may occur back-to-back and be processed on different nodes. We need
@@ -157,16 +165,27 @@ public class FHIRPersistenceSupport {
         // lastUpdated time so that these changes always appear in order. This can also
         // happen when virtual machines are migrated between nodes.
         if (currentLastUpdated != null && !lastUpdated.isAfter(currentLastUpdated)) {
-            logger.warning("Current clock time " + lastUpdated 
-                + " is not after the lastUpdated time of a current resource version: " + currentLastUpdated
-                + ". If you see this message frequently, consider improving the accuracy of clock "
-                + "synchronization in your cluster. Using current lastUpdated plus 1ms instead of "
-                + "current time.");
-
-            // our solution is to simply adjust lastUpdated so that it falls 1ms 
-            // after the current lastUpdated value, thereby ensuring that
-            // lastUpdated time always follows version order
-            lastUpdated = currentLastUpdated.plusMillis(1);
+            // The wall clock time is before the lastUpdated time of the current version
+            // in the database. If the gap is under 2 seconds, we simply make the
+            // new time = old time + 1ms to guarantee we have a reasonable
+            // ordering of lastUpdated values. Otherwise, it's an error
+            if (lastUpdated.isAfter(currentLastUpdated.minusSeconds(2))) {            
+                logger.warning("Current clock time " + lastUpdated 
+                    + " is not after the lastUpdated time of a current resource version: " + currentLastUpdated
+                    + ". If you see this message frequently, consider improving the accuracy of clock "
+                    + "synchronization in your cluster. Using current lastUpdated plus 1ms instead of "
+                    + "current time.");
+    
+                // our solution is to simply adjust lastUpdated so that it falls 1ms 
+                // after the current lastUpdated value, thereby ensuring that
+                // lastUpdated time always follows version order
+                lastUpdated = currentLastUpdated.plusMillis(1);
+            } else {
+                // should result in 500 server error, which is appropriate in this case
+                logger.severe("Excessive clock drift - current time is before lastUpdated of current resource. "
+                        + "Check server nodes are configured with a reliable network time service. ");
+                throw new FHIRPersistenceException("Current time is before lastUpdated of current resource version.");
+            }
         }
         return org.linuxforhealth.fhir.model.type.Instant.of(lastUpdated.atZone(ZoneOffset.UTC));
     }
