@@ -13,12 +13,13 @@ import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-
-import org.testng.annotations.Test;
 
 import org.linuxforhealth.fhir.client.FHIRClient;
 import org.linuxforhealth.fhir.client.FHIRClientFactory;
@@ -31,7 +32,10 @@ import org.linuxforhealth.fhir.core.FHIRMediaType;
 import org.linuxforhealth.fhir.core.FHIRVersionParam;
 import org.linuxforhealth.fhir.model.resource.Bundle;
 import org.linuxforhealth.fhir.model.resource.CapabilityStatement;
+import org.linuxforhealth.fhir.model.resource.Ingredient;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome;
+import org.linuxforhealth.fhir.model.resource.Parameters;
+import org.linuxforhealth.fhir.model.resource.Parameters.Parameter;
 import org.linuxforhealth.fhir.model.resource.Patient;
 import org.linuxforhealth.fhir.model.resource.Patient.Contact;
 import org.linuxforhealth.fhir.model.resource.Resource;
@@ -44,6 +48,7 @@ import org.linuxforhealth.fhir.model.type.code.ContactPointSystem;
 import org.linuxforhealth.fhir.model.type.code.ContactPointUse;
 import org.linuxforhealth.fhir.model.type.code.HTTPVerb;
 import org.linuxforhealth.fhir.model.util.JsonSupport;
+import org.testng.annotations.Test;
 
 import jakarta.json.JsonObject;
 
@@ -78,6 +83,67 @@ public class FHIRClientTest extends FHIRClientTestBase {
         FHIRClient c = FHIRClientFactory.getClient(props);
         assertNotNull(c);
         assertEquals(MIMETYPE_XML, c.getDefaultMimeType());
+    }
+    
+    @Test
+    public void testFHIRClientMimeType() throws Exception {
+        // The default mimetype should specify FHIR version 4.3, so let's make
+        // sure that with the default settings we can create a 4.3-only resource
+        Ingredient ingredient = TestUtil.readLocalResource("Ingredient-1.json");
+        assertNotNull(ingredient);
+
+        // Create the ingredient and then validate the response.
+        FHIRResponse response = client.create(ingredient);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+
+        assertNotNull(response.getLocation());
+        assertNotNull(response.getLocationURI());
+        assertNotNull(response.getETag());
+        assertNotNull(response.getLastModified());
+
+        // Check we can read the ingredient resource we just created
+        String[] locationTokens = response.parseLocation(response.getLocation());
+        response = client.read(locationTokens[0], locationTokens[1]);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Ingredient ing1 = response.getResource(Ingredient.class);
+        assertNotNull(ing1);
+        assertNotNull(ing1.getId());
+
+        // Now try to erase the resource we just created
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(Parameter.builder().name(string("patient")).value(string("Patient/1-2-3-4")).build());
+        parameters.add(Parameter.builder().name(string("reason")).value(string("Patient has requested an erase")).build());
+
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+        
+        FHIRResponse eraseResponse = client.invoke(Ingredient.class.getSimpleName(), "$erase", ing1.getId(), builder.build());
+        assertNotNull(eraseResponse);
+        assertResponse(eraseResponse.getResponse(), Response.Status.OK.getStatusCode());
+    }
+
+    @Test
+    public void testFHIRClientWrongMimeType() throws Exception {
+        // By overriding the mime type, the request will appear to be 4.0 and should therefore
+        // be rejected (404 NOT FOUND)
+        Properties props = new Properties();
+        props.putAll(testProperties);
+
+        // Set the mimetype we want to test with.
+        props.setProperty(FHIRClient.PROPNAME_DEFAULT_MIMETYPE, MIMETYPE_XML);
+
+        FHIRClient client40 = FHIRClientFactory.getClient(props);
+
+        Ingredient ingredient = TestUtil.readLocalResource("Ingredient-1.json");
+        assertNotNull(ingredient);
+
+        // Try to create the resource...which we expect to fail
+        FHIRResponse response = client40.create(ingredient);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.NOT_FOUND.getStatusCode());
     }
 
     @Test
