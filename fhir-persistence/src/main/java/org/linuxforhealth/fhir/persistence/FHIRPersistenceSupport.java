@@ -155,6 +155,7 @@ public class FHIRPersistenceSupport {
      * be able to maintain clocks synchronized within 2 seconds if they are configured with a
      * reliable network time service.
      * @param currentLastUpdated
+     * @throws FHIRPersistenceException if current time is 2 or more seconds before currentLastUpdated
      * @return
      */
     public static org.linuxforhealth.fhir.model.type.Instant getNewLastUpdatedInstant(Instant currentLastUpdated) throws FHIRPersistenceException {
