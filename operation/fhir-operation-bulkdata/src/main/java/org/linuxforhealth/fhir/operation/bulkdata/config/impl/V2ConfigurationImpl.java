@@ -12,9 +12,11 @@ import java.util.List;
 import org.linuxforhealth.fhir.config.FHIRConfigHelper;
 
 /**
- * Starting with 4.6
+ * Starting with FHIR Server version 4.6
  */
 public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
+    // the new FHIRPersistenceJDBCBlob implementation is not compatible with fast-export, so we need to watch for that
+    private static final String BLOB_PERSISTENCE_FACTORY = "org.linuxforhealth.fhir.persistence.blob.FHIRPersistenceJDBCBlobFactory";
 
     @Override
     public boolean legacy() {
@@ -164,8 +166,9 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public boolean isFastExport() {
+        String persistenceFactoryClassname = FHIRConfigHelper.getStringProperty("fhirServer/persistence/factoryClassname", "");
         String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/systemExportImpl", "fast");
-        return "fast".equals(type);
+        return !BLOB_PERSISTENCE_FACTORY.equals(persistenceFactoryClassname) && "fast".equals(type);
     }
 
     @Override
