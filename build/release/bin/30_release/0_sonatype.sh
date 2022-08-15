@@ -29,7 +29,7 @@ then
         -DadditionalJOption=-Xdoclint:none \
         -f fhir-examples -P "${BUILD_PROFILES}" -DskipTests
 else 
-    echo "Skipping"
+    echo "Skipping fhir-examples"
 fi
 
 # fhir-parent
