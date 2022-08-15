@@ -1669,7 +1669,7 @@ public class Main {
         Set<String> resourceTypes = getResourceTypes();
 
         for (String resourceTypeName : resourceTypes) {
-            logger.info("Backfilling RESOURCE_CHANGE_LOG with " + resourceTypeName
+            logger.fine(() -> "Backfilling RESOURCE_CHANGE_LOG with " + resourceTypeName
                     + " resources for schema '" + schema.getSchemaName() + "'");
             BackfillResourceChangeLog backfill = new BackfillResourceChangeLog(schema.getSchemaName(), resourceTypeName);
             adapter.runStatement(backfill);

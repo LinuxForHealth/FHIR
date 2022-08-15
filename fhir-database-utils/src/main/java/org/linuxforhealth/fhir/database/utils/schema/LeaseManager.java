@@ -3,7 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
- 
+
 package org.linuxforhealth.fhir.database.utils.schema;
 
 import java.sql.Connection;
@@ -27,31 +27,31 @@ import org.linuxforhealth.fhir.database.utils.thread.ThreadHandler;
  */
 public class LeaseManager implements ILeaseManager {
     private static final Logger logger = Logger.getLogger(LeaseManager.class.getName());
-    
+
     // Unique to this instance. Not static to make testing easier
     private final String leaseId = UUID.randomUUID().toString();
-    
+
     // How many nanos per second
     private static final long NANOS = 1000000000;
 
     // The translator for the type of database we are working with
     private final IDatabaseTranslator translator;
-    
+
     // The connection pool
     private final IConnectionProvider connectionPool;
-    
+
     // The (simple) transaction provider
     private final ITransactionProvider transactionProvider;
-    
+
     // flag used to terminate running of the lease maintenance thread
     private volatile boolean running = true;
-    
+
     // The thread used to maintain our lease
     private Thread leaseMaintenanceThr;
-    
+
     // Flag used to determine current liveness
     private volatile boolean heartbeat = false;
-    
+
     // The FHIR admin schema
     private final String adminSchema;
 
@@ -63,10 +63,10 @@ public class LeaseManager implements ILeaseManager {
 
     // Do we currently hold the lease?
     private volatile boolean gotLease;
-    
+
     // The object containing our configuration details
     private final ILeaseManagerConfig config;
-    
+
     /**
      * Public constructor
      * @param translator
@@ -98,7 +98,7 @@ public class LeaseManager implements ILeaseManager {
     public boolean hasLease() {
         return this.gotLease;
     }
-    
+
     /**
      * Shut down the maintenance thread and wait for it so that we know it's
      * not running before we cancel the release
@@ -106,16 +106,16 @@ public class LeaseManager implements ILeaseManager {
     private void stopMaintenanceThreadAndWait() {
         this.running = false;
         this.gotLease = false;
-        
+
         if (leaseMaintenanceThr != null) {
             leaseMaintenanceThr.interrupt();
-            
+
             try {
                 // No timeout here because we need to know the thread has terminated
                 // before executing the cancel lease statement (to avoid a nasty race
                 // condition).
                 leaseMaintenanceThr.join();
-                logger.info("Lease maintenance thread terminated");
+                logger.fine("Lease maintenance thread terminated");
             } catch (InterruptedException x) {
                 final String msg = "Interrupted waiting for least maintenance thread to terminate";
                 logger.severe(msg);
@@ -135,7 +135,7 @@ public class LeaseManager implements ILeaseManager {
         if (this.leaseMaintenanceThr != null) {
             throw new IllegalStateException("Lease already acquired once for this LeaseManager");
         }
-        
+
         boolean timedOut = false;
         long endTime = System.nanoTime() + seconds * NANOS;
         int attempt = 1;
@@ -151,7 +151,7 @@ public class LeaseManager implements ILeaseManager {
                     throw translator.translate(x);
                 }
             }
-            
+
             if (gotLease) {
                 // we were able to establish a lease for this instance, so kick off
                 // the lease maintenance thread to make sure we hold onto it while
@@ -168,10 +168,10 @@ public class LeaseManager implements ILeaseManager {
                 }
             }
         }
-        
+
         return gotLease;
     }
-    
+
     /**
      * The loop used to periodically refresh our lease while we're alive
      */
@@ -179,7 +179,7 @@ public class LeaseManager implements ILeaseManager {
         Instant wakeupTime = Instant.now().plusSeconds(config.getLeaseTimeSeconds() / 2);
         while (this.running && this.gotLease) {
             ThreadHandler.sleepUntil(wakeupTime);
-            
+
             if (this.heartbeat) {
                 // reset the liveness heartbeat.
                 this.heartbeat = false;
@@ -188,20 +188,20 @@ public class LeaseManager implements ILeaseManager {
                 this.running = false;
                 this.gotLease = false;
             }
-            
+
             if (running) {
                 // We're still active, so make sure we hold onto the lease
                 logger.info("Refreshing lease for schema '" + schemaName + "'");
                 refreshLease();
-                
+
                 // Compute the next time we want to wake up and refresh our lease
                 // Make this relative to the previous wake-up-time so we keep a
                 // regular schedule
                 wakeupTime = wakeupTime.plusSeconds(config.getLeaseTimeSeconds() / 2);
             }
         }
-        
-        logger.info("Lease maintenance loop terminated");
+
+        logger.fine("Lease maintenance loop terminated");
     }
 
     /**
@@ -213,7 +213,7 @@ public class LeaseManager implements ILeaseManager {
             try (Connection c = connectionPool.getConnection()) {
                 GetLease cmd = getLeaseDAO();
                 gotLease = cmd.run(translator, c);
-                
+
                 if (!gotLease) {
                     // this means we've lost the lease. This instance should start to terminate
                     logger.warning("Lease lost by this instance for schema '" + schemaName + "'");
@@ -264,7 +264,7 @@ public class LeaseManager implements ILeaseManager {
                     CancelLease cmd = new CancelLease(adminSchema, schemaName, leaseId);
                     boolean canceled = cmd.run(translator, c);
                     if (canceled) {
-                        logger.info("Lease canceled for schema '" + schemaName + "'");
+                        logger.fine("Lease canceled for schema '" + schemaName + "'");
                         result = true;
                     } else {
                         logger.warning("Cancel lease ignored: Lease for schema '" + schemaName + "' is not owned by this instance");
@@ -274,7 +274,7 @@ public class LeaseManager implements ILeaseManager {
                 }
             }
         }
-        
+
         return result;
     }
 }
