@@ -60,21 +60,7 @@ public class TaggingInterceptor implements FHIRPersistenceInterceptor {
     public void afterHistory(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         if (event.getFhirResource().is(Bundle.class)) {
             Bundle bundle = event.getFhirResource().as(Bundle.class);
-
-            List<Bundle.Entry> updatedEntries = new ArrayList<>();
-
-            for (Bundle.Entry entry : bundle.getEntry()) {
-                Resource updatedResource = addTag(entry.getResource(), AFTER_TAG);
-                Bundle.Entry updatedEntry = entry.toBuilder()
-                        .resource(updatedResource)
-                        .build();
-                updatedEntries.add(updatedEntry);
-            }
-
-            Bundle updatedBundle = bundle.toBuilder()
-                    .entry(updatedEntries)
-                    .build();
-
+            Bundle updatedBundle = addTagToAllEntries(bundle, AFTER_TAG);
             event.setFhirResource(updatedBundle);
         }
     }
@@ -83,26 +69,38 @@ public class TaggingInterceptor implements FHIRPersistenceInterceptor {
     public void afterSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         if (event.getFhirResource().is(Bundle.class)) {
             Bundle bundle = event.getFhirResource().as(Bundle.class);
+            Bundle updatedBundle = addTagToAllEntries(bundle, AFTER_TAG);
+            event.setFhirResource(updatedBundle);
+        }
+    }
 
-            List<Bundle.Entry> updatedEntries = new ArrayList<>();
+    private Bundle addTagToAllEntries(Bundle b, Coding tag) {
+        if (b == null) {
+            return null;
+        }
 
-            for (Bundle.Entry entry : bundle.getEntry()) {
-                Resource updatedResource = addTag(entry.getResource(), AFTER_TAG);
+        List<Bundle.Entry> updatedEntries = new ArrayList<>();
+
+        for (Bundle.Entry entry : b.getEntry()) {
+            if (entry.getResource() != null) {
+                Resource updatedResource = addTag(entry.getResource(), tag);
                 Bundle.Entry updatedEntry = entry.toBuilder()
                         .resource(updatedResource)
                         .build();
                 updatedEntries.add(updatedEntry);
             }
-
-            Bundle updatedBundle = bundle.toBuilder()
-                    .entry(updatedEntries)
-                    .build();
-
-            event.setFhirResource(updatedBundle);
         }
+
+        return b.toBuilder()
+                .entry(updatedEntries)
+                .build();
     }
 
     private Resource addTag(Resource r, Coding tag) {
+        if (r == null) {
+            return null;
+        }
+
         boolean hasMeta = r.getMeta() != null;
         if (hasMeta && r.getMeta().getTag().contains(tag)) {
             return r;
