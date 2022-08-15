@@ -51,7 +51,7 @@ import org.linuxforhealth.fhir.bucket.scanner.LocalFileReader;
 import org.linuxforhealth.fhir.bucket.scanner.LocalFileScanner;
 import org.linuxforhealth.fhir.bucket.scanner.ResourceHandler;
 import org.linuxforhealth.fhir.core.FHIRVersionParam;
-import org.linuxforhealth.fhir.core.util.ResourceTypeHelper;
+import org.linuxforhealth.fhir.core.util.ResourceTypeUtil;
 import org.linuxforhealth.fhir.core.util.handler.HostnameHandler;
 import org.linuxforhealth.fhir.database.utils.api.IConnectionProvider;
 import org.linuxforhealth.fhir.database.utils.api.IDatabaseAdapter;
@@ -830,7 +830,7 @@ public class Main {
         // populate the RESOURCE_TYPES table
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                Set<String> resourceTypes = ResourceTypeHelper.getR4bResourceTypesFor(FHIRVersionParam.VERSION_43);
+                Set<String> resourceTypes = ResourceTypeUtil.getResourceTypesFor(FHIRVersionParam.VERSION_43);
 
                 if (adapter.getTranslator().isFamilyPostgreSQL()) {
                     // Postgres doesn't support batched merges, so we go with a simpler UPSERT

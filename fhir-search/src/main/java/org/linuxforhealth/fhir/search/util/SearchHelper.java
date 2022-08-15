@@ -38,7 +38,7 @@ import org.linuxforhealth.fhir.config.PropertyGroup.PropertyEntry;
 import org.linuxforhealth.fhir.config.ResourcesConfigAdapter;
 import org.linuxforhealth.fhir.core.FHIRConstants;
 import org.linuxforhealth.fhir.core.FHIRVersionParam;
-import org.linuxforhealth.fhir.core.util.ResourceTypeHelper;
+import org.linuxforhealth.fhir.core.util.ResourceTypeUtil;
 import org.linuxforhealth.fhir.model.resource.CodeSystem;
 import org.linuxforhealth.fhir.model.resource.CodeSystem.Concept;
 import org.linuxforhealth.fhir.model.resource.Resource;
@@ -444,7 +444,7 @@ public class SearchHelper {
                         } else if (!searchableTypes.contains(tmpResourceType)) {
                             String msg = "Search interaction is not supported for _type parameter value: " + Encode.forHtml(tmpResourceType);
                             manageException(msg, IssueType.NOT_SUPPORTED, context, false);
-                        } else if (!ResourceTypeHelper.isCompatible(tmpResourceType, fhirVersion, FHIRVersionParam.VERSION_43)) {
+                        } else if (!ResourceTypeUtil.isCompatible(tmpResourceType, fhirVersion, FHIRVersionParam.VERSION_43)) {
                             String msg = "fhirVersion " + fhirVersion.value() + " interaction for _type parameter value: '" + Encode.forHtml(tmpResourceType) +
                                     "' is not supported";
                             manageException(msg, IssueType.NOT_SUPPORTED, context, false);

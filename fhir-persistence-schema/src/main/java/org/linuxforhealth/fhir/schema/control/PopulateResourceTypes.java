@@ -22,7 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.linuxforhealth.fhir.core.FHIRVersionParam;
-import org.linuxforhealth.fhir.core.util.ResourceTypeHelper;
+import org.linuxforhealth.fhir.core.util.ResourceTypeUtil;
 import org.linuxforhealth.fhir.database.utils.api.IDatabaseStatement;
 import org.linuxforhealth.fhir.database.utils.api.IDatabaseTranslator;
 
@@ -140,7 +140,7 @@ public class PopulateResourceTypes implements IDatabaseStatement {
 
     private void updateResourceTypes(List<String> alreadyRetiredTypes, PreparedStatement batch) throws SQLException {
         int numToProcess = 0;
-        for (String removedType : ResourceTypeHelper.getRemovedResourceTypes(FHIRVersionParam.VERSION_43)) {
+        for (String removedType : ResourceTypeUtil.getRemovedResourceTypes(FHIRVersionParam.VERSION_43)) {
             if (!alreadyRetiredTypes.contains(removedType)) {
                 batch.setString(1, removedType);
                 batch.addBatch();

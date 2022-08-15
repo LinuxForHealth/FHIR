@@ -22,7 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.linuxforhealth.fhir.core.FHIRVersionParam;
-import org.linuxforhealth.fhir.core.util.ResourceTypeHelper;
+import org.linuxforhealth.fhir.core.util.ResourceTypeUtil;
 import org.linuxforhealth.fhir.database.utils.api.IDatabaseAdapter;
 import org.linuxforhealth.fhir.database.utils.api.IDatabaseTranslator;
 import org.linuxforhealth.fhir.database.utils.citus.CitusTranslator;
@@ -134,7 +134,7 @@ public class ParameterCounter {
     }
 
     protected void process(IDatabaseAdapter adapter) {
-        Set<String> resourceTypes = ResourceTypeHelper.getR4bResourceTypesFor(FHIRVersionParam.VERSION_43);
+        Set<String> resourceTypes = ResourceTypeUtil.getResourceTypesFor(FHIRVersionParam.VERSION_43);
 
         final List<String> paramTables = Arrays.asList("STR_VALUES", "NUMBER_VALUES", "DATE_VALUES", "RESOURCE_TOKEN_REFS", "QUANTITY_VALUES", "LATLNG_VALUES");
 
