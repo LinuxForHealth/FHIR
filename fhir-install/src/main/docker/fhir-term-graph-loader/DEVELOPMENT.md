@@ -30,7 +30,7 @@ docker build --tag linuxforhealth/fhir-term-loader:latest .
 or 
 
 ``` shell
-docker build --build-arg FHIR_VERSION=4.10.0 -t linuxforhealth/fhir-term-loader:4.10.0 .
+docker build --build-arg FHIR_VERSION=5.0.0 -t linuxforhealth/fhir-term-loader:5.0.0 .
 ```
 
 5. Run the shell. (You may have to edit the corresponding examples)
