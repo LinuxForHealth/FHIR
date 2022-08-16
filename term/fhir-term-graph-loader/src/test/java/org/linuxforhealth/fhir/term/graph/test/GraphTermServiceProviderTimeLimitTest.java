@@ -6,7 +6,10 @@
 
 package org.linuxforhealth.fhir.term.graph.test;
 
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
+
+import java.util.Set;
 
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
@@ -15,6 +18,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import org.linuxforhealth.fhir.model.resource.CodeSystem;
+import org.linuxforhealth.fhir.model.resource.CodeSystem.Concept;
 import org.linuxforhealth.fhir.term.graph.FHIRTermGraph;
 import org.linuxforhealth.fhir.term.graph.factory.FHIRTermGraphFactory;
 import org.linuxforhealth.fhir.term.graph.loader.FHIRTermGraphLoader;
@@ -40,9 +44,10 @@ public class GraphTermServiceProviderTimeLimitTest {
 
             FHIRTermServiceProvider provider = new GraphTermServiceProvider(graph, 1);
 
-            provider.getConcepts(codeSystem);
+            Set<Concept> concepts = provider.getConcepts(codeSystem);
+            assertTrue(concepts.size() > 0, "If we get a response, the returned concepts should be non-empty");
 
-            fail();
+            fail("We expected the query to time out but it didn't.");
         } catch (Exception e) {
             Assert.assertTrue(e instanceof FHIRTermServiceException);
             Assert.assertEquals(e.getMessage(), "Graph traversal timed out");
