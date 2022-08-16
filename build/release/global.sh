@@ -9,7 +9,6 @@ set -eu -o pipefail
 ###############################################################################
 
 export WORKSPACE=$(pwd)
-export SPARK_LOCAL_IP=127.0.0.1
 . build/release/bin/global/1_set_maven_opts.sh
 . build/release/bin/global/2_verify_build_settings.sh
 

@@ -21,8 +21,8 @@ required_build(){
     mvn -B install --file fhir-examples --no-transfer-progress
     mvn -B install --file fhir-parent -DskipTests -P include-fhir-igs,integration --no-transfer-progress
 
-    # Build dockerfile
-    mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Ddocker.buildArg.VERBOSE=false
+    # Build from dockerfile
+    docker build fhir-install --build-arg VERBOSE=false -t linuxforhealth/fhir-server
 }
 
 # persistence_build - executes for each persistence build triggering the persistence layer's required steps.

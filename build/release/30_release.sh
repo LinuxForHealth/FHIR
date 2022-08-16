@@ -11,6 +11,6 @@ set -eu -o pipefail
 bash ${WORKSPACE}/build/release/bin/30_release/0_sonatype.sh
 
 # This should always be last
-bash ${WORKSPACE}/build/release/bin/30_release/1_dockerhub.sh
+bash ${WORKSPACE}/build/release/bin/30_release/1_docker.sh
 
 # EOF
