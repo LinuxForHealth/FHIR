@@ -77,17 +77,16 @@ import static org.linuxforhealth.fhir.schema.control.FhirSchemaConstants.VERSION
 import static org.linuxforhealth.fhir.schema.control.FhirSchemaConstants.VERSION_BYTES;
 import static org.linuxforhealth.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.linuxforhealth.fhir.core.FHIRVersionParam;
+import org.linuxforhealth.fhir.core.util.ResourceTypeUtil;
 import org.linuxforhealth.fhir.database.utils.api.DistributionType;
 import org.linuxforhealth.fhir.database.utils.api.IDatabaseStatement;
 import org.linuxforhealth.fhir.database.utils.api.SchemaType;
@@ -132,17 +131,18 @@ public class FhirSchemaGenerator {
     // Which variant of the schema do we want to build
     private final SchemaType schemaType;
 
-    // No abstract types
-    private static final Set<String> ALL_RESOURCE_TYPES = getAllResourceTypes();
+    // UPPER case, no abstract types
+    private static final Set<String> R4B_RESOURCE_TYPES = ResourceTypeUtil.getResourceTypesFor(FHIRVersionParam.VERSION_43).stream()
+            .map(rt -> rt.toUpperCase())
+            .collect(Collectors.toSet());
 
     private static final String ADD_CODE_SYSTEM = "ADD_CODE_SYSTEM";
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
     private static final String ADD_RESOURCE_TYPE = "ADD_RESOURCE_TYPE";
     private static final String ADD_ANY_RESOURCE = "ADD_ANY_RESOURCE";
     private static final String ADD_LOGICAL_RESOURCE_IDENT = "ADD_LOGICAL_RESOURCE_IDENT";
-    
+
     // Special procedure for Citus database support
-    private static final String ADD_LOGICAL_RESOURCE = "ADD_LOGICAL_RESOURCE";
     private static final String DELETE_RESOURCE_PARAMETERS = "DELETE_RESOURCE_PARAMETERS";
     private static final String ERASE_RESOURCE = "ERASE_RESOURCE";
 
@@ -209,7 +209,7 @@ public class FhirSchemaGenerator {
      * @param schemaName
      */
     public FhirSchemaGenerator(String adminSchemaName, String schemaName, SchemaType schemaType) {
-        this(adminSchemaName, schemaName, schemaType, ALL_RESOURCE_TYPES);
+        this(adminSchemaName, schemaName, schemaType, R4B_RESOURCE_TYPES);
     }
 
     /**
@@ -487,7 +487,7 @@ public class FhirSchemaGenerator {
         deleteResourceParametersScript = ROOT_DIR + DELETE_RESOURCE_PARAMETERS.toLowerCase() + ".sql";
         eraseResourceScript = ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql";
         final String addLogicalResourceIdentScript = CITUS_ROOT_DIR + ADD_LOGICAL_RESOURCE_IDENT.toLowerCase() + ".sql";
-        
+
         FunctionDef deleteResourceParameters = model.addFunction(this.schemaName,
             DELETE_RESOURCE_PARAMETERS,
             FhirSchemaVersion.V0020.vid(),
@@ -522,7 +522,7 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * Get the suffix to select the appropriate procedure/function script 
+     * Get the suffix to select the appropriate procedure/function script
      * for the schema type
      * @return
      */
@@ -640,24 +640,24 @@ public class FhirSchemaGenerator {
      * Adds a table to support logical identity management of resources
      * when using a distributed RDBMS such as Citus. It represents the
      * mapping:
-     * 
+     *
      * (RESOURCE_TYPE_ID, LOGICAL_ID) -> (LOGICAL_RESOURCE_ID)
-     * 
+     *
      * LOGICAL_RESOURCE_ID values are assigned from the sequence FHIR_SEQUENCE.
-     * 
+     *
      * When using Citus (or similar), this table is distributed by LOGICAL_ID,
-     * which means we can use a primary key of {RESOURCE_TYPE_ID, LOGICAL_ID}. 
-     * This is required to ensure that we can lock the logical resource to 
+     * which means we can use a primary key of {RESOURCE_TYPE_ID, LOGICAL_ID}.
+     * This is required to ensure that we can lock the logical resource to
      * avoid any concurrency issues.
-     * 
-     * LOGICAL_RESOURCE_IDENT records are also generated when the tuple 
-     * (RESOURCE_TYPE_ID. LOGICAL_ID) is used as a local resource reference 
+     *
+     * LOGICAL_RESOURCE_IDENT records are also generated when the tuple
+     * (RESOURCE_TYPE_ID. LOGICAL_ID) is used as a local resource reference
      * value. For example:
      *   "reference": "Patient/aPatientId"
      * will create a new LOGICAL_RESOURCE_IDENT record if the Patient resource
-     * "aPatientId" has not yet been created. The LOGICAL_RESOURCES record is 
+     * "aPatientId" has not yet been created. The LOGICAL_RESOURCES record is
      * not created until the actual resource is created.
-     * 
+     *
      * The index IDX_LOGICAL_RESOURCE_IDENT_LRID is specified as non-unique
      * because in Citus, this table is distributed by logical_id, which isn't
      * part of the index. This is intentional. We have to rely on the logic
@@ -1125,8 +1125,8 @@ public class FhirSchemaGenerator {
         for (String resourceType: this.resourceTypes) {
 
             resourceType = resourceType.toUpperCase().trim();
-            if (!ALL_RESOURCE_TYPES.contains(resourceType)) {
-                logger.warning("Passed resource type '" + resourceType + "' does not match any known FHIR resource types; creating anyway");
+            if (!R4B_RESOURCE_TYPES.contains(resourceType)) {
+                logger.warning("Passed resource type '" + resourceType + "' is not a supported resource type in fhirVersion 4.3; creating anyway");
             }
 
             ObjectGroup group = frg.addResourceType(resourceType);
@@ -1255,7 +1255,7 @@ public class FhirSchemaGenerator {
      *
      * When using a distributed database (Citus), this table is distributed as a REFERENCE
      * table, meaning that all records will exist on all nodes.
-     * 
+     *
      * @param pdm
      * @return the table definition
      */
@@ -1429,7 +1429,7 @@ public class FhirSchemaGenerator {
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     // Nothing yet
-                    
+
                     // TODO migrate to simplified design (no PK, FK)
                     return statements;
                 })
@@ -1524,29 +1524,5 @@ public class FhirSchemaGenerator {
                 With.with("autovacuum_vacuum_cost_limit", "2000"),   // V0019
                 With.with(FhirSchemaConstants.PG_FILLFACTOR_PROP, Integer.toString(FhirSchemaConstants.PG_FILLFACTOR_VALUE)) // V0020
                 );
-    }
-
-    /**
-     * Private helper for reading the list of resource types from a properties file.
-     * Use this instead of ModelSupport.getResourceTypes because this will get us the historical
-     * resource types as well as those in our model; ensuring newly deployed schemas match migrated ones.
-     */
-    private static Set<String> getAllResourceTypes() {
-        try (InputStream fis =
-                FhirSchemaGenerator.class.getResourceAsStream("/resource_types.properties")) {
-            Properties props = new Properties();
-            props.load(fis);
-
-            // Remove the abstract resource types
-            props.remove("Resource");
-            props.remove("DomainResource");
-
-            return props.keySet().stream()
-                .map(p -> ((String) p).toUpperCase())
-                .collect(Collectors.toSet());
-        } catch (IOException e) {
-            // Wrap and Send downstream
-            throw new IllegalStateException(e);
-        }
     }
 }

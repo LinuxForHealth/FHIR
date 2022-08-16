@@ -27,7 +27,7 @@ public class PopulateResourceTypesTest {
     private static final Logger LOGGER = Logger.getLogger(PopulateResourceTypesTest.class.getName());
 
     /**
-     * This method is very intentional to verify the resource_types.properties on EVERY build.
+     * This method verifies the resource_types.properties on EVERY build.
      * The mapping is intentionally managed, as these KEYS are inserted and used.
      */
     @Test

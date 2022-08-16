@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.linuxforhealth.fhir.core.util.ResourceTypeHelper;
+import org.linuxforhealth.fhir.core.util.ResourceTypeUtil;
 
 /**
  * Support functions for the FHIR DB schema
@@ -39,8 +39,7 @@ public class SchemaSupport {
         // this map will contain key-value pairs for all resources in both
         // R4B and R4 (required because our schema may contain some old R4
         // resources).
-        this.allResourceTypes = ResourceTypeHelper.getAllResourceTypeNames()
-                .stream()
+        this.allResourceTypes = ResourceTypeUtil.getAllResourceTypeNames().stream()
                 .collect(Collectors.toMap(rt -> rt.toUpperCase(), rt -> rt.toString()));
     }
 

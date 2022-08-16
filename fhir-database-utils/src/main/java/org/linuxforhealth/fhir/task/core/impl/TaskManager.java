@@ -133,7 +133,7 @@ public class TaskManager implements ITaskCollector {
      * Callback from each task group made when it completes
      */
     public void taskComplete(TaskGroup tg) {
-        logger.info("Task complete callback for taskId: " + tg.getTaskId());
+        logger.fine(() -> "Task complete callback for taskId: " + tg.getTaskId());
 
         lock.lock();
         try {

@@ -26,7 +26,7 @@ import org.linuxforhealth.fhir.cache.CacheManager;
 import org.linuxforhealth.fhir.cache.CacheManager.Configuration;
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.core.FHIRVersionParam;
-import org.linuxforhealth.fhir.core.util.ResourceTypeHelper;
+import org.linuxforhealth.fhir.core.util.ResourceTypeUtil;
 import org.linuxforhealth.fhir.model.resource.Resource;
 import org.linuxforhealth.fhir.model.resource.SearchParameter;
 import org.linuxforhealth.fhir.model.resource.StructureDefinition;
@@ -48,7 +48,7 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
     public static final String REGISTRY_RESOURCE_CACHE_NAME = "org.linuxforhealth.fhir.server.registry.ServerRegistryResourceProvider.registryResourceCache";
     public static final Configuration REGISTRY_RESOURCE_CACHE_CONFIGURATION = Configuration.of(1024, Duration.of(1, ChronoUnit.MINUTES));
 
-    public static final String ALL_RESOURCE_TYPES = String.join(",", ResourceTypeHelper.getR4bResourceTypesFor(FHIRVersionParam.VERSION_43));
+    public static final String ALL_RESOURCE_TYPES = String.join(",", ResourceTypeUtil.getResourceTypesFor(FHIRVersionParam.VERSION_43));
 
     private final PersistenceHelper persistenceHelper;
     private final SearchHelper searchHelper;

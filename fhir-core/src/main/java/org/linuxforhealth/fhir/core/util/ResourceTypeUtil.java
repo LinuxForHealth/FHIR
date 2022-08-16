@@ -18,7 +18,7 @@ import org.linuxforhealth.fhir.core.ResourceType;
 /**
  * Helper methods for working with FHIR Resource Type Strings
  */
-public class ResourceTypeHelper {
+public class ResourceTypeUtil {
     private static final Set<ResourceType> R4_ENUMS = collectResourceTypesFor(FHIRVersionParam.VERSION_40);
     private static final Set<ResourceType> R4B_ENUMS = collectResourceTypesFor(FHIRVersionParam.VERSION_43);
     private static final Set<ResourceType> R4B_ONLY_RESOURCE_ENUMS = collectR4bOnlyResourceTypes();
@@ -79,21 +79,6 @@ public class ResourceTypeHelper {
                 .collect(Collectors.toSet()));
 
     /**
-     * @param fhirVersion The value of the MIME-type parameter 'fhirVersion' for the current interaction
-     * @return the set of resource type names from FHIR R4B that are backwards-compatible with the requested fhirVersion
-     */
-    public static Set<String> getR4bResourceTypesFor(FHIRVersionParam fhirVersion) {
-        switch (fhirVersion) {
-        case VERSION_43:
-            return R4B_COMPATIBLE_RESOURCES;
-        case VERSION_40:
-            return R4_AND_R4B_COMPATIBLE_RESOURCES;
-        default:
-            throw new IllegalArgumentException("unexpected fhirVersion " + fhirVersion.value());
-        }
-    }
-
-    /**
      * @return the set of resource type names for all abstract resource types, as of FHIR R4B
      */
     public static Set<String> getAbstractResourceTypeNames() {
@@ -112,6 +97,9 @@ public class ResourceTypeHelper {
     }
 
     /**
+     * Get the set of concrete resource type names for which a valid instance in fhirVersion {@code sourceFhirVersion}
+     * is expected to be valid in fhirVersion {@code targetFhirVersion}.
+     * Does not include any abstract types.
      * @param sourceFhirVersion The source fhirVersion for the compatibility checks
      * @param targetFhirVersion The target fhirVersion for the compatibility checks
      * @return the set of resource type names for which
@@ -193,10 +181,12 @@ public class ResourceTypeHelper {
     }
 
     /**
+     * Get the set of concrete resource type names for the passed fhirVersion.
+     * Does not include any abstract types.
      * @param fhirVersion The value of the MIME-type parameter 'fhirVersion' for the current interaction
      * @return a set of resource type names that corresponds to the requested fhirVersion
      */
-    private static Set<String> getResourceTypesFor(FHIRVersionParam fhirVersion) {
+    public static Set<String> getResourceTypesFor(FHIRVersionParam fhirVersion) {
         switch (fhirVersion) {
         case VERSION_40:
             return R4_COMPATIBLE_RESOURCES;
@@ -208,7 +198,7 @@ public class ResourceTypeHelper {
     }
 
     /**
-     * Get a list of unique concrete resource type names for all possible FHIRVersionParam values.
+     * Get the set of concrete resource type names for all possible FHIRVersionParam values.
      * Does not include any abstract types.
      * @return
      */

@@ -23,10 +23,6 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import org.linuxforhealth.fhir.bucket.api.BucketLoaderJob;
 import org.linuxforhealth.fhir.bucket.api.BucketPath;
 import org.linuxforhealth.fhir.bucket.api.FileType;
@@ -51,9 +47,9 @@ import org.linuxforhealth.fhir.bucket.persistence.RegisterLoaderInstance;
 import org.linuxforhealth.fhir.bucket.persistence.ResourceRec;
 import org.linuxforhealth.fhir.bucket.persistence.ResourceTypeRec;
 import org.linuxforhealth.fhir.bucket.persistence.ResourceTypesReader;
-import org.linuxforhealth.fhir.database.utils.api.ISchemaAdapter;
 import org.linuxforhealth.fhir.core.FHIRVersionParam;
-import org.linuxforhealth.fhir.core.util.ResourceTypeHelper;
+import org.linuxforhealth.fhir.core.util.ResourceTypeUtil;
+import org.linuxforhealth.fhir.database.utils.api.ISchemaAdapter;
 import org.linuxforhealth.fhir.database.utils.api.ITransaction;
 import org.linuxforhealth.fhir.database.utils.api.ITransactionProvider;
 import org.linuxforhealth.fhir.database.utils.common.JdbcTarget;
@@ -66,6 +62,9 @@ import org.linuxforhealth.fhir.database.utils.pool.PoolConnectionProvider;
 import org.linuxforhealth.fhir.database.utils.transaction.SimpleTransactionProvider;
 import org.linuxforhealth.fhir.database.utils.version.CreateVersionHistory;
 import org.linuxforhealth.fhir.database.utils.version.VersionHistoryService;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 /**
  * Tests the FHIR bucket schema
@@ -174,7 +173,7 @@ public class FhirBucketSchemaTest {
                 assertNotEquals(id6.getResourceBundleId(), id5.getResourceBundleId());
 
                 // Populate the resource types table
-                Set<String> resourceTypes = ResourceTypeHelper.getR4bResourceTypesFor(FHIRVersionParam.VERSION_43);
+                Set<String> resourceTypes = ResourceTypeUtil.getResourceTypesFor(FHIRVersionParam.VERSION_43);
                 MergeResourceTypes c6 = new MergeResourceTypes(DATA_SCHEMA_NAME, resourceTypes);
                 adapter.runStatement(c6);
 
@@ -196,7 +195,7 @@ public class FhirBucketSchemaTest {
                 List<ResourceTypeRec> resourceTypes = adapter.runStatement(c1);
 
                 // Check against our reference set of resources
-                Set<String> reference = ResourceTypeHelper.getR4bResourceTypesFor(FHIRVersionParam.VERSION_43);
+                Set<String> reference = ResourceTypeUtil.getResourceTypesFor(FHIRVersionParam.VERSION_43);
 
                 assertTrue(reference.size() > 0);
                 assertEquals(resourceTypes.size(), reference.size());

@@ -52,7 +52,7 @@ import org.linuxforhealth.fhir.core.HTTPHandlingPreference;
 import org.linuxforhealth.fhir.core.HTTPReturnPreference;
 import org.linuxforhealth.fhir.core.ResourceType;
 import org.linuxforhealth.fhir.core.context.FHIRPagingContext;
-import org.linuxforhealth.fhir.core.util.ResourceTypeHelper;
+import org.linuxforhealth.fhir.core.util.ResourceTypeUtil;
 import org.linuxforhealth.fhir.database.utils.api.LockException;
 import org.linuxforhealth.fhir.exception.FHIROperationException;
 import org.linuxforhealth.fhir.model.patch.FHIRPatch;
@@ -3033,7 +3033,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
 
         // ensure that the resource type and fhirVersion for the interaction is compatible with the fhirVersion of the server
-        if (!ResourceType.RESOURCE.value().equals(resourceType) && !ResourceTypeHelper.isCompatible(resourceType, fhirVersion, FHIRVersionParam.VERSION_43)) {
+        if (!ResourceType.RESOURCE.value().equals(resourceType) && !ResourceTypeUtil.isCompatible(resourceType, fhirVersion, FHIRVersionParam.VERSION_43)) {
             throw buildRestException("The requested resource type '" + resourceType + "' is not supported for fhirVersion " + fhirVersion.value(),
                     IssueType.NOT_SUPPORTED, IssueSeverity.ERROR);
         }

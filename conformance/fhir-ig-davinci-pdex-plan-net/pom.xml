@@ -33,6 +33,12 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-profile</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-validation</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>

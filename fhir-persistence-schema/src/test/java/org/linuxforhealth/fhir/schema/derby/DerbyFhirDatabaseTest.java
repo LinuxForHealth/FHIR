@@ -21,11 +21,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.testng.annotations.Test;
-
 import org.linuxforhealth.fhir.database.utils.api.IConnectionProvider;
 import org.linuxforhealth.fhir.database.utils.api.IDatabaseAdapter;
-import org.linuxforhealth.fhir.database.utils.api.IDatabaseTranslator;
 import org.linuxforhealth.fhir.database.utils.api.ISchemaAdapter;
 import org.linuxforhealth.fhir.database.utils.api.ITransaction;
 import org.linuxforhealth.fhir.database.utils.api.ITransactionProvider;
@@ -37,7 +34,6 @@ import org.linuxforhealth.fhir.database.utils.common.PreparedStatementHelper;
 import org.linuxforhealth.fhir.database.utils.common.SchemaInfoObject;
 import org.linuxforhealth.fhir.database.utils.derby.DerbyAdapter;
 import org.linuxforhealth.fhir.database.utils.derby.DerbyMaster;
-import org.linuxforhealth.fhir.database.utils.derby.DerbyTranslator;
 import org.linuxforhealth.fhir.database.utils.model.DatabaseObjectType;
 import org.linuxforhealth.fhir.database.utils.model.PhysicalDataModel;
 import org.linuxforhealth.fhir.database.utils.pool.PoolConnectionProvider;
@@ -49,6 +45,7 @@ import org.linuxforhealth.fhir.schema.control.FhirSchemaConstants;
 import org.linuxforhealth.fhir.schema.control.FhirSchemaGenerator;
 import org.linuxforhealth.fhir.schema.control.GetXXLogicalResourceNeedsMigration;
 import org.linuxforhealth.fhir.schema.control.TableHasData;
+import org.testng.annotations.Test;
 
 /**
  * Unit test for the DerbyFhirDatabase utility
@@ -157,7 +154,7 @@ public class DerbyFhirDatabaseTest {
 
                 // Check that we have the correct number of tables. This will need to be updated
                 // whenever tables, views or sequences are added or removed
-                assertEquals(adapter.listSchemaObjects(schemaName).size(), 2564);
+                assertEquals(adapter.listSchemaObjects(schemaName).size(), 2276);
                 c.commit();
             } catch (Throwable t) {
                 c.rollback();
@@ -177,7 +174,7 @@ public class DerbyFhirDatabaseTest {
         assertNotNull(result);
         assertTrue(result >= FhirSchemaConstants.FHIR_REF_SEQUENCE_START);
     }
-    
+
     /**
      * test to check if data exists in the given table.
      *
@@ -185,37 +182,37 @@ public class DerbyFhirDatabaseTest {
      * @throws SQLException
      */
     protected void testTableHasDataFunction(IConnectionProvider cp) throws SQLException {
-        
-        
+
+
         try (Connection connection = cp.getConnection()) {
             try {
                 JdbcTarget tgt = new JdbcTarget(connection);
                 DerbyAdapter adapter = new DerbyAdapter(tgt);
-                
+
                 // validate table data when the table is empty
                 TableHasData cmd = new TableHasData(SCHEMA_NAME, "evidence_logical_resources", adapter);
                 assertFalse(adapter.runStatement(cmd));
                 cmd = new TableHasData(SCHEMA_NAME, "evidencevariable_logical_resources", adapter);
                 assertFalse(adapter.runStatement(cmd));
-                
+
                 // add records to evidence_logical_resources and evidencevariable_logical_resources tables
                 prepareTestDataForTestTableHasDataFunction(connection, adapter);
-                
+
                 //validate table data
                 cmd = new TableHasData(SCHEMA_NAME, "evidence_logical_resources", adapter);
                 assertTrue(adapter.runStatement(cmd));
                 cmd = new TableHasData(SCHEMA_NAME, "evidencevariable_logical_resources", adapter);
                 assertTrue(adapter.runStatement(cmd));
-                connection.rollback(); // roll back the changes 
+                connection.rollback(); // roll back the changes
             } catch (Throwable t) {
                 connection.rollback();
                 throw t;
             }
         }
-     
+
     }
 
-    
+
     /**
      * Prepare test data to check if data exists in the given table.
      *
@@ -224,10 +221,10 @@ public class DerbyFhirDatabaseTest {
      * @throws SQLException
      */
     private void prepareTestDataForTestTableHasDataFunction(Connection connection, IDatabaseAdapter adapter) throws SQLException {
-        int resourceTypeId = getResourceType(connection); 
-        
-        long logicalResourceId = getNextLogicalId(connection, adapter); 
-        
+        int resourceTypeId = getResourceType(connection);
+
+        long logicalResourceId = getNextLogicalId(connection, adapter);
+
         final String insertLogicalResource = "INSERT INTO logical_resources(logical_resource_id, resource_type_id, logical_id, last_updated, is_deleted, parameter_hash)"
                 + " VALUES (?,?,?,?,?,?)";
         final Timestamp lastUpdated = Timestamp.from(this.lastUpdated);
@@ -241,9 +238,9 @@ public class DerbyFhirDatabaseTest {
             .setString(parameterHash);
             ps.executeUpdate();
         }
-        addLogicalData(connection, logicalResourceId, lastUpdated, "evidence_logical_resources"); 
-        addLogicalData(connection, logicalResourceId, lastUpdated, "evidencevariable_logical_resources"); 
-        
+        addLogicalData(connection, logicalResourceId, lastUpdated, "evidence_logical_resources");
+        addLogicalData(connection, logicalResourceId, lastUpdated, "evidencevariable_logical_resources");
+
     }
 
     /**
@@ -259,7 +256,7 @@ public class DerbyFhirDatabaseTest {
         final String insertEvidenceLogicalResource =
           "INSERT INTO " + tableName + "(logical_resource_id, logical_id, is_deleted, last_updated, version_id)"
           + " VALUES (?,?,?,?,?)";
-          
+
           try (PreparedStatement stmt = connection.prepareStatement(insertEvidenceLogicalResource)) {
               // bind parameters
               PreparedStatementHelper psh = new PreparedStatementHelper(stmt);
@@ -287,7 +284,7 @@ public class DerbyFhirDatabaseTest {
         return logicalResourceId;
     }
 
-  
+
     /**
      * Gets the id associated with the name of the passed Resource type from the Resource_Types table.
      *

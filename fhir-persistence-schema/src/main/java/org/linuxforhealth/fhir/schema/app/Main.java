@@ -522,7 +522,7 @@ public class Main {
                 // Build/update the FHIR-related tables as well as the stored procedures
                 PhysicalDataModel pdm = new PhysicalDataModel(isDistributed());
                 buildFhirDataSchemaModel(pdm);
-                boolean isNewDb = updateSchema(pdm, getDataSchemaType());
+                updateSchema(pdm, getDataSchemaType());
 
                 if (this.exitStatus == EXIT_OK) {
                     populateResourceTypeAndParameterNameTableEntries();
@@ -550,15 +550,14 @@ public class Main {
                     if (grantReadTo != null) {
                         grantReadPrivilegesForFhirData();
                     }
-                    
-                    
 
                     // Finally, update the whole schema version
                     svm.updateSchemaVersion();
 
                     // Log warning messages that unused tables will be removed in a future release.
-                    // TODO: This will no longer be needed after the tables are removed (https://github.com/LinuxForHealth/FHIR/issues/713).
-                    logWarningMessagesForDeprecatedTables();
+                    if (currentSchemaVersion >= 0 && currentSchemaVersion < FhirSchemaVersion.V0026.vid()) {
+                        logWarningMessagesForDeprecatedTables();
+                    }
                 }
             } else if (this.force) {
                 logger.info("Cannot force when schema is ahead of this version; skipping update for: '" + targetSchemaName + "'");
@@ -1112,7 +1111,7 @@ public class Main {
                 grantPrivilegesForFhirData();
             }
             if (grantReadTo != null) {
-                grantReadPrivilegesForFhirData();                
+                grantReadPrivilegesForFhirData();
             }
         }
 
@@ -1670,7 +1669,7 @@ public class Main {
         Set<String> resourceTypes = getResourceTypes();
 
         for (String resourceTypeName : resourceTypes) {
-            logger.info("Backfilling RESOURCE_CHANGE_LOG with " + resourceTypeName
+            logger.fine(() -> "Backfilling RESOURCE_CHANGE_LOG with " + resourceTypeName
                     + " resources for schema '" + schema.getSchemaName() + "'");
             BackfillResourceChangeLog backfill = new BackfillResourceChangeLog(schema.getSchemaName(), resourceTypeName);
             adapter.runStatement(backfill);
@@ -1871,8 +1870,8 @@ public class Main {
         } else if (updateProc) {
             updateProcedures();
         } else if (grantTo != null || grantReadTo != null) {
-            // Finally, if --grant-to or --grant-read-to has been specified on its own, 
-            // we simply rerun all the grants which allows granting server to more than 
+            // Finally, if --grant-to or --grant-read-to has been specified on its own,
+            // we simply rerun all the grants which allows granting server to more than
             // one user if that's required
             grantPrivileges();
         }
@@ -2023,7 +2022,7 @@ public class Main {
         // really ought to be able to see that this is a main function in a J2SE environment
         System.exit(exitStatus);
     }
-    
+
     /**
      * Check if data exists for V0030(Evidence or EvidenceVariable resource instances).
      *
@@ -2042,10 +2041,10 @@ public class Main {
                 throw dae;
             }
         }
-        
+
     }
 
-    
+
     /**
      * Check if data exists for V0030(Evidence or EvidenceVariable resource instances).
      *

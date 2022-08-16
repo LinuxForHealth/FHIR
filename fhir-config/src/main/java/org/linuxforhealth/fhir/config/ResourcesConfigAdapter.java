@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 import org.linuxforhealth.fhir.config.PropertyGroup.PropertyEntry;
 import org.linuxforhealth.fhir.core.FHIRVersionParam;
-import org.linuxforhealth.fhir.core.util.ResourceTypeHelper;
+import org.linuxforhealth.fhir.core.util.ResourceTypeUtil;
 
 
 /**
@@ -43,7 +43,7 @@ public class ResourcesConfigAdapter {
      * @throws Exception
      */
     public ResourcesConfigAdapter(PropertyGroup resourcesConfig, FHIRVersionParam fhirVersion) {
-        applicableTypes = ResourceTypeHelper.getCompatibleResourceTypes(fhirVersion, FHIRVersionParam.VERSION_43);
+        applicableTypes = ResourceTypeUtil.getCompatibleResourceTypes(fhirVersion, FHIRVersionParam.VERSION_43);
         supportedTypes = computeSupportedResourceTypes(applicableTypes, resourcesConfig, fhirVersion);
 
         if (resourcesConfig == null) {
@@ -134,7 +134,7 @@ public class ResourcesConfigAdapter {
                 // Ensure we skip over the special property "open"
                 // and skip the abstract types Resource and DomainResource
                 if (FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN.equals(name) ||
-                        ResourceTypeHelper.getAbstractResourceTypeNames().contains(name)) {
+                        ResourceTypeUtil.getAbstractResourceTypeNames().contains(name)) {
                     continue;
                 }
 

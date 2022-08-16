@@ -16,7 +16,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.linuxforhealth.fhir.core.FHIRVersionParam;
-import org.linuxforhealth.fhir.core.util.ResourceTypeHelper;
+import org.linuxforhealth.fhir.core.util.ResourceTypeUtil;
 import org.linuxforhealth.fhir.model.resource.Resource;
 import org.linuxforhealth.fhir.model.resource.SearchParameter;
 import org.linuxforhealth.fhir.model.resource.StructureDefinition;
@@ -73,7 +73,7 @@ public abstract class PackageRegistryResourceProvider extends AbstractRegistryRe
     @Override
     public Collection<FHIRRegistryResource> getProfileResources() {
         List<FHIRRegistryResource> profilesForAll = new ArrayList<>();
-        for (String type : ResourceTypeHelper.getR4bResourceTypesFor(FHIRVersionParam.VERSION_43)) {
+        for (String type : ResourceTypeUtil.getResourceTypesFor(FHIRVersionParam.VERSION_43)) {
             profilesForAll.addAll(getProfileResources(type));
         }
         return Collections.unmodifiableList(profilesForAll);
