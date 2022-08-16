@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020, 2021
+# (C) Copyright IBM Corp. 2020, 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
 # Assumes that fhir-install has already been built
-docker login -u "${DOCKERHUB_USERNAME}" -p "${DOCKERHUB_TOKEN}"
+# and that the user is logged into the configured container registry.
 
-# Executes the build for the linuxforhealth/fhir-schematool
+# Executes the build for the linuxforhealth/fhir-schematool.
 # This build runs first so that the FAILURE comes before and stops the subsequent builds/releases.
 export WORKSPACE=$(pwd)
 bash ${WORKSPACE}/fhir-install/src/main/docker/fhir-schematool/build.sh
@@ -18,7 +18,7 @@ bash ${WORKSPACE}/fhir-install/src/main/docker/fhir-term-graph-loader/build.sh
 
 bash ${WORKSPACE}/fhir-install/src/main/docker/fhir-bucket-tool/build.sh
 
-# create and remove a 1 GB file to make sure we have the room needed later
+# Create and remove a 1 GB file to make sure we have the room needed later.
 df -h
 dd if=/dev/urandom oflag=direct of=balloon.dat bs=1024k count=1000
 rm -f balloon.dat
