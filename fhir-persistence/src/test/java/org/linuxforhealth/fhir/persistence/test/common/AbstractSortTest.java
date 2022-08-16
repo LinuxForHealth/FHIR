@@ -16,6 +16,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -49,6 +51,8 @@ import org.linuxforhealth.fhir.search.exception.FHIRSearchException;
  *
  */
 public abstract class AbstractSortTest extends AbstractPersistenceTest {
+    boolean DEBUG = true;
+
     Basic resource1a;
     Basic resource2a;
     Basic resource3a;
@@ -99,12 +103,19 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         // before we attempt to run any search queries
         persistence.getTransaction().begin();
         try {
-            // save them in-order so that lastUpdated goes from 1 -> 3 as well
+            // Save them in-order so that lastUpdated goes from 1 -> 3.
+            // Because we use a timestamp-based prefix for the ids, the ids will go from 1 -> 3 as well.
+            // I added the sleeps because we were seeing funny behavior on windows where the resources all got the same timestamp.
             resource1a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("a")).build()).getResource();
+            TimeUnit.MILLISECONDS.sleep(10);
             resource1b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource1Builder.meta(tag("b")).build()).getResource();
+            TimeUnit.MILLISECONDS.sleep(10);
             resource2a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("a")).build()).getResource();
+            TimeUnit.MILLISECONDS.sleep(10);
             resource2b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource2Builder.meta(tag("b")).build()).getResource();
+            TimeUnit.MILLISECONDS.sleep(10);
             resource3a = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("a")).build()).getResource();
+            TimeUnit.MILLISECONDS.sleep(10);
             resource3b = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), resource3Builder.meta(tag("b")).build()).getResource();
         } finally {
             persistence.getTransaction().end();
@@ -273,7 +284,6 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         assertTrue(results.indexOf(resource2b) < results.indexOf(resource3b));
     }
 
-    @SuppressWarnings("unused")
     private void assertDescendingOrder(List<Resource> results) {
         assertTrue(results.indexOf(resource3a) < results.indexOf(resource2a));
         assertTrue(results.indexOf(resource2a) < results.indexOf(resource1a));
@@ -603,6 +613,10 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
     @Test
     public void testIdSortResourceLevel() throws Exception {
         List<Resource> resources = runQueryTest(Basic.class, "_sort", "_id", 100);
+        if (DEBUG) {
+            System.out.println("Resources should be sorted by id (ascending):\n" +
+                    resources.stream().map(r -> r.getId()).collect(Collectors.joining("\n")));
+        }
         assertAscendingOrder(resources);
     }
 
@@ -613,6 +627,10 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
     @Test
     public void testIdSortResourceLevelDescending() throws Exception {
         List<Resource> resources = runQueryTest(Basic.class, "_sort", "-_id", 1000);
+        if (DEBUG) {
+            System.out.println("Resources should be sorted by id (descending):\n" +
+                    resources.stream().map(r -> r.getId()).collect(Collectors.joining("\n")));
+        }
         assertDescendingOrder(resources);
     }
 
@@ -623,6 +641,12 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
     @Test
     public void testLastUpdatedSortResourceLevel() throws Exception {
         List<Resource> resources = runQueryTest(Basic.class, "_sort", "_lastUpdated", 1000);
+        if (DEBUG) {
+            System.out.println("Resources should be sorted by lastUpdated (ascending):\n" +
+                    resources.stream()
+                        .map(r -> r.getMeta().getLastUpdated().getValue().format(Instant.PARSER_FORMATTER))
+                        .collect(Collectors.joining("\n")));
+        }
         assertAscendingOrder(resources);
     }
 
@@ -633,6 +657,12 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
     @Test
     public void testLastUpdatedSortResourceLevelDescending() throws Exception {
         List<Resource> resources = runQueryTest(Basic.class, "_sort", "-_lastUpdated", 1000);
+        if (DEBUG) {
+            System.out.println("Resources should be sorted by lastUpdated (descending):\n" +
+                    resources.stream()
+                        .map(r -> r.getMeta().getLastUpdated().getValue().format(Instant.PARSER_FORMATTER))
+                        .collect(Collectors.joining("\n")));
+        }
         assertDescendingOrder(resources);
     }
 

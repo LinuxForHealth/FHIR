@@ -7,7 +7,6 @@
 package org.linuxforhealth.fhir.persistence.jdbc.test;
 
 import org.linuxforhealth.fhir.config.FHIRConfigProvider;
-import org.linuxforhealth.fhir.config.FHIRConfigProvider;
 import org.linuxforhealth.fhir.persistence.FHIRPersistence;
 import org.linuxforhealth.fhir.persistence.jdbc.test.util.PersistenceTestSupport;
 import org.linuxforhealth.fhir.persistence.test.common.AbstractSortTest;
