@@ -71,23 +71,37 @@ public class GraphTermServiceProvider extends AbstractTermServiceProvider {
     private final FHIRTermGraph graph;
     private final int timeLimit;
 
+    /**
+     * @param configuration
+     */
     public GraphTermServiceProvider(Configuration configuration) {
         requireNonNull(configuration, "configuration");
         graph = FHIRTermGraphFactory.open(configuration);
         timeLimit = DEFAULT_TIME_LIMIT;
     }
 
+    /**
+     * @param configuration
+     * @param timeLimit the default time to wait for queries to complete (in milliseconds)
+     */
     public GraphTermServiceProvider(Configuration configuration, int timeLimit) {
         requireNonNull(configuration, "configuration");
         graph = FHIRTermGraphFactory.open(configuration);
         this.timeLimit = timeLimit;
     }
 
+    /**
+     * @param graph
+     */
     public GraphTermServiceProvider(FHIRTermGraph graph) {
         this.graph = requireNonNull(graph, "graph");
         timeLimit = DEFAULT_TIME_LIMIT;
     }
 
+    /**
+     * @param graph
+     * @param timeLimit the default time to wait for queries to complete (in milliseconds)
+     */
     public GraphTermServiceProvider(FHIRTermGraph graph, int timeLimit) {
         this.graph = requireNonNull(graph, "graph");
         this.timeLimit = timeLimit;

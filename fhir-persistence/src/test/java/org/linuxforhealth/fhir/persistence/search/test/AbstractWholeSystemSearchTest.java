@@ -114,7 +114,10 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
                 runQueryTest(Resource.class, "_lastUpdated",
                         savedResource.getMeta().getLastUpdated().getValue().toString());
         assertNotNull(resources);
-        assertEquals(resources.size(), 1, "Number of resources returned");
+        // We might get more than one, but each match should have the same lastUpdated time
+        for (Resource resource : resources) {
+            assertEquals(resource.getMeta().getLastUpdated(), savedResource.getMeta().getLastUpdated());
+        }
         assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
     }
 
