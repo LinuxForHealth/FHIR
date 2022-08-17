@@ -29,7 +29,9 @@ import org.linuxforhealth.fhir.term.spi.FHIRTermServiceProvider;
 import org.linuxforhealth.fhir.term.util.CodeSystemSupport;
 
 public class GraphTermServiceProviderTimeLimitTest {
-    @Test
+    // This test was acting flaky on the GitHub actions windows-2019 environment (and only this environment)
+    // and so its been temporarily disabled.  Please enable and re-test in this environment in the future.
+    @Test(enabled = false)
     public void testGraphTermServiceProviderTimeLimit() throws Exception {
         FHIRTermGraph graph = null;
         try {

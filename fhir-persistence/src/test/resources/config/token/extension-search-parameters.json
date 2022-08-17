@@ -274,7 +274,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-ContactPoint",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-ContactPoint",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-ContactPoint",
@@ -292,7 +292,7 @@
     },
 
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Coding-noCode",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Coding-noCode",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Coding-noCode",
@@ -308,7 +308,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Coding-noSystem",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Coding-noSystem",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Coding-noSystem",
@@ -324,7 +324,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-CodeableConcept-multiCoded",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-CodeableConcept-multiCoded",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-CodeableConcept-multiCoded",
@@ -340,7 +340,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Identifier-noValue",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Identifier-noValue",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Identifier-noValue",
@@ -356,7 +356,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Identifier-noSystem",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Identifier-noSystem",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Identifier-noSystem",
@@ -372,7 +372,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-ContactPoint-uri",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-ContactPoint-uri",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-ContactPoint-uri",
@@ -388,7 +388,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-ContactPoint-homeFax",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-ContactPoint-homeFax",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-ContactPoint-homeFax",
@@ -404,7 +404,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-ContactPoint-noValue",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-ContactPoint-noValue",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-ContactPoint-noValue",
@@ -420,7 +420,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-ContactPoint-noUse",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-ContactPoint-noUse",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-ContactPoint-noUse",
@@ -436,7 +436,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-ContactPoint-noSystem",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-ContactPoint-noSystem",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-ContactPoint-noSystem",
@@ -452,7 +452,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-ContactPoint-noUse",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-ContactPoint-noUse",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-ContactPoint-noUse",
@@ -470,7 +470,7 @@
     },
 
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-boolean",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-missing-boolean",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-missing-boolean",
@@ -486,7 +486,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-code",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-missing-code",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-missing-code",
@@ -502,7 +502,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-Coding",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-missing-Coding",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-missing-Coding",
@@ -518,7 +518,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-Identifier",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-missing-Identifier",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-missing-Identifier",
@@ -534,7 +534,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-CodeableConcept",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-missing-CodeableConcept",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-missing-CodeableConcept",
@@ -550,7 +550,7 @@
             "xpathUsage": "normal"
         }
     },{
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-ContactPoint",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-missing-ContactPoint",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-missing-ContactPoint",

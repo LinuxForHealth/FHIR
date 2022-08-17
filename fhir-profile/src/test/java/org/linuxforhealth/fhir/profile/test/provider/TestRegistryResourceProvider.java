@@ -63,7 +63,7 @@ public class TestRegistryResourceProvider extends AbstractRegistryResourceProvid
         StructureDefinition.Builder builder = StructureDefinition.builder();
         builder.setValidating(false);
 
-        return builder.url(Uri.of("http://ibm.com/example/fhir/StructureDefinition/orgRef"))
+        return builder.url(Uri.of("http://example.com/fhir/StructureDefinition/orgRef"))
                 .name(string("OrganizationRef"))
                 .description(Markdown.of("Sample example organization ref."))
                 ._abstract(Boolean.FALSE)

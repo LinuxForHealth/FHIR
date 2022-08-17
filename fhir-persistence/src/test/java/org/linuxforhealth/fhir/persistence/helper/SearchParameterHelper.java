@@ -27,7 +27,7 @@ import org.linuxforhealth.fhir.model.type.code.SearchParamType;
  */
 public class SearchParameterHelper {
 
-    public static final String dummyUri = "http://test.ibm.com/dummy";
+    public static final String dummyUri = "http://example.com/dummy";
     public static final String description = "test description";
     public static final String code = "test-code";
 

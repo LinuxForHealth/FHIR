@@ -28,7 +28,7 @@ public class ProviderTest {
 
     @Test
     public void testProviderRegistryLookup() {
-        String url = "http://ibm.com/example/fhir/StructureDefinition/orgRef";
+        String url = "http://example.com/fhir/StructureDefinition/orgRef";
         StructureDefinition sd = FHIRRegistry.getInstance().getResource(url, StructureDefinition.class);
         assertNotNull(sd);
     }

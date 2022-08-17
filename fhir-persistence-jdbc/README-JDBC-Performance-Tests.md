@@ -1,6 +1,6 @@
 # IBM FHIR Server - fhir-persistence-jdbc performance tests
 Performance tests for derby embedded, derby network and postgresql.
-fhir-persistence-jdbc/src/test/java/com/ibm/fhir/persistence/jdbc/test/spec/Main.java
+fhir-persistence-jdbc/src/test/java/org/linuxforhealth/fhir/persistence/jdbc/test/spec/Main.java
 
 # Run Configurations
 

@@ -873,7 +873,7 @@ To implement a persistence interceptor, complete the following steps:
 
     Here's an example of the file contents:
 
-    `com.ibm.mysolution.MyInterceptor`
+    `com.example.mysolution.MyInterceptor`
 
 3.  Copy your jar to the `<WLP_HOME>/usr/servers/fhir-server/userlib` directory so that it is accessible to the FHIR server via the classpath (the `server.xml` file contains a library element that defines this directory as a shared library).
 
@@ -894,7 +894,7 @@ One common technique for extending FHIR with a set of conformance resources is t
 
 The IBM FHIR Server includes a [PackageRegistryResourceProvider](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for registering implementation guide resources.
 
-Additionally, we [pre-package a number of popular implementation guides](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) and make those available from both our GitHub Releases and [Maven Central](https://repo1.maven.org/maven2/com/ibm/fhir/).
+Additionally, we [pre-package a number of popular implementation guides](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) and make those available from both our GitHub Releases and [Maven Central](https://repo1.maven.org/maven2/org/linuxforhealth/fhir/).
 
 Finally, the IBM FHIR Server includes a built-in ServerRegistryResourceProvider that can be used to bridge conformance resources from the tenant data store (uploaded through the REST API) to the registry.
 This provider can be enabled/disabled via the `fhirServer/core/serverRegistryResourceProviderEnabled` property, but we recommend leaving it disabled for performance-intensive workloads.

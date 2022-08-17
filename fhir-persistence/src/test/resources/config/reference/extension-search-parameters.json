@@ -275,7 +275,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-ContactPoint",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-ContactPoint",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-ContactPoint",
@@ -293,7 +293,7 @@
     },
     
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Reference-id",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Reference-id",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Reference-id",
@@ -311,7 +311,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Reference-relative",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Reference-relative",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Reference-relative",
@@ -329,7 +329,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Reference-absolute",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Reference-absolute",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Reference-absolute",
@@ -347,7 +347,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Reference-display",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Reference-display",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Reference-display",
@@ -366,7 +366,7 @@
     },
     
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-Reference",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-missing-Reference",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-missing-Reference",
@@ -384,7 +384,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-uri",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-missing-uri",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-missing-uri",
@@ -401,7 +401,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-canonical",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-missing-canonical",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-missing-canonical",

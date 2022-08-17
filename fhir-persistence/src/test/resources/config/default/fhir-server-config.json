@@ -5,7 +5,7 @@
 		}
 	},
 	"persistenceFactoryName": "org.linuxforhealth.fhir.persistence.test.MockPersistenceFactory",
-	"badFactoryName": "com.ibm.this.is.a.bad.factory.classname",
+	"badFactoryName": "com.example.this.is.a.bad.factory.classname",
 	"notAFactoryName": "org.linuxforhealth.fhir.persistence.test.NotAPersistenceFactory",
 	"exceptionFactoryName": "org.linuxforhealth.fhir.persistence.test.MockExceptionPersistenceFactory"
 }

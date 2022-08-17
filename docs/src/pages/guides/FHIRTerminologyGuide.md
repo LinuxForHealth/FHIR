@@ -36,11 +36,11 @@ NOTE: `closure(CodeSystem, Set)`, `getConcepts(CodeSystem, Function)`, `getConce
 
 ## Registry Terminology Service Provider Implementation
 
-The default implementation of `FHIRTermServiceProvider` ([RegistryTermServiceProvider](https://github.com/LinuxForHealth/FHIR/blob/main/term/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/RegistryTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that have been made available through the FHIR registry module ([fhir-registry](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-registry)). It supports `CodeSystem` resources with *complete* content (`CodeSystem.content = 'complete'`) and `ValueSet` resources that reference `CodeSystem` resources that have complete content.
+The default implementation of `FHIRTermServiceProvider` ([RegistryTermServiceProvider](https://github.com/LinuxForHealth/FHIR/blob/main/term/fhir-term/src/main/java/org/linuxforhealth/fhir/term/service/provider/RegistryTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that have been made available through the FHIR registry module ([fhir-registry](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-registry)). It supports `CodeSystem` resources with *complete* content (`CodeSystem.content = 'complete'`) and `ValueSet` resources that reference `CodeSystem` resources that have complete content.
 
 ## FHIR Terminology Service Singleton Facade
 
-The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/LinuxForHealth/FHIR/blob/main/term/fhir-term/src/main/java/com/ibm/fhir/term/service/FHIRTermService.java)) loads a list of `FHIRTermServiceProvider` instances from the ServiceLoader and includes an instance of the `RegistryTermServiceProvider`. Client code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
+The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/LinuxForHealth/FHIR/blob/main/term/fhir-term/src/main/java/org/linuxforhealth/fhir/term/service/FHIRTermService.java)) loads a list of `FHIRTermServiceProvider` instances from the ServiceLoader and includes an instance of the `RegistryTermServiceProvider`. Client code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
 
 ```java
 ValueSet valueSet = ValueSetSupport.getValueSet("http://example.com/fhir/ValueSet/vs1");

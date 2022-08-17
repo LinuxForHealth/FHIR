@@ -72,7 +72,7 @@ function deploy_via_curl {
         if [ -f ${POM_FILE} ]
         then
             FILE="${POM_FILE}"
-            FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}.pom"
+            FILE_TARGET_PATH="/org/linuxforhealth/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}.pom"
             upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         fi
 
@@ -80,7 +80,7 @@ function deploy_via_curl {
         for SOURCES_JAR in `find ${PROJ} -iname "*-sources.jar" -maxdepth 1 -exec basename {} \;`
         do
             FILE="${PROJ}/${SOURCES_JAR}"
-            FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}-sources.jar"
+            FILE_TARGET_PATH="/org/linuxforhealth/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}-sources.jar"
             upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         done 
 
@@ -88,7 +88,7 @@ function deploy_via_curl {
         for JAVADOC_JAR in `find ${PROJ} -iname "*${BUILD_VERSION}-javadoc.jar" -maxdepth 1 -exec basename {} \;`
         do
             FILE="${PROJ}/${JAVADOC_JAR}"
-            FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}-javadoc.jar"
+            FILE_TARGET_PATH="/org/linuxforhealth/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}-javadoc.jar"
             upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         done
 
@@ -96,7 +96,7 @@ function deploy_via_curl {
         for TESTS_JAR in `find ${PROJ} -iname "*${BUILD_VERSION}-tests.jar" -maxdepth 1 -exec basename {} \;`
         do
             FILE="${PROJ}/${TESTS_JAR}"
-            FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}-tests.jar"
+            FILE_TARGET_PATH="/org/linuxforhealth/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}-tests.jar"
             upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         done
 
@@ -105,7 +105,7 @@ function deploy_via_curl {
         for JAR in `find ${PROJ} -maxdepth 1 -not -name '*-tests.jar' -and -not -name '*-javadoc.jar' -and -not -name '*-sources.jar' -and -not -name '*orginal*.jar' -and -name '*.jar' -exec basename {} \;`
         do
             FILE="${PROJ}/${JAR}"
-            FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${JAR}"
+            FILE_TARGET_PATH="/org/linuxforhealth/fhir/${MODULE}/${BUILD_VERSION}/${JAR}"
             upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         done
 
@@ -120,7 +120,7 @@ function deploy_via_curl {
 function deploy_zip_files { 
     FILE=fhir-validation/target/fhir-validation-distribution.zip
     MODULE=fhir-validation
-    FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/fhir-validation-distribution.zip"
+    FILE_TARGET_PATH="/org/linuxforhealth/fhir/${MODULE}/${BUILD_VERSION}/fhir-validation-distribution.zip"
     upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
 }
 
