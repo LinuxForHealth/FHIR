@@ -10,18 +10,6 @@ set -x
 
 export BUILD_TYPE="release"
 
-if [ -z "${DOCKERHUB_USERNAME}" ]
-then
-    echo "DockerHub Username not set"
-    exit 1
-fi
-
-if [ -z "${DOCKERHUB_TOKEN}" ]
-then
-    echo "DockerHub Token not set"
-    exit 2
-fi
-
 if [ -z "${GPG_PASSPHRASE}" ]
 then
     echo "GPG_PASSPHRASE not set"
