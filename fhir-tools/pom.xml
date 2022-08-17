@@ -132,7 +132,7 @@
                     <version>${jacoco.plugin.version}</version>
                     <configuration>
                         <excludes>
-                            <exclude>com/ibm/fhir/model/*.class</exclude>
+                            <exclude>org/linuxforhealth/fhir/model/*.class</exclude>
                             <exclude>**/*Exception.*</exclude>
                             <exclude>**/exception/*</exclude>
                         </excludes>

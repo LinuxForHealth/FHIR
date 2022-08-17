@@ -13,8 +13,8 @@ This document outlines the interfaces that need to be implemented and the behavi
 ### Interfaces
 Persistence layer interfaces are defined in the `fhir-persistence` module.
 
-* [FHIRPersistence](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistence.java) defines the contract between the REST layer and the persistence layer.
-* [FHIRPersistenceFactory](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistenceFactory.java) is the interface for providing instances of FHIRPersistence to the server.
+* [FHIRPersistence](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence/src/main/java/org/linuxforhealth/fhir/persistence/FHIRPersistence.java) defines the contract between the REST layer and the persistence layer.
+* [FHIRPersistenceFactory](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence/src/main/java/org/linuxforhealth/fhir/persistence/FHIRPersistenceFactory.java) is the interface for providing instances of FHIRPersistence to the server.
 
 ### Configuration
 Which persistence layer is used by the server is determined by the `/fhirServer/persistence/factoryClassname` property in `fhir-server-config.json`. There is more detail on the configuration in the [LinuxForHealth FHIR Server's User Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#33-persistence-layer-configuration)

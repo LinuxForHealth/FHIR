@@ -73,7 +73,7 @@ The IBM FHIR Server limits the number of inputs per each `$import` request based
 
 The IBM FHIR Server supports `storageDetail.type` with the value of `ibm-cos`, `https`, `azure-blob` and `aws-s3`.
 
-To import using the $import on https, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulkdata on https://test-url.ibm.com/folder1 and https://test-url.ibm.com/folder2 you must specify both baseUrls. Please refer to the [IBM FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#410-bulk-data-operations). Please note, the BulkData Operations do not support import from `http://`.
+To import using the $import on https, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulkdata on https://example.com/folder1 and https://example.com/folder2 you must specify both baseUrls. Please refer to the [IBM FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#410-bulk-data-operations). Please note, the BulkData Operations do not support import from `http://`.
 
 #### Example Request
 The following is a request to load data from the IBM COS endpoint into the IBM FHIR Server.

@@ -3,7 +3,7 @@
 This module provides classes for generating Swagger and OpenAPI definitions for the FHIR HTTP interface.
 It uses a combination of the HL7-provided specification artifacts and the generated java classes from `fhir-model`.
 
-This module is built into two different jar files. The executable command line interface (cli) version of this module is can also be downloaded directly from [Maven Central](https://repo1.maven.org/maven2/com/ibm/fhir/fhir-swagger-generator) or is available from the Releases tab.  Alternatively, this jar can be built locally and found in the folder - `fhir-swagger-generator/target`.
+This module is built into two different jar files. The executable command line interface (cli) version of this module is can also be downloaded directly from [Maven Central](https://repo1.maven.org/maven2/org/linuxforhealth/fhir/fhir-swagger-generator) or is available from the Releases tab.  Alternatively, this jar can be built locally and found in the folder - `fhir-swagger-generator/target`.
 
 ## Execute the fhir-swagger-generator command line interface (CLI)
 

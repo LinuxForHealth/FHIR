@@ -347,7 +347,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         Observation observation = Observation.builder()
                 .status(ObservationStatus.FINAL)
                 .code(CodeableConcept.builder().coding(Coding.builder()
-                        .system(uri("http://ibm.com/system"))
+                        .system(uri("http://example.com/system"))
                         .code(Code.of("someCode")).build()).build())
                 .build();
 

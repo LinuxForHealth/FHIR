@@ -172,7 +172,7 @@ Upon receiving a request, the REST Layer checks to see if the JAX-RS path parame
 
 To make implementing custom operations easier, the LinuxForHealth FHIR Server provides an `AbstractOperation` class that provides input and output handling, while delegating to concrete implementations for the OperationDefinition and operation business logic.
 
-For operations that are defined in the base FHIR specification, like [$validate](https://hl7.org/fhir/R4B/resource-operation-validate.html), the OperationDefinition can be retrieved from the built-in [FHIRRegistry](https://github.com/LinuxForHealth/FHIR/blob/6933926b8862d6515336f495e50ee7f66e5bcc15/operation/fhir-operation-validate/src/main/java/com/ibm/fhir/operation/validate/ValidateOperation.java#L40-L41).
+For operations that are defined in the base FHIR specification, like [$validate](https://hl7.org/fhir/R4B/resource-operation-validate.html), the OperationDefinition can be retrieved from the built-in [FHIRRegistry](https://github.com/LinuxForHealth/FHIR/blob/6933926b8862d6515336f495e50ee7f66e5bcc15/operation/fhir-operation-validate/src/main/java/org/linuxforhealth/fhir/operation/validate/ValidateOperation.java#L40-L41).
 
 Note that once the Operation is loaded it is available until the server is restarted and redoes the ServiceLoader discovery.
 

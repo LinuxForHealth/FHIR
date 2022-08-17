@@ -274,7 +274,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-ContactPoint",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-ContactPoint",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-ContactPoint",
@@ -292,7 +292,7 @@
     },
 
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Quantity-noDisplayUnit",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Quantity-noDisplayUnit",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Quantity-noDisplayUnit",
@@ -309,7 +309,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Quantity-noCode",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Quantity-noCode",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Quantity-noCode",
@@ -326,7 +326,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Quantity-noCodeOrUnit",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Quantity-noCodeOrUnit",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Quantity-noCodeOrUnit",
@@ -343,7 +343,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Quantity-unicodeLessThan",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Quantity-unicodeLessThan",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Quantity-unicodeLessThan",
@@ -360,7 +360,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Quantity-lessThan",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Quantity-lessThan",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Quantity-lessThan",
@@ -377,7 +377,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Quantity-greaterThan",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Quantity-greaterThan",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Quantity-greaterThan",
@@ -394,7 +394,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Quantity-lessThanOrEqual",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Quantity-lessThanOrEqual",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Quantity-lessThanOrEqual",
@@ -411,7 +411,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Quantity-greaterThanOrEqual",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Quantity-greaterThanOrEqual",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Quantity-greaterThanOrEqual",
@@ -428,7 +428,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Quantity-withExponent",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Quantity-withExponent",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Quantity-withExponent",
@@ -445,7 +445,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Range",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Range",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Range",
@@ -462,7 +462,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Range-noHigh",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Range-noHigh",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Range-noHigh",
@@ -479,7 +479,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Range-noLow",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-Range-noLow",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-Range-noLow",
@@ -496,7 +496,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-Quantity",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-missing-Quantity",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-missing-Quantity",
@@ -513,7 +513,7 @@
         }
     },
     {
-        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-Range",
+        "fullUrl": "http://example.com/fhir/SearchParameter/Basic-missing-Range",
         "resource": {
             "resourceType": "SearchParameter",
             "id": "Basic-missing-Range",
