@@ -8,6 +8,9 @@ on:
   # allows the workflow to be manually executed any time
   workflow_dispatch:
 
+permissions:
+  packages: write
+
 jobs:
   image-refresh:
     runs-on: ubuntu-latest
@@ -29,9 +32,7 @@ jobs:
     - name: Build and Release
       env:
         BASE: origin/${{ github['base_ref'] }}
-        GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
-        GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
-        GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
