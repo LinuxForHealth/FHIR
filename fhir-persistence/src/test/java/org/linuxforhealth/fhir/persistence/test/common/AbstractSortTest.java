@@ -51,7 +51,7 @@ import org.linuxforhealth.fhir.search.exception.FHIRSearchException;
  *
  */
 public abstract class AbstractSortTest extends AbstractPersistenceTest {
-    boolean DEBUG = true;
+    boolean DEBUG = false;
 
     Basic resource1a;
     Basic resource2a;
