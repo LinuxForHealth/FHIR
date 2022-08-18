@@ -14,12 +14,14 @@ set -eu -o pipefail
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-tools").profiles | map(.) | join(",")' build/release/config/release.json)"
 mvn install source:jar source:test-jar javadoc:jar -f fhir-tools \
         -DadditionalJOption=-Xdoclint:none \
+        -Dsurefire.failIfNoSpecifiedTests=false \
         -f fhir-tools -P "${BUILD_PROFILES}" -DskipTests
 
 # fhir-examples
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-examples").profiles | map(.) | join(",")' build/release/config/release.json)"
 mvn install source:jar source:test-jar javadoc:jar -f fhir-examples \
         -DadditionalJOption=-Xdoclint:none \
+        -Dsurefire.failIfNoSpecifiedTests=false \
         -f fhir-examples -P "${BUILD_PROFILES}" -DskipTests
 
 # fhir-parent
@@ -27,6 +29,7 @@ export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-parent").profi
 mvn install -f fhir-parent -DskipTests
 mvn install source:jar source:test-jar javadoc:jar -f fhir-parent \
         -DadditionalJOption=-Xdoclint:none \
+        -Dsurefire.failIfNoSpecifiedTests=false \
         -f fhir-parent -P "${BUILD_PROFILES}" -DskipTests
 
 # EOF

@@ -10,6 +10,9 @@ on:
     - '.github/workflows/site.yml'
     - '.github/workflows/javadocs.yml'
 
+permissions:
+  packages: write
+
 jobs:
   release-on-push:
     runs-on: ubuntu-latest
@@ -38,9 +41,7 @@ jobs:
     - name: Build and Release
       env:
         BASE: origin/${{ github['base_ref'] }}
-        GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
-        GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
-        GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
         GPG_KEY_FILE: ${{ secrets.GPG_KEY_FILE }}
