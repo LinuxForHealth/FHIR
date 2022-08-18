@@ -36,6 +36,7 @@ mvn -T2C test org.jacoco:jacoco-maven-plugin:0.8.7:report-aggregate -f fhir-exam
 
 # fhir-parent
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-parent").profiles | map(.) | join(",")' build/release/config/release.json)"
-mvn -T2C test org.jacoco:jacoco-maven-plugin:0.8.7:report-aggregate -f fhir-parent -P "${BUILD_PROFILES}" -DfailIfNoTests=false -Dtest=$(tests)
+mvn -T2C test org.jacoco:jacoco-maven-plugin:0.8.7:report-aggregate -f fhir-parent \
+        -P "${BUILD_PROFILES}" -Dsurefire.failIfNoSpecifiedTests=false -Dtest=$(tests)
 
 # EOF
