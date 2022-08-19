@@ -53,7 +53,6 @@ jobs:
     - name: Build fhir-parent without tests
       run: |
             cd fhir
-            export OLD_JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
             mvn -ntp -B -N -Pset-version-release clean -f fhir-parent -Ddeploy.version=${TAG_VERSION} -Dfhir-tools.version=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
             mvn -ntp -DskipTests -B clean install org.apache.maven.plugins:maven-javadoc-plugin:3.0.1:javadoc-no-fork org.apache.maven.plugins:maven-javadoc-plugin:3.0.1:test-javadoc-no-fork org.apache.maven.plugins:maven-javadoc-plugin:3.0.1:aggregate -f fhir-parent  -Ddeploy.version=${TAG_VERSION} -Dfhir-tools.version=${TAG_VERSION}  -Dmaven.wagon.http.retryHandler.count=3
             cp -R fhir-parent/target/site/apidocs ../apidocs/

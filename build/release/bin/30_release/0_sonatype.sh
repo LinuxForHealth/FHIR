@@ -36,8 +36,9 @@ fi
 # we hit 'gpg: signing failed: Cannot allocate memory' when running -T2C
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-parent").profiles | map(.) | join(",")' build/release/config/release.json)"
 export BUILD_PROFILES="${BUILD_PROFILES},deploy-to-sonatype"
-mvn package war:war source:jar source:test-jar javadoc:jar gpg:sign deploy \
+mvn package source:jar source:test-jar javadoc:jar gpg:sign deploy \
     -DadditionalJOption=-Xdoclint:none \
+    -DretryFailedDeploymentCount=3
     -f fhir-parent -P "${BUILD_PROFILES}" -DskipTests
 
 # EOF
