@@ -143,7 +143,6 @@ jobs:
         JAVADOC_GOAL=""
         if [ "${{ matrix.java }}" = "11" ]
         then
-          export OLD_JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
           JAVADOC_GOAL=" -Pvalidate-javadoc javadoc:javadoc "
         fi
         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent --no-transfer-progress -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
