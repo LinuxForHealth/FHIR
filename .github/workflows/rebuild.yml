@@ -70,11 +70,6 @@ jobs:
         distribution: 'temurin'
         java-version: ${{ matrix.java }}
         cache: 'maven'
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Build and Release
       env:
         BASE: origin/${{ github['base_ref'] }}
@@ -82,6 +77,8 @@ jobs:
         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
         GPG_KEY_FILE: ${{ secrets.GPG_KEY_FILE }}
+        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+        DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
       run: |
         # set GITHUB_REF so we can use the same logic we use for our tag-push release
         export GITHUB_REF=refs/tags/${{ matrix.tag }}
@@ -91,6 +88,5 @@ jobs:
         bash build/release/20_test.sh
         # go straight to the dockerhub release instead of calling 30_release.sh
         # which uploads the build artifacts to Sonatype OSSRH in the tag release workflow
-        docker login -u "${DOCKERHUB_USERNAME}" -p "${DOCKERHUB_TOKEN}"
         bash build/release/bin/30_release/1_docker.sh
         bash build/release/40_drop.sh
