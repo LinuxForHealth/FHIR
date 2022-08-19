@@ -38,7 +38,7 @@ export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-parent").profi
 export BUILD_PROFILES="${BUILD_PROFILES},deploy-to-sonatype"
 mvn package source:jar source:test-jar javadoc:jar gpg:sign deploy \
     -DadditionalJOption=-Xdoclint:none \
-    -DretryFailedDeploymentCount=3
+    -DretryFailedDeploymentCount=3 \
     -f fhir-parent -P "${BUILD_PROFILES}" -DskipTests
 
 # EOF
