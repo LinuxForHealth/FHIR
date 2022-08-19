@@ -88,5 +88,5 @@ jobs:
         bash build/release/20_test.sh
         # go straight to the dockerhub release instead of calling 30_release.sh
         # which uploads the build artifacts to Sonatype OSSRH in the tag release workflow
-        bash build/release/bin/30_release/1_docker.sh
+        bash build/release/bin/30_release/1_dockerhub.sh
         bash build/release/40_drop.sh
