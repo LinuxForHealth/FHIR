@@ -280,12 +280,10 @@ public final class ProfileSupport {
 
     private static List<Constraint> getConstraints(StructureDefinition profile, Class<?> type) {
         String url = profile.getUrl().getValue();
-        CacheKey key;
-        if(profile.getVersion()!=null) {
+        final CacheKey key;
+        if (profile.getVersion() != null && profile.getVersion().hasValue()) {
             key = key(url + "|" + profile.getVersion().getValue());
-        }
-        else
-        {
+        } else {
             key = key(url);
         }
         
