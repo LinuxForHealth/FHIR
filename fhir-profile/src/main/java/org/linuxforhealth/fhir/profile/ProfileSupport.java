@@ -280,8 +280,13 @@ public final class ProfileSupport {
 
     private static List<Constraint> getConstraints(StructureDefinition profile, Class<?> type) {
         String url = profile.getUrl().getValue();
-        String version = profile.getVersion().getValue();
-        CacheKey key = key(url + "|" + version);
+        final CacheKey key;
+        if (profile.getVersion() != null && profile.getVersion().hasValue()) {
+            key = key(url + "|" + profile.getVersion().getValue());
+        } else {
+            key = key(url);
+        }
+        
         Map<CacheKey, List<Constraint>> constraintCache = CacheManager.getCacheAsMap(CONSTRAINT_CACHE_NAME, CONSTRAINT_CACHE_CONFIG);
 
         try {
