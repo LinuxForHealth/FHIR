@@ -509,7 +509,7 @@
             <dependency>
                 <groupId>org.foundationdb</groupId>
                 <artifactId>fdb-java</artifactId>
-                <version>7.1.17</version>
+                <version>7.1.19</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
@@ -856,7 +856,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>10.3.1</version>
+                            <version>10.3.2</version>
                         </dependency>
                     </dependencies>
                     <executions>
