@@ -31,14 +31,14 @@ mkdir -p target/
 cp ${WORKSPACE}/fhir-persistence-schema/target/fhir-persistence-schema-*cli.jar target/
 cp ${WORKSPACE}/LICENSE target/
 
-docker build --build-arg FHIR_VERSION=${BUILD_ID} -t fhir-schematool:latest .
-DOCKER_IMAGE=$(docker images --filter=reference='fhir-schematool:latest' --format "{{.ID}}")
+docker build --build-arg FHIR_VERSION=${BUILD_ID} -t linuxforhealth/fhir-schematool:latest .
+DOCKER_IMAGE=$(docker images --filter=reference='linuxforhealth/fhir-schematool:latest' --format "{{.ID}}")
 echo "Docker Image is:  ${DOCKER_IMAGE}"
 
-docker tag ${DOCKER_IMAGE} linuxforhealth/fhir-schematool:${BUILD_ID}
-docker tag ${DOCKER_IMAGE} linuxforhealth/fhir-schematool:latest
-docker push linuxforhealth/fhir-schematool:${BUILD_ID}
-docker push linuxforhealth/fhir-schematool:latest
+docker tag ${DOCKER_IMAGE} ghcr.io/linuxforhealth/fhir-schematool:${BUILD_ID}
+docker tag ${DOCKER_IMAGE} ghcr.io/linuxforhealth/fhir-schematool:latest
+docker push ghcr.io/linuxforhealth/fhir-schematool:${BUILD_ID}
+docker push ghcr.io/linuxforhealth/fhir-schematool:latest
 
 popd > /dev/null
 

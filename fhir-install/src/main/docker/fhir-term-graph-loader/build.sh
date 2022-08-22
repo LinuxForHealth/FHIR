@@ -35,10 +35,10 @@ docker build --build-arg FHIR_VERSION=${BUILD_ID} -t linuxforhealth/fhir-term-lo
 DOCKER_IMAGE=$(docker images --filter=reference='linuxforhealth/fhir-term-loader:latest' --format "{{.ID}}")
 echo "Docker Image is:  ${DOCKER_IMAGE}"
 
-docker tag ${DOCKER_IMAGE} linuxforhealth/fhir-term-loader:${BUILD_ID}
-docker tag ${DOCKER_IMAGE} linuxforhealth/fhir-term-loader:latest
-docker push linuxforhealth/fhir-term-loader:${BUILD_ID}
-docker push linuxforhealth/fhir-term-loader:latest
+docker tag ${DOCKER_IMAGE} ghcr.io/linuxforhealth/fhir-term-loader:${BUILD_ID}
+docker tag ${DOCKER_IMAGE} ghcr.io/linuxforhealth/fhir-term-loader:latest
+docker push ghcr.io/linuxforhealth/fhir-term-loader:${BUILD_ID}
+docker push ghcr.io/linuxforhealth/fhir-term-loader:latest
 
 popd > /dev/null
 
