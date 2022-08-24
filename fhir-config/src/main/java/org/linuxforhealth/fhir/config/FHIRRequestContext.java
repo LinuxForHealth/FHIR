@@ -52,6 +52,9 @@ public class FHIRRequestContext {
     // Set to false automatically, and override when appropriate.
     private boolean bulk = false;
 
+    // Set once the transaction started by the bulk JavaBatch framework is configured by the persistence layer
+    private boolean bulkTransactionConfigured;
+
     // Default to the "strict" handling which means the server will reject unrecognized search parameters and elements
     private HTTPHandlingPreference handlingPreference = HTTPHandlingPreference.STRICT;
 
@@ -378,5 +381,19 @@ public class FHIRRequestContext {
         metricMap.clear();
         result.sort((a,b) -> a.getFullMetricName().compareTo(b.getFullMetricName()));
         return result;
+    }
+
+    /**
+     * @return the bulkTransactionConfigured
+     */
+    public boolean isBulkTransactionConfigured() {
+        return bulkTransactionConfigured;
+    }
+
+    /**
+     * @param bulkTransactionConfigured the bulkTransactionConfigured to set
+     */
+    public void setBulkTransactionConfigured(boolean bulkTransactionConfigured) {
+        this.bulkTransactionConfigured = bulkTransactionConfigured;
     }
 }
