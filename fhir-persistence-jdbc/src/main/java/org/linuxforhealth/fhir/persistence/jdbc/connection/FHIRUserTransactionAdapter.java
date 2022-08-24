@@ -106,9 +106,10 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
             // On starting a bulk transaction, we need to register a callback so that
             // the cache is informed when the transaction commits it can promote thread-local
             // ids to the shared caches.
-            if (this.startCount == 0) {
+            if (!ctx.isBulkTransactionConfigured()) {
                 // Only register on the first encounter
                 syncRegistry.registerInterposedSynchronization(new CacheTransactionSync(this.syncRegistry, this.cache, this.transactionDataKey, this.afterTransactionHandler));
+                ctx.setBulkTransactionConfigured(true);
             }
             // transaction is already active, so this is a nested request
             this.startCount++;
