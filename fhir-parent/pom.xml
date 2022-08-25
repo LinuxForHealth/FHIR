@@ -686,17 +686,17 @@
             <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-storage-blob</artifactId>
-                <version>12.17.1</version>
+                <version>12.19.0</version>
             </dependency>
             <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-core-http-okhttp</artifactId>
-                <version>1.9.0</version>
+                <version>1.11.1</version>
             </dependency>
             <dependency>
                 <groupId>com.azure</groupId>
                 <artifactId>azure-core</artifactId>
-                <version>1.29.1</version>
+                <version>1.31.0</version>
             </dependency>
             <!-- Used in OKHTTP as part of azure-core -->
             <dependency>
