@@ -51,7 +51,7 @@ public class Table extends BaseObject {
 
     // The With parameters on the table
     private final List<With> withs;
-    
+
     private final List<CheckConstraint> checkConstraints = new ArrayList<>();
 
     // Do we still want to create this table?
@@ -80,7 +80,7 @@ public class Table extends BaseObject {
      * @param distributionColumnName
      * @param create
      */
-    public Table(String schemaName, String name, int version, 
+    public Table(String schemaName, String name, int version,
             Collection<ColumnBase> columns, PrimaryKeyDef pk,
             IdentityDef identity, Collection<IndexDef> indexes, Collection<ForeignKeyConstraint> fkConstraints,
             Tablespace tablespace, List<IDatabaseObject> dependencies, Map<String,String> tags,
@@ -125,7 +125,7 @@ public class Table extends BaseObject {
 
     /**
      * Getter for the create flag
-     * @return
+     * @return whether the table should be created or not
      */
     public boolean isCreate() {
         return this.create;
@@ -147,7 +147,7 @@ public class Table extends BaseObject {
         }
 
         final String tsName = this.tablespace == null ? null : this.tablespace.getName();
-        target.createTable(getSchemaName(), getObjectName(), this.columns, 
+        target.createTable(getSchemaName(), getObjectName(), this.columns,
             this.primaryKey, this.identity, tsName, this.withs, this.checkConstraints,
             this.distributionType, this.distributionColumnName);
 
@@ -225,9 +225,6 @@ public class Table extends BaseObject {
         // other dependencies of this table
         private Set<IDatabaseObject> dependencies = new HashSet<>();
 
-        // Is this table multi-tenant when supported?
-        private String tenantColumnName;
-
         // A map of tags
         private Map<String,String> tags = new HashMap<>();
 
@@ -239,7 +236,7 @@ public class Table extends BaseObject {
 
         // With metadata on the Table
         private List<With> withs = new ArrayList<>();
-        
+
         // Check constraints added to the table
         private List<CheckConstraint> checkConstraints = new ArrayList<>();
 
@@ -283,7 +280,7 @@ public class Table extends BaseObject {
 
         /**
          * Setter for the create flag
-         * @param ts
+         * @param flag true is the default for new tables; set to false to avoid creating this table
          * @return
          */
         public Builder setCreate(boolean flag) {
@@ -658,7 +655,7 @@ public class Table extends BaseObject {
             this.uniqueConstraints.put(constraintName, new UniqueConstraint(constraintName, columnName));
             return this;
         }
-        
+
         public Builder addCheckConstraint(String constraintName, String constraintExpression) {
             this.checkConstraints.add(new CheckConstraint(constraintName, constraintExpression));
             return this;
@@ -790,7 +787,7 @@ public class Table extends BaseObject {
                         // as the target isn't sharded (replicated is OK)
                         if (targetDistributionType == DistributionType.REFERENCE) {
                             allDependencies.add(target);
-                            enabledFKConstraints.add(c);                        
+                            enabledFKConstraints.add(c);
                         }
                     } else if (distributionType == DistributionType.REFERENCE) {
                         // This table is a reference (replicated) table. We can create FK relationships

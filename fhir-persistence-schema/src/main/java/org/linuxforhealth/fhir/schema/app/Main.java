@@ -72,6 +72,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.linuxforhealth.fhir.core.FHIRVersionParam;
+import org.linuxforhealth.fhir.core.util.ResourceTypeUtil;
 import org.linuxforhealth.fhir.core.util.handler.HostnameHandler;
 import org.linuxforhealth.fhir.database.utils.api.ConcurrentUpdateException;
 import org.linuxforhealth.fhir.database.utils.api.DataAccessException;
@@ -112,7 +114,6 @@ import org.linuxforhealth.fhir.database.utils.version.CreateControl;
 import org.linuxforhealth.fhir.database.utils.version.CreateVersionHistory;
 import org.linuxforhealth.fhir.database.utils.version.CreateWholeSchemaVersion;
 import org.linuxforhealth.fhir.database.utils.version.VersionHistoryService;
-import org.linuxforhealth.fhir.model.util.ModelSupport;
 import org.linuxforhealth.fhir.schema.app.menu.Menu;
 import org.linuxforhealth.fhir.schema.control.AddForeignKey;
 import org.linuxforhealth.fhir.schema.control.BackfillResourceChangeLog;
@@ -262,6 +263,12 @@ public class Main {
 
     // Which flavor of the FHIR data schema should we build?
     private SchemaType dataSchemaType = SchemaType.PLAIN;
+
+    // The set of resource types that have been removed from the spec (upper-cased to make case-insensitive "contains" simpler);
+    // we skip creating these tables but we still want them in the model
+    private static final Set<String> RETIRED_TYPES = ResourceTypeUtil.getRemovedResourceTypes(FHIRVersionParam.VERSION_43).stream()
+            .map(String::toUpperCase)
+            .collect(Collectors.toSet());
 
     // -----------------------------------------------------------------------------------------------------------------
     // The following method is related to the common methods and functions
@@ -1482,10 +1489,12 @@ public class Main {
     /**
      * Perform the special data migration steps required for the V0010 version of the schema
      */
+    @Deprecated
     protected void applyDataMigrationForV0010() {
         doMigrationForV0010();
     }
 
+    @Deprecated
     protected void applyDataMigrationForV0014() {
         dataMigrationForV0014();
     }
@@ -1497,19 +1506,13 @@ public class Main {
     /**
      * Get the list of resource types to drive resource-by-resource operations
      *
-     * @return the full list of FHIR R4 resource types, or a subset of names if so configured
+     * @return the full list of FHIR resource types (R4 and R4B), or a subset of names if so configured
      */
     private Set<String> getResourceTypes() {
-        Set<String> result;
-        if (this.resourceTypeSubset == null || this.resourceTypeSubset.isEmpty()) {
-            // Should simplify FhirSchemaGenerator and always pass in this list. When switching
-            // over to false, migration is required to drop the tables no longer required.
-            final boolean includeAbstractResourceTypes = false;
-            result = ModelSupport.getResourceTypes(includeAbstractResourceTypes).stream().map(Class::getSimpleName).collect(Collectors.toSet());
-        } else {
-            result = this.resourceTypeSubset;
+        Set<String> result = this.resourceTypeSubset;
+        if (result == null || result.isEmpty()) {
+            result = ResourceTypeUtil.getAllResourceTypeNames();
         }
-
         return result;
     }
 
@@ -1537,12 +1540,17 @@ public class Main {
     /**
      * Perform the data migration for V0010 (non-multi-tenant schema)
      */
+    @Deprecated
     private void doMigrationForV0010() {
         IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
         Set<String> resourceTypes = getResourceTypes();
 
         // Process each resource type in its own transaction to avoid pressure on the tx log
         for (String resourceTypeName : resourceTypes) {
+            if (RETIRED_TYPES.contains(resourceTypeName.toUpperCase())) {
+                continue;
+            }
+
             try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
                 try {
                     // only process tables which have been converted to the V0010 schema but
@@ -1612,6 +1620,7 @@ public class Main {
      * @param schemaName
      * @param resourceType
      */
+    @Deprecated
     private void dataMigrationForV0014(IDatabaseAdapter adapter, String schemaName, ResourceType resourceType) {
         GetLogicalResourceNeedsV0014Migration needsMigrating = new GetLogicalResourceNeedsV0014Migration(schemaName, resourceType.getId());
         if (adapter.runStatement(needsMigrating)) {
@@ -1640,6 +1649,7 @@ public class Main {
     /**
      * Backfill the RESOURCE_CHANGE_LOG table if it is empty
      */
+    @Deprecated
     protected void backfillResourceChangeLog() {
         IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -1665,10 +1675,15 @@ public class Main {
      *
      * @param adapter
      */
+    @Deprecated
     private void doBackfill(IDatabaseAdapter adapter) {
         Set<String> resourceTypes = getResourceTypes();
 
         for (String resourceTypeName : resourceTypes) {
+            if (RETIRED_TYPES.contains(resourceTypeName.toUpperCase())) {
+                continue;
+            }
+
             logger.fine(() -> "Backfilling RESOURCE_CHANGE_LOG with " + resourceTypeName
                     + " resources for schema '" + schema.getSchemaName() + "'");
             BackfillResourceChangeLog backfill = new BackfillResourceChangeLog(schema.getSchemaName(), resourceTypeName);

@@ -131,8 +131,14 @@ public class FhirSchemaGenerator {
     // Which variant of the schema do we want to build
     private final SchemaType schemaType;
 
+    // The set of resource types that have been removed from the spec (upper-cased to make case-insensitive "contains" simpler);
+    // we skip creating these tables but we still want them in the model
+    private static final Set<String> RETIRED_TYPES = ResourceTypeUtil.getRemovedResourceTypes(FHIRVersionParam.VERSION_43).stream()
+            .map(String::toUpperCase)
+            .collect(Collectors.toSet());
+
     // UPPER case, no abstract types
-    private static final Set<String> R4B_RESOURCE_TYPES = ResourceTypeUtil.getResourceTypesFor(FHIRVersionParam.VERSION_43).stream()
+    private static final Set<String> ALL_RESOURCE_TYPES = ResourceTypeUtil.getAllResourceTypeNames().stream()
             .map(rt -> rt.toUpperCase())
             .collect(Collectors.toSet());
 
@@ -209,7 +215,7 @@ public class FhirSchemaGenerator {
      * @param schemaName
      */
     public FhirSchemaGenerator(String adminSchemaName, String schemaName, SchemaType schemaType) {
-        this(adminSchemaName, schemaName, schemaType, R4B_RESOURCE_TYPES);
+        this(adminSchemaName, schemaName, schemaType, ALL_RESOURCE_TYPES);
     }
 
     /**
@@ -1125,11 +1131,16 @@ public class FhirSchemaGenerator {
         for (String resourceType: this.resourceTypes) {
 
             resourceType = resourceType.toUpperCase().trim();
-            if (!R4B_RESOURCE_TYPES.contains(resourceType)) {
-                logger.warning("Passed resource type '" + resourceType + "' is not a supported resource type in fhirVersion 4.3; creating anyway");
+
+            boolean isRetired = false;
+            if (RETIRED_TYPES.contains(resourceType)) {
+                logger.warning("Passed resource type '" + resourceType + "' has been retired in FHIR 4.3; corresponding tables will not be created");
+                isRetired = true;
+            } else if (!ALL_RESOURCE_TYPES.contains(resourceType)) {
+                logger.warning("Passed resource type '" + resourceType + "' is not a valid resource type; proceeding anyway");
             }
 
-            ObjectGroup group = frg.addResourceType(resourceType);
+            ObjectGroup group = frg.addResourceType(resourceType, isRetired);
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
             // Add additional dependencies the group doesn't yet know about
