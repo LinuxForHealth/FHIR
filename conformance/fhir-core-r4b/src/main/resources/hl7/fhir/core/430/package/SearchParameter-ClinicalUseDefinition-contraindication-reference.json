@@ -38,7 +38,7 @@
         "ClinicalUseDefinition"
     ],
     "type": "reference",
-    "expression": "ClinicalUseDefinition.contraindication.diseaseSymptomProcedure",
+    "expression": "ClinicalUseDefinition.contraindication.diseaseSymptomProcedure.reference",
     "xpath": "f:ClinicalUseDefinition/f:contraindication/f:diseaseSymptomProcedure",
     "xpathUsage": "normal"
 }

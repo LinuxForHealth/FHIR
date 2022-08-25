@@ -38,7 +38,7 @@
         "ClinicalUseDefinition"
     ],
     "type": "reference",
-    "expression": "ClinicalUseDefinition.undesirableEffect.symptomConditionEffect",
+    "expression": "ClinicalUseDefinition.undesirableEffect.symptomConditionEffect.reference",
     "xpath": "f:ClinicalUseDefinition/f:undesirableEffect/f:symptomConditionEffect",
     "xpathUsage": "normal"
 }

@@ -38,7 +38,7 @@
         "ClinicalUseDefinition"
     ],
     "type": "token",
-    "expression": "ClinicalUseDefinition.undesirableEffect.symptomConditionEffect",
+    "expression": "ClinicalUseDefinition.undesirableEffect.symptomConditionEffect.concept",
     "xpath": "f:ClinicalUseDefinition/f:undesirableEffect/f:symptomConditionEffect",
     "xpathUsage": "normal"
 }

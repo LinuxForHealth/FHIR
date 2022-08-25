@@ -38,7 +38,7 @@
         "ClinicalUseDefinition"
     ],
     "type": "token",
-    "expression": "ClinicalUseDefinition.contraindication.diseaseSymptomProcedure",
+    "expression": "ClinicalUseDefinition.contraindication.diseaseSymptomProcedure.concept",
     "xpath": "f:ClinicalUseDefinition/f:contraindication/f:diseaseSymptomProcedure",
     "xpathUsage": "normal"
 }
