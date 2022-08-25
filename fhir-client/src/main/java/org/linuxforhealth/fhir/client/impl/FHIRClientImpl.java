@@ -37,7 +37,6 @@ import org.apache.cxf.ext.logging.LoggingFeature;
 import org.apache.cxf.ext.logging.event.LogEvent;
 import org.apache.cxf.ext.logging.event.LogEventSender;
 import org.apache.cxf.ext.logging.event.LogMessageFormatter;
-
 import org.linuxforhealth.fhir.client.FHIRClient;
 import org.linuxforhealth.fhir.client.FHIRParameters;
 import org.linuxforhealth.fhir.client.FHIRRequestHeader;
@@ -387,6 +386,7 @@ public class FHIRClientImpl implements FHIRClient {
         }
 
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
+        headers = addHttpPreferHeader(headers, getHttpReturnPref());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.put(entity);
         return new FHIRResponseImpl(response);
@@ -426,6 +426,7 @@ public class FHIRClientImpl implements FHIRClient {
         }
 
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
+        headers = addHttpPreferHeader(headers, getHttpReturnPref());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.delete();
         return new FHIRResponseImpl(response);
@@ -476,6 +477,7 @@ public class FHIRClientImpl implements FHIRClient {
         endpoint = endpoint.path(resourceType).path(resourceId).path("_history");
         endpoint = addParametersToWebTarget(endpoint, parameters);
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
+        headers = addHttpPreferHeader(headers, getHttpReturnPref());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.get();
         return new FHIRResponseImpl(response);
@@ -488,6 +490,7 @@ public class FHIRClientImpl implements FHIRClient {
         endpoint = endpoint.path("_history");
         endpoint = addParametersToWebTarget(endpoint, parameters);
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
+        headers = addHttpPreferHeader(headers, getHttpReturnPref());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.get();
         return new FHIRResponseImpl(response);
@@ -502,6 +505,7 @@ public class FHIRClientImpl implements FHIRClient {
         endpoint = endpoint.path(resourceType);
         endpoint = addParametersToWebTarget(endpoint, parameters);
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
+        headers = addHttpPreferHeader(headers, getHttpReturnPref());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.get();
         return new FHIRResponseImpl(response);
@@ -517,6 +521,7 @@ public class FHIRClientImpl implements FHIRClient {
         Form form = buildForm(parameters);
         Entity<Form> entity = Entity.form(form);
         Invocation.Builder builder = endpoint.request(getDefaultMimeType());
+        headers = addHttpPreferHeader(headers, getHttpReturnPref());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
@@ -527,6 +532,7 @@ public class FHIRClientImpl implements FHIRClient {
         Invocation.Builder builder;
         Response response;
         WebTarget endpoint = getWebTarget();
+        headers = addHttpPreferHeader(headers, getHttpReturnPref());
         if (isPost) {
             endpoint = endpoint.path("/");
             endpoint = addParametersToWebTarget(endpoint, parameters);
@@ -898,6 +904,13 @@ public class FHIRClientImpl implements FHIRClient {
             setHttpTimeout(Integer.parseUnsignedInt(getProperty(PROPNAME_HTTP_TIMEOUT, "130000")));
 
             setTenantId(getProperty(PROPNAME_TENANT_ID, null));
+
+            // If the return preference has been configured as a property, use it
+            final String returnPreference = clientProperties.getProperty(PROPNAME_HTTP_RETURN_PREF);
+            if (returnPreference != null) {
+                setHttpReturnPref(HTTPReturnPreference.from(returnPreference));
+            }
+
         } catch (Throwable t) {
             throw new Exception("Unexpected error while processing client properties.", t);
         }
