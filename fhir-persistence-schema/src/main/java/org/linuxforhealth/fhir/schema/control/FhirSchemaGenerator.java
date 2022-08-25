@@ -219,10 +219,12 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * Generate the IBM FHIR Server Schema with just the given resourceTypes
+     * Generate the LinuxForHealth FHIR Server Schema with just the given resourceTypes
      *
      * @param adminSchemaName
      * @param schemaName
+     * @param resourceTypes
+     * @throws IllegalArgumentException if one or more of the resource types are not valid FHIR resource types
      */
     public FhirSchemaGenerator(String adminSchemaName, String schemaName, SchemaType schemaType, Set<String> resourceTypes) {
         this.adminSchemaName = adminSchemaName;
@@ -250,6 +252,11 @@ public class FhirSchemaGenerator {
         // FHIRSERVER gets to use the FHIR sequence
         sequencePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.USAGE));
 
+        for (String resourceType : resourceTypes) {
+            if (!ALL_RESOURCE_TYPES.contains(resourceType.toUpperCase())) {
+                throw new IllegalArgumentException("Passed resource type '" + resourceType + "' is not a valid resource type");
+            }
+        }
         this.resourceTypes = resourceTypes;
     }
 
@@ -1136,8 +1143,6 @@ public class FhirSchemaGenerator {
             if (RETIRED_TYPES.contains(resourceType)) {
                 logger.warning("Passed resource type '" + resourceType + "' has been retired in FHIR 4.3; corresponding tables will not be created");
                 isRetired = true;
-            } else if (!ALL_RESOURCE_TYPES.contains(resourceType)) {
-                logger.warning("Passed resource type '" + resourceType + "' is not a valid resource type; proceeding anyway");
             }
 
             ObjectGroup group = frg.addResourceType(resourceType, isRetired);
