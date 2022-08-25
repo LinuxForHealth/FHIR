@@ -129,8 +129,8 @@ public class FhirResourceTableGroup {
     /**
      * Public constructor
      */
-    public FhirResourceTableGroup(PhysicalDataModel model, String schemaName, 
-            Set<IDatabaseObject> procedureDependencies, Tablespace fhirTablespace, 
+    public FhirResourceTableGroup(PhysicalDataModel model, String schemaName,
+            Set<IDatabaseObject> procedureDependencies, Tablespace fhirTablespace,
             Collection<GroupPrivilege> privileges, List<With> withs) {
         this.model = model;
         this.schemaName = schemaName;
@@ -154,29 +154,30 @@ public class FhirResourceTableGroup {
      * <li>patient_quantity_values
      * </ul>
      * @param resourceTypeName
+     * @param boolean isRetired
      */
-    public ObjectGroup addResourceType(String resourceTypeName) {
+    public ObjectGroup addResourceType(String resourceTypeName, boolean isRetired) {
         final String tablePrefix = resourceTypeName.toUpperCase();
 
         // Stick all the objects we want to create under one group which is executed
         // in the order in which they are defined (not parallelized)
         List<IDatabaseObject> group = new ArrayList<>();
 
-        addLogicalResources(group, tablePrefix);
-        addResources(group, tablePrefix);
-        addStrValues(group, tablePrefix);
-        addDateValues(group, tablePrefix);
-        addNumberValues(group, tablePrefix);
-        addLatLngValues(group, tablePrefix);
-        addQuantityValues(group, tablePrefix);
+        addLogicalResources(group, tablePrefix, isRetired);
+        addResources(group, tablePrefix, isRetired);
+        addStrValues(group, tablePrefix, isRetired);
+        addDateValues(group, tablePrefix, isRetired);
+        addNumberValues(group, tablePrefix, isRetired);
+        addLatLngValues(group, tablePrefix, isRetired);
+        addQuantityValues(group, tablePrefix, isRetired);
         // composites table removed by issue-1683
-        addResourceTokenRefs(group, tablePrefix);
-        addRefValues(group, tablePrefix);
-        addTokenValuesView(group, tablePrefix);
-        addRefValuesView(group, tablePrefix);
-        addProfiles(group, tablePrefix);
-        addTags(group, tablePrefix);
-        addSecurity(group, tablePrefix);
+        addResourceTokenRefs(group, tablePrefix, isRetired);
+        addRefValues(group, tablePrefix, isRetired);
+        addTokenValuesView(group, tablePrefix, isRetired);
+        addRefValuesView(group, tablePrefix, isRetired);
+        addProfiles(group, tablePrefix, isRetired);
+        addTags(group, tablePrefix, isRetired);
+        addSecurity(group, tablePrefix, isRetired);
 
         // group all the tables under one object so that we can perform everything within one
         // transaction. This helps to eliminate deadlocks when adding the FK constraints due to
@@ -188,8 +189,9 @@ public class FhirResourceTableGroup {
      * Add the logical_resources table definition for the given resource prefix
      * @param group
      * @param prefix
+     * @param isRetired
      */
-    public void addLogicalResources(List<IDatabaseObject> group, String prefix) {
+    public void addLogicalResources(List<IDatabaseObject> group, String prefix, boolean isRetired) {
         final String tableName = prefix + "_LOGICAL_RESOURCES";
 
         // This is the resource-specific instance of the logical resources table, and
@@ -197,6 +199,7 @@ public class FhirResourceTableGroup {
         // We also have a FK constraint pointing back to that table to try and keep
         // things sensible.
         Table.Builder builder = Table.builder(schemaName, tableName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
@@ -236,7 +239,7 @@ public class FhirResourceTableGroup {
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
                     }
-                    
+
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
@@ -318,8 +321,9 @@ public class FhirResourceTableGroup {
      * </pre>
      * @param group
      * @param prefix
+     * @param isRetired
      */
-    public void addResources(List<IDatabaseObject> group, String prefix) {
+    public void addResources(List<IDatabaseObject> group, String prefix, boolean isRetired) {
 
         // The index which also used by the database to support the primary key constraint
         final List<String> prfIndexCols = Arrays.asList(RESOURCE_ID);
@@ -327,6 +331,7 @@ public class FhirResourceTableGroup {
         final String tableName = prefix + _RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
@@ -349,7 +354,7 @@ public class FhirResourceTableGroup {
                         List<ColumnBase> cols = ColumnDefBuilder.builder()
                             .addVarcharColumn(RESOURCE_PAYLOAD_KEY, UUID_LEN, true)
                             .buildColumns();
-    
+
                         statements.add(new AddColumn(schemaName, tableName, cols.get(0)));
                     }
                    return statements;
@@ -361,23 +366,24 @@ public class FhirResourceTableGroup {
         group.add(tbl);
         model.addTable(tbl);
 
-        // Issue 1331. LAST_UPDATED should be indexed now that we're using it
-        // in search queries
-        CreateIndex idxLastUpdated = CreateIndex.builder()
-                .setSchemaName(schemaName)
-                .setTableName(tableName)
-                .setVersionTrackingName(tableName) // cover up a defect in how we name this index in VERSION_HISTORY
-                .setIndexName(IDX + tableName + "_LUPD")
-                .setUnique(false)
-                .setVersion(FhirSchemaVersion.V0005.vid())
-                .addColumn(LAST_UPDATED)
-                .build();
-        idxLastUpdated.addDependency(tbl); // dependency to the table on which the index applies
+        if (!isRetired) {
+            // Issue 1331. LAST_UPDATED should be indexed now that we're using it
+            // in search queries
+            CreateIndex idxLastUpdated = CreateIndex.builder()
+                    .setSchemaName(schemaName)
+                    .setTableName(tableName)
+                    .setVersionTrackingName(tableName) // cover up a defect in how we name this index in VERSION_HISTORY
+                    .setIndexName(IDX + tableName + "_LUPD")
+                    .setUnique(false)
+                    .setVersion(FhirSchemaVersion.V0005.vid())
+                    .addColumn(LAST_UPDATED)
+                    .build();
+            idxLastUpdated.addDependency(tbl); // dependency to the table on which the index applies
 
-        idxLastUpdated.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+            idxLastUpdated.addTag(FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
 
-        group.add(idxLastUpdated);
-
+            group.add(idxLastUpdated);
+        }
     }
 
     /**
@@ -399,15 +405,17 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
      * </pre>
      * @param group
      * @param prefix
+     * @param isRetired
      */
-    public void addStrValues(List<IDatabaseObject> group, String prefix) {
+    public void addStrValues(List<IDatabaseObject> group, String prefix, boolean isRetired) {
 
         final int msb = MAX_SEARCH_STRING_BYTES;
         final String tableName = prefix + "_STR_VALUES";
         final String logicalResourcesTable = prefix + "_LOGICAL_RESOURCES";
-        
+
         // Parameters are tied to the logical resource
         Table tbl = Table.builder(schemaName, tableName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
@@ -435,7 +443,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
                     }
-                    
+
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
@@ -483,15 +491,17 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
     /**
      * New schema for issue #1366. Uses a map table to reduce cost of indexing repeated token values
+     * @param isRetired
      * @param pdm
      * @return
      */
-    public Table addResourceTokenRefs(List<IDatabaseObject> group, String prefix) {
+    public Table addResourceTokenRefs(List<IDatabaseObject> group, String prefix, boolean isRetired) {
 
         final String tableName = prefix + "_" + RESOURCE_TOKEN_REFS;
 
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0028.vid()) // V0028: ref_version_id removed because refs are now stored in xx_ref_values
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
@@ -539,7 +549,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
                     }
-                    
+
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
@@ -566,15 +576,17 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
     /**
      * Schema V0027 adds a dedicated table for supporting reference values instead of using
      * token values.
+     * @param isRetired
      * @param pdm
      * @return
      */
-    public Table addRefValues(List<IDatabaseObject> group, String prefix) {
+    public Table addRefValues(List<IDatabaseObject> group, String prefix, boolean isRetired) {
 
         final String tableName = prefix + "_REF_VALUES";
 
         // logical_resources (1) ---- (*) patient_ref_values (*) ---- (0|1) logical_resource_ident
         Table tbl = Table.builder(schemaName, tableName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0028.vid()) // V0028: tweak vacuum and fillfactor
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addIntColumn(           PARAMETER_NAME_ID,    false)
@@ -612,14 +624,16 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
      * values stored in COMMON_CANONICAL_VALUES
      * @param group
      * @param prefix
+     * @param isRetired
      * @return
      */
-    public Table addProfiles(List<IDatabaseObject> group, String prefix) {
+    public Table addProfiles(List<IDatabaseObject> group, String prefix, boolean isRetired) {
 
         final String tableName = prefix + "_" + PROFILES;
 
         // logical_resources (1) ---- (*) patient_profiles (*) ---- (0|1) common_canonical_values
         Table tbl = Table.builder(schemaName, tableName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addBigIntColumn(          CANONICAL_ID,    false)
@@ -659,14 +673,16 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
      * they are not very selective).
      * @param group
      * @param prefix
+     * @param isRetired
      * @return
      */
-    public Table addTags(List<IDatabaseObject> group, String prefix) {
+    public Table addTags(List<IDatabaseObject> group, String prefix, boolean isRetired) {
 
         final String tableName = prefix + "_" + TAGS;
 
         // logical_resources (1) ---- (*) patient_tags (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
@@ -702,13 +718,15 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
      * Add the common_token_values mapping table for security search parameters
      * @param group
      * @param prefix
+     * @param isRetired
      * @return
      */
-    public Table addSecurity(List<IDatabaseObject> group, String prefix) {
+    public Table addSecurity(List<IDatabaseObject> group, String prefix, boolean isRetired) {
         final String tableName = prefix + "_" + SECURITY;
 
         // logical_resources (1) ---- (*) patient_security (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
@@ -745,10 +763,11 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
      * schema change (V0006 issue 1366) as much as possible from the search query
      * generation. Search queries simply need to join against this view instead
      * of the old {resourceType}_token_values table
+     * @param isRetired
      * @param pdm
      * @return
      */
-    public void addTokenValuesView(List<IDatabaseObject> group, String prefix) {
+    public void addTokenValuesView(List<IDatabaseObject> group, String prefix, boolean isRetired) {
 
         final String viewName = prefix + "_" + TOKEN_VALUES_V;
 
@@ -766,6 +785,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
 
         View view = View.builder(schemaName, viewName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0028.vid())
                 .setSelectClause(select.toString())
                 .addPrivileges(resourceTablePrivileges)
@@ -782,8 +802,9 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
      * queries using reference parameters.
      * @param group
      * @param prefix
+     * @param isRetired
      */
-    public void addRefValuesView(List<IDatabaseObject> group, String prefix) {
+    public void addRefValuesView(List<IDatabaseObject> group, String prefix, boolean isRetired) {
 
         final String viewName = prefix + "_" + REF_VALUES_V;
 
@@ -800,6 +821,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         select.append(" WHERE lri.logical_resource_id = ref.ref_logical_resource_id ");
 
         View view = View.builder(schemaName, viewName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0027.vid())
                 .setSelectClause(select.toString())
                 .addPrivileges(resourceTablePrivileges)
@@ -829,12 +851,14 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
      * </pre>
      * @param group
      * @param prefix
+     * @param isRetired
      */
-    public void addDateValues(List<IDatabaseObject> group, String prefix) {
+    public void addDateValues(List<IDatabaseObject> group, String prefix, boolean isRetired) {
         final String tableName = prefix + "_DATE_VALUES";
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
@@ -894,12 +918,14 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
      * </pre>
      * @param group
      * @param prefix
+     * @param isRetired
      */
-    public void addNumberValues(List<IDatabaseObject> group, String prefix) {
+    public void addNumberValues(List<IDatabaseObject> group, String prefix, boolean isRetired) {
         final String tableName = prefix + "_NUMBER_VALUES";
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
@@ -935,7 +961,7 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
                     }
-                    
+
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
@@ -966,12 +992,14 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
      * </pre>
      * @param group
      * @param prefix
+     * @param isRetired
      */
-    public void addLatLngValues(List<IDatabaseObject> group, String prefix) {
+    public void addLatLngValues(List<IDatabaseObject> group, String prefix, boolean isRetired) {
         final String tableName = prefix + "_LATLNG_VALUES";
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
@@ -1037,12 +1065,14 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
      * </pre>
      * @param group
      * @param prefix
+     * @param isRetired
      */
-    public void addQuantityValues(List<IDatabaseObject> group, String prefix) {
+    public void addQuantityValues(List<IDatabaseObject> group, String prefix, boolean isRetired) {
         final String tableName = prefix + "_QUANTITY_VALUES";
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
+                .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
@@ -1074,7 +1104,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
                         statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
                     }
-                    
+
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }

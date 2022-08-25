@@ -131,8 +131,14 @@ public class FhirSchemaGenerator {
     // Which variant of the schema do we want to build
     private final SchemaType schemaType;
 
+    // The set of resource types that have been removed from the spec (upper-cased to make case-insensitive "contains" simpler);
+    // we skip creating these tables but we still want them in the model
+    private static final Set<String> RETIRED_TYPES = ResourceTypeUtil.getRemovedResourceTypes(FHIRVersionParam.VERSION_43).stream()
+            .map(String::toUpperCase)
+            .collect(Collectors.toSet());
+
     // UPPER case, no abstract types
-    private static final Set<String> R4B_RESOURCE_TYPES = ResourceTypeUtil.getResourceTypesFor(FHIRVersionParam.VERSION_43).stream()
+    private static final Set<String> ALL_RESOURCE_TYPES = ResourceTypeUtil.getAllResourceTypeNames().stream()
             .map(rt -> rt.toUpperCase())
             .collect(Collectors.toSet());
 
@@ -209,14 +215,16 @@ public class FhirSchemaGenerator {
      * @param schemaName
      */
     public FhirSchemaGenerator(String adminSchemaName, String schemaName, SchemaType schemaType) {
-        this(adminSchemaName, schemaName, schemaType, R4B_RESOURCE_TYPES);
+        this(adminSchemaName, schemaName, schemaType, ALL_RESOURCE_TYPES);
     }
 
     /**
-     * Generate the IBM FHIR Server Schema with just the given resourceTypes
+     * Generate the LinuxForHealth FHIR Server Schema with just the given resourceTypes
      *
      * @param adminSchemaName
      * @param schemaName
+     * @param resourceTypes
+     * @throws IllegalArgumentException if one or more of the resource types are not valid FHIR resource types
      */
     public FhirSchemaGenerator(String adminSchemaName, String schemaName, SchemaType schemaType, Set<String> resourceTypes) {
         this.adminSchemaName = adminSchemaName;
@@ -244,6 +252,11 @@ public class FhirSchemaGenerator {
         // FHIRSERVER gets to use the FHIR sequence
         sequencePrivileges.add(new GroupPrivilege(FhirSchemaConstants.FHIR_USER_GRANT_GROUP, Privilege.USAGE));
 
+        for (String resourceType : resourceTypes) {
+            if (!ALL_RESOURCE_TYPES.contains(resourceType.toUpperCase())) {
+                throw new IllegalArgumentException("Passed resource type '" + resourceType + "' is not a valid resource type");
+            }
+        }
         this.resourceTypes = resourceTypes;
     }
 
@@ -1125,11 +1138,14 @@ public class FhirSchemaGenerator {
         for (String resourceType: this.resourceTypes) {
 
             resourceType = resourceType.toUpperCase().trim();
-            if (!R4B_RESOURCE_TYPES.contains(resourceType)) {
-                logger.warning("Passed resource type '" + resourceType + "' is not a supported resource type in fhirVersion 4.3; creating anyway");
+
+            boolean isRetired = false;
+            if (RETIRED_TYPES.contains(resourceType)) {
+                logger.warning("Passed resource type '" + resourceType + "' has been retired in FHIR 4.3; corresponding tables will not be created");
+                isRetired = true;
             }
 
-            ObjectGroup group = frg.addResourceType(resourceType);
+            ObjectGroup group = frg.addResourceType(resourceType, isRetired);
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
             // Add additional dependencies the group doesn't yet know about
