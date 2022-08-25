@@ -67,7 +67,7 @@ public class ValidateOperationTest {
             validateOperation.doInvoke(null, null, null, null, input, resourceHelper, null);
             fail();
         } catch (Exception e) {
-            assertEquals(e.getMessage(), "Input parameter 'resource' is required for the $validate operation");
+            assertEquals(e.getMessage(), "Input parameter 'resource' must be present unless the mode is 'delete'");
         }
     }
 
@@ -432,7 +432,6 @@ public class ValidateOperationTest {
                         .text(string("Resource deletion, of type 'Patient', with id '1', is not supported."))
                         .build())
                     .build();
-            System.out.println(input.toString());
             Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
             OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
             assertEquals(operationOutcome.getIssue().size(), 1);
@@ -482,6 +481,202 @@ public class ValidateOperationTest {
                         .build())
                     .build();
             
+            Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
+            
+            OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
+            assertEquals(operationOutcome.getIssue().size(), 1);
+            assertEquals(operationOutcome.getIssue().get(0), expectedOutput); 
+        
+    }
+    
+    
+    /**
+     * Test validate operation with create mode type code and  "update/create" enabled. 
+     * Validate the outcome when the persistence layer implementation supports the "update/create" operation  
+     * @throws Exception 
+     * 
+     */
+    @Test
+    public void testValidateOperationWithUpdateCreateEnabled() throws Exception {
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+            Parameters input = Parameters.builder()
+                    .parameter(Parameter.builder()
+                        .name("resource")
+                        .resource(Patient.builder()
+                            .text(Narrative.builder()
+                                .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                                .status(NarrativeStatus.GENERATED)
+                                .build())
+                            .build())
+                        .build(),
+                        Parameter.builder()
+                            .name("mode")
+                            .value(Code.of("create"))
+                            .build())
+                    .build();
+            FHIROperationContext operationContext =
+                    FHIROperationContext.createInstanceOperationContext("validate");
+            operationContext.setProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL, persistence);
+            
+            Issue expectedOutput = Issue.builder()
+                    .severity(IssueSeverity.INFORMATION)
+                    .code(IssueType.INFORMATIONAL)
+                    .details(CodeableConcept.builder()
+                        .text(string("All OK"))
+                        .build())
+                    .build();
+            // mock the persistence layer implementation to support the "update/create" operation 
+            when(persistence.isUpdateCreateEnabled()).thenReturn(true);
+           
+            FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
+            SingleResourceResult result = mock(SingleResourceResult.class);
+
+         // mock and return a resource when resourceHelper.doRead() is invoked from validateOperation.doInvoke
+            when(result.isSuccess()).thenReturn(true);
+            when(result.getResource()).thenReturn(null);
+            when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> result);
+            Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
+            
+            OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
+            assertEquals(operationOutcome.getIssue().size(), 1);
+            assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
+        
+    }
+    
+    /**
+     * Test validate operation with create mode type code and "update/create" disabled. 
+     * Validate the outcome when the persistence layer implementation does not support the "update/create" operation  
+     * @throws Exception 
+     * 
+     */
+    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*Resource create, of type 'Patient', is not supported.*")
+    public void testValidateOperationWithUpdateCreateDisabled() throws Exception {
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+            Parameters input = Parameters.builder()
+                    .parameter(Parameter.builder()
+                        .name("resource")
+                        .resource(Patient.builder()
+                            .text(Narrative.builder()
+                                .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                                .status(NarrativeStatus.GENERATED)
+                                .build())
+                            .build())
+                        .build(),
+                        Parameter.builder()
+                            .name("mode")
+                            .value(Code.of("create"))
+                            .build())
+                    .build();
+            FHIROperationContext operationContext =
+                    FHIROperationContext.createInstanceOperationContext("validate");
+            operationContext.setProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL, persistence);
+            
+            Issue expectedOutput = Issue.builder()
+                    .severity(IssueSeverity.ERROR)
+                    .code(IssueType.NOT_SUPPORTED)
+                    .details(CodeableConcept.builder()
+                        .text(string("Resource create, of type 'Patient', is not supported."))
+                        .build())
+                    .build();
+            //mock the persistence layer implementation not to support the "update/create" operation
+            when(persistence.isUpdateCreateEnabled()).thenReturn(false);
+            
+            FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
+            SingleResourceResult result = mock(SingleResourceResult.class);
+
+         // mock and return a resource when resourceHelper.doRead() is invoked from validateOperation.doInvoke
+            when(result.isSuccess()).thenReturn(true);
+            when(result.getResource()).thenReturn(null);
+            when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> result);
+            Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
+            
+            OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
+            assertEquals(operationOutcome.getIssue().size(), 1);
+            assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
+        
+    }
+    
+    /**
+     * Test validate operation with create mode type code and when the resource parameter is null. 
+     * @throws Exception 
+     * 
+     */
+    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*Input parameter 'resource' must be present unless the mode is 'delete'*")
+    public void testValidateOperationWithNoResourceParameter() throws Exception {
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+            Parameters input = Parameters.builder()
+                    .parameter(Parameter.builder()
+                        .name("mode")
+                        .value(Code.of("create"))
+                        .build())
+                    .build();
+            FHIROperationContext operationContext =
+                    FHIROperationContext.createInstanceOperationContext("validate");
+            operationContext.setProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL, persistence);
+            
+            Issue expectedOutput = Issue.builder()
+                    .severity(IssueSeverity.ERROR)
+                    .code(IssueType.NOT_SUPPORTED)
+                    .details(CodeableConcept.builder()
+                        .text(string("Resource create, of type 'Patient', is not supported."))
+                        .build())
+                    .build();
+                       
+            FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
+            SingleResourceResult result = mock(SingleResourceResult.class);
+
+         // mock and return a resource when resourceHelper.doRead() is invoked from validateOperation.doInvoke
+            when(result.isSuccess()).thenReturn(true);
+            when(result.getResource()).thenReturn(null);
+            when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> result);
+            Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
+            
+            OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
+            assertEquals(operationOutcome.getIssue().size(), 1);
+            assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
+        
+    }
+    
+    /**
+     * Test validate operation with resource type level and update mode type code. 
+     * @throws Exception 
+     * 
+     */
+    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*Modes update and delete can only be used when the operation is invoked at the resource instance level.*")
+    public void testValidateOperationWithTypeLevel() throws Exception {
+        Parameters input = Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name("resource")
+                    .resource(Patient.builder()
+                        .text(Narrative.builder()
+                            .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                            .status(NarrativeStatus.GENERATED)
+                            .build())
+                        .build())
+                    .build(),
+                    Parameter.builder()
+                        .name("mode")
+                        .value(Code.of("update"))
+                        .build())
+                .build();
+            FHIROperationContext operationContext =
+                    FHIROperationContext.createResourceTypeOperationContext("validate");
+            
+            Issue expectedOutput = Issue.builder()
+                    .severity(IssueSeverity.ERROR)
+                    .code(IssueType.NOT_SUPPORTED)
+                    .details(CodeableConcept.builder()
+                        .text(string("Resource create, of type 'Patient', is not supported."))
+                        .build())
+                    .build();
+                       
+            FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
+            SingleResourceResult result = mock(SingleResourceResult.class);
+
+         // mock and return a resource when resourceHelper.doRead() is invoked from validateOperation.doInvoke
+            when(result.isSuccess()).thenReturn(true);
+            when(result.getResource()).thenReturn(null);
+            when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> result);
             Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
             
             OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);

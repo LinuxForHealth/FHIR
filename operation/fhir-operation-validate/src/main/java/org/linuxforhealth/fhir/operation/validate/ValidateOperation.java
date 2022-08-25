@@ -34,7 +34,6 @@ import org.linuxforhealth.fhir.registry.FHIRRegistry;
 import org.linuxforhealth.fhir.search.util.SearchHelper;
 import org.linuxforhealth.fhir.server.spi.operation.AbstractOperation;
 import org.linuxforhealth.fhir.server.spi.operation.FHIROperationContext;
-import org.linuxforhealth.fhir.server.spi.operation.FHIROperationContext.Type;
 import org.linuxforhealth.fhir.server.spi.operation.FHIROperationUtil;
 import org.linuxforhealth.fhir.server.spi.operation.FHIRResourceHelpers;
 import org.linuxforhealth.fhir.validation.FHIRValidator;
@@ -60,10 +59,8 @@ public class ValidateOperation extends AbstractOperation {
             List<OperationOutcome.Issue> issues;
             Parameter profileParameter = getParameter(parameters, "profile");
             
-            FHIRPersistence persistence =
-                    (FHIRPersistence) operationContext.getProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL);
             // Validate mode parameter.
-            validateModeParameter(modeParameter, resourceHelper, resourceTypeName, operationContext.getType(), persistence);
+            validateModeParameter(modeType, resourceHelper, resourceTypeName, operationContext);
 
             if (profileParameter != null && profileParameter.getValue() != null) {
                 // If the 'profile' parameter is specified, always validate the resource against that profile.
@@ -71,17 +68,17 @@ public class ValidateOperation extends AbstractOperation {
                 String profile = profileUri == null ? null : profileUri.getValue();
                 issues = FHIRValidator.validator().validate(resource, profile);
             } else if (modeType != null
-                    && ("create".equals(modeType.value())
-                            || "update".equals(modeType.value()))) {
+                    && (modeType == ModeType.CREATE
+                            || modeType == ModeType.UPDATE)) {
                 // If the 'mode' parameter is specified and its value is 'create' or 'update', validate the resource
                 // against the FHIR server config's profile properties and the resource's asserted profiles.
                 issues = resourceHelper.validateResource(resource);
             } else if (modeType != null
-                    && ModeType.DELETE.value().equals(modeType.value())
-                    && FHIROperationContext.Type.INSTANCE.equals(operationContext.getType())) {
+                    && modeType == ModeType.DELETE
+                    && operationContext.getType() == FHIROperationContext.Type.INSTANCE) {
                 // If the 'mode' parameter is specified and its value is 'delete' and delete is invoked at the resource-instance level,
                 // validate if the persistence layer implementation supports the "delete" operation
-                issues = validateDeleteResource(resourceTypeName, logicalId, operationContext, persistence);
+                issues = validateDeleteResource(resourceTypeName, logicalId, operationContext);
             } else {
                 // Standard validation against the resource's asserted profiles.
                 issues = FHIRValidator.validator().validate(resource);
@@ -132,41 +129,32 @@ public class ValidateOperation extends AbstractOperation {
      * @param modeParameter resource validation mode code to be validated
      * @param resourceHelper Resource operation provider for loading related Library resources
      * @param resourceType a valid resource type string
-     * @param type the invocation type:  SYSTEM, RESOURCE_TYPE, INSTANCE
-     * @param persistence the FHIRPersistence implementation to facilitate the calls to the underlying db 
+     * @param operationContext the FHIROperationContext associated with the request
      * @throws FHIROperationException when the resource validation mode code is invalid
      */
-    private void validateModeParameter(Parameter modeParameter, FHIRResourceHelpers resourceHelper, String resourceType, Type type, FHIRPersistence persistence) throws FHIROperationException {
-        if (modeParameter != null && modeParameter.getValue() != null) {
-            ModeType modetype;
-            try {
-                // Validate if a resource validation mode code is valid
-                modetype =  ModeType.from(modeParameter.getValue().as(Code.class).getValue());
-            } catch (IllegalArgumentException e) {
-                String msg = "'" + modeParameter.getValue().as(Code.class).getValue() + "' is not a valid resource validation mode";
-                throw buildExceptionWithIssue(IssueSeverity.ERROR, IssueType.INVALID, msg, null);
-            }
-            
+    private void validateModeParameter(ModeType modetype, FHIRResourceHelpers resourceHelper, String resourceType, FHIROperationContext operationContext) throws FHIROperationException {
+        if (modetype != null) {
             // Validate an interaction for a specified resource type.
-            if (ModeType.CREATE.value().equals(modetype.value())  
-                    || ModeType.UPDATE.value().equals(modetype.value()) 
-                    || ModeType.DELETE.value().equals(modetype.value())) {
+            if ((modetype == ModeType.CREATE  
+                    || modetype == ModeType.UPDATE 
+                    || modetype == ModeType.DELETE)
+                    && resourceType != null) {
                 FHIRResourceHelpers.Interaction interaction = FHIRResourceHelpers.Interaction.from(modetype.value());
                 resourceHelper.validateInteraction(interaction, resourceType);
-                
             }
-            
             // Validate if persistence layer implementation supports update/create mode if mode = update/create.
-            if (FHIROperationContext.Type.INSTANCE.equals(type) && 
-                    (ModeType.CREATE.value().equals(modetype.value()) || ModeType.UPDATE.value().equals(modetype.value())) 
-                    && !persistence.isUpdateCreateEnabled()) {
-                throw buildExceptionWithIssue(IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Resource " + modetype.value() +  ", of type '"
-                        + resourceType + "', is not supported.", null);
+            if (operationContext != null && operationContext.getType() == FHIROperationContext.Type.INSTANCE && 
+                    (modetype == ModeType.CREATE || modetype == ModeType.UPDATE)) {
+                FHIRPersistence persistence =
+                        (FHIRPersistence) operationContext.getProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL);
+                if(!persistence.isUpdateCreateEnabled()) {
+                    throw buildExceptionWithIssue(IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Resource " + modetype.value() +  ", of type '"
+                            + resourceType + "', is not supported.", null);  
+                }
             }
-            
             // Validate if modes update and delete are only be used when the operation is invoked at the resource instance level
-            if (FHIROperationContext.Type.RESOURCE_TYPE.equals(type) && 
-                    (ModeType.UPDATE.value().equals(modetype.value()) || ModeType.DELETE.value().equals(modetype.value()))) {
+            if (operationContext != null && operationContext.getType() == FHIROperationContext.Type.RESOURCE_TYPE && 
+                    (modetype == ModeType.UPDATE || modetype == ModeType.DELETE)) {
                 
                 throw buildExceptionWithIssue(IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Modes update and delete can only be used when the operation is invoked at the resource instance level.", null);
             }
@@ -202,12 +190,13 @@ public class ValidateOperation extends AbstractOperation {
      * @param type the resource type 
      * @param id the resource logical ID
      * @param operationContext the FHIROperationContext associated with the request
-     * @param persistence the FHIRPersistence implementation to facilitate the calls to the underlying db
      * @return A list of validation errors and warnings
      * @throws FHIROperationException the FHIR operation exception
      */
-    public List<Issue> validateDeleteResource(String type, String id, FHIROperationContext operationContext, FHIRPersistence persistence) throws FHIROperationException {
+    public List<Issue> validateDeleteResource(String type, String id, FHIROperationContext operationContext) throws FHIROperationException {
         List<Issue> warnings = new ArrayList<>();
+        FHIRPersistence persistence =
+                (FHIRPersistence) operationContext.getProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL);
         if (!persistence.isDeleteSupported()) {
             warnings.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Resource deletion, of type '"
                     + type + "', with id '" + id + "', is not supported."));
@@ -248,8 +237,8 @@ public class ValidateOperation extends AbstractOperation {
         String resourceTypeName, ModeType modeType) throws Exception, FHIROperationException {
         Resource resource = null;
         // if $validate is invoked at instance level and mode = create, check if the resource already exists. 
-        if (operationContext != null && FHIROperationContext.Type.INSTANCE.equals(operationContext.getType()) 
-                && modeType != null && ModeType.CREATE.value().equals(modeType.value())) {
+        if (operationContext != null && operationContext.getType() == FHIROperationContext.Type.INSTANCE 
+                && modeType != null && modeType == ModeType.CREATE) {
             Resource existingResource = resourceHelper.doRead(resourceTypeName, logicalId).getResource();
             if (existingResource != null) {
                 throw buildExceptionWithIssue(IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, resourceTypeName + " with id '" + logicalId + "' already exists", null);
@@ -258,13 +247,13 @@ public class ValidateOperation extends AbstractOperation {
         // resource parameter must be present unless the mode is "delete"
         if (resourceParameter == null 
                 && (modeType == null 
-                || ModeType.CREATE.value().equals(modeType.value()) 
-                || ModeType.UPDATE.value().equals(modeType.value()))) {
+                || modeType == ModeType.CREATE 
+                || modeType == ModeType.UPDATE)) {
             throw buildExceptionWithIssue(IssueSeverity.ERROR, IssueType.INVALID, "Input parameter 'resource' must be present unless the mode is 'delete'", null);
         }
         // if mode=profile AND no resource parameter value is provided then the resource at this id is read and validated against the nominated profile
-        if (resourceParameter == null && operationContext != null && FHIROperationContext.Type.INSTANCE.equals(operationContext.getType()) 
-                && (modeType != null && ModeType.PROFILE.value().equals(modeType.value()))) {
+        if (resourceParameter == null && operationContext != null && operationContext.getType() == FHIROperationContext.Type.INSTANCE 
+                && (modeType != null && modeType == ModeType.PROFILE)) {
             resource = resourceHelper.doRead(resourceTypeName, logicalId).getResource();
             if (resource == null) {
                 throw buildExceptionWithIssue(IssueSeverity.ERROR, IssueType.INVALID, resourceTypeName + " with id '" + logicalId + "' does not exist", null);
