@@ -302,7 +302,16 @@ public class ValidateOperationTest {
         
         FHIROperationContext operationContext =
                 FHIROperationContext.createInstanceOperationContext("validate");
-        Parameters input = Parameters.builder()
+        Parameters input =  Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name("resource")
+                    .resource(Patient.builder()
+                        .text(Narrative.builder()
+                            .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                            .status(NarrativeStatus.GENERATED)
+                            .build())
+                        .build())
+                    .build())
                 .build();
         
         Issue expectedOutput = Issue.builder()
@@ -322,19 +331,38 @@ public class ValidateOperationTest {
      * Test resource-instance level validate operation when the resource with the input logicalID is not available in the database.
      * @throws Exception 
      */
-    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*Patient with id '1' was not found*")
-    public void testResourceInstanceLevelValidateForNullResource() throws Exception {
+    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*Patient with id '1' already exists*")
+    public void testResourceInstanceLevelValidateForAlreadyExistingResource() throws Exception {
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
         SingleResourceResult result = mock(SingleResourceResult.class);
+        Patient patient = Patient.builder().id("test")
+                .text(Narrative.builder()
+                    .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                    .status(NarrativeStatus.GENERATED)
+                    .build())
+                .build();
         
         // mock and return null when resourceHelper.doRead() is invoked from validateOperation.doInvoke
         when(result.isSuccess()).thenReturn(false);
-        when(result.getResource()).thenReturn(null);
+        when(result.getResource()).thenReturn(patient);
         when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> result);
         
         FHIROperationContext operationContext =
                 FHIROperationContext.createInstanceOperationContext("validate");
         Parameters input = Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name("resource")
+                    .resource(Patient.builder()
+                        .text(Narrative.builder()
+                            .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                            .status(NarrativeStatus.GENERATED)
+                            .build())
+                        .build())
+                    .build(),
+                    Parameter.builder()
+                        .name("mode")
+                        .value(Code.of("create"))
+                        .build())
                 .build();
 
         validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
@@ -351,9 +379,6 @@ public class ValidateOperationTest {
                     .parameter(Parameter.builder()
                         .name("resource")
                         .resource(Patient.builder()
-                            .meta(Meta.builder()
-                                .profile(Canonical.of("atLeastOne"), Canonical.of("notAllowed"))
-                                .build())
                             .text(Narrative.builder()
                                 .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
                                 .status(NarrativeStatus.GENERATED)
@@ -382,9 +407,6 @@ public class ValidateOperationTest {
                     .parameter(Parameter.builder()
                         .name("resource")
                         .resource(Patient.builder()
-                            .meta(Meta.builder()
-                                .profile(Canonical.of("atLeastOne"), Canonical.of("notAllowed"))
-                                .build())
                             .text(Narrative.builder()
                                 .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
                                 .status(NarrativeStatus.GENERATED)
@@ -404,13 +426,13 @@ public class ValidateOperationTest {
             when(persistence.isDeleteSupported()).thenReturn(false);
             
             Issue expectedOutput = Issue.builder()
-                    .severity(IssueSeverity.WARNING)
+                    .severity(IssueSeverity.ERROR)
                     .code(IssueType.NOT_SUPPORTED)
                     .details(CodeableConcept.builder()
-                        .text(string("Resource deletion of type 'Patient' with id '1' is not supported."))
+                        .text(string("Resource deletion, of type 'Patient', with id '1', is not supported."))
                         .build())
                     .build();
-            
+            System.out.println(input.toString());
             Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
             OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
             assertEquals(operationOutcome.getIssue().size(), 1);
