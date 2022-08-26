@@ -493,7 +493,7 @@ public class ValidateOperationTest {
     
     
     /**
-     * Test validate operation with create mode type code and  "update/create" enabled. 
+     * Test validate operation with update mode type code and  "update/create" enabled.
      * Validate the outcome when the persistence layer implementation supports the "update/create" operation  
      * @throws Exception 
      * 
@@ -513,7 +513,7 @@ public class ValidateOperationTest {
                         .build(),
                         Parameter.builder()
                             .name("mode")
-                            .value(Code.of("create"))
+                            .value(Code.of("update"))
                             .build())
                     .build();
             FHIROperationContext operationContext =
@@ -546,12 +546,12 @@ public class ValidateOperationTest {
     }
     
     /**
-     * Test validate operation with create mode type code and "update/create" disabled. 
+     * Test validate operation with update mode type code and "update/create" disabled.
      * Validate the outcome when the persistence layer implementation does not support the "update/create" operation  
      * @throws Exception 
      * 
      */
-    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*Resource create, of type 'Patient', is not supported.*")
+    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*Resource update, of type 'Patient', is not supported.*")
     public void testValidateOperationWithUpdateCreateDisabled() throws Exception {
         FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
             Parameters input = Parameters.builder()
@@ -566,7 +566,7 @@ public class ValidateOperationTest {
                         .build(),
                         Parameter.builder()
                             .name("mode")
-                            .value(Code.of("create"))
+                            .value(Code.of("update"))
                             .build())
                     .build();
             FHIROperationContext operationContext =
@@ -732,8 +732,6 @@ public class ValidateOperationTest {
             doThrow(ex).when(fhirResourceHelper).validateInteraction(any(), anyString());
              
             validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, fhirResourceHelper, null);
-
-
     }
 
 }

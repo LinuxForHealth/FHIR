@@ -67,15 +67,11 @@ public class ValidateOperation extends AbstractOperation {
                 Uri profileUri = profileParameter.getValue().as(Uri.class);
                 String profile = profileUri == null ? null : profileUri.getValue();
                 issues = FHIRValidator.validator().validate(resource, profile);
-            } else if (modeType != null
-                    && (modeType == ModeType.CREATE
-                            || modeType == ModeType.UPDATE)) {
+            } else if (modeType == ModeType.CREATE || modeType == ModeType.UPDATE) {
                 // If the 'mode' parameter is specified and its value is 'create' or 'update', validate the resource
                 // against the FHIR server config's profile properties and the resource's asserted profiles.
                 issues = resourceHelper.validateResource(resource);
-            } else if (modeType != null
-                    && modeType == ModeType.DELETE
-                    && operationContext.getType() == FHIROperationContext.Type.INSTANCE) {
+            } else if (modeType == ModeType.DELETE && operationContext.getType() == FHIROperationContext.Type.INSTANCE) {
                 // If the 'mode' parameter is specified and its value is 'delete' and delete is invoked at the resource-instance level,
                 // validate if the persistence layer implementation supports the "delete" operation
                 issues = validateDeleteResource(resourceTypeName, logicalId, operationContext);
@@ -120,12 +116,11 @@ public class ValidateOperation extends AbstractOperation {
     
     
     /**
-     * This method does the following validations.
-     * 1. Validate if a resource validation mode code is valid.
-     * 2. Validate an interaction for a specified resource type.
-     * 3. Validate if persistence layer implementation supports update/create mode if mode = create.
-     * 4. Validate if persistence layer implementation supports update/create mode if mode = update but the resource doesnot exist yet in the DB.
-     * 5. Validate if modes update and delete are only be used when the operation is invoked at the resource instance level
+     * This method does the following validations if modeType(mode parameter) is not null. If the mode parameter is null then the below validations are skipped.
+     * 1. Validate an interaction for a specified resource type.
+     * 2. Validate if persistence layer implementation supports update/create mode if mode = create.
+     * 3. Validate if persistence layer implementation supports update/create mode if mode = update but the resource doesnot exist yet in the DB.
+     * 4. Validate if modes update and delete are only be used when the operation is invoked at the resource instance level
      *
      * @param modeParameter resource validation mode code to be validated
      * @param resourceHelper Resource operation provider for loading related Library resources
@@ -177,14 +172,17 @@ public class ValidateOperation extends AbstractOperation {
     private void validateUpdateCreateEnabled(ModeType modetype, String resourceType, FHIROperationContext operationContext) throws FHIROperationException {
         FHIRPersistence persistence =
                 (FHIRPersistence) operationContext.getProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL);
-        if(!persistence.isUpdateCreateEnabled()) {
+        if (!persistence.isUpdateCreateEnabled()) {
             throw buildExceptionWithIssue(IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Resource " + modetype.value() +  ", of type '"
                     + resourceType + "', is not supported.", null);  
         }
     }
 
     /**
-     * Method to get a valid resource validation mode code from ModeType enum
+     * If the mode parameter is not null, this method validates if a resource validation mode code is valid and
+     * returns valid resource validation mode code from ModeType enum.
+     * If mode parameter is null this method returns null.
+     * If mode parameter is not valid this method throws FHIROperationException with issues.
      * @param modeParameter resource validation mode code
      * @return The corresponding ModeType or null if a null value was passed
      * @throws FHIROperationException
@@ -201,8 +199,7 @@ public class ValidateOperation extends AbstractOperation {
             return modetype;
             
         }
-        return null; 
-        
+        return null;
     }
     
     
@@ -260,7 +257,7 @@ public class ValidateOperation extends AbstractOperation {
         Resource resource = null;
         // if $validate is invoked at instance level and mode = create, check if the resource already exists. 
         if (operationContext != null && operationContext.getType() == FHIROperationContext.Type.INSTANCE 
-                && modeType != null && modeType == ModeType.CREATE) {
+                && modeType == ModeType.CREATE) {
             Resource existingResource = resourceHelper.doRead(resourceType, logicalId).getResource();
             if (existingResource != null) {
                 throw buildExceptionWithIssue(IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, resourceType + " with id '" + logicalId + "' already exists", null);
@@ -275,7 +272,7 @@ public class ValidateOperation extends AbstractOperation {
         }
         // if mode=profile AND no resource parameter value is provided then the resource at this id is read and validated against the nominated profile
         if (resourceParameter == null && operationContext != null && operationContext.getType() == FHIROperationContext.Type.INSTANCE 
-                && (modeType != null && modeType == ModeType.PROFILE)) {
+                && modeType == ModeType.PROFILE) {
             resource = resourceHelper.doRead(resourceType, logicalId).getResource();
             if (resource == null) {
                 throw buildExceptionWithIssue(IssueSeverity.ERROR, IssueType.INVALID, resourceType + " with id '" + logicalId + "' does not exist", null);
