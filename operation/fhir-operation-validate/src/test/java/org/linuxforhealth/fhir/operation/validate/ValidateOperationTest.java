@@ -6,11 +6,13 @@
 package org.linuxforhealth.fhir.operation.validate;
 
 import static org.linuxforhealth.fhir.model.type.String.string;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 
@@ -571,13 +573,6 @@ public class ValidateOperationTest {
                     FHIROperationContext.createInstanceOperationContext("validate");
             operationContext.setProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL, persistence);
             
-            Issue expectedOutput = Issue.builder()
-                    .severity(IssueSeverity.ERROR)
-                    .code(IssueType.NOT_SUPPORTED)
-                    .details(CodeableConcept.builder()
-                        .text(string("Resource create, of type 'Patient', is not supported."))
-                        .build())
-                    .build();
             //mock the persistence layer implementation not to support the "update/create" operation
             when(persistence.isUpdateCreateEnabled()).thenReturn(false);
             
@@ -588,11 +583,7 @@ public class ValidateOperationTest {
             when(result.isSuccess()).thenReturn(true);
             when(result.getResource()).thenReturn(null);
             when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> result);
-            Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
-            
-            OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
-            assertEquals(operationOutcome.getIssue().size(), 1);
-            assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
+            validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
         
     }
     
@@ -614,14 +605,6 @@ public class ValidateOperationTest {
                     FHIROperationContext.createInstanceOperationContext("validate");
             operationContext.setProperty(FHIROperationContext.PROPNAME_PERSISTENCE_IMPL, persistence);
             
-            Issue expectedOutput = Issue.builder()
-                    .severity(IssueSeverity.ERROR)
-                    .code(IssueType.NOT_SUPPORTED)
-                    .details(CodeableConcept.builder()
-                        .text(string("Resource create, of type 'Patient', is not supported."))
-                        .build())
-                    .build();
-                       
             FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
             SingleResourceResult result = mock(SingleResourceResult.class);
 
@@ -629,12 +612,8 @@ public class ValidateOperationTest {
             when(result.isSuccess()).thenReturn(true);
             when(result.getResource()).thenReturn(null);
             when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> result);
-            Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
             
-            OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
-            assertEquals(operationOutcome.getIssue().size(), 1);
-            assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
-        
+            validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
     }
     
     /**
@@ -661,28 +640,100 @@ public class ValidateOperationTest {
                 .build();
             FHIROperationContext operationContext =
                     FHIROperationContext.createResourceTypeOperationContext("validate");
-            
-            Issue expectedOutput = Issue.builder()
-                    .severity(IssueSeverity.ERROR)
-                    .code(IssueType.NOT_SUPPORTED)
-                    .details(CodeableConcept.builder()
-                        .text(string("Resource create, of type 'Patient', is not supported."))
-                        .build())
-                    .build();
                        
             FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
+            validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
+    }
+    
+    /**
+     * Test validate operation for valid interaction when mode = update and no resource already exists in DB.
+     * @throws Exception
+     *
+     */
+    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*The requested interaction of type 'update' is not allowed for resource type 'Patient'*")
+    public void testValidateOperationDisAllowedInteractionForUpdateMode() throws Exception {
+        Parameters input = Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name("resource")
+                    .resource(Patient.builder()
+                        .text(Narrative.builder()
+                            .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                            .status(NarrativeStatus.GENERATED)
+                            .build())
+                        .build())
+                    .build(),
+                    Parameter.builder()
+                        .name("mode")
+                        .value(Code.of("update"))
+                        .build())
+                .build();
+            FHIROperationContext operationContext =
+                    FHIROperationContext.createResourceTypeOperationContext("validate");
+            FHIRResourceHelpers fhirResourceHelper = mock(FHIRResourceHelpers.class);
             SingleResourceResult result = mock(SingleResourceResult.class);
 
          // mock and return a resource when resourceHelper.doRead() is invoked from validateOperation.doInvoke
             when(result.isSuccess()).thenReturn(true);
             when(result.getResource()).thenReturn(null);
-            when(resourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> result);
-            Parameters output = validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, resourceHelper, null);
-            
-            OperationOutcome operationOutcome = output.getParameter().get(0).getResource().as(OperationOutcome.class);
-            assertEquals(operationOutcome.getIssue().size(), 1);
-            assertEquals(operationOutcome.getIssue().get(0), expectedOutput);
-        
+            when(fhirResourceHelper.doRead(eq("Patient"), anyString())).thenAnswer(x -> result);
+            Issue interactionOutcome =
+                    OperationOutcome.Issue.builder()
+                    .severity(IssueSeverity.ERROR)
+                    .code(IssueType.BUSINESS_RULE)
+                    .details(CodeableConcept.builder()
+                        .text(string("The requested interaction of type 'update' is not allowed for resource type 'Patient'"))
+                        .build())
+                    .build();
+            FHIROperationException ex =
+                    new FHIROperationException("The requested interaction of type 'update' is not allowed for resource type 'Patient'")
+                    .withIssue(interactionOutcome);
+            doThrow(ex).when(fhirResourceHelper).validateInteraction(any(), anyString());
+            validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, fhirResourceHelper, null);
     }
     
+    /**
+     * Test validate operation for valid interaction when mode = create.
+     * @throws Exception
+     *
+     */
+    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*The requested interaction of type 'update' is not allowed for resource type 'Patient'*")
+    public void testValidateOperationDisAllowedInteractionForCreateMode() throws Exception {
+        Parameters input = Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name("resource")
+                    .resource(Patient.builder()
+                        .text(Narrative.builder()
+                            .div(Xhtml.of("<div xmlns=\"http://www.w3.org/1999/xhtml\">Some narrative</div>"))
+                            .status(NarrativeStatus.GENERATED)
+                            .build())
+                        .build())
+                    .build(),
+                    Parameter.builder()
+                        .name("mode")
+                        .value(Code.of("create"))
+                        .build())
+                .build();
+            FHIROperationContext operationContext =
+                    FHIROperationContext.createResourceTypeOperationContext("validate");
+
+            FHIRResourceHelpers fhirResourceHelper = mock(FHIRResourceHelpers.class);
+            Issue interactionOutcome =
+                    OperationOutcome.Issue.builder()
+                    .severity(IssueSeverity.ERROR)
+                    .code(IssueType.BUSINESS_RULE)
+                    .details(CodeableConcept.builder()
+                        .text(string("The requested interaction of type 'update' is not allowed for resource type 'Patient'"))
+                        .build())
+                    .build();
+            FHIROperationException ex =
+                    new FHIROperationException("The requested interaction of type 'update' is not allowed for resource type 'Patient'")
+                    .withIssue(interactionOutcome);
+             
+            doThrow(ex).when(fhirResourceHelper).validateInteraction(any(), anyString());
+             
+            validateOperation.doInvoke(operationContext, Patient.class, "1", null, input, fhirResourceHelper, null);
+
+
+    }
+
 }
