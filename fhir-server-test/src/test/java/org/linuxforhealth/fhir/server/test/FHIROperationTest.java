@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -276,7 +276,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         assertEquals(((org.linuxforhealth.fhir.model.type.String) output.getParameter().get(0).getValue()).getValue(),
                 message);
     }
-    
+
     @Test(groups = { "fhir-operation" })
     // Testcase for GET [baseUrl]/${operationName}?input-boolean=true&input-canonical="https://examples.com"&input-code...
     public void testGetHelloOperationWithPrimitives() throws Exception {
@@ -309,7 +309,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         assertFalse(output.getParameter().isEmpty());
         assertEquals(output.getParameter().size(), 16);
     }
-    
+
     @Test(groups = { "fhir-operation" })
     // Testcase for GET [baseUrl]/${operationName}"
     public void testGetHelloOperationWithEmptyBody() throws Exception {
@@ -351,11 +351,7 @@ public class FHIROperationTest extends FHIRServerTestBase {
         assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
         OperationOutcome operationOutcome = response.getResource(OperationOutcome.class);
         String text = operationOutcome.getIssue().get(0).getDetails().getText().getValue();
-        if (text.contains("Input parameter 'resource' is required")) {
-            assertTrue(true); // Force assertion to true
-        } else {
-            assertTrue(false); // Force assertion to false
-        }
+        assertTrue(text.contains("Input parameter 'resource' must be present"), "Issue detail must say 'resource' is required");
     }
 
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testCreatePractitioner", "testCreatePatient" })

@@ -14,7 +14,7 @@ public enum ModeType {
     CREATE("create"),
     UPDATE("update"),
     DELETE("delete"),
-    PROFILE("PROFILE");
+    PROFILE("profile");
 
     private String value;
 
