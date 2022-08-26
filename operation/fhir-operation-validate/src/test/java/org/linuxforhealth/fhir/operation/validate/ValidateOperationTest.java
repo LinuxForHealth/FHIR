@@ -67,7 +67,7 @@ public class ValidateOperationTest {
             validateOperation.doInvoke(null, null, null, null, input, resourceHelper, null);
             fail();
         } catch (Exception e) {
-            assertEquals(e.getMessage(), "Input parameter 'resource' must be present unless the mode is 'delete'");
+            assertEquals(e.getMessage(), "Input parameter 'resource' must be present unless the mode is 'delete' or 'profile'");
         }
     }
 
@@ -601,7 +601,7 @@ public class ValidateOperationTest {
      * @throws Exception 
      * 
      */
-    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*Input parameter 'resource' must be present unless the mode is 'delete'*")
+    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = ".*Input parameter 'resource' must be present unless the mode is 'delete' or 'profile'*")
     public void testValidateOperationWithNoResourceParameter() throws Exception {
         FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
             Parameters input = Parameters.builder()
