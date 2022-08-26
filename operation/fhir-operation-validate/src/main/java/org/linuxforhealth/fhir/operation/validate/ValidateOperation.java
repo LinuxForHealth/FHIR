@@ -134,7 +134,7 @@ public class ValidateOperation extends AbstractOperation {
      * @throws Exception 
      */
     private void validateModeParameter(ModeType modetype, FHIRResourceHelpers resourceHelper, String resourceType, FHIROperationContext operationContext, String logicalId) throws Exception {
-        if(modetype == null) {
+        if (modetype == null) {
             return;
         }
         // Validate an interaction for a specified resource type.
@@ -154,7 +154,7 @@ public class ValidateOperation extends AbstractOperation {
         if (operationContext != null && operationContext.getType() == FHIROperationContext.Type.INSTANCE 
                 && modetype == ModeType.UPDATE) {
             Resource existingResource = resourceHelper.doRead(resourceType, logicalId).getResource();
-            if(existingResource == null) {
+            if (existingResource == null) {
                 validateUpdateCreateEnabled(modetype, resourceType, operationContext);    
             }
         }
