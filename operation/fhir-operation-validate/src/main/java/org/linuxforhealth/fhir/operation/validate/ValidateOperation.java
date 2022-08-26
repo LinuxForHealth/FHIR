@@ -266,7 +266,7 @@ public class ValidateOperation extends AbstractOperation {
                 throw buildExceptionWithIssue(IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, resourceType + " with id '" + logicalId + "' already exists", null);
             }
         }
-        // resource parameter must be present unless the mode is "delete"
+        // resource parameter must be present unless the mode is "delete" (or "profile" per https://jira.hl7.org/browse/FHIR-37998)
         if (resourceParameter == null 
                 && (modeType == null 
                 || modeType == ModeType.CREATE 
