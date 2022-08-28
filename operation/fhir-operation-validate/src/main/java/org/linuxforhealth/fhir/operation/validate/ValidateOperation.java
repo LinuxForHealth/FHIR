@@ -274,7 +274,7 @@ public class ValidateOperation extends AbstractOperation {
 
             // if mode=profile AND no resource parameter value is provided
             // then use resource at this id is read and validated against the nominated profile
-            if (operationContext != null && operationContext.getType() == FHIROperationContext.Type.INSTANCE
+            if (operationContext.getType() == FHIROperationContext.Type.INSTANCE
                     && modeType == ModeType.PROFILE) {
                 resource = resourceHelper.doRead(resourceType, logicalId).getResource();
                 if (resource == null) {
@@ -320,7 +320,7 @@ public class ValidateOperation extends AbstractOperation {
                         resourceType + " with id '" + logicalId + "' already exists"));
             }
 
-            // if mode = create or mode = update and the resource doesn't exist yet,
+            // if "mode = create" or if "mode = update and the resource doesn't exist yet",
             // check if the persistence layer implementation supports update/create mode
             if (modeType == ModeType.CREATE || !resourceExists) {
                 validateUpdateCreateEnabled(modeType, resourceType, operationContext, issues);
