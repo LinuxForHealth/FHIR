@@ -33,6 +33,9 @@ import org.linuxforhealth.fhir.server.test.FHIRServerTestBase;
  */
 public class ExampleRequestProcessor implements IExampleProcessor {
     private static final Logger logger = Logger.getLogger(ExampleRequestProcessor.class.getName());
+
+    private static final int MAX_TRIES = 2;
+
     private final FHIRServerTestBase base;
 
     // The id of the tenant to use in each FHIR server request
@@ -79,9 +82,19 @@ public class ExampleRequestProcessor implements IExampleProcessor {
         long postStart = System.nanoTime();
         // Explicitly use fhirVersion 4.3 so that we can use all the R4B resource types
         Entity<Resource> entity = Entity.entity(resource, FHIRMediaType.APPLICATION_FHIR_43_JSON_TYPE);
-        Response response = target.path(resourceTypeName).request()
-                .header(FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME, tenantId)
-                .post(entity, Response.class);
+
+        int attempt = 1;
+        Response response;
+        do {
+            response = target.path(resourceTypeName).request()
+                    .header(FHIRConfiguration.DEFAULT_TENANT_ID_HEADER_NAME, tenantId)
+                    .post(entity, Response.class);
+
+            if (response.getStatus() == 500) {
+                logger.warning("Unexpected server error for '" + jsonFile + "' POST "
+                        + "on attempt " + attempt + " of " + MAX_TRIES);
+            }
+        } while (response.getStatus() == 500 && attempt++ < MAX_TRIES);
 
         try {
             base.assertResponse(response, Response.Status.CREATED.getStatusCode());
