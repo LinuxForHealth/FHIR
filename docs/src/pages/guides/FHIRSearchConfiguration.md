@@ -91,7 +91,7 @@ The IBM FHIR Server team has introduced a custom SearchParameter extension that 
 
 ```json
 {
-    "url": "http://fhir.linuxforhealth.org/fhir/extension/implicit-system",
+    "url": "http://fhir.linuxforhealth.org/extension/implicit-system",
     "valueUri": "http://hl7.org/fhir/account-status"
 }
 ```
