@@ -402,6 +402,11 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     @Override
+    public String getProviderAzureServiceVersion(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/serviceVersion", null);        
+    }
+
+    @Override
     public boolean isStorageProviderAuthTypeConnectionString(String provider) {
         String auth = getStorageProviderAuthType(provider);
         return "connection".equalsIgnoreCase(auth);

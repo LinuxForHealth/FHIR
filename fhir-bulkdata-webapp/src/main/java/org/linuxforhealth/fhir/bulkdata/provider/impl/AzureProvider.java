@@ -18,14 +18,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.azure.storage.blob.BlobClient;
-import com.azure.storage.blob.BlobClientBuilder;
-import com.azure.storage.blob.BlobContainerClient;
-import com.azure.storage.blob.BlobContainerClientBuilder;
-import com.azure.storage.blob.models.BlobRange;
-import com.azure.storage.blob.models.BlobRequestConditions;
-import com.azure.storage.blob.models.BlobStorageException;
-import com.azure.storage.blob.specialized.AppendBlobClient;
 import org.linuxforhealth.fhir.bulkdata.common.BulkDataUtils;
 import org.linuxforhealth.fhir.bulkdata.dto.ReadResultDTO;
 import org.linuxforhealth.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
@@ -44,6 +36,16 @@ import org.linuxforhealth.fhir.model.type.code.IssueType;
 import org.linuxforhealth.fhir.model.util.FHIRUtil;
 import org.linuxforhealth.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import org.linuxforhealth.fhir.operation.bulkdata.config.ConfigurationFactory;
+
+import com.azure.storage.blob.BlobClient;
+import com.azure.storage.blob.BlobClientBuilder;
+import com.azure.storage.blob.BlobContainerClient;
+import com.azure.storage.blob.BlobContainerClientBuilder;
+import com.azure.storage.blob.BlobServiceVersion;
+import com.azure.storage.blob.models.BlobRange;
+import com.azure.storage.blob.models.BlobRequestConditions;
+import com.azure.storage.blob.models.BlobStorageException;
+import com.azure.storage.blob.specialized.AppendBlobClient;
 
 /**
  * AzureProvider integrates the BulkData feature with Azure Blob Storage.
@@ -75,6 +77,9 @@ public class AzureProvider implements Provider {
     private String connectionString;
     private String container;
 
+    // The version of the Azure Blob API to use
+    private String serviceVersion;
+
     private String workItem;
 
     private boolean collect = false;
@@ -89,6 +94,7 @@ public class AzureProvider implements Provider {
         this.connectionString = ConfigurationFactory.getInstance().getStorageProviderAuthTypeConnectionString(source);
         this.container = ConfigurationFactory.getInstance().getStorageProviderBucketName(source);
         this.collect = ConfigurationFactory.getInstance().shouldStorageProviderCollectOperationOutcomes(source);
+        this.serviceVersion = ConfigurationFactory.getInstance().getProviderAzureServiceVersion(source);
     }
 
     /**
@@ -120,6 +126,7 @@ public class AzureProvider implements Provider {
                 .connectionString(connectionString)
                 .containerName(container)
                 .blobName(workItem)
+                .serviceVersion(BlobServiceVersion.valueOf(this.serviceVersion))
                 .buildClient();
         }
     }
@@ -130,6 +137,7 @@ public class AzureProvider implements Provider {
             BlobContainerClient blobContainerClient = new BlobContainerClientBuilder()
                 .connectionString(connectionString)
                 .containerName(container)
+                .serviceVersion(BlobServiceVersion.valueOf(this.serviceVersion))
                 .buildClient();
             blobContainerClient.create();
             LOG.info("Container is created '" + container + "'");
