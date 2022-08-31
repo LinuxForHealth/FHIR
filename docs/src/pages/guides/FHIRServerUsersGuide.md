@@ -2379,6 +2379,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|boolean|Enables the validation of imported resources|
 |`fhirServer/bulkdata/storageProviders/<source>/presigned`|boolean|When an hmac auth type is used, presigns the URLs of an export|
 |`fhirServer/bulkdata/storageProviders/<source>/create`|boolean|Enables the creation of buckets|
+|`fhirServer/bulkdata/storageProviders/<source>/serviceVersion`|string| Azure service version to support older instances of the service (for example `V2020_12_06`) |
 |`fhirServer/bulkdata/storageProviders/<source>/auth/type`|string|A type of hmac, iam, basic or connection|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/accessKeyId`|string|For HMAC, API key for accessing COS|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/secretAccessKey`|string|For HMAC, secret key for accessing COS|
@@ -2552,6 +2553,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/accessType`|`path`|
 |`fhirServer/bulkdata/storageProviders/<source>/requiresAccessToken`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/allowAllResources`|false|
+|`fhirServer/bulkdata/storageProviders/<source>/serviceVersion`|null|
 |`fhirServer/operations/erase/enabled`|false|
 |`fhirServer/operations/erase/allowedRoles`|empty, all roles|
 |`fhirServer/operations/membermatch/enabled`|true|
@@ -2750,6 +2752,7 @@ Cases where that behavior is not supported are marked below with an `N` in the `
 |`fhirServer/bulkdata/storageProviders/<source>/accessType`|Y|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/requiresAccessToken`|Y|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/allowAllResources`|Y|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/serviceVersion`|Y|Y|Y|
 |`fhirServer/operations/erase/enabled`|Y|Y|Y|
 |`fhirServer/operations/erase/allowedRoles`|Y|Y|Y|
 |`fhirServer/operations/membermatch/enabled`|Y|Y|Y|
