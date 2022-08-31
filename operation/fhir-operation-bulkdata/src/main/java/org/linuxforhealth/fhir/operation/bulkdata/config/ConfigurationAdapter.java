@@ -144,6 +144,13 @@ public interface ConfigurationAdapter {
     long getCoreAzureObjectSizeThreshold();
 
     /**
+     * The serviceVersion for the Azure API
+     * @param provider
+     * @return
+     */
+    String getProviderAzureServiceVersion(String provider);
+
+    /**
      * The number of resources at which to finish writing to a given AzureBlob object,
      *
      * @implNote System value.
