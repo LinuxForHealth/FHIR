@@ -62,11 +62,8 @@ public final class CommonUtil {
     public static void logClasspath(Logger logger) {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("CLASSPATH: ");
-            ClassLoader cl = ClassLoader.getSystemClassLoader();
-            URL[] classpath = ((URLClassLoader) cl).getURLs();
-            for (URL u : classpath) {
-                logger.fine("  " + u.getFile());
-            }
+            String classPath = System.getProperty("java.class.path");
+            logger.fine(classPath);            
         }
     }
 
