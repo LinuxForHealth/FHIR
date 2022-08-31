@@ -62,8 +62,8 @@ public final class CommonUtil {
     public static void logClasspath(Logger logger) {
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("CLASSPATH: ");
-            String classPaths = System.getProperty("java.class.path");
-            logger.fine(path);            
+            String classPath = System.getProperty("java.class.path");
+            logger.fine(classPath);            
         }
     }
 
