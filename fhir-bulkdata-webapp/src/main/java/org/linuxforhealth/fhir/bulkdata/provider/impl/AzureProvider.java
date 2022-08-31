@@ -126,7 +126,7 @@ public class AzureProvider implements Provider {
                 .connectionString(connectionString)
                 .containerName(container)
                 .blobName(workItem)
-                .serviceVersion(BlobServiceVersion.valueOf(this.serviceVersion))
+                .serviceVersion(getBlobServiceVersion())
                 .buildClient();
         }
     }
@@ -137,7 +137,7 @@ public class AzureProvider implements Provider {
             BlobContainerClient blobContainerClient = new BlobContainerClientBuilder()
                 .connectionString(connectionString)
                 .containerName(container)
-                .serviceVersion(BlobServiceVersion.valueOf(this.serviceVersion))
+                .serviceVersion(getBlobServiceVersion())
                 .buildClient();
             blobContainerClient.create();
             LOG.info("Container is created '" + container + "'");
@@ -145,6 +145,21 @@ public class AzureProvider implements Provider {
             LOG.fine("Can't create container. It already exists");
             LOG.throwing(this.getClass().getName(), "createSource", error);
         }
+    }
+
+    /**
+     * Get the configured BlobServiceVersion value or null if not configured
+     * @return the BlobServiceVersion corresponding to this.serviceVersion, or null
+     */
+    private BlobServiceVersion getBlobServiceVersion() {
+        BlobServiceVersion result = null;
+        if (this.serviceVersion != null) {
+            result = BlobServiceVersion.valueOf(this.serviceVersion);
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("BlobServiceVersion = " + result.getVersion());
+            }
+        }
+        return result;
     }
 
     @Override
