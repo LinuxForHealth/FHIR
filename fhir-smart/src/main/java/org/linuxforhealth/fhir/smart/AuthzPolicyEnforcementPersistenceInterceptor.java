@@ -75,7 +75,7 @@ import jakarta.json.JsonValue;
  * <p><a href="http://hl7.org/fhir/smart-app-launch/1.0.0/scopes-and-launch-context/index.html">SMART App Launch: Scopes and Launch Context</a>
  * defines the following pattern for the OAuth 2.0 scopes expected in the JWT:
  * <pre>
- * ( 'patient' | 'user' | 'system' ) '/' ( fhir-resource | '*' ) '.' ( 'read' | 'write' | '*' )`
+ * ( 'patient' | 'user' ) '/' ( fhir-resource | '*' ) '.' ( 'read' | 'write' | '*' )`
  * </pre>
  *
  * <p><a href="http://www.hl7.org/fhir/smart-app-launch/backend-services.html">SMART Backend Services</a>
