@@ -168,10 +168,24 @@ public class EverythingOperation extends AbstractOperation {
         try {
             patient = (Patient) resourceHelper.doRead(PATIENT, logicalId).getResource();
         } catch (Exception e) {
-            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while "
-                    + "reading patient '" + logicalId + "'", IssueType.EXCEPTION, e);
-            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
-            throw exceptionWithIssue;
+            IssueType issueType;
+            if (e instanceof FHIROperationException
+                    && !((FHIROperationException)e).getIssues().isEmpty()
+                    && ((FHIROperationException)e).getIssues().get(0).getCode().getValueAsEnum() == IssueType.Value.FORBIDDEN) {
+                // special case for when the client doesn't have the necessary permissions to read the Patient resource
+                String msg = "Read access to the Patient resource is required for $everything; caused by " + e.getMessage();
+                issueType = ((FHIROperationException)e).getIssues().get(0).getCode();
+
+                FHIROperationException exceptionWithIssue = buildExceptionWithIssue(msg, issueType, e);
+                LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+                throw exceptionWithIssue;
+            } else {
+                // in all other cases we assume its a server-side issue because there's almost no client input into $everything
+                FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while "
+                        + "reading patient '" + logicalId + "'", IssueType.EXCEPTION, e);
+                LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+                throw exceptionWithIssue;
+            }
         }
         if (patient == null) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' "
