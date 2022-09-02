@@ -245,7 +245,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/AccessibilityVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/AccessibilityVS|1.1.0"
                 },
                 "mapping": [
                     {
@@ -285,7 +285,7 @@
                 ],
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/AccessibilityVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/AccessibilityVS|1.1.0"
                 }
             }
         ]

@@ -733,7 +733,7 @@
                     {
                         "code": "Extension",
                         "profile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/newpatients"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/newpatients|1.1.0"
                         ]
                     }
                 ],
@@ -785,7 +785,7 @@
                     {
                         "code": "Extension",
                         "profile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/accessibility"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/accessibility|1.1.0"
                         ]
                     }
                 ],
@@ -831,7 +831,7 @@
                     {
                         "code": "Extension",
                         "profile": [
-                            "http://hl7.org/fhir/StructureDefinition/location-boundary-geojson"
+                            "http://hl7.org/fhir/StructureDefinition/location-boundary-geojson|1.1.0"
                         ]
                     }
                 ],
@@ -3202,7 +3202,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization|1.1.0"
                         ]
                     }
                 ],
@@ -3249,7 +3249,7 @@
                         ],
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location|1.1.0"
                         ]
                     }
                 ],
@@ -3660,7 +3660,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint|1.1.0"
                         ]
                     }
                 ],
@@ -3853,7 +3853,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Organization|1.1.0"
                         ]
                     }
                 ]
@@ -3871,7 +3871,7 @@
                         ],
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Location|1.1.0"
                         ]
                     }
                 ],
@@ -3914,7 +3914,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint"
+                            "http://hl7.org/fhir/us/davinci-pdex-plan-net/StructureDefinition/plannet-Endpoint|1.1.0"
                         ]
                     }
                 ],

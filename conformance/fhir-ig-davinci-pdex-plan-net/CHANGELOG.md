@@ -19,6 +19,11 @@ Source - http://hl7.org/fhir/us/davinci-pdex-plan-net/STU1.1/package.tgz retriev
 - Modified CapabilityStatement-plan-net.json to remove <br/> tags between list items in the narrative text (which is invalid XHTML)
 - Modified ig-r4.json to remove parameters that aren't valid in FHIR R4
 - Stripped narrative text to reduce the size and formatted the JSON contents (both via the ResourceProcessor tool)
+- Added version id to each targetProfile canonical reference
+- Added version id to each valueSet binding target
+- Added version id to each extension's profile reference in each StructureDefinition
+- Added version element to each CodeSystem reference from each ValueSet definition
+
 
 # Steps to update
 1. download the npm package for whatever version of PDEX PlanNet you want (and note what downloads we used from where in this file)
