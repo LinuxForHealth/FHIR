@@ -910,7 +910,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-clinical-test-codes"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-clinical-test-codes|5.0.1"
                 },
                 "mapping": [
                     {
@@ -957,7 +957,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],
@@ -2891,7 +2891,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-clinical-test-codes"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-clinical-test-codes|5.0.1"
                 }
             },
             {
@@ -2902,7 +2902,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],

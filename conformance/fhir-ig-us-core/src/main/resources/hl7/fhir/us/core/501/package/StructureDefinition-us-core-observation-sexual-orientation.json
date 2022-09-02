@@ -901,7 +901,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],
@@ -1346,7 +1346,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Concepts to support who Patient is attracted to",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-sexual-orientation"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-sexual-orientation|5.0.1"
                 },
                 "mapping": [
                     {
@@ -2851,7 +2851,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],
@@ -2916,7 +2916,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Concepts to support who Patient is attracted to",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-sexual-orientation"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-sexual-orientation|5.0.1"
                 }
             }
         ]

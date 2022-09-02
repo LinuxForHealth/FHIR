@@ -714,7 +714,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smoking-status-status"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smoking-status-status|5.0.1"
                 },
                 "mapping": [
                     {
@@ -906,7 +906,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-smoking-status-observation-codes"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-smoking-status-observation-codes|5.0.1"
                 },
                 "mapping": [
                     {
@@ -957,7 +957,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],
@@ -2919,7 +2919,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smoking-status-status"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-observation-smoking-status-status|5.0.1"
                 },
                 "mapping": [
                     {
@@ -2966,7 +2966,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-smoking-status-observation-codes"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-smoking-status-observation-codes|5.0.1"
                 },
                 "mapping": [
                     {
@@ -2983,7 +2983,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],

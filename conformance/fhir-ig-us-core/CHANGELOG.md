@@ -31,6 +31,7 @@ Source - https://www.hl7.org/fhir/us/core/stu4/
 - Replace the packaged USPS valueset with an expanded version obtained from https://tx.fhir.org/r4/ValueSet/$expand?url=http://hl7.org/fhir/us/core/ValueSet/us-core-usps-state on 2022-03-28
 - Added version id to each targetProfile canonical reference (e.g. `http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient` -> `http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|4.0.0`)
 - Added version id to each valueSet binding target (e.g. `http://hl7.org/fhir/us/core/ValueSet/us-core-vital-signs` -> `http://hl7.org/fhir/us/core/ValueSet/us-core-vital-signs|4.0.0`)
+- Added version id to each extension's profile reference in each StructureDefinition
 
 
 ## US Core 5.0.1 - STU5
@@ -39,6 +40,9 @@ Source - http://hl7.org/fhir/us/core/STU5.0.1/
 - Replace &reg; with ® in the following examples:
   - Procedure-defib-implant.json
   - Encounter-example-1.json
+- Added version id to each targetProfile canonical reference
+- Added version id to each valueSet binding target
+- Added version id to each extension's profile reference in each StructureDefinition
 
 
 # Steps to update

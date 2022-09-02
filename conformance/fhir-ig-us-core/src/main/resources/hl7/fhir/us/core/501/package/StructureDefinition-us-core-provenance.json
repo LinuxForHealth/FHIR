@@ -1356,7 +1356,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provenance-participant-type"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provenance-participant-type|5.0.1"
                 },
                 "mapping": [
                     {
@@ -1446,11 +1446,11 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson|5.0.1",
                             "http://hl7.org/fhir/StructureDefinition/Device"
                         ],
                         "_targetProfile": [
@@ -1550,7 +1550,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|5.0.1"
                         ]
                     }
                 ],
@@ -2808,7 +2808,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provenance-participant-type"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-provenance-participant-type|5.0.1"
                 }
             },
             {
@@ -2818,11 +2818,11 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson|5.0.1",
                             "http://hl7.org/fhir/StructureDefinition/Device"
                         ],
                         "_targetProfile": [
@@ -2886,7 +2886,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|5.0.1"
                         ]
                     }
                 ],

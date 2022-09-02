@@ -1596,7 +1596,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Valueset to describe the Encounter Type",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-encounter-type"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-encounter-type|5.0.1"
                 },
                 "mapping": [
                     {
@@ -1747,7 +1747,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],
@@ -2179,9 +2179,9 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson|5.0.1"
                         ],
                         "_targetProfile": [
                             {
@@ -3504,7 +3504,7 @@
                 "binding": {
                     "strength": "preferred",
                     "description": "[National Uniform Billing Committee](http://www.nubc.org/), manual UB-04, UB form locator 17",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-discharge-disposition"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-discharge-disposition|5.0.1"
                 },
                 "mapping": [
                     {
@@ -3885,7 +3885,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|5.0.1"
                         ]
                     }
                 ],
@@ -4025,7 +4025,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Valueset to describe the Encounter Type",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-encounter-type"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-encounter-type|5.0.1"
                 }
             },
             {
@@ -4036,7 +4036,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],
@@ -4064,9 +4064,9 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitionerrole|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson|5.0.1"
                         ],
                         "_targetProfile": [
                             {
@@ -4180,7 +4180,7 @@
                 "binding": {
                     "strength": "preferred",
                     "description": "[National Uniform Billing Committee](http://www.nubc.org/), manual UB-04, UB form locator 17",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-discharge-disposition"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-discharge-disposition|5.0.1"
                 }
             },
             {
@@ -4200,7 +4200,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|5.0.1"
                         ]
                     }
                 ],

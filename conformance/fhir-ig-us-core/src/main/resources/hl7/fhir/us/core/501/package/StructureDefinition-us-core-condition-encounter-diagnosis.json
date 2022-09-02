@@ -998,7 +998,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Valueset to describe the actual problem experienced by the patient",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-code"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-code|5.0.1"
                 },
                 "mapping": [
                     {
@@ -1107,7 +1107,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],
@@ -1168,7 +1168,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter|5.0.1"
                         ]
                     }
                 ],
@@ -2247,7 +2247,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Valueset to describe the actual problem experienced by the patient",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-code"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-condition-code|5.0.1"
                 },
                 "mapping": [
                     {
@@ -2263,7 +2263,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],
@@ -2282,7 +2282,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-encounter|5.0.1"
                         ]
                     }
                 ],

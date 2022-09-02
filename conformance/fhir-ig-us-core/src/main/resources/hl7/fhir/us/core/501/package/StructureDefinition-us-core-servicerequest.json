@@ -1020,7 +1020,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-servicerequest-category"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-servicerequest-category|5.0.1"
                 },
                 "mapping": [
                     {
@@ -1177,7 +1177,7 @@
                 "isSummary": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-procedure-code"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-procedure-code|5.0.1"
                 },
                 "mapping": [
                     {
@@ -1327,7 +1327,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],
@@ -1628,11 +1628,11 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1",
                             "http://hl7.org/fhir/StructureDefinition/PractitionerRole",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson|5.0.1",
                             "http://hl7.org/fhir/StructureDefinition/Device"
                         ],
                         "_targetProfile": [
@@ -2440,7 +2440,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-servicerequest-category"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-servicerequest-category|5.0.1"
                 }
             },
             {
@@ -2450,7 +2450,7 @@
                 "mustSupport": true,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-procedure-code"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-procedure-code|5.0.1"
                 }
             },
             {
@@ -2460,7 +2460,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],
@@ -2500,11 +2500,11 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-organization|5.0.1",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1",
                             "http://hl7.org/fhir/StructureDefinition/PractitionerRole",
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson",
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-relatedperson|5.0.1",
                             "http://hl7.org/fhir/StructureDefinition/Device"
                         ],
                         "_targetProfile": [
