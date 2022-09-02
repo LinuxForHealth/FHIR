@@ -67,7 +67,7 @@ Note, if you are using a local repository or private host, you must add the repo
     ...
 ```
 
-For versions prior to 4.7.0, the IBM FHIR Server modules are only available from the [Releases tab](https://github.com/LinuxForHealth/FHIR/releases) in an archived Maven repository format.
+For versions prior to 4.7.0, The LinuxForHealth FHIR® Server modules are only available from the [Releases tab](https://github.com/LinuxForHealth/FHIR/releases) in an archived Maven repository format.
 
 ### LinuxForHealth FHIR modules
 The LinuxForHealth FHIR Server is modular and extensible. The following tables provide an overview of all the modules, along with an indicator of the stability of the Java APIs defined in each module. This indicator is only applicable to the direct usage of the modules, not for usage of the LinuxForHealth FHIR Server as a whole.
@@ -75,7 +75,7 @@ The LinuxForHealth FHIR Server is modular and extensible. The following tables p
 #### Core
 |Module|Description|Java API-stable|
 |------|-----------|----------|
-|fhir-parent|The parent project for all projects which make up the IBM FHIR Server|false|
+|fhir-parent|The parent project for all projects which make up The LinuxForHealth FHIR® Server|false|
 |fhir-core|Core helpers and utilities|false|
 |fhir-cache|Cache-related helpers and utilities|false|
 
@@ -139,7 +139,7 @@ The LinuxForHealth FHIR Server is modular and extensible. The following tables p
 #### Client
 |Module|Description|Java API-stable|
 |------|-----------|----------|
-|fhir-client|A FHIR Client that re-uses the IBM FHIR Server model and its JAX-RS Providers|false|
+|fhir-client|A FHIR Client that re-uses The LinuxForHealth FHIR® Server model and its JAX-RS Providers|false|
 
 #### Clinical Quality
 
@@ -163,9 +163,9 @@ The LinuxForHealth FHIR Server is modular and extensible. The following tables p
 |fhir-swagger-generator|Utilities for generating Swagger 2.0 and OpenAPI 3.0 definitions for a subset of the FHIR HTTP interface|false|
 |fhir-openapi|A web application that provides a simplified OpenAPI 3.0 definition of the FHIR HTTP interface|false|
 |fhir-install|Packaging and installation scripts for creating the fhir-distribution zip and the corresponding IBM FHIR Server Docker image|false|
-|fhir-benchmark|Java Microbenchmark Harness (JMH) tests for measuring read/write/validation performance for the IBM FHIR Server and the HL7 FHIR Java Reference Implementation|false|
+|fhir-benchmark|Java Microbenchmark Harness (JMH) tests for measuring read/write/validation performance for The LinuxForHealth FHIR® Server and the HL7 FHIR Java Reference Implementation|false|
 |fhir-bucket|Scans cloud object storage buckets and uploads data using the FHIR REST API|false|
-|fhir-persistence-schema|Classes for deploying and updating the IBM FHIR Server relational database schema|false|
+|fhir-persistence-schema|Classes for deploying and updating The LinuxForHealth FHIR® Server relational database schema|false|
 |fhir-persistence-cassandra-app|CLI utility application supporting payload storage to Cassandra *experimental* |false|
 
 ### Contributing to the LinuxForHealth FHIR Server

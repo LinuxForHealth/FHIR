@@ -1,8 +1,8 @@
 # FHIR Search
-This readme covers details related to IBM FHIR Server's search implementation. 
+This readme covers details related to  The LinuxForHealth FHIR® Server's search implementation. 
 
 ## FHIR Search: Positional Searching
-In Release 4.0, the IBM FHIR Server updates the support for [FHIR Search: Positional Searching](https://www.hl7.org/fhir/location.html#positional) using the search parameter `near`.  The `near` implementation depends on Location.position extracted from the Location resource.  
+In Release 4.0, the LinuxForHealth FHIR® Server updates the support for [FHIR Search: Positional Searching](https://www.hl7.org/fhir/location.html#positional) using the search parameter `near`.  The `near` implementation depends on Location.position extracted from the Location resource.  
 
 The query parameter near, as in `GET [base]/Location?near=-83.694810|42.256500|11.20|km`  follows the pattern `[latitude]|[longitude]|[distance]|[units]`. The query parameter uses a: 
     - latitude - -90 to 90

@@ -1,6 +1,6 @@
 # fhir-bucket
 
-fhir-bucket is a multi-threaded standalone Java application to run load against the IBM FHIR Server.
+fhir-bucket is a multi-threaded standalone Java application to run load against the  LinuxForHealth FHIR® Server.
 
 *Custom Load Types*
 
@@ -14,9 +14,9 @@ fhir-bucket is a multi-threaded standalone Java application to run load against 
 
 ## 1. Reindex - Driving the `$reindex` Custom Operation
 
-When the IBM FHIR Server stores a FHIR resource, it extracts a configurable set of searchable parameter values and stores them in specially indexed tables which are used to support search queries. When the search parameter configuration is changed (perhaps because a profile has been updated), users may want to apply this new configuration to resources already stored. By default, such configuration changes only apply to new resources.
+When the LinuxForHealth FHIR® Server stores a FHIR resource, it extracts a configurable set of searchable parameter values and stores them in specially indexed tables which are used to support search queries. When the search parameter configuration is changed (perhaps because a profile has been updated), users may want to apply this new configuration to resources already stored. By default, such configuration changes only apply to new resources.
 
-The IBM FHIR Server supports a custom operation to rebuild or "reindex" the search parameters extracted from resources currently stored. There are two approaches for driving the reindex, server-side-driven or client-side-driven. Using server-side-driven is the default; to use client-side-driven, include the `--reindex-client-side-driven` parameter.
+The The LinuxForHealth FHIR® Server supports a custom operation to rebuild or "reindex" the search parameters extracted from resources currently stored. There are two approaches for driving the reindex, server-side-driven or client-side-driven. Using server-side-driven is the default; to use client-side-driven, include the `--reindex-client-side-driven` parameter.
 
 With server-side-driven, the fhir-bucket will repeatedly call the `$reindex` operation. The user selects a date or timestamp as the reindex "marker", which is used to determine which resources have been reindexed, and which still need to be reindexed. When a resource is successfully reindexed, it is marked with this user-selected timestamp. Each reindex REST call will process up to the requested number of resources and return an OperationOutcome resource containing issues describing which resources were processed. When there are no resources left to update, the call returns an OperationOutcome with one issue, with an issue diagnostic value "Reindex complete", indicating that the reindex is complete.
 

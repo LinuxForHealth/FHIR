@@ -1,4 +1,4 @@
-# IBM FHIR Server - Demo
+#  The LinuxForHealth FHIR® Server - Demo
 This module contains a minimal docker-compose environment to facilitate demonstrations and evaluations from a single-node system (e.g. from your laptop).
 
 ### Prerequisites

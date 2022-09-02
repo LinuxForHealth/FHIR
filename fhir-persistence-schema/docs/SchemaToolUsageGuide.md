@@ -1,6 +1,6 @@
-# IBM FHIR Server - Schema Deployment
+# The LinuxForHealth FHIR® Server - Schema Deployment
 
-This document details how to deploy the IBM FHIR Server schema and apply release upgrades. This document also describes how the schema changes are managed.
+This document details how to deploy The LinuxForHealth FHIR® Server schema and apply release upgrades. This document also describes how the schema changes are managed.
 
 The schema tool generates the following object types that require management: 
 
@@ -90,7 +90,7 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar [OPTIONS]
 
 Note: Replace `${VERSION}` with the version of the jar you're using or use the wildcard `*` to match any version.
 
-Note: Prior to IBM FHIR Server Release 5.0.0, the default value for `--db-type` was `db2`. As of IBM FHIR Server Release 5.0.0, there is no longer a default value and `--db-type` must be specified every time.
+Note: Prior to The LinuxForHealth FHIR® Server Release 5.0.0, the default value for `--db-type` was `db2`. As of LinuxForHealth FHIR® Server Release 5.0.0, there is no longer a default value and `--db-type` must be specified every time.
 
 The following sections include common values for `OPTIONS`.
 
@@ -119,10 +119,10 @@ For Citus:
 
 For PostgreSQL:
 
-The FHIRSERVER user is the database user used by the IBM FHIR Server to connect
+The FHIRSERVER user is the database user used by The LinuxForHealth FHIR® Server to connect
 to the database. This user is granted the minimal set of privileges required
-for the IBM FHIR Server to operate. The FHIRADMIN user should only be used
-for schema updates, not for IBM FHIR Server access.
+for The LinuxForHealth FHIR® Server to operate. The FHIRADMIN user should only be used
+for schema updates, not for LinuxForHealth FHIR® Server access.
 
 ```
 --db-type postgresql \
@@ -142,7 +142,7 @@ When updating the postgres schema, the autovacuum settings are configured.
 
 For Citus:
 
-IBM FHIR Server Release 5.0.0 includes experimental support for Citus. Configuration is mostly identical to PostgreSQL, except that the `-db-type` argument should be given as `citus`. The schema tool builds a
+The LinuxForHealth FHIR® Server Release 5.0.0 includes experimental support for Citus. Configuration is mostly identical to PostgreSQL, except that the `-db-type` argument should be given as `citus`. The schema tool builds a
 modified version of the schema leveraging the distribution capabilities of the
 Citus database to provide increased scalability.
 
@@ -157,7 +157,7 @@ Citus database to provide increased scalability.
 
 When `--db-type citus` is specified, the resulting schema includes different behavior for some indexes and foreign key constraints. For details on the DISTRIBUTED schema design, refer to the [Schema Design](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-persistence-schema/docs/SchemaDesign.md) document.
 
-Note that the datasource must also be identified as type `citus` in the fhir-server-config.json file. See the [IBM FHIR Server Users Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide) for more details.
+Note that the datasource must also be identified as type `citus` in the fhir-server-config.json file. See the [LinuxForHealth FHIR® Server Users Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide) for more details.
 
 
 You can create the standard version of the schema on a target Citus database
@@ -255,7 +255,7 @@ Alternatively, you can drop specific schemas with `--drop-schema-batch schema-na
 `--drop-schema-oauth schema-name-to-drop`
 
 ## Adjust the Vacuum Settings for PostgreSQL Tables only
-Since 4.9.0, the IBM FHIR Server has implemented support for modifying the [autovacuum](https://www.postgresql.org/docs/12/runtime-config-autovacuum.html). Per [4.1.2. Tuning Auto-vacuum](https://linuxforhealth.github.io/FHIR/guides/FHIRPerformanceGuide/#412-tuning-auto-vacuum) the schema tool modifies `autovacuum_vacuum_cost_limit`, `autovacuum_vacuum_scale_factor` and `autovacuum_vacuum_threshold`.
+Since 4.9.0, The LinuxForHealth FHIR® Server has implemented support for modifying the [autovacuum](https://www.postgresql.org/docs/12/runtime-config-autovacuum.html). Per [4.1.2. Tuning Auto-vacuum](https://linuxforhealth.github.io/FHIR/guides/FHIRPerformanceGuide/#412-tuning-auto-vacuum) the schema tool modifies `autovacuum_vacuum_cost_limit`, `autovacuum_vacuum_scale_factor` and `autovacuum_vacuum_threshold`.
 
 The autovacuum_vacuum_scale_factor is not automatically configured, and not recommended on Databases for Postgres on IBM Cloud. The system configuration overrides the setting.
 
@@ -357,7 +357,7 @@ If there is data in the DOMAINRESOURCE and RESOURCE table groups, which is unexp
 ----------------------------------------------------------------
 # Database Size Report (PostgreSQL)
 
-Run this command to show a summary of the space used by IBM FHIR Server resources and their related schema objects:
+Run this command to show a summary of the space used by The LinuxForHealth FHIR® Server resources and their related schema objects:
 
 ``` shell
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
@@ -382,7 +382,7 @@ The detail rows are tab-separated, making it easy to load the data into a spread
 
 **Notes:**
 1. The size report is only supported on PostgreSQL databases.
-2. The size report is intended as a guide to understand the relative space distribution of objects in the IBM FHIR Server data schema. The report is not intended to replace database utilities for calculating the total size of the database.
+2. The size report is intended as a guide to understand the relative space distribution of objects in The LinuxForHealth FHIR® Server data schema. The report is not intended to replace database utilities for calculating the total size of the database.
 3. The size report is not supported on Citus because not all the required size data can be collected.
 
 ----------------------------------------------------------------
@@ -399,7 +399,7 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 ```
 
 ----------------------------------------------------------------
-# List of IBM FHIR Server Persistence Schema Tool Flags
+# List of The LinuxForHealth FHIR® Server Persistence Schema Tool Flags
 
 |Flag|Variable|Description|
 |----------------|----------------|----------------|
