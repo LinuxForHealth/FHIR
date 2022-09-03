@@ -36,15 +36,15 @@ permalink: /FHIRServerUsersGuide/
 - [6 Related topics](#6-related-topics)
 
 # 1 Overview
-The IBM FHIR Server implements the HL7 FHIR HTTP API and supports the full set of FHIR-defined resource types.
+The LinuxForHealth FHIR Server implements the HL7 FHIR HTTP API and supports the full set of FHIR-defined resource types.
 This FHIR server is intended to be a common component for providing FHIR capabilities within health services and solutions.
 
 # 2 Installation
 
 ## 2.1 Installing a new server
-0.  Prereqs: The IBM FHIR Server requires Java 11 and has been tested with OpenJDK 11. To install Java on your system, we recommend downloading and installing OpenJDK 11 from https://adoptium.net/.
+0.  Prereqs: The LinuxForHealth FHIR Server requires Java 11 and has been tested with OpenJDK 11. To install Java on your system, we recommend downloading and installing OpenJDK 11 from https://adoptium.net/.
 
-1.  To install the IBM FHIR Server, build or download the `fhir-install` zip installer.
+1.  To install the LinuxForHealth FHIR Server, build or download the `fhir-install` zip installer.
 The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases are available from the [Releases tab](https://github.com/LinuxForHealth/fhir/releases).
 
 2.  Unzip the `.zip` package into a clean directory (referred to as `fhir-installer` here):
@@ -54,17 +54,17 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
         unzip fhir-server-distribution.zip
     ```
 
-3.  Determine an install location for the OpenLiberty server and the IBM FHIR Server webapp. Example:  `/opt/ibm/fhir-server`
+3.  Determine an install location for the OpenLiberty server and the LinuxForHealth FHIR Server webapp. Example:  `/opt/ibm/fhir-server`
 
 4.  Run the `install.sh/.bat` script to install the server:
     ```
         ./fhir-server-dist/install.sh /opt/ibm/fhir-server
     ```
-    This step installs the OpenLiberty runtime and the IBM FHIR Server web application. The Liberty runtime is installed in a directory called `wlp` within the installation directory that you specify. For example, in the preceding command, the root directory of the Liberty server runtime would be `/opt/ibm/fhir-server/wlp`.
+    This step installs the OpenLiberty runtime and the LinuxForHealth FHIR Server web application. The Liberty runtime is installed in a directory called `wlp` within the installation directory that you specify. For example, in the preceding command, the root directory of the Liberty server runtime would be `/opt/ibm/fhir-server/wlp`.
 
 5.  Configure the fhir-server's `server.xml` file as needed by completing the following steps:
     * Configure the ports that the server listen on. The server is installed with only port 9443 (HTTPS) enabled by default. To change the port numbers, modify the values in the `httpEndpoint` element.
-    * Configure a server keystore and truststore. The IBM FHIR Server is installed with a default keystore file that contains a single self-signed certificate for localhost. For production use, you must create and configure your own keystore and truststore files for the FHIR server deployment (that is, generate your own server certificate or obtain a trusted certificate, and then share the public key certificate with API consumers so that they can insert it into their client-side truststore). The keystore and truststore files are used along with the server's HTTPS endpoint and the FHIR server's client-certificate-based authentication protocol to secure the FHIR server's endpoint. For more information, see [Section 5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server).
+    * Configure a server keystore and truststore. the LinuxForHealth FHIR Server is installed with a default keystore file that contains a single self-signed certificate for localhost. For production use, you must create and configure your own keystore and truststore files for the FHIR server deployment (that is, generate your own server certificate or obtain a trusted certificate, and then share the public key certificate with API consumers so that they can insert it into their client-side truststore). The keystore and truststore files are used along with the server's HTTPS endpoint and the FHIR server's client-certificate-based authentication protocol to secure the FHIR server's endpoint. For more information, see [Section 5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server).
     * Configure an appropriate user registry. The FHIR server is installed with a basic user registry that contains a single user named `fhiruser`. For production use, it's best to configure your own user registry. For more information about configuring user registries, see the [OpenLiberty documentation](https://openliberty.io/guides/security-intro.html#configuring-the-user-registry).
 
     To override the default fhiruser's password, one may set an Environment variable `FHIR_USER_PASSWORD` and for the fhiradmin's password one may set an Environment variable `FHIR_ADMIN_PASSWORD`.
@@ -72,7 +72,7 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
 6.  Make sure that your selected database product is running and ready to accept requests as needed:
     * By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. When using the `ibmcom/ibm-fhir-server` docker image, set the `BOOTSTRAP_DB` environment variable to `true` in order to bootstrap this database. For any other configuration, note the database host and port and, if necessary, create a user with privileges for deploying the schema.
 
-7.  Create and deploy the IBM FHIR Server database schema as needed:
+7.  Create and deploy the LinuxForHealth FHIR Server database schema as needed:
     * By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. When using the `ibmcom/ibm-fhir-server` docker image, set the `BOOTSTRAP_DB` environment variable to `true` in order to bootstrap this database. For any other configuration, use the `fhir-persistence-schema` module to create and deploy the database schema.
 
 8.  Configure the `fhir-server-config.json`<sup id="a1">[1](#f1)</sup> configuration file as needed:
@@ -98,9 +98,9 @@ One should see an empty body in the response with a HTTP Response Code 200.
 For more information about the capabilities of the implementation, see [Conformance](https://linuxforhealth.github.io/FHIR/Conformance).
 
 ## 2.2 Upgrading an existing server
-The IBM FHIR Server does not include an upgrade installer. To upgrade a server to the next version, install the new version to a separate location and copy the configuration files from your existing installation (reconciling any configuration-related changes from the new release in the process).
+The LinuxForHealth FHIR Server does not include an upgrade installer. To upgrade a server to the next version, install the new version to a separate location and copy the configuration files from your existing installation (reconciling any configuration-related changes from the new release in the process).
 
-To manage database updates over time, the IBM FHIR Server uses custom tools from the `fhir-database-utils` project. Through the use of a metadata table, the database utilities can detect the currently installed version of the database schema and apply any new changes that are needed to bring the database to the current level.
+To manage database updates over time, the LinuxForHealth FHIR Server uses custom tools from the `fhir-database-utils` project. Through the use of a metadata table, the database utilities can detect the currently installed version of the database schema and apply any new changes that are needed to bring the database to the current level.
 
 Complete the following steps to upgrade the server:
 
@@ -111,17 +111,17 @@ Complete the following steps to upgrade the server:
 5. Disable traffic to the old server and enable traffic to the new server.
 
 ## 2.3 Docker
-The IBM FHIR Server includes a Docker image [ibmcom/ibm-fhir-server](https://hub.docker.com/r/ibmcom/ibm-fhir-server).
+The LinuxForHealth FHIR Server includes a Docker image [ibmcom/ibm-fhir-server](https://hub.docker.com/r/ibmcom/ibm-fhir-server).
 
-Note, logging for the IBM FHIR Server docker image is to stderr and stdout, and is picked up by Logging agents.
+Note, logging for the LinuxForHealth FHIR Server docker image is to stderr and stdout, and is picked up by Logging agents.
 
-The IBM FHIR Server is configured using Environment variables using:
+The LinuxForHealth FHIR Server is configured using Environment variables using:
 
 | Environment Variable | Description |
 |----------------------|-------------|
-|`DISABLED_OPERATIONS`|A comma-separated list of operations which are disabled on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
+|`DISABLED_OPERATIONS`|A comma-separated list of operations which are disabled on the LinuxForHealth FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
 
-*Development-Only*: If you are using the IBM FHIR Server on a development machine with under 3.25G of RAM. You should download [jvm-dev.options](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/jvm-dev.options) and mount it when starting the Docker container.  You can use the following pattern for starting up in a restricted test environment (or build your own layer).
+*Development-Only*: If you are using the LinuxForHealth FHIR Server on a development machine with under 3.25G of RAM. You should download [jvm-dev.options](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/jvm-dev.options) and mount it when starting the Docker container.  You can use the following pattern for starting up in a restricted test environment (or build your own layer).
 
 ```
 docker run -d -p 9443:9443 -e BOOTSTRAP_DB=true \
@@ -130,12 +130,12 @@ docker run -d -p 9443:9443 -e BOOTSTRAP_DB=true \
 ```
 
 # 3 Configuration
-This chapter contains information about the various ways in which the IBM FHIR Server can be configured by users.
+This chapter contains information about the various ways in which the LinuxForHealth FHIR Server can be configured by users.
 
 ## 3.1 Liberty server configuration
-The IBM FHIR Server is built on the open source [OpenLiberty project](https://openliberty.io/) but also works on the commercial [IBM WebSphere Liberty](https://www.ibm.com/cloud/websphere-liberty). In documentation and elsewhere, we use `Liberty` to refer to either/or.
+The LinuxForHealth FHIR Server is built on the open source [OpenLiberty project](https://openliberty.io/) but also works on the commercial [IBM WebSphere Liberty](https://www.ibm.com/cloud/websphere-liberty). In documentation and elsewhere, we use `Liberty` to refer to either/or.
 
-As a Liberty application, the IBM FHIR Server is configurable like any other Liberty server. See https://openliberty.io/docs/latest/reference/config/server-configuration-overview.html for more information.
+As a Liberty application, the LinuxForHealth FHIR Server is configurable like any other Liberty server. See https://openliberty.io/docs/latest/reference/config/server-configuration-overview.html for more information.
 
 By default, we include:
 * `server.xml` with core server details like the Liberty features, HTTP properties, application info, and a default user registry
@@ -193,7 +193,7 @@ Configuration properties stored within a `fhir-server-config.json` file are stru
 Throughout this document, we use a path notation to refer to property names. For example, the name of the `defaultPrettyPrint` property in the preceding example would be `fhirServer/core/defaultPrettyPrint`.
 
 ### 3.2.2 Tenant-specific configuration properties
-The IBM FHIR server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
+The LinuxForHealth FHIR Server supports certain multi-tenant features. One such feature is the ability to set certain configuration properties on a per-tenant basis.
 
 In general, the configuration properties for a particular tenant are stored in the `<WLP_HOME>/usr/servers/fhir-server/config/<tenant-id>/fhir-server-config.json` file, where `<tenant-id>` refers to the tenant's “short name” or tenant id.
 
@@ -206,13 +206,13 @@ Search parameters are handled like a single configuration properly; providing a 
 More information about multi-tenant support can be found in [Section 4.9 Multi-tenancy](#49-multi-tenancy).
 
 ## 3.3 Persistence layer configuration
-The IBM FHIR Server allows deployers to select a persistence layer implementation that fits their needs. Currently, the server includes a JDBC persistence layer which supports Apache Derby and PostgreSQL.  However, Apache Derby is not recommended for production usage.
+The LinuxForHealth FHIR Server allows deployers to select a persistence layer implementation that fits their needs. Currently, the server includes a JDBC persistence layer which supports Apache Derby and PostgreSQL.  However, Apache Derby is not recommended for production usage.
 
 Before you can configure the server to use the JDBC persistence layer implementation, you first need to prepare the database. This step depends on the database product in use and is covered in more detail in [Section 3.3.1.1 Supported databases](#3311-supported-databases).
 
-The IBM FHIR Server is delivered with a default configuration that is already configured to use the JDBC persistence layer implementation with an Embedded Derby database. This provides the easiest out-of-the-box experience since it requires very little setup.
+The LinuxForHealth FHIR Server is delivered with a default configuration that is already configured to use the JDBC persistence layer implementation with an Embedded Derby database. This provides the easiest out-of-the-box experience since it requires very little setup.
 
-The IBM FHIR Server persistence configuration is split between `fhir-server-config.json` and the Liberty `server.xml` and `configDropins`.
+The LinuxForHealth FHIR Server persistence configuration is split between `fhir-server-config.json` and the Liberty `server.xml` and `configDropins`.
 
 Within `fhir-server-config.json`, the value of the `fhirServer/persistence/factoryClassname` is used to instantiate a FHIRPersistence object. By default, the server is configured to use the FHIRPersistenceJDBCFactory:
 
@@ -249,11 +249,11 @@ When the FHIRPersistenceJDBCFactory is in use, the `fhirServer/persistence/datas
 
 Both the `type` and the `currentSchema` properties are required.
 The `type` value must be set to one of the supported JDBC types (currently `postgresql`, or `derby`) and it must match the actual database type referenced by the datasource definition. If the type does not match, the behavior is undefined.
-Because the IBM FHIR Server does not quote the schema name in our generated queries, the `currentSchema` property is effectively case-insensitive.
+Because the LinuxForHealth FHIR Server does not quote the schema name in our generated queries, the `currentSchema` property is effectively case-insensitive.
 
 The `jndiName` property is optional; it will default to `jdbc/fhir_<tenantId>_<dsId>` where `<tenantId>` and `<dsId>` represent the tenant and datastore ids respectively<sup id="a4">[4](#f4)</sup>.
 
-The datasource definitions themselves are configured in accordance with the [Liberty documentation on Relational database connections with JDBC](https://openliberty.io/docs/latest/relational-database-connections-JDBC.html). Previous versions of the IBM FHIR Server supported a proxy datasource that allowed for datasource definitions in the fhir-server-config.json, but now Liberty JDBC datasource configuration is used due to benefits related to configuring pool sizes, transaction recovery, and monitoring.
+The datasource definitions themselves are configured in accordance with the [Liberty documentation on Relational database connections with JDBC](https://openliberty.io/docs/latest/relational-database-connections-JDBC.html). Previous versions of the LinuxForHealth FHIR Server supported a proxy datasource that allowed for datasource definitions in the fhir-server-config.json, but now Liberty JDBC datasource configuration is used due to benefits related to configuring pool sizes, transaction recovery, and monitoring.
 
 For example, the fhir-server-config snippet from above would have a corresponding Liberty config like this:
 ```xml
@@ -280,7 +280,7 @@ For example, the fhir-server-config snippet from above would have a correspondin
 
 Datasource elements should not be defined in the main `server.xml` file but instead should be defined in the `configDropins/overrides` directory. See the [Liberty Profile Server configuration guide](https://openliberty.io/docs/latest/reference/config/server-configuration-overview.html) for more details and general guidance on creating modular configurations.
 
-The IBM FHIR Server is packaged with the following sample datasource definitions at `configDropins/disabled`:
+The LinuxForHealth FHIR Server is packaged with the following sample datasource definitions at `configDropins/disabled`:
 * datasource-postgresql.xml
 * datasource-derby.xml
 
@@ -294,7 +294,7 @@ When a datasource definition is included in a configDropin under `configDropins/
 [AUDIT   ] CWWKG0093A: Processing configuration drop-ins resource: <WLP_HOME>/usr/servers/fhir-server/configDropins/overrides/datasource.xml
 ```
 
-The IBM FHIR Server will look up the tenant and datastore id for each request and use the corresponding JNDI name to obtain a connection for the corresponding datasource.
+The LinuxForHealth FHIR Server will look up the tenant and datastore id for each request and use the corresponding JNDI name to obtain a connection for the corresponding datasource.
 
 #### 3.3.1.1 Supported databases
 ##### Embedded Derby (default)
@@ -308,7 +308,7 @@ This database bootstrap step is only supported for Embedded Derby and will only 
 <server>
     <!-- ============================================================== -->
     <!-- This datasource aligns with the Apache Derby database that is  -->
-    <!-- created by the IBM FHIR Server's DB_BOOTSTRAP process.         -->
+    <!-- created by the LinuxForHealth FHIR Server's DB_BOOTSTRAP process.         -->
     <!-- ============================================================== -->
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
         <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
@@ -346,7 +346,7 @@ Since release 4.5.5 you can set the `searchOptimizerOptions/from_collapse_limit`
 
 ##### Other
 
-To enable the IBM FHIR Server to work with other relational database systems, see
+To enable the LinuxForHealth FHIR Server to work with other relational database systems, see
 https://linuxforhealth.github.io/FHIR/guides/BringYourOwnPersistence#adding-support-for-another-relational-database
 
 
@@ -517,7 +517,7 @@ Each tenant/datasource combination requires its own container. Use a name that c
 
 #### 3.3.2.3 Create the `database.properties` file
 
-Create a properties file containing the RDBMS connection information. Note that the user should not be the FHIRADMIN user which is only used by the RDBMS schema creation tool. Use the database user configured in the IBM FHIR Server `datasource.xml` file. Following the principle of least privilege access, this user typically has just the right set of privileges for the application to use objects in the FHIR data (`fhirdata`) schema:
+Create a properties file containing the RDBMS connection information. Note that the user should not be the FHIRADMIN user which is only used by the RDBMS schema creation tool. Use the database user configured in the LinuxForHealth FHIR Server `datasource.xml` file. Following the principle of least privilege access, this user typically has just the right set of privileges for the application to use objects in the FHIR data (`fhirdata`) schema:
 
 ```
 db.host=localhost
@@ -656,14 +656,14 @@ The following example shows the JSON for enabling _update_ operations to create 
 ```
 
 # 4 Customization
-You can modify the default server implementation by taking advantage of the IBM FHIR server's extensibility. The following extension points are available:
- * Custom operations framework:  The IBM FHIR Server defines an operations framework that builds on the FHIR OperationDefinition resource in order to extend the FHIR REST API with custom endpoints.
+You can modify the default server implementation by taking advantage of the LinuxForHealth FHIR Server's extensibility. The following extension points are available:
+ * Custom operations framework:  the LinuxForHealth FHIR Server defines an operations framework that builds on the FHIR OperationDefinition resource in order to extend the FHIR REST API with custom endpoints.
  * Pluggable audit service:  Logging and auditing options including Cloud Auditing Data Federation (CADF) over Apache Kafka.
  * Persistence interceptors:  Intercept requests before and/or after each persistence action.
  * Resource validation:  FHIRPath-based validation of FHIR resources on create or update with the ability to extend the system with custom constraints.
 
 ## 4.1 Extended operations
-In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the [FHIR operations framework](https://hl7.org/fhir/R4B/operations.html).
+In addition to the standard REST API (create, update, search, and so forth), the LinuxForHealth FHIR Server supports the [FHIR operations framework](https://hl7.org/fhir/R4B/operations.html).
 
 ### 4.1.1 Packaged operations
 The FHIR team provides implementations for the standard `$validate`, `$document`, `$everything`, `$expand`, `$lookup`, `$subsumes`, `$closure`, `$export`, `$import`, `$convert`, `$apply` and `$translate` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
@@ -848,7 +848,7 @@ By default, notification messages are published for all _create_ and _update_ pe
 With the `includeResourceTypes`property set as in the preceding example, the FHIR server publishes notification events only for `Patient` and `Observation` resources. If you omit this property or set its value to `[]` (an empty array), then the FHIR server publishes notifications for all resource types.
 
 ## 4.3 Persistence interceptors
-The IBM FHIR Server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This can be used to enforce application-specific business rules associated with resources. Interceptor methods are called immediately before or after each persistence operation.
+the LinuxForHealth FHIR Server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This can be used to enforce application-specific business rules associated with resources. Interceptor methods are called immediately before or after each persistence operation.
 
 ### 4.3.1 FHIRPersistenceInterceptor interface
 A persistence interceptor implementation must implement the `org.linuxforhealth.fhir.server.spi.interceptor.FHIRPersistenceInterceptor` interface.
@@ -880,7 +880,7 @@ To implement a persistence interceptor, complete the following steps:
 4.  Re-start the FHIR server.
 
 ## 4.4 Registry resources
-The IBM FHIR Server includes a dynamic registry of conformance resources.
+The LinuxForHealth FHIR Server includes a dynamic registry of conformance resources.
 The server pre-packages conformance artifacts from [HL7 FHIR version 4.3.0](https://hl7.org/fhir/R4B/downloads.html)
 and uses a Java ServiceLoader to discover additional registry resource providers on the classpath.
 
@@ -892,15 +892,15 @@ The server consults this registry for:
 
 One common technique for extending FHIR with a set of conformance resources is to build or reference an [Implementation Guide](https://hl7.org/fhir/R4B/implementationguide.html).
 
-The IBM FHIR Server includes a [PackageRegistryResourceProvider](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for registering implementation guide resources.
+The LinuxForHealth FHIR Server includes a [PackageRegistryResourceProvider](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for registering implementation guide resources.
 
 Additionally, we [pre-package a number of popular implementation guides](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) and make those available from both our GitHub Releases and [Maven Central](https://repo1.maven.org/maven2/org/linuxforhealth/fhir/).
 
-Finally, the IBM FHIR Server includes a built-in ServerRegistryResourceProvider that can be used to bridge conformance resources from the tenant data store (uploaded through the REST API) to the registry.
+Finally, the LinuxForHealth FHIR Server includes a built-in ServerRegistryResourceProvider that can be used to bridge conformance resources from the tenant data store (uploaded through the REST API) to the registry.
 This provider can be enabled/disabled via the `fhirServer/core/serverRegistryResourceProviderEnabled` property, but we recommend leaving it disabled for performance-intensive workloads.
 
 ## 4.5 Resource validation
-As mentioned in the previous section, the IBM FHIR Server registry is consulted during resource validation.
+As mentioned in the previous section, the LinuxForHealth FHIR Server registry is consulted during resource validation.
 
 ### 4.5.1 HL7 spec-defined validation support
 The FHIR specification provides a number of different validation resources including:
@@ -917,11 +917,11 @@ POST <base>/<resourceType>/$validate
 ### 4.5.2 Extension validation
 FHIR resources can be extended. Each extension has a url and servers can use these urls to validate the contents of the extension.
 
-The IBM FHIR Server performs extension validation by looking up the extension definition in its internal registry.
+The LinuxForHealth FHIR Server performs extension validation by looking up the extension definition in its internal registry.
 If an instance contains extensions that are unknown to the server, then the server will include a validation warning that indicates this extension could not be validated.
 
 ### 4.5.3 Profile validation
-The IBM FHIR Server can be extended with custom profile validation. This allows one to apply validation rules on the basis of the `Resource.meta.profile` values included on the resource instance.
+The LinuxForHealth FHIR Server can be extended with custom profile validation. This allows one to apply validation rules on the basis of the `Resource.meta.profile` values included on the resource instance.
 
 For example, you can configure a set of FHIRPath Constraints to run for resources that claim conformance to the `http://example.com/fhir/profile/partner` profile when you see an input resource like the following:
 ```
@@ -1023,15 +1023,15 @@ Keep in mind that a profile name specified in the resource's `meta.profile` elem
 
 Using the example configuration above for the `Observation` resource type, if the profile `http://example.com/fhir/profile/partnerA|3.2` was specified in a resource's `meta.profile` element then it would be considered a match for the `http://example.com/fhir/profile/partnerA` profile specified in the `fhirServer/resources/Observation/profiles/atLeastOne` list. Conversely, if the profile `http://example.com/fhir/profile/partnerB` was specified in the resource's `meta.profile` element then it would *not* be considered a match for the `http://example.com/fhir/profile/partnerB|1.0` profile specified in the `fhirServer/resources/Observation/profiles/atLeastOne` list.
 
-The IBM FHIR Server pre-packages all conformance resources from the core specification.
+The LinuxForHealth FHIR Server pre-packages all conformance resources from the core specification.
 
-See [Validation Guide - Optional profile support](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implementation Guide resources and how to load them into the IBM FHIR server.
+See [Validation Guide - Optional profile support](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) for a list of pre-built Implementation Guide resources and how to load them into the LinuxForHealth FHIR Server.
 
 See [Validation Guide - Making profiles available to the fhir registry](https://linuxforhealth.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for information about how to extend the server with additional Implementation Guide artifacts.
 
 
 ## 4.6 Extending search
-In addition to supporting tenant-specific search parameter extensions as described in [Section 3.2.2 Tenant-specific configuration properties](#322-tenant-specific-configuration-properties), the IBM FHIR Server also supports loading
+In addition to supporting tenant-specific search parameter extensions as described in [Section 3.2.2 Tenant-specific configuration properties](#322-tenant-specific-configuration-properties), the LinuxForHealth FHIR Server also supports loading
 search parameters from the registry.
 
 For performance reasons, the registry search parameters are retrieved once and only once during startup.
@@ -1175,7 +1175,7 @@ The following examples also satisfy the local reference processing rules:
 }
 ```
 
-While processing a request bundle, but before processing individual request entries, the IBM FHIR server detects the use of a local identifier within any `POST` or `PUT` request entry's `fullUrl` field, and establishes a mapping between that local identifier and the corresponding external identifier that results from performing the `POST` or `PUT` operation.
+While processing a request bundle, but before processing individual request entries, the LinuxForHealth FHIR Server detects the use of a local identifier within any `POST` or `PUT` request entry's `fullUrl` field, and establishes a mapping between that local identifier and the corresponding external identifier that results from performing the `POST` or `PUT` operation.
 
 Using the circular reference example above, the FHIR server detects the use of local identifiers in the `Encounter` request entry (`urn:Encounter_1`) and in the `Procedure` request entry (`urn:Procedure_1`), and establishes a mapping between the local identifiers and the external references to be associated with the new `Encounter` and `Procedure` resources (for example, `Encounter/1cc5d299-d2be-4f93-8745-a121232ffe5b` and `Procedure/22b21fcf-8d00-492d-9de0-e25ddd409eaf`).
 
@@ -1419,7 +1419,7 @@ It is also possible to configure the persistence properties for a specific tenan
 database hostname or database schema name.
 
 ## 4.10 Bulk data operations
-The IBM FHIR Server implements bulk data export according to the [HL7 FHIR BulkDataAccess IG: STU1](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html), and bulk data import is implemented according to the [Proposal for $import Operation](https://github.com/smart-on-fhir/bulk-import/blob/main/import.md).
+The LinuxForHealth FHIR Server implements bulk data export according to the [HL7 FHIR BulkDataAccess IG: STU1](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html), and bulk data import is implemented according to the [Proposal for $import Operation](https://github.com/smart-on-fhir/bulk-import/blob/main/import.md).
 
 There are 2 modules involved:
 
@@ -1514,7 +1514,7 @@ Each tenant's configuration may define multiple storageProviders. The default is
 
 To use Amazon S3 bucket for exporting, please set `accessKeyId` to S3 access key, and set `secretAccessKey` to the S3 secret key, and the auth type to `hmac`.
 
-Basic system exports to S3 without typeFilters use a streamlined implementation which bypasses the IBM FHIR Server Search API for direct access to the data enabling better throughput. The `fhirServer/bulkdata/core/systemExportImpl` property can be used to disable the streamlined system export implementation. To use the legacy implementation based on IBM FHIR Server search, set the value to "legacy". The new system export implementation is used by default for any export not using typeFilters. Exports using typeFilters use FHIR Search, and cannot use the streamlined export.
+Basic system exports to S3 without typeFilters use a streamlined implementation which bypasses the LinuxForHealth FHIR Server Search API for direct access to the data enabling better throughput. The `fhirServer/bulkdata/core/systemExportImpl` property can be used to disable the streamlined system export implementation. To use the legacy implementation based on IBM FHIR Server search, set the value to "legacy". The new system export implementation is used by default for any export not using typeFilters. Exports using typeFilters use FHIR Search, and cannot use the streamlined export.
 
 To import using the `$import` operation with `https`, one must additionally configure the `fhirServer/bulkdata/storageProviders/(source)/validBaseUrls`. For example, if one stores bulk data at `https://test-url1.cos.ibm.com/bucket1/test.ndjson` and `https://test-url2.cos.ibm.com/bucket2/test2.ndjson` you must specify both baseUrls in the configuration:
 
@@ -1602,7 +1602,7 @@ The JavaBatch user is configured in `bulkdata.xml` and the `fhir-server-config.j
 
 Note: The batch-user referenced in the `fhir-server-config.json` must have a role of at least batchSubmitter.
 
-By default, in-memory Derby database is used for persistence of the JavaBatch Jobs as configured in `fhir-server/configDropins/defaults/bulkdata.xml`. This database is destroyed on the restart of the IBM FHIR Server, and does not support load balancing.
+By default, in-memory Derby database is used for persistence of the JavaBatch Jobs as configured in `fhir-server/configDropins/defaults/bulkdata.xml`. This database is destroyed on the restart of the LinuxForHealth FHIR Server, and does not support load balancing.
 
 If one wants to support Postgres with a user-name and password , one should copy `fhir-server/configDropins/disabled/postgres/bulkdata.xml` to `fhir-server/configDropins/defaults/bulkdata.xml` replacing the existing bulkdata.xml. One can configure the Datasource by setting the following environment variables:
 
@@ -1625,7 +1625,7 @@ If you are running in a Kubernetes deployment, be sure to set the environment va
 
 ### 4.10.1 *Path* and *Virtual Host* Bucket Access
 
-For BulkData storage types of `ibm-cos` and `aws-s3`, the IBM FHIR Server supports two styles of accessing the `s3` bucket - virtual host and path.  In the IBM FHIR Server, `path` is the default access. [Link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)
+For BulkData storage types of `ibm-cos` and `aws-s3`, the LinuxForHealth FHIR Server supports two styles of accessing the `s3` bucket - virtual host and path.  In the LinuxForHealth FHIR Server, `path` is the default access. [Link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)
 
 With path style access, the objects in a bucket are accessed using the pattern - `https://s3.region.host-name.com/bucket-name/object-key`. To configure path style access, one needs to configure the fhir-server-config.json.
 
@@ -1709,7 +1709,7 @@ Example of `host` based access:
 
 ### 4.10.2 S3 Import File with matching segments
 
-When Importing from an S3 Bucket, the IBM FHIR Server identifies the matching file segments. The `parameter.input.url` is used to query the S3 API to find the matching files.  For instance, the following import of `Patient.ndjson` matches `Patient.ndjson_seg0` and `Patient.ndjson_seg1` which are imported to the IBM FHIR Server.
+When Importing from an S3 Bucket, the LinuxForHealth FHIR Server identifies the matching file segments. The `parameter.input.url` is used to query the S3 API to find the matching files.  For instance, the following import of `Patient.ndjson` matches `Patient.ndjson_seg0` and `Patient.ndjson_seg1` which are imported to the LinuxForHealth FHIR Server.
 
 This feature is useful for imports which follow a prefix pattern:
 
@@ -1761,8 +1761,8 @@ Note, if you are using the default Apache Derby, the logs are overwritten upon r
 
 ### 4.10.6 Known Limitations
 
-The IBM FHIR Server's fhir-bulkdata-webapp does not support [persistence interceptors](https://github.com/LinuxForHealth/FHIR/blob/main/docs/src/pages/guides/FHIRServerUsersGuide.md#43-persistence-interceptors). Therefor, $import requests will not lead to `beforeCreate`/`beforeUpdate` or `afterCreate`/`afterUpdate` method calls and $export requests will not lead to `beforeRead`/`beforeSearch` or `afterRead`/`afterSearch` method calls.
-Because the IBM FHIR Server's notifications feature is implemented as a persistence interceptor, bulk operations will not result in any notification events.
+The LinuxForHealth FHIR Server's fhir-bulkdata-webapp does not support [persistence interceptors](https://github.com/LinuxForHealth/FHIR/blob/main/docs/src/pages/guides/FHIRServerUsersGuide.md#43-persistence-interceptors). Therefor, $import requests will not lead to `beforeCreate`/`beforeUpdate` or `afterCreate`/`afterUpdate` method calls and $export requests will not lead to `beforeRead`/`beforeSearch` or `afterRead`/`afterSearch` method calls.
+Because the LinuxForHealth FHIR Server's notifications feature is implemented as a persistence interceptor, bulk operations will not result in any notification events.
 
 ## 4.11 Audit logging service
 The Audit logging service pushes FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)](https://www.dmtf.org/standards/cadf) standard format to a Kafka backend, such as *IBM Cloud Event Streams service*.
@@ -2117,7 +2117,7 @@ select * from cos://us-south/fhir-audit-dev0 stored as json where EVENTTIME BETW
 ```
 
 ## 4.12 FHIR REST API
-By default, the IBM FHIR Server allows the following RESTful interactions associated with the FHIR REST API: `create`, `read`, `vread`, `history`, `search`, `update`, `patch`, `delete`. However, it is possible to configure which of these interactions are allowed on a per resource basis through a set of interaction rules specified via the `fhirServer/resources/<resourceType>/interactions` property in `fhir-server-config.json`. The following snippet shows the general form for specifying interaction rules:
+By default, the LinuxForHealth FHIR Server allows the following RESTful interactions associated with the FHIR REST API: `create`, `read`, `vread`, `history`, `search`, `update`, `patch`, `delete`. However, it is possible to configure which of these interactions are allowed on a per resource basis through a set of interaction rules specified via the `fhirServer/resources/<resourceType>/interactions` property in `fhir-server-config.json`. The following snippet shows the general form for specifying interaction rules:
 
 ```
 "resources": {
@@ -2188,12 +2188,12 @@ In addition to interaction configuration, the `fhirServer/resources` property gr
 
 Unlike most other tenant-specific properties, the `fhirServer/resources` property group is processed as a single unit. In the event that `fhirServer/resources` exists in a tenant-specific config, but a particular sub-property is missing (e.g. `fhirServer/resources/open`), that sub-property will *not* inheret from the "default" tenant.
 
-## 4.12.1 Using the IBM FHIR Server behind a proxy
-It is possible to run the IBM FHIR Server behind a reverse proxy such as Kubernetes Ingress or an API Gateway.
+## 4.12.1 Using the LinuxForHealth FHIR Server behind a proxy
+It is possible to run the LinuxForHealth FHIR Server behind a reverse proxy such as Kubernetes Ingress or an API Gateway.
 
-Because the FHIR API relies on links and references between resources (both absolute and relative), operators must ensure that the IBM FHIR Server is configured appropriately for the front-end URL being used by the FHIR clients.
+Because the FHIR API relies on links and references between resources (both absolute and relative), operators must ensure that the LinuxForHealth FHIR Server is configured appropriately for the front-end URL being used by the FHIR clients.
 
-This can be accomplished by configuring the `fhirServer/core/originalRequestUriHeaderName` property in the default fhir-server-config.json. When this parameter is configured, the IBM FHIR Server will use the value of the corresponding header to set the "originalRequestUri" for the scope of the request.
+This can be accomplished by configuring the `fhirServer/core/originalRequestUriHeaderName` property in the default fhir-server-config.json. When this parameter is configured, the LinuxForHealth FHIR Server will use the value of the corresponding header to set the "originalRequestUri" for the scope of the request.
 
 For example, consider a FHIR Server that is listening at https://fhir:9443/fhir-server/api/v4 and is configured with an  originalRequestUriHeaderName of `X-FHIR-FORWARDED-URL`. If this server is proxied by a server at https://example.com/fhir, then the proxy must set the `X-FHIR-FORWARDED-URL` header to the value of the front-end request URL (e.g. https://example.com/fhir/Patient/abc-123). In alternative deployments, the `fhirServer/core/externalBaseUrl` may be used in-lieu of the `X-FHIR-FORWARDED-URL`.
 
@@ -2224,7 +2224,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/conditionalDeleteMaxNumber`|integer|The maximum number of matches supported in conditional delete. |
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
-|`fhirServer/core/disabledOperations`|string|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
+|`fhirServer/core/disabledOperations`|string|A comma-separated list of operations which are not allowed to run on the LinuxForHealth FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
 |`fhirServer/core/defaultPageSize`|integer|Sets the page size for search and history request results when no `_count` parameter is specified.|
 |`fhirServer/core/maxPageSize`|integer|Sets the maximum page size for search and history request results. If a user-specified `_count` parameter value exceeds the maximum page size, then a warning is logged and the maximum page size will be used.|
 |`fhirServer/core/maxPageIncludeCount`|integer|Sets the maximum number of 'include' resources allowed per page for search and history request results. If the number of 'include' resources returned for a page of results from a search or history request will exceed the maximum number of 'include' resources allowed per page, then an error will be returned in the request results.|
@@ -2308,8 +2308,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources/<datasourceId>/type`|string|`derby`, `postgresql` or `citus`|
 |`fhirServer/persistence/datasources/<datasourceId>/jndiName`|string|The non-default jndiName for the datasource|
 |`fhirServer/persistence/datasources/<datasourceId>/currentSchema`|string|The current schema for the datasource|
-|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|int| For PostgreSQL, sets the from_collapse_limit query optimizer parameter to improve search performance. If not set, the IBM FHIR Server uses a value of 12. To use the database default (8), explicitly set this value to null. |
-|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|int| For PostgreSQL, sets the join_collapse_limit query optimizer parameter to improve search performance. If not set, the IBM FHIR Server uses a value of 12. To use the database default (8), explicitly set this value to null. |
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|int| For PostgreSQL, sets the from_collapse_limit query optimizer parameter to improve search performance. If not set, the LinuxForHealth FHIR Server uses a value of 12. To use the database default (8), explicitly set this value to null. |
+|`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|int| For PostgreSQL, sets the join_collapse_limit query optimizer parameter to improve search performance. If not set, the LinuxForHealth FHIR Server uses a value of 12. To use the database default (8), explicitly set this value to null. |
 |`fhirServer/security/cors`|boolean|Used to convey to clients whether cors is supported or not; actual cors support is configured separately in the Liberty server.xml configuration|
 |`fhirServer/security/basic/enabled`|boolean|Whether or not the server is enabled for HTTP Basic authentication|
 |`fhirServer/security/certificates/enabled`|boolean|Whether or not the server is enabled for Certificate-based client authentication|
@@ -2349,7 +2349,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|number|The number of resources at which to finish writing a given object. The actual number of resources written to a single object may be slightly above this number, dependent on the configured page size. Use `0` to indicate that there is no limit to the number of resources to be written to a single object.|
 |`fhirServer/bulkdata/core/cos/requestTimeout`|number|The request timeout in second for the COS client|
 |`fhirServer/bulkdata/core/cos/socketTimeout`|number|The socket timeout in second for the COS client|
-|`fhirServer/bulkdata/core/cos/useServerTruststore`|boolean|If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
+|`fhirServer/bulkdata/core/cos/useServerTruststore`|boolean|If the COS Client should use the LinuxForHealth FHIR Server's TrustStore to access S3/IBMCOS service |
 |`fhirServer/bulkdata/core/cos/presignedExpiry`|number|The time in seconds of the presigned download URL; must be using HMAC auth|
 |`fhirServer/bulkdata/core/file/writeTriggerSizeMB`|number|The size, in megabytes, at which to write the buffer to file.|
 |`fhirServer/bulkdata/core/file/sizeThresholdMB`|number|The size, in megabytes, at which to finish writing a given file. Use `0` to indicate that all resources of a given type should be written to a single file.|
@@ -2771,7 +2771,7 @@ Cases where that behavior is not supported are marked below with an `N` in the `
 |`fhirServer/remoteIndexService/kafka/connectionProperties/ssl.enabled.protocols`|N|N|N|
 |`fhirServer/remoteIndexService/kafka/connectionProperties/ssl.endpoint.identification.algorithm`|N|N|N|
 
-## 5.2 Keystores, truststores, and the IBM FHIR server
+## 5.2 Keystores, truststores, and the LinuxForHealth FHIR Server
 
 ### 5.2.1 Background
 As stated earlier, the FHIR server is installed with a default configuration in `server.xml` which includes the definition of a keystore (`fhirKeyStore.p12`) and a truststore (`fhirTrustStore.p12`)<sup id="a7">[7](#f7)</sup>. These files are provided only as examples and while they may suffice in a test environment, the FHIR server deployer should generate a new keystore and truststore for any installations where security is a concern. Review the information in the following topics to learn how to configure a secure keystore and truststore.
@@ -2852,9 +2852,9 @@ The precise steps required to configure certificate-based authentication for a c
 
 ## 5.3 OpenID Connect and OAuth 2.0
 The FHIR specification recommends the use of OAuth 2.0.
-The IBM FHIR Server supports OAuth 2.0 through the use of WebSphere Liberty / OpenLiberty features.
+the LinuxForHealth FHIR Server supports OAuth 2.0 through the use of WebSphere Liberty / OpenLiberty features.
 
-While it is possible to configure Liberty as an [OpenID Connect Client](https://openliberty.io/docs/latest/reference/config/openidConnectClient.html), more typically the IBM FHIR Server will be configured as a generic OAuth 2.0 "Protected Resource Server" that works with JWT access tokens that have been issued by a trusted Authorization Server like [Keycloak](https://www.keycloak.org).
+While it is possible to configure Liberty as an [OpenID Connect Client](https://openliberty.io/docs/latest/reference/config/openidConnectClient.html), more typically the LinuxForHealth FHIR Server will be configured as a generic OAuth 2.0 "Protected Resource Server" that works with JWT access tokens that have been issued by a trusted Authorization Server like [Keycloak](https://www.keycloak.org).
 
 ### 5.3.1 Configure Liberty to be an OAuth 2.0 Protected Resource Server
 Liberty can be configured to act as an OAuth 2.0 Protected Resource Server via either the [openidConnectClient feature](https://www.ibm.com/docs/en/was-liberty/core?topic=connect-configuring-oauth-20-protected-resources-in-liberty) or the [mpJwt feature](https://openliberty.io/guides/microprofile-jwt.html).
@@ -2940,20 +2940,20 @@ SMART on FHIR applications should use the `.well-known/smart-configuration` endp
 but the entries in the Capability Statement are needed for backwards compatibility.
 
 ### 5.3.3 SMART App Launch
-To support [SMART App Launch](https://hl7.org/fhir/smart-app-launch), the IBM FHIR Server can be used with a SMART-enabled authorization server. For an example of a SMART-enabled Authorization Server, see the [Alvearie Keycloak extensions for FHIR](https://github.com/Alvearie/keycloak-extensions-for-fhir).
+To support [SMART App Launch](https://hl7.org/fhir/smart-app-launch), the LinuxForHealth FHIR Server can be used with a SMART-enabled authorization server. For an example of a SMART-enabled Authorization Server, see the [Alvearie Keycloak extensions for FHIR](https://github.com/Alvearie/keycloak-extensions-for-fhir).
 
 The OAuth configuration described in the previous sections will restrict API access to clients with a valid access token.
 However, SMART defines additional access controls via OAuth 2.0 scopes and context parameters.
 
 To enforce authorization policy on the server, drop the `fhir-smart` module into the server's userlib directory.
 
-This component uses the IBM FHIR Server's PersistenceInterceptor feature to automatically scope searches to the compartments for which the user has access (as indicated by a special `patient_id` claim in the access token).
+This component uses the LinuxForHealth FHIR Server's PersistenceInterceptor feature to automatically scope searches to the compartments for which the user has access (as indicated by a special `patient_id` claim in the access token).
 
 Additionally, before returning resources to the client, the `fhir-smart` component performs authorization policy enforcement based on the list of SMART scopes included in the token's `scope` claim and the list of patient compartments in the `patient_id` claim.
 
 When the HTTP header `Prefer: return=minimal` is specified on a search or history request, only minimal resource metadata is retrieved. In those cases, either `user` or `system` SMART scopes must be used, since the resource data necessary to enforce access via `patient` SMART scopes is not available.
 
-For an example of using the IBM FHIR Server together with a SMART-enabled Keycloak authorization server, please see the data-access pattern at https://github.com/LinuxForHealth/health-patterns/tree/main/data-access.
+For an example of using the LinuxForHealth FHIR Server together with a SMART-enabled Keycloak authorization server, please see the data-access pattern at https://github.com/LinuxForHealth/health-patterns/tree/main/data-access.
 
 ## 5.4 Custom HTTP Headers
 IBM FHIR Server Supports the following custom HTTP Headers:

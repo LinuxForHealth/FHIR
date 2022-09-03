@@ -1,6 +1,6 @@
 # Development
 
-The document helps developers setup the development environment for the IBM FHIR Server - Term Graph Loader Tool. 
+The document helps developers setup the development environment for the LinuxForHealth FHIR Server - Term Graph Loader Tool. 
 
 1. Build the `fhir-examples` and `fhir-parent`
 

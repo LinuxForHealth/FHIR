@@ -50,7 +50,7 @@ Note: all logical-ids and resources in this guide are examples and do not refer 
 
 The sizing table below should be considered a starting point. Actual requirements may vary greatly based on the specific scenarios for a given deployment. For example, search-heavy workloads will require more database CPU and IOPS capacity than a system servicing simple reads.
 
-CPU consumption of the IBM FHIR Server is closely correlated with the number of resources being processed, particularly during ingestion where processing involves:
+CPU consumption of the LinuxForHealth FHIR Server is closely correlated with the number of resources being processed, particularly during ingestion where processing involves:
 
 * Parsing
 * Validation
@@ -100,17 +100,17 @@ Terminology:
 
 ## 3.1. Concurrency
 
-This section describes how to configure the IBM FHIR Server and its database for concurrency.
+This section describes how to configure the LinuxForHealth FHIR Server and its database for concurrency.
 
 ### 3.1.1. Liberty Profile Concurrency
 
-Liberty Profile uses an executor service to handle incoming HTTP/S requests. By default, the executor service automatically adjusts its thread pool size to most efficiently handle the request load. Although the executor service can be configured, we recommend using the default configuration. The best solution for supporting greater concurrency is to scale-out additional instances of the IBM FHIR Server.
+Liberty Profile uses an executor service to handle incoming HTTP/S requests. By default, the executor service automatically adjusts its thread pool size to most efficiently handle the request load. Although the executor service can be configured, we recommend using the default configuration. The best solution for supporting greater concurrency is to scale-out additional instances of the LinuxForHealth FHIR Server.
 
 ### 3.1.2. Database Max Connections
 
-PostgreSQL limits the maximum number of open connections. It is important to configure the database in conjunction with the Liberty Profile datasource connection pools to avoid connection failures which will result in HTTP 500 errors being returned from the IBM FHIR Server.
+PostgreSQL limits the maximum number of open connections. It is important to configure the database in conjunction with the Liberty Profile datasource connection pools to avoid connection failures which will result in HTTP 500 errors being returned from the LinuxForHealth FHIR Server.
 
-Assuming there are N instances of the IBM FHIR Server, the recommended connection limits should be configured as follows:
+Assuming there are N instances of the LinuxForHealth FHIR Server, the recommended connection limits should be configured as follows:
 
 
 | Database     |          Property Name          | Recommended Setting  |
@@ -147,13 +147,13 @@ Because each datasource gets its own connection manager, you can tune each indep
 
 When `numConnectionsPerThreadLocal=1`, be aware that connection-related errors will cause the client request to fail with a status 500 Server Error. In addition, this failure will not purge all bad connections and so clients may see multiple errors. This can occur when there is a database failover event, for example. When `numConnectionsPerThreadLocal=0` and `validationTimeout` is configured (see above), connections are validated each time before they are used. In this case, the chance of a client request failing due to a bad database connection is much lower.
 
-If clients need to be protected from this type of error in addition to achieving high concurrency, the recommendation is to set `numConnectionsPerThreadLocal=0` and scale out multiple instances of the IBM FHIR Server over a larger number of smaller nodes instead of a smaller number of larger nodes. This helps to reduce contention on the mutex locks protecting the application server connection pool.
+If clients need to be protected from this type of error in addition to achieving high concurrency, the recommendation is to set `numConnectionsPerThreadLocal=0` and scale out multiple instances of the LinuxForHealth FHIR Server over a larger number of smaller nodes instead of a smaller number of larger nodes. This helps to reduce contention on the mutex locks protecting the application server connection pool.
 
 Each JTA datasource should be configured in its own `.xml` server configuration file and placed into `{fhir-server-home}/configDropins/overrides` where it will be picked up automatically by Liberty Profile on startup.
 
 ## 3.2. Transaction Timeout
 
-Long transactions consume significant resources so to protect the system, Liberty will time-out a transaction after 2 minutes (120s) by default. When a transaction times out, Liberty will forcibly close any database connection currently executing a statement and the IBM FHIR Server will return an HTTP 500 response to the caller. The maximum transaction time can be modified using the `<transaction>` element in the Liberty server configuration and, by default, the IBM FHIR Server will set this from  the `FHIR_TRANSACTION_MANAGER_TIMEOUT` variable as described in Section 3.3.1.3 Database Access TransactionManager Timeout of the [IBM FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide/#331-the-jdbc-persistence-layer).
+Long transactions consume significant resources so to protect the system, Liberty will time-out a transaction after 2 minutes (120s) by default. When a transaction times out, Liberty will forcibly close any database connection currently executing a statement and the LinuxForHealth FHIR Server will return an HTTP 500 response to the caller. The maximum transaction time can be modified using the `<transaction>` element in the Liberty server configuration and, by default, the LinuxForHealth FHIR Server will set this from  the `FHIR_TRANSACTION_MANAGER_TIMEOUT` variable as described in Section 3.3.1.3 Database Access TransactionManager Timeout of the [IBM FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide/#331-the-jdbc-persistence-layer).
 
 The following table summarizes how the transaction timeout is used for different request types:
 
@@ -170,7 +170,7 @@ The following table summarizes how the transaction timeout is used for different
 
 Because some requests use multiple transactions under the covers, the overall request response time can sometimes be greater than the transaction timeout. There is no server-side tuneable property for the overall request processing time. Tuning of the client read timeout and/or network configuration may be required when extending the maximum transaction time to more than 2 minutes, or supporting multi-transaction requests which also exceed 2 minutes.
 
-Firewalls or other components in the flow between a client and the IBM FHIR Server may forcibly close (reset) a connection which is considered idle. This is usually because no packets associated with the TCP connection will flow between the client and the IBM FHIR Server until the response is returned. There are two ways to address this:
+Firewalls or other components in the flow between a client and the LinuxForHealth FHIR Server may forcibly close (reset) a connection which is considered idle. This is usually because no packets associated with the TCP connection will flow between the client and the LinuxForHealth FHIR Server until the response is returned. There are two ways to address this:
 
 1. Configure the network path to make sure that TCP idle timeout exceeds the client read timeout for all components in the client-server flow. This is impractical unless the infrastructure is dedicated (e.g. an internal system-to-system flow), even then it might not be desirable or allowed;
 2. Configure TCP keep-alive (SO_KEEPALIVE) on the connection. This instructs the operating system to occassionally send packets over the wire to let the networking components know that the connection is still active while the client waits for a response from the server. Some clients may configure keep-alive by default, in which case no action is required. Note that TCP keep-alive should not be confused with HTTP Keep-Alive. The TCP keep-alive and client read-timeout values should be considered together. There is no point configuring TCP keep-alive if the delay before sending the first packet is longer than the client read-timeout. Likewise, TCP keep-alive will not prevent a client read from timing out. TCP keep-alive only ensures a connection is not reset by a network component thinking it is idle. The timing values you configure need to be guided by the network configuration in your particular solution.
@@ -181,11 +181,11 @@ TLS connection setup is a costly CPU operation. It is therefore important to ens
 
 ## 3.4. Value-Id Caches
 
-The IBM FHIR Server uses internal memory caches for resource type names, parameter names, references, codes and systems. These caches use a least-recently-used (LRU) strategy to avoid unbound growth which would result in an out-of-memory (OOM) condition.
+the LinuxForHealth FHIR Server uses internal memory caches for resource type names, parameter names, references, codes and systems. These caches use a least-recently-used (LRU) strategy to avoid unbound growth which would result in an out-of-memory (OOM) condition.
 
-Currently the IBM FHIR Servers do not use sharding(*) to distribute client requests and so any client request may hit any server in a given cluster. This means that the memory used for caching value-id lookups is not distributed, but each servers' cache is complete and may contain data also cached in another server. This may be revised in future releases if it becomes a scaling issue.
+Currently the LinuxForHealth FHIR Servers do not use sharding(*) to distribute client requests and so any client request may hit any server in a given cluster. This means that the memory used for caching value-id lookups is not distributed, but each servers' cache is complete and may contain data also cached in another server. This may be revised in future releases if it becomes a scaling issue.
 
-(*) - sharding is really the responsibility of the component used to route requests to the IBM FHIR Servers, and if such a component were to support sharding, it would help to reduce the cache pressure by distributing values among the available cache instances.
+(*) - sharding is really the responsibility of the component used to route requests to the LinuxForHealth FHIR Servers, and if such a component were to support sharding, it would help to reduce the cache pressure by distributing values among the available cache instances.
 
 The following datasource properties in fhir-server-config.json are used to tune the size of the value-id caches:
 
@@ -239,14 +239,14 @@ The values for PARAMETER_NAMES and RESOURCE_TYPES are supposed to be fully cache
 
 ## 3.5. Compartment Search Optimization
 
-Resources are assigned to various compartments using expressions with multiple terms. In the IBM FHIR Server JDBC persistence layer, these expressions are translated to SQL predicates with multiple `OR` statements. These `ORs` make it more difficult for the query optimizer to compute the most efficient execution plan resulting in a slow query. To address this, the IBM FHIR Server evaluates the compartment membership expression during ingestion and stores the results. The SQL query can then be written using a single value predicate resulting in faster query.
+Resources are assigned to various compartments using expressions with multiple terms. In the LinuxForHealth FHIR Server JDBC persistence layer, these expressions are translated to SQL predicates with multiple `OR` statements. These `ORs` make it more difficult for the query optimizer to compute the most efficient execution plan resulting in a slow query. To address this, the LinuxForHealth FHIR Server evaluates the compartment membership expression during ingestion and stores the results. The SQL query can then be written using a single value predicate resulting in faster query.
 
 ## 3.6. Usage of Server Resource Provider
 
-The IBM FHIR Server has a dynamic registry of conformance resources. The built-in "ServerRegistryResourceProvider" can be used to bridge conformance resources from the tenant data store (uploaded through the REST API) to the registry.
+the LinuxForHealth FHIR Server has a dynamic registry of conformance resources. The built-in "ServerRegistryResourceProvider" can be used to bridge conformance resources from the tenant data store (uploaded through the REST API) to the registry.
 When enabled, this means that each call to the registry (e.g. for extension StructureDefinition lookups during resource creation) can result in a round trip to the database.
 
-For optimal performance, the IBM FHIR Server team recommends to disable this resource provider via the following setting:
+For optimal performance, the LinuxForHealth FHIR Server team recommends to disable this resource provider via the following setting:
 
 | Configuration | Recommended value |
 |------|-------|
@@ -256,9 +256,9 @@ This configuration setting avoids an extra Search during ingestion.
 
 ## 3.7. Usage of the extension-search-parameters.json file
 
-The IBM FHIR Server supports multi-tenant SearchParameter extensions described in the extension-search-parameters.json file. When the `extension-search-parameters.json` is missing, the SearchParameter value extraction tries to open the file for every resource. This is a file-system operation which results in a context switch and impacts performance.
+the LinuxForHealth FHIR Server supports multi-tenant SearchParameter extensions described in the extension-search-parameters.json file. When the `extension-search-parameters.json` is missing, the SearchParameter value extraction tries to open the file for every resource. This is a file-system operation which results in a context switch and impacts performance.
 
-The IBM FHIR Server team recommends each tenant include an `extension-search-parameters.json` file, even if it is empty.
+the LinuxForHealth FHIR Server team recommends each tenant include an `extension-search-parameters.json` file, even if it is empty.
 
 An example of the empty search parameters file is:
 
@@ -274,7 +274,7 @@ An example of the empty search parameters file is:
 
 | Tuneable | Guidance |
 | -------- | -------- |
-| Caching  | Avoiding physical reads is important for most database applications and the IBM FHIR Server is no different. Memory sizing and configuration is important for good ingestion performance as well as good read performance. |
+| Caching  | Avoiding physical reads is important for most database applications and the LinuxForHealth FHIR Server is no different. Memory sizing and configuration is important for good ingestion performance as well as good read performance. |
 | Statistics | Ensure statistics are up-to-date to allow the query optimizer to generate the best execution plans. |
 | Concurrency | Ensure the database supports the required number of connections from the application server cluster, plus any administration overhead. Connections and their associated sessions consume memory which must be considered in the overall database server memory budget. |
 
@@ -285,7 +285,7 @@ For PostgreSQL, we recommend tuning the following properties:
 
 | Property | Recommendation | Description |
 | -------- | -------------- | ----------- |
-| max_connections | N+15 | N is the aggregate number of connections from the IBM FHIR Server cluster, defined by the connection manager's `maxPoolSize` property. Check the PostgreSQL documentation. Connections require memory, so be careful with large values which could lead to memory pressure on the database server causing performance issues or stability problems. |
+| max_connections | N+15 | N is the aggregate number of connections from the LinuxForHealth FHIR Server cluster, defined by the connection manager's `maxPoolSize` property. Check the PostgreSQL documentation. Connections require memory, so be careful with large values which could lead to memory pressure on the database server causing performance issues or stability problems. |
 | shared_buffers | 1/2 of memory | The number of 8kB blocks used for caching table data. This is important for ingestion as well as query performance. The database must be able to find free blocks to hold table and index data it needs to modify when ingesting new data. |
 | effective_cache_size | 3/4 of memory | Number of 8kB blocks. Not an allocation, just provides guidance to the query optimizer for how much data it can expect to be cached by the database and operating system file system cache. It is used to bias decisions on choosing index-based access paths. IBM FHIR Server queries rely heavily on index-driven plans so this value should be at the upper end of any recommended range. |
 
@@ -393,7 +393,7 @@ This indicates that the automatic vacuum process needs to be more aggressive. Se
 
 ### 4.1.4. Vacuum Monitoring
 
-Use the following query to see the impact of updates and deletes on the IBM FHIR Server tables (assuming the tenant is configured to use the `fhirdata` schema):
+Use the following query to see the impact of updates and deletes on the LinuxForHealth FHIR Server tables (assuming the tenant is configured to use the `fhirdata` schema):
 
 ``` sql
  SELECT relname,
@@ -453,7 +453,7 @@ Derby is not recommended for production use and therefore tuning Derby will not 
 
 ## 5.1. Logical Id Generation
 
-Using random values for resource identifiers can cause performance issues in large databases. This is a particular issue when using PostgreSQL with the IBM FHIR Server due to an issue known as write amplification from full page writes. For details, see this blog post: https://www.2ndquadrant.com/en/blog/on-the-impact-of-full-page-writes.
+Using random values for resource identifiers can cause performance issues in large databases. This is a particular issue when using PostgreSQL with the LinuxForHealth FHIR Server due to an issue known as write amplification from full page writes. For details, see this blog post: https://www.2ndquadrant.com/en/blog/on-the-impact-of-full-page-writes.
 
 For best performance, ids generated by clients should not be purely random but instead be structured to include a prefix which increments over time. This causes index entries for new values to share pages (right-hand inserts), greatly reducing the write amplification overhead.
 
@@ -461,7 +461,7 @@ One example of a suitable id generation strategy can be found in the [IBM FHIR S
 
 This strategy provides both the desirable trait of global uniqueness as well as a low write amplification overhead thanks to the time-based prefix.
 
-The IBM FHIR Server also uses normalization to avoid storing (and indexing) long identifier strings in multiple places. This saves space, and the database-generated identity values are based on sequences which naturally produce the desired right-hand-insert behavior.
+the LinuxForHealth FHIR Server also uses normalization to avoid storing (and indexing) long identifier strings in multiple places. This saves space, and the database-generated identity values are based on sequences which naturally produce the desired right-hand-insert behavior.
 
 ## 5.2. Conditional Update
 
@@ -473,7 +473,7 @@ Avoiding these unnecessary updates is important for two reasons:
 1. ingestion performance (each update performs work in the database)
 2. database size (each version of each resource is stored in the database)
 
-The HL7 FHIR specification defines experimental support for both [conditional create](https://hl7.org/fhir/R4B/http.html#ccreate) and [conditional update](https://hl7.org/fhir/R4B/http.html#cond-update) and the IBM FHIR server implements each of these. However, this approach suffers multiple issues:
+The HL7 FHIR specification defines experimental support for both [conditional create](https://hl7.org/fhir/R4B/http.html#ccreate) and [conditional update](https://hl7.org/fhir/R4B/http.html#cond-update) and the LinuxForHealth FHIR Server implements each of these. However, this approach suffers multiple issues:
 1. each update must perform a search which can be more costly than simply performing read before the update
 2. conditional requests require intricate locking techniques to avoid race conditions and the currently-implemented approach has [significant limitations](https://github.com/LinuxForHealth/FHIR/issues/2051)
 
@@ -492,7 +492,7 @@ HTTP header named `X-FHIR-FORCE-UPDATE` to "true".
 
 # 6. Client Access Scenarios
 
-The IBM FHIR Server translates a FHIR search request into a SQL query. The database performs query optimization to generate what it thinks is the most efficient execution plan before running the query. This optimization depends on the database having good statistics (and a clever algorithm) to make the right choice. When this goes wrong, the result is a slow response which can also end up consuming significant resources which impact the capacity of the system as a whole.
+the LinuxForHealth FHIR Server translates a FHIR search request into a SQL query. The database performs query optimization to generate what it thinks is the most efficient execution plan before running the query. This optimization depends on the database having good statistics (and a clever algorithm) to make the right choice. When this goes wrong, the result is a slow response which can also end up consuming significant resources which impact the capacity of the system as a whole.
 
 The FHIR search specification includes a rich set of capabilities designed to make it easier for clients to find data. If a particular search performs poorly, there are likely other ways the same data can be fetched. One solution is to use multiple requests, using FHIR bundle requests to request multiple resources in one server request.
 
@@ -578,7 +578,7 @@ ORDER BY R.VERSION_ID DESC
   FETCH NEXT ? ROWS ONLY
 ```
 
-In order to include an overall count of the number of resource versions, the IBM FHIR Server must execute an additional SQL query:
+In order to include an overall count of the number of resource versions, the LinuxForHealth FHIR Server must execute an additional SQL query:
 
 ```
 SELECT COUNT(R.VERSION_ID)
@@ -595,7 +595,7 @@ In most cases the history queries will execute very quickly. Performance will be
 **Omitting the count**
 
 For search queries with low specificity, the response time is dominated by the "count query" that is used to determine how many total results match the query.
-The IBM FHIR Server supports skipping this step when clients set a query parameter named `_total` to the value of `none` as described at https://hl7.org/fhir/R4B/search.html#total.
+the LinuxForHealth FHIR Server supports skipping this step when clients set a query parameter named `_total` to the value of `none` as described at https://hl7.org/fhir/R4B/search.html#total.
 
 **Resource subsetting**
 
@@ -603,13 +603,13 @@ For search queries that return lots of data (e.g. ones that return large resourc
 
 **Predicate Order**
 
-The IBM FHIR Server translates FHIR search queries into SQL statements which may require many tables to be joined. The database attempts to optimize the query execution plan by analyzing join conditions, filter predicates, available indexes and column statistics. The optimizer also attempts to order the joins in order to reduce the amount of work it must do. This usually involves computing the most selective clauses first. When there are many tables involved, the database optimizer may not always find the most efficient execution plan which can result in higher response times or `500` server errors if the total time exceeds the transaction timeout limit. For example, on a large database the following query may perform poorly if there are many ExplanationOfBenefit records with a Claim matching one of the given priorities:
+the LinuxForHealth FHIR Server translates FHIR search queries into SQL statements which may require many tables to be joined. The database attempts to optimize the query execution plan by analyzing join conditions, filter predicates, available indexes and column statistics. The optimizer also attempts to order the joins in order to reduce the amount of work it must do. This usually involves computing the most selective clauses first. When there are many tables involved, the database optimizer may not always find the most efficient execution plan which can result in higher response times or `500` server errors if the total time exceeds the transaction timeout limit. For example, on a large database the following query may perform poorly if there are many ExplanationOfBenefit records with a Claim matching one of the given priorities:
 
 ```
 /ExplanationOfBenefit?_pretty=true&claim.priority=normal,stat,deferred&_include=ExplanationOfBenefit:claim&_include=ExplanationOfBenefit:patient&patient:Patient.birthdate=le1915
 ```
 
-The above query requires a join of around 13 tables which is too many for the database to try all possible orders and so the most efficient plan is never tried. The IBM FHIR Server builds the SQL based on the order of filter predicates in the search request. This can be used along with knowledge of the data to place the most selective filter first which, in this case, is the patient `birthdate` range. Rewriting the query as follows can significantly improve the response time:
+The above query requires a join of around 13 tables which is too many for the database to try all possible orders and so the most efficient plan is never tried. the LinuxForHealth FHIR Server builds the SQL based on the order of filter predicates in the search request. This can be used along with knowledge of the data to place the most selective filter first which, in this case, is the patient `birthdate` range. Rewriting the query as follows can significantly improve the response time:
 
 ```
 /ExplanationOfBenefit?_pretty=true&patient:Patient.birthdate=le1915&claim.priority=normal,stat,deferred&_include=ExplanationOfBenefit:claim&_include=ExplanationOfBenefit:patient
@@ -630,7 +630,7 @@ HL7 FHIR supports a few variants of token search:
 
 Token-based searches should include a code-system when possible. The same code value might exist in multiple code-systems and so, unless the code-system is included in the search query, the database join may need to consider multiple matches in order to find all the associated resources. This multiplies the amount of work the database must do to execute the query. This also impacts cardinality estimation by the optimizer. If both the code-system and code value are provided, this matches a unique index in the schema allowing the optimizer to infer the SQL fragment will produce a single row.
 
-For optimal performance, users should prefer the `[system]|[code]` variant. Explicitly providing the code is always preferred. If no system is provided, in some cases the IBM FHIR Server can determine the correct code-system to use automatically, which helps query performance.
+For optimal performance, users should prefer the `[system]|[code]` variant. Explicitly providing the code is always preferred. If no system is provided, in some cases the LinuxForHealth FHIR Server can determine the correct code-system to use automatically, which helps query performance.
 
 Don't do this:
 `Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=active`
@@ -638,9 +638,9 @@ Don't do this:
 Instead, do this: `Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=http://hl7.org/fhir/care-team-status|active`
 
 This is especially important for code values that are common across systems (e.g short strings like "active").
-However, the IBM FHIR Server supports a SearchParameter extension which allows the server to add an implicit `[system]|` prefix for certain token parameter searches that come in with just a `[code]`.
+However, the LinuxForHealth FHIR Server supports a SearchParameter extension which allows the server to add an implicit `[system]|` prefix for certain token parameter searches that come in with just a `[code]`.
 
-For example, when a search parameter targets an element of type Code that has a required binding, there is typically a single implicit system for the code. In such cases, the IBM FHIR Server models these Code subtypes as Enums and the values are indexed with their implicit system. When the corresponding SearchParameter definition is decorated with the same implicit system (via this extension), it provides maximum specificity for the query to efficiently retrieve the token value.
+For example, when a search parameter targets an element of type Code that has a required binding, there is typically a single implicit system for the code. In such cases, the LinuxForHealth FHIR Server models these Code subtypes as Enums and the values are indexed with their implicit system. When the corresponding SearchParameter definition is decorated with the same implicit system (via this extension), it provides maximum specificity for the query to efficiently retrieve the token value.
 
 For all such search parameters in the base spec, and first-class implementation guides that we package, we have taken the liberty to add these extensions a priori. For example, for `SearchParameter-Account-status`, the following extension tells the server to process a query like `Account?status=active` as if it were specified like `Account?status=http://hl7.org/fhir/audit-event-outcome|active`:
 ```
@@ -698,9 +698,9 @@ If the response time is not acceptable, an alternative strategy is to first fetc
 }
 ```
 
-Note the bundle type is specified as `transaction`. Because all the entries in the bundle are reads, there's no modification to the database and so no semantic difference between using `transaction` or `batch`. However, for `transaction`, the IBM FHIR Server initiates a single transaction for the entire request. In high load/concurrency conditions, this improves throughput.
+Note the bundle type is specified as `transaction`. Because all the entries in the bundle are reads, there's no modification to the database and so no semantic difference between using `transaction` or `batch`. However, for `transaction`, the LinuxForHealth FHIR Server initiates a single transaction for the entire request. In high load/concurrency conditions, this improves throughput.
 
-The number of ExplanationOfBenefit resources for a given patient is likely to be relatively small. By iterating over the response to the previous request, the client can package a number of resource reads into one or more bundle requests. Read requests are the most efficient type of request for accessing data from the IBM FHIR Server.
+The number of ExplanationOfBenefit resources for a given patient is likely to be relatively small. By iterating over the response to the previous request, the client can package a number of resource reads into one or more bundle requests. Read requests are the most efficient type of request for accessing data from the LinuxForHealth FHIR Server.
 
 ```
 {
@@ -736,7 +736,7 @@ The number of ExplanationOfBenefit resources for a given patient is likely to be
 }
 ```
 
-Although this approach involves multiple requests to the IBM FHIR Server, the overall response time may be quicker due to the simplicity of the requests.
+Although this approach involves multiple requests to the LinuxForHealth FHIR Server, the overall response time may be quicker due to the simplicity of the requests.
 
 The client can filter the required Claim resources, or alternatively convert the reads to search requests:
 
@@ -866,7 +866,7 @@ curl -k -i \
 
 Note that the tenant header must match the tenant header defined in the fhir-server-config.json. The default tenant header is `X-FHIR-TENANT-ID`. If this header is not provided, the tenant value will be `default`.
 
-The curl command can also be used to make POST calls to the IBM FHIR Server. This example creates a new Observation resource for the patient subject `abc123`:
+The curl command can also be used to make POST calls to the LinuxForHealth FHIR Server. This example creates a new Observation resource for the patient subject `abc123`:
 
 ```
 curl -k -i \
@@ -899,6 +899,6 @@ Examples of valid resources can be found in the [fhir-examples](https://github.c
 
 
 
-## 6.8. Making FHIR Requests with the IBM FHIR Server Client
+## 6.8. Making FHIR Requests with the LinuxForHealth FHIR Server Client
 
 See FHIR client API in the [IBM FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide).

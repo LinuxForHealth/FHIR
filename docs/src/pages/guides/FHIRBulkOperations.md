@@ -8,14 +8,14 @@ permalink: /FHIRBulkOperations/
 
 # Overview
 
-The IBM FHIR Server has extended operations for Bulk Data `$import`, `$export` and `$bulkdata-status`, which are implemented in the modules: 
+the LinuxForHealth FHIR Server has extended operations for Bulk Data `$import`, `$export` and `$bulkdata-status`, which are implemented in the modules: 
 
 |Module|Description|
 |---|---|
 |[fhir-operation-bulkdata](https://github.com/LinuxForHealth/FHIR/tree/main/operation/fhir-operation-bulkdata)|Implements the FHIR Operations `$import` and `$export` and translate bulk data requests into JSR352 Java Batch jobs|
 |[fhir-bulkdata-webapp](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-bulkdata-webapp)|Standalone web application to process bulk data requests as JSR352 Java Batch jobs|
 
-The IBM FHIR Server bulk data module configuration is described in more detail at the [FHIR Server Users Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide/#410-bulk-data-operations).
+the LinuxForHealth FHIR Server bulk data module configuration is described in more detail at the [FHIR Server Users Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide/#410-bulk-data-operations).
 
 ## Export Operation: $export
 The `$export` operation uses three OperationDefinition: 
@@ -26,10 +26,10 @@ The `$export` operation uses three OperationDefinition:
 The export is in the ndjson format.
 
 ### **$export: Create a Bulk Data Request**
-To create an export request, the IBM FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each request is limited to a single resource type in each imported or referenced file.
+To create an export request, the LinuxForHealth FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each request is limited to a single resource type in each imported or referenced file.
 
 #### Example Request - GET
-The following is a request to export data to the IBM COS endpoint from the IBM FHIR Server using GET.
+The following is a request to export data to the IBM COS endpoint from the LinuxForHealth FHIR Server using GET.
 
 ```sh
 curl -k -u "fhiruser:change-password" -H "Content-Type: application/fhir+json" \
@@ -37,7 +37,7 @@ curl -k -u "fhiruser:change-password" -H "Content-Type: application/fhir+json" \
 ```
 
 #### Example Request - POST
-The following is a request to export data to the IBM COS endpoint from the IBM FHIR Server using POST and Parameters resource.
+The following is a request to export data to the IBM COS endpoint from the LinuxForHealth FHIR Server using POST and Parameters resource.
 
 ```sh
 curl -k -u "fhiruser:change-password" -H "Content-Type: application/fhir+json" \
@@ -67,16 +67,16 @@ curl -k -u "fhiruser:change-password" -H "Content-Type: application/fhir+json" \
 The `$import` operation is a system-level operation invoked at `[base]/$import`. The Import Operation uses a custom crafted OperationDefinition [link](https://github.com/LinuxForHealth/FHIR/blob/main/operation/fhir-operation-bulkdata/src/main/resources/import.json), which follows the proposal from [Smart-on-FHIR: import.md](https://github.com/smart-on-fhir/bulk-import/blob/main/import.md).
 
 ### **$import: Create a Bulk Data Request**
-To create an import request, the IBM FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each input url in the request is limited to a single resource type.
+To create an import request, the LinuxForHealth FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each input url in the request is limited to a single resource type.
 
-The IBM FHIR Server limits the number of inputs per each `$import` request based on `fhirServer/bulkdata/maxInputPerRequest`, which defaults to 5 input entries.
+the LinuxForHealth FHIR Server limits the number of inputs per each `$import` request based on `fhirServer/bulkdata/maxInputPerRequest`, which defaults to 5 input entries.
 
-The IBM FHIR Server supports `storageDetail.type` with the value of `ibm-cos`, `https`, `azure-blob` and `aws-s3`.
+the LinuxForHealth FHIR Server supports `storageDetail.type` with the value of `ibm-cos`, `https`, `azure-blob` and `aws-s3`.
 
 To import using the $import on https, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulkdata on https://example.com/folder1 and https://example.com/folder2 you must specify both baseUrls. Please refer to the [IBM FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#410-bulk-data-operations). Please note, the BulkData Operations do not support import from `http://`.
 
 #### Example Request
-The following is a request to load data from the IBM COS endpoint into the IBM FHIR Server.
+The following is a request to load data from the IBM COS endpoint into the LinuxForHealth FHIR Server.
 
 ``` sh
 curl -k -v -X POST -u "fhiruser:change-password" \
@@ -129,7 +129,7 @@ There are two custom features - *Poll Job* and *Delete Job*.
 ### **$bulkdata-status: Poll Job**
 The response returned is 202 if the job is queued or not yet complete.
 
-Note: If the job is stopped, e.g, due to shutdown of the IBM FHIR Server where the job is running the bulkdata job, then upon polling the status of the bulkdata job, the server restarts the JavaBatch job, and the response to the client is Accepted: 202.
+Note: If the job is stopped, e.g, due to shutdown of the LinuxForHealth FHIR Server where the job is running the bulkdata job, then upon polling the status of the bulkdata job, the server restarts the JavaBatch job, and the response to the client is Accepted: 202.
 The response returned is 200 if the job is completed.
 
 The following is a sample path to the exported ndjson file, the full path can be found in the response to the polling location request after the export request (please refer to the FHIR BulkDataAccess specification for details).  
@@ -205,6 +205,6 @@ The response returned is 200 if the job deletion is completed.
 
 ## Notes
 1. For status codes, if there is an error on the server a 500 is returned, or if there is a client request error, a 400 is returned. 
-1. There are integration tests which exercise the various features of the Bulk Data Operations - `ImportOperationTest` and `ExportOperationTest`.  These integration tests are useful for testing the IBM FHIR Server, and may be useful for developers wanting to build their own tests. 
+1. There are integration tests which exercise the various features of the Bulk Data Operations - `ImportOperationTest` and `ExportOperationTest`.  These integration tests are useful for testing the LinuxForHealth FHIR Server, and may be useful for developers wanting to build their own tests. 
 1. Depending on the access policy of your export location, one may download the content using a command like `curl -o Patient_1.ndjson https://example.cloud.local/fhir-downloads/path-path/Patient_1.ndjson`.
 1. The use of Basic Authentication `fhiruser:change-password` is expected to be changed to match your environment authentication routine.

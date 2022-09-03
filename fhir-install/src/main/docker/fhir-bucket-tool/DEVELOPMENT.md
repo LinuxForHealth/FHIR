@@ -1,6 +1,6 @@
 # Development
 
-The document helps developers setup the development environment for the IBM FHIR Server - Bucket Tool. 
+The document helps developers setup the development environment for the LinuxForHealth FHIR Server - Bucket Tool. 
 
 1. Build the `fhir-examples` and `fhir-parent`
 

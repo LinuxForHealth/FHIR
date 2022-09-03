@@ -91,6 +91,6 @@ Consult the reference implementation (`postgres`) to start a new migration job.
 ## Testing the Automation
 
 To test the build, be sure to pre-set the environment variable `WORKSPACE` with `export WORKSPACE=$(pwd)`.
-You must also start Docker, so the image is built that supports the IBM FHIR Server.
+You must also start Docker, so the image is built that supports the LinuxForHealth FHIR Server.
 
 If you have any questions, please reach out on Zulip.

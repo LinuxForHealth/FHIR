@@ -1,6 +1,6 @@
 # Project: fhir-remote-index
 
-Project fhir-remote-index is a stand-alone application to support asynchronous storage of FHIR search parameters published by the IBM FHIR Server. When configured to do so, the IBM FHIR Server extracts search parameters from the incoming resource and instead of storing the parameters as part of the create/update transaction, it packages the parameters into a message which is then published to Kafka. The fhir-remote-index application consumes the messages from Kafka and stores the value in the resource parameter tables using efficient batch-based inserts.
+Project fhir-remote-index is a stand-alone application to support asynchronous storage of FHIR search parameters published by the LinuxForHealth FHIR Server. When configured to do so, the LinuxForHealth FHIR Server extracts search parameters from the incoming resource and instead of storing the parameters as part of the create/update transaction, it packages the parameters into a message which is then published to Kafka. The fhir-remote-index application consumes the messages from Kafka and stores the value in the resource parameter tables using efficient batch-based inserts.
 
 This pattern supports higher ingestion rates because:
 
@@ -16,7 +16,7 @@ It is worth noting that using multiple Kafka topic partitions can increase throu
 
 ## Processing Is Asynchronous
 
-Old search parameters are deleted whenever a resource is updated. When remote indexing is enabled, this means that a resource will not be searchable until the remote index service has received and processed the message. Carefully examine your interaction scenarios with the IBM FHIR Server to determine if this behavior is suitable. In particular, conditional updates are unlikely to work as expected because the search may not return the expected value, depending on timing.
+Old search parameters are deleted whenever a resource is updated. When remote indexing is enabled, this means that a resource will not be searchable until the remote index service has received and processed the message. Carefully examine your interaction scenarios with the LinuxForHealth FHIR Server to determine if this behavior is suitable. In particular, conditional updates are unlikely to work as expected because the search may not return the expected value, depending on timing.
 
 ## Status
 
@@ -133,7 +133,7 @@ sslkey=
 
 | Property | DB Type | Description |
 | ------ | --- | ----------- |
-| db.host | All | The host name of the database containing the IBM FHIR Server schema | 
+| db.host | All | The host name of the database containing the LinuxForHealth FHIR Server schema | 
 | db.port | All | The database port number |
 | db.database | All | The database name |
 | user | All | The database credential user |
@@ -163,7 +163,7 @@ Note: Citus configuration is the same as PostgreSQL.
 
 # Asynchronous Message Handling and Transaction Boundaries
 
-To guarantee delivery, the search parameter messages are posted to Kafka by the IBM FHIR Server before the transaction commits. The transaction will only be committed once all messages sent to Kafka have been acknowledged. This is important, because if the message were to be sent after the transaction, we could lose messages if a failure occured immediately after the transaction but before they were received by Kafka.
+To guarantee delivery, the search parameter messages are posted to Kafka by the LinuxForHealth FHIR Server before the transaction commits. The transaction will only be committed once all messages sent to Kafka have been acknowledged. This is important, because if the message were to be sent after the transaction, we could lose messages if a failure occured immediately after the transaction but before they were received by Kafka.
 
 Because messages are sent to Kafka before the transaction is committed, it is possible that a fhir-remote-index consumer may receive a search parameter message before the corresponding resource version record is visible in the database. The consumer therefore runs a query at the start of a batch to determine if the current resource version record matches the message content. The following logic is then applied:
 

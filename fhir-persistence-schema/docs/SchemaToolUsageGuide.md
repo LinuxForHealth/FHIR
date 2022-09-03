@@ -1,6 +1,6 @@
 # IBM FHIR Server - Schema Deployment
 
-This document details how to deploy the IBM FHIR Server schema and apply release upgrades. This document also describes how the schema changes are managed.
+This document details how to deploy the LinuxForHealth FHIR Server schema and apply release upgrades. This document also describes how the schema changes are managed.
 
 The schema tool generates the following object types that require management: 
 
@@ -119,9 +119,9 @@ For Citus:
 
 For PostgreSQL:
 
-The FHIRSERVER user is the database user used by the IBM FHIR Server to connect
+The FHIRSERVER user is the database user used by the LinuxForHealth FHIR Server to connect
 to the database. This user is granted the minimal set of privileges required
-for the IBM FHIR Server to operate. The FHIRADMIN user should only be used
+for the LinuxForHealth FHIR Server to operate. The FHIRADMIN user should only be used
 for schema updates, not for IBM FHIR Server access.
 
 ```
@@ -255,7 +255,7 @@ Alternatively, you can drop specific schemas with `--drop-schema-batch schema-na
 `--drop-schema-oauth schema-name-to-drop`
 
 ## Adjust the Vacuum Settings for PostgreSQL Tables only
-Since 4.9.0, the IBM FHIR Server has implemented support for modifying the [autovacuum](https://www.postgresql.org/docs/12/runtime-config-autovacuum.html). Per [4.1.2. Tuning Auto-vacuum](https://linuxforhealth.github.io/FHIR/guides/FHIRPerformanceGuide/#412-tuning-auto-vacuum) the schema tool modifies `autovacuum_vacuum_cost_limit`, `autovacuum_vacuum_scale_factor` and `autovacuum_vacuum_threshold`.
+Since 4.9.0, the LinuxForHealth FHIR Server has implemented support for modifying the [autovacuum](https://www.postgresql.org/docs/12/runtime-config-autovacuum.html). Per [4.1.2. Tuning Auto-vacuum](https://linuxforhealth.github.io/FHIR/guides/FHIRPerformanceGuide/#412-tuning-auto-vacuum) the schema tool modifies `autovacuum_vacuum_cost_limit`, `autovacuum_vacuum_scale_factor` and `autovacuum_vacuum_threshold`.
 
 The autovacuum_vacuum_scale_factor is not automatically configured, and not recommended on Databases for Postgres on IBM Cloud. The system configuration overrides the setting.
 
@@ -382,7 +382,7 @@ The detail rows are tab-separated, making it easy to load the data into a spread
 
 **Notes:**
 1. The size report is only supported on PostgreSQL databases.
-2. The size report is intended as a guide to understand the relative space distribution of objects in the IBM FHIR Server data schema. The report is not intended to replace database utilities for calculating the total size of the database.
+2. The size report is intended as a guide to understand the relative space distribution of objects in the LinuxForHealth FHIR Server data schema. The report is not intended to replace database utilities for calculating the total size of the database.
 3. The size report is not supported on Citus because not all the required size data can be collected.
 
 ----------------------------------------------------------------
