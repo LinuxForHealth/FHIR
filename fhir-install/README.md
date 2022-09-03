@@ -1,6 +1,6 @@
-# IBM FHIR Server Install
+# LinuxForHealth FHIR Server Install
 
-Running the IBM FHIR Server as a Docker container.
+Running the LinuxForHealth FHIR Server as a Docker container.
 
 ## Prerequisites
 
