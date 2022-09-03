@@ -1,4 +1,4 @@
-# IBM FHIR Server - Development Certificates 
+The LinuxForHealth FHIR® Server - Development Certificates 
 
 The certificates are used in development and CI/CD.
 These certificates are not configured for production use.
@@ -34,7 +34,7 @@ build/docker/minio/public.crt
 
 # Server: Continuous Integration Certificates
 
-The following certificates are used with the IBM FHIR Server. 
+The following certificates are used with the The LinuxForHealth FHIR® Server. 
 
 ```
 fhir-server-webapp/src/main/liberty/config/resources/security/fhirKeyStore.p12

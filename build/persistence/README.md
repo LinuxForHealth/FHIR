@@ -48,6 +48,6 @@ Also, be sure to add an example `fhir-server-config-<persistence-name>.json` con
 ## Test the Automation
 
 To test the build, be sure to pre-set `WORKSPACE` with `export WORKSPACE=\`pwd\``/
-You must also start Docker, so the image is built that supports the IBM FHIR Server.
+You must also start Docker, so the image is built that supports The LinuxForHealth FHIR® Server.
 
 If you have any questions, please reach out on Zulip.
