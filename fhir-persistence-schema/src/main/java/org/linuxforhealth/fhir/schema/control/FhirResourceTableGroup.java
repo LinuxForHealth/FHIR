@@ -464,7 +464,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
 
-                    if (priorVersion < FhirSchemaVersion.V0031.vid()) {
+                    if (priorVersion < FhirSchemaVersion.V0031.vid() && !isRetired) {
                         // change our indexing strategy for smaller indexes
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_PSR"));
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_PLR"));
@@ -592,7 +592,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                         statements.add(new DropColumn(schemaName,  tableName, REF_VERSION_ID));
                     }
 
-                    if (priorVersion < FhirSchemaVersion.V0031.vid()) {
+                    if (priorVersion < FhirSchemaVersion.V0031.vid() && !isRetired) {
                         // change our indexing strategy for smaller indexes
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_TPLR"));
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_LRPT"));
@@ -933,7 +933,7 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
 
-                    if (priorVersion < FhirSchemaVersion.V0031.vid()) {
+                    if (priorVersion < FhirSchemaVersion.V0031.vid() && !isRetired) {
                         // change our indexing strategy for smaller indexes
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_PSER"));
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_PESR"));
@@ -1015,7 +1015,7 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
 
-                    if (priorVersion < FhirSchemaVersion.V0031.vid()) {
+                    if (priorVersion < FhirSchemaVersion.V0031.vid() && !isRetired) {
                         // change our indexing strategy for smaller indexes
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_PNNV"));
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_RPS"));
@@ -1165,7 +1165,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
 
-                    if (priorVersion < FhirSchemaVersion.V0031.vid()) {
+                    if (priorVersion < FhirSchemaVersion.V0031.vid() && !isRetired) {
                         // change our indexing strategy for smaller indexes
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_PNNV"));
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_RPS"));
