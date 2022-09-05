@@ -387,6 +387,23 @@ public class FhirResourceTableGroup {
     }
 
     /**
+     * Helper function to simplify creation of CREATE INDEX statements used when applying schema
+     * migration steps.
+     * @param schemaName
+     * @param tableName
+     * @param indexName
+     * @param columns
+     * @return
+     */
+    private static CreateIndexStatement createIndex(String schemaName, String tableName, String indexName, String... columns) {
+        final List<OrderedColumnDef> columnDefs = new ArrayList<>();
+        for (String columnName: columns) {
+            columnDefs.add(new OrderedColumnDef(columnName, OrderedColumnDef.Direction.ASC, null));
+        }
+        return new CreateIndexStatement(schemaName, indexName, tableName, columnDefs);
+    }
+
+    /**
      * Add the STR_VALUES table for the given resource name prefix
      * <pre>
   parameter_name_id        INT             NOT NULL,
@@ -417,7 +434,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         Table tbl = Table.builder(schemaName, tableName)
                 .setCreate(!isRetired) // skip the creation if this resource type is retired
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
+                .setVersion(FhirSchemaVersion.V0031.vid()) // V0031: new index design
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 // .addBigIntColumn(             ROW_ID,      false) // Removed by issue-1683 - composites refactor
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -425,10 +442,9 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .addVarcharColumn(   STR_VALUE_LCASE, msb,  true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
                 .addIntColumn(COMPOSITE_ID,                 true)      // V0009
-                .addIndex(IDX + tableName + "_PSR", PARAMETER_NAME_ID, STR_VALUE, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_PLR", PARAMETER_NAME_ID, STR_VALUE_LCASE, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, STR_VALUE)
-                .addIndex(IDX + tableName + "_RPL", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, STR_VALUE_LCASE)
+                .addIndex(IDX + tableName + "_SVP", STR_VALUE, PARAMETER_NAME_ID)
+                .addIndex(IDX + tableName + "_SLP", STR_VALUE_LCASE, PARAMETER_NAME_ID)
+                .addIndex(IDX + tableName + "_LRP", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
@@ -446,6 +462,20 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0031.vid()) {
+                        // change our indexing strategy for smaller indexes
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_PSR"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_PLR"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_RPS"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_RPL"));
+
+                        // switch around so we can save space if we have multiple parameters sharing the same string values
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_SVP", STR_VALUE, PARAMETER_NAME_ID));
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_SLP", STR_VALUE_LCASE, PARAMETER_NAME_ID));
+                        // No need for upper and lower case on this index, because we're not including the string value
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_LRP", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID));
                     }
                     return statements;
                 })
@@ -502,14 +532,14 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
                 .setCreate(!isRetired) // skip the creation if this resource type is retired
-                .setVersion(FhirSchemaVersion.V0028.vid()) // V0028: ref_version_id removed because refs are now stored in xx_ref_values
+                .setVersion(FhirSchemaVersion.V0031.vid()) // V0028: ref_version_id removed because refs are now stored in xx_ref_values
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
                 .addIntColumn(COMPOSITE_ID,                 true)      // V0009
-                .addIndex(IDX + tableName + "_TPLR", COMMON_TOKEN_VALUE_ID, PARAMETER_NAME_ID, LOGICAL_RESOURCE_ID) // V0008 change
-                .addIndex(IDX + tableName + "_LRPT", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, COMMON_TOKEN_VALUE_ID) // V0008 change
+                .addIndex(IDX + tableName + "_TP", COMMON_TOKEN_VALUE_ID, PARAMETER_NAME_ID) // V0031 change
+                .addIndex(IDX + tableName + "_LP", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID) // V0031 change
                 .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_TV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
@@ -561,6 +591,15 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                         statements.add(new DropView(schemaName, viewName));
                         statements.add(new DropColumn(schemaName,  tableName, REF_VERSION_ID));
                     }
+
+                    if (priorVersion < FhirSchemaVersion.V0031.vid()) {
+                        // change our indexing strategy for smaller indexes
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_TPLR"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_LRPT"));
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_TP", COMMON_TOKEN_VALUE_ID, PARAMETER_NAME_ID));
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_LP", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID));
+                    }
+
                     return statements;
                 })
                 .build(model);
@@ -859,7 +898,7 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setCreate(!isRetired) // skip the creation if this resource type is retired
-                .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
+                .setVersion(FhirSchemaVersion.V0031.vid()) // V0031: smaller indexes
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -867,9 +906,9 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                 .addTimestampColumn(        DATE_END,      true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
                 .addIntColumn(COMPOSITE_ID,                 true)      // V0009
-                .addIndex(IDX + tableName + "_PSER", PARAMETER_NAME_ID, DATE_START, DATE_END, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_PESR", PARAMETER_NAME_ID, DATE_END, DATE_START, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_RPSE", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, DATE_START, DATE_END)
+                .addIndex(IDX + tableName + "_PNSE", PARAMETER_NAME_ID, DATE_START, DATE_END)
+                .addIndex(IDX + tableName + "_PNES", PARAMETER_NAME_ID, DATE_END, DATE_START)
+                .addIndex(IDX + tableName + "_LRP", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
@@ -892,6 +931,16 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                     }
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0031.vid()) {
+                        // change our indexing strategy for smaller indexes
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_PSER"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_PESR"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_RPSE"));
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_PNSE", PARAMETER_NAME_ID, DATE_START, DATE_END));
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_PNES", PARAMETER_NAME_ID, DATE_END, DATE_START));
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_LRP", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID));
                     }
                     return statements;
                 })
@@ -926,7 +975,7 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setCreate(!isRetired) // skip the creation if this resource type is retired
-                .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
+                .setVersion(FhirSchemaVersion.V0031.vid()) // V0031: smaller indexes
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -935,8 +984,8 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                 .addDoubleColumn(   NUMBER_VALUE_LOW,       true)
                 .addDoubleColumn(  NUMBER_VALUE_HIGH,       true)
                 .addIntColumn(COMPOSITE_ID,                 true)      // V0009
-                .addIndex(IDX + tableName + "_PNNV", PARAMETER_NAME_ID, NUMBER_VALUE, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, NUMBER_VALUE)
+                .addIndex(IDX + tableName + "_PNNV", PARAMETER_NAME_ID, NUMBER_VALUE)
+                .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_RID", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
@@ -965,6 +1014,15 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
+
+                    if (priorVersion < FhirSchemaVersion.V0031.vid()) {
+                        // change our indexing strategy for smaller indexes
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_PNNV"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_RPS"));
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_PNNV", PARAMETER_NAME_ID, NUMBER_VALUE));
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID));
+                    }
+
                     return statements;
                 })
                 .build(model)
@@ -1073,7 +1131,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setCreate(!isRetired) // skip the creation if this resource type is retired
-                .setVersion(FhirSchemaVersion.V0027.vid()) // V0027: add support for distribution/sharding
+                .setVersion(FhirSchemaVersion.V0031.vid()) // V0031: reduce index sizes
                 .setDistributionType(DistributionType.DISTRIBUTED) // V0027 support for sharding
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -1084,12 +1142,10 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .addIntColumn(        CODE_SYSTEM_ID,      true)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
                 .addIntColumn(COMPOSITE_ID,                 true)      // V0009
-                .addIndex(IDX + tableName + "_PNNV", PARAMETER_NAME_ID, CODE, QUANTITY_VALUE, LOGICAL_RESOURCE_ID, CODE_SYSTEM_ID)
-                .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE, QUANTITY_VALUE, CODE_SYSTEM_ID)
-                .addIndex(IDX + tableName + "_PCLHSR", PARAMETER_NAME_ID, CODE, QUANTITY_VALUE_LOW, QUANTITY_VALUE_HIGH, CODE_SYSTEM_ID, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_PCHLSR", PARAMETER_NAME_ID, CODE, QUANTITY_VALUE_HIGH, QUANTITY_VALUE_LOW, CODE_SYSTEM_ID, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_RPCLHS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE, QUANTITY_VALUE_LOW, QUANTITY_VALUE_HIGH, CODE_SYSTEM_ID)
-                .addIndex(IDX + tableName + "_RPCHLS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE, QUANTITY_VALUE_HIGH, QUANTITY_VALUE_LOW, CODE_SYSTEM_ID)
+                .addIndex(IDX + tableName + "_LRPN", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID)
+                .addIndex(IDX + tableName + "_PNQV", PARAMETER_NAME_ID, QUANTITY_VALUE)
+                .addIndex(IDX + tableName + "_PNLH", PARAMETER_NAME_ID, QUANTITY_VALUE_LOW, QUANTITY_VALUE_HIGH)
+                .addIndex(IDX + tableName + "_PNHL", PARAMETER_NAME_ID, QUANTITY_VALUE_HIGH, QUANTITY_VALUE_LOW)
                 .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .addForeignKeyConstraint(FK + tableName + "_R", schemaName, logicalResourcesTable, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
@@ -1108,6 +1164,21 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                     if (priorVersion < FhirSchemaVersion.V0020.vid()) {
                         statements.add(new PostgresFillfactorSettingDAO(schemaName, tableName, FhirSchemaConstants.PG_FILLFACTOR_VALUE));
                     }
+
+                    if (priorVersion < FhirSchemaVersion.V0031.vid()) {
+                        // change our indexing strategy for smaller indexes
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_PNNV"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_RPS"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_PCLHSR"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_PCHLSR"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_RPCLHS"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_RPCHLS"));
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_LRPN", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID));
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_PNQV", PARAMETER_NAME_ID, QUANTITY_VALUE));
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_PNLH", PARAMETER_NAME_ID, QUANTITY_VALUE_LOW, QUANTITY_VALUE_HIGH));
+                        statements.add(createIndex(schemaName, tableName, IDX + tableName + "_PNHL", PARAMETER_NAME_ID, QUANTITY_VALUE_HIGH, QUANTITY_VALUE_LOW));
+                    }
+
                     return statements;
                 })
                 .build(model)

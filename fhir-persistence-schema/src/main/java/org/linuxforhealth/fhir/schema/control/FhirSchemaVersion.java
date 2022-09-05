@@ -50,6 +50,7 @@ public enum FhirSchemaVersion {
     ,V0028(28, "issue-3437 remove ref_version_id from xx_resource_token_refs", false) // parameter storage updated by V0027
     ,V0029(29, "issue-nnnn distributed variant uses different common_token_values and common_canonical_values impl", false)
     ,V0030(30, "issue-3681 test for existence of Evidence and EvidenceVariable resources", false) // fail the schema-update if there are existing Evidence or EvidenceVariable resource instances
+    ,V0031(31, "issue-3937 leaner value table indexes", false) // changes handled by migration, so no reindex required
     ;
 
     // The version number recorded in the VERSION_HISTORY

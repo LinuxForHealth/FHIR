@@ -9,8 +9,6 @@ package org.linuxforhealth.fhir.schema.derby;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 
-import org.testng.annotations.Test;
-
 import org.linuxforhealth.fhir.database.utils.api.IConnectionProvider;
 import org.linuxforhealth.fhir.database.utils.api.ITransactionProvider;
 import org.linuxforhealth.fhir.database.utils.derby.DerbyConnectionProvider;
@@ -20,6 +18,7 @@ import org.linuxforhealth.fhir.database.utils.schema.SchemaVersionsManager;
 import org.linuxforhealth.fhir.database.utils.transaction.SimpleTransactionProvider;
 import org.linuxforhealth.fhir.database.utils.version.CreateWholeSchemaVersion;
 import org.linuxforhealth.fhir.schema.control.FhirSchemaVersion;
+import org.testng.annotations.Test;
 
 /**
  * Unit test for the WHOLE_SCHEMA_VERSION table
@@ -52,7 +51,7 @@ public class DerbySchemaVersionsTest {
 
             // Make sure we can correctly determine the latest schema version value
             svm.updateSchemaVersion();
-            assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0030.vid());
+            assertEquals(svm.getVersionForSchema(), FhirSchemaVersion.V0031.vid());
 
             assertFalse(svm.isSchemaOld());
        }
