@@ -9,6 +9,7 @@ Source - https://build.fhir.org/ig/HL7/davinci-pdex-formulary retrieved on Nov 3
 - Added version id to extension definition canonical references in StructureDefinitions (e.g. `http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Network-extension` -> `http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Network-extension|1.0.1`)
 - Added version id to ValueSet binding targets in StructureDefinitions (e.g. `http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS` -> `http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS|1.0.1`)
 - Added version element under ValueSets.compose.include to specify that these valuesets refer to the 1.0.1 codes.
+- Added version id to each extension's profile reference in each StructureDefinition
 
 Note: the examples were subsequently retrieved from http://hl7.org/fhir/us/davinci-drug-formulary/STU1.0.1/package.tgz on May 20, 2022.
 - Added version id to the Meta.profile entry for each example
