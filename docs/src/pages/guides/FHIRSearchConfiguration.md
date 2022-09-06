@@ -5,7 +5,7 @@ permalink: /FHIRSearchConfiguration/
 ---
 
 # IBM FHIR Server - Search Configuration Overview
-The [FHIR Specification](https://hl7.org/fhir/R4B/search.html) defines a set of searchable fields for each resource type. the LinuxForHealth FHIR Server supports searching via both specification-defined search parameters and tenant-specific search parameters.
+The [FHIR Specification](https://hl7.org/fhir/R4B/search.html) defines a set of searchable fields for each resource type. The LinuxForHealth FHIR Server supports searching via both specification-defined search parameters and tenant-specific search parameters.
 
 Specifically, the LinuxForHealth FHIR Server supports searching on additional fields, including:
 * fields that are defined in the base specification, which are not configured for search; and
@@ -187,7 +187,7 @@ Note: `_content` and `_query` are not yet supported by the LinuxForHealth FHIR S
 The filter `"*": "*"` is not necessary to include these Resource-level parameters.
 
 #### 1.2.1 Handling unexpected search parameters
-the LinuxForHealth FHIR Server supports configurable handling of unknown or unsupported search parameters as defined at https://linuxforhealth.github.io/FHIR/Conformance#http-headers.
+The LinuxForHealth FHIR Server supports configurable handling of unknown or unsupported search parameters as defined at https://linuxforhealth.github.io/FHIR/Conformance#http-headers.
 Filtered search parameters are handled exactly the same as undefined search parameters, meaning that searches which include these parameters will fail in `strict` mode.
 
 #### 1.2.2 Compartment search considerations with filtering

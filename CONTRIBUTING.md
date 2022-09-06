@@ -69,7 +69,7 @@ git commit -s
 ```
 
 ## Communication
-Connect with us through https://chat.fhir.org/ or open an [issue](https://github.com/LinuxForHealth/FHIR/issues). the LinuxForHealth FHIR Server has a dedicated "stream" at https://chat.fhir.org/#narrow/stream/212434-ibm (`#ibm`).
+Connect with us through https://chat.fhir.org/ or open an [issue](https://github.com/LinuxForHealth/FHIR/issues). The LinuxForHealth FHIR Server has a dedicated "stream" at https://chat.fhir.org/#narrow/stream/212434-ibm (`#ibm`).
 
 ## Setup
 See the [Setting up for development](https://github.com/LinuxForHealth/FHIR/wiki/Setting-up-for-development) in the wiki.

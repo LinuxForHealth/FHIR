@@ -181,7 +181,7 @@ TLS connection setup is a costly CPU operation. It is therefore important to ens
 
 ## 3.4. Value-Id Caches
 
-the LinuxForHealth FHIR Server uses internal memory caches for resource type names, parameter names, references, codes and systems. These caches use a least-recently-used (LRU) strategy to avoid unbound growth which would result in an out-of-memory (OOM) condition.
+The LinuxForHealth FHIR Server uses internal memory caches for resource type names, parameter names, references, codes and systems. These caches use a least-recently-used (LRU) strategy to avoid unbound growth which would result in an out-of-memory (OOM) condition.
 
 Currently the LinuxForHealth FHIR Servers do not use sharding(*) to distribute client requests and so any client request may hit any server in a given cluster. This means that the memory used for caching value-id lookups is not distributed, but each servers' cache is complete and may contain data also cached in another server. This may be revised in future releases if it becomes a scaling issue.
 
@@ -256,9 +256,9 @@ This configuration setting avoids an extra Search during ingestion.
 
 ## 3.7. Usage of the extension-search-parameters.json file
 
-the LinuxForHealth FHIR Server supports multi-tenant SearchParameter extensions described in the extension-search-parameters.json file. When the `extension-search-parameters.json` is missing, the SearchParameter value extraction tries to open the file for every resource. This is a file-system operation which results in a context switch and impacts performance.
+The LinuxForHealth FHIR Server supports multi-tenant SearchParameter extensions described in the extension-search-parameters.json file. When the `extension-search-parameters.json` is missing, the SearchParameter value extraction tries to open the file for every resource. This is a file-system operation which results in a context switch and impacts performance.
 
-the LinuxForHealth FHIR Server team recommends each tenant include an `extension-search-parameters.json` file, even if it is empty.
+The LinuxForHealth FHIR Server team recommends each tenant include an `extension-search-parameters.json` file, even if it is empty.
 
 An example of the empty search parameters file is:
 
@@ -461,7 +461,7 @@ One example of a suitable id generation strategy can be found in the [IBM FHIR S
 
 This strategy provides both the desirable trait of global uniqueness as well as a low write amplification overhead thanks to the time-based prefix.
 
-the LinuxForHealth FHIR Server also uses normalization to avoid storing (and indexing) long identifier strings in multiple places. This saves space, and the database-generated identity values are based on sequences which naturally produce the desired right-hand-insert behavior.
+The LinuxForHealth FHIR Server also uses normalization to avoid storing (and indexing) long identifier strings in multiple places. This saves space, and the database-generated identity values are based on sequences which naturally produce the desired right-hand-insert behavior.
 
 ## 5.2. Conditional Update
 
@@ -492,7 +492,7 @@ HTTP header named `X-FHIR-FORCE-UPDATE` to "true".
 
 # 6. Client Access Scenarios
 
-the LinuxForHealth FHIR Server translates a FHIR search request into a SQL query. The database performs query optimization to generate what it thinks is the most efficient execution plan before running the query. This optimization depends on the database having good statistics (and a clever algorithm) to make the right choice. When this goes wrong, the result is a slow response which can also end up consuming significant resources which impact the capacity of the system as a whole.
+The LinuxForHealth FHIR Server translates a FHIR search request into a SQL query. The database performs query optimization to generate what it thinks is the most efficient execution plan before running the query. This optimization depends on the database having good statistics (and a clever algorithm) to make the right choice. When this goes wrong, the result is a slow response which can also end up consuming significant resources which impact the capacity of the system as a whole.
 
 The FHIR search specification includes a rich set of capabilities designed to make it easier for clients to find data. If a particular search performs poorly, there are likely other ways the same data can be fetched. One solution is to use multiple requests, using FHIR bundle requests to request multiple resources in one server request.
 
@@ -595,7 +595,7 @@ In most cases the history queries will execute very quickly. Performance will be
 **Omitting the count**
 
 For search queries with low specificity, the response time is dominated by the "count query" that is used to determine how many total results match the query.
-the LinuxForHealth FHIR Server supports skipping this step when clients set a query parameter named `_total` to the value of `none` as described at https://hl7.org/fhir/R4B/search.html#total.
+The LinuxForHealth FHIR Server supports skipping this step when clients set a query parameter named `_total` to the value of `none` as described at https://hl7.org/fhir/R4B/search.html#total.
 
 **Resource subsetting**
 
@@ -603,13 +603,13 @@ For search queries that return lots of data (e.g. ones that return large resourc
 
 **Predicate Order**
 
-the LinuxForHealth FHIR Server translates FHIR search queries into SQL statements which may require many tables to be joined. The database attempts to optimize the query execution plan by analyzing join conditions, filter predicates, available indexes and column statistics. The optimizer also attempts to order the joins in order to reduce the amount of work it must do. This usually involves computing the most selective clauses first. When there are many tables involved, the database optimizer may not always find the most efficient execution plan which can result in higher response times or `500` server errors if the total time exceeds the transaction timeout limit. For example, on a large database the following query may perform poorly if there are many ExplanationOfBenefit records with a Claim matching one of the given priorities:
+The LinuxForHealth FHIR Server translates FHIR search queries into SQL statements which may require many tables to be joined. The database attempts to optimize the query execution plan by analyzing join conditions, filter predicates, available indexes and column statistics. The optimizer also attempts to order the joins in order to reduce the amount of work it must do. This usually involves computing the most selective clauses first. When there are many tables involved, the database optimizer may not always find the most efficient execution plan which can result in higher response times or `500` server errors if the total time exceeds the transaction timeout limit. For example, on a large database the following query may perform poorly if there are many ExplanationOfBenefit records with a Claim matching one of the given priorities:
 
 ```
 /ExplanationOfBenefit?_pretty=true&claim.priority=normal,stat,deferred&_include=ExplanationOfBenefit:claim&_include=ExplanationOfBenefit:patient&patient:Patient.birthdate=le1915
 ```
 
-The above query requires a join of around 13 tables which is too many for the database to try all possible orders and so the most efficient plan is never tried. the LinuxForHealth FHIR Server builds the SQL based on the order of filter predicates in the search request. This can be used along with knowledge of the data to place the most selective filter first which, in this case, is the patient `birthdate` range. Rewriting the query as follows can significantly improve the response time:
+The above query requires a join of around 13 tables which is too many for the database to try all possible orders and so the most efficient plan is never tried. The LinuxForHealth FHIR Server builds the SQL based on the order of filter predicates in the search request. This can be used along with knowledge of the data to place the most selective filter first which, in this case, is the patient `birthdate` range. Rewriting the query as follows can significantly improve the response time:
 
 ```
 /ExplanationOfBenefit?_pretty=true&patient:Patient.birthdate=le1915&claim.priority=normal,stat,deferred&_include=ExplanationOfBenefit:claim&_include=ExplanationOfBenefit:patient

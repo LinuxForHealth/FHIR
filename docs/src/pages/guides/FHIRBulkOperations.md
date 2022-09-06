@@ -8,14 +8,14 @@ permalink: /FHIRBulkOperations/
 
 # Overview
 
-the LinuxForHealth FHIR Server has extended operations for Bulk Data `$import`, `$export` and `$bulkdata-status`, which are implemented in the modules: 
+The LinuxForHealth FHIR Server has extended operations for Bulk Data `$import`, `$export` and `$bulkdata-status`, which are implemented in the modules: 
 
 |Module|Description|
 |---|---|
 |[fhir-operation-bulkdata](https://github.com/LinuxForHealth/FHIR/tree/main/operation/fhir-operation-bulkdata)|Implements the FHIR Operations `$import` and `$export` and translate bulk data requests into JSR352 Java Batch jobs|
 |[fhir-bulkdata-webapp](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-bulkdata-webapp)|Standalone web application to process bulk data requests as JSR352 Java Batch jobs|
 
-the LinuxForHealth FHIR Server bulk data module configuration is described in more detail at the [FHIR Server Users Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide/#410-bulk-data-operations).
+The LinuxForHealth FHIR Server bulk data module configuration is described in more detail at the [FHIR Server Users Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide/#410-bulk-data-operations).
 
 ## Export Operation: $export
 The `$export` operation uses three OperationDefinition: 
@@ -69,9 +69,9 @@ The `$import` operation is a system-level operation invoked at `[base]/$import`.
 ### **$import: Create a Bulk Data Request**
 To create an import request, the LinuxForHealth FHIR Server requires the body fields of the request object to be a FHIR Resource `Parameters` JSON Object.  The request must be posted to the server using `POST`. Each input url in the request is limited to a single resource type.
 
-the LinuxForHealth FHIR Server limits the number of inputs per each `$import` request based on `fhirServer/bulkdata/maxInputPerRequest`, which defaults to 5 input entries.
+The LinuxForHealth FHIR Server limits the number of inputs per each `$import` request based on `fhirServer/bulkdata/maxInputPerRequest`, which defaults to 5 input entries.
 
-the LinuxForHealth FHIR Server supports `storageDetail.type` with the value of `ibm-cos`, `https`, `azure-blob` and `aws-s3`.
+The LinuxForHealth FHIR Server supports `storageDetail.type` with the value of `ibm-cos`, `https`, `azure-blob` and `aws-s3`.
 
 To import using the $import on https, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulkdata on https://example.com/folder1 and https://example.com/folder2 you must specify both baseUrls. Please refer to the [IBM FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#410-bulk-data-operations). Please note, the BulkData Operations do not support import from `http://`.
 

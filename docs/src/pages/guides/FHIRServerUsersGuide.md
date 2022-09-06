@@ -64,7 +64,7 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
 
 5.  Configure the fhir-server's `server.xml` file as needed by completing the following steps:
     * Configure the ports that the server listen on. The server is installed with only port 9443 (HTTPS) enabled by default. To change the port numbers, modify the values in the `httpEndpoint` element.
-    * Configure a server keystore and truststore. the LinuxForHealth FHIR Server is installed with a default keystore file that contains a single self-signed certificate for localhost. For production use, you must create and configure your own keystore and truststore files for the FHIR server deployment (that is, generate your own server certificate or obtain a trusted certificate, and then share the public key certificate with API consumers so that they can insert it into their client-side truststore). The keystore and truststore files are used along with the server's HTTPS endpoint and the FHIR server's client-certificate-based authentication protocol to secure the FHIR server's endpoint. For more information, see [Section 5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server).
+    * Configure a server keystore and truststore. The LinuxForHealth FHIR Server is installed with a default keystore file that contains a single self-signed certificate for localhost. For production use, you must create and configure your own keystore and truststore files for the FHIR server deployment (that is, generate your own server certificate or obtain a trusted certificate, and then share the public key certificate with API consumers so that they can insert it into their client-side truststore). The keystore and truststore files are used along with the server's HTTPS endpoint and the FHIR server's client-certificate-based authentication protocol to secure the FHIR server's endpoint. For more information, see [Section 5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server).
     * Configure an appropriate user registry. The FHIR server is installed with a basic user registry that contains a single user named `fhiruser`. For production use, it's best to configure your own user registry. For more information about configuring user registries, see the [OpenLiberty documentation](https://openliberty.io/guides/security-intro.html#configuring-the-user-registry).
 
     To override the default fhiruser's password, one may set an Environment variable `FHIR_USER_PASSWORD` and for the fhiradmin's password one may set an Environment variable `FHIR_ADMIN_PASSWORD`.
@@ -657,7 +657,7 @@ The following example shows the JSON for enabling _update_ operations to create 
 
 # 4 Customization
 You can modify the default server implementation by taking advantage of the LinuxForHealth FHIR Server's extensibility. The following extension points are available:
- * Custom operations framework:  the LinuxForHealth FHIR Server defines an operations framework that builds on the FHIR OperationDefinition resource in order to extend the FHIR REST API with custom endpoints.
+ * Custom operations framework:  The LinuxForHealth FHIR Server defines an operations framework that builds on the FHIR OperationDefinition resource in order to extend the FHIR REST API with custom endpoints.
  * Pluggable audit service:  Logging and auditing options including Cloud Auditing Data Federation (CADF) over Apache Kafka.
  * Persistence interceptors:  Intercept requests before and/or after each persistence action.
  * Resource validation:  FHIRPath-based validation of FHIR resources on create or update with the ability to extend the system with custom constraints.
@@ -848,7 +848,7 @@ By default, notification messages are published for all _create_ and _update_ pe
 With the `includeResourceTypes`property set as in the preceding example, the FHIR server publishes notification events only for `Patient` and `Observation` resources. If you omit this property or set its value to `[]` (an empty array), then the FHIR server publishes notifications for all resource types.
 
 ## 4.3 Persistence interceptors
-the LinuxForHealth FHIR Server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This can be used to enforce application-specific business rules associated with resources. Interceptor methods are called immediately before or after each persistence operation.
+The LinuxForHealth FHIR Server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This can be used to enforce application-specific business rules associated with resources. Interceptor methods are called immediately before or after each persistence operation.
 
 ### 4.3.1 FHIRPersistenceInterceptor interface
 A persistence interceptor implementation must implement the `org.linuxforhealth.fhir.server.spi.interceptor.FHIRPersistenceInterceptor` interface.
@@ -2852,7 +2852,7 @@ The precise steps required to configure certificate-based authentication for a c
 
 ## 5.3 OpenID Connect and OAuth 2.0
 The FHIR specification recommends the use of OAuth 2.0.
-the LinuxForHealth FHIR Server supports OAuth 2.0 through the use of WebSphere Liberty / OpenLiberty features.
+The LinuxForHealth FHIR Server supports OAuth 2.0 through the use of WebSphere Liberty / OpenLiberty features.
 
 While it is possible to configure Liberty as an [OpenID Connect Client](https://openliberty.io/docs/latest/reference/config/openidConnectClient.html), more typically the LinuxForHealth FHIR Server will be configured as a generic OAuth 2.0 "Protected Resource Server" that works with JWT access tokens that have been issued by a trusted Authorization Server like [Keycloak](https://www.keycloak.org).
 
