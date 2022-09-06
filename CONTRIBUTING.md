@@ -69,7 +69,7 @@ git commit -s
 ```
 
 ## Communication
-Connect with us through https://chat.fhir.org/ or open an [issue](https://github.com/LinuxForHealth/FHIR/issues). The IBM FHIR Server has a dedicated "stream" at https://chat.fhir.org/#narrow/stream/212434-ibm (`#ibm`).
+Connect with us through https://chat.fhir.org/ or open an [issue](https://github.com/LinuxForHealth/FHIR/issues). The LinuxForHealth FHIR Server has a dedicated "stream" at https://chat.fhir.org/#narrow/stream/212434-ibm (`#ibm`).
 
 ## Setup
 See the [Setting up for development](https://github.com/LinuxForHealth/FHIR/wiki/Setting-up-for-development) in the wiki.
@@ -78,7 +78,7 @@ See the [Setting up for development](https://github.com/LinuxForHealth/FHIR/wiki
 To ensure a working build, please run the full build from the root of the project before submitting your pull request.
 
 ## Coding style guidelines
-The IBM FHIR Server has been written by many individuals over many years. Formatting has not been strictly enforced, but we'd like to improve it over time, so please consider the following points as you change the code:
+The LinuxForHealth FHIR Server has been written by many individuals over many years. Formatting has not been strictly enforced, but we'd like to improve it over time, so please consider the following points as you change the code:
 
 1. Write tests. Pull Requests should include necessary updates to unit tests (src/test/java of the corresponding project) and integration tests (in the fhir-server-test project)
 

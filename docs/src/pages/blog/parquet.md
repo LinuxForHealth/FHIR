@@ -15,15 +15,15 @@ In IBM FHIR Server 4.4.0, we introduced experimental support for ["export to par
 I planned to either split this into a separate component or use an external Spark service for this feature (or both!), but the demand for the feature has not warranted the investment that would require.
 Thus, beginning with IBM FHIR Server 4.11.0, the "export to parquet" feature has been removed.
 
-But fear not, the IBM FHIR Server still supports exporting to newline-delimited JSON (NDJSON) on Amazon S3 / IBM Cloud Object Storage and users with access to the bucket can use these same Spark features to convert from NDJSON to Parquet.
+But fear not, the LinuxForHealth FHIR Server still supports exporting to newline-delimited JSON (NDJSON) on Amazon S3 / IBM Cloud Object Storage and users with access to the bucket can use these same Spark features to convert from NDJSON to Parquet.
 
 # Bulk Export
-Bulk export can be performed via HTTP GET or POST and the IBM FHIR Server supports three flavors:
+Bulk export can be performed via HTTP GET or POST and the LinuxForHealth FHIR Server supports three flavors:
 * System export:  `[base]/$export`
 * Patient export:  `[base]/Patient/$export`
 * Group export:  `[base]/Group/[id]/$export`
 
-The export operations are defined at https://hl7.org/fhir/uv/bulkdata/export.html and usage information can be found in the IBM FHIR Server [Bulk Data Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRBulkOperations#export-operation-dollarexport).
+The export operations are defined at https://hl7.org/fhir/uv/bulkdata/export.html and usage information can be found in the LinuxForHealth FHIR Server [Bulk Data Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRBulkOperations#export-operation-dollarexport).
 
 For example, to export all Patient and Condition resources from an IBM FHIR Server at example.com:
 ```
@@ -42,7 +42,7 @@ curl --request POST \
 }'
 ```
 
-By default, the IBM FHIR Server uses a psuedo-folder structure for the output files of each job. In the example above, it might produce output files like the following in the configured bucket:
+By default, the LinuxForHealth FHIR Server uses a psuedo-folder structure for the output files of each job. In the example above, it might produce output files like the following in the configured bucket:
 * long-job-id/Condition_1.ndjson
 * long-job-id/Condition_2.ndjson
 * long-job-id/Condition_3.ndjson

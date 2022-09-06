@@ -23,7 +23,7 @@ To stop the services:
 docker-compose down
 ```
 
-### Using the IBM FHIR Server
+### Using the LinuxForHealth FHIR Server
 Once the server is running, navigate to http://localhost:9080/openapi/ui to explore the server endpoints.
 
 ### Adding implementation guides

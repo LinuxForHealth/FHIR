@@ -5,13 +5,13 @@ permalink: /FHIRSearchConfiguration/
 ---
 
 # IBM FHIR Server - Search Configuration Overview
-The [FHIR Specification](https://hl7.org/fhir/R4B/search.html) defines a set of searchable fields for each resource type. The IBM FHIR Server supports searching via both specification-defined search parameters and tenant-specific search parameters.
+The [FHIR Specification](https://hl7.org/fhir/R4B/search.html) defines a set of searchable fields for each resource type. The LinuxForHealth FHIR Server supports searching via both specification-defined search parameters and tenant-specific search parameters.
 
-Specifically, the IBM FHIR Server supports searching on additional fields, including:
+Specifically, the LinuxForHealth FHIR Server supports searching on additional fields, including:
 * fields that are defined in the base specification, which are not configured for search; and
 * extension elements that a tenant may add to a standard FHIR resource type
 
-The IBM FHIR Server allows deployers to define search parameters on a tenant-specific basis. This allows each tenant to share an instance of the IBM FHIR Server while maintaining the ability to have their own set of search parameters. Additionally, specification-defined search parameters can be filtered out in order to avoid the cost of extracting and storing the corresponding indices.
+The LinuxForHealth FHIR Server allows deployers to define search parameters on a tenant-specific basis. This allows each tenant to share an instance of the LinuxForHealth FHIR Server while maintaining the ability to have their own set of search parameters. Additionally, specification-defined search parameters can be filtered out in order to avoid the cost of extracting and storing the corresponding indices.
 
 Tenant search parameters are defined via a [Bundle](https://hl7.org/fhir/R4B/bundle.html) of [SearchParameter](https://hl7.org/fhir/R4B/searchparameter.html) resources that define the additional search parameters which describe the searchable field and define the FHIRPath expression for extraction.  For example, a tenant that extends the `Patient` resource type with the `favorite-color` extension, enables search on `favorite-color` by defining a SearchParameter as part of this bundle.
 
@@ -24,8 +24,8 @@ In previous versions, only the built-in parameters were loaded from the registry
 
 For backwards compatibility, IBM FHIR Server 4.10.0 contains a new FHIRRegistryResourceProvider that reads these same `extension-search-parameters.json` files and contributes their contents to the registry, so that this same mechanism can still be used.
 
-The IBM FHIR Server supports compartment search based on CompartmentDefinition resources.
-Since IBM FHIR Server 4.8.1, the IBM FHIR Server will load compartment definitions from the registry.
+The LinuxForHealth FHIR Server supports compartment search based on CompartmentDefinition resources.
+Since IBM FHIR Server 4.8.1, the LinuxForHealth FHIR Server will load compartment definitions from the registry.
 In previous versions, the CompartmentDefinition resources came from a configuration file.
 
 ### 1.1 Tenant-specific parameters
@@ -75,10 +75,10 @@ The `fhir-search` module requires that the [expression](https://hl7.org/fhir/R4B
 ```
 
 A couple things to note:
-- This SearchParameter includes an xpath element for completeness, but the IBM FHIR Server does not use the XPath during extraction; it only uses the expression (FHIRPath).
+- This SearchParameter includes an xpath element for completeness, but the LinuxForHealth FHIR Server does not use the XPath during extraction; it only uses the expression (FHIRPath).
 - SearchParameter expressions that select choice type elements should follow FHIRPath rules and omit the specific type suffixed (e.g. use `value` and not `valueString`).
 
-Each time a resource is created, updated or reindexed, the IBM FHIR Server evaluates the FHIRPath expression applicable to the resource type and indexes the values of the matching elements, making these available via a search where the query parameter name matches the `code` element on the `SearchParameter` definition.
+Each time a resource is created, updated or reindexed, the LinuxForHealth FHIR Server evaluates the FHIRPath expression applicable to the resource type and indexes the values of the matching elements, making these available via a search where the query parameter name matches the `code` element on the `SearchParameter` definition.
 
 In the preceding example, extension elements (on a Patient resource) with a url of `http://example.com/fhir/extension/Patient/favorite-color` are indexed by the `favorite-color` search parameter. To search for Patients with a favorite color of "pink", users could send an HTTP GET request to a URL like `[base]/Patient?favorite-color:exact=pink`.
 
@@ -87,7 +87,7 @@ When creating the SearchParameter FHIRPath expression, be sure to test both the 
 If a search parameter expression extracts an element with a data type that is incompatible with the declared search parameter type, the server skips the value and logs a message. For choice elements, like Extension.value, its recommended to restrict the expression to values of the desired type by using the `as` function. For example, to select only Decimal values from the http://example.org/decimal extension, use an expressions like `Basic.extension.where(url='http://example.org/decimal').value.as(decimal)`.
 
 #### 1.2.1 The implicit-system extension
-The IBM FHIR Server team has introduced a custom SearchParameter extension that can be used to improve search performance for queries that are made against a token SearchParameter without passing a system. Specifically, for SearchParameter resources that index elements of type Code which have a required binding with a single system, adding the following extension to the SearchParameter definition allows the server to infer the system value without requiring end users to explicitly pass it in their queries:
+The LinuxForHealth FHIR Server team has introduced a custom SearchParameter extension that can be used to improve search performance for queries that are made against a token SearchParameter without passing a system. Specifically, for SearchParameter resources that index elements of type Code which have a required binding with a single system, adding the following extension to the SearchParameter definition allows the server to infer the system value without requiring end users to explicitly pass it in their queries:
 
 ```json
 {
@@ -99,13 +99,13 @@ The IBM FHIR Server team has introduced a custom SearchParameter extension that 
 See the [FHIR Performance Guide](FHIRPerformanceGuide#65-search-examples) for more information.
 
 ### 1.3 Filtering
-The IBM FHIR Server supports the filtering of search parameters through `fhir-server-config.json`. The default behavior of the IBM FHIR Server is to consider all built-in and tenant-specific search parameters when storing resources or processing search requests, but you can configure inclusion filters to restrict the IBM FHIR Server's view to specific search parameters on a given resource type.
+The LinuxForHealth FHIR Server supports the filtering of search parameters through `fhir-server-config.json`. The default behavior of the LinuxForHealth FHIR Server is to consider all built-in and tenant-specific search parameters when storing resources or processing search requests, but you can configure inclusion filters to restrict the LinuxForHealth FHIR Server's view to specific search parameters on a given resource type.
 
-Why would you want to filter built-in search parameters? The answer lies in how search parameters are used by the IBM FHIR Server. When the FHIR server processes a _create_ or _update_ operation, it stores the resource contents in the datastore, along with search index information that is used by the IBM FHIR Server when performing search operations. The search index information stored for a particular resource instance is driven by the search parameters defined for that resource type. Therefore if you are storing a resource whose type has a lot of built-in search parameters defined for it (e.g. `Patient`), then you could potentially be storing a lot of search index information for each resource.
+Why would you want to filter built-in search parameters? The answer lies in how search parameters are used by the LinuxForHealth FHIR Server. When the FHIR server processes a _create_ or _update_ operation, it stores the resource contents in the datastore, along with search index information that is used by the LinuxForHealth FHIR Server when performing search operations. The search index information stored for a particular resource instance is driven by the search parameters defined for that resource type. Therefore if you are storing a resource whose type has a lot of built-in search parameters defined for it (e.g. `Patient`), then you could potentially be storing a lot of search index information for each resource.
 
 For performance and scalability reasons, it might be desirable to limit the number of search parameters considered during a _create_ or _update_ operation for particular resource types. If there will be no need to use the search index information, there's no need to store it. For example, if you know that due to the way in which a particular tenant's applications use the FHIR REST API that those applications will never need to search Patients by birthdate, then there would be no need to store search index information for the `birthdate` attribute in `Patient` resources. Consequently, you could filter out the `birthdate` search parameter for the `Patient` resource type and not lose any needed functionality, but yet save a little bit of storage capacity in your datastore.
 
-The search parameter filtering feature is supported through a set of inclusion rules specified via the `fhirServer/resources` property group in `fhir-server-config.json`. The search parameter inclusion rules allow you to define a set of search parameters per resource type that should be included in the IBM FHIR Server's view of search parameters when storing resources and performing search operations. The following snippet shows the general form for specifying inclusion rules:
+The search parameter filtering feature is supported through a set of inclusion rules specified via the `fhirServer/resources` property group in `fhir-server-config.json`. The search parameter inclusion rules allow you to define a set of search parameters per resource type that should be included in the LinuxForHealth FHIR Server's view of search parameters when storing resources and performing search operations. The following snippet shows the general form for specifying inclusion rules:
 
 ```
 "resources": {
@@ -182,12 +182,12 @@ For reference, the following is the list of codes in this category:
 | _content                      |
 | _query                        |
 
-Note: `_content` and `_query` are not yet supported by the IBM FHIR Server.
+Note: `_content` and `_query` are not yet supported by the LinuxForHealth FHIR Server.
 
 The filter `"*": "*"` is not necessary to include these Resource-level parameters.
 
 #### 1.2.1 Handling unexpected search parameters
-The IBM FHIR Server supports configurable handling of unknown or unsupported search parameters as defined at https://linuxforhealth.github.io/FHIR/Conformance#http-headers.
+The LinuxForHealth FHIR Server supports configurable handling of unknown or unsupported search parameters as defined at https://linuxforhealth.github.io/FHIR/Conformance#http-headers.
 Filtered search parameters are handled exactly the same as undefined search parameters, meaning that searches which include these parameters will fail in `strict` mode.
 
 #### 1.2.2 Compartment search considerations with filtering
@@ -204,7 +204,7 @@ As of IBM FHIR Server 4.11.0, compartment membership is always evaluated during 
 However, in cases where the inclusion criteria parameters have been overridden, it is still possible for server config to affect compartment membership.
 
 ##  2 Re-index
-Reindexing is implemented as a custom operation that tells the IBM FHIR Server to read a set of resources and replace the existing search parameters with those newly extracted from the resource body.
+Reindexing is implemented as a custom operation that tells the LinuxForHealth FHIR Server to read a set of resources and replace the existing search parameters with those newly extracted from the resource body.
 
 The `$reindex` operation can be invoked via an HTTP(S) POST to `[base]/$reindex`, `[base]/[type]/$reindex`, or `[base]/[type]/[instance]/$reindex`. By default, the operation at the System-level or Type-level selects 10 resources and re-extracts their search parameters values based on the current configuration of the server.
 
@@ -219,7 +219,7 @@ By default, the operation will select 10 resources and re-extract their search p
 |`resourceCount`|integer|The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail.|
 |`force`|boolean|Force the parameters to be replaced even if the parameter hash matches. This is only required following a schema migration which changes how the parameters are stored in the database.|
 
-The IBM FHIR Server tracks when a resource was last reindexed and only resources with a reindex_tstamp value less than the given tstamp parameter will be processed. When a resource is reindexed, its reindex_tstamp is set to the given tstamp value. In most cases, using the current date (for example "2020-10-27") is the best option for this value.
+The LinuxForHealth FHIR Server tracks when a resource was last reindexed and only resources with a reindex_tstamp value less than the given tstamp parameter will be processed. When a resource is reindexed, its reindex_tstamp is set to the given tstamp value. In most cases, using the current date (for example "2020-10-27") is the best option for this value.
 
 ### 2.2 Client-side-driven approach
 Another option is to have the client utilize the `$retrieve-index` and `$reindex` in parallel to drive the processing.
@@ -240,10 +240,10 @@ The `$reindex` operation is called to reindex the resources with index IDs in th
 |----|----|-----------|
 |`indexIds`|string|Reindex only resources with an index ID in the specified list, formatted as a comma-delimited list of strings. If number of index IDs in the list is too large, the processing time might exceed the transaction timeout and fail.|
 
-By specifying the index IDs on the `$reindex` operation, the IBM FHIR Server avoids the database overhead of choosing the next resource to reindex and updating the reindex_tstamp. Though it requires the client side to track the reindex progress, it should allow for an overall faster reindex.
+By specifying the index IDs on the `$reindex` operation, the LinuxForHealth FHIR Server avoids the database overhead of choosing the next resource to reindex and updating the reindex_tstamp. Though it requires the client side to track the reindex progress, it should allow for an overall faster reindex.
 
 ### 2.3 fhir-bucket
-To aid in the re-indexing process, the IBM FHIR Server team has expanded the fhir-bucket resource-loading tool to support driving the reindex, with the option of using either the server-side-driven or client-side-driven approach. The fhir-bucket tool uses a thread-pool to make concurrent POST requests to the IBM FHIR Server `$retrieve-index` and `$reindex` custom operations.
+To aid in the re-indexing process, the LinuxForHealth FHIR Server team has expanded the fhir-bucket resource-loading tool to support driving the reindex, with the option of using either the server-side-driven or client-side-driven approach. The fhir-bucket tool uses a thread-pool to make concurrent POST requests to the LinuxForHealth FHIR Server `$retrieve-index` and `$reindex` custom operations.
 
 For more information on driving the reindex operation from fhir-bucket, see https://github.com/LinuxForHealth/FHIR/tree/main/fhir-bucket#driving-the-reindex-custom-operation.
 

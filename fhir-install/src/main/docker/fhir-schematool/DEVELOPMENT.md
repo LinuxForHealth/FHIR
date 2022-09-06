@@ -1,6 +1,6 @@
 # Development
 
-The document helps developers setup the development environment for the IBM FHIR Server Schema Tool. 
+The document helps developers setup the development environment for the LinuxForHealth FHIR Server Schema Tool. 
 
 1. Build the `fhir-examples` and `fhir-parent`
 

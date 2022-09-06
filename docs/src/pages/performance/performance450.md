@@ -15,11 +15,11 @@ permalink: /performance/performance450/
 
 ### Ingestion Workload
 
-The *fhir-bucket* utility scans an IBM Cloud Object Store (COS) bucket for matching **json** or **ndjson** files. Matching files are recorded in the fhirbucket database and this information is subsequently used to drive the loading of those files into the IBM FHIR Server.
+The *fhir-bucket* utility scans an IBM Cloud Object Store (COS) bucket for matching **json** or **ndjson** files. Matching files are recorded in the fhirbucket database and this information is subsequently used to drive the loading of those files into the LinuxForHealth FHIR Server.
 
-The test described here uses bundles based on Synthea - Synthetic Mass data. The original bundles have been preprocessed and broken into smaller bundles of no more than 100 resources. Resources within original bundles contain references to other resources within the same bundle. Traditionally, these references would be resolved by the IBM FHIR Server on ingestion. However, because the bundles are being broken into smaller units of work, the references must be resolved in advance. This requires that any create requests using server-asserted ids must be rewritten as client asserted id requests, using PUT.
+The test described here uses bundles based on Synthea - Synthetic Mass data. The original bundles have been preprocessed and broken into smaller bundles of no more than 100 resources. Resources within original bundles contain references to other resources within the same bundle. Traditionally, these references would be resolved by the LinuxForHealth FHIR Server on ingestion. However, because the bundles are being broken into smaller units of work, the references must be resolved in advance. This requires that any create requests using server-asserted ids must be rewritten as client asserted id requests, using PUT.
 
-The *fhir-bucket* uses a large thread-pool to fetch the bundles from COS and POST each to the IBM FHIR server. The result bundle is parsed and each of the returned logical resource ids are stored in the fhirbucket database, along with some timing metrics.
+The *fhir-bucket* uses a large thread-pool to fetch the bundles from COS and POST each to the LinuxForHealth FHIR Server. The result bundle is parsed and each of the returned logical resource ids are stored in the fhirbucket database, along with some timing metrics.
 
 ### Client Access
 
@@ -31,7 +31,7 @@ The client access workload is generated using fhir-bucket running within the sam
 4. Process the response, constructing a new Bundle resource containing GET requests for each Claim and Provider referenced by the ExplanationOfBenefit resources contained in the first response.
 5. Collect statistics on the number of calls, number of resources returned and the time taken for each request.
 
-The request bundles are configured to use a type of TRANSACTION. This provides the best performance as the IBM FHIR Server processes each request within the bundle using a single transaction, reducing the commit load on the database.
+The request bundles are configured to use a type of TRANSACTION. This provides the best performance as the LinuxForHealth FHIR Server processes each request within the bundle using a single transaction, reducing the commit load on the database.
 
 
 ## System Configuration
