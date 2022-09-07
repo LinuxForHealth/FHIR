@@ -292,7 +292,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/LanguageProficiencyVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/LanguageProficiencyVS|1.1.0"
                 },
                 "mapping": [
                     {
@@ -348,7 +348,7 @@
                 "max": "1",
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/LanguageProficiencyVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ValueSet/LanguageProficiencyVS|1.1.0"
                 }
             }
         ]

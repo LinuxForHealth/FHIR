@@ -41,7 +41,8 @@
     "compose": {
         "include": [
             {
-                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/AcceptingPatientsCS"
+                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/AcceptingPatientsCS",
+                "version": "1.1.0"
             }
         ]
     }

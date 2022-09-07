@@ -41,12 +41,14 @@
     "compose": {
         "include": [
             {
-                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/OrgTypeCS"
+                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/OrgTypeCS",
+                "version": "1.1.0"
             }
         ],
         "exclude": [
             {
                 "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/OrgTypeCS",
+                "version": "1.1.0",
                 "concept": [
                     {
                         "code": "ntwk"

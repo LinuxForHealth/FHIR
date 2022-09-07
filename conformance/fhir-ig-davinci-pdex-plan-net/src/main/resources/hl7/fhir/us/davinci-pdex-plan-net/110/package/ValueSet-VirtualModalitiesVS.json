@@ -41,7 +41,8 @@
     "compose": {
         "include": [
             {
-                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/VirtualModalitiesCS"
+                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/VirtualModalitiesCS",
+                "version": "1.1.0"
             }
         ]
     }

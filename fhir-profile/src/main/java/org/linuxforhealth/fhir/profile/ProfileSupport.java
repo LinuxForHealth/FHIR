@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -227,6 +227,11 @@ public final class ProfileSupport {
         return constraints;
     }
 
+    /**
+     * Get constraints for all the resource-asserted profiles of the passed resource.
+     * @param resource
+     * @return
+     */
     public static List<Constraint> getConstraints(Resource resource) {
         return getConstraints(getResourceAssertedProfiles(resource), resource.getClass());
     }
@@ -270,6 +275,12 @@ public final class ProfileSupport {
         return false;
     }
 
+    /**
+     * @param url the canonical url (with optional version postfix and optional fragment id for contained resources)
+     *       for a profile in the registry
+     * @param type the target resource or element type for the profile
+     * @return
+     */
     public static List<Constraint> getConstraints(String url, Class<?> type) {
         StructureDefinition profile = getProfile(url, type);
         if (profile != null) {
@@ -286,7 +297,7 @@ public final class ProfileSupport {
         } else {
             key = key(url);
         }
-        
+
         Map<CacheKey, List<Constraint>> constraintCache = CacheManager.getCacheAsMap(CONSTRAINT_CACHE_NAME, CONSTRAINT_CACHE_CONFIG);
 
         try {
@@ -350,6 +361,12 @@ public final class ProfileSupport {
         return isProfile(structureDefinition) ? structureDefinition : null;
     }
 
+    /**
+     * @param url the canonical url (with optional version postfix and optional fragment id for contained resources)
+     *       for a profile in the registry
+     * @param type the resource or element type
+     * @return
+     */
     public static StructureDefinition getProfile(String url, Class<?> type) {
         StructureDefinition profile = getProfile(url);
         return (profile != null && isApplicable(profile, type)) ? profile : null;
@@ -359,6 +376,12 @@ public final class ProfileSupport {
         return getStructureDefinition(HL7_STRUCTURE_DEFINITION_URL_PREFIX + ModelSupport.getTypeName(modelClass));
     }
 
+    /**
+     * @param url the canonical url (with optional version postfix and optional fragment id for contained resources)
+     *     for a profile in the registry
+     * @return the StructureDefinition for the given canonical url if it exists, null otherwise
+     * @throws ClassCastException if the resource exists in the registry but is not a StructureDefinition
+     */
     public static StructureDefinition getStructureDefinition(String url) {
         return FHIRRegistry.getInstance().getResource(url, StructureDefinition.class);
     }
@@ -369,6 +392,12 @@ public final class ProfileSupport {
         return HL7_STRUCTURE_DEFINITION_URL_PREFIX + typeName;
     }
 
+    /**
+     * Is the StructureDefinition applicable to the resource or element type?
+     * @param profile
+     * @param type the resource or element type to check
+     * @return
+     */
     public static boolean isApplicable(StructureDefinition profile, Class<?> type) {
         if (profile == null || type == null) {
             return false;

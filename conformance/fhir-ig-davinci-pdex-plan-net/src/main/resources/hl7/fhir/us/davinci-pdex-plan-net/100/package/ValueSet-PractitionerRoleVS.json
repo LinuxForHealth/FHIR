@@ -41,7 +41,8 @@
     "compose": {
         "include": [
             {
-                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/ProviderRoleCS"
+                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/ProviderRoleCS",
+                "version": "1.0.0"
             },
             {
                 "system": "http://terminology.hl7.org/CodeSystem/practitioner-role"

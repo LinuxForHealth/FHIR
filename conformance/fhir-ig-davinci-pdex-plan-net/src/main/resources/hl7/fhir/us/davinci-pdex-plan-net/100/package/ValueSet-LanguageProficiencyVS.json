@@ -41,7 +41,8 @@
     "compose": {
         "include": [
             {
-                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/LanguageProficiencyCS"
+                "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/LanguageProficiencyCS",
+                "version": "1.0.0"
             }
         ]
     }
