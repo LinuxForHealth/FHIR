@@ -11,7 +11,7 @@ assignees: ''
 A clear and concise description of what the bug is.
 
 **Environment**
-Which version of IBM FHIR Server?
+Which version of LinuxForHealth FHIR Server?
 
 **To Reproduce**
 Steps to reproduce the behavior:
