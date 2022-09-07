@@ -747,7 +747,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Value set to describe the Goal",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-goal-description"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-goal-description|5.0.1"
                 },
                 "mapping": [
                     {
@@ -785,7 +785,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],
@@ -1528,7 +1528,7 @@
                 "binding": {
                     "strength": "extensible",
                     "description": "Value set to describe the Goal",
-                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-goal-description"
+                    "valueSet": "http://hl7.org/fhir/us/core/ValueSet/us-core-goal-description|5.0.1"
                 },
                 "mapping": [
                     {
@@ -1544,7 +1544,7 @@
                     {
                         "code": "Reference",
                         "targetProfile": [
-                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient"
+                            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|5.0.1"
                         ]
                     }
                 ],
