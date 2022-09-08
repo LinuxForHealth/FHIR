@@ -42,21 +42,15 @@ public class PostgresSizeCollector implements ISizeCollector {
 
     private void collectTableInfo(String schemaName, Connection connection, IDatabaseTranslator translator) {
         final String SQL = ""
-                + "SELECT  table_name, row_estimate, total_bytes, index_bytes, toast_bytes,"
-                + "        total_bytes-index_bytes-coalesce(toast_bytes,0) AS table_bytes"
-                + "  FROM (SELECT c.oid,"
-                + "               nspname AS table_schema,"
-                + "               relname AS table_name,"
-                + "               c.reltuples AS row_estimate,"
-                + "               pg_total_relation_size(c.oid) AS total_bytes,"
-                + "               pg_indexes_size(c.oid) AS index_bytes,"
-                + "               pg_total_relation_size(reltoastrelid) AS toast_bytes"
-                + "          FROM pg_class c"
-                + "     LEFT JOIN pg_namespace n "
-                + "            ON n.oid = c.relnamespace"
-                + "         WHERE relkind = 'r'"
-                + "           AND nspname = ?"
-                + "  ) a";
+                + "SELECT relname AS table_name, "
+                + "       c.reltuples AS row_estimate, "
+                + "       pg_table_size(c.oid) AS table_size, "
+                + "       pg_indexes_size(c.oid) AS index_size "
+                + "  FROM pg_class c "
+                + "  JOIN pg_namespace n "
+                + "    ON n.oid = c.relnamespace "
+                + " WHERE relkind = 'r' "
+                + "   AND nspname = ?";
 
         logger.info("Collecting PostgreSQL table size info for schema: '" + schemaName.toLowerCase() + "'");
         SchemaSupport util = new SchemaSupport();
@@ -66,9 +60,8 @@ public class PostgresSizeCollector implements ISizeCollector {
             while (rs.next()) {
                 final String tableName = rs.getString(1);
                 final long rowEstimate = rs.getLong(2);
-                final long totalBytes = rs.getLong(3);
-                final long indexBytes = rs.getLong(4);
-                final long toastBytes = rs.getLong(5);
+                final long tableSize = rs.getLong(3);
+                final long indexSize = rs.getLong(4);
                 
                 // Note resourceType will be null for tables we don't care about
                 final String resourceType = util.getResourceTypeFromTableName(tableName);
@@ -76,9 +69,9 @@ public class PostgresSizeCollector implements ISizeCollector {
                     final boolean isParamTable = util.isParamTable(tableName);
                     
                     if (logger.isLoggable(Level.FINE)) {
-                        logger.fine(String.format("%56s %34s %8d %10d %10d %10d", tableName, resourceType, rowEstimate, totalBytes, indexBytes, toastBytes));
+                        logger.fine(String.format("%56s %34s %8d %10d %10d", tableName, resourceType, rowEstimate, tableSize, indexSize));
                     }
-                    model.accumulateTableSize(resourceType, tableName, isParamTable, totalBytes - indexBytes, rowEstimate);
+                    model.accumulateTableSize(resourceType, tableName, isParamTable, tableSize, rowEstimate);
                 }
             }
         } catch (SQLException x) {
@@ -88,19 +81,14 @@ public class PostgresSizeCollector implements ISizeCollector {
 
     private void collectIndexInfo(String schemaName, Connection connection, IDatabaseTranslator translator) {
         final String SQL = ""
-                + "    SELECT t.tablename,"
+                + "    SELECT c.relname                                      AS table_name, "
                 + "           psai.indexrelname                              AS index_name, "
-                + "           pg_relation_size(i.indexrelid)                 AS index_size, "
-                + "           CASE WHEN i.indisunique THEN 'Y' ELSE 'N' END  AS is_unique, "
-                + "           psai.idx_scan                                  AS number_of_scans, "
-                + "           psai.idx_tup_read                              AS tuples_read,"
-                + "           psai.idx_tup_fetch                             AS tuples_fetched "
-                + "      FROM pg_tables t "
-                + " LEFT JOIN pg_class c ON t.tablename = c.relname "
-                + " LEFT JOIN pg_index i ON c.oid = i.indrelid "
-                + " LEFT JOIN pg_stat_all_indexes psai ON i.indexrelid = psai.indexrelid "
-                + "     WHERE t.schemaname = ? "
-                + "       AND psai.indexrelname IS NOT NULL "
+                + "           pg_relation_size(i.indexrelid)                 AS index_size "
+                + "      FROM pg_stat_all_indexes psai "
+                + "      JOIN pg_index i ON i.indexrelid = psai.indexrelid "
+                + "      JOIN pg_class c ON c.oid = i.indrelid "
+                + "     WHERE psai.schemaname = ? "
+                + "       AND psai.indexrelname IS NOT NULL"
                 ;
 
         logger.info("Collecting PostgreSQL index size info for schema: '" + schemaName.toLowerCase() + "'");

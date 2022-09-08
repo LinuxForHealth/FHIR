@@ -47,12 +47,13 @@ public class FHIRDbSizeModel {
      * @param resourceType
      * @param tableName
      * @param isParamTable
-     * @param size
+     * @param tableSize
+     * @param rowEstimate
      */
-    public void accumulateTableSize(String resourceType, String tableName, boolean isParamTable, long size, long rowEstimate) {
+    public void accumulateTableSize(String resourceType, String tableName, boolean isParamTable, long tableSize, long rowEstimate) {
         FHIRDbResourceSize resourceSize = resourceSizeMap.computeIfAbsent(resourceType, k -> new FHIRDbResourceSize());
-        resourceSize.accumulateTableSize(tableName, isParamTable, size, rowEstimate);
-        this.totalTableSize += size;
+        resourceSize.accumulateTableSize(tableName, isParamTable, tableSize, rowEstimate);
+        this.totalTableSize += tableSize;
     }
 
     /**
