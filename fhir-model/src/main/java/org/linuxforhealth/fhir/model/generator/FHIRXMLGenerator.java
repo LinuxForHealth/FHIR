@@ -91,13 +91,6 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
         private final boolean prettyPrinting;
         private final int indentAmount;
 
-        private static final ThreadLocal<Transformer> THREAD_LOCAL_TRANSFORMER = new ThreadLocal<Transformer>() {
-            @Override
-            public Transformer initialValue() {
-                return createTransformer();
-            }
-        };
-
         private int indentLevel = 0;
 
         private XMLGeneratingVisitor(XMLStreamWriter writer, boolean prettyPrinting, int indentAmount) {
@@ -212,7 +205,7 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
 
         private void writeXhtml(java.lang.String elementName, Xhtml xhtml) {
             try {
-                Transformer transformer = THREAD_LOCAL_TRANSFORMER.get();
+                Transformer transformer = createTransformer();
                 transformer.reset();
                 transformer.transform(new StreamSource(new StringReader(xhtml.getValue())), new StAXResult(createNonClosingStreamWriterDelegate(writer)));
             } catch (TransformerException e) {
