@@ -66,9 +66,6 @@ public class FHIRRequestContext {
 
     private Map<String, Object> operationProperties = new HashMap<>();
 
-    private Pattern validChars = Pattern.compile("[a-zA-Z0-9_\\-]+");
-    private String errorMsg = "Only [a-z], [A-Z], [0-9], '_', and '-' characters are allowed.";
-
     // Map of all metrics currently collected (across multiple request threads)
     private static final Map<String, CallTimeMetric> metricMap = new ConcurrentHashMap<>();
 
@@ -142,25 +139,15 @@ public class FHIRRequestContext {
      * @throws FHIRException
      */
     public void setTenantId(String tenantId) throws FHIRException {
-        Matcher matcher = validChars.matcher(tenantId);
-        if (matcher.matches()) {
-            this.tenantId = tenantId;
-        } else {
-            throw new FHIRException("Invalid tenantId. " + errorMsg);
-        }
+        this.tenantId = FHIRConfiguration.validateTenantId(tenantId);
     }
 
     public String getDataStoreId() {
         return dataStoreId;
     }
 
-    public void setDataStoreId(String dataStoreId) throws FHIRException {
-        Matcher matcher = validChars.matcher(dataStoreId);
-        if (matcher.matches()) {
-            this.dataStoreId = dataStoreId;
-        } else {
-            throw new FHIRException("Invalid dataStoreId. " + errorMsg);
-        }
+    public void setDataStoreId(String datastoreId) throws FHIRException {
+        this.dataStoreId = FHIRConfiguration.validateDatastoreId(datastoreId);
     }
 
     /**

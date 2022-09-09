@@ -131,6 +131,10 @@ public class FHIRRestServletFilter extends HttpFilter {
         int statusOnException = HttpServletResponse.SC_BAD_REQUEST;
 
         try {
+            // Ensure the passed tenant id and datastore id have only allowed chars
+            FHIRConfiguration.validateTenantId(tenantId);
+            FHIRConfiguration.validateDatastoreId(dsId);
+
             // Checks for Valid Tenant Configuration
             checkValidTenantConfiguration(tenantId);
 
