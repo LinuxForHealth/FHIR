@@ -8,6 +8,8 @@ on:
     branches: [ "main" ]
   schedule:
     - cron: '28 19 * * 6'
+  # allows the workflow to be manually executed any time
+  workflow_dispatch:
 
 jobs:
   analyze:
