@@ -1,0 +1,9 @@
+
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/fhir-parent"
+    schedule:
+      interval: "weekly"
+    reviewers:
+      - "lmsurpre"
