@@ -1,0 +1,479 @@
+{
+  "index-version": 1,
+  "files": [
+    {
+      "filename": "SearchParameter-Basic-drug-tier.json",
+      "resourceType": "SearchParameter",
+      "id": "Basic-drug-tier",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/Basic-drug-tier",
+      "version": "2.0.0",
+      "type": "token"
+    },
+    {
+      "filename": "ValueSet-BenefitCostTypeVS.json",
+      "resourceType": "ValueSet",
+      "id": "BenefitCostTypeVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/BenefitCostTypeVS",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "SearchParameter-MedicationKnowledge-doseform.json",
+      "resourceType": "SearchParameter",
+      "id": "MedicationKnowledge-doseform",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/MedicationKnowledge-doseform",
+      "version": "2.0.0",
+      "type": "token"
+    },
+    {
+      "filename": "ValueSet-DrugTierVS.json",
+      "resourceType": "ValueSet",
+      "id": "DrugTierVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "ValueSet-SemanticDrugFormGroupVS.json",
+      "resourceType": "ValueSet",
+      "id": "SemanticDrugFormGroupVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/SemanticDrugFormGroupVS",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "SearchParameter-InsurancePlan-status.json",
+      "resourceType": "SearchParameter",
+      "id": "InsurancePlan-status",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/InsurancePlan-status",
+      "version": "2.0.0",
+      "type": "token"
+    },
+    {
+      "filename": "StructureDefinition-usdf-FormularyBulkDataGraphDefinition.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-FormularyBulkDataGraphDefinition",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyBulkDataGraphDefinition",
+      "version": "2.0.0",
+      "kind": "resource",
+      "type": "GraphDefinition"
+    },
+    {
+      "filename": "SearchParameter-MedicationKnowledge-status.json",
+      "resourceType": "SearchParameter",
+      "id": "MedicationKnowledge-status",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/MedicationKnowledge-status",
+      "version": "2.0.0",
+      "type": "token"
+    },
+    {
+      "filename": "StructureDefinition-usdf-Formulary.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-Formulary",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Formulary",
+      "version": "2.0.0",
+      "kind": "resource",
+      "type": "InsurancePlan"
+    },
+    {
+      "filename": "ValueSet-SemanticDrugVS.json",
+      "resourceType": "ValueSet",
+      "id": "SemanticDrugVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/SemanticDrugVS",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "ig-r4.json",
+      "resourceType": "ImplementationGuide",
+      "id": "hl7.fhir.us.davinci-drug-formulary",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ImplementationGuide/hl7.fhir.us.davinci-drug-formulary",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "SearchParameter-InsurancePlan-period.json",
+      "resourceType": "SearchParameter",
+      "id": "InsurancePlan-period",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/InsurancePlan-period",
+      "version": "2.0.0",
+      "type": "date"
+    },
+    {
+      "filename": "StructureDefinition-usdf-QuantityLimitDetail-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-QuantityLimitDetail-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-QuantityLimitDetail-extension",
+      "version": "2.0.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "SearchParameter-InsurancePlan-name.json",
+      "resourceType": "SearchParameter",
+      "id": "InsurancePlan-name",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/InsurancePlan-name",
+      "version": "2.0.0",
+      "type": "string"
+    },
+    {
+      "filename": "ValueSet-CoinsuranceOptionVS.json",
+      "resourceType": "ValueSet",
+      "id": "CoinsuranceOptionVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/CoinsuranceOptionVS",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "SearchParameter-InsurancePlan-identifier.json",
+      "resourceType": "SearchParameter",
+      "id": "InsurancePlan-identifier",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/InsurancePlan-identifier",
+      "version": "2.0.0",
+      "type": "token"
+    },
+    {
+      "filename": "StructureDefinition-usdf-AvailabilityPeriod-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-AvailabilityPeriod-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-AvailabilityPeriod-extension",
+      "version": "2.0.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-usdf-AdditionalCoverageInformation-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-AdditionalCoverageInformation-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-AdditionalCoverageInformation-extension",
+      "version": "2.0.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "CodeSystem-usdf-InsuranceItemTypeCS.json",
+      "resourceType": "CodeSystem",
+      "id": "usdf-InsuranceItemTypeCS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-InsuranceItemTypeCS",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "SearchParameter-MedicationKnowledge-code.json",
+      "resourceType": "SearchParameter",
+      "id": "MedicationKnowledge-code",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/MedicationKnowledge-code",
+      "version": "2.0.0",
+      "type": "token"
+    },
+    {
+      "filename": "SearchParameter-MedicationKnowledge-lastupdated.json",
+      "resourceType": "SearchParameter",
+      "id": "MedicationKnowledge-lastupdated",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/MedicationKnowledge-lastupdated",
+      "version": "2.0.0",
+      "type": "date"
+    },
+    {
+      "filename": "StructureDefinition-usdf-StepTherapyLimit-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-StepTherapyLimit-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-StepTherapyLimit-extension",
+      "version": "2.0.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "CodeSystem-usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE.json",
+      "resourceType": "CodeSystem",
+      "id": "usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "CodeSystem-usdf-PlanContactTypeCS-TEMPORARY-TRIAL-USE.json",
+      "resourceType": "CodeSystem",
+      "id": "usdf-PlanContactTypeCS-TEMPORARY-TRIAL-USE",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PlanContactTypeCS-TEMPORARY-TRIAL-USE",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "ValueSet-PharmacyBenefitTypeVS.json",
+      "resourceType": "ValueSet",
+      "id": "PharmacyBenefitTypeVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/PharmacyBenefitTypeVS",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "StructureDefinition-usdf-StepTherapyLimitNewStartsOnly-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-StepTherapyLimitNewStartsOnly-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-StepTherapyLimitNewStartsOnly-extension",
+      "version": "2.0.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "ValueSet-CopayOptionVS.json",
+      "resourceType": "ValueSet",
+      "id": "CopayOptionVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/CopayOptionVS",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "ImplementationGuide-hl7.fhir.us.davinci-drug-formulary.json",
+      "resourceType": "ImplementationGuide",
+      "id": "hl7.fhir.us.davinci-drug-formulary",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ImplementationGuide/hl7.fhir.us.davinci-drug-formulary",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "ValueSet-InsuranceItemTypeVS.json",
+      "resourceType": "ValueSet",
+      "id": "InsuranceItemTypeVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/InsuranceItemTypeVS",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "StructureDefinition-usdf-PayerInsurancePlan.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-PayerInsurancePlan",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PayerInsurancePlan",
+      "version": "2.0.0",
+      "kind": "resource",
+      "type": "InsurancePlan"
+    },
+    {
+      "filename": "SearchParameter-InsurancePlan-coverage-type.json",
+      "resourceType": "SearchParameter",
+      "id": "InsurancePlan-coverage-type",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/InsurancePlan-coverage-type",
+      "version": "2.0.0",
+      "type": "token"
+    },
+    {
+      "filename": "SearchParameter-Basic-pharmacy-benefit-type.json",
+      "resourceType": "SearchParameter",
+      "id": "Basic-pharmacy-benefit-type",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/Basic-pharmacy-benefit-type",
+      "version": "2.0.0",
+      "type": "token"
+    },
+    {
+      "filename": "SearchParameter-InsurancePlan-lastupdated.json",
+      "resourceType": "SearchParameter",
+      "id": "InsurancePlan-lastupdated",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/InsurancePlan-lastupdated",
+      "version": "2.0.0",
+      "type": "date"
+    },
+    {
+      "filename": "CodeSystem-usdf-DrugTierCS-TEMPORARY-TRIAL-USE.json",
+      "resourceType": "CodeSystem",
+      "id": "usdf-DrugTierCS-TEMPORARY-TRIAL-USE",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-DrugTierCS-TEMPORARY-TRIAL-USE",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "SearchParameter-Basic-subject.json",
+      "resourceType": "SearchParameter",
+      "id": "Basic-subject",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/Basic-subject",
+      "version": "2.0.0",
+      "type": "reference"
+    },
+    {
+      "filename": "SearchParameter-InsurancePlan-coverage-area.json",
+      "resourceType": "SearchParameter",
+      "id": "InsurancePlan-coverage-area",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/InsurancePlan-coverage-area",
+      "version": "2.0.0",
+      "type": "reference"
+    },
+    {
+      "filename": "StructureDefinition-usdf-AvailabilityStatus-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-AvailabilityStatus-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-AvailabilityStatus-extension",
+      "version": "2.0.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-usdf-FormularyDrug.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-FormularyDrug",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug",
+      "version": "2.0.0",
+      "kind": "resource",
+      "type": "MedicationKnowledge"
+    },
+    {
+      "filename": "StructureDefinition-usdf-PriorAuthorization-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-PriorAuthorization-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PriorAuthorization-extension",
+      "version": "2.0.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "SearchParameter-InsurancePlan-type.json",
+      "resourceType": "SearchParameter",
+      "id": "InsurancePlan-type",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/InsurancePlan-type",
+      "version": "2.0.0",
+      "type": "token"
+    },
+    {
+      "filename": "StructureDefinition-usdf-DrugTierID-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-DrugTierID-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-DrugTierID-extension",
+      "version": "2.0.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-usdf-PharmacyBenefitType-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-PharmacyBenefitType-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PharmacyBenefitType-extension",
+      "version": "2.0.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "CapabilityStatement-usdf-server.json",
+      "resourceType": "CapabilityStatement",
+      "id": "usdf-server",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CapabilityStatement/usdf-server",
+      "version": "2.0.0",
+      "kind": "requirements"
+    },
+    {
+      "filename": "CodeSystem-usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE.json",
+      "resourceType": "CodeSystem",
+      "id": "usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "SearchParameter-MedicationKnowledge-drug-name.json",
+      "resourceType": "SearchParameter",
+      "id": "MedicationKnowledge-drug-name",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/MedicationKnowledge-drug-name",
+      "version": "2.0.0",
+      "type": "string"
+    },
+    {
+      "filename": "StructureDefinition-usdf-PayerInsurancePlanBulkDataGraphDefinition.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-PayerInsurancePlanBulkDataGraphDefinition",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PayerInsurancePlanBulkDataGraphDefinition",
+      "version": "2.0.0",
+      "kind": "resource",
+      "type": "GraphDefinition"
+    },
+    {
+      "filename": "ValueSet-PlanContactTypeVS.json",
+      "resourceType": "ValueSet",
+      "id": "PlanContactTypeVS",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/PlanContactTypeVS",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "SearchParameter-Basic-code.json",
+      "resourceType": "SearchParameter",
+      "id": "Basic-code",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/Basic-code",
+      "version": "2.0.0",
+      "type": "token"
+    },
+    {
+      "filename": "StructureDefinition-usdf-QuantityLimit-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-QuantityLimit-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-QuantityLimit-extension",
+      "version": "2.0.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "SearchParameter-Basic-lastupdated.json",
+      "resourceType": "SearchParameter",
+      "id": "Basic-lastupdated",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/Basic-lastupdated",
+      "version": "2.0.0",
+      "type": "date"
+    },
+    {
+      "filename": "SearchParameter-Basic-period.json",
+      "resourceType": "SearchParameter",
+      "id": "Basic-period",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/Basic-period",
+      "version": "2.0.0",
+      "type": "date"
+    },
+    {
+      "filename": "StructureDefinition-usdf-PriorAuthorizationNewStartsOnly-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-PriorAuthorizationNewStartsOnly-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PriorAuthorizationNewStartsOnly-extension",
+      "version": "2.0.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-usdf-FormularyItem.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-FormularyItem",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyItem",
+      "version": "2.0.0",
+      "kind": "resource",
+      "type": "Basic"
+    },
+    {
+      "filename": "SearchParameter-InsurancePlan-formulary-coverage.json",
+      "resourceType": "SearchParameter",
+      "id": "InsurancePlan-formulary-coverage",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/InsurancePlan-formulary-coverage",
+      "version": "2.0.0",
+      "type": "reference"
+    },
+    {
+      "filename": "SearchParameter-Basic-status.json",
+      "resourceType": "SearchParameter",
+      "id": "Basic-status",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/Basic-status",
+      "version": "2.0.0",
+      "type": "token"
+    },
+    {
+      "filename": "StructureDefinition-usdf-FormularyReference-extension.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-FormularyReference-extension",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyReference-extension",
+      "version": "2.0.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "SearchParameter-Basic-formulary.json",
+      "resourceType": "SearchParameter",
+      "id": "Basic-formulary",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/Basic-formulary",
+      "version": "2.0.0",
+      "type": "reference"
+    },
+    {
+      "filename": "CodeSystem-usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE.json",
+      "resourceType": "CodeSystem",
+      "id": "usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE",
+      "version": "2.0.0"
+    },
+    {
+      "filename": "StructureDefinition-usdf-InsurancePlanLocation.json",
+      "resourceType": "StructureDefinition",
+      "id": "usdf-InsurancePlanLocation",
+      "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-InsurancePlanLocation",
+      "version": "2.0.0",
+      "kind": "resource",
+      "type": "Location"
+    }
+  ]
+}

@@ -1,0 +1,4363 @@
+{
+    "resourceType": "StructureDefinition",
+    "id": "usdf-QuantityLimitDetail-extension",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-QuantityLimitDetail-extension",
+    "version": "2.0.0",
+    "name": "QuantityLimitDetail",
+    "title": "Quantity Limit Detail",
+    "status": "active",
+    "date": "2022-08-25T13:12:25+00:00",
+    "publisher": "HL7 Pharmacy Working Group",
+    "contact": [
+        {
+            "name": "HL7 Pharmacy Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/medication"
+                },
+                {
+                    "system": "email",
+                    "value": "pharmacy@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "A detailed definition of the quantity limits the coverage plan imposes on this drug. These limit details may include (potentially including a rolling dispense limit, maximum daily, or therapy days for a period of time. (Only include if QuantityLimit = true)",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "fhirVersion": "4.0.1",
+    "mapping": [
+        {
+            "identity": "rim",
+            "uri": "http://hl7.org/v3",
+            "name": "RIM Mapping"
+        }
+    ],
+    "kind": "complex-type",
+    "abstract": false,
+    "context": [
+        {
+            "type": "element",
+            "expression": "Element"
+        }
+    ],
+    "type": "Extension",
+    "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Extension",
+    "derivation": "constraint",
+    "snapshot": {
+        "element": [
+            {
+                "id": "Extension",
+                "path": "Extension",
+                "short": "Quantity Limit Detail",
+                "definition": "A detailed definition of the quantity limits the coverage plan imposes on this drug. These limit details may include (potentially including a rolling dispense limit, maximum daily, or therapy days for a period of time. (Only include if QuantityLimit = true)",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "condition": [
+                    "ele-1"
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), 'value')])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false
+            },
+            {
+                "id": "Extension.id",
+                "path": "Extension.id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension",
+                "path": "Extension.extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Extension",
+                "definition": "An Extension",
+                "min": 1,
+                "max": "*",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            },
+            {
+                "id": "Extension.extension:Description",
+                "path": "Extension.extension",
+                "sliceName": "Description",
+                "short": "A human readable description of quantity limits.",
+                "definition": "An Extension",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            },
+            {
+                "id": "Extension.extension:Description.id",
+                "path": "Extension.extension.id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Description.extension",
+                "path": "Extension.extension.extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Extension",
+                "definition": "An Extension",
+                "min": 0,
+                "max": "0",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            },
+            {
+                "id": "Extension.extension:Description.url",
+                "path": "Extension.extension.url",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "identifies the meaning of the extension",
+                "definition": "Source of the definition for the extension code - a logical name or a URL.",
+                "comment": "The definition may point directly to a computable or human-readable definition of the extensibility codes, or it may be a logical URI as declared in some other specification. The definition SHALL be a URI for the Structure Definition defining the extension.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Extension.url",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "uri"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "fixedUri": "Description",
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Description.value[x]",
+                "path": "Extension.extension.value[x]",
+                "short": "Value of extension",
+                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/R4/extensibility.html) for a list).",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Extension.value[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling",
+                "path": "Extension.extension",
+                "sliceName": "Rolling",
+                "short": "Indicator of dispense amount limit per time period.",
+                "definition": "An Extension",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            },
+            {
+                "id": "Extension.extension:Rolling.id",
+                "path": "Extension.extension.id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.extension",
+                "path": "Extension.extension.extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Extension",
+                "definition": "An Extension",
+                "min": 0,
+                "max": "0",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            },
+            {
+                "id": "Extension.extension:Rolling.url",
+                "path": "Extension.extension.url",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "identifies the meaning of the extension",
+                "definition": "Source of the definition for the extension code - a logical name or a URL.",
+                "comment": "The definition may point directly to a computable or human-readable definition of the extensibility codes, or it may be a logical URI as declared in some other specification. The definition SHALL be a URI for the Structure Definition defining the extension.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Extension.url",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "uri"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "fixedUri": "Rolling",
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]",
+                "path": "Extension.extension.value[x]",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "type",
+                            "path": "$this"
+                        }
+                    ],
+                    "ordered": false,
+                    "rules": "closed"
+                },
+                "short": "Value of extension",
+                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/R4/extensibility.html) for a list).",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Extension.value[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Timing"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming",
+                "path": "Extension.extension.value[x]",
+                "sliceName": "valueTiming",
+                "short": "Value of extension",
+                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/R4/extensibility.html) for a list).",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Extension.value[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Timing"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.id",
+                "path": "Extension.extension.value[x].id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.extension",
+                "path": "Extension.extension.value[x].extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Additional content defined by implementations",
+                "definition": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                "alias": [
+                    "extensions",
+                    "user content"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.modifierExtension",
+                "path": "Extension.extension.value[x].modifierExtension",
+                "short": "Extensions that cannot be ignored even if unrecognized",
+                "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
+                "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/R4/extensibility.html#modifierExtension).",
+                "alias": [
+                    "extensions",
+                    "user content",
+                    "modifiers"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "BackboneElement.modifierExtension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "Modifier extensions are expected to modify the meaning or interpretation of the element that contains them",
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.event",
+                "path": "Extension.extension.value[x].event",
+                "short": "When the event occurs",
+                "definition": "Identifies specific times when the event occurs.",
+                "requirements": "In a Medication Administration Record, for instance, you need to take a general specification, and turn it into a precise specification.",
+                "min": 0,
+                "max": "0",
+                "base": {
+                    "path": "Timing.event",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "dateTime"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "QLIST<TS>"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat",
+                "path": "Extension.extension.value[x].repeat",
+                "short": "When the event is to occur",
+                "definition": "A set of rules that describe when the event is scheduled.",
+                "requirements": "Many timing schedules are determined by regular repetitions.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Element"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "tim-1",
+                        "severity": "error",
+                        "human": "if there's a duration, there needs to be duration units",
+                        "expression": "duration.empty() or durationUnit.exists()",
+                        "xpath": "not(exists(f:duration)) or exists(f:durationUnit)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-2",
+                        "severity": "error",
+                        "human": "if there's a period, there needs to be period units",
+                        "expression": "period.empty() or periodUnit.exists()",
+                        "xpath": "not(exists(f:period)) or exists(f:periodUnit)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-4",
+                        "severity": "error",
+                        "human": "duration SHALL be a non-negative value",
+                        "expression": "duration.exists() implies duration >= 0",
+                        "xpath": "f:duration/@value >= 0 or not(f:duration/@value)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-5",
+                        "severity": "error",
+                        "human": "period SHALL be a non-negative value",
+                        "expression": "period.exists() implies period >= 0",
+                        "xpath": "f:period/@value >= 0 or not(f:period/@value)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-6",
+                        "severity": "error",
+                        "human": "If there's a periodMax, there must be a period",
+                        "expression": "periodMax.empty() or period.exists()",
+                        "xpath": "not(exists(f:periodMax)) or exists(f:period)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-7",
+                        "severity": "error",
+                        "human": "If there's a durationMax, there must be a duration",
+                        "expression": "durationMax.empty() or duration.exists()",
+                        "xpath": "not(exists(f:durationMax)) or exists(f:duration)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-8",
+                        "severity": "error",
+                        "human": "If there's a countMax, there must be a count",
+                        "expression": "countMax.empty() or count.exists()",
+                        "xpath": "not(exists(f:countMax)) or exists(f:count)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-9",
+                        "severity": "error",
+                        "human": "If there's an offset, there must be a when (and not C, CM, CD, CV)",
+                        "expression": "offset.empty() or (when.exists() and ((when in ('C' | 'CM' | 'CD' | 'CV')).not()))",
+                        "xpath": "not(exists(f:offset)) or exists(f:when)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-10",
+                        "severity": "error",
+                        "human": "If there's a timeOfDay, there cannot be a when, or vice versa",
+                        "expression": "timeOfDay.empty() or when.empty()",
+                        "xpath": "not(exists(f:timeOfDay)) or not(exists(f:when))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "Implies PIVL or EIVL"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.id",
+                "path": "Extension.extension.value[x].repeat.id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.extension",
+                "path": "Extension.extension.value[x].repeat.extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Additional content defined by implementations",
+                "definition": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                "alias": [
+                    "extensions",
+                    "user content"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.bounds[x]",
+                "path": "Extension.extension.value[x].repeat.bounds[x]",
+                "short": "Length/Range of lengths, or (Start and/or end) limits",
+                "definition": "Either a duration for the length of the timing schedule, a range of possible length, or outer bounds for start and/or end limits of the timing schedule.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.bounds[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Duration"
+                    },
+                    {
+                        "code": "Range"
+                    },
+                    {
+                        "code": "Period"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "IVL(TS) used in a QSI"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.count",
+                "path": "Extension.extension.value[x].repeat.count",
+                "short": "Number of times to repeat",
+                "definition": "A total count of the desired number of repetitions across the duration of the entire timing specification. If countMax is present, this element indicates the lower bound of the allowed range of count values.",
+                "comment": "If you have both bounds and count, then this should be understood as within the bounds period, until count times happens.",
+                "requirements": "Repetitions may be limited by end time or total occurrences.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.count",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "positiveInt"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.count"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.countMax",
+                "path": "Extension.extension.value[x].repeat.countMax",
+                "short": "Maximum number of times to repeat",
+                "definition": "If present, indicates that the count is a range - so to perform the action between [count] and [countMax] times.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.countMax",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "positiveInt"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.count"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.duration",
+                "path": "Extension.extension.value[x].repeat.duration",
+                "short": "How long when it happens",
+                "definition": "How long this thing happens for when it happens. If durationMax is present, this element indicates the lower bound of the allowed range of the duration.",
+                "comment": "For some events the duration is part of the definition of the event (e.g. IV infusions, where the duration is implicit in the specified quantity and rate). For others, it's part of the timing specification (e.g. exercise).",
+                "requirements": "Some activities are not instantaneous and need to be maintained for a period of time.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.duration",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.durationMax",
+                "path": "Extension.extension.value[x].repeat.durationMax",
+                "short": "How long when it happens (Max)",
+                "definition": "If present, indicates that the duration is a range - so to perform the action between [duration] and [durationMax] time length.",
+                "comment": "For some events the duration is part of the definition of the event (e.g. IV infusions, where the duration is implicit in the specified quantity and rate). For others, it's part of the timing specification (e.g. exercise).",
+                "requirements": "Some activities are not instantaneous and need to be maintained for a period of time.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.durationMax",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.durationUnit",
+                "path": "Extension.extension.value[x].repeat.durationUnit",
+                "short": "s | min | h | d | wk | mo | a - unit of time (UCUM)",
+                "definition": "The units of time for the duration, in UCUM units.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.durationUnit",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UnitsOfTime"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "A unit of time (units from UCUM).",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/units-of-time|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase.unit"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.frequency",
+                "path": "Extension.extension.value[x].repeat.frequency",
+                "short": "Event occurs frequency times per period",
+                "definition": "The number of times to repeat the action within the specified period. If frequencyMax is present, this element indicates the lower bound of the allowed range of the frequency.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.frequency",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "positiveInt"
+                    }
+                ],
+                "meaningWhenMissing": "If no frequency is stated, the assumption is that the event occurs once per period, but systems SHOULD always be specific about this",
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.frequencyMax",
+                "path": "Extension.extension.value[x].repeat.frequencyMax",
+                "short": "Event occurs up to frequencyMax times per period",
+                "definition": "If present, indicates that the frequency is a range - so to repeat between [frequency] and [frequencyMax] times within the period or period range.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.frequencyMax",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "positiveInt"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.period",
+                "path": "Extension.extension.value[x].repeat.period",
+                "short": "Event occurs frequency times per period",
+                "definition": "Indicates the duration of time over which repetitions are to occur; e.g. to express \"3 times per day\", 3 would be the frequency and \"1 day\" would be the period. If periodMax is present, this element indicates the lower bound of the allowed range of the period length.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.period",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.periodMax",
+                "path": "Extension.extension.value[x].repeat.periodMax",
+                "short": "Upper limit of period (3-4 hours)",
+                "definition": "If present, indicates that the period is a range from [period] to [periodMax], allowing expressing concepts such as \"do this once every 3-5 days.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.periodMax",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.periodUnit",
+                "path": "Extension.extension.value[x].repeat.periodUnit",
+                "short": "s | min | h | d | wk | mo | a - unit of time (UCUM)",
+                "definition": "The units of time for the period in UCUM units.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.periodUnit",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "patternCode": "d",
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UnitsOfTime"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "A unit of time (units from UCUM).",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/units-of-time|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase.unit"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.dayOfWeek",
+                "path": "Extension.extension.value[x].repeat.dayOfWeek",
+                "short": "mon | tue | wed | thu | fri | sat | sun",
+                "definition": "If one or more days of week is provided, then the action happens only on the specified day(s).",
+                "comment": "If no days are specified, the action is assumed to happen every day as otherwise specified. The elements frequency and period cannot be used as well as dayOfWeek.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Timing.repeat.dayOfWeek",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DayOfWeek"
+                        }
+                    ],
+                    "strength": "required",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.timeOfDay",
+                "path": "Extension.extension.value[x].repeat.timeOfDay",
+                "short": "Time of day for action",
+                "definition": "Specified time of day for action to take place.",
+                "comment": "When time of day is specified, it is inferred that the action happens every day (as filtered by dayofWeek) on the specified times. The elements when, frequency and period cannot be used as well as timeOfDay.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Timing.repeat.timeOfDay",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "time"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.when",
+                "path": "Extension.extension.value[x].repeat.when",
+                "short": "Code for time period of occurrence",
+                "definition": "An approximate time period during the day, potentially linked to an event of daily living that indicates when the action should occur.",
+                "comment": "When more than one event is listed, the event is tied to the union of the specified events.",
+                "requirements": "Timings are frequently determined by occurrences such as waking, eating and sleep.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Timing.repeat.when",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "EventTiming"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Real world event relating to the schedule.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/event-timing|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "EIVL.event"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.repeat.offset",
+                "path": "Extension.extension.value[x].repeat.offset",
+                "short": "Minutes from event (before or after)",
+                "definition": "The number of minutes from the event. If the event code does not indicate whether the minutes is before or after the event, then the offset is assumed to be after the event.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.offset",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "unsignedInt"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "EIVL.offset"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]:valueTiming.code",
+                "path": "Extension.extension.value[x].code",
+                "short": "BID | TID | QID | AM | PM | QD | QOD | +",
+                "definition": "A code for the timing schedule (or just text in code.text). Some codes such as BID are ubiquitous, but many institutions define their own additional codes. If a code is provided, the code is understood to be a complete statement of whatever is specified in the structured timing data, and either the code or the data may be used to interpret the Timing, with the exception that .repeat.bounds still applies over the code (and is not contained in the code).",
+                "comment": "BID etc. are defined as 'at institutionally specified times'. For example, an institution may choose that BID is \"always at 7am and 6pm\".  If it is inappropriate for this choice to be made, the code BID should not be used. Instead, a distinct organization-specific code should be used in place of the HL7-defined BID code and/or a structured representation should be used (in this case, specifying the two event times).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.code",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "TimingAbbreviation"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "Code for a known / defined timing pattern.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/timing-abbreviation"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "QSC.code"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:MaximumDaily",
+                "path": "Extension.extension",
+                "sliceName": "MaximumDaily",
+                "short": "Indicator of maximum daily amount.",
+                "definition": "An Extension",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.id",
+                "path": "Extension.extension.id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.extension",
+                "path": "Extension.extension.extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Extension",
+                "definition": "An Extension",
+                "min": 0,
+                "max": "0",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.url",
+                "path": "Extension.extension.url",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "identifies the meaning of the extension",
+                "definition": "Source of the definition for the extension code - a logical name or a URL.",
+                "comment": "The definition may point directly to a computable or human-readable definition of the extensibility codes, or it may be a logical URI as declared in some other specification. The definition SHALL be a URI for the Structure Definition defining the extension.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Extension.url",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "uri"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "fixedUri": "MaximumDaily",
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.value[x]",
+                "path": "Extension.extension.value[x]",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "type",
+                            "path": "$this"
+                        }
+                    ],
+                    "ordered": false,
+                    "rules": "closed"
+                },
+                "short": "Value of extension",
+                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/R4/extensibility.html) for a list).",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Extension.value[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Quantity"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.value[x]:valueQuantity",
+                "path": "Extension.extension.value[x]",
+                "sliceName": "valueQuantity",
+                "short": "Value of extension",
+                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/R4/extensibility.html) for a list).",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Extension.value[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Quantity"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.value[x]:valueQuantity.id",
+                "path": "Extension.extension.value[x].id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.value[x]:valueQuantity.extension",
+                "path": "Extension.extension.value[x].extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Additional content defined by implementations",
+                "definition": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                "alias": [
+                    "extensions",
+                    "user content"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.value[x]:valueQuantity.value",
+                "path": "Extension.extension.value[x].value",
+                "short": "Numerical value (with implicit precision)",
+                "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value.",
+                "comment": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books).",
+                "requirements": "Precision is handled implicitly in almost all cases of measurement.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Quantity.value",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "SN.2  / CQ - N/A"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "PQ.value, CO.value, MO.value, IVL.high or IVL.low depending on the value"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.value[x]:valueQuantity.comparator",
+                "path": "Extension.extension.value[x].comparator",
+                "short": "< | <= | >= | > - how to understand the value",
+                "definition": "How the value should be understood and represented - whether the actual value is greater or less than the stated value due to measurement issues; e.g. if the comparator is \"<\" , then the real value is < stated value.",
+                "requirements": "Need a framework for handling measures where the value is <5ug/L or >400mg/L due to the limitations of measuring methodology.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Quantity.comparator",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "meaningWhenMissing": "If there is no comparator, then there is no modification of the value",
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This is labeled as \"Is Modifier\" because the comparator modifies the interpretation of the value significantly. If there is no comparator, then there is no modification of the value",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "QuantityComparator"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "How the Quantity should be understood and represented.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "SN.1  / CQ.1"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "IVL properties"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.value[x]:valueQuantity.unit",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-translatable",
+                        "valueBoolean": true
+                    }
+                ],
+                "path": "Extension.extension.value[x].unit",
+                "short": "Unit representation",
+                "definition": "A human-readable form of the unit.",
+                "requirements": "There are many representations for units of measure and in many contexts, particular representations are fixed and required. I.e. mcg for micrograms.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Quantity.unit",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "(see OBX.6 etc.) / CQ.2"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "PQ.unit"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.value[x]:valueQuantity.system",
+                "path": "Extension.extension.value[x].system",
+                "short": "System that defines coded unit form",
+                "definition": "The identification of the system that provides the coded form of the unit.",
+                "requirements": "Need to know the system that defines the coded form of the unit.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Quantity.system",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "uri"
+                    }
+                ],
+                "condition": [
+                    "qty-3"
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "(see OBX.6 etc.) / CQ.2"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "CO.codeSystem, PQ.translation.codeSystem"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.value[x]:valueQuantity.code",
+                "path": "Extension.extension.value[x].code",
+                "short": "Coded form of the unit",
+                "definition": "A computer processable form of the unit in some unit representation system.",
+                "comment": "The preferred system is UCUM, but SNOMED CT can also be used (for customary units) or ISO 4217 for currency.  The context of use may additionally require a code from a particular system.",
+                "requirements": "Need a computable form of the unit that is fixed across all forms. UCUM provides this for quantities, but SNOMED CT provides many units of interest.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Quantity.code",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "(see OBX.6 etc.) / CQ.2"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "PQ.code, MO.currency, PQ.translation.code"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply",
+                "path": "Extension.extension",
+                "sliceName": "DaysSupply",
+                "short": "Indicator of number of therapy days over time period.",
+                "definition": "An Extension",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            },
+            {
+                "id": "Extension.extension:DaysSupply.id",
+                "path": "Extension.extension.id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.extension",
+                "path": "Extension.extension.extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Extension",
+                "definition": "An Extension",
+                "min": 0,
+                "max": "0",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false
+            },
+            {
+                "id": "Extension.extension:DaysSupply.url",
+                "path": "Extension.extension.url",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "identifies the meaning of the extension",
+                "definition": "Source of the definition for the extension code - a logical name or a URL.",
+                "comment": "The definition may point directly to a computable or human-readable definition of the extensibility codes, or it may be a logical URI as declared in some other specification. The definition SHALL be a URI for the Structure Definition defining the extension.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Extension.url",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "uri"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "fixedUri": "DaysSupply",
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]",
+                "path": "Extension.extension.value[x]",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "type",
+                            "path": "$this"
+                        }
+                    ],
+                    "ordered": false,
+                    "rules": "closed"
+                },
+                "short": "Value of extension",
+                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/R4/extensibility.html) for a list).",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Extension.value[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Timing"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming",
+                "path": "Extension.extension.value[x]",
+                "sliceName": "valueTiming",
+                "short": "Value of extension",
+                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/R4/extensibility.html) for a list).",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Extension.value[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Timing"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.id",
+                "path": "Extension.extension.value[x].id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.extension",
+                "path": "Extension.extension.value[x].extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Additional content defined by implementations",
+                "definition": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                "alias": [
+                    "extensions",
+                    "user content"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.modifierExtension",
+                "path": "Extension.extension.value[x].modifierExtension",
+                "short": "Extensions that cannot be ignored even if unrecognized",
+                "definition": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and manageable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself).",
+                "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                "requirements": "Modifier extensions allow for extensions that *cannot* be safely ignored to be clearly distinguished from the vast majority of extensions which can be safely ignored.  This promotes interoperability by eliminating the need for implementers to prohibit the presence of extensions. For further information, see the [definition of modifier extensions](http://hl7.org/fhir/R4/extensibility.html#modifierExtension).",
+                "alias": [
+                    "extensions",
+                    "user content",
+                    "modifiers"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "BackboneElement.modifierExtension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "Modifier extensions are expected to modify the meaning or interpretation of the element that contains them",
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.event",
+                "path": "Extension.extension.value[x].event",
+                "short": "When the event occurs",
+                "definition": "Identifies specific times when the event occurs.",
+                "requirements": "In a Medication Administration Record, for instance, you need to take a general specification, and turn it into a precise specification.",
+                "min": 0,
+                "max": "0",
+                "base": {
+                    "path": "Timing.event",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "dateTime"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "QLIST<TS>"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat",
+                "path": "Extension.extension.value[x].repeat",
+                "short": "When the event is to occur",
+                "definition": "A set of rules that describe when the event is scheduled.",
+                "requirements": "Many timing schedules are determined by regular repetitions.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Element"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "tim-1",
+                        "severity": "error",
+                        "human": "if there's a duration, there needs to be duration units",
+                        "expression": "duration.empty() or durationUnit.exists()",
+                        "xpath": "not(exists(f:duration)) or exists(f:durationUnit)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-2",
+                        "severity": "error",
+                        "human": "if there's a period, there needs to be period units",
+                        "expression": "period.empty() or periodUnit.exists()",
+                        "xpath": "not(exists(f:period)) or exists(f:periodUnit)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-4",
+                        "severity": "error",
+                        "human": "duration SHALL be a non-negative value",
+                        "expression": "duration.exists() implies duration >= 0",
+                        "xpath": "f:duration/@value >= 0 or not(f:duration/@value)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-5",
+                        "severity": "error",
+                        "human": "period SHALL be a non-negative value",
+                        "expression": "period.exists() implies period >= 0",
+                        "xpath": "f:period/@value >= 0 or not(f:period/@value)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-6",
+                        "severity": "error",
+                        "human": "If there's a periodMax, there must be a period",
+                        "expression": "periodMax.empty() or period.exists()",
+                        "xpath": "not(exists(f:periodMax)) or exists(f:period)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-7",
+                        "severity": "error",
+                        "human": "If there's a durationMax, there must be a duration",
+                        "expression": "durationMax.empty() or duration.exists()",
+                        "xpath": "not(exists(f:durationMax)) or exists(f:duration)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-8",
+                        "severity": "error",
+                        "human": "If there's a countMax, there must be a count",
+                        "expression": "countMax.empty() or count.exists()",
+                        "xpath": "not(exists(f:countMax)) or exists(f:count)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-9",
+                        "severity": "error",
+                        "human": "If there's an offset, there must be a when (and not C, CM, CD, CV)",
+                        "expression": "offset.empty() or (when.exists() and ((when in ('C' | 'CM' | 'CD' | 'CV')).not()))",
+                        "xpath": "not(exists(f:offset)) or exists(f:when)",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    },
+                    {
+                        "key": "tim-10",
+                        "severity": "error",
+                        "human": "If there's a timeOfDay, there cannot be a when, or vice versa",
+                        "expression": "timeOfDay.empty() or when.empty()",
+                        "xpath": "not(exists(f:timeOfDay)) or not(exists(f:when))",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "Implies PIVL or EIVL"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.id",
+                "path": "Extension.extension.value[x].repeat.id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.extension",
+                "path": "Extension.extension.value[x].repeat.extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Additional content defined by implementations",
+                "definition": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                "alias": [
+                    "extensions",
+                    "user content"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.bounds[x]",
+                "path": "Extension.extension.value[x].repeat.bounds[x]",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "type",
+                            "path": "$this"
+                        }
+                    ],
+                    "ordered": false,
+                    "rules": "closed"
+                },
+                "short": "Length/Range of lengths, or (Start and/or end) limits",
+                "definition": "Either a duration for the length of the timing schedule, a range of possible length, or outer bounds for start and/or end limits of the timing schedule.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.bounds[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Duration"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "IVL(TS) used in a QSI"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.bounds[x]:boundsDuration",
+                "path": "Extension.extension.value[x].repeat.bounds[x]",
+                "sliceName": "boundsDuration",
+                "short": "Length/Range of lengths, or (Start and/or end) limits",
+                "definition": "Either a duration for the length of the timing schedule, a range of possible length, or outer bounds for start and/or end limits of the timing schedule.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.bounds[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "Duration"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "IVL(TS) used in a QSI"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.bounds[x]:boundsDuration.id",
+                "path": "Extension.extension.value[x].repeat.bounds[x].id",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "Unique id for inter-element referencing",
+                "definition": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Element.id",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "string"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.bounds[x]:boundsDuration.extension",
+                "path": "Extension.extension.value[x].repeat.bounds[x].extension",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "value",
+                            "path": "url"
+                        }
+                    ],
+                    "description": "Extensions are always sliced by (at least) url",
+                    "rules": "open"
+                },
+                "short": "Additional content defined by implementations",
+                "definition": "May be used to represent additional information that is not part of the basic definition of the element. To make the use of extensions safe and manageable, there is a strict set of governance  applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension.",
+                "comment": "There can be no stigma associated with the use of extensions by any application, project, or standard - regardless of the institution or jurisdiction that uses or defines the extensions.  The use of extensions is what allows the FHIR specification to retain a core level of simplicity for everyone.",
+                "alias": [
+                    "extensions",
+                    "user content"
+                ],
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Element.extension",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "Extension"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    },
+                    {
+                        "key": "ext-1",
+                        "severity": "error",
+                        "human": "Must have either extensions or value[x], not both",
+                        "expression": "extension.exists() != value.exists()",
+                        "xpath": "exists(f:extension)!=exists(f:*[starts-with(local-name(.), \"value\")])",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Extension"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.bounds[x]:boundsDuration.value",
+                "path": "Extension.extension.value[x].repeat.bounds[x].value",
+                "short": "Numerical value (with implicit precision)",
+                "definition": "The value of the measured amount. The value includes an implicit precision in the presentation of the value.",
+                "comment": "The implicit precision in the value should always be honored. Monetary values have their own rules for handling precision (refer to standard accounting text books).",
+                "requirements": "Precision is handled implicitly in almost all cases of measurement.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Quantity.value",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "SN.2  / CQ - N/A"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "PQ.value, CO.value, MO.value, IVL.high or IVL.low depending on the value"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.bounds[x]:boundsDuration.comparator",
+                "path": "Extension.extension.value[x].repeat.bounds[x].comparator",
+                "short": "< | <= | >= | > - how to understand the value",
+                "definition": "How the value should be understood and represented - whether the actual value is greater or less than the stated value due to measurement issues; e.g. if the comparator is \"<\" , then the real value is < stated value.",
+                "requirements": "Need a framework for handling measures where the value is <5ug/L or >400mg/L due to the limitations of measuring methodology.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Quantity.comparator",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "meaningWhenMissing": "If there is no comparator, then there is no modification of the value",
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": true,
+                "isModifierReason": "This is labeled as \"Is Modifier\" because the comparator modifies the interpretation of the value significantly. If there is no comparator, then there is no modification of the value",
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "QuantityComparator"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "How the Quantity should be understood and represented.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "SN.1  / CQ.1"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "IVL properties"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.bounds[x]:boundsDuration.unit",
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-translatable",
+                        "valueBoolean": true
+                    }
+                ],
+                "path": "Extension.extension.value[x].repeat.bounds[x].unit",
+                "short": "Unit representation",
+                "definition": "A human-readable form of the unit.",
+                "requirements": "There are many representations for units of measure and in many contexts, particular representations are fixed and required. I.e. mcg for micrograms.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Quantity.unit",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "(see OBX.6 etc.) / CQ.2"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "PQ.unit"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.bounds[x]:boundsDuration.system",
+                "path": "Extension.extension.value[x].repeat.bounds[x].system",
+                "short": "System that defines coded unit form",
+                "definition": "The identification of the system that provides the coded form of the unit.",
+                "requirements": "Need to know the system that defines the coded form of the unit.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Quantity.system",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "uri"
+                    }
+                ],
+                "patternUri": "http://unitsofmeasure.org",
+                "condition": [
+                    "qty-3"
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "(see OBX.6 etc.) / CQ.2"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "CO.codeSystem, PQ.translation.codeSystem"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.bounds[x]:boundsDuration.code",
+                "path": "Extension.extension.value[x].repeat.bounds[x].code",
+                "short": "Coded form of the unit",
+                "definition": "A computer processable form of the unit in some unit representation system.",
+                "comment": "The preferred system is UCUM, but SNOMED CT can also be used (for customary units) or ISO 4217 for currency.  The context of use may additionally require a code from a particular system.",
+                "requirements": "Need a computable form of the unit that is fixed across all forms. UCUM provides this for quantities, but SNOMED CT provides many units of interest.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Quantity.code",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "patternCode": "d",
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "v2",
+                        "map": "(see OBX.6 etc.) / CQ.2"
+                    },
+                    {
+                        "identity": "rim",
+                        "map": "PQ.code, MO.currency, PQ.translation.code"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.count",
+                "path": "Extension.extension.value[x].repeat.count",
+                "short": "Number of times to repeat",
+                "definition": "A total count of the desired number of repetitions across the duration of the entire timing specification. If countMax is present, this element indicates the lower bound of the allowed range of count values.",
+                "comment": "If you have both bounds and count, then this should be understood as within the bounds period, until count times happens.",
+                "requirements": "Repetitions may be limited by end time or total occurrences.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.count",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "positiveInt"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.count"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.countMax",
+                "path": "Extension.extension.value[x].repeat.countMax",
+                "short": "Maximum number of times to repeat",
+                "definition": "If present, indicates that the count is a range - so to perform the action between [count] and [countMax] times.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.countMax",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "positiveInt"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.count"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.duration",
+                "path": "Extension.extension.value[x].repeat.duration",
+                "short": "How long when it happens",
+                "definition": "How long this thing happens for when it happens. If durationMax is present, this element indicates the lower bound of the allowed range of the duration.",
+                "comment": "For some events the duration is part of the definition of the event (e.g. IV infusions, where the duration is implicit in the specified quantity and rate). For others, it's part of the timing specification (e.g. exercise).",
+                "requirements": "Some activities are not instantaneous and need to be maintained for a period of time.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.duration",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.durationMax",
+                "path": "Extension.extension.value[x].repeat.durationMax",
+                "short": "How long when it happens (Max)",
+                "definition": "If present, indicates that the duration is a range - so to perform the action between [duration] and [durationMax] time length.",
+                "comment": "For some events the duration is part of the definition of the event (e.g. IV infusions, where the duration is implicit in the specified quantity and rate). For others, it's part of the timing specification (e.g. exercise).",
+                "requirements": "Some activities are not instantaneous and need to be maintained for a period of time.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.durationMax",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.durationUnit",
+                "path": "Extension.extension.value[x].repeat.durationUnit",
+                "short": "s | min | h | d | wk | mo | a - unit of time (UCUM)",
+                "definition": "The units of time for the duration, in UCUM units.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.durationUnit",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UnitsOfTime"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "A unit of time (units from UCUM).",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/units-of-time|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase.unit"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.frequency",
+                "path": "Extension.extension.value[x].repeat.frequency",
+                "short": "Event occurs frequency times per period",
+                "definition": "The number of times to repeat the action within the specified period. If frequencyMax is present, this element indicates the lower bound of the allowed range of the frequency.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.frequency",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "positiveInt"
+                    }
+                ],
+                "meaningWhenMissing": "If no frequency is stated, the assumption is that the event occurs once per period, but systems SHOULD always be specific about this",
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.frequencyMax",
+                "path": "Extension.extension.value[x].repeat.frequencyMax",
+                "short": "Event occurs up to frequencyMax times per period",
+                "definition": "If present, indicates that the frequency is a range - so to repeat between [frequency] and [frequencyMax] times within the period or period range.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.frequencyMax",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "positiveInt"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.period",
+                "path": "Extension.extension.value[x].repeat.period",
+                "short": "Event occurs frequency times per period",
+                "definition": "Indicates the duration of time over which repetitions are to occur; e.g. to express \"3 times per day\", 3 would be the frequency and \"1 day\" would be the period. If periodMax is present, this element indicates the lower bound of the allowed range of the period length.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.period",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.periodMax",
+                "path": "Extension.extension.value[x].repeat.periodMax",
+                "short": "Upper limit of period (3-4 hours)",
+                "definition": "If present, indicates that the period is a range from [period] to [periodMax], allowing expressing concepts such as \"do this once every 3-5 days.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.periodMax",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "decimal"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.periodUnit",
+                "path": "Extension.extension.value[x].repeat.periodUnit",
+                "short": "s | min | h | d | wk | mo | a - unit of time (UCUM)",
+                "definition": "The units of time for the period in UCUM units.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.periodUnit",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "patternCode": "d",
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "UnitsOfTime"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "A unit of time (units from UCUM).",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/units-of-time|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "PIVL.phase.unit"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.dayOfWeek",
+                "path": "Extension.extension.value[x].repeat.dayOfWeek",
+                "short": "mon | tue | wed | thu | fri | sat | sun",
+                "definition": "If one or more days of week is provided, then the action happens only on the specified day(s).",
+                "comment": "If no days are specified, the action is assumed to happen every day as otherwise specified. The elements frequency and period cannot be used as well as dayOfWeek.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Timing.repeat.dayOfWeek",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "DayOfWeek"
+                        }
+                    ],
+                    "strength": "required",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.timeOfDay",
+                "path": "Extension.extension.value[x].repeat.timeOfDay",
+                "short": "Time of day for action",
+                "definition": "Specified time of day for action to take place.",
+                "comment": "When time of day is specified, it is inferred that the action happens every day (as filtered by dayofWeek) on the specified times. The elements when, frequency and period cannot be used as well as timeOfDay.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Timing.repeat.timeOfDay",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "time"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "n/a"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.when",
+                "path": "Extension.extension.value[x].repeat.when",
+                "short": "Code for time period of occurrence",
+                "definition": "An approximate time period during the day, potentially linked to an event of daily living that indicates when the action should occur.",
+                "comment": "When more than one event is listed, the event is tied to the union of the specified events.",
+                "requirements": "Timings are frequently determined by occurrences such as waking, eating and sleep.",
+                "min": 0,
+                "max": "*",
+                "base": {
+                    "path": "Timing.repeat.when",
+                    "min": 0,
+                    "max": "*"
+                },
+                "type": [
+                    {
+                        "code": "code"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "EventTiming"
+                        }
+                    ],
+                    "strength": "required",
+                    "description": "Real world event relating to the schedule.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/event-timing|4.0.1"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "EIVL.event"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.repeat.offset",
+                "path": "Extension.extension.value[x].repeat.offset",
+                "short": "Minutes from event (before or after)",
+                "definition": "The number of minutes from the event. If the event code does not indicate whether the minutes is before or after the event, then the offset is assumed to be after the event.",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.repeat.offset",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "unsignedInt"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "EIVL.offset"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]:valueTiming.code",
+                "path": "Extension.extension.value[x].code",
+                "short": "BID | TID | QID | AM | PM | QD | QOD | +",
+                "definition": "A code for the timing schedule (or just text in code.text). Some codes such as BID are ubiquitous, but many institutions define their own additional codes. If a code is provided, the code is understood to be a complete statement of whatever is specified in the structured timing data, and either the code or the data may be used to interpret the Timing, with the exception that .repeat.bounds still applies over the code (and is not contained in the code).",
+                "comment": "BID etc. are defined as 'at institutionally specified times'. For example, an institution may choose that BID is \"always at 7am and 6pm\".  If it is inappropriate for this choice to be made, the code BID should not be used. Instead, a distinct organization-specific code should be used in place of the HL7-defined BID code and/or a structured representation should be used (in this case, specifying the two event times).",
+                "min": 0,
+                "max": "1",
+                "base": {
+                    "path": "Timing.code",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "CodeableConcept"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": true,
+                "binding": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/elementdefinition-bindingName",
+                            "valueString": "TimingAbbreviation"
+                        }
+                    ],
+                    "strength": "preferred",
+                    "description": "Code for a known / defined timing pattern.",
+                    "valueSet": "http://hl7.org/fhir/ValueSet/timing-abbreviation"
+                },
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "QSC.code"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.url",
+                "path": "Extension.url",
+                "representation": [
+                    "xmlAttr"
+                ],
+                "short": "identifies the meaning of the extension",
+                "definition": "Source of the definition for the extension code - a logical name or a URL.",
+                "comment": "The definition may point directly to a computable or human-readable definition of the extensibility codes, or it may be a logical URI as declared in some other specification. The definition SHALL be a URI for the Structure Definition defining the extension.",
+                "min": 1,
+                "max": "1",
+                "base": {
+                    "path": "Extension.url",
+                    "min": 1,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "extension": [
+                            {
+                                "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type",
+                                "valueUrl": "uri"
+                            }
+                        ],
+                        "code": "http://hl7.org/fhirpath/System.String"
+                    }
+                ],
+                "fixedUri": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-QuantityLimitDetail-extension",
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.value[x]",
+                "path": "Extension.value[x]",
+                "short": "Value of extension",
+                "definition": "Value of extension - must be one of a constrained set of the data types (see [Extensibility](http://hl7.org/fhir/R4/extensibility.html) for a list).",
+                "min": 0,
+                "max": "0",
+                "base": {
+                    "path": "Extension.value[x]",
+                    "min": 0,
+                    "max": "1"
+                },
+                "type": [
+                    {
+                        "code": "base64Binary"
+                    },
+                    {
+                        "code": "boolean"
+                    },
+                    {
+                        "code": "canonical"
+                    },
+                    {
+                        "code": "code"
+                    },
+                    {
+                        "code": "date"
+                    },
+                    {
+                        "code": "dateTime"
+                    },
+                    {
+                        "code": "decimal"
+                    },
+                    {
+                        "code": "id"
+                    },
+                    {
+                        "code": "instant"
+                    },
+                    {
+                        "code": "integer"
+                    },
+                    {
+                        "code": "markdown"
+                    },
+                    {
+                        "code": "oid"
+                    },
+                    {
+                        "code": "positiveInt"
+                    },
+                    {
+                        "code": "string"
+                    },
+                    {
+                        "code": "time"
+                    },
+                    {
+                        "code": "unsignedInt"
+                    },
+                    {
+                        "code": "uri"
+                    },
+                    {
+                        "code": "url"
+                    },
+                    {
+                        "code": "uuid"
+                    },
+                    {
+                        "code": "Address"
+                    },
+                    {
+                        "code": "Age"
+                    },
+                    {
+                        "code": "Annotation"
+                    },
+                    {
+                        "code": "Attachment"
+                    },
+                    {
+                        "code": "CodeableConcept"
+                    },
+                    {
+                        "code": "Coding"
+                    },
+                    {
+                        "code": "ContactPoint"
+                    },
+                    {
+                        "code": "Count"
+                    },
+                    {
+                        "code": "Distance"
+                    },
+                    {
+                        "code": "Duration"
+                    },
+                    {
+                        "code": "HumanName"
+                    },
+                    {
+                        "code": "Identifier"
+                    },
+                    {
+                        "code": "Money"
+                    },
+                    {
+                        "code": "Period"
+                    },
+                    {
+                        "code": "Quantity"
+                    },
+                    {
+                        "code": "Range"
+                    },
+                    {
+                        "code": "Ratio"
+                    },
+                    {
+                        "code": "Reference"
+                    },
+                    {
+                        "code": "SampledData"
+                    },
+                    {
+                        "code": "Signature"
+                    },
+                    {
+                        "code": "Timing"
+                    },
+                    {
+                        "code": "ContactDetail"
+                    },
+                    {
+                        "code": "Contributor"
+                    },
+                    {
+                        "code": "DataRequirement"
+                    },
+                    {
+                        "code": "Expression"
+                    },
+                    {
+                        "code": "ParameterDefinition"
+                    },
+                    {
+                        "code": "RelatedArtifact"
+                    },
+                    {
+                        "code": "TriggerDefinition"
+                    },
+                    {
+                        "code": "UsageContext"
+                    },
+                    {
+                        "code": "Dosage"
+                    },
+                    {
+                        "code": "Meta"
+                    }
+                ],
+                "constraint": [
+                    {
+                        "key": "ele-1",
+                        "severity": "error",
+                        "human": "All FHIR elements must have a @value or children",
+                        "expression": "hasValue() or (children().count() > id.count())",
+                        "xpath": "@value|f:*|h:div",
+                        "source": "http://hl7.org/fhir/StructureDefinition/Element"
+                    }
+                ],
+                "isModifier": false,
+                "isSummary": false,
+                "mapping": [
+                    {
+                        "identity": "rim",
+                        "map": "N/A"
+                    }
+                ]
+            }
+        ]
+    },
+    "differential": {
+        "element": [
+            {
+                "id": "Extension",
+                "path": "Extension",
+                "short": "Quantity Limit Detail",
+                "definition": "A detailed definition of the quantity limits the coverage plan imposes on this drug. These limit details may include (potentially including a rolling dispense limit, maximum daily, or therapy days for a period of time. (Only include if QuantityLimit = true)"
+            },
+            {
+                "id": "Extension.extension",
+                "path": "Extension.extension",
+                "min": 1
+            },
+            {
+                "id": "Extension.extension:Description",
+                "path": "Extension.extension",
+                "sliceName": "Description",
+                "short": "A human readable description of quantity limits.",
+                "min": 0,
+                "max": "1"
+            },
+            {
+                "id": "Extension.extension:Description.extension",
+                "path": "Extension.extension.extension",
+                "max": "0"
+            },
+            {
+                "id": "Extension.extension:Description.url",
+                "path": "Extension.extension.url",
+                "fixedUri": "Description"
+            },
+            {
+                "id": "Extension.extension:Description.value[x]",
+                "path": "Extension.extension.value[x]",
+                "min": 1,
+                "type": [
+                    {
+                        "code": "string"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling",
+                "path": "Extension.extension",
+                "sliceName": "Rolling",
+                "short": "Indicator of dispense amount limit per time period.",
+                "min": 0,
+                "max": "1"
+            },
+            {
+                "id": "Extension.extension:Rolling.extension",
+                "path": "Extension.extension.extension",
+                "max": "0"
+            },
+            {
+                "id": "Extension.extension:Rolling.url",
+                "path": "Extension.extension.url",
+                "fixedUri": "Rolling"
+            },
+            {
+                "id": "Extension.extension:Rolling.value[x]",
+                "path": "Extension.extension.value[x]",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "type",
+                            "path": "$this"
+                        }
+                    ],
+                    "ordered": false,
+                    "rules": "open"
+                },
+                "min": 1,
+                "type": [
+                    {
+                        "code": "Timing"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:Rolling.valueTiming",
+                "path": "Extension.extension.valueTiming",
+                "min": 1,
+                "max": "1"
+            },
+            {
+                "id": "Extension.extension:Rolling.valueTiming.event",
+                "path": "Extension.extension.valueTiming.event",
+                "max": "0"
+            },
+            {
+                "id": "Extension.extension:Rolling.valueTiming.repeat",
+                "path": "Extension.extension.valueTiming.repeat",
+                "min": 1
+            },
+            {
+                "id": "Extension.extension:Rolling.valueTiming.repeat.count",
+                "path": "Extension.extension.valueTiming.repeat.count",
+                "min": 1
+            },
+            {
+                "id": "Extension.extension:Rolling.valueTiming.repeat.period",
+                "path": "Extension.extension.valueTiming.repeat.period",
+                "min": 1
+            },
+            {
+                "id": "Extension.extension:Rolling.valueTiming.repeat.periodUnit",
+                "path": "Extension.extension.valueTiming.repeat.periodUnit",
+                "patternCode": "d"
+            },
+            {
+                "id": "Extension.extension:MaximumDaily",
+                "path": "Extension.extension",
+                "sliceName": "MaximumDaily",
+                "short": "Indicator of maximum daily amount.",
+                "min": 0,
+                "max": "1"
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.extension",
+                "path": "Extension.extension.extension",
+                "max": "0"
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.url",
+                "path": "Extension.extension.url",
+                "fixedUri": "MaximumDaily"
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.value[x]",
+                "path": "Extension.extension.value[x]",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "type",
+                            "path": "$this"
+                        }
+                    ],
+                    "ordered": false,
+                    "rules": "open"
+                },
+                "min": 1,
+                "type": [
+                    {
+                        "code": "Quantity"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.valueQuantity",
+                "path": "Extension.extension.valueQuantity",
+                "min": 1,
+                "max": "1"
+            },
+            {
+                "id": "Extension.extension:MaximumDaily.valueQuantity.value",
+                "path": "Extension.extension.valueQuantity.value",
+                "min": 1
+            },
+            {
+                "id": "Extension.extension:DaysSupply",
+                "path": "Extension.extension",
+                "sliceName": "DaysSupply",
+                "short": "Indicator of number of therapy days over time period.",
+                "min": 0,
+                "max": "1"
+            },
+            {
+                "id": "Extension.extension:DaysSupply.extension",
+                "path": "Extension.extension.extension",
+                "max": "0"
+            },
+            {
+                "id": "Extension.extension:DaysSupply.url",
+                "path": "Extension.extension.url",
+                "fixedUri": "DaysSupply"
+            },
+            {
+                "id": "Extension.extension:DaysSupply.value[x]",
+                "path": "Extension.extension.value[x]",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "type",
+                            "path": "$this"
+                        }
+                    ],
+                    "ordered": false,
+                    "rules": "open"
+                },
+                "min": 1,
+                "type": [
+                    {
+                        "code": "Timing"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.valueTiming",
+                "path": "Extension.extension.valueTiming",
+                "min": 1,
+                "max": "1"
+            },
+            {
+                "id": "Extension.extension:DaysSupply.valueTiming.event",
+                "path": "Extension.extension.valueTiming.event",
+                "max": "0"
+            },
+            {
+                "id": "Extension.extension:DaysSupply.valueTiming.repeat",
+                "path": "Extension.extension.valueTiming.repeat",
+                "min": 1
+            },
+            {
+                "id": "Extension.extension:DaysSupply.valueTiming.repeat.bounds[x]",
+                "path": "Extension.extension.valueTiming.repeat.bounds[x]",
+                "slicing": {
+                    "discriminator": [
+                        {
+                            "type": "type",
+                            "path": "$this"
+                        }
+                    ],
+                    "ordered": false,
+                    "rules": "open"
+                },
+                "min": 1,
+                "type": [
+                    {
+                        "code": "Duration"
+                    }
+                ]
+            },
+            {
+                "id": "Extension.extension:DaysSupply.valueTiming.repeat.boundsDuration",
+                "path": "Extension.extension.valueTiming.repeat.boundsDuration",
+                "min": 1,
+                "max": "1"
+            },
+            {
+                "id": "Extension.extension:DaysSupply.valueTiming.repeat.boundsDuration.value",
+                "path": "Extension.extension.valueTiming.repeat.boundsDuration.value",
+                "min": 1
+            },
+            {
+                "id": "Extension.extension:DaysSupply.valueTiming.repeat.boundsDuration.system",
+                "path": "Extension.extension.valueTiming.repeat.boundsDuration.system",
+                "patternUri": "http://unitsofmeasure.org"
+            },
+            {
+                "id": "Extension.extension:DaysSupply.valueTiming.repeat.boundsDuration.code",
+                "path": "Extension.extension.valueTiming.repeat.boundsDuration.code",
+                "patternCode": "d"
+            },
+            {
+                "id": "Extension.extension:DaysSupply.valueTiming.repeat.count",
+                "path": "Extension.extension.valueTiming.repeat.count",
+                "min": 1
+            },
+            {
+                "id": "Extension.extension:DaysSupply.valueTiming.repeat.period",
+                "path": "Extension.extension.valueTiming.repeat.period",
+                "min": 1
+            },
+            {
+                "id": "Extension.extension:DaysSupply.valueTiming.repeat.periodUnit",
+                "path": "Extension.extension.valueTiming.repeat.periodUnit",
+                "patternCode": "d"
+            },
+            {
+                "id": "Extension.url",
+                "path": "Extension.url",
+                "fixedUri": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-QuantityLimitDetail-extension"
+            },
+            {
+                "id": "Extension.value[x]",
+                "path": "Extension.value[x]",
+                "max": "0"
+            }
+        ]
+    }
+}

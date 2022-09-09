@@ -1,0 +1,29 @@
+{
+    "resourceType": "MedicationKnowledge",
+    "id": "FormularyDrug-1541228",
+    "meta": {
+        "lastUpdated": "2021-08-22T18:36:03.000+00:00",
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug|2.0.0"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "code": {
+        "coding": [
+            {
+                "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                "code": "753532",
+                "display": "{21 (ethinyl estradiol 0.03 MG / levonorgestrel 0.15 MG Oral Tablet) / 7 (inert ingredients 1 MG Oral Tablet) } Pack [Levlen 28 Day]"
+            },
+            {
+                "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                "code": "1157348",
+                "display": "ethinyl estradiol / levonorgestrel Oral Product"
+            }
+        ]
+    },
+    "status": "active"
+}

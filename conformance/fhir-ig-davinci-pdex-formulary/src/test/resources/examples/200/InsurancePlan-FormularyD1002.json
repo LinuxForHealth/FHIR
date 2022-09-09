@@ -1,0 +1,35 @@
+{
+    "resourceType": "InsurancePlan",
+    "id": "FormularyD1002",
+    "meta": {
+        "lastUpdated": "2021-08-22T18:36:03.000+00:00",
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Formulary|2.0.0"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "identifier": [
+        {
+            "value": "D1002"
+        }
+    ],
+    "status": "active",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                    "code": "DRUGPOL"
+                }
+            ]
+        }
+    ],
+    "name": "Sample Medicare Advantage Part D Formulary D1002",
+    "period": {
+        "start": "2021-01-01",
+        "end": "2021-12-31"
+    }
+}

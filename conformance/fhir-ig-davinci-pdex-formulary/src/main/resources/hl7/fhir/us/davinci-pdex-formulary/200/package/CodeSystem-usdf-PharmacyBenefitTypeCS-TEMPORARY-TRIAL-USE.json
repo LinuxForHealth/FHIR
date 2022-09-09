@@ -1,0 +1,86 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE",
+    "version": "2.0.0",
+    "name": "PharmacyBenefitTypeCS",
+    "title": "Codes for pharmacy benefit types",
+    "status": "active",
+    "date": "2022-08-25T13:12:25+00:00",
+    "publisher": "HL7 Pharmacy Working Group",
+    "contact": [
+        {
+            "name": "HL7 Pharmacy Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/medication"
+                },
+                {
+                    "system": "email",
+                    "value": "pharmacy@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes for pharmacy benefit types. Each payer will have its own controlled vocabulary.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "caseSensitive": true,
+    "content": "complete",
+    "count": 8,
+    "concept": [
+        {
+            "code": "1-month-in-retail",
+            "display": "1 month in network retail",
+            "definition": "1 Month Supply via in-network retail pharmacy."
+        },
+        {
+            "code": "1-month-out-retail",
+            "display": "1 month out of network retail",
+            "definition": "1 Month Supply via out-of-network retail pharmacy."
+        },
+        {
+            "code": "1-month-in-mail",
+            "display": "1 month in network mail order",
+            "definition": "1 Month Supply via in-network mail order pharmacy."
+        },
+        {
+            "code": "1-month-out-mail",
+            "display": "1 month out of network mail order",
+            "definition": "1 Month Supply via out-of-network mail order pharmacy."
+        },
+        {
+            "code": "3-month-in-retail",
+            "display": "3 month in network retail",
+            "definition": "3 Month Supply via in-network retail pharmacy."
+        },
+        {
+            "code": "3-month-out-retail",
+            "display": "3 month out of network retail",
+            "definition": "3 Month Supply via out-of-network retail pharmacy."
+        },
+        {
+            "code": "3-month-in-mail",
+            "display": "3 month in network mail order",
+            "definition": "3 Month Supply via in-network mail order pharmacy."
+        },
+        {
+            "code": "3-month-out-mail",
+            "display": "3 month out of network mail order",
+            "definition": "3 Month Supply via out-of-network mail order pharmacy."
+        }
+    ]
+}
