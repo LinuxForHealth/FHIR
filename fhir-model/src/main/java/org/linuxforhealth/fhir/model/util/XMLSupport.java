@@ -26,7 +26,7 @@ import javax.xml.transform.TransformerFactory;
 public final class XMLSupport {
     public static final String FHIR_NS_URI = "http://hl7.org/fhir";
     public static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
-    
+
     // System properties used to control XML factory behavior
     private static final String PROP_XML_INPUT_FACTORY = "javax.xml.stream.XMLInputFactory";
     private static final String PROP_XML_INPUT_FACTORY_CONFIG = "org.linuxforhealth.fhir.xml.input.factory";
@@ -196,7 +196,7 @@ public final class XMLSupport {
         try {
             final XMLInputFactory factory;
             if (System.getProperty(PROP_XML_INPUT_FACTORY_CONFIG) != null) {
-                // Use [java_home]/conf/stax.properties to specify the impl class 
+                // Use [java_home]/conf/stax.properties to specify the impl class
                 // using the value of XML_INPUT_FACTORY_ID as a key
                 factory = XMLInputFactory.newFactory(XML_INPUT_FACTORY_ID, null);
             } else {
@@ -209,10 +209,10 @@ public final class XMLSupport {
                     System.clearProperty(PROP_XML_INPUT_FACTORY);
                 }
             }
-            
+
             factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
             factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
-            
+
             return factory;
         } catch (Exception e) {
             throw new Error(e);
@@ -223,7 +223,7 @@ public final class XMLSupport {
         try {
             final XMLOutputFactory factory;
             if (System.getProperty(PROP_XML_OUTPUT_FACTORY_CONFIG) != null) {
-                // Use [java_home]/conf/stax.properties to specify the impl class 
+                // Use [java_home]/conf/stax.properties to specify the impl class
                 // using the value of XML_OUTPUT_FACTORY_ID as a key
                 factory = XMLOutputFactory.newFactory(XML_OUTPUT_FACTORY_ID, null);
             } else {
@@ -246,6 +246,8 @@ public final class XMLSupport {
         try {
             // Always get the correct TransformerFactory
             TransformerFactory factory = TransformerFactory.newInstance(TRANSFORMER_FACTORY_IMPL, null);
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+            factory.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             return factory;
         } catch (Exception e) {
