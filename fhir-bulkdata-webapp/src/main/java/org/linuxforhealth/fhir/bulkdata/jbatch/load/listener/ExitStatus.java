@@ -86,8 +86,8 @@ public class ExitStatus {
      */
     private static class ExitStatusVal {
         int sequenceNum = 0;
-        int numberOfResources = 0;
-        int numberOfFailures = 0;
+        long numberOfResources = 0;
+        long numberOfFailures = 0;
         @Override
         public String toString() {
             return numberOfResources + ":" + numberOfFailures;

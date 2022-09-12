@@ -106,7 +106,7 @@ public class ExportJobListener implements JobListener {
             // log the simple metrics.
             logger.info(" ---- FHIR resources exported in " + jobProcessingSeconds + " seconds ----");
             logger.info("ResourceType \t| Exported");
-            int totalExportedFhirResources = 0;
+            long totalExportedFhirResources = 0;
             List<String> resourceTypeSummaries = new ArrayList<>();
             for (ExportCheckpointUserData partitionSummary : partitionSummaries) {
                 logger.info(partitionSummary.getResourceTypeSummary() + "\t|"
