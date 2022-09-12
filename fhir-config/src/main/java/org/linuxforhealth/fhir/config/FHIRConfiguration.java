@@ -10,6 +10,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.linuxforhealth.fhir.exception.FHIRException;
 
 /**
  * This class serves up a singleton instance of ConfigurationService containing the FHIR Server's configuration.
@@ -21,6 +25,9 @@ public class FHIRConfiguration {
     public static final String CONFIG_FILE_BASENAME = "fhir-server-config.json";
     public static final String DEFAULT_TENANT_ID = "default";
     public static final String DEFAULT_DATASTORE_ID = "default";
+
+    private static final Pattern validChars = Pattern.compile("[a-zA-Z0-9_\\-]+");
+    private static final String errorMsg = "Only [a-z], [A-Z], [0-9], '_', and '-' characters are allowed.";
 
     // Core server properties
     public static final String PROPERTY_ORIGINAL_REQUEST_URI_HEADER_NAME = "fhirServer/core/originalRequestUriHeaderName";
@@ -250,5 +257,35 @@ public class FHIRConfiguration {
         log.fine("Returning list of tenant ids: " + result.toString());
 
         return result;
+    }
+
+    /**
+     * Validate the tenant id against a regex (to prevent path manipulation)
+     * @param tenantId
+     * @return
+     * @throws FHIRException
+     */
+    public static String validateTenantId(String tenantId) throws FHIRException {
+        Matcher matcher = validChars.matcher(tenantId);
+        if (matcher.matches()) {
+            return tenantId;
+        } else {
+            throw new FHIRException("Invalid tenantId. " + errorMsg);
+        }
+    }
+
+    /**
+     * Validate the datastore id against a regex
+     * @param dsId the datasource id to validate
+     * @return
+     * @throws FHIRException
+     */
+    public static String validateDatastoreId(String dsId) throws FHIRException {
+        Matcher matcher = validChars.matcher(dsId);
+        if (matcher.matches()) {
+            return dsId;
+        } else {
+            throw new FHIRException("Invalid datasource id. " + errorMsg);
+        }
     }
 }
