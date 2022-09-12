@@ -548,12 +548,12 @@ public class BulkDataClient {
 
         // Export Jobs with data in the exitStatus field
         if (!"COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(executionResponse.getJobName())) {
-            List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
+            List<String> resourceTypeInfs = Arrays.asList(exitStatus.split(":"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
             for (String resourceTypeInf : resourceTypeInfs) {
                 String resourceType = resourceTypeInf.substring(0, resourceTypeInf.indexOf("["));
                 String[] resourceCounts =
-                        resourceTypeInf.substring(resourceTypeInf.indexOf("[") + 1, resourceTypeInf.indexOf("]")).split("\\s*,\\s*");
+                        resourceTypeInf.substring(resourceTypeInf.indexOf("[") + 1, resourceTypeInf.indexOf("]")).split(",");
                 for (int i = 0; i < resourceCounts.length; i++) {
                     StorageType storageType = adapter.getStorageProviderStorageType(source);
                     String sUrl;

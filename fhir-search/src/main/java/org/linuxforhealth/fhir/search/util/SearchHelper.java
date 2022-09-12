@@ -436,7 +436,9 @@ public class SearchHelper {
             if (queryParameters.containsKey(SearchConstants.RESOURCE_TYPE)) {
                 // process all the _type parameters
                 for (String v: queryParameters.get(SearchConstants.RESOURCE_TYPE)) {
-                    List<String> tmpResourceTypes = Arrays.asList(v.split("\\s*,\\s*"));
+                    List<String> tmpResourceTypes = Arrays.stream(v.split(","))
+                            .map(s -> s.trim())
+                            .collect(Collectors.toList());
                     for (String tmpResourceType: tmpResourceTypes) {
                         if (!ModelSupport.isConcreteResourceType(tmpResourceType)) {
                             String msg = "_type parameter has invalid resource type: " + Encode.forHtml(tmpResourceType);
