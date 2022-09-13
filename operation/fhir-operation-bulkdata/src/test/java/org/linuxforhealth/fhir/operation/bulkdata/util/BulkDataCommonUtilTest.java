@@ -4,35 +4,29 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package org.linuxforhealth.fhir.operation.bulkdata.model.transformer;
+package org.linuxforhealth.fhir.operation.bulkdata.util;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import org.linuxforhealth.fhir.config.FHIRConfiguration;
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.exception.FHIRException;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Tests the Job ID Encoding Transformer.
  */
-public class JobIdEncodingTransformerTest {
-
-    @BeforeClass
-    public void setup() {
-        FHIRConfiguration.setConfigHome("target/test-classes");
-    }
-
+public class BulkDataCommonUtilTest {
     @BeforeMethod
     public void startMethod(Method method) throws FHIRException {
 
@@ -47,28 +41,28 @@ public class JobIdEncodingTransformerTest {
     }
 
     @Test
-    public void testTransformerRoundTrip() throws Exception {
-        // Using the legacy implementation for the configuration the encode/decode uses change-password
-        final JobIdEncodingTransformer transformer = JobIdEncodingTransformer.getInstance();
-
-        // This results in at least one case where the naive base64 encoding of the encoded jobId would
-        // 1. have a leading '/' which is prohibited by the S3 client; and
-        // 2. have consecutive '/' which can makes it harder to get
-        for (int i = 0; i < 2000; i++) {
+    public void testJobIdEncodingRoundTrip() throws Exception {
+        Set<String> encodedIds = new HashSet<>();
+        for (int i = 0; i < Math.pow(10, 5); i++) {
             String jobId = String.valueOf(i);
 
-            String encodedJobId = transformer.encodeJobId(i);
+            String encodedJobId = CommonUtil.encodeJobId(i);
             assertNotNull(encodedJobId);
             assertFalse(encodedJobId.equals(jobId));
-            assertFalse(encodedJobId.startsWith("/"));
-            assertFalse(encodedJobId.contains("//"));
+            assertFalse(encodedJobId.contains("/"), "can't contain a slash");
+            assertTrue(encodedIds.add(encodedJobId), "each encoded id must be unique");
 
             // Ensure all the chars are URL-safe
             assertEquals(encodedJobId, URLDecoder.decode(encodedJobId, StandardCharsets.UTF_8));
 
-            String decodedJobId = transformer.decodeJobId(encodedJobId);
+            String decodedJobId = CommonUtil.decodeJobId(encodedJobId);
             assertNotNull(decodedJobId);
             assertEquals(decodedJobId, jobId);
         }
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void testJobIdDecodingInvalid() throws Exception {
+        CommonUtil.decodeJobId("bogus");
     }
 }

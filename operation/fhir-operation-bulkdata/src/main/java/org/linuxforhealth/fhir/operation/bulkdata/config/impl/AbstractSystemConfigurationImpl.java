@@ -108,7 +108,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     @Override
     public String getCoreBatchIdEncodingKey() {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/batchIdEncodingKey", null);
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/batchIdEncodingKey", "");
     }
 
     @Override

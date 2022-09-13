@@ -2535,6 +2535,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/cos/presignedExpiry`|86400|
 |`fhirServer/bulkdata/core/azure/objectSizeThresholdMB`|200|
 |`fhirServer/bulkdata/core/azure/objectResourceCountThreshold`|200000|
+|`fhirServer/bulkdata/core/batchIdEncodingKey`|""|
 |`fhirServer/bulkdata/core/pageSize`|1000|
 |`fhirServer/bulkdata/core/maxPartitions`|5|
 |`fhirServer/bulkdata/core/maxInputs`|5|

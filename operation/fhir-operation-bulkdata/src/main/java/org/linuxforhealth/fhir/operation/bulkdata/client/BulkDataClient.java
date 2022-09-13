@@ -39,7 +39,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
-
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.exception.FHIROperationException;
 import org.linuxforhealth.fhir.model.generator.exception.FHIRGeneratorException;
@@ -55,7 +54,6 @@ import org.linuxforhealth.fhir.operation.bulkdata.model.JobExecutionResponse;
 import org.linuxforhealth.fhir.operation.bulkdata.model.JobInstanceRequest;
 import org.linuxforhealth.fhir.operation.bulkdata.model.JobInstanceResponse;
 import org.linuxforhealth.fhir.operation.bulkdata.model.PollingLocationResponse;
-import org.linuxforhealth.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
 import org.linuxforhealth.fhir.operation.bulkdata.model.type.Input;
 import org.linuxforhealth.fhir.operation.bulkdata.model.type.JobParameter;
 import org.linuxforhealth.fhir.operation.bulkdata.model.type.JobType;
@@ -63,6 +61,7 @@ import org.linuxforhealth.fhir.operation.bulkdata.model.type.StorageDetail;
 import org.linuxforhealth.fhir.operation.bulkdata.model.type.StorageType;
 import org.linuxforhealth.fhir.operation.bulkdata.model.url.DownloadUrl;
 import org.linuxforhealth.fhir.operation.bulkdata.util.BulkDataExportUtil;
+import org.linuxforhealth.fhir.operation.bulkdata.util.CommonUtil;
 
 /**
  * BulkData Client to connect to the other server.
@@ -251,7 +250,7 @@ public class BulkDataClient {
         }
         cli.close();
 
-        return baseUri + "/$bulkdata-status?job=" + JobIdEncodingTransformer.getInstance().encodeJobId(jobId);
+        return baseUri + "/$bulkdata-status?job=" + CommonUtil.encodeJobId(jobId);
     }
 
     /**
@@ -690,7 +689,7 @@ public class BulkDataClient {
         }
         cli.close();
 
-        return baseUri + "/$bulkdata-status?job=" + JobIdEncodingTransformer.getInstance().encodeJobId(jobId);
+        return baseUri + "/$bulkdata-status?job=" + CommonUtil.encodeJobId(jobId);
     }
 
     /**

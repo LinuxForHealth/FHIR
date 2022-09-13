@@ -18,8 +18,6 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.MediaType;
 
-import org.owasp.encoder.Encode;
-
 import org.linuxforhealth.fhir.config.FHIRConfigHelper;
 import org.linuxforhealth.fhir.core.FHIRMediaType;
 import org.linuxforhealth.fhir.core.FHIRVersionParam;
@@ -34,9 +32,9 @@ import org.linuxforhealth.fhir.model.type.code.IssueType;
 import org.linuxforhealth.fhir.operation.bulkdata.OperationConstants;
 import org.linuxforhealth.fhir.operation.bulkdata.OperationConstants.ExportType;
 import org.linuxforhealth.fhir.operation.bulkdata.model.PollingLocationResponse;
-import org.linuxforhealth.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
 import org.linuxforhealth.fhir.search.compartment.CompartmentHelper;
 import org.linuxforhealth.fhir.server.spi.operation.FHIROperationContext;
+import org.owasp.encoder.Encode;
 
 /**
  * BulkData Util captures common methods
@@ -322,7 +320,7 @@ public class BulkDataExportUtil {
                         && parameter.getValue() != null && parameter.getValue().is(FHIR_STRING)) {
                     try {
                         // Don't look at any other parameters.
-                        return JobIdEncodingTransformer.getInstance().decodeJobId(parameter.getValue().as(FHIR_STRING).getValue());
+                        return CommonUtil.decodeJobId(parameter.getValue().as(FHIR_STRING).getValue());
                     } catch(IllegalArgumentException e) {
                         String msg = "invalid job id was passed";
                         throw buildOperationException(msg, IssueType.INVALID, e);

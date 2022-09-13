@@ -26,11 +26,6 @@ import java.util.UUID;
 
 import javax.ws.rs.core.MediaType;
 
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
 import org.linuxforhealth.fhir.config.FHIRConfiguration;
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.core.FHIRVersionParam;
@@ -48,9 +43,12 @@ import org.linuxforhealth.fhir.model.type.PositiveInt;
 import org.linuxforhealth.fhir.operation.bulkdata.OperationConstants;
 import org.linuxforhealth.fhir.operation.bulkdata.OperationConstants.ExportType;
 import org.linuxforhealth.fhir.operation.bulkdata.model.PollingLocationResponse;
-import org.linuxforhealth.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
 import org.linuxforhealth.fhir.server.spi.operation.FHIROperationContext;
 import org.linuxforhealth.fhir.server.spi.operation.FHIROperationContext.Type;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 /**
  * Test Export util
@@ -505,7 +503,7 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndValidateJobValid() throws FHIROperationException {
-        String encodedJobId = JobIdEncodingTransformer.getInstance().encodeJobId(555L);
+        String encodedJobId = CommonUtil.encodeJobId(555L);
         Parameters ps = Parameters.builder()
                 .parameter(Parameter.builder().name("job").value(encodedJobId).build())
                 .build();
