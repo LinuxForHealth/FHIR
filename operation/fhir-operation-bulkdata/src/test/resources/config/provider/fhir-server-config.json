@@ -25,7 +25,7 @@
 					"resourceCountThreshold": 200000
 				},
 				"pageSize": 100,
-				"batchIdEncryptionKey": "change-password",
+				"batchIdEncodingKey": "change-password",
 				"maxPartitions": 3,
 				"maxInputs": 5,
 				"maxChunkReadTime": "90000",
