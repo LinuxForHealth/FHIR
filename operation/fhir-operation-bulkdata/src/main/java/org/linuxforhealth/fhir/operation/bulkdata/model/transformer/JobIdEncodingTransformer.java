@@ -75,6 +75,7 @@ public class JobIdEncodingTransformer {
      *
      * @param encodedJobId
      * @return
+     * @throws IllegalArgumentException if the passed encodedJobId could not be decoded
      */
     public String decodeJobId(String encodedJobId) {
         String tenantId = FHIRRequestContext.get().getTenantId();

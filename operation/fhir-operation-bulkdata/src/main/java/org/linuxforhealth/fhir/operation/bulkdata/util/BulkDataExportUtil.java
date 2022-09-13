@@ -319,15 +319,14 @@ public class BulkDataExportUtil {
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 if (OperationConstants.PARAM_JOB.equals(parameter.getName().getValue())
-                        && parameter.getValue() != null && parameter.getValue().is(org.linuxforhealth.fhir.model.type.String.class)) {
-                    String job = JobIdEncodingTransformer.getInstance().decodeJobId(parameter.getValue().as(org.linuxforhealth.fhir.model.type.String.class).getValue());
-
-                    // The job is never going to be empty or null as STRING is never empty at this point.
-                    if (job.contains("/") || job.contains("?")) {
-                        throw new FHIROperationException("job passed is invalid and is not supported");
+                        && parameter.getValue() != null && parameter.getValue().is(FHIR_STRING)) {
+                    try {
+                        // Don't look at any other parameters.
+                        return JobIdEncodingTransformer.getInstance().decodeJobId(parameter.getValue().as(FHIR_STRING).getValue());
+                    } catch(IllegalArgumentException e) {
+                        String msg = "invalid job id was passed";
+                        throw buildOperationException(msg, IssueType.INVALID, e);
                     }
-                    // Don't look at any other parameters.
-                    return job;
                 }
             }
         }

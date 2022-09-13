@@ -48,6 +48,7 @@ import org.linuxforhealth.fhir.model.type.PositiveInt;
 import org.linuxforhealth.fhir.operation.bulkdata.OperationConstants;
 import org.linuxforhealth.fhir.operation.bulkdata.OperationConstants.ExportType;
 import org.linuxforhealth.fhir.operation.bulkdata.model.PollingLocationResponse;
+import org.linuxforhealth.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
 import org.linuxforhealth.fhir.server.spi.operation.FHIROperationContext;
 import org.linuxforhealth.fhir.server.spi.operation.FHIROperationContext.Type;
 
@@ -504,15 +505,14 @@ public class BulkDataExportUtilTest {
 
     @Test
     public void testCheckAndValidateJobValid() throws FHIROperationException {
-        List<Parameter> parameters = List.of(Parameter.builder().name(string("job")).value(string("1234q346")).build());
-        Parameters.Builder builder = Parameters.builder();
-        builder.id(UUID.randomUUID().toString());
-        builder.parameter(parameters);
-        Parameters ps = builder.build();
+        String encodedJobId = JobIdEncodingTransformer.getInstance().encodeJobId(555L);
+        Parameters ps = Parameters.builder()
+                .parameter(Parameter.builder().name("job").value(encodedJobId).build())
+                .build();
 
         String result = util.checkAndValidateJob(ps);
         assertNotNull(result);
-        assertEquals(result, "1234q346");
+        assertEquals(result, "555");
     }
 
     @Test
