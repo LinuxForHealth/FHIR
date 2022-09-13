@@ -3,7 +3,7 @@
     "id": "PayerInsurancePlanGraphDefinition",
     "meta": {
         "profile": [
-            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PayerInsurancePlanBulkDataGraphDefinition|2.0.0"
+            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PayerInsurancePlanBulkDataGraphDefinition"
         ]
     },
     "text": {
@@ -49,7 +49,7 @@
             "target": [
                 {
                     "type": "Location",
-                    "profile": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-InsurancePlanLocation|2.0.0"
+                    "profile": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-InsurancePlanLocation"
                 }
             ]
         },
@@ -58,14 +58,14 @@
             "target": [
                 {
                     "type": "InsurancePlan",
-                    "profile": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Formulary|2.0.0",
+                    "profile": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Formulary",
                     "link": [
                         {
                             "target": [
                                 {
                                     "type": "Basic",
                                     "params": "formulary={ref}",
-                                    "profile": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyItem|2.0.0",
+                                    "profile": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyItem",
                                     "link": [
                                         {
                                             "path": "Basic.subject",
