@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,8 +11,14 @@ import static org.linuxforhealth.fhir.model.type.String.string;
 import java.math.BigDecimal;
 import java.util.Collection;
 
+import org.linuxforhealth.fhir.model.type.Age;
+import org.linuxforhealth.fhir.model.type.Count;
 import org.linuxforhealth.fhir.model.type.Decimal;
+import org.linuxforhealth.fhir.model.type.Distance;
+import org.linuxforhealth.fhir.model.type.Duration;
+import org.linuxforhealth.fhir.model.type.MoneyQuantity;
 import org.linuxforhealth.fhir.model.type.Quantity;
+import org.linuxforhealth.fhir.model.type.SimpleQuantity;
 
 /**
  * A {@link FHIRPathElementNode} that wraps a {@link Quantity}
@@ -23,6 +29,18 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
     private final String quantityCode;
     private final String quantityUnit;
     private final BigDecimal quantityValue;
+    
+    /**
+     * Enum for all the sub types of Quantity data type
+     */
+    public enum QuantitySubType {
+        DURATION,
+        DISTANCE,
+        AGE,
+        COUNT,
+        MONEYQUANTITY,
+        SIMPLEQUANTITY
+    }
 
     protected FHIRPathQuantityNode(Builder builder) {
         super(builder);
@@ -32,6 +50,31 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
         quantityUnit = getQuantityUnit(quantity);
         quantityValue = getQuantityValue(quantity);
     }
+    
+    /**
+     * Method to return the QuantitySubType wrapped by this FHIRPathQuantityNode.
+     * @return the QuantitySubType, if the sub type wrapped by this FHIRPathQuantityNode is valid, null otherwise.
+     */
+    public QuantitySubType getQuantitySubType() {
+        if (quantity == null) {
+            return null;
+        }
+        if (quantity instanceof Duration) {
+            return QuantitySubType.DURATION;
+        } else if (quantity instanceof Distance) {
+            return QuantitySubType.DISTANCE;
+        } else if (quantity instanceof Age) {
+            return QuantitySubType.AGE;
+        } else if (quantity instanceof Count) {
+            return QuantitySubType.COUNT;
+        } else if (quantity instanceof MoneyQuantity) {
+            return QuantitySubType.MONEYQUANTITY;
+        } else if (quantity instanceof SimpleQuantity) {
+            return QuantitySubType.SIMPLEQUANTITY;
+        }
+        return null;
+    }
+    
 
     /**
      * The quantity wrapped by this FHIRPathQuantityNode
@@ -72,6 +115,38 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
     public String getQuantityUnit() {
         return quantityUnit;
     }
+    
+    /**
+     * @implSpec This method is introduced to return the quantity sub type if a valid quantity sub type is
+     *      wrapped by this FHIRPathQuantityNode. 
+     *      If the type of FHIRPathQuantityNode is quantity, then return quantity type.
+     *      If the type of FHIRPathQuantityNode is any of the sub type of quantity, then return the quantity sub type.
+     *      If the type of FHIRPathQuantityNode is invalid then throw IllegalStateException 
+     */
+    @Override
+    public FHIRPathType type() {
+        QuantitySubType quantitySubType = getQuantitySubType();
+        if (quantitySubType == null) {
+            return super.type();
+        }
+        switch (quantitySubType) {
+        case AGE:
+            return FHIRPathType.FHIR_AGE;
+        case COUNT:
+            return FHIRPathType.FHIR_COUNT;
+        case DISTANCE:
+            return FHIRPathType.FHIR_DISTANCE;
+        case DURATION:
+            return FHIRPathType.FHIR_DURATION;
+        case MONEYQUANTITY:
+            return FHIRPathType.FHIR_MONEY_QUANTITY;
+        case SIMPLEQUANTITY:
+            return FHIRPathType.FHIR_SIMPLE_QUANTITY;
+        default:
+            throw new IllegalStateException("Invalid quantity sub type: " + quantitySubType);
+        }
+    }
+    
 
     /**
      * The {@link BigDecimal} value of the quantity wrapped by this FHIRPathQuantityNode
