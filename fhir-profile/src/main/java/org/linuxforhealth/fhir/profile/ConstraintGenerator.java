@@ -8,6 +8,7 @@ package org.linuxforhealth.fhir.profile;
 
 import static org.linuxforhealth.fhir.model.util.ModelSupport.delimit;
 import static org.linuxforhealth.fhir.model.util.ModelSupport.isKeyword;
+import static org.linuxforhealth.fhir.model.util.ModelSupport.FHIR_STRING;
 import static org.linuxforhealth.fhir.profile.ProfileSupport.HL7_STRUCTURE_DEFINITION_URL_PREFIX;
 import static org.linuxforhealth.fhir.profile.ProfileSupport.getBinding;
 import static org.linuxforhealth.fhir.profile.ProfileSupport.getElementDefinition;
@@ -617,6 +618,8 @@ public class ConstraintGenerator {
             }
         } else if (pattern.is(Code.class)) {
             sb.append(identifier).append(" = '").append(pattern.as(Code.class).getValue()).append("'");
+        } else if (pattern.is(FHIR_STRING)) {
+            sb.append(identifier).append(" = '").append(pattern.as(FHIR_STRING).getValue()).append("'");
         }
 
         return sb.toString();
@@ -908,7 +911,8 @@ public class ConstraintGenerator {
                 (pattern.as(Identifier.class).getSystem() != null) &&
                 (pattern.as(Identifier.class).getSystem().getValue() != null)) ||
                ((pattern instanceof Uri) && (pattern.as(Uri.class).getValue() != null)) ||
-               ((pattern instanceof Code) && (pattern.as(Code.class).getValue() != null));
+               ((pattern instanceof Code) && (pattern.as(Code.class).getValue() != null)) ||
+               ((pattern instanceof org.linuxforhealth.fhir.model.type.String) && (pattern.as(FHIR_STRING).getValue() != null));
     }
 
     private boolean hasProfileConstraint(ElementDefinition elementDefinition) {
