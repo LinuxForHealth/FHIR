@@ -51,24 +51,20 @@ public class JobIdEncodingTransformerTest {
         // Using the legacy implementation for the configuration the encode/decode uses change-password
         final JobIdEncodingTransformer transformer = JobIdEncodingTransformer.getInstance();
 
-        String jobId = transformer.decodeJobId("1");
-        assertNotNull(jobId);
-        assertEquals(jobId, "1");
-
         // This results in at least one case where the naive base64 encoding of the encoded jobId would
         // 1. have a leading '/' which is prohibited by the S3 client; and
         // 2. have consecutive '/' which can makes it harder to get
         for (int i = 0; i < 2000; i++) {
-            jobId = String.valueOf(i);
+            String jobId = String.valueOf(i);
 
-            String encodedJobId = transformer.encodeJobId(jobId);
+            String encodedJobId = transformer.encodeJobId(i);
             assertNotNull(encodedJobId);
             assertFalse(encodedJobId.equals(jobId));
             assertFalse(encodedJobId.startsWith("/"));
             assertFalse(encodedJobId.contains("//"));
 
-            encodedJobId = URLDecoder.decode(encodedJobId, StandardCharsets.UTF_8.toString());
-            assertNotNull(encodedJobId);
+            // Ensure all the chars are URL-safe
+            assertEquals(encodedJobId, URLDecoder.decode(encodedJobId, StandardCharsets.UTF_8));
 
             String decodedJobId = transformer.decodeJobId(encodedJobId);
             assertNotNull(decodedJobId);

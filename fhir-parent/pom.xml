@@ -726,6 +726,11 @@
                 <artifactId>icu4j</artifactId>
                 <version>71.1</version>
             </dependency>
+            <dependency>
+                <groupId>org.hashids</groupId>
+                <artifactId>hashids</artifactId>
+                <version>1.0.3</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

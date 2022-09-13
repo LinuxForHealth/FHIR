@@ -215,13 +215,13 @@ public interface ConfigurationAdapter {
     int getCorePageSize();
 
     /**
-     * get core batch id encryption key for the job id that is returned
+     * get core batch id encoding key for the job id that is returned
      *
      * @implNote System value. We want to minimize the conflict possiblity.
      *
      * @return
      */
-    String getCoreBatchIdEncryptionKey();
+    String getCoreBatchIdEncodingKey();
 
     /**
      * get core max partitions
@@ -557,10 +557,10 @@ public interface ConfigurationAdapter {
     boolean getStorageProviderUsesRequestAccessToken(String provider);
 
     /**
-     * allows multiple resources in a single file. 
-     * 
-     * @implNote this default is false. 
-     * 
+     * allows multiple resources in a single file.
+     *
+     * @implNote this default is false.
+     *
      * @param source
      * @return
      */

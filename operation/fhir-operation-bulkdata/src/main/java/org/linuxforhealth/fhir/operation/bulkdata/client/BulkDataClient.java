@@ -227,7 +227,7 @@ public class BulkDataClient {
         CloseableHttpResponse jobResponse = cli.execute(jobPost);
 
         int status = -1;
-        String jobId = "-1";
+        int jobId = -1;
         try {
             status = jobResponse.getStatusLine().getStatusCode();
             handleStandardResponseStatus(status);
@@ -243,7 +243,7 @@ public class BulkDataClient {
             String responseString = new BasicResponseHandler().handleResponse(jobResponse);
             JobInstanceResponse response = JobInstanceResponse.Parser.parse(responseString);
 
-            jobId = Integer.toString(response.getInstanceId());
+            jobId = response.getInstanceId();
 
         } finally {
             jobPost.releaseConnection();
@@ -663,7 +663,7 @@ public class BulkDataClient {
         CloseableHttpResponse jobResponse = cli.execute(jobPost);
 
         int status = -1;
-        String jobId = "-1";
+        int jobId = -1;
         try {
             status = jobResponse.getStatusLine().getStatusCode();
             handleStandardResponseStatus(status);
@@ -682,7 +682,7 @@ public class BulkDataClient {
 
             JobInstanceResponse response = JobInstanceResponse.Parser.parse(responseString);
 
-            jobId = Integer.toString(response.getInstanceId());
+            jobId = response.getInstanceId();
 
         } finally {
             jobPost.releaseConnection();
