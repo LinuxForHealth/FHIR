@@ -219,7 +219,7 @@ Below is the list of implementation guides that are packaged as part of the proj
 |--------------------|-----------------|
 |US Core|`3.1.1`, `4.0.0`, `5.0.1`|
 |CARIN Consumer Directed Payer Data Exchange (CARIN IG for BlueButton®)|`1.0.0`, `1.1.0`|
-|minimal Common Oncology Data Elements (mCODE)|`1.0.0`
+|minimal Common Oncology Data Elements (mCODE)|`1.0.0`|
 |Da Vinci Health Record Exchange (HREX)|`1.0.0`|
 |Da Vinci Payer Data Exchange (PDEX)|`1.0.0`, `2.0.0`|
 |Da Vinci Payer Data Exchange (PDEX) Plan Net|`1.0.0`, `1.1.0`|

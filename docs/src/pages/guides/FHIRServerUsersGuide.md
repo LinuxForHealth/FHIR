@@ -1476,7 +1476,7 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
             "useServerTruststore": true
         },
         "pageSize": 100,
-        "batchIdEncryptionKey": "example-password",
+        "batchIdEncodingKey": "example-password",
         "maxPartitions": 3,
         "maxInputs": 5
     },
@@ -2356,7 +2356,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/file/resourceCountThreshold`|number|The number of resources at which to finish writing a given file. The actual number of resources written to a single file may be slightly above this number, dependent on the configured page size. Use `0` to indicate that there is no limit to the number of resources to be written to a single file.|
 |`fhirServer/bulkdata/core/azure/objectSizeThresholdMB`|number|The size, in megabytes, at which to finish writing a given object.|
 |`fhirServer/bulkdata/core/azure/objectResourceCountThreshold`|number|The number of resources at which to finish writing a given object. The actual number of resources written to a single object may be slightly above this number, dependent on the configured page size.|
-|`fhirServer/bulkdata/core/batchIdEncryptionKey`|string|Encoding key for JavaBatch job id |
+|`fhirServer/bulkdata/core/batchIdEncodingKey`|string|Encoding key for JavaBatch job id |
 |`fhirServer/bulkdata/core/pageSize`|number|The search page size for patient/group export and the legacy export, the default value is 1000 |
 |`fhirServer/bulkdata/core/maxPartitions`|number| The maximum number of simultaneous partitions that are processed per Export and Import |
 |`fhirServer/bulkdata/core/maxInputs`|number| The number of inputs allowed for $import |
@@ -2535,6 +2535,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/cos/presignedExpiry`|86400|
 |`fhirServer/bulkdata/core/azure/objectSizeThresholdMB`|200|
 |`fhirServer/bulkdata/core/azure/objectResourceCountThreshold`|200000|
+|`fhirServer/bulkdata/core/batchIdEncodingKey`|""|
 |`fhirServer/bulkdata/core/pageSize`|1000|
 |`fhirServer/bulkdata/core/maxPartitions`|5|
 |`fhirServer/bulkdata/core/maxInputs`|5|
@@ -2717,7 +2718,7 @@ Cases where that behavior is not supported are marked below with an `N` in the `
 |`fhirServer/bulkdata/core/cos/presignedExpiry`|Y|Y|Y|
 |`fhirServer/bulkdata/core/azure/objectSizeThresholdMB`|N|N||
 |`fhirServer/bulkdata/core/azure/objectResourceCountThreshold`|N|N||
-|`fhirServer/bulkdata/core/batchIdEncryptionKey`|Y|N|Y|
+|`fhirServer/bulkdata/core/batchIdEncodingKey`|Y|N|Y|
 |`fhirServer/bulkdata/core/pageSize`|Y|Y|Y|
 |`fhirServer/bulkdata/core/maxPartitions`|Y|Y|Y|
 |`fhirServer/bulkdata/core/maxInputs`|Y|Y|Y|

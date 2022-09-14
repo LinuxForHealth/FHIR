@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package org.linuxforhealth.fhir.operation.bulkdata.util;
 
+import org.hashids.Hashids;
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.exception.FHIROperationException;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome;
@@ -21,6 +22,8 @@ import org.linuxforhealth.fhir.server.spi.operation.FHIROperationUtil;
  * Common Util captures common methods
  */
 public class CommonUtil {
+    // min length constant for the "Hashids" we use to obfuscate job ids
+    private static final int HASHID_MIN_LENGTH = 6;
 
     /**
      * Type of Operation Call
@@ -115,14 +118,73 @@ public class CommonUtil {
         }
     }
 
-    public static FHIROperationException buildExceptionWithIssue(String msg, IssueType issueType)
-        throws FHIROperationException {
+    /**
+     * encode the job id as a short string for use in URLs
+     *
+     * @param jobId the numeric job id to encode
+     * @return
+     * @implNote The implementation uses the tenantId from the request context and the
+     *          corresponding coreBatchIdEncodingKey from fhir-server-config as a seed for
+     *          the encoding.
+     */
+    public static String encodeJobId(long jobId) {
+        Hashids encoder = getHashids();
+        return encoder.encode(jobId);
+    }
+
+    /**
+     * decode the job id back into the string representation of its numeric job id
+     *
+     * @param encodedJobId a job id encoded via {@link #encodeJobId(long, String, String)}
+     * @return
+     * @throws IllegalArgumentException if the passed encodedJobId could not be decoded
+     * @implNote The implementation uses the tenantId from the request context and the
+     *          corresponding coreBatchIdEncodingKey from fhir-server-config to decode.
+     */
+    public static String decodeJobId(String encodedJobId) {
+        Hashids decoder = getHashids();
+        long[] decodedArray = decoder.decode(encodedJobId);
+        if (decodedArray.length != 1) {
+            throw new IllegalArgumentException("expected an encodedJobId with a single part, but found " + decodedArray.length);
+        }
+        return Long.toString(decodedArray[0]);
+    }
+
+    /**
+     * Get the tenantId from the request context and the corresponding coreBatchIdEncodingKey from
+     * fhir-server-config and use that as the seed for the returned Hashids
+     */
+    private static Hashids getHashids() {
+        String configSecret = ConfigurationFactory.getInstance().getCoreBatchIdEncodingKey();
+        String seed = FHIRRequestContext.get().getTenantId() + ":" + configSecret;
+        return new Hashids(seed, HASHID_MIN_LENGTH);
+    }
+
+    /**
+     * Construct a FHIROperationException with the passed {@code msg} and
+     * a single OperationOutcome.Issue of type {@code issueType}
+     *
+     * @param msg
+     * @param issueType
+     * @return
+     * @throws FHIROperationException
+     */
+    public static FHIROperationException buildExceptionWithIssue(String msg, IssueType issueType) {
         OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIROperationException(msg).withIssue(ooi);
     }
 
-    public static FHIROperationException buildExceptionWithIssue(String msg, Throwable cause, IssueType issueType)
-        throws FHIROperationException {
+    /**
+     * Construct a FHIROperationException with the passed {@code msg}, caused by (@code cause}, and
+     * a single OperationOutcome.Issue of type {@code issueType}
+     *
+     * @param msg
+     * @param cause
+     * @param issueType
+     * @return
+     * @throws FHIROperationException
+     */
+    public static FHIROperationException buildExceptionWithIssue(String msg, Throwable cause, IssueType issueType) {
         OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIROperationException(msg, cause).withIssue(ooi);
     }

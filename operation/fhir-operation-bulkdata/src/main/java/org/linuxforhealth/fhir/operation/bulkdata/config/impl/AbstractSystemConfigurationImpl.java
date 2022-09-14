@@ -107,8 +107,8 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     @Override
-    public String getCoreBatchIdEncryptionKey() {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/batchIdEncryptionKey", null);
+    public String getCoreBatchIdEncodingKey() {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/batchIdEncodingKey", "");
     }
 
     @Override
@@ -403,7 +403,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     @Override
     public String getProviderAzureServiceVersion(String provider) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/serviceVersion", null);        
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/serviceVersion", null);
     }
 
     @Override
