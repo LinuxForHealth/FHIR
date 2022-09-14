@@ -129,17 +129,18 @@ public class InputOutputByteStream {
 
         @Override
         public long skip(long n) {
-            if (n < 0) {
+            if (n <= 0) {
                 return 0;
             }
 
             // don't try to skip more than we have left
-            long remaining = offset - posn;
+            final int remaining = offset - posn;
             if (n > remaining) {
                 n = remaining;
             }
 
-            posn += n;
+            // it is safe to convert to int here because we have already checked the bound above
+            posn += (int)n;
             return n;
         }
 
