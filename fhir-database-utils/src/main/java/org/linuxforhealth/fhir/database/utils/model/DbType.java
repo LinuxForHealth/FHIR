@@ -21,6 +21,11 @@ public enum DbType {
     POSTGRESQL("postgresql"),
 
     /**
+     * Oracle (19c)
+     */
+    ORACLE("oracle"),
+
+    /**
      * Citus (Distributed PostgreSQL)
      */
     CITUS("citus");

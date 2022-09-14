@@ -100,6 +100,7 @@ import org.linuxforhealth.fhir.database.utils.model.DatabaseObjectType;
 import org.linuxforhealth.fhir.database.utils.model.DbType;
 import org.linuxforhealth.fhir.database.utils.model.PhysicalDataModel;
 import org.linuxforhealth.fhir.database.utils.model.Table;
+import org.linuxforhealth.fhir.database.utils.oracle.OracleTranslator;
 import org.linuxforhealth.fhir.database.utils.pool.PoolConnectionProvider;
 import org.linuxforhealth.fhir.database.utils.postgres.GatherTablesDataModelVisitor;
 import org.linuxforhealth.fhir.database.utils.postgres.PostgresAdapter;
@@ -170,8 +171,8 @@ public class Main {
     private static final double NANOS = 1e9;
 
     // Indicates if the feature is enabled for the DbType
-    public List<DbType> STORED_PROCEDURE_ENABLED = Arrays.asList(DbType.POSTGRESQL, DbType.CITUS);
-    public List<DbType> PRIVILEGES_FEATURE_ENABLED = Arrays.asList(DbType.POSTGRESQL, DbType.CITUS);
+    public List<DbType> STORED_PROCEDURE_ENABLED = Arrays.asList(DbType.POSTGRESQL, DbType.CITUS, DbType.ORACLE);
+    public List<DbType> PRIVILEGES_FEATURE_ENABLED = Arrays.asList(DbType.POSTGRESQL, DbType.CITUS, DbType.ORACLE);
 
     // Properties accumulated as we parse args and read configuration files
     private final Properties properties = new Properties();
@@ -477,6 +478,9 @@ public class Main {
         switch (dbType) {
         case DERBY:
             logger.info("No database specific artifacts");
+            break;
+        case ORACLE:
+            gen.buildDatabaseSpecificArtifactsOracle(pdm);
             break;
         case POSTGRESQL:
             gen.buildDatabaseSpecificArtifactsPostgres(pdm);
@@ -1394,6 +1398,9 @@ public class Main {
                 case DERBY:
                     translator = new DerbyTranslator();
                     break;
+                case ORACLE:
+                    translator = new OracleTranslator();
+                    break;
                 case POSTGRESQL:
                     translator = new PostgresTranslator();
                     break;
@@ -1792,6 +1799,11 @@ public class Main {
         case CITUS:
             logger.warning("**** Citus size report is incomplete ****");
             collector = new CitusSizeCollector(model);
+            break;
+        case ORACLE:
+            collector = null;
+            logger.severe("Size report not supported for Oracle databases");
+            exitStatus = EXIT_BAD_ARGS;
             break;
         case DERBY:
             collector = null;

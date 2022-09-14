@@ -7,8 +7,6 @@
 package org.linuxforhealth.fhir.schema.app.util;
 
 import java.io.File;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Base64.Encoder;
@@ -28,6 +26,8 @@ import org.linuxforhealth.fhir.database.utils.common.LogFormatter;
 import org.linuxforhealth.fhir.database.utils.derby.DerbyAdapter;
 import org.linuxforhealth.fhir.database.utils.derby.DerbyPropertyAdapter;
 import org.linuxforhealth.fhir.database.utils.model.DbType;
+import org.linuxforhealth.fhir.database.utils.oracle.OracleAdapter;
+import org.linuxforhealth.fhir.database.utils.oracle.OraclePropertyAdapter;
 import org.linuxforhealth.fhir.database.utils.postgres.PostgresAdapter;
 import org.linuxforhealth.fhir.database.utils.postgres.PostgresPropertyAdapter;
 import org.linuxforhealth.fhir.schema.build.DistributedSchemaAdapter;
@@ -105,6 +105,8 @@ public final class CommonUtil {
         switch (dbType) {
         case DERBY:
             return new DerbyPropertyAdapter(props);
+        case ORACLE:
+            return new OraclePropertyAdapter(props);
         case POSTGRESQL:
         case CITUS:
             return new PostgresPropertyAdapter(props);
@@ -113,10 +115,20 @@ public final class CommonUtil {
         }
     }
 
+    /**
+     * Factory method to create an {@link IDatabaseAdapter} implementation based on the
+     * given dbType.
+     * @param dbType
+     * @param target
+     * @return
+     * @throws IllegalStateException if the dbType is unsupported
+     */
     public static IDatabaseAdapter getDbAdapter(DbType dbType, JdbcTarget target) {
         switch (dbType) {
         case DERBY:
             return new DerbyAdapter(target);
+        case ORACLE:
+            return new OracleAdapter(target);
         case POSTGRESQL:
             return new PostgresAdapter(target);
         case CITUS:
@@ -125,6 +137,7 @@ public final class CommonUtil {
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }
     }
+
     /**
      * Get the schema adapter which will build the schema variant described by
      * the given schemaType
@@ -167,10 +180,20 @@ public final class CommonUtil {
         }
     }
 
+    /**
+     * Factory method to create an {@link IDatabaseAdapter} implementation based on the
+     * given dbType.
+     * @param dbType
+     * @param connectionProvider
+     * @return
+     * @throws IllegalStateException if the dbType is unsupported
+     */
     public static IDatabaseAdapter getDbAdapter(DbType dbType, IConnectionProvider connectionProvider) {
         switch (dbType) {
         case DERBY:
             return new DerbyAdapter(connectionProvider);
+        case ORACLE:
+            return new OracleAdapter(connectionProvider);
         case POSTGRESQL:
             return new PostgresAdapter(connectionProvider);
         case CITUS:

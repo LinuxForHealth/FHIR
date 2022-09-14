@@ -109,6 +109,7 @@ import org.linuxforhealth.fhir.database.utils.model.ObjectGroup;
 import org.linuxforhealth.fhir.database.utils.model.OrderedColumnDef;
 import org.linuxforhealth.fhir.database.utils.model.PhysicalDataModel;
 import org.linuxforhealth.fhir.database.utils.model.Privilege;
+import org.linuxforhealth.fhir.database.utils.model.ProcedureDef;
 import org.linuxforhealth.fhir.database.utils.model.Sequence;
 import org.linuxforhealth.fhir.database.utils.model.Table;
 import org.linuxforhealth.fhir.database.utils.model.Tablespace;
@@ -450,6 +451,69 @@ public class FhirSchemaGenerator {
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         fd = model.addFunction(this.schemaName,
+            ERASE_RESOURCE,
+            FhirSchemaVersion.V0013.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, eraseResourceScript, null),
+            Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+    }
+
+    /**
+     * Add the Oracle specific components to the model.
+     * @param model
+     */
+    public void buildDatabaseSpecificArtifactsOracle(PhysicalDataModel model) {
+        // Add stored procedures/functions for Oracle
+        final String ROOT_DIR = "oracle/";
+        ProcedureDef fd = model.addProcedure(this.schemaName,
+                ADD_CODE_SYSTEM,
+                FhirSchemaVersion.V0001.vid(),
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
+                Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
+                procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        fd = model.addProcedure(this.schemaName,
+                ADD_PARAMETER_NAME,
+                FhirSchemaVersion.V0001.vid(),
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_PARAMETER_NAME.toLowerCase()
+                        + ".sql", null),
+                Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        fd = model.addProcedure(this.schemaName,
+                ADD_RESOURCE_TYPE,
+                FhirSchemaVersion.V0001.vid(),
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_RESOURCE_TYPE.toLowerCase()
+                        + ".sql", null),
+                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        // We currently only support functions with PostgreSQL, although this is really just a procedure
+        final String deleteResourceParametersScript;
+        final String addAnyResourceScript;
+        final String eraseResourceScript;
+        final String schemaTypeSuffix = getSchemaTypeSuffix();
+        addAnyResourceScript = ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase() + schemaTypeSuffix;
+        deleteResourceParametersScript = ROOT_DIR + DELETE_RESOURCE_PARAMETERS.toLowerCase() + ".sql";
+        eraseResourceScript = ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql";
+
+        FunctionDef deleteResourceParameters = model.addFunction(this.schemaName,
+            DELETE_RESOURCE_PARAMETERS,
+            FhirSchemaVersion.V0020.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, deleteResourceParametersScript, null),
+            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+            procedurePrivileges);
+        deleteResourceParameters.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        fd = model.addProcedure(this.schemaName,
+                ADD_ANY_RESOURCE,
+                FhirSchemaVersion.V0001.vid(),
+                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, addAnyResourceScript, null),
+                Arrays.asList(fhirSequence, resourceTypesTable, deleteResourceParameters, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        fd = model.addProcedure(this.schemaName,
             ERASE_RESOURCE,
             FhirSchemaVersion.V0013.vid(),
             () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, eraseResourceScript, null),

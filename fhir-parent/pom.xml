@@ -492,6 +492,12 @@
                 <version>42.4.1</version>
             </dependency>
             <dependency>
+                <groupId>com.oracle.database.jdbc</groupId>
+                <artifactId>ojdbc11-production</artifactId>
+                <version>21.1.0.0</version>
+                <type>pom</type>
+            </dependency>
+            <dependency>
                 <groupId>com.google.protobuf</groupId>
                 <artifactId>protobuf-java</artifactId>
                 <version>3.21.5</version>

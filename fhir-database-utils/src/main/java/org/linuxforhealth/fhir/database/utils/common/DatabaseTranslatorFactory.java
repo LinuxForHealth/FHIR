@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2021
+ * (C) Copyright IBM Corp. 2021, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import org.linuxforhealth.fhir.database.utils.api.IDatabaseTranslator;
 import org.linuxforhealth.fhir.database.utils.citus.CitusTranslator;
 import org.linuxforhealth.fhir.database.utils.derby.DerbyTranslator;
 import org.linuxforhealth.fhir.database.utils.model.DbType;
+import org.linuxforhealth.fhir.database.utils.oracle.OracleTranslator;
 import org.linuxforhealth.fhir.database.utils.postgres.PostgresTranslator;
 
 /**
@@ -28,6 +29,9 @@ public class DatabaseTranslatorFactory {
         case DERBY:
             result = new DerbyTranslator();
             break;
+        case ORACLE:
+            result = new OracleTranslator();
+            break;
         case POSTGRESQL:
             result = new PostgresTranslator();
             break;
@@ -40,5 +44,4 @@ public class DatabaseTranslatorFactory {
 
         return result;
     }
-
 }
