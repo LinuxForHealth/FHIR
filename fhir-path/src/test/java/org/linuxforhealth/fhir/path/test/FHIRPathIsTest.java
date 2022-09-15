@@ -76,5 +76,40 @@ public class FHIRPathIsTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "is(SimpleQuantity)");
         assertFalse(getSingleton(result, FHIRPathBooleanValue.class)._boolean());
     }
+    
+    @Test
+    void testIsFunctionForQuantitySubTypes() throws Exception {
+        
+        Quantity quantity = Duration.builder().code(Code.of("123")).build();
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+       
+        Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "is(Duration)");
+        assertTrue(getSingleton(result, FHIRPathBooleanValue.class)._boolean());
+        
+        result = evaluator.evaluate(quantity, "is(Age)");
+        assertFalse(getSingleton(result, FHIRPathBooleanValue.class)._boolean());
+        
+        result = evaluator.evaluate(quantity, "is(Distance)");
+        assertFalse(getSingleton(result, FHIRPathBooleanValue.class)._boolean());
+        
+        result = evaluator.evaluate(quantity, "is(Distance)");
+        assertFalse(getSingleton(result, FHIRPathBooleanValue.class)._boolean());
+        
+        result = evaluator.evaluate(quantity, "is(MoneyQuantity)");
+        assertFalse(getSingleton(result, FHIRPathBooleanValue.class)._boolean());
+        
+        result = evaluator.evaluate(quantity, "is(SimpleQuantity)");
+        assertFalse(getSingleton(result, FHIRPathBooleanValue.class)._boolean());
+        
+        quantity = Quantity.builder().code(Code.of("123")).build();
+        
+        result = evaluator.evaluate(quantity, "is(Duration)");
+        assertFalse(getSingleton(result, FHIRPathBooleanValue.class)._boolean());
+        
+        Duration duration = Duration.builder().code(Code.of("123")).build();
+        result = evaluator.evaluate(duration, "is(Quantity)");
+        assertFalse(getSingleton(result, FHIRPathBooleanValue.class)._boolean());
+    }
+
 
 }

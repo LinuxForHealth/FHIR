@@ -39,6 +39,10 @@ Source - http://hl7.org/fhir/us/davinci-drug-formulary/STU2/ retrieved on Septem
 2. update `src/main/resources` with the latest conformance artifacts and `src/test/resources` with the latest examples
 3. if its a new version
    - ensure references from the previous package are version-specific (e.g. to avoid a 1.1.0 profile from picking up a 2.0.0 valueset during validation)
+     - Added version id to each targetProfile canonical reference
+     - Added version id to each valueSet binding target
+     - Added version id to each extension's profile reference in each StructureDefinition
+     - Added version element to each CodeSystem reference from each ValueSet definition
    - add a new provider (`src/main/java` and `src/main/resources/META-INF`)
    - create tests for this new version (update ConstraintGeneratorTest and FormularyResourceProviderTest)
 4. execute ResourceProcessor from src/test/java with the proper arguments
