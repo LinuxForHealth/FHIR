@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2021, 2022
+ * (C) Copyright IBM Corp. 2019, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,7 +53,7 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
     
     /**
      * Method to return the QuantitySubType wrapped by this FHIRPathQuantityNode.
-     * @return the QuantitySubType, if the sub type wrapped by this FHIRPathQuantityNode is valid, null otherwise.
+     * @return the QuantitySubType wrapped by this FHIRPathQuantityNode (if there is one), otherwise null.
      */
     public QuantitySubType getQuantitySubType() {
         if (quantity == null) {
@@ -119,7 +119,7 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
     /**
      * @implSpec This method is introduced to return the quantity sub type if a valid quantity sub type is
      *      wrapped by this FHIRPathQuantityNode. 
-     *      If the type of FHIRPathQuantityNode is quantity, then return quantity type.
+     *      If the FHIRPathQuantityNode has no subtype, then return quantity type.
      *      If the type of FHIRPathQuantityNode is any of the sub type of quantity, then return the quantity sub type.
      *      If the type of FHIRPathQuantityNode is invalid then throw IllegalStateException 
      */
