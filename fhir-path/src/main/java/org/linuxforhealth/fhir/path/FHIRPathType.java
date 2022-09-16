@@ -50,6 +50,7 @@ import org.linuxforhealth.fhir.model.type.Markdown;
 import org.linuxforhealth.fhir.model.type.MarketingStatus;
 import org.linuxforhealth.fhir.model.type.Meta;
 import org.linuxforhealth.fhir.model.type.Money;
+import org.linuxforhealth.fhir.model.type.MoneyQuantity;
 import org.linuxforhealth.fhir.model.type.Narrative;
 import org.linuxforhealth.fhir.model.type.Oid;
 import org.linuxforhealth.fhir.model.type.ParameterDefinition;
@@ -66,6 +67,7 @@ import org.linuxforhealth.fhir.model.type.Reference;
 import org.linuxforhealth.fhir.model.type.RelatedArtifact;
 import org.linuxforhealth.fhir.model.type.SampledData;
 import org.linuxforhealth.fhir.model.type.Signature;
+import org.linuxforhealth.fhir.model.type.SimpleQuantity;
 import org.linuxforhealth.fhir.model.type.String;
 import org.linuxforhealth.fhir.model.type.Time;
 import org.linuxforhealth.fhir.model.type.Timing;
@@ -114,6 +116,7 @@ public enum FHIRPathType {
     FHIR_MARKETING_STATUS("FHIR", "MarketingStatus", FHIR_BACKBONE_ELEMENT, MarketingStatus.class),
     FHIR_META("FHIR", "Meta", FHIR_ELEMENT, Meta.class),
     FHIR_MONEY("FHIR", "Money", FHIR_ELEMENT, Money.class),
+    FHIR_MONEY_QUANTITY("FHIR", "MoneyQuantity", FHIR_ELEMENT, MoneyQuantity.class),
     FHIR_NARRATIVE("FHIR", "Narrative", FHIR_ELEMENT, Narrative.class),
     FHIR_PARAMETER_DEFINITION("FHIR", "ParameterDefinition", FHIR_ELEMENT, ParameterDefinition.class),
     FHIR_PERIOD("FHIR", "Period", FHIR_ELEMENT, Period.class),
@@ -127,6 +130,7 @@ public enum FHIRPathType {
     FHIR_RELATED_ARTIFACT("FHIR", "RelatedArtifact", FHIR_ELEMENT, RelatedArtifact.class),
     FHIR_SAMPLED_DATA("FHIR", "SampledData", FHIR_ELEMENT, SampledData.class),
     FHIR_SIGNATURE("FHIR", "Signature", FHIR_ELEMENT, Signature.class),
+    FHIR_SIMPLE_QUANTITY("FHIR", "SimpleQuantity", FHIR_ELEMENT, SimpleQuantity.class),
     FHIR_CODEABLE_REFERENCE("FHIR", "CodeableReference", FHIR_BACKBONE_ELEMENT, CodeableReference.class),
     FHIR_RATIO_RANGE("FHIR", "RatioRange", FHIR_BACKBONE_ELEMENT, RatioRange.class),
     FHIR_TIMING("FHIR", "Timing", FHIR_BACKBONE_ELEMENT, Timing.class),

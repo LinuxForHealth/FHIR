@@ -1,0 +1,56 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE",
+    "version": "2.0.0",
+    "name": "BenefitCostTypeCS",
+    "title": "Codes for benefit type of cost",
+    "status": "active",
+    "date": "2022-08-25T13:12:25+00:00",
+    "publisher": "HL7 Pharmacy Working Group",
+    "contact": [
+        {
+            "name": "HL7 Pharmacy Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/medication"
+                },
+                {
+                    "system": "email",
+                    "value": "pharmacy@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Types of out of pockets costs associated with the benefit",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "caseSensitive": true,
+    "content": "complete",
+    "count": 2,
+    "concept": [
+        {
+            "code": "copay",
+            "display": "Copay",
+            "definition": "A flat fee the member pays to fill the prescription."
+        },
+        {
+            "code": "coinsurance",
+            "display": "Coinsurance",
+            "definition": "A percentage of the cost to fill the prescription, usually after the deductible has been met."
+        }
+    ]
+}

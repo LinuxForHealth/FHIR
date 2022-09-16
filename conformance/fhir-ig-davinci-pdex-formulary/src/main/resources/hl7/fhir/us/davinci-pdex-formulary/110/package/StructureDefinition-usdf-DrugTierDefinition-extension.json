@@ -367,7 +367,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS|1.1.0"
                 },
                 "mapping": [
                     {
@@ -883,7 +883,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/PharmacyTypeVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/PharmacyTypeVS|1.1.0"
                 },
                 "mapping": [
                     {
@@ -1277,7 +1277,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/CopayOptionVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/CopayOptionVS|1.1.0"
                 },
                 "mapping": [
                     {
@@ -1671,7 +1671,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/CoinsuranceOptionVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/CoinsuranceOptionVS|1.1.0"
                 },
                 "mapping": [
                     {
@@ -2164,7 +2164,7 @@
                 ],
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS|1.1.0"
                 }
             },
             {
@@ -2236,7 +2236,7 @@
                 ],
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/PharmacyTypeVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/PharmacyTypeVS|1.1.0"
                 }
             },
             {
@@ -2296,7 +2296,7 @@
                 ],
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/CopayOptionVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/CopayOptionVS|1.1.0"
                 }
             },
             {
@@ -2356,7 +2356,7 @@
                 ],
                 "binding": {
                     "strength": "required",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/CoinsuranceOptionVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/CoinsuranceOptionVS|1.1.0"
                 }
             },
             {

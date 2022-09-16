@@ -1,0 +1,1251 @@
+{
+    "resourceType": "ImplementationGuide",
+    "id": "hl7.fhir.us.davinci-drug-formulary",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ImplementationGuide/hl7.fhir.us.davinci-drug-formulary",
+    "version": "2.0.0",
+    "name": "Formulary",
+    "title": "DaVinci Payer Data Exchange (PDex) US Drug Formulary",
+    "status": "draft",
+    "date": "2022-08-25T13:12:25+00:00",
+    "publisher": "HL7 Pharmacy Working Group",
+    "contact": [
+        {
+            "name": "HL7 Pharmacy Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/medication"
+                },
+                {
+                    "system": "email",
+                    "value": "pharmacy@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "DaVinci Payer Data Exchange (PDex) US Drug Formulary, Release 2.0.0 - US Realm STU\"",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "packageId": "hl7.fhir.us.davinci-drug-formulary",
+    "license": "CC0-1.0",
+    "fhirVersion": [
+        "4.0.1"
+    ],
+    "dependsOn": [
+        {
+            "id": "hl7tx",
+            "uri": "http://terminology.hl7.org/ImplementationGuide/hl7.terminology",
+            "packageId": "hl7.terminology.r4",
+            "version": "3.1.0"
+        },
+        {
+            "id": "hl7_fhir_us_davinci_pdex_plan_net",
+            "uri": "http://hl7.org/fhir/us/davinci-pdex-plan-net/ImplementationGuide/hl7.fhir.us.davinci-pdex-plan-net",
+            "packageId": "hl7.fhir.us.davinci-pdex-plan-net",
+            "version": "1.0.0"
+        },
+        {
+            "id": "hl7_fhir_us_davinci_hrex",
+            "uri": "http://hl7.org/fhir/us/davinci-hrex/ImplementationGuide/hl7.fhir.us.davinci-hrex",
+            "packageId": "hl7.fhir.us.davinci-hrex",
+            "version": "1.0.0"
+        }
+    ],
+    "definition": {
+        "resource": [
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-Formulary"
+                },
+                "name": "Formulary",
+                "description": "The Formulary provides general information about a formulary and acts as an organizing construct that associated FormularyItem resources point to. The Formulary combined with its associated FormularyItem and FormularyDrug resources represent a formulary list that includes the set of drugs covered and the requirements and limitations of the coverage.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-FormularyBulkDataGraphDefinition"
+                },
+                "name": "Formulary Bulk Data Graph Definition",
+                "description": "A GraphDefinition defining a graph of resources to return in a query for a Formulary related Bulk Data request.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-FormularyDrug"
+                },
+                "name": "Formulary Drug",
+                "description": "Drug information which may be part of a formulary including its RxNorm code and dose form.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-FormularyItem"
+                },
+                "name": "Formulary Item",
+                "description": "A resource that describes a drug's relationship to a drug plan, including drug tier, prior authorization requirements, and more. The set of FormularyItem resources associated with a particular drug plan represents the drug plans formulary.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-InsurancePlanLocation"
+                },
+                "name": "Insurance Plan Location",
+                "description": "A Location describing a geographic region or are where the insurance plan coverage is available.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-PayerInsurancePlan"
+                },
+                "name": "Payer Insurance Plan",
+                "description": "The Payer InsurancePlan that defines the health insurance product, which include coverage benefits that are offered, and additional information about the offering, such as a coverage area, contact information, brochure locations, etc. The health insurance product offers one or more types of coverage, each of which may define a plan of covered benefits with the particular cost sharing structure offered to a consumer. Health insurance plans that include drug coverage reference a formulary that provides details about drugs that are covered under the plan including requirements and limitations of the coverage specific to each drug.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:resource"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-PayerInsurancePlanBulkDataGraphDefinition"
+                },
+                "name": "Payer Insurance Plan Bulk Data Graph Definition",
+                "description": "A GraphDefinition defining a graph of resources to return in a query for a Formulary related Payer Insurance Plan Bulk Data request.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-AdditionalCoverageInformation-extension"
+                },
+                "name": "Additional Coverage Information",
+                "description": "Additional drug coverage information that may include conditional coverage requirements such as a diagnosis pre-requisite, additional drug specific cost sharing information, or other coverage details not otherwise indicated.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-AvailabilityPeriod-extension"
+                },
+                "name": "Availability Period",
+                "description": "The period for which this item is available on the formulary. Drugs may appear on a formulary, but not considered \"active\" for the current year.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-AvailabilityStatus-extension"
+                },
+                "name": "Availability Status",
+                "description": "A boolean indicating whether the formulary item is currently available under the formulary. Drugs may appear on a formulary, but not considered \"active\" for the current year. Drugs may also be removed during the course of a plan year.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-DrugTierID-extension"
+                },
+                "name": "Drug Tier ID",
+                "description": "A code that describes the coverage status of a drug in a health plan (e.g., preferred generic, specialty, etc.)",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-FormularyReference-extension"
+                },
+                "name": "Formulary Reference",
+                "description": "Reference to the formulary this item belongs to.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-PharmacyBenefitType-extension"
+                },
+                "name": "Pharmacy Benefit Type",
+                "description": "A CodeableConcept indicating the pharmacy benefit type the formulary drug is available through the associated plan.  This pharmacy benefit type is specific to the FormularyDrug and indicates which of the pharmacy benefit type from the plan applies to the particular formulary drug.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-PriorAuthorization-extension"
+                },
+                "name": "Prior Authorization",
+                "description": "A Boolean indication of whether the coverage plan imposes a prior authorization requirement on this drug.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-PriorAuthorizationNewStartsOnly-extension"
+                },
+                "name": "Prior Authorization New Starts Only",
+                "description": "A Boolean indication of whether the coverage plan imposes a prior authorization requirement on this drug for new starts only. (Only include if PriorAuthorization = true)",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-QuantityLimit-extension"
+                },
+                "name": "Quantity Limit",
+                "description": "A Boolean indication of whether the coverage plan imposes a quantity limit on this drug.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-QuantityLimitDetail-extension"
+                },
+                "name": "Quantity Limit Detail",
+                "description": "A detailed definition of the quantity limits the coverage plan imposes on this drug. These limit details may include (potentially including a rolling dispense limit, maximum daily, or therapy days for a period of time. (Only include if QuantityLimit = true)",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-StepTherapyLimit-extension"
+                },
+                "name": "Step Therapy Limit",
+                "description": "A boolean indicating whether the coverage plan imposes a step therapy requirement on this drug meaning another drug may need to be tried beforehand.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "StructureDefinition:extension"
+                    }
+                ],
+                "reference": {
+                    "reference": "StructureDefinition/usdf-StepTherapyLimitNewStartsOnly-extension"
+                },
+                "name": "Step Therapy Limit New Starts Only",
+                "description": "A boolean indicating whether the coverage plan imposes a step therapy requirement on this drug meaning another drug may need to be tried beforehand for new starts only (Not required if patient has previously met step therapy requirements).  (Only include if StepTherapyLimit = true)",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/BenefitCostTypeVS"
+                },
+                "name": "Benefit type of cost",
+                "description": "Benefit type of cost",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/CoinsuranceOptionVS"
+                },
+                "name": "Qualifier for coinsurance rate",
+                "description": "Qualifier for coinsurance rate",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/CopayOptionVS"
+                },
+                "name": "Qualifier of copay amount",
+                "description": "Qualifier of copay amount",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/DrugTierVS"
+                },
+                "name": "Drug tier of medication in health plan",
+                "description": "The drug tier of a particular medication in a health plan. The base set are examples. Each plan may have its own controlled vocabulary.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/InsuranceItemTypeVS"
+                },
+                "name": "Insurance item type",
+                "description": "Types of insurance items",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/PharmacyBenefitTypeVS"
+                },
+                "name": "Pharmacy benefit types",
+                "description": "Pharmacy benefit types. Each payer will have its own controlled vocabulary.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/PlanContactTypeVS"
+                },
+                "name": "Type of plan contact",
+                "description": "Type of plan contact",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/SemanticDrugFormGroupVS"
+                },
+                "name": "Semantic Drug Form Group Codes",
+                "description": "Semantic Drug Form Group codes with Term Types (TTY) of Semantic Clinical Drug Form (SCDG) and Semantic Branded Drug Form Group (SBDG)",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "ValueSet"
+                    }
+                ],
+                "reference": {
+                    "reference": "ValueSet/SemanticDrugVS"
+                },
+                "name": "Semantic Drug Codes",
+                "description": "Semantic Drug codes with Term Types (TTY) of Semantic Clinical Drug (SCD), Semantic Branded Drug (SBD), Generic Pack (GPCK), or Branded Pack (BPCK)",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE"
+                },
+                "name": "Codes for benefit type of cost",
+                "description": "Types of out of pockets costs associated with the benefit",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE"
+                },
+                "name": "Codes qualifying the type of cost share amount",
+                "description": "Codes for qualifier of copay amount",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/usdf-DrugTierCS-TEMPORARY-TRIAL-USE"
+                },
+                "name": "Codes for medication drug tiers in health plans",
+                "description": "Codes to represent the drug tier of a particular medication in a health plan.  Base set are examples.  Each plan may have its own controlled vocabulary.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/usdf-InsuranceItemTypeCS"
+                },
+                "name": "Codes for insurance item type",
+                "description": "Types of insurance items",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE"
+                },
+                "name": "Codes for pharmacy benefit types",
+                "description": "Codes for pharmacy benefit types. Each payer will have its own controlled vocabulary.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CodeSystem"
+                    }
+                ],
+                "reference": {
+                    "reference": "CodeSystem/usdf-PlanContactTypeCS-TEMPORARY-TRIAL-USE"
+                },
+                "name": "Codes for type of plan contact",
+                "description": "Type of plan contact",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/Basic-code"
+                },
+                "name": "Basic-code",
+                "description": "Accesses the Code of a Basis resource to find a FormularyItem",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/Basic-drug-tier"
+                },
+                "name": "Basic-drug-tier",
+                "description": "Accesses the Drug Tier of a FormularyItem",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/Basic-formulary"
+                },
+                "name": "Basic-formulary",
+                "description": "Accesses the formulary reference of a FormularyItem",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/Basic-lastupdated"
+                },
+                "name": "Basic-lastupdated",
+                "description": "Accesses the last updated date of a FormularyItem",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/Basic-period"
+                },
+                "name": "Basic-period",
+                "description": "Accesses the active period of a FormularyItem",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/Basic-pharmacy-benefit-type"
+                },
+                "name": "Basic-pharmacy-benefit-type",
+                "description": "Accesses the Pharmacy Benefit Type of a FormularyItem",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/Basic-status"
+                },
+                "name": "Basic-status",
+                "description": "Accesses the status of a FormularyItem",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/Basic-subject"
+                },
+                "name": "Basic-subject",
+                "description": "Accesses the subject FormularyDrug (MedicationKnowledge) reference of a FormularyItem",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "InsurancePlan"
+                    }
+                ],
+                "reference": {
+                    "reference": "InsurancePlan/FormularyD1002"
+                },
+                "name": "FormularyD1002",
+                "description": "Formulary D1002",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Formulary"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "InsurancePlan"
+                    }
+                ],
+                "reference": {
+                    "reference": "InsurancePlan/FormularyD3001"
+                },
+                "name": "FormularyD3001",
+                "description": "Formulary D3001",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Formulary"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "InsurancePlan"
+                    }
+                ],
+                "reference": {
+                    "reference": "InsurancePlan/FormularyD3002"
+                },
+                "name": "FormularyD3002",
+                "description": "Formulary D3002",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Formulary"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "InsurancePlan"
+                    }
+                ],
+                "reference": {
+                    "reference": "InsurancePlan/FormularyD3004t"
+                },
+                "name": "FormularyD3004t",
+                "description": "Formulary D3004t",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-Formulary"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "MedicationKnowledge"
+                    }
+                ],
+                "reference": {
+                    "reference": "MedicationKnowledge/FormularyDrug-1000091"
+                },
+                "name": "FormularyDrug-1000091",
+                "description": "Formulary Drug 1000091",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "MedicationKnowledge"
+                    }
+                ],
+                "reference": {
+                    "reference": "MedicationKnowledge/FormularyDrug-1049640"
+                },
+                "name": "FormularyDrug-1049640",
+                "description": "Formulary Drug 1049640",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "MedicationKnowledge"
+                    }
+                ],
+                "reference": {
+                    "reference": "MedicationKnowledge/FormularyDrug-1541228"
+                },
+                "name": "FormularyDrug-1541228",
+                "description": "Formulary Drug 1541228",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "MedicationKnowledge"
+                    }
+                ],
+                "reference": {
+                    "reference": "MedicationKnowledge/FormularyDrug-209459"
+                },
+                "name": "FormularyDrug-209459",
+                "description": "Formulary Drug 209459",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "MedicationKnowledge"
+                    }
+                ],
+                "reference": {
+                    "reference": "MedicationKnowledge/FormularyDrug-284520"
+                },
+                "name": "FormularyDrug-284520",
+                "description": "Formulary Drug 284520",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyDrug"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "GraphDefinition"
+                    }
+                ],
+                "reference": {
+                    "reference": "GraphDefinition/FormularyGraphDefinition"
+                },
+                "name": "FormularyGraphDefinition",
+                "description": "A GraphDefinition of Formulary.",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyBulkDataGraphDefinition"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Basic"
+                    }
+                ],
+                "reference": {
+                    "reference": "Basic/FormularyItem-D1002-1000091"
+                },
+                "name": "FormularyItem-D1002-1000091",
+                "description": "Formulary Item for Formulary D1002 Drug 1000091",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyItem"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Basic"
+                    }
+                ],
+                "reference": {
+                    "reference": "Basic/FormularyItem-D1002-1049640"
+                },
+                "name": "FormularyItem-D1002-1049640",
+                "description": "Formulary Item for Formulary D1002 Drug 1049640",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyItem"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Basic"
+                    }
+                ],
+                "reference": {
+                    "reference": "Basic/FormularyItem-D1002-209459"
+                },
+                "name": "FormularyItem-D1002-209459",
+                "description": "Formulary Item for Formulary D1002 Drug 209459",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyItem"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Basic"
+                    }
+                ],
+                "reference": {
+                    "reference": "Basic/FormularyItem-D1002-284520"
+                },
+                "name": "FormularyItem-D1002-284520",
+                "description": "Formulary Item for Formulary D1002 Drug 284520",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyItem"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Basic"
+                    }
+                ],
+                "reference": {
+                    "reference": "Basic/FormularyItem-D3001-1000091"
+                },
+                "name": "FormularyItem-D3001-1000091",
+                "description": "Formulary Item for Insurance Formulary D3001 Drug 1000091",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyItem"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Basic"
+                    }
+                ],
+                "reference": {
+                    "reference": "Basic/FormularyItem-D3002-1000091"
+                },
+                "name": "FormularyItem-D3002-1000091",
+                "description": "Formulary Item for Insurance Formulary D3002 Drug 1000091",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyItem"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Basic"
+                    }
+                ],
+                "reference": {
+                    "reference": "Basic/FormularyItem-D3004t-1049640"
+                },
+                "name": "FormularyItem-D3004t-1049640",
+                "description": "Formulary Item for Insurance Formulary D3004t Drug 1049640",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyItem"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/InsurancePlan-coverage-area"
+                },
+                "name": "InsurancePlan-coverage-area",
+                "description": "Search InsurancePlan by coverage location.",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/InsurancePlan-coverage-type"
+                },
+                "name": "InsurancePlan-coverage-type",
+                "description": "Accesses the coverage type of an InsurancePlan",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/InsurancePlan-formulary-coverage"
+                },
+                "name": "InsurancePlan-formulary-coverage",
+                "description": "Accesses the Coverage Formulary Reference of an InsurancePlan",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/InsurancePlan-identifier"
+                },
+                "name": "InsurancePlan-identifier",
+                "description": "Accesses the business identifier of an InsurancePlan",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/InsurancePlan-lastupdated"
+                },
+                "name": "InsurancePlan-lastupdated",
+                "description": "Accesses the last updated date of an InsurancePlan",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/InsurancePlan-name"
+                },
+                "name": "InsurancePlan-name",
+                "description": "Accesses the name of an InsurancePlan",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/InsurancePlan-period"
+                },
+                "name": "InsurancePlan-period",
+                "description": "Accesses the active period of an InsurancePlan",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/InsurancePlan-status"
+                },
+                "name": "InsurancePlan-status",
+                "description": "Accesses the status of an InsurancePlan",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/InsurancePlan-type"
+                },
+                "name": "InsurancePlan-type",
+                "description": "Accesses the Type of an InsurancePlan",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/MedicationKnowledge-code"
+                },
+                "name": "MedicationKnowledge-code",
+                "description": "Accesses the status of a FormularyDrug",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/MedicationKnowledge-doseform"
+                },
+                "name": "MedicationKnowledge-doseform",
+                "description": "Accesses the dose form of a FormularyDrug",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/MedicationKnowledge-drug-name"
+                },
+                "name": "MedicationKnowledge-drug-name",
+                "description": "Accesses the Drug Name of a FormularyDrug",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/MedicationKnowledge-lastupdated"
+                },
+                "name": "MedicationKnowledge-lastupdated",
+                "description": "Accesses the last updated date of a FormularyItem",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "SearchParameter"
+                    }
+                ],
+                "reference": {
+                    "reference": "SearchParameter/MedicationKnowledge-status"
+                },
+                "name": "MedicationKnowledge-status",
+                "description": "Accesses the status of a FormularyDrug",
+                "exampleBoolean": false
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "InsurancePlan"
+                    }
+                ],
+                "reference": {
+                    "reference": "InsurancePlan/PayerInsurancePlanA1002"
+                },
+                "name": "PayerInsurancePlanA1002",
+                "description": "Payer Insurance Plan A1002",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PayerInsurancePlan"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "InsurancePlan"
+                    }
+                ],
+                "reference": {
+                    "reference": "InsurancePlan/PayerInsurancePlanA3001"
+                },
+                "name": "PayerInsurancePlanA3001",
+                "description": "Payer Insurance Plan A3001",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PayerInsurancePlan"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "InsurancePlan"
+                    }
+                ],
+                "reference": {
+                    "reference": "InsurancePlan/PayerInsurancePlanA3002"
+                },
+                "name": "PayerInsurancePlanA3002",
+                "description": "Payer Insurance Plan A3002",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PayerInsurancePlan"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "InsurancePlan"
+                    }
+                ],
+                "reference": {
+                    "reference": "InsurancePlan/PayerInsurancePlanA3004t"
+                },
+                "name": "PayerInsurancePlanA3004t",
+                "description": "Payer Insurance Plan A3004t",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PayerInsurancePlan"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "GraphDefinition"
+                    }
+                ],
+                "reference": {
+                    "reference": "GraphDefinition/PayerInsurancePlanGraphDefinition"
+                },
+                "name": "PayerInsurancePlanGraphDefinition",
+                "description": "A GraphDefinition of PayerInsurancePlan.",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PayerInsurancePlanBulkDataGraphDefinition"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Location"
+                    }
+                ],
+                "reference": {
+                    "reference": "Location/StateOfCTLocation"
+                },
+                "name": "StateOfCTLocation",
+                "description": "State of CT Area",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-InsurancePlanLocation"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "Location"
+                    }
+                ],
+                "reference": {
+                    "reference": "Location/UnitedStatesLocation"
+                },
+                "name": "UnitedStatesLocation",
+                "description": "United States Area",
+                "exampleCanonical": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-InsurancePlanLocation"
+            },
+            {
+                "extension": [
+                    {
+                        "url": "http://hl7.org/fhir/tools/StructureDefinition/resource-information",
+                        "valueString": "CapabilityStatement"
+                    }
+                ],
+                "reference": {
+                    "reference": "CapabilityStatement/usdf-server"
+                },
+                "name": "US Drug Formulary Server Capability Statement",
+                "description": "This Section describes the expected capabilities of the US Drug Formulary Server actor which is responsible for providing responses to the queries submitted by the US Drug Formulary Requestors. The complete list of FHIR profiles, RESTful operations, and search parameters supported by US Drug Formulary Server are defined.",
+                "exampleBoolean": false
+            }
+        ],
+        "page": {
+            "nameUrl": "toc.html",
+            "title": "Table of Contents",
+            "generation": "html",
+            "page": [
+                {
+                    "nameUrl": "index.html",
+                    "title": "Home",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "credits.html",
+                    "title": "Credits",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "use_cases_and_overview.html",
+                    "title": "Use Cases and Overview",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "search_parameters.html",
+                    "title": "Search Parameters",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "queries.html",
+                    "title": "Queries",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "artifacts.html",
+                    "title": "Artifacts Summary",
+                    "generation": "html"
+                },
+                {
+                    "nameUrl": "downloads.html",
+                    "title": "Downloads",
+                    "generation": "markdown"
+                },
+                {
+                    "nameUrl": "change_notes.html",
+                    "title": "Change Notes",
+                    "generation": "markdown"
+                }
+            ]
+        }
+    }
+}
