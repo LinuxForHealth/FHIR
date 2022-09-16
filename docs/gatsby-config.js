@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: 'IBM FHIR Server',
-    description: 'The IBM FHIR Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.',
+    title: 'LinuxForHealth FHIR Server',
+    description: 'The LinuxForHealth FHIR Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.',
     keywords: 'ibm,fhir,server',
     siteUrl: 'https://linuxforhealth.github.io'
   },

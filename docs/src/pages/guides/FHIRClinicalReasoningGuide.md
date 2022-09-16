@@ -1,16 +1,16 @@
 ---
 layout: post
-title: IBM FHIR Server Clinical Reasoning Guide
-description: IBM FHIR Server Clinical Reasoning Guide
+title: LinuxForHealth FHIR Server Clinical Reasoning Guide
+description: LinuxForHealth FHIR Server Clinical Reasoning Guide
 date:   2021-07-15
 permalink: /FHIRClinicalReasoningGuide/
 ---
 
 # Overview
 
-(Experimental) IBM FHIR Server added initial support for the [Clinical Quality Language (CQL)](https://cql.hl7.org/) and FHIR operations defined in the [Clinical Practice Guidelines (CPG) ](https://build.fhir.org/ig/HL7/cqf-recommendations/) and [Quality Measure (cqf-measures)](http://hl7.org/fhir/us/cqfmeasures/stu2/) Implementation Guides (IG) that leverage CQL. These IGs build upon the resources and operations defined in the [FHIR Clinical Reasoning Module](http://hl7.org/fhir/R4B/clinicalreasoning-module.html).
+(Experimental) LinuxForHealth FHIR Server added initial support for the [Clinical Quality Language (CQL)](https://cql.hl7.org/) and FHIR operations defined in the [Clinical Practice Guidelines (CPG) ](https://build.fhir.org/ig/HL7/cqf-recommendations/) and [Quality Measure (cqf-measures)](http://hl7.org/fhir/us/cqfmeasures/stu2/) Implementation Guides (IG) that leverage CQL. These IGs build upon the resources and operations defined in the [FHIR Clinical Reasoning Module](http://hl7.org/fhir/R4B/clinicalreasoning-module.html).
 
-the LinuxForHealth FHIR Server's module builds upon the work of other open source projects including [cqframework/clinical_quality_language](https://github.com/cqframework/clinical_quality_language/), [DBCG/cql_engine](https://github.com/DBCG/cql_engine/), and [DBCG/cql-evaluator](https://github.com/DBCG/cql-evaluator/) projects and much of the work is to expose these functions with the necessary hooks to perform CQL to ELM translation and ELM evaluation natively inside the LinuxForHealth FHIR Server or externally using an IBM FHIR Server client and model objects. Additionally, support is provided for evaluating and reporting on clinical quality measures and care gaps.
+the LinuxForHealth FHIR Server's module builds upon the work of other open source projects including [cqframework/clinical_quality_language](https://github.com/cqframework/clinical_quality_language/), [DBCG/cql_engine](https://github.com/DBCG/cql_engine/), and [DBCG/cql-evaluator](https://github.com/DBCG/cql-evaluator/) projects and much of the work is to expose these functions with the necessary hooks to perform CQL to ELM translation and ELM evaluation natively inside the LinuxForHealth FHIR Server or externally using a LinuxForHealth FHIR Server client and model objects. Additionally, support is provided for evaluating and reporting on clinical quality measures and care gaps.
 
 This is an initial step. The quality measure and reporting space is being actively developed and changed and further development will be needed to keep up with standards. For example, both the [May2021 ballot](https://hl7.org/fhir/us/cqfmeasures/2021May/index.html) of the cqf- measures IG and the [Davinci Data Exchange for Quality Measures](http://hl7.org/fhir/us/davinci-deqm/datax.html) IG change some of the operations that were implemented here.
 
@@ -42,7 +42,7 @@ The cqf-measures IG builds upon the resources and operations defined in the [FHI
 
 |Module|Description|
 |------|-----------|
-|fhir-cql|Foundation classes for implementing the CQL Engine backend in IBM FHIR Server|
+|fhir-cql|Foundation classes for implementing the CQL Engine backend in LinuxForHealth FHIR Server|
 |fhir-cql-rest|REST Client-based implementation of CQL Engine backend|
 |fhir-cql-server|Internal API-based implementation of CQL Engine backend|
 |fhir-quality-measure|FHIR Quality Measure evaluation logic|
