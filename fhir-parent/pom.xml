@@ -651,9 +651,10 @@
             </dependency>
             <dependency>
                 <!-- [CVE-2017-18640] The Alias feature in SnakeYAML 1.18 allows entity expansion during a load operation, addressed in latest versions. -->
+                <!-- [CVE-2022-25857] CWE-400: Uncontrolled Resource Consumption ('Resource Exhaustion') -->
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
-                <version>1.30</version>
+                <version>1.32</version>
             </dependency>
             <dependency>
                 <groupId>org.opencds.cqf.cql</groupId>
