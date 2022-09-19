@@ -53,7 +53,7 @@
         <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>11</java.version>
-        <fhir-examples.version>5.0.0-SNAPSHOT</fhir-examples.version>
+        <fhir-examples.version>5.0.0</fhir-examples.version>
         <fhir-tools.version>5.0.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
         <!-- We use github depend-a-bot to keep dependencies up-to-date and that doesn't seem to work as well
