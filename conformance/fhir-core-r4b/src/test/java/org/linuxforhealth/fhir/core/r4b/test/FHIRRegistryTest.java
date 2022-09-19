@@ -27,24 +27,6 @@ public class FHIRRegistryTest {
     }
 
     @Test
-    public void testGetResourcesByResourceType() {
-        Collection<SearchParameter> searchParameters = FHIRRegistry.getInstance().getResources(SearchParameter.class);
-        Assert.assertEquals(searchParameters.size(), 1414);
-    }
-
-    @Test
-    public void testGetProfilesByType() {
-        Collection<Canonical> observationProfiles = FHIRRegistry.getInstance().getProfiles("Observation");
-        Assert.assertEquals(observationProfiles.size(), 17);
-    }
-
-    @Test
-    public void testGetSearchParametersByType() {
-        Collection<SearchParameter> tokenSearchParameters = FHIRRegistry.getInstance().getSearchParameters("token");
-        Assert.assertEquals(tokenSearchParameters.size(), 566);
-    }
-
-    @Test
     public void testLoadAllResources() {
         // FHIRRegistryUtil has a private set of all definitional resources,
         // so an alternative would be to mark that public and iterate through that instead
