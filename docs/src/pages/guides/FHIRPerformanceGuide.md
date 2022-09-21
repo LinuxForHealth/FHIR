@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  IBM FHIR Server Performance Guide
+title:  LinuxForHealth FHIR Server Performance Guide
 permalink: /FHIRServerPerformanceGuide/
 ---
 
@@ -38,11 +38,11 @@ permalink: /FHIRServerPerformanceGuide/
     - [6.5 Search Examples](#65-search-examples)
     - [6.6 Tools](#66-tools)
     - [6.7 Making FHIR Requests With curl](#67-making-fhir-requests-with-curl)
-    - [6.8 Making FHIR Requests with IBM FHIR Server Client](#68-making-fhir-requests-with-the-ibm-fhir-server-client)
+    - [6.8 Making FHIR Requests with LinuxForHealth FHIR Server Client](#68-making-fhir-requests-with-the-ibm-fhir-server-client)
 
 # 1. Overview
 
-This guide describes how to tune IBM FHIR Server and its database to get the best performance. It also describes different FHIR query strategies which may help to work around specific performance issues.
+This guide describes how to tune LinuxForHealth FHIR Server and its database to get the best performance. It also describes different FHIR query strategies which may help to work around specific performance issues.
 
 Note: all logical-ids and resources in this guide are examples and do not refer to actual patient data.
 
@@ -143,7 +143,7 @@ The recommended approach for tenant datatstore configuration is to use individua
     </dataSource>
 ```
 
-Because each datasource gets its own connection manager, you can tune each independently. If multiple datasources point to the same database (for example using different schemas to support multi-tenancy) be sure to configure the database `max_connections` accordingly. Also, remember to sum the maxPoolSize for all datasources across all IBM FHIR Server nodes in your deployment. The `numConnectionsPerThreadLocal` value should be set to `1`. This improves concurrency and reduces the amount of time it takes to acquire a connection, especially on systems with large core counts.
+Because each datasource gets its own connection manager, you can tune each independently. If multiple datasources point to the same database (for example using different schemas to support multi-tenancy) be sure to configure the database `max_connections` accordingly. Also, remember to sum the maxPoolSize for all datasources across all LinuxForHealth FHIR Server nodes in your deployment. The `numConnectionsPerThreadLocal` value should be set to `1`. This improves concurrency and reduces the amount of time it takes to acquire a connection, especially on systems with large core counts.
 
 When `numConnectionsPerThreadLocal=1`, be aware that connection-related errors will cause the client request to fail with a status 500 Server Error. In addition, this failure will not purge all bad connections and so clients may see multiple errors. This can occur when there is a database failover event, for example. When `numConnectionsPerThreadLocal=0` and `validationTimeout` is configured (see above), connections are validated each time before they are used. In this case, the chance of a client request failing due to a bad database connection is much lower.
 
@@ -153,7 +153,7 @@ Each JTA datasource should be configured in its own `.xml` server configuration 
 
 ## 3.2. Transaction Timeout
 
-Long transactions consume significant resources so to protect the system, Liberty will time-out a transaction after 2 minutes (120s) by default. When a transaction times out, Liberty will forcibly close any database connection currently executing a statement and the LinuxForHealth FHIR Server will return an HTTP 500 response to the caller. The maximum transaction time can be modified using the `<transaction>` element in the Liberty server configuration and, by default, the LinuxForHealth FHIR Server will set this from  the `FHIR_TRANSACTION_MANAGER_TIMEOUT` variable as described in Section 3.3.1.3 Database Access TransactionManager Timeout of the [IBM FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide/#331-the-jdbc-persistence-layer).
+Long transactions consume significant resources so to protect the system, Liberty will time-out a transaction after 2 minutes (120s) by default. When a transaction times out, Liberty will forcibly close any database connection currently executing a statement and the LinuxForHealth FHIR Server will return an HTTP 500 response to the caller. The maximum transaction time can be modified using the `<transaction>` element in the Liberty server configuration and, by default, the LinuxForHealth FHIR Server will set this from  the `FHIR_TRANSACTION_MANAGER_TIMEOUT` variable as described in Section 3.3.1.3 Database Access TransactionManager Timeout of the [LinuxForHealth FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide/#331-the-jdbc-persistence-layer).
 
 The following table summarizes how the transaction timeout is used for different request types:
 
@@ -287,7 +287,7 @@ For PostgreSQL, we recommend tuning the following properties:
 | -------- | -------------- | ----------- |
 | max_connections | N+15 | N is the aggregate number of connections from the LinuxForHealth FHIR Server cluster, defined by the connection manager's `maxPoolSize` property. Check the PostgreSQL documentation. Connections require memory, so be careful with large values which could lead to memory pressure on the database server causing performance issues or stability problems. |
 | shared_buffers | 1/2 of memory | The number of 8kB blocks used for caching table data. This is important for ingestion as well as query performance. The database must be able to find free blocks to hold table and index data it needs to modify when ingesting new data. |
-| effective_cache_size | 3/4 of memory | Number of 8kB blocks. Not an allocation, just provides guidance to the query optimizer for how much data it can expect to be cached by the database and operating system file system cache. It is used to bias decisions on choosing index-based access paths. IBM FHIR Server queries rely heavily on index-driven plans so this value should be at the upper end of any recommended range. |
+| effective_cache_size | 3/4 of memory | Number of 8kB blocks. Not an allocation, just provides guidance to the query optimizer for how much data it can expect to be cached by the database and operating system file system cache. It is used to bias decisions on choosing index-based access paths. LinuxForHealth FHIR Server queries rely heavily on index-driven plans so this value should be at the upper end of any recommended range. |
 
 The recommended values should be considered a starting point. Monitor database metrics and tune appropriately for your given workload. See the [PostgreSQL wiki](https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server) for additional guidance.
 
@@ -437,7 +437,7 @@ By default, only 3 vacuum jobs can run concurrently.
 
 ### 4.1.5. Max Locks
 
-To drop an IBM FHIR Server schema in PostgreSQL, set the following configuration in `postgresql.conf`:
+To drop an LinuxForHealth FHIR Server schema in PostgreSQL, set the following configuration in `postgresql.conf`:
 
 ```
 max_locks_per_transaction = 128		# min 10
@@ -457,7 +457,7 @@ Using random values for resource identifiers can cause performance issues in lar
 
 For best performance, ids generated by clients should not be purely random but instead be structured to include a prefix which increments over time. This causes index entries for new values to share pages (right-hand inserts), greatly reducing the write amplification overhead.
 
-One example of a suitable id generation strategy can be found in the [IBM FHIR Server fhir-persistence-jdbc project](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence-jdbc/src/main/java/org/linuxforhealth/fhir/persistence/jdbc/util/TimestampPrefixedUUID.java).
+One example of a suitable id generation strategy can be found in the [LinuxForHealth FHIR Server fhir-persistence-jdbc project](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-persistence-jdbc/src/main/java/org/linuxforhealth/fhir/persistence/jdbc/util/TimestampPrefixedUUID.java).
 
 This strategy provides both the desirable trait of global uniqueness as well as a low write amplification overhead thanks to the time-based prefix.
 
@@ -477,7 +477,7 @@ The HL7 FHIR specification defines experimental support for both [conditional cr
 1. each update must perform a search which can be more costly than simply performing read before the update
 2. conditional requests require intricate locking techniques to avoid race conditions and the currently-implemented approach has [significant limitations](https://github.com/LinuxForHealth/FHIR/issues/2051)
 
-Instead, IBM FHIR Server version 4.7.1 introduces support for a server-enabled optimization to avoid performing unnecessary updates. The server will only create a new resource version if the resource contents from the update differ from the contents of the resource in the database.
+Beginning with LinuxForHealth FHIR Server version 5.0.0, the server implementation performs optimization to avoid unnecessary updates. The server will only create a new resource version if the resource contents from the update differ from the contents of the resource in the database.
 
 Two resources will be considered equivalent based on the following criteria:
 * whitespace between the resource elements (both XML and JSON) is ignored
@@ -901,4 +901,4 @@ Examples of valid resources can be found in the [fhir-examples](https://github.c
 
 ## 6.8. Making FHIR Requests with the LinuxForHealth FHIR Server Client
 
-See FHIR client API in the [IBM FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide).
+See FHIR client API in the [LinuxForHealth FHIR Server User's Guide](https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide).

@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  IBM FHIR Server User's Guide
+title:  LinuxForHealth FHIR Server User's Guide
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -505,7 +505,7 @@ To enable payload offloading using Azure Blob storage, complete the steps summar
 
 Take the following restrictions into account:
 
-1. Payload offloading is enabled at the server level. Offloading cannot be enabled/disabled on a per-tenant basis. If you want to support offloading for just one tenant, use a different IBM FHIR Server instance;
+1. Payload offloading is enabled at the server level. Offloading cannot be enabled/disabled on a per-tenant basis. If you want to support offloading for just one tenant, use a different LinuxForHealth FHIR Server instance;
 2. Payload offloading must be configured prior to ingesting any resource data;
 3. Payload offloading must not be disabled after resource data has been ingested;
 4. When payload offloading is enabled, FHIR resources are limited to 5000 MiB in size when rendered as uncompressed JSON. The practical limit is likely to be lower due to memory usage and typical socket and transaction timeouts.
@@ -1041,7 +1041,7 @@ The set of search parameters can filtered / refined via `fhirServer/resources/[r
 ## 4.7 FHIR client API
 
 ### 4.7.1 Overview
-In addition to the server, we also offer a Java API for invoking FHIR REST APIs. The IBM FHIR Client is built on JAX-RS 2.1 and provides a simple properties-driven client that can be configured for a given endpoint, mutual authentication, request/response logging, and more.
+In addition to the server, we also offer a Java API for invoking FHIR REST APIs. The LinuxForHealth FHIR Client is built on JAX-RS 2.1 and provides a simple properties-driven client that can be configured for a given endpoint, mutual authentication, request/response logging, and more.
 
 ### 4.7.2 Maven coordinates
 To use the FHIR Client from your application, specify the `fhir-client` artifact as a dependency within your `pom.xml` file, as in the following example:
@@ -1076,7 +1076,7 @@ Below is a summary of the most pertinent ones:
 | fhirclient.http.receive.timeout | 130000 (130 seconds) | The time, in seconds, to wait for a server response. |
 
 ### 4.7.4 Sample usage
-For examples on how to use the IBM FHIR Client, look for tests like `org.linuxforhealth.fhir.client.test.mains.FHIRClientSample` from the `fhir-client` project in git. Additionally, the FHIR Client is heavilly used from our integration tests in `fhir-server-test`.
+For examples on how to use the LinuxForHealth FHIR Client, look for tests like `org.linuxforhealth.fhir.client.test.mains.FHIRClientSample` from the `fhir-client` project in git. Additionally, the FHIR Client is heavilly used from our integration tests in `fhir-server-test`.
 
 ## 4.8 Using local references within request bundles
 Inter-dependencies between resources are typically defined by one resource containing a field of type `Reference` which contains an _external reference_<sup id="a5">[5](#f5)</sup> to another resource. For example, an `Observation` resource could reference a `Patient` resource via the Observation's `subject` field. The value that is stored in the `Reference.reference` field (for example, `Observation.subject.reference` in the case of the `Observation` resource) could be an absolute URL, such as `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, or a relative URL, such as `Patient/12345`.
@@ -1514,7 +1514,7 @@ Each tenant's configuration may define multiple storageProviders. The default is
 
 To use Amazon S3 bucket for exporting, please set `accessKeyId` to S3 access key, and set `secretAccessKey` to the S3 secret key, and the auth type to `hmac`.
 
-Basic system exports to S3 without typeFilters use a streamlined implementation which bypasses the LinuxForHealth FHIR Server Search API for direct access to the data enabling better throughput. The `fhirServer/bulkdata/core/systemExportImpl` property can be used to disable the streamlined system export implementation. To use the legacy implementation based on IBM FHIR Server search, set the value to "legacy". The new system export implementation is used by default for any export not using typeFilters. Exports using typeFilters use FHIR Search, and cannot use the streamlined export.
+Basic system exports to S3 without typeFilters use a streamlined implementation which bypasses the LinuxForHealth FHIR Server Search API for direct access to the data enabling better throughput. The `fhirServer/bulkdata/core/systemExportImpl` property can be used to disable the streamlined system export implementation. To use the legacy implementation based on LinuxForHealth FHIR Server search, set the value to "legacy". The new system export implementation is used by default for any export not using typeFilters. Exports using typeFilters use FHIR Search, and cannot use the streamlined export.
 
 To import using the `$import` operation with `https`, one must additionally configure the `fhirServer/bulkdata/storageProviders/(source)/validBaseUrls`. For example, if one stores bulk data at `https://test-url1.cos.ibm.com/bucket1/test.ndjson` and `https://test-url2.cos.ibm.com/bucket2/test2.ndjson` you must specify both baseUrls in the configuration:
 
@@ -1617,7 +1617,7 @@ If one wants to support Postgres with a user-name and password , one should copy
 | BATCH_DB_SSL           | true            | The ssl connection is either true or false                     |
 | BATCH_DB_SSL_CERT_PATH | false           | The ssl connection is either true or false                     |
 
-Note: If you use PostgreSQL database as IBM FHIR Server data store or the JavaBatch job repository, please enable `max_prepared_transactions` in postgresql.conf, otherwise the import/export JavaBatch jobs fail.
+Note: If you use a PostgreSQL database as the LinuxForHealth FHIR Server data store or the JavaBatch job repository, please enable `max_prepared_transactions` in postgresql.conf, otherwise the import/export JavaBatch jobs fail.
 
 For more information about Liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).
 
@@ -1981,7 +1981,7 @@ The service can map to the CADF format or the FHIR AuditEvent resource format by
     "observer": {
         "id": "fhir-server",
         "typeURI": "compute/node",
-        "name": "IBM FHIR Server - Audit",
+        "name": "LinuxForHealth FHIR Server - Audit",
         "geolocation": {
             "city": "Dallas",
             "state": "TX",
@@ -2399,7 +2399,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/operations/membermatch/extendedProps`|object|The extended options for the extended member match implementation|
 |`fhirServer/operations/everything/includeTypes`|list|The list of related resource types to include alongside the patient compartment resource types. Instances of these resource types will only be returned when they are referenced from one or more resource instances from the target patient compartment. Example values are like `Location`, `Medication`, `Organization`, and `Practitioner`|
 |`fhirServer/remoteIndexService/type`|string| The type of service used to send remote index messages. Only `kafka` is currently supported|
-|`fhirServer/remoteIndexService/instanceIdentifier`|string| A UUID or other identifier unique to this cluster of IBM FHIR Servers |
+|`fhirServer/remoteIndexService/instanceIdentifier`|string| A UUID or other identifier unique to this cluster of LinuxForHealth FHIR Servers |
 |`fhirServer/remoteIndexService/kafka/mode`|string| Current operation mode of the service. Specify `ACTIVE` to use the service|
 |`fhirServer/remoteIndexService/kafka/topicName`|string| The Kafka topic name. Typically `FHIR_REMOTE_INDEX` |
 |`fhirServer/remoteIndexService/kafka/connectionProperties/bootstrap.servers`|string| Bootstrap servers for the Kafka service |
@@ -2957,7 +2957,7 @@ When the HTTP header `Prefer: return=minimal` is specified on a search or histor
 For an example of using the LinuxForHealth FHIR Server together with a SMART-enabled Keycloak authorization server, please see the data-access pattern at https://github.com/LinuxForHealth/health-patterns/tree/main/data-access.
 
 ## 5.4 Custom HTTP Headers
-IBM FHIR Server Supports the following custom HTTP Headers:
+The LinuxForHealth FHIR Server supports the following custom HTTP Headers:
 
 | Header Name      | Description                |
 |------------------|----------------------------|

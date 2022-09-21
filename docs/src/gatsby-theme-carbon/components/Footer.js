@@ -22,7 +22,7 @@ const Content = () => (
 
 const links = {
   firstCol: [
-    { href: 'https://github.com/LinuxForHealth/fhir', linkText: 'IBM FHIR Server on GitHub' },
+    { href: 'https://github.com/LinuxForHealth/fhir', linkText: 'LinuxForHealth/FHIR on GitHub' },
     { href: 'https://www.hl7.org/fhir/index.html', linkText: 'HL7 FHIR' },
   ],
   
