@@ -94,8 +94,9 @@ public enum FHIRPathType {
     FHIR_TYPE("FHIR", "Type"),
 
     // FHIR complex data types
+    FHIR_QUANTITY("FHIR", "Quantity", FHIR_ELEMENT, Quantity.class),
     FHIR_ADDRESS("FHIR", "Address", FHIR_ELEMENT, Address.class),
-    FHIR_AGE("FHIR", "Age", FHIR_ELEMENT, Age.class),
+    FHIR_AGE("FHIR", "Age", FHIR_QUANTITY, Age.class),
     FHIR_ANNOTATION("FHIR", "Annotation", FHIR_ELEMENT, Annotation.class),
     FHIR_ATTACHMENT("FHIR", "Attachment", FHIR_ELEMENT, Attachment.class),
     FHIR_CODEABLE_CONCEPT("FHIR", "CodeableConcept", FHIR_ELEMENT, CodeableConcept.class),
@@ -103,11 +104,11 @@ public enum FHIRPathType {
     FHIR_CONTACT_DETAIL("FHIR", "ContactDetail", FHIR_ELEMENT, ContactDetail.class),
     FHIR_CONTACT_POINT("FHIR", "ContactPoint", FHIR_ELEMENT, ContactPoint.class),
     FHIR_CONTRIBUTOR("FHIR", "Contributor", FHIR_ELEMENT, Contributor.class),
-    FHIR_COUNT("FHIR", "Count", FHIR_ELEMENT, Count.class),
+    FHIR_COUNT("FHIR", "Count", FHIR_QUANTITY, Count.class),
     FHIR_DATA_REQUIREMENT("FHIR", "DataRequirement", FHIR_ELEMENT, DataRequirement.class),
-    FHIR_DISTANCE("FHIR", "Distance", FHIR_ELEMENT, Distance.class),
+    FHIR_DISTANCE("FHIR", "Distance", FHIR_QUANTITY, Distance.class),
     FHIR_DOSAGE("FHIR", "Dosage", FHIR_BACKBONE_ELEMENT, Dosage.class),
-    FHIR_DURATION("FHIR", "Duration", FHIR_ELEMENT, Duration.class),
+    FHIR_DURATION("FHIR", "Duration", FHIR_QUANTITY, Duration.class),
     FHIR_ELEMENT_DEFINITION("FHIR", "ElementDefinition", FHIR_BACKBONE_ELEMENT, ElementDefinition.class),
     FHIR_EXPRESSION("FHIR", "Expression", FHIR_ELEMENT, Expression.class),
     FHIR_EXTENSION("FHIR", "Extension", FHIR_ELEMENT, Extension.class),
@@ -116,21 +117,21 @@ public enum FHIRPathType {
     FHIR_MARKETING_STATUS("FHIR", "MarketingStatus", FHIR_BACKBONE_ELEMENT, MarketingStatus.class),
     FHIR_META("FHIR", "Meta", FHIR_ELEMENT, Meta.class),
     FHIR_MONEY("FHIR", "Money", FHIR_ELEMENT, Money.class),
-    FHIR_MONEY_QUANTITY("FHIR", "MoneyQuantity", FHIR_ELEMENT, MoneyQuantity.class),
+    FHIR_MONEY_QUANTITY("FHIR", "MoneyQuantity", FHIR_QUANTITY, MoneyQuantity.class),
     FHIR_NARRATIVE("FHIR", "Narrative", FHIR_ELEMENT, Narrative.class),
     FHIR_PARAMETER_DEFINITION("FHIR", "ParameterDefinition", FHIR_ELEMENT, ParameterDefinition.class),
     FHIR_PERIOD("FHIR", "Period", FHIR_ELEMENT, Period.class),
     FHIR_POPULATION("FHIR", "Population", FHIR_BACKBONE_ELEMENT, Population.class),
     FHIR_PROD_CHARACTERISTIC("FHIR", "ProdCharacteristic", FHIR_BACKBONE_ELEMENT, ProdCharacteristic.class),
     FHIR_PRODUCT_SHELF_LIFE("FHIR", "ProductShelfLife", FHIR_BACKBONE_ELEMENT, ProductShelfLife.class),
-    FHIR_QUANTITY("FHIR", "Quantity", FHIR_ELEMENT, Quantity.class),
+    
     FHIR_RANGE("FHIR", "Range", FHIR_ELEMENT, Range.class),
     FHIR_RATIO("FHIR", "Ratio", FHIR_ELEMENT, Ratio.class),
     FHIR_REFERENCE("FHIR", "Reference", FHIR_ELEMENT, Reference.class),
     FHIR_RELATED_ARTIFACT("FHIR", "RelatedArtifact", FHIR_ELEMENT, RelatedArtifact.class),
     FHIR_SAMPLED_DATA("FHIR", "SampledData", FHIR_ELEMENT, SampledData.class),
     FHIR_SIGNATURE("FHIR", "Signature", FHIR_ELEMENT, Signature.class),
-    FHIR_SIMPLE_QUANTITY("FHIR", "SimpleQuantity", FHIR_ELEMENT, SimpleQuantity.class),
+    FHIR_SIMPLE_QUANTITY("FHIR", "SimpleQuantity", FHIR_QUANTITY, SimpleQuantity.class),
     FHIR_CODEABLE_REFERENCE("FHIR", "CodeableReference", FHIR_BACKBONE_ELEMENT, CodeableReference.class),
     FHIR_RATIO_RANGE("FHIR", "RatioRange", FHIR_BACKBONE_ELEMENT, RatioRange.class),
     FHIR_TIMING("FHIR", "Timing", FHIR_BACKBONE_ELEMENT, Timing.class),
@@ -138,25 +139,28 @@ public enum FHIRPathType {
     FHIR_USAGE_CONTEXT("FHIR", "UsageContext", FHIR_ELEMENT, UsageContext.class),
 
     // FHIR primitive data types
+    
     FHIR_BASE64BINARY("FHIR", "base64Binary", FHIR_ELEMENT, Base64Binary.class),
     FHIR_BOOLEAN("FHIR", "boolean", FHIR_ELEMENT, Boolean.class),
-    FHIR_CANONICAL("FHIR", "canonical", FHIR_ELEMENT, Canonical.class),
-    FHIR_CODE("FHIR", "code", FHIR_ELEMENT, Code.class),
+    FHIR_STRING("FHIR", "string", FHIR_ELEMENT, String.class),
+    FHIR_URI("FHIR", "uri", FHIR_ELEMENT, Uri.class),
+    FHIR_CANONICAL("FHIR", "canonical", FHIR_URI, Canonical.class),
+    FHIR_CODE("FHIR", "code", FHIR_STRING, Code.class),
     FHIR_DATE("FHIR", "date", FHIR_ELEMENT, Date.class),
     FHIR_DATE_TIME("FHIR", "dateTime", FHIR_ELEMENT, DateTime.class),
     FHIR_DECIMAL("FHIR", "decimal", FHIR_ELEMENT, Decimal.class),
-    FHIR_ID("FHIR", "id", FHIR_ELEMENT, Id.class),
+    FHIR_ID("FHIR", "id", FHIR_STRING, Id.class),
     FHIR_INSTANT("FHIR", "instant", FHIR_ELEMENT, Instant.class),
     FHIR_INTEGER("FHIR", "integer", FHIR_ELEMENT, Integer.class),
-    FHIR_MARKDOWN("FHIR", "markdown", FHIR_ELEMENT, Markdown.class),
-    FHIR_OID("FHIR", "oid", FHIR_ELEMENT, Oid.class),
-    FHIR_POSITIVE_INT("FHIR", "positiveInt", FHIR_ELEMENT, PositiveInt.class),
-    FHIR_STRING("FHIR", "string", FHIR_ELEMENT, String.class),
+    FHIR_MARKDOWN("FHIR", "markdown", FHIR_STRING, Markdown.class),
+    FHIR_OID("FHIR", "oid", FHIR_URI, Oid.class),
+    FHIR_POSITIVE_INT("FHIR", "positiveInt", FHIR_INTEGER, PositiveInt.class),
+
     FHIR_TIME("FHIR", "time", FHIR_ELEMENT, Time.class),
-    FHIR_UNSIGNED_INT("FHIR", "unsignedInt", FHIR_ELEMENT, UnsignedInt.class),
-    FHIR_URI("FHIR", "uri", FHIR_ELEMENT, Uri.class),
-    FHIR_URL("FHIR", "url", FHIR_ELEMENT, Url.class),
-    FHIR_UUID("FHIR", "uuid", FHIR_ELEMENT, Uuid.class),
+    FHIR_UNSIGNED_INT("FHIR", "unsignedInt", FHIR_INTEGER, UnsignedInt.class),
+    
+    FHIR_URL("FHIR", "url", FHIR_URI, Url.class),
+    FHIR_UUID("FHIR", "uuid", FHIR_URI, Uuid.class),
     FHIR_XHTML("FHIR", "xhtml", FHIR_ELEMENT, Xhtml.class),
 
     // FHIR resource types
@@ -446,6 +450,18 @@ public enum FHIRPathType {
      *     true if this type is assignable from the one in the method parameter, false otherwise
      */
     public boolean isAssignableFrom(FHIRPathType type) {
+        return isTypeEqual(type) || (type.baseType != null && isAssignableFrom(type.baseType));
+    }
+    
+    /**
+     * Determines if this type is the same as the one specified by the method parameter.
+     *
+     * @param type
+     *     the type to check against
+     * @return
+     *     true if this type is the same as the one specified by the method parameter, false otherwise
+     */
+    public boolean isTypeEqual(FHIRPathType type) {
         if (type == FHIR_UNKNOWN_RESOURCE_TYPE && FHIR_RESOURCE.isAssignableFrom(this)) {
             // every resource type is assignable from FHIR.UnknownResourceType
             return true;
@@ -466,7 +482,7 @@ public enum FHIRPathType {
             // FHIR.Any is assignable from any FHIR type
             return true;
         }
-        return (type.baseType != null && isAssignableFrom(type.baseType));
+        return false;
     }
 
     /**

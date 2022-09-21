@@ -405,7 +405,13 @@ public class ConstraintGenerator {
                     Type type = getTypes(elementDefinitionMap.get(id)).get(0);
                     if (type.getCode() != null) {
                         String code = type.getCode().getValue();
-                        sb.append(identifier).append(".where(").append("$this".equals(path) ? "" : path + ".").append("is(").append(code).append("))");
+                        sb.append(identifier)
+                            .append(".where(")
+                                .append("$this".equals(path) ? "" : path + ".")
+                                    .append("isTypeEqual(")
+                                        .append(code)
+                                    .append(")")
+                            .append( ")");
                     }
                 }
             }
@@ -1080,7 +1086,7 @@ public class ConstraintGenerator {
             Type type = getTypes(elementDefinition).get(0);
             if (type.getCode() != null) {
                 String code = type.getCode().getValue();
-                sb.append(".as(").append(code).append(")");
+                sb.append(".asTypeEqual(").append(code).append(")");
             }
         }
 

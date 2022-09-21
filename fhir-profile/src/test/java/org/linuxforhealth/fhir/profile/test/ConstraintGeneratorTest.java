@@ -75,7 +75,7 @@ public class ConstraintGeneratorTest {
         ConstraintGenerator generator = new ConstraintGenerator(builtExtDef);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-        assertEquals(constraints.get(0).expression(), "value.as(code).exists() and value.as(code).all(memberOf('http://hl7.org/fhir/ValueSet/administrative-gender', 'required'))");
+        assertEquals(constraints.get(0).expression(), "value.asTypeEqual(code).exists() and value.asTypeEqual(code).all(memberOf('http://hl7.org/fhir/ValueSet/administrative-gender', 'required'))");
     }
 
     @Test
@@ -157,7 +157,7 @@ public class ConstraintGeneratorTest {
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-        assertEquals(constraints.get(0).expression(), "value.where(is(Quantity)).count() = 1");
+        assertEquals(constraints.get(0).expression(), "value.where(isTypeEqual(Quantity)).count() = 1");
     }
 
     @Test
@@ -169,7 +169,7 @@ public class ConstraintGeneratorTest {
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-        assertEquals(constraints.get(0).expression(), "value.as(Quantity).exists()");
+        assertEquals(constraints.get(0).expression(), "value.asTypeEqual(Quantity).exists()");
     }
 
     @Test

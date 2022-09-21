@@ -24,7 +24,7 @@ public class ReferenceExtensionTest {
         ConstraintGenerator generator = new ConstraintGenerator(extensionDefinition);
         List<Constraint> constraints = generator.generate();
         constraints.forEach(System.out::println);
-        assertEquals(constraints.get(1).expression(), "value.as(Reference).exists()");
+        assertEquals(constraints.get(1).expression(), "value.asTypeEqual(Reference).exists()");
     }
 
     @Test
@@ -33,7 +33,7 @@ public class ReferenceExtensionTest {
         ConstraintGenerator generator = new ConstraintGenerator(extensionDefinition);
         List<Constraint> constraints = generator.generate();
         constraints.forEach(System.out::println);
-        assertEquals(constraints.get(1).expression(), "value.as(Reference).exists() and value.as(Reference).all(resolve().conformsTo('http://example.com/fhir/StructureDefinition/test-profile'))");
+        assertEquals(constraints.get(1).expression(), "value.asTypeEqual(Reference).exists() and value.asTypeEqual(Reference).all(resolve().conformsTo('http://example.com/fhir/StructureDefinition/test-profile'))");
     }
 
     @Test
@@ -42,6 +42,6 @@ public class ReferenceExtensionTest {
         ConstraintGenerator generator = new ConstraintGenerator(extensionDefinition);
         List<Constraint> constraints = generator.generate();
         constraints.forEach(System.out::println);
-        assertEquals(constraints.get(1).expression(), "value.as(Reference).exists() and value.as(Reference).all((resolve().conformsTo('http://example.com/fhir/StructureDefinition/test-profile') or resolve().is(Patient)))");
+        assertEquals(constraints.get(1).expression(), "value.asTypeEqual(Reference).exists() and value.asTypeEqual(Reference).all((resolve().conformsTo('http://example.com/fhir/StructureDefinition/test-profile') or resolve().is(Patient)))");
     }
 }
