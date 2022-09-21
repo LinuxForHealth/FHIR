@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[18],{w2l6:function(e,n,t){"use strict";t.r(n);t("q1tI");var r=t("Wjw8"),o=t("qKvR"),w=[{href:"/",text:"LinuxForHealth FHIR Server Homepage"}];n.default=function(){return Object(o.b)(r.a,{links:w})}}}]);
+//# sourceMappingURL=component---src-pages-404-js-fbd099a37350a7d1d63e.js.map
