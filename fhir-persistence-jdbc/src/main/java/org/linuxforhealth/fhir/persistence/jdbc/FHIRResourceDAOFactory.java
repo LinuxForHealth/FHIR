@@ -25,6 +25,7 @@ import org.linuxforhealth.fhir.persistence.jdbc.dao.impl.CommonValuesDAO;
 import org.linuxforhealth.fhir.persistence.jdbc.derby.DerbyCommonValuesDAO;
 import org.linuxforhealth.fhir.persistence.jdbc.derby.DerbyResourceDAO;
 import org.linuxforhealth.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import org.linuxforhealth.fhir.persistence.jdbc.oracle.OracleResourceDAO;
 import org.linuxforhealth.fhir.persistence.jdbc.postgres.PostgresReindexResourceDAO;
 import org.linuxforhealth.fhir.persistence.jdbc.postgres.PostgresResourceDAO;
 
@@ -56,6 +57,9 @@ public class FHIRResourceDAOFactory {
         switch (flavor.getType()) {
         case DERBY:
             resourceDAO = new DerbyResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, ptdi);
+            break;
+        case ORACLE:
+            resourceDAO = new OracleResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, ptdi);
             break;
         case POSTGRESQL:
             resourceDAO = new PostgresResourceDAO(connection, schemaName, flavor, trxSynchRegistry, cache, ptdi, shardKey);

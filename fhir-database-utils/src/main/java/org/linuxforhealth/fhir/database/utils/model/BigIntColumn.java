@@ -32,6 +32,6 @@ public class BigIntColumn extends ColumnBase {
 
     @Override
     public String getTypeInfo(IDatabaseTypeAdapter adapter) {
-        return "BIGINT";
+        return adapter.bigintClause();
     }
 }

@@ -26,7 +26,6 @@ import java.util.logging.Logger;
 
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.PartitionInfo;
-
 import org.linuxforhealth.fhir.core.util.LogSupport;
 import org.linuxforhealth.fhir.database.utils.api.IConnectionProvider;
 import org.linuxforhealth.fhir.database.utils.api.IDatabaseTranslator;
@@ -47,6 +46,7 @@ import org.linuxforhealth.fhir.persistence.params.api.IParamValueProcessor;
 import org.linuxforhealth.fhir.persistence.params.batch.ParameterValueCollector;
 import org.linuxforhealth.fhir.persistence.params.database.DistributedPostgresParamValueProcessor;
 import org.linuxforhealth.fhir.persistence.params.database.PlainDerbyParamValueProcessor;
+import org.linuxforhealth.fhir.persistence.params.database.PlainOracleParamValueProcessor;
 import org.linuxforhealth.fhir.persistence.params.database.PlainPostgresParamValueProcessor;
 import org.linuxforhealth.fhir.remote.index.cache.IdentityCacheImpl;
 import org.linuxforhealth.fhir.remote.index.database.CacheLoader;
@@ -386,6 +386,8 @@ public class Main {
             case PLAIN:
                 if (dbType == DbType.DERBY) {
                     paramValueProcessor = new PlainDerbyParamValueProcessor(c, getSchemaName(), identityCache);
+                } else if (dbType == DbType.ORACLE) {
+                    paramValueProcessor = new PlainOracleParamValueProcessor(c, getSchemaName(), identityCache);
                 } else {
                     paramValueProcessor = new PlainPostgresParamValueProcessor(c, getSchemaName(), identityCache);
                 }

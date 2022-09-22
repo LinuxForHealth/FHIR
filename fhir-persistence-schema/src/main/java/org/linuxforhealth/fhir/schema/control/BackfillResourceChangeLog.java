@@ -56,8 +56,8 @@ public class BackfillResourceChangeLog implements IDatabaseStatement {
                 + "(resource_id, resource_type_id, logical_resource_id, change_tstamp, version_id, change_type) "
                 + "   SELECT r.resource_id, rt.resource_type_id, r.logical_resource_id, r.last_updated, r.version_id, "
                 + "          CASE WHEN r.is_deleted = 'Y' THEN 'D' WHEN r.version_id > 1 THEN 'U' ELSE 'C' END "
-                + "     FROM " +  rTable + " AS r, "
-                +             rtTable + " AS rt "
+                + "     FROM " +  rTable + " r, "
+                +             rtTable + " rt "
                 + "    WHERE rt.resource_type = ? "
                 + " ORDER BY r.resource_id"; // follow the PK index
 

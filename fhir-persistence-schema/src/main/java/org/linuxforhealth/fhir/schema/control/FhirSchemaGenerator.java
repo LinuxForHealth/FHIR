@@ -466,27 +466,11 @@ public class FhirSchemaGenerator {
         // Add stored procedures/functions for Oracle
         final String ROOT_DIR = "oracle/";
         ProcedureDef fd = model.addProcedure(this.schemaName,
-                ADD_CODE_SYSTEM,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_CODE_SYSTEM.toLowerCase() + ".sql", null),
-                Arrays.asList(fhirSequence, codeSystemsTable, allTablesComplete),
-                procedurePrivileges);
-        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        fd = model.addProcedure(this.schemaName,
                 ADD_PARAMETER_NAME,
                 FhirSchemaVersion.V0001.vid(),
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_PARAMETER_NAME.toLowerCase()
                         + ".sql", null),
                 Arrays.asList(fhirSequence, parameterNamesTable, allTablesComplete), procedurePrivileges);
-        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
-
-        fd = model.addProcedure(this.schemaName,
-                ADD_RESOURCE_TYPE,
-                FhirSchemaVersion.V0001.vid(),
-                () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_RESOURCE_TYPE.toLowerCase()
-                        + ".sql", null),
-                Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
         // We currently only support functions with PostgreSQL, although this is really just a procedure
@@ -498,7 +482,7 @@ public class FhirSchemaGenerator {
         deleteResourceParametersScript = ROOT_DIR + DELETE_RESOURCE_PARAMETERS.toLowerCase() + ".sql";
         eraseResourceScript = ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql";
 
-        FunctionDef deleteResourceParameters = model.addFunction(this.schemaName,
+        ProcedureDef deleteResourceParameters = model.addProcedure(this.schemaName,
             DELETE_RESOURCE_PARAMETERS,
             FhirSchemaVersion.V0020.vid(),
             () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, deleteResourceParametersScript, null),

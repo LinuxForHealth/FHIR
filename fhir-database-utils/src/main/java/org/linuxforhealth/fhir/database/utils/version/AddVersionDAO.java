@@ -38,12 +38,8 @@ public class AddVersionDAO implements IDatabaseStatement {
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        String currentTimeStamp;
-        if (translator.getDriverClassName().contains("postgresql")) {
-            currentTimeStamp =  "CURRENT_TIMESTAMP";
-        } else {
-            currentTimeStamp = "CURRENT TIMESTAMP";
-        }
+        final String currentTimeStamp = translator.currentTimestampString();
+
         InsertStatement.Builder insBuilder = InsertStatement.builder(adminSchemaName, SchemaConstants.VERSION_HISTORY)
                 .addColumn(SchemaConstants.SCHEMA_NAME)
                 .addColumn(SchemaConstants.OBJECT_TYPE)
@@ -59,8 +55,7 @@ public class AddVersionDAO implements IDatabaseStatement {
             ps.setString(3, name);
             ps.setInt(4, version);
             ps.executeUpdate();
-        }
-        catch (SQLException x) {
+        } catch (SQLException x) {
             // suppress any complaints about duplicates because we want this to
             // be idempotent
             if (!translator.isDuplicate(x)) {

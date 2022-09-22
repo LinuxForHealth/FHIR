@@ -179,6 +179,7 @@ import org.linuxforhealth.fhir.persistence.params.api.ParamMetrics;
 import org.linuxforhealth.fhir.persistence.params.batch.ParameterValueCollector;
 import org.linuxforhealth.fhir.persistence.params.database.DistributedPostgresParamValueProcessor;
 import org.linuxforhealth.fhir.persistence.params.database.PlainDerbyParamValueProcessor;
+import org.linuxforhealth.fhir.persistence.params.database.PlainOracleParamValueProcessor;
 import org.linuxforhealth.fhir.persistence.params.database.PlainPostgresParamValueProcessor;
 import org.linuxforhealth.fhir.persistence.payload.FHIRPayloadPersistence;
 import org.linuxforhealth.fhir.persistence.payload.PayloadPersistenceResponse;
@@ -3036,6 +3037,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         case PLAIN:
             if (this.connectionStrategy.getFlavor().getType() == DbType.DERBY) {
                 result = new PlainDerbyParamValueProcessor(connection, schemaName, identityCache);
+            } else if (this.connectionStrategy.getFlavor().getType() == DbType.ORACLE) {
+                result = new PlainOracleParamValueProcessor(connection, schemaName, identityCache);
             } else {
                 result = new PlainPostgresParamValueProcessor(connection, schemaName, identityCache);
             }

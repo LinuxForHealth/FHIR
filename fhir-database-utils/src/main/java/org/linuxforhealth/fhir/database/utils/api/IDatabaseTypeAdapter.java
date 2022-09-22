@@ -69,4 +69,11 @@ public interface IDatabaseTypeAdapter {
         return "CLOB";
     }
 
+    /**
+     * Get the data type name for a long type integer
+     * @return
+     */
+    public default String bigintClause() {
+        return "BIGINT";
+    }
 }

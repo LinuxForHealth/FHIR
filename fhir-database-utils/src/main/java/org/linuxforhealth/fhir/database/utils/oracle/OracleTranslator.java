@@ -54,9 +54,11 @@ public class OracleTranslator implements IDatabaseTranslator {
 
     @Override
     public boolean isDuplicate(SQLException x) {
-        // Class Code 23: Constraint Violation
-        // Refer to https://www.postgresql.org/docs/12/errcodes-appendix.html for more detail
-        return "23505".equals(x.getSQLState());
+        // unique constraint violation
+//        System.out.println("SQL ERROR CODE: " + x.getErrorCode());
+//        System.out.println("     SQL STATE: " + x.getSQLState());
+//        System.out.println("     SQL CAUSE: " + x.getCause());
+        return "23000".equals(x.getSQLState()) && x.getErrorCode() == 1;
     }
 
     @Override
@@ -120,12 +122,7 @@ public class OracleTranslator implements IDatabaseTranslator {
 
     @Override
     public boolean isUndefinedName(SQLException x) {
-        // TODO
-        String sqlState = x.getSQLState();
-        return "42704".equals(sqlState) ||
-               "42883".equals(sqlState) ||
-               "42P01".equals(sqlState) ||
-               "42P02".equals(sqlState);
+        return "42000".equals(x.getSQLState());
     }
 
     @Override
@@ -217,20 +214,22 @@ public class OracleTranslator implements IDatabaseTranslator {
 
     @Override
     public String limit(String arg) {
-        return "LIMIT " + arg;
+        return "FETCH NEXT " + arg + " ROWS ONLY";
     }
 
     @Override
     public String pagination(int offset, int rowsPerPage) {
         StringBuilder result = new StringBuilder();
         if (offset == 0) {
-            result.append("LIMIT ");
+            result.append("FETCH NEXT ");
             result.append(rowsPerPage);
+            result.append(" ROWS ONLY");
         } else {
             result.append("OFFSET ");
             result.append(offset);
-            result.append(" LIMIT ");
+            result.append(" FETCH NEXT ");
             result.append(rowsPerPage);
+            result.append(" ROWS ONLY");
         }
         return result.toString();
     }
@@ -253,7 +252,8 @@ public class OracleTranslator implements IDatabaseTranslator {
 
     @Override
     public String nextValue(String schemaName, String sequenceName) {
-        return sequenceName + ".NEXTVAL" ;
+        final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
+        return qname + ".NEXTVAL" ;
     }
 
     @Override

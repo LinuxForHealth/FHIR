@@ -780,8 +780,8 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // for building chained reference queries, and is well worth the minor cost of an extra join
         StringBuilder select = new StringBuilder();
         select.append("SELECT ref.parameter_name_id, ctv.code_system_id, ctv.token_value, ref.logical_resource_id, ref.common_token_value_id, ref." + COMPOSITE_ID);
-        select.append(" FROM ").append(commonTokenValues.getName()).append(" AS ctv, ");
-        select.append(resourceTokenRefs.getName()).append(" AS ref ");
+        select.append(" FROM ").append(commonTokenValues.getName()).append(" ctv, "); // oracle doesn't like AS 
+        select.append(resourceTokenRefs.getName()).append(" ref ");                   // for table references
         select.append(" WHERE ctv.common_token_value_id = ref.common_token_value_id ");
 
         View view = View.builder(schemaName, viewName)
@@ -816,8 +816,8 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         select.append("SELECT ref.parameter_name_id, lri.resource_type_id, lri.logical_id, ref.logical_resource_id, ");
         select.append("       ref.ref_version_id, ref.ref_logical_resource_id, ref.composite_id, ");
         select.append("       lri.logical_id AS ref_value ");
-        select.append("  FROM ").append(logicalResourceIdent.getName()).append(" AS lri, ");
-        select.append(refValues.getName()).append(" AS ref ");
+        select.append("  FROM ").append(logicalResourceIdent.getName()).append(" lri, ");
+        select.append(refValues.getName()).append(" ref ");
         select.append(" WHERE lri.logical_resource_id = ref.ref_logical_resource_id ");
 
         View view = View.builder(schemaName, viewName)
