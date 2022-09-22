@@ -1301,22 +1301,23 @@ Any text enclosed within is ignored
 		<modeTest mode="lenient/polymorphics" name="testPolymorphicsD" inputfile="observation-example.xml"><expression>Observation.valueString.exists()</expression><output type="boolean">false</output></modeTest>
   </group>
     -->
-    
-    <group name="testInheritance">
-		<test name="testFHIRPathIsTypeEqualFunction1" inputfile="patient-example.xml"><expression>Patient.gender.isTypeEqual(code)</expression><output type="boolean">true</output></test>
-		<test name="testFHIRPathIsTypeEqualFunction2" inputfile="patient-example.xml"><expression>Patient.gender.isTypeEqual(string)</expression><output type="boolean">false</output></test>
-		<test name="testFHIRPathIsTypeEqualFunction3" inputfile="questionnaire-example.xml"><expression>Questionnaire.url.isTypeEqual(uri)</expression><output type="boolean">true</output></test>
-		<test name="testFHIRPathIsTypeEqualFunction4" inputfile="questionnaire-example.xml"><expression>Questionnaire.url.isTypeEqual(url)</expression><output type="boolean">false</output></test>
-		<test name="testFHIRPathIsTypeEqualFunction5" inputfile="valueset-example-expansion.xml"><expression>ValueSet.version.isTypeEqual(string)</expression><output type="boolean">true</output></test>
+
+	<group name="testInheritance">
 		<test name="testFHIRPathIsFunction1" inputfile="patient-example.xml"><expression>Patient.gender.is(code)</expression><output type="boolean">true</output></test>
 		<test name="testFHIRPathIsFunction2" inputfile="patient-example.xml"><expression>Patient.gender.is(string)</expression><output type="boolean">true</output></test>
-		<test name="testFHIRPathIsFunction3" inputfile="questionnaire-example.xml"><expression>Questionnaire.url.is(url)</expression><output type="boolean">false</output></test>
-		<test name="testFHIRPathIsFunction4" inputfile="valueset-example-expansion.xml"><expression>ValueSet.version.is(code)</expression><output type="boolean">false</output></test>
-
-		<test name="testFHIRPathAsTypeEqualFunction1" inputfile="patient-example.xml"><expression>Patient.gender.asTypeEqual(code)</expression><output type="code">male</output></test>
-		<test name="testFHIRPathAsTypeEqualFunction2" inputfile="patient-example.xml"><expression>Patient.gender.asTypeEqual(string)</expression></test>
-		<test name="testFHIRPathAsFunction3" inputfile="patient-example.xml"><expression>Patient.gender.as(string)</expression><output type="string">male</output></test>
-		<test name="testFHIRPathAsFunction4" inputfile="valueset-example-expansion.xml"><expression>ValueSet.version.as(code)</expression></test>
+		<test name="testFHIRPathIsFunction3" inputfile="patient-example.xml"><expression>Patient.gender.is(id)</expression><output type="boolean">false</output></test>
+		<test name="testFHIRPathIsFunction4" inputfile="questionnaire-example.xml"><expression>Questionnaire.url.is(uri)</expression><output type="boolean">true</output></test>
+		<test name="testFHIRPathIsFunction5" inputfile="questionnaire-example.xml"><expression>Questionnaire.url.is(url)</expression><output type="boolean">false</output></test>
+		<test name="testFHIRPathIsFunction6" inputfile="valueset-example-expansion.xml"><expression>ValueSet.version.is(string)</expression><output type="boolean">true</output></test>
+		<test name="testFHIRPathIsFunction7" inputfile="valueset-example-expansion.xml"><expression>ValueSet.version.is(code)</expression><output type="boolean">false</output></test>
+		<test name="testFHIRPathIsFunction8" inputfile="observation-example.xml"><expression>Observation.extension('http://example.com/fhir/StructureDefinition/patient-age').value is Age</expression><output type="boolean">true</output></test>
+		<test name="testFHIRPathIsFunction9" inputfile="observation-example.xml"><expression>Observation.extension('http://example.com/fhir/StructureDefinition/patient-age').value is Quantity</expression><output type="boolean">true</output></test>
+		<test name="testFHIRPathIsFunction10" inputfile="observation-example.xml"><expression>Observation.extension('http://example.com/fhir/StructureDefinition/patient-age').value is Duration</expression><output type="boolean">false</output></test>
+		<test name="testFHIRPathAsFunction1" inputfile="patient-example.xml"><expression>Patient.gender.as(string)</expression><output type="string">male</output></test>
+		<test name="testFHIRPathAsFunction2" inputfile="patient-example.xml"><expression>Patient.gender.as(code)</expression><output type="string">male</output></test>
+		<test name="testFHIRPathAsFunction3" inputfile="patient-example.xml"><expression>Patient.gender.as(id)</expression></test>
+		<test name="testFHIRPathAsFunction4" inputfile="valueset-example-expansion.xml"><expression>ValueSet.version.as(string)</expression><output type="string">20150622</output></test>
+		<test name="testFHIRPathAsFunction5" inputfile="valueset-example-expansion.xml"><expression>ValueSet.version.as(code)</expression></test>
 	</group>
 
 </tests>
