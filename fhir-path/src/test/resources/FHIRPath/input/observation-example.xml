@@ -5,7 +5,7 @@
 	<extension url="http://example.com/fhir/StructureDefinition/patient-age">
 		<valueAge>
 			<value value="41" />
-			<system value="https://unitsofmeasure.org" />
+			<system value="http://unitsofmeasure.org" />
 			<code value="a" />
 		</valueAge>
 	</extension>
