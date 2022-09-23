@@ -1,0 +1,86 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE",
+    "version": "2.0.0",
+    "name": "CostShareOptionCS",
+    "title": "Codes qualifying the type of cost share amount",
+    "status": "active",
+    "date": "2022-08-25T13:12:25+00:00",
+    "publisher": "HL7 Pharmacy Working Group",
+    "contact": [
+        {
+            "name": "HL7 Pharmacy Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/medication"
+                },
+                {
+                    "system": "email",
+                    "value": "pharmacy@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Codes for qualifier of copay amount",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "caseSensitive": true,
+    "content": "complete",
+    "count": 8,
+    "concept": [
+        {
+            "code": "after-deductible",
+            "display": "After Deductible",
+            "definition": "The consumer first pays the deductible, and after the deductible is met, the consumer is responsible only for the cost-share amount (this indicates that this benefit is subject to the deductible)."
+        },
+        {
+            "code": "before-deductible",
+            "display": "Before Deductible",
+            "definition": "The consumer first pays the cost share amount, and any net remaining allowed charges accrue to the deductible (this indicates that this benefit is subject to the deductible)."
+        },
+        {
+            "code": "no-charge",
+            "display": "No Charge",
+            "definition": "No cost sharing is charged (this indicates that this benefit is not subject to the deductible)."
+        },
+        {
+            "code": "no-charge-after-deductible",
+            "display": "No Charge After Deductible",
+            "definition": "The consumer first pays the deductible, and after the deductible is met, no cost share amount is charged (this indicates that this benefit is subject to the deductible)."
+        },
+        {
+            "code": "charge",
+            "display": "Charge",
+            "definition": "The consumer always pays just the cost share amount and the issuer pays the remainder of allowed charges (this indicates that this benefit is not subject to the deductible)."
+        },
+        {
+            "code": "coinsurance-not-applicable",
+            "display": "Coinsurance Not Applicable",
+            "definition": "The consumer pays only a copay. Note: When using Not Applicable for coinsurance, Not Applicable cannot also be used for copay (unless the drug tier type is Medical Service Drugs)."
+        },
+        {
+            "code": "copay-not-applicable",
+            "display": "Copay Not Applicable",
+            "definition": "Deductible is not applicable: Zero-deductible cost sharing represented by a co-pay value of 'Not applicable' and co-insurance value of 'No charge'."
+        },
+        {
+            "code": "deductible-waived",
+            "display": "Deductible Waived",
+            "definition": "The consumer pays the cost share amount with deductible requirement waived."
+        }
+    ]
+}

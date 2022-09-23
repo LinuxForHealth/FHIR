@@ -1,0 +1,65 @@
+{
+    "resourceType": "ValueSet",
+    "id": "SemanticDrugFormGroupVS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/SemanticDrugFormGroupVS",
+    "version": "2.0.0",
+    "name": "SemanticDrugFormGroupVS",
+    "title": "Semantic Drug Form Group Codes",
+    "status": "active",
+    "date": "2022-08-25T13:12:25+00:00",
+    "publisher": "HL7 Pharmacy Working Group",
+    "contact": [
+        {
+            "name": "HL7 Pharmacy Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/medication"
+                },
+                {
+                    "system": "email",
+                    "value": "pharmacy@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Semantic Drug Form Group codes with Term Types (TTY) of Semantic Clinical Drug Form (SCDG) and Semantic Branded Drug Form Group (SBDG)",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "compose": {
+        "include": [
+            {
+                "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                "filter": [
+                    {
+                        "property": "TTY",
+                        "op": "=",
+                        "value": "SCDG"
+                    }
+                ]
+            },
+            {
+                "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+                "filter": [
+                    {
+                        "property": "TTY",
+                        "op": "=",
+                        "value": "SBDG"
+                    }
+                ]
+            }
+        ]
+    }
+}

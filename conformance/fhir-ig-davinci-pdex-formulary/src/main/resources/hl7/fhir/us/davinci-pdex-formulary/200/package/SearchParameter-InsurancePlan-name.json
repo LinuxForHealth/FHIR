@@ -1,0 +1,51 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "InsurancePlan-name",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/InsurancePlan-name",
+    "version": "2.0.0",
+    "name": "USDFInsurancePlanName",
+    "status": "active",
+    "date": "2022-08-25T13:12:25+00:00",
+    "publisher": "HL7 Pharmacy Working Group",
+    "contact": [
+        {
+            "name": "HL7 Pharmacy Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/medication"
+                },
+                {
+                    "system": "email",
+                    "value": "pharmacy@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Accesses the name of an InsurancePlan",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "name",
+    "base": [
+        "InsurancePlan"
+    ],
+    "type": "string",
+    "expression": "InsurancePlan.name",
+    "multipleOr": true,
+    "multipleAnd": true,
+    "modifier": [
+        "contains"
+    ]
+}

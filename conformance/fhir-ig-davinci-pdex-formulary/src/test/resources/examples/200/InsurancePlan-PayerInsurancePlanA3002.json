@@ -1,0 +1,487 @@
+{
+    "resourceType": "InsurancePlan",
+    "id": "PayerInsurancePlanA3002",
+    "meta": {
+        "lastUpdated": "2021-05-22T18:36:03.000+00:00",
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PayerInsurancePlan|2.0.0"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "identifier": [
+        {
+            "value": "A3002"
+        }
+    ],
+    "status": "active",
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://hl7.org/fhir/us/davinci-pdex-plan-net/CodeSystem/InsuranceProductTypeCS",
+                    "code": "mediadv"
+                }
+            ]
+        }
+    ],
+    "name": "Sample Medicare Advantage Plan A3002",
+    "period": {
+        "start": "2021-01-01",
+        "end": "2021-12-31"
+    },
+    "coverageArea": [
+        {
+            "reference": "Location/UnitedStatesLocation"
+        }
+    ],
+    "contact": [
+        {
+            "purpose": {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/contactentity-type",
+                        "code": "PATINF"
+                    }
+                ]
+            },
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "+1 (888) 555-3002"
+                }
+            ]
+        },
+        {
+            "purpose": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PlanContactTypeCS-TEMPORARY-TRIAL-USE",
+                        "code": "MARKETING"
+                    }
+                ]
+            },
+            "name": {
+                "text": "Sample Medicare Advantage Plan Marketing Website"
+            },
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://url/to/health/plan/information"
+                }
+            ]
+        },
+        {
+            "purpose": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PlanContactTypeCS-TEMPORARY-TRIAL-USE",
+                        "code": "SUMMARY"
+                    }
+                ]
+            },
+            "name": {
+                "text": "Sample Medicare Advantage Drug Plan Benefit Website"
+            },
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://url/to/health/plan/information"
+                }
+            ]
+        },
+        {
+            "purpose": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PlanContactTypeCS-TEMPORARY-TRIAL-USE",
+                        "code": "FORMULARY"
+                    }
+                ]
+            },
+            "name": {
+                "text": "Sample Medicare Advantage Drug Plan Formulary Website"
+            },
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://url/to/health/plan/information"
+                }
+            ]
+        }
+    ],
+    "coverage": [
+        {
+            "extension": [
+                {
+                    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyReference-extension",
+                    "valueReference": {
+                        "reference": "InsurancePlan/FormularyD3002"
+                    }
+                }
+            ],
+            "type": {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                        "code": "DRUGPOL"
+                    }
+                ]
+            },
+            "benefit": [
+                {
+                    "type": {
+                        "coding": [
+                            {
+                                "system": "http://terminology.hl7.org/CodeSystem/insurance-plan-type",
+                                "code": "Drug",
+                                "display": "Drug"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ],
+    "plan": [
+        {
+            "type": {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/insurance-plan-type",
+                        "code": "Drug",
+                        "display": "Drug"
+                    }
+                ]
+            },
+            "specificCost": [
+                {
+                    "category": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE",
+                                "code": "1-month-in-retail",
+                                "display": "1 month in network retail"
+                            }
+                        ]
+                    },
+                    "benefit": [
+                        {
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-DrugTierCS-TEMPORARY-TRIAL-USE",
+                                        "code": "generic",
+                                        "display": "Generic"
+                                    }
+                                ]
+                            },
+                            "cost": [
+                                {
+                                    "type": {
+                                        "coding": [
+                                            {
+                                                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE",
+                                                "code": "copay",
+                                                "display": "Copay"
+                                            }
+                                        ]
+                                    },
+                                    "qualifiers": [
+                                        {
+                                            "coding": [
+                                                {
+                                                    "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE",
+                                                    "code": "before-deductible",
+                                                    "display": "Before Deductible"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "value": {
+                                        "value": 10,
+                                        "unit": "$",
+                                        "system": "urn:iso:std:iso:4217",
+                                        "code": "USD"
+                                    }
+                                },
+                                {
+                                    "type": {
+                                        "coding": [
+                                            {
+                                                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE",
+                                                "code": "coinsurance",
+                                                "display": "Coinsurance"
+                                            }
+                                        ]
+                                    },
+                                    "qualifiers": [
+                                        {
+                                            "coding": [
+                                                {
+                                                    "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE",
+                                                    "code": "after-deductible",
+                                                    "display": "After Deductible"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "value": {
+                                        "value": 1,
+                                        "system": "http://unitsofmeasure.org",
+                                        "code": "%"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "category": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE",
+                                "code": "1-month-out-retail",
+                                "display": "1 month out of network retail"
+                            }
+                        ]
+                    },
+                    "benefit": [
+                        {
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-DrugTierCS-TEMPORARY-TRIAL-USE",
+                                        "code": "generic",
+                                        "display": "Generic"
+                                    }
+                                ]
+                            },
+                            "cost": [
+                                {
+                                    "type": {
+                                        "coding": [
+                                            {
+                                                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE",
+                                                "code": "copay",
+                                                "display": "Copay"
+                                            }
+                                        ]
+                                    },
+                                    "qualifiers": [
+                                        {
+                                            "coding": [
+                                                {
+                                                    "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE",
+                                                    "code": "no-charge",
+                                                    "display": "No Charge"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "value": {
+                                        "value": 0,
+                                        "unit": "$",
+                                        "system": "urn:iso:std:iso:4217",
+                                        "code": "USD"
+                                    }
+                                },
+                                {
+                                    "type": {
+                                        "coding": [
+                                            {
+                                                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE",
+                                                "code": "coinsurance",
+                                                "display": "Coinsurance"
+                                            }
+                                        ]
+                                    },
+                                    "qualifiers": [
+                                        {
+                                            "coding": [
+                                                {
+                                                    "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE",
+                                                    "code": "after-deductible",
+                                                    "display": "After Deductible"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "value": {
+                                        "value": 0,
+                                        "system": "http://unitsofmeasure.org",
+                                        "code": "%"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "category": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE",
+                                "code": "3-month-in-retail",
+                                "display": "3 month in network retail"
+                            }
+                        ]
+                    },
+                    "benefit": [
+                        {
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-DrugTierCS-TEMPORARY-TRIAL-USE",
+                                        "code": "generic",
+                                        "display": "Generic"
+                                    }
+                                ]
+                            },
+                            "cost": [
+                                {
+                                    "type": {
+                                        "coding": [
+                                            {
+                                                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE",
+                                                "code": "copay",
+                                                "display": "Copay"
+                                            }
+                                        ]
+                                    },
+                                    "qualifiers": [
+                                        {
+                                            "coding": [
+                                                {
+                                                    "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE",
+                                                    "code": "no-charge",
+                                                    "display": "No Charge"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "value": {
+                                        "value": 0,
+                                        "unit": "$",
+                                        "system": "urn:iso:std:iso:4217",
+                                        "code": "USD"
+                                    }
+                                },
+                                {
+                                    "type": {
+                                        "coding": [
+                                            {
+                                                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE",
+                                                "code": "coinsurance",
+                                                "display": "Coinsurance"
+                                            }
+                                        ]
+                                    },
+                                    "qualifiers": [
+                                        {
+                                            "coding": [
+                                                {
+                                                    "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE",
+                                                    "code": "after-deductible",
+                                                    "display": "After Deductible"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "value": {
+                                        "value": 0,
+                                        "system": "http://unitsofmeasure.org",
+                                        "code": "%"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "category": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE",
+                                "code": "3-month-out-retail",
+                                "display": "3 month out of network retail"
+                            }
+                        ]
+                    },
+                    "benefit": [
+                        {
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-DrugTierCS-TEMPORARY-TRIAL-USE",
+                                        "code": "generic",
+                                        "display": "Generic"
+                                    }
+                                ]
+                            },
+                            "cost": [
+                                {
+                                    "type": {
+                                        "coding": [
+                                            {
+                                                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE",
+                                                "code": "copay",
+                                                "display": "Copay"
+                                            }
+                                        ]
+                                    },
+                                    "qualifiers": [
+                                        {
+                                            "coding": [
+                                                {
+                                                    "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE",
+                                                    "code": "no-charge",
+                                                    "display": "No Charge"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "value": {
+                                        "value": 0,
+                                        "unit": "$",
+                                        "system": "urn:iso:std:iso:4217",
+                                        "code": "USD"
+                                    }
+                                },
+                                {
+                                    "type": {
+                                        "coding": [
+                                            {
+                                                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-BenefitCostTypeCS-TEMPORARY-TRIAL-USE",
+                                                "code": "coinsurance",
+                                                "display": "Coinsurance"
+                                            }
+                                        ]
+                                    },
+                                    "qualifiers": [
+                                        {
+                                            "coding": [
+                                                {
+                                                    "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-CostShareOptionCS-TEMPORARY-TRIAL-USE",
+                                                    "code": "after-deductible",
+                                                    "display": "After Deductible"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "value": {
+                                        "value": 0,
+                                        "system": "http://unitsofmeasure.org",
+                                        "code": "%"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

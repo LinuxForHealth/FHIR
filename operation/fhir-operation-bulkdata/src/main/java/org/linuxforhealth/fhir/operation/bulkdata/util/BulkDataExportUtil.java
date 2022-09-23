@@ -18,8 +18,6 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.MediaType;
 
-import org.owasp.encoder.Encode;
-
 import org.linuxforhealth.fhir.config.FHIRConfigHelper;
 import org.linuxforhealth.fhir.core.FHIRMediaType;
 import org.linuxforhealth.fhir.core.FHIRVersionParam;
@@ -34,9 +32,9 @@ import org.linuxforhealth.fhir.model.type.code.IssueType;
 import org.linuxforhealth.fhir.operation.bulkdata.OperationConstants;
 import org.linuxforhealth.fhir.operation.bulkdata.OperationConstants.ExportType;
 import org.linuxforhealth.fhir.operation.bulkdata.model.PollingLocationResponse;
-import org.linuxforhealth.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
 import org.linuxforhealth.fhir.search.compartment.CompartmentHelper;
 import org.linuxforhealth.fhir.server.spi.operation.FHIROperationContext;
+import org.owasp.encoder.Encode;
 
 /**
  * BulkData Util captures common methods
@@ -319,15 +317,14 @@ public class BulkDataExportUtil {
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 if (OperationConstants.PARAM_JOB.equals(parameter.getName().getValue())
-                        && parameter.getValue() != null && parameter.getValue().is(org.linuxforhealth.fhir.model.type.String.class)) {
-                    String job = JobIdEncodingTransformer.getInstance().decodeJobId(parameter.getValue().as(org.linuxforhealth.fhir.model.type.String.class).getValue());
-
-                    // The job is never going to be empty or null as STRING is never empty at this point.
-                    if (job.contains("/") || job.contains("?")) {
-                        throw new FHIROperationException("job passed is invalid and is not supported");
+                        && parameter.getValue() != null && parameter.getValue().is(FHIR_STRING)) {
+                    try {
+                        // Don't look at any other parameters.
+                        return CommonUtil.decodeJobId(parameter.getValue().as(FHIR_STRING).getValue());
+                    } catch(IllegalArgumentException e) {
+                        String msg = "invalid job id was passed";
+                        throw buildOperationException(msg, IssueType.INVALID, e);
                     }
-                    // Don't look at any other parameters.
-                    return job;
                 }
             }
         }

@@ -292,7 +292,7 @@
                 "isSummary": false,
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS|1.1.0"
                 },
                 "mapping": [
                     {
@@ -348,7 +348,7 @@
                 "max": "1",
                 "binding": {
                     "strength": "extensible",
-                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS"
+                    "valueSet": "http://hl7.org/fhir/us/davinci-drug-formulary/ValueSet/DrugTierVS|1.1.0"
                 }
             }
         ]

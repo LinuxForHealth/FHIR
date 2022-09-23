@@ -1,0 +1,97 @@
+{
+    "resourceType": "Basic",
+    "id": "FormularyItem-D3001-1000091",
+    "meta": {
+        "lastUpdated": "2021-08-22T18:36:03.000+00:00",
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyItem|2.0.0"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyReference-extension",
+            "valueReference": {
+                "reference": "InsurancePlan/FormularyD3001"
+            }
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-AvailabilityStatus-extension",
+            "valueCode": "active"
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PharmacyBenefitType-extension",
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE",
+                        "code": "1-month-in-mail",
+                        "display": "1 month in network mail order"
+                    }
+                ]
+            }
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-DrugTierID-extension",
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-DrugTierCS-TEMPORARY-TRIAL-USE",
+                        "code": "generic",
+                        "display": "Generic"
+                    }
+                ]
+            }
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-AvailabilityPeriod-extension",
+            "valuePeriod": {
+                "start": "2021-01-01",
+                "end": "2021-12-31"
+            }
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PharmacyBenefitType-extension",
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE",
+                        "code": "3-month-in-mail",
+                        "display": "3 month in network mail order"
+                    }
+                ]
+            }
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PriorAuthorization-extension",
+            "valueBoolean": false
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-StepTherapyLimit-extension",
+            "valueBoolean": true
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-StepTherapyLimitNewStartsOnly-extension",
+            "valueBoolean": true
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-QuantityLimit-extension",
+            "valueBoolean": true
+        }
+    ],
+    "code": {
+        "coding": [
+            {
+                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-InsuranceItemTypeCS",
+                "code": "formulary-item",
+                "display": "Formulary Item"
+            }
+        ]
+    },
+    "subject": {
+        "reference": "MedicationKnowledge/FormularyDrug-1000091"
+    }
+}

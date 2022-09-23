@@ -41,7 +41,8 @@
     "compose": {
         "include": [
             {
-                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PharmacyTypeCS"
+                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PharmacyTypeCS",
+                "version": "1.1.0"
             }
         ]
     }

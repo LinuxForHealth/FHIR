@@ -1,0 +1,129 @@
+{
+    "resourceType": "Basic",
+    "id": "FormularyItem-D1002-1049640",
+    "meta": {
+        "lastUpdated": "2021-08-22T18:36:03.000+00:00",
+        "profile": [
+            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyItem|2.0.0"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-FormularyReference-extension",
+            "valueReference": {
+                "reference": "InsurancePlan/FormularyD1002"
+            }
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-AvailabilityStatus-extension",
+            "valueCode": "active"
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PharmacyBenefitType-extension",
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-PharmacyBenefitTypeCS-TEMPORARY-TRIAL-USE",
+                        "code": "3-month-out-retail",
+                        "display": "3 month out of network retail"
+                    }
+                ]
+            }
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-DrugTierID-extension",
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-DrugTierCS-TEMPORARY-TRIAL-USE",
+                        "code": "brand",
+                        "display": "Brand"
+                    }
+                ]
+            }
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-AvailabilityPeriod-extension",
+            "valuePeriod": {
+                "start": "2021-01-01",
+                "end": "2021-12-31"
+            }
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PriorAuthorization-extension",
+            "valueBoolean": true
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-PriorAuthorizationNewStartsOnly-extension",
+            "valueBoolean": true
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-StepTherapyLimit-extension",
+            "valueBoolean": true
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-StepTherapyLimitNewStartsOnly-extension",
+            "valueBoolean": false
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-QuantityLimit-extension",
+            "valueBoolean": true
+        },
+        {
+            "extension": [
+                {
+                    "url": "Rolling",
+                    "valueTiming": {
+                        "repeat": {
+                            "count": 60,
+                            "period": 30,
+                            "periodUnit": "d"
+                        }
+                    }
+                },
+                {
+                    "url": "MaximumDaily",
+                    "valueQuantity": {
+                        "value": 2
+                    }
+                },
+                {
+                    "url": "DaysSupply",
+                    "valueTiming": {
+                        "repeat": {
+                            "boundsDuration": {
+                                "value": 365,
+                                "system": "http://unitsofmeasure.org",
+                                "code": "d"
+                            },
+                            "count": 1,
+                            "period": 180,
+                            "periodUnit": "d"
+                        }
+                    }
+                }
+            ],
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-QuantityLimitDetail-extension"
+        },
+        {
+            "url": "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-AdditionalCoverageInformation-extension",
+            "valueMarkdown": "Prior Authorization required only with a newly started medication\nStep Therapy required."
+        }
+    ],
+    "code": {
+        "coding": [
+            {
+                "system": "http://hl7.org/fhir/us/davinci-drug-formulary/CodeSystem/usdf-InsuranceItemTypeCS",
+                "code": "formulary-item",
+                "display": "Formulary Item"
+            }
+        ]
+    },
+    "subject": {
+        "reference": "MedicationKnowledge/FormularyDrug-1049640"
+    }
+}

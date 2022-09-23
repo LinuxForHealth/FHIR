@@ -21,7 +21,7 @@
                 },
                 "pageSize": 100,
                 "_comment": "max of 1000",
-                "batchIdEncryptionKey": "change-password",
+                "batchIdEncodingKey": "change-password",
                 "maxPartitions": 3,
                 "maxInputs": 5,
                 "systemExportImpl": "none"

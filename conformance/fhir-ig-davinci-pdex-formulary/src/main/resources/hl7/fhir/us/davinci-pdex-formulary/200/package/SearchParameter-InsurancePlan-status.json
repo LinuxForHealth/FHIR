@@ -1,0 +1,54 @@
+{
+    "resourceType": "SearchParameter",
+    "id": "InsurancePlan-status",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://fhir.linuxforhealth.org/extension/implicit-system",
+            "valueUri": "http://hl7.org/fhir/publication-status"
+        }
+    ],
+    "url": "http://hl7.org/fhir/us/davinci-drug-formulary/SearchParameter/InsurancePlan-status",
+    "version": "2.0.0",
+    "name": "USDFInsurancePlanStatus",
+    "status": "active",
+    "date": "2022-08-25T13:12:25Z",
+    "publisher": "HL7 Pharmacy Working Group",
+    "contact": [
+        {
+            "name": "HL7 Pharmacy Working Group",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.hl7.org/Special/committees/medication"
+                },
+                {
+                    "system": "email",
+                    "value": "pharmacy@lists.HL7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Accesses the status of an InsurancePlan",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "code": "status",
+    "base": [
+        "InsurancePlan"
+    ],
+    "type": "token",
+    "expression": "InsurancePlan.status",
+    "multipleOr": true,
+    "multipleAnd": true
+}

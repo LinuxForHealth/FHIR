@@ -4,7 +4,7 @@ title: Search Configuration Overview
 permalink: /FHIRSearchConfiguration/
 ---
 
-# IBM FHIR Server - Search Configuration Overview
+# Search Configuration Overview
 The [FHIR Specification](https://hl7.org/fhir/R4B/search.html) defines a set of searchable fields for each resource type. The LinuxForHealth FHIR Server supports searching via both specification-defined search parameters and tenant-specific search parameters.
 
 Specifically, the LinuxForHealth FHIR Server supports searching on additional fields, including:
@@ -16,17 +16,13 @@ The LinuxForHealth FHIR Server allows deployers to define search parameters on a
 Tenant search parameters are defined via a [Bundle](https://hl7.org/fhir/R4B/bundle.html) of [SearchParameter](https://hl7.org/fhir/R4B/searchparameter.html) resources that define the additional search parameters which describe the searchable field and define the FHIRPath expression for extraction.  For example, a tenant that extends the `Patient` resource type with the `favorite-color` extension, enables search on `favorite-color` by defining a SearchParameter as part of this bundle.
 
 ## 1 Configuration
-Since IBM FHIR Server 4.10.0, *all* SearchParameter definitions are loaded from the `fhir-registry` by the `fhir-search` module during server startup.
+SearchParameter definitions are loaded from the `fhir-registry` by the `fhir-search` module during server startup.
 The definitions in the registry can come from the core specification, packaged implementation guides, or other registry resource providers via the FHIRRegistryResourceProvider SPI.
 Although FHIRRegistry is dynamic, changes to search parameters in the registry (e.g. addition, removal, or modification of SearchParameter resources) are *NOT* reflected in the running server. One must restart the server in order to apply the changes. Additionally, to apply the new search parameter configuration to previously-ingested resources, it is necessary to perform [reindexing](#2-re-index).
 
-In previous versions, only the built-in parameters were loaded from the registry; tenant-specific parameters were loaded from `extension-search-parameters.json` files in the tenant config folders.
+The LinuxForHealth FHIR Server contains a FHIRRegistryResourceProvider that reads `extension-search-parameters.json` files from the tenant config directory and contributes their contents to the registry.
 
-For backwards compatibility, IBM FHIR Server 4.10.0 contains a new FHIRRegistryResourceProvider that reads these same `extension-search-parameters.json` files and contributes their contents to the registry, so that this same mechanism can still be used.
-
-The LinuxForHealth FHIR Server supports compartment search based on CompartmentDefinition resources.
-Since IBM FHIR Server 4.8.1, the LinuxForHealth FHIR Server will load compartment definitions from the registry.
-In previous versions, the CompartmentDefinition resources came from a configuration file.
+The LinuxForHealth FHIR Server also supports compartment search based on CompartmentDefinition resources that are loaded from the registry.
 
 ### 1.1 Tenant-specific parameters
 To configure tenant-specific search parameters, create a file called `extension-search-parameters.json`, populate it with a Bundle of `SearchParameter` resources, and place it in the `${server.config.dir}/config/<tenant-id>` directory. For example, the `${server.config.dir}/config/acme/extension-search-parameters.json` file would contain the search parameters for the `acme` tenant, while `${server.config.dir}/config/qpharma/extension-search-parameters.json` would contain search parameters used by the `qpharma` tenant.
@@ -200,8 +196,8 @@ For each compartment type, the rules for determining if a resource is a member o
 
 For example, for the `Patient` compartment, to determine if an `Observation` is a member, the inclusion criteria search parameters are `subject` and `performer`. If the `Observation` resource fields associated with these search parameters reference a `Patient` resource, the `Observation` resource is a member of that `Patient` compartment.
 
-As of IBM FHIR Server 4.11.0, compartment membership is always evaluated during ingestion, even if the search parameters that define compartment membership have been filtered out in fhir-server-config.json.
-However, in cases where the inclusion criteria parameters have been overridden, it is still possible for server config to affect compartment membership.
+Compartment membership is always evaluated during ingestion, even if the search parameters that define compartment membership have been filtered out in fhir-server-config.json.
+In cases where the inclusion criteria parameters have been overridden, it is possible for server config to affect compartment membership.
 
 ##  2 Re-index
 Reindexing is implemented as a custom operation that tells the LinuxForHealth FHIR Server to read a set of resources and replace the existing search parameters with those newly extracted from the resource body.

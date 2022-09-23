@@ -19,12 +19,21 @@ Source - http://hl7.org/fhir/us/davinci-drug-formulary/STU1.1 retrieved on May 2
 - Modified ig-r4.json to remove parameters that aren't valid in FHIR R4
 - Stripped narrative text to reduce the size and formatted the JSON contents (both via the ResourceProcessor tool)
 
+## PDEX US Drug Formulary 2.0.0
+Source - http://hl7.org/fhir/us/davinci-drug-formulary/STU2/ retrieved on September 05, 2022.
+- Modified ig-r4.json to remove parameters that aren't valid in FHIR R4
+- Stripped narrative text to reduce the size and formatted the JSON contents (both via the ResourceProcessor tool)
+
 # Steps to update
 1. download the npm package for whatever version of PDEX US Drug Formulary you want (and note what downloads we used from where in this file)
 2. update `src/main/resources` with the latest conformance artifacts and `src/test/resources` with the latest examples
 3. if its a new version
    - ensure references from the previous package are version-specific (e.g. to avoid a 1.0.1 profile from picking up a 1.1.0 valueset during validation)
+      - Add version id to each targetProfile canonical reference
+      - Add version id to each valueSet binding target
+      - Add version id to each extension's profile reference in each StructureDefinition
+      - Add version element to each CodeSystem reference from each ValueSet definition
    - add a new provider (`src/main/java` and `src/main/resources/META-INF`)
-   - create tests for this new version (update ConstraintGeneratorTest and PlanNetResourceProviderTest)
+   - create tests for this new version (update ConstraintGeneratorTest and FormularyResourceProviderTest)
 4. execute ResourceProcessor from src/test/java with the proper arguments
 5. execute SearchParameterAugmenter from src/test/java with the proper arguments
