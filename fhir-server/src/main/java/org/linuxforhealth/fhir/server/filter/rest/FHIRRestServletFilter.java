@@ -44,6 +44,7 @@ import org.linuxforhealth.fhir.model.type.code.IssueSeverity;
 import org.linuxforhealth.fhir.model.type.code.IssueType;
 import org.linuxforhealth.fhir.model.util.FHIRUtil;
 import org.linuxforhealth.fhir.server.exception.FHIRRestServletRequestException;
+import org.linuxforhealth.fhir.server.listener.FHIRServletContextListener;
 
 /**
  * This class is a servlet filter which is registered with the REST API's servlet. The main purpose of the class is to
@@ -61,6 +62,8 @@ public class FHIRRestServletFilter extends HttpFilter {
     private static final String preferHeaderName = "Prefer";
     private static final String preferHandlingHeaderSectionName = "handling";
     private static final String preferReturnHeaderSectionName = "return";
+    
+    private static List<String> configuredTenants = null;
 
     private static String defaultTenantId = null;
     private static final HTTPReturnPreference defaultHttpReturnPref = HTTPReturnPreference.MINIMAL;
@@ -136,6 +139,9 @@ public class FHIRRestServletFilter extends HttpFilter {
             FHIRConfiguration.validateDatastoreId(dsId);
 
             // Checks for Valid Tenant Configuration
+            
+            tenantId = fetchValidTenantId(tenantId, request);
+            
             checkValidTenantConfiguration(tenantId);
 
             // Create a new FHIRRequestContext and set it on the current thread.
@@ -500,6 +506,7 @@ public class FHIRRestServletFilter extends HttpFilter {
     public void init(FilterConfig filterConfig) throws ServletException {
         try {
             PropertyGroup config = FHIRConfiguration.getInstance().loadConfiguration();
+            FHIRConfiguration fhirConfiguration = FHIRConfiguration.getInstance();
             if (config == null) {
                 throw new IllegalStateException("No FHIRConfiguration was found");
             }
@@ -523,8 +530,40 @@ public class FHIRRestServletFilter extends HttpFilter {
             shardKeyHeaderName = config.getStringProperty(FHIRConfiguration.PROPERTY_SHARD_KEY_HEADER_NAME,
                 FHIRConfiguration.DEFAULT_SHARD_KEY_HEADER_NAME);
             log.info("Configured shard-key header name is: '" +  shardKeyHeaderName + "'");
+            
+            if (filterConfig.getServletContext().getAttribute(FHIRServletContextListener.FHIR_CONFIGURED_TENANTS) != null 
+                    && filterConfig.getServletContext().getAttribute(FHIRServletContextListener.FHIR_CONFIGURED_TENANTS) instanceof List<?>) {
+                configuredTenants = (List<String>) filterConfig.getServletContext().getAttribute(FHIRServletContextListener.FHIR_CONFIGURED_TENANTS);
+            }
         } catch (Exception e) {
             throw new ServletException("Servlet filter initialization error.", e);
         }
+    }
+    
+    /**
+     * Checks if the tenant id is present in the list configured tenants. 
+     * If the tenant Id is present this method returns the value from the configured tenants list.
+     * @param tenantId the tenant for which the configured Tenants is going to be checked
+     * @param request
+     * @return tenantId If the tenant Id is present this method returns the value from the configured tenants list.
+     * @throws Exception If the tenant Id is not present in the list configured tenants.
+     */
+    private String fetchValidTenantId(String tenantId, HttpServletRequest request) throws Exception {
+        try {
+            //List<String> configuredTenants = (List<String>) request.getAttribute(FHIR_CONFIGURED_TENANTS);
+            if (!configuredTenants.isEmpty() && configuredTenants.contains(tenantId)) {
+                return configuredTenants.get(configuredTenants.indexOf(tenantId));
+            } else {
+                log.severe("Missing tenant configuration for '"  + tenantId + "'");
+                throw new FHIRException("Tenant configuration does not exist: " + tenantId);
+            }
+        } catch (FHIRException fe) {
+            throw fe;
+        } catch (Throwable t) {
+            String msg = "Unexpected error while retrieving configuration.";
+            log.severe(msg + " " + t);
+            throw new Exception(msg);
+        }
+        
     }
 }

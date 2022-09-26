@@ -87,7 +87,7 @@ import org.linuxforhealth.fhir.term.remote.provider.RemoteTermServiceProvider.Co
 import org.linuxforhealth.fhir.term.service.FHIRTermService;
 import org.linuxforhealth.fhir.term.spi.FHIRTermServiceProvider;
 
-@WebListener("IBM FHIR Server Servlet Context Listener")
+@WebListener("LinuxForHealth FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
     private static final Logger log = Logger.getLogger(FHIRServletContextListener.class.getName());
     private static final Logger metricLogger = Logger.getLogger("org.linuxforhealth.fhir.MetricReport");
@@ -107,6 +107,8 @@ public class FHIRServletContextListener implements ServletContextListener {
 
     private List<GraphTermServiceProvider> graphTermServiceProviders = new ArrayList<>();
     private List<RemoteTermServiceProvider> remoteTermServiceProviders = new ArrayList<>();
+    private static List<String> configuredTenants = null;
+    public static final String FHIR_CONFIGURED_TENANTS = "fhir-configured-tenants";
 
     // Unique value known only to this class so that only we can initiate lifecycle events
     private static final Object serviceManagerId = new Object();
@@ -124,6 +126,7 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             FHIRConfiguration.setConfigHome(System.getenv("FHIR_CONFIG_HOME"));
             PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
+            FHIRConfiguration fhirConfiguration = FHIRConfiguration.getInstance();
             if (fhirConfig == null) {
                 throw new IllegalStateException("No FHIRConfiguration was found");
             }
@@ -299,6 +302,14 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             // Now init is complete, tell all registered callbacks
             EventManager.serverReady(serviceManagerId);
+            
+            // set the configured tenants list 
+            configuredTenants = fhirConfiguration.getConfiguredTenants();
+            if (configuredTenants.isEmpty()) {
+                throw new IllegalStateException("No configured tenants were found");
+            }
+            event.getServletContext().setAttribute(FHIR_CONFIGURED_TENANTS, configuredTenants);
+            
         } catch(Throwable t) {
             String msg = "Encountered an exception while initializing the servlet context.";
             log.log(Level.SEVERE, msg, t);
