@@ -140,7 +140,7 @@ public class FHIRRestServletFilter extends HttpFilter {
 
             // Checks for Valid Tenant Configuration
             
-            tenantId = fetchValidTenantId(tenantId, request);
+            tenantId = fetchValidTenantId(tenantId);
             
             checkValidTenantConfiguration(tenantId);
 
@@ -506,7 +506,6 @@ public class FHIRRestServletFilter extends HttpFilter {
     public void init(FilterConfig filterConfig) throws ServletException {
         try {
             PropertyGroup config = FHIRConfiguration.getInstance().loadConfiguration();
-            FHIRConfiguration fhirConfiguration = FHIRConfiguration.getInstance();
             if (config == null) {
                 throw new IllegalStateException("No FHIRConfiguration was found");
             }
@@ -544,13 +543,11 @@ public class FHIRRestServletFilter extends HttpFilter {
      * Checks if the tenant id is present in the list configured tenants. 
      * If the tenant Id is present this method returns the value from the configured tenants list.
      * @param tenantId the tenant for which the configured Tenants is going to be checked
-     * @param request
      * @return tenantId If the tenant Id is present this method returns the value from the configured tenants list.
      * @throws Exception If the tenant Id is not present in the list configured tenants.
      */
-    private String fetchValidTenantId(String tenantId, HttpServletRequest request) throws Exception {
+    private String fetchValidTenantId(String tenantId) throws Exception {
         try {
-            //List<String> configuredTenants = (List<String>) request.getAttribute(FHIR_CONFIGURED_TENANTS);
             if (!configuredTenants.isEmpty() && configuredTenants.contains(tenantId)) {
                 return configuredTenants.get(configuredTenants.indexOf(tenantId));
             } else {
@@ -560,7 +557,7 @@ public class FHIRRestServletFilter extends HttpFilter {
         } catch (FHIRException fe) {
             throw fe;
         } catch (Throwable t) {
-            String msg = "Unexpected error while retrieving configuration.";
+            String msg = "Unexpected error while retrieving list of configured tenants.";
             log.severe(msg + " " + t);
             throw new Exception(msg);
         }
