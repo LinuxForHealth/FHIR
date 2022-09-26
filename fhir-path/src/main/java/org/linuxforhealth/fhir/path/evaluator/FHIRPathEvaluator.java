@@ -359,6 +359,39 @@ public class FHIRPathEvaluator {
             }
             return result;
         }
+        
+        /**
+         * https://hl7.org/fhirpath/N1/#as-type-specifier
+         * https://hl7.org/fhirpath/N1/#astype-type-specifier
+         * This method returns the value of the left operand if it is of the type specified in the second operand.
+         * If the identifier cannot be resolved to a valid type identifier, the method will throw an error. 
+         * If there is more than one item in the input collection, the method will throw an error. 
+         * Otherwise, this method returns the empty collection.
+         * @param arguments the parse tree
+         * @return the result of evaluation as a non-null, collection of FHIRPath nodes
+         */
+        private Collection<FHIRPathNode> asTypeEqual(List<ExpressionContext> arguments) {
+            if (arguments.size() != 1) {
+                throw unexpectedNumberOfArguments(arguments.size(), "asTypeEqual");
+            }
+            Collection<FHIRPathNode> result = new ArrayList<>();
+            ExpressionContext typeName = arguments.get(0);
+            String identifier = typeName.getText().replace("`", "");
+            FHIRPathType type = FHIRPathType.from(identifier);
+            if (type == null) {
+                throw new IllegalArgumentException(String.format("Argument '%s' cannot be resolved to a valid type identifier", identifier));
+            }
+            for (FHIRPathNode node : getCurrentContext()) {
+                FHIRPathType nodeType = node.type();
+                if (SYSTEM_NAMESPACE.equals(type.namespace()) && node.hasValue()) {
+                    nodeType = node.getValue().type();
+                }
+                if (type.isTypeEqual(nodeType)) {
+                    result.add(node);
+                }
+            }
+            return result;
+        }
 
         private Set<String> closure(FHIRPathType type) {
             if (SYSTEM_NAMESPACE.equals(type.namespace())) {
@@ -449,6 +482,36 @@ public class FHIRPathEvaluator {
             }
             FHIRPathNode node = getSingleton(currentContext);
             return type.isAssignableFrom(node.type()) ? SINGLETON_TRUE : SINGLETON_FALSE;
+        }
+        
+        /**
+         * https://hl7.org/fhirpath/N1/#is-type-specifier
+         * https://hl7.org/fhirpath/N1/#istype-type-specifier
+         * This method returns true if the type of the left operand is the type specified in the second operand.
+         * If the input value is not of the type, this method returns false.
+         * @param arguments the parse tree
+         * @return the result of evaluation as a non-null, collection of FHIRPath nodes(The boolean value wrapped by this FHIRPathBooleanValue node)
+         */
+        private Collection<FHIRPathNode> isTypeEqual(Collection<ExpressionContext> arguments) {
+            if (arguments.size() != 1) {
+                throw unexpectedNumberOfArguments(arguments.size(), "isTypeEqual");
+            }
+
+            Collection<FHIRPathNode> currentContext = getCurrentContext();
+            if (currentContext.isEmpty()) {
+                return SINGLETON_FALSE;
+            } else if (currentContext.size() > 1) {
+                throw new IllegalArgumentException(String.format("Input collection has %d items, but only 1 is allowed", currentContext.size()));
+            }
+
+            ExpressionContext typeName = arguments.iterator().next();
+            String identifier = typeName.getText().replace("`", "");
+            FHIRPathType type = FHIRPathType.from(identifier);
+            if (type == null) {
+                return SINGLETON_FALSE;
+            }
+            FHIRPathNode node = getSingleton(currentContext);
+            return type.isTypeEqual(node.type()) ? SINGLETON_TRUE : SINGLETON_FALSE;
         }
 
         /**
@@ -1216,6 +1279,9 @@ public class FHIRPathEvaluator {
             case "as":
                 result = as(arguments);
                 break;
+            case "asTypeEqual":
+                result = asTypeEqual(arguments);
+                break;
             case "exists":
                 result = exists(arguments);
                 break;
@@ -1224,6 +1290,9 @@ public class FHIRPathEvaluator {
                 break;
             case "is":
                 result = is(arguments);
+                break;
+            case "isTypeEqual":
+                result = isTypeEqual(arguments);
                 break;
             case "ofType":
                 result = ofType(arguments);

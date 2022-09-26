@@ -88,35 +88,35 @@ public class MaxValueSetTest {
         constraints = generator.generate();
         assertEquals(constraints.size(), 2);
         constraints.forEach(constraint -> compile(constraint.expression()));
-        assertEquals(constraints.get(1).expression(), "value.where(is(CodeableConcept)).exists() and value.where(is(CodeableConcept)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))");
+        assertEquals(constraints.get(1).expression(), "value.where(isTypeEqual(CodeableConcept)).exists() and value.where(isTypeEqual(CodeableConcept)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))");
 
         structureDefinition = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/test-language-secondary-extension", StructureDefinition.class);
         generator = new ConstraintGenerator(structureDefinition);
         constraints = generator.generate();
         assertEquals(constraints.size(), 2);
         constraints.forEach(constraint -> compile(constraint.expression()));
-        assertEquals(constraints.get(1).expression(), "value.where(is(Coding)).exists() implies (value.where(is(Coding)).exists() and value.where(is(Coding)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required')))");
+        assertEquals(constraints.get(1).expression(), "value.where(isTypeEqual(Coding)).exists() implies (value.where(isTypeEqual(Coding)).exists() and value.where(isTypeEqual(Coding)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required')))");
 
         structureDefinition = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/test-language-tertiary-extension", StructureDefinition.class);
         generator = new ConstraintGenerator(structureDefinition);
         constraints = generator.generate();
         assertEquals(constraints.size(), 2);
         constraints.forEach(constraint -> compile(constraint.expression()));
-        assertEquals(constraints.get(1).expression(), "value.where(is(code)).exists() and value.where(is(code)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))");
+        assertEquals(constraints.get(1).expression(), "value.where(isTypeEqual(code)).exists() and value.where(isTypeEqual(code)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))");
 
         structureDefinition = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/test-language-others-opt-extension", StructureDefinition.class);
         generator = new ConstraintGenerator(structureDefinition);
         constraints = generator.generate();
         assertEquals(constraints.size(), 2);
         constraints.forEach(constraint -> compile(constraint.expression()));
-        assertEquals(constraints.get(1).expression(), "value.where(is(CodeableConcept)).exists() implies (value.where(is(CodeableConcept)).count() >= 1 and value.where(is(CodeableConcept)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required')))");
+        assertEquals(constraints.get(1).expression(), "value.where(isTypeEqual(CodeableConcept)).exists() implies (value.where(isTypeEqual(CodeableConcept)).count() >= 1 and value.where(isTypeEqual(CodeableConcept)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required')))");
 
         structureDefinition = FHIRRegistry.getInstance().getResource("http://example.com/fhir/StructureDefinition/test-language-others-req-extension", StructureDefinition.class);
         generator = new ConstraintGenerator(structureDefinition);
         constraints = generator.generate();
         assertEquals(constraints.size(), 2);
         constraints.forEach(constraint -> compile(constraint.expression()));
-        assertEquals(constraints.get(1).expression(), "value.where(is(CodeableConcept)).count() >= 1 and value.where(is(CodeableConcept)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))");
+        assertEquals(constraints.get(1).expression(), "value.where(isTypeEqual(CodeableConcept)).count() >= 1 and value.where(isTypeEqual(CodeableConcept)).all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred') and memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))");
     }
 
     /**
