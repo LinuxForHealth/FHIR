@@ -44,6 +44,7 @@ import org.linuxforhealth.fhir.model.type.code.IssueSeverity;
 import org.linuxforhealth.fhir.model.type.code.IssueType;
 import org.linuxforhealth.fhir.model.util.FHIRUtil;
 import org.linuxforhealth.fhir.server.exception.FHIRRestServletRequestException;
+import org.linuxforhealth.fhir.server.listener.FHIRServletContextListener;
 
 /**
  * This class is a servlet filter which is registered with the REST API's servlet. The main purpose of the class is to
@@ -61,6 +62,8 @@ public class FHIRRestServletFilter extends HttpFilter {
     private static final String preferHeaderName = "Prefer";
     private static final String preferHandlingHeaderSectionName = "handling";
     private static final String preferReturnHeaderSectionName = "return";
+    
+    private static Map<String, String> configuredTenants = null;
 
     private static String defaultTenantId = null;
     private static final HTTPReturnPreference defaultHttpReturnPref = HTTPReturnPreference.MINIMAL;
@@ -135,7 +138,11 @@ public class FHIRRestServletFilter extends HttpFilter {
             FHIRConfiguration.validateTenantId(tenantId);
             FHIRConfiguration.validateDatastoreId(dsId);
 
-            // Checks for Valid Tenant Configuration
+            // Check if the tenant Id is present in the list of configured tenants and return the tenant Id from the configured tenant list.
+            // This is done to avoid Uncontrolled user input data used in path expression
+            
+            tenantId = fetchValidConfiguredTenantId(tenantId);
+            
             checkValidTenantConfiguration(tenantId);
 
             // Create a new FHIRRequestContext and set it on the current thread.
@@ -523,8 +530,41 @@ public class FHIRRestServletFilter extends HttpFilter {
             shardKeyHeaderName = config.getStringProperty(FHIRConfiguration.PROPERTY_SHARD_KEY_HEADER_NAME,
                 FHIRConfiguration.DEFAULT_SHARD_KEY_HEADER_NAME);
             log.info("Configured shard-key header name is: '" +  shardKeyHeaderName + "'");
+            
+            if (filterConfig.getServletContext().getAttribute(FHIRServletContextListener.FHIR_CONFIGURED_TENANTS) != null 
+                    && filterConfig.getServletContext().getAttribute(FHIRServletContextListener.FHIR_CONFIGURED_TENANTS) instanceof Map<?, ?>) {
+                configuredTenants = (Map<String, String>) filterConfig.getServletContext().getAttribute(FHIRServletContextListener.FHIR_CONFIGURED_TENANTS);
+            }
         } catch (Exception e) {
             throw new ServletException("Servlet filter initialization error.", e);
         }
+    }
+    
+    /**
+     * Checks if the tenant id is present in the list configured tenants. 
+     * If the tenant Id is present this method returns the value from the configured tenants list.
+     * @param tenantId the tenant for which the configured Tenants is going to be checked
+     * @return tenantId If the tenant Id is present this method returns the value from the configured tenants list.
+     * @throws Exception If the tenant Id is not present in the list configured tenants.
+     */
+    private String fetchValidConfiguredTenantId(String tenantId) throws Exception {
+        try {
+            if (configuredTenants == null || configuredTenants.isEmpty()) {
+                throw new FHIRException("No configured tenants were found");
+            }
+            String configuredTenantId = configuredTenants.get(tenantId);
+            if (configuredTenantId == null) {
+                log.severe("Missing tenant configuration for '"  + tenantId + "'");
+                throw new FHIRException("Tenant configuration does not exist: " + tenantId);
+            }
+            return configuredTenantId;
+        } catch (FHIRException fe) {
+            throw fe;
+        } catch (Throwable t) {
+            String msg = "Unexpected error while validating the input tenant Id with the list of configured tenants.";
+            log.severe(msg + " " + t);
+            throw new Exception(msg);
+        }
+        
     }
 }

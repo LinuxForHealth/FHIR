@@ -33,12 +33,14 @@ import static org.linuxforhealth.fhir.config.FHIRConfiguration.PROPERTY_SERVER_R
 import static org.linuxforhealth.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -87,7 +89,7 @@ import org.linuxforhealth.fhir.term.remote.provider.RemoteTermServiceProvider.Co
 import org.linuxforhealth.fhir.term.service.FHIRTermService;
 import org.linuxforhealth.fhir.term.spi.FHIRTermServiceProvider;
 
-@WebListener("IBM FHIR Server Servlet Context Listener")
+@WebListener("LinuxForHealth FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
     private static final Logger log = Logger.getLogger(FHIRServletContextListener.class.getName());
     private static final Logger metricLogger = Logger.getLogger("org.linuxforhealth.fhir.MetricReport");
@@ -107,6 +109,8 @@ public class FHIRServletContextListener implements ServletContextListener {
 
     private List<GraphTermServiceProvider> graphTermServiceProviders = new ArrayList<>();
     private List<RemoteTermServiceProvider> remoteTermServiceProviders = new ArrayList<>();
+    private static Map<String, String> configuredTenants = null;
+    public static final String FHIR_CONFIGURED_TENANTS = "fhir-configured-tenants";
 
     // Unique value known only to this class so that only we can initiate lifecycle events
     private static final Object serviceManagerId = new Object();
@@ -124,6 +128,7 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             FHIRConfiguration.setConfigHome(System.getenv("FHIR_CONFIG_HOME"));
             PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
+            FHIRConfiguration fhirConfiguration = FHIRConfiguration.getInstance();
             if (fhirConfig == null) {
                 throw new IllegalStateException("No FHIRConfiguration was found");
             }
@@ -299,6 +304,17 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             // Now init is complete, tell all registered callbacks
             EventManager.serverReady(serviceManagerId);
+            
+            // Set the configured tenants list which will be used in FHIRRestServletFilter to check 
+            //   if the tenant Id is present in the list of configured tenants and return the tenant Id from the configured tenant list. 
+            // This is done to avoid Uncontrolled user input data used in path expression
+            List<String> configuredTenantsList = fhirConfiguration.getConfiguredTenants();
+            if (configuredTenantsList.isEmpty()) {
+                throw new IllegalStateException("No configured tenants were found");
+            }
+            configuredTenants = Collections.unmodifiableMap(configuredTenantsList.stream().collect(Collectors.toConcurrentMap(tenantId -> tenantId, tenantId -> tenantId)));
+            event.getServletContext().setAttribute(FHIR_CONFIGURED_TENANTS, configuredTenants);
+            
         } catch(Throwable t) {
             String msg = "Encountered an exception while initializing the servlet context.";
             log.log(Level.SEVERE, msg, t);
