@@ -549,16 +549,19 @@ public class FHIRRestServletFilter extends HttpFilter {
      */
     private String fetchValidConfiguredTenantId(String tenantId) throws Exception {
         try {
-            if (configuredTenants != null && !configuredTenants.isEmpty() && configuredTenants.containsKey(tenantId)) {
-                return configuredTenants.get(tenantId);
-            } else {
+            if (configuredTenants == null || configuredTenants.isEmpty()) {
+                throw new FHIRException("No configured tenants were found");
+            }
+            String configuredTenantId = configuredTenants.get(tenantId);
+            if (configuredTenantId == null) {
                 log.severe("Missing tenant configuration for '"  + tenantId + "'");
                 throw new FHIRException("Tenant configuration does not exist: " + tenantId);
             }
+            return configuredTenantId;
         } catch (FHIRException fe) {
             throw fe;
         } catch (Throwable t) {
-            String msg = "Unexpected error while valid the input tenant Id with the list of configured tenants.";
+            String msg = "Unexpected error while validating the input tenant Id with the list of configured tenants.";
             log.severe(msg + " " + t);
             throw new Exception(msg);
         }
