@@ -1453,7 +1453,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return The resource Id of the input resourceResult.
      */
     private String getResourceId(ResourceResult<? extends Resource> resourceResult) {
-        if (resourceResult == null) {
+        if (resourceResult == null || resourceResult.getResource() == null) {
             return null;
         }
         return resourceResult.getResource().getId();
@@ -2501,9 +2501,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             selfUri = requestUri;
         }
         // add the resource Id of the first resource of the search result as a query parameter to self uri
-        addParameterToUrl(selfUri, "firstId", firstId);
+        selfUri = addParameterToUrl(selfUri, "firstId", firstId);
         // add the resource Id of the last resource of the search result as a query parameter to self uri
-        addParameterToUrl(selfUri, "lastId", lastId);
+        selfUri = addParameterToUrl(selfUri, "lastId", lastId);
         // create 'self' link
         Bundle.Link selfLink = Bundle.Link.builder()
                 .relation(string("self"))
@@ -2520,7 +2520,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     && (nextPageNumber == 1 || context.getTotalCount() != null || context.getMatchCount() == context.getPageSize())) {
 
                 // starting with the self URI
-                String nextLinkUrl = selfUri;
+                String nextLinkUrl = requestUri;
 
                 // remove existing _page parameters from the query string
                 nextLinkUrl = nextLinkUrl.replace("&_page=" + context.getPageNumber(), "").replace("_page="
@@ -2539,7 +2539,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 nextLinkUrl += "_page=" + nextPageNumber;
 
                 // add the expected resource Id of the first resource in the next page of search results as a query parameter to next url
-                addParameterToUrl(nextLinkUrl, "firstId", expectedNextId);
+                nextLinkUrl = addParameterToUrl(nextLinkUrl, "firstId", expectedNextId);
 
                 // create 'next' link
                 Bundle.Link nextLink =
@@ -2572,7 +2572,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 prevLinkUrl += "_page=" + prevPageNumber;
 
                 // add the expected resource Id of the last resource in the previous page of search results as a query parameter to previous url
-                addParameterToUrl(prevLinkUrl, "lastId", expectedPreviousId);
+                prevLinkUrl = addParameterToUrl(prevLinkUrl, "lastId", expectedPreviousId);
                 
 
                 // create 'previous' link

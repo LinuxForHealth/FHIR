@@ -23,7 +23,9 @@ import org.testng.annotations.Test;
 
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.model.resource.Basic;
+import org.linuxforhealth.fhir.model.resource.Observation;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome;
+import org.linuxforhealth.fhir.model.resource.Patient;
 import org.linuxforhealth.fhir.model.resource.Resource;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome.Issue;
 import org.linuxforhealth.fhir.model.test.TestUtil;
@@ -51,6 +53,8 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
     Basic resource1;
     Basic resource2;
     Basic resource3;
+    Observation observation;
+    Patient patient;
 
     @BeforeClass
     public void createResources() throws Exception {
@@ -75,11 +79,17 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         // update resource3 two times so we have 3 different versions
         resource3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
         resource3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
+        
+        observation = TestUtil.getMinimalResource(Observation.class);
+        patient = TestUtil.getMinimalResource(Patient.class);
+        observation = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), observation).getResource();
+        patient = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), patient).getResource();
+        
     }
 
     @AfterClass
     public void removeSavedResourcesAndResetTenant() throws Exception {
-        Resource[] resources = {resource1, resource2, resource3};
+        Resource[] resources = {resource1, resource2, resource3, patient, observation};
         if (persistence.isDeleteSupported()) {
             // as this is AfterClass, we need to manually start/end the transaction
             startTrx();
@@ -347,11 +357,17 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         assertEquals(searchContext.getLastPageNumber(), java.lang.Integer.MAX_VALUE);
     }
     
+    /**
+     * Test if the additional record at the end of previous page of search results 
+     * matches with the _lastId request parameter with a valid lastId value.
+     * Test the expectedNextId which is the expected resource Id of the first result of the next page of search results.
+     * Test the expectedPreviousId which is the expected resource Id of the last result of the previous page of search results.  
+     * @throws Exception
+     */
     @Test
     public void testValidLastId() throws Exception {
         Map<String, List<String>> queryParameters;
         queryParameters = new HashMap<>();
-        queryParameters.put("_sort", Collections.singletonList("integer"));
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
         queryParameters.put("_page", Collections.singletonList("2"));
         queryParameters.put("_lastId", Collections.singletonList(resource1.getId()));
@@ -359,15 +375,48 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         searchContext.setLenient(true);
         MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertTrue(result.isSuccess());
+        assertEquals(result.getExpectedNextId(), resource3.getId());
+        assertEquals(result.getExpectedPreviousId(), resource1.getId());
         assertFalse(result.getResourceResults().isEmpty());
         assertFalse(searchContext.getOutcomeIssues() != null);
     }
     
+    /**
+     * Test if the additional record at the end of previous page of search results(sorted in descending order) 
+     * matches with the _lastId request parameter with a valid lastId value.
+     * Test the expectedNextId which is the expected resource Id of the first result of the next page of search results.
+     * Test the expectedPreviousId which is the expected resource Id of the last result of the previous page of search results.  
+     * @throws Exception
+     */
+    @Test
+    public void testValidLastIdWIthDescendingSorting() throws Exception {
+        Map<String, List<String>> queryParameters;
+        queryParameters = new HashMap<>();
+        queryParameters.put("_tag", Collections.singletonList("pagingTest"));
+        queryParameters.put("_page", Collections.singletonList("2"));
+        queryParameters.put("_lastId", Collections.singletonList(resource3.getId()));
+        queryParameters.put("_sort", Collections.singletonList("-integer"));
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(true);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertTrue(result.isSuccess());
+        assertEquals(result.getExpectedNextId(), resource1.getId());
+        assertEquals(result.getExpectedPreviousId(), resource3.getId());
+        assertFalse(result.getResourceResults().isEmpty());
+        assertFalse(searchContext.getOutcomeIssues() != null);
+    }
+    
+    /**
+     * Test if the additional record at the end of previous page of search results 
+     * matches with the _lastId request parameter with an invalid lastId value.
+     * Test the expectedNextId which is the expected resource Id of the first result of the next page of search results.
+     * Test the expectedPreviousId which is the expected resource Id of the last result of the previous page of search results.  
+     * @throws Exception
+     */
     @Test
     public void testInvalidLastId() throws Exception {
         Map<String, List<String>> queryParameters;
         queryParameters = new HashMap<>();
-        queryParameters.put("_sort", Collections.singletonList("integer"));
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
         queryParameters.put("_page", Collections.singletonList("2"));
         queryParameters.put("_lastId", Collections.singletonList("testId"));
@@ -381,31 +430,76 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
         assertEquals(issues.get(0).getCode(), IssueType.CONFLICT);
         assertEquals(issues.get(0).getDetails().getText().getValue(), "Pages have shifted; check next pages for changed results");
+        assertEquals(result.getExpectedNextId(), resource3.getId());
+        assertEquals(result.getExpectedPreviousId(), resource1.getId());
+       
+        
     }
     
+    /**
+     * Test if the additional record at the start of next page of search results 
+     * matches with the _first request parameter with a valid firstId value.
+     * Test the expectedNextId which is the expected resource Id of the first result of the next page of search results.
+     * Test the expectedPreviousId which is the expected resource Id of the last result of the previous page of search results.  
+     * @throws Exception
+     */
     @Test
     public void testValidFirstId() throws Exception {
         Map<String, List<String>> queryParameters;
         queryParameters = new HashMap<>();
-        queryParameters.put("_sort", Collections.singletonList("integer"));
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
-        queryParameters.put("_page", Collections.singletonList("1"));
-        queryParameters.put("_firstId", Collections.singletonList(resource2.getId()));
+        queryParameters.put("_page", Collections.singletonList("2"));
+        queryParameters.put("_firstId", Collections.singletonList(resource3.getId()));
         FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(true);
         MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertTrue(result.isSuccess());
         assertFalse(result.getResourceResults().isEmpty());
         assertFalse(searchContext.getOutcomeIssues() != null);
+        assertEquals(result.getExpectedNextId(), resource3.getId());
+        assertEquals(result.getExpectedPreviousId(), resource1.getId());
+       
     }
     
+    /**
+     * Test if the additional record at the start of next page of search results(sorted in descending order) 
+     * matches with the _first request parameter with a valid firstId value.
+     * Test the expectedNextId which is the expected resource Id of the first result of the next page of search results.
+     * Test the expectedPreviousId which is the expected resource Id of the last result of the previous page of search results.  
+     * @throws Exception
+     */
+    @Test
+    public void testValidFirstIdWithDescendingSorting() throws Exception {
+        Map<String, List<String>> queryParameters;
+        queryParameters = new HashMap<>();
+        queryParameters.put("_tag", Collections.singletonList("pagingTest"));
+        queryParameters.put("_page", Collections.singletonList("2"));
+        queryParameters.put("_firstId", Collections.singletonList(resource1.getId()));
+        queryParameters.put("_sort", Collections.singletonList("-integer"));
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(true);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertTrue(result.isSuccess());
+        assertFalse(result.getResourceResults().isEmpty());
+        assertFalse(searchContext.getOutcomeIssues() != null);
+        assertEquals(result.getExpectedNextId(), resource1.getId());
+        assertEquals(result.getExpectedPreviousId(), resource3.getId());
+       
+    }
+    
+    /**
+     * Test if the additional record at the start of next page of search results 
+     * matches with the _first request parameter with a valid firstId value.
+     * Test the expectedNextId which is the expected resource Id of the first result of the next page of search results.
+     * Test the expectedPreviousId which is the expected resource Id of the last result of the previous page of search results.  
+     * @throws Exception
+     */
     @Test
     public void testInvalidFirstId() throws Exception {
         Map<String, List<String>> queryParameters;
         queryParameters = new HashMap<>();
-        queryParameters.put("_sort", Collections.singletonList("integer"));
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
-        queryParameters.put("_page", Collections.singletonList("1"));
+        queryParameters.put("_page", Collections.singletonList("2"));
         queryParameters.put("_firstId", Collections.singletonList("testId"));
         FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(true);
@@ -417,6 +511,75 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
         assertEquals(issues.get(0).getCode(), IssueType.CONFLICT);
         assertEquals(issues.get(0).getDetails().getText().getValue(), "Pages have shifted; check prior pages for changed results");
+        assertEquals(result.getExpectedNextId(), resource3.getId());
+        assertEquals(result.getExpectedPreviousId(), resource1.getId());
+    }
+    
+    /**
+     * Test the expectedPreviousId which is the expected resource Id of the last result of the previous page of search results.  
+     * The expectedPreviousId should be null for page 1 of search results.
+     * @throws Exception
+     */
+    @Test
+    public void testExpectedPreviousIdForPage1() throws Exception {
+        Map<String, List<String>> queryParameters;
+        queryParameters = new HashMap<>();
+        queryParameters.put("_tag", Collections.singletonList("pagingTest"));
+        queryParameters.put("_page", Collections.singletonList("2"));
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(true);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertTrue(result.isSuccess());
+    }
+    
+    /**
+     * Test the expectedNextId which is the expected resource Id of the first result of the next page of search results.  
+     * The expectedNextId should be null for the last of search results.
+     * @throws Exception
+     */
+    @Test
+    public void testExpectedNextIdForLastPage() throws Exception {
+        Map<String, List<String>> queryParameters;
+        queryParameters = new HashMap<>();
+        queryParameters.put("_tag", Collections.singletonList("pagingTest"));
+        queryParameters.put("_page", Collections.singletonList("3")); // page 3 is the last page of search results
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(true);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertTrue(result.isSuccess());
+        assertFalse(result.getExpectedNextId() != null);
+    }
+    
+    @Test
+    public void testSearchAllUsingTypeAndValidLastId() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_type", Collections.singletonList("Basic,Patient,Observation"));
+        queryParms.put("_page", Collections.singletonList("4"));
+        queryParms.put("_lastId", Collections.singletonList(resource3.getId()));
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Resource.class, queryParms);
+        searchContext.setLenient(true);
+        MultiResourceResult result = runQueryTest(searchContext, Resource.class, queryParms, 1);
+        assertTrue(result.isSuccess());
+        assertEquals(result.getExpectedNextId(), patient.getId());
+        assertEquals(result.getExpectedPreviousId(), resource3.getId());
+        assertFalse(result.getResourceResults().isEmpty());
+        assertFalse(searchContext.getOutcomeIssues() != null);
+    }
+    
+    @Test
+    public void testSearchAllUsingTypeAndValidFirstId() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_type", Collections.singletonList("Basic,Patient,Observation"));
+        queryParms.put("_page", Collections.singletonList("4"));
+        queryParms.put("_firstId", Collections.singletonList(patient.getId()));
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Resource.class, queryParms);
+        searchContext.setLenient(true);
+        MultiResourceResult result = runQueryTest(searchContext, Resource.class, queryParms, 1);
+        assertTrue(result.isSuccess());
+        assertEquals(result.getExpectedNextId(), patient.getId());
+        assertEquals(result.getExpectedPreviousId(), resource3.getId());
+        assertFalse(result.getResourceResults().isEmpty());
+        assertFalse(searchContext.getOutcomeIssues() != null);
     }
 
     private Meta tag(String tag) {
