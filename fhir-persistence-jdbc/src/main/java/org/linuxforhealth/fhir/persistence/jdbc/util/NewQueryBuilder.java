@@ -234,7 +234,6 @@ public class NewQueryBuilder {
         
         final int offset = ((searchContext.getPageNumber()-1) * searchContext.getPageSize()) + offsetIncrement;
         final int rowsPerPage = searchContext.getPageSize() + rowCountIncrement;
-        // System.out.println("############### offsetIncrement: "+offsetIncrement +" rowCountIncrement: "+rowCountIncrement +" offset: "+offset +" pageSize: " + searchContext.getPageSize() +" rowsPerPage: "+rowsPerPage);
         SearchQueryRenderer renderer = new SearchQueryRenderer(this.translator, this.identityCache, offset, rowsPerPage, searchContext.isIncludeResourceData(), schemaType);
         QueryData queryData = domainModel.visit(renderer);
         return queryData.getQuery().build();
