@@ -53,8 +53,6 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
     Basic resource1;
     Basic resource2;
     Basic resource3;
-    Observation observation;
-    Patient patient;
 
     @BeforeClass
     public void createResources() throws Exception {
@@ -80,16 +78,11 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         resource3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
         resource3 = FHIRPersistenceTestSupport.update(persistence, getDefaultPersistenceContext(), resource3.getId(), resource3).getResource();
         
-        observation = TestUtil.getMinimalResource(Observation.class);
-        patient = TestUtil.getMinimalResource(Patient.class);
-        observation = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), observation).getResource();
-        patient = FHIRPersistenceTestSupport.create(persistence, getDefaultPersistenceContext(), patient).getResource();
-        
     }
 
     @AfterClass
     public void removeSavedResourcesAndResetTenant() throws Exception {
-        Resource[] resources = {resource1, resource2, resource3, patient, observation};
+        Resource[] resources = {resource1, resource2, resource3};
         if (persistence.isDeleteSupported()) {
             // as this is AfterClass, we need to manually start/end the transaction
             startTrx();
@@ -553,15 +546,15 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
     @Test
     public void testSearchAllUsingTypeAndValidLastId() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        queryParms.put("_type", Collections.singletonList("Basic,Patient,Observation"));
-        queryParms.put("_page", Collections.singletonList("4"));
-        queryParms.put("_lastId", Collections.singletonList(resource3.getId()));
+        queryParms.put("_type", Collections.singletonList("Basic"));
+        queryParms.put("_page", Collections.singletonList("2"));
+        queryParms.put("_lastId", Collections.singletonList(resource1.getId()));
         FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Resource.class, queryParms);
         searchContext.setLenient(true);
         MultiResourceResult result = runQueryTest(searchContext, Resource.class, queryParms, 1);
         assertTrue(result.isSuccess());
-        assertEquals(result.getExpectedNextId(), patient.getId());
-        assertEquals(result.getExpectedPreviousId(), resource3.getId());
+        assertEquals(result.getExpectedNextId(), resource3.getId());
+        assertEquals(result.getExpectedPreviousId(), resource1.getId());
         assertFalse(result.getResourceResults().isEmpty());
         assertFalse(searchContext.getOutcomeIssues() != null);
     }
@@ -569,17 +562,17 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
     @Test
     public void testSearchAllUsingTypeAndValidFirstId() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
-        queryParms.put("_type", Collections.singletonList("Basic,Patient,Observation"));
-        queryParms.put("_page", Collections.singletonList("4"));
-        queryParms.put("_firstId", Collections.singletonList(patient.getId()));
+        queryParms.put("_type", Collections.singletonList("Basic"));
+        queryParms.put("_page", Collections.singletonList("2"));
+        queryParms.put("_firstId", Collections.singletonList(resource3.getId()));
         FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Resource.class, queryParms);
         searchContext.setLenient(true);
         MultiResourceResult result = runQueryTest(searchContext, Resource.class, queryParms, 1);
         assertTrue(result.isSuccess());
-        assertEquals(result.getExpectedNextId(), patient.getId());
-        assertEquals(result.getExpectedPreviousId(), resource3.getId());
         assertFalse(result.getResourceResults().isEmpty());
         assertFalse(searchContext.getOutcomeIssues() != null);
+        assertEquals(result.getExpectedNextId(), resource3.getId());
+        assertEquals(result.getExpectedPreviousId(), resource1.getId());
     }
 
     private Meta tag(String tag) {
