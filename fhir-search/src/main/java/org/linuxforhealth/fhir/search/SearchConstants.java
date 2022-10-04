@@ -94,6 +94,12 @@ public class SearchConstants {
 
     // _source
     public static final String SOURCE = "_source";
+    
+    // _firstId the resource Id of the first resource of the next search result.
+    public static final String FIRST_ID = "_firstId";
+
+    // _lastId the resource Id of the last resource of the previous search result.
+    public static final String LAST_ID = "_lastId";
 
     // url
     public static final String URL = "url";
@@ -135,7 +141,7 @@ public class SearchConstants {
 
     // set as unmodifiable
     public static final Set<String> SEARCH_RESULT_PARAMETER_NAMES =
-            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY, TOTAL)));
+            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY, TOTAL, FIRST_ID, LAST_ID)));
 
     /**
      * https://www.hl7.org/fhir/search.html#lastUpdated

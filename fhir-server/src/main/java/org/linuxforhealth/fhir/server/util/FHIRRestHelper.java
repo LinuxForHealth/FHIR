@@ -1318,7 +1318,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             MultiResourceResult historyResult =
                     persistence.history(persistenceContext, resourceType, id);
             bundle = createHistoryBundle(historyResult.getResourceResults(), historyContext, type);
-            bundle = addLinks(historyContext, bundle, requestUri);
+            bundle = addLinks(historyContext, bundle, requestUri, null, null, null, null);
 
             event.setFhirResource(bundle);
 
@@ -1371,6 +1371,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         txn.begin();
 
         Bundle bundle = null;
+        // The resource Id of the first resource from the search result
+        String firstId = null;
+        // The resource Id of the last resource from the search result
+        String lastId = null;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1403,10 +1407,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     FHIRPersistenceContextFactory.createPersistenceContext(event, searchContext, requestContext.getRequestShardKey());
             MultiResourceResult searchResult =
                     persistence.search(persistenceContext, resourceType);
-
             bundle = createSearchResponseBundle(searchResult.getResourceResults(), searchContext, type);
+            if (searchResult.getResourceResults() != null && !searchResult.getResourceResults().isEmpty()) {
+                // fetch the resource Id of the first resource from the search result
+                firstId = getResourceId(searchResult.getResourceResults().get(0));
+                // fetch the resource Id of the last resource from the search result
+                lastId = getResourceId(searchResult.getResourceResults().get(searchResult.getResourceResults().size() - 1));
+            }
             if (requestUri != null) {
-                bundle = addLinks(searchContext, bundle, requestUri);
+                bundle = addLinks(searchContext, bundle, requestUri, firstId, lastId, searchResult.getExpectedNextId(), searchResult.getExpectedPreviousId());
             }
             event.setFhirResource(bundle);
 
@@ -1436,6 +1445,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             log.exiting(this.getClass().getName(), "doSearch");
         }
+    }
+
+    /**
+     * Get the resource Id of the input resourceResult.
+     * @param resourceResult
+     * @return The resource Id of the input resourceResult.
+     */
+    private String getResourceId(ResourceResult<? extends Resource> resourceResult) {
+        if (resourceResult == null) {
+            return null;
+        }
+        return resourceResult.getResource().getId();
+        
     }
 
     @Override
@@ -2449,7 +2471,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         return FHIRPersistenceInterceptorMgr.getInstance();
     }
 
-    private Bundle addLinks(FHIRPagingContext context, Bundle responseBundle, String requestUri) throws Exception {
+    /**
+     *
+     * @param context the FHIRPagingContext associated with this request
+     * @param responseBundle the search results bundle
+     * @param requestUri the request URI
+     * @param firstId the resource Id of the first resource from the search result
+     * @param lastId The resource Id of the last resource from the search result
+     * @param expectedNextId the expected resource Id of the first resource in the next page of search results
+     * @param expectedPreviousId the expected resource Id of the last resource in the previous page of search results
+     * @return the search results bundle that is returned to the REST service caller
+     * @throws Exception Any non-recoverable exception thrown while adding links to the response bundle
+     */
+    private Bundle addLinks(FHIRPagingContext context, Bundle responseBundle, String requestUri, String firstId, String lastId, String expectedNextId, String expectedPreviousId) throws Exception {
         String selfUri = null;
         SummaryValueSet summaryParameter = null;
         Bundle.Builder bundleBuilder = responseBundle.toBuilder();
@@ -2466,6 +2500,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         if (selfUri == null) {
             selfUri = requestUri;
         }
+        // add the resource Id of the first resource of the search result as a query parameter to self uri
+        addParameterToUrl(selfUri, "firstId", firstId);
+        // add the resource Id of the last resource of the search result as a query parameter to self uri
+        addParameterToUrl(selfUri, "lastId", lastId);
         // create 'self' link
         Bundle.Link selfLink = Bundle.Link.builder()
                 .relation(string("self"))
@@ -2500,6 +2538,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 // add new _page parameter to the query string
                 nextLinkUrl += "_page=" + nextPageNumber;
 
+                // add the expected resource Id of the first resource in the next page of search results as a query parameter to next url
+                addParameterToUrl(nextLinkUrl, "firstId", expectedNextId);
+
                 // create 'next' link
                 Bundle.Link nextLink =
                         Bundle.Link.builder().relation(string("next")).url(Url.of(nextLinkUrl)).build();
@@ -2530,6 +2571,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 // add new _page parameter to the query string
                 prevLinkUrl += "_page=" + prevPageNumber;
 
+                // add the expected resource Id of the last resource in the previous page of search results as a query parameter to previous url
+                addParameterToUrl(prevLinkUrl, "lastId", expectedPreviousId);
+                
+
                 // create 'previous' link
                 Bundle.Link prevLink =
                         Bundle.Link.builder().relation(string("previous")).url(Url.of(prevLinkUrl)).build();
@@ -2538,6 +2583,32 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
 
         return bundleBuilder.build();
+    }
+    
+    /**
+     * Add a new parameter with the name and value to the url.
+     * @param url
+     * @param name
+     * @param value
+     * @return
+     */
+    private String addParameterToUrl(String url, String name, String value) {
+        
+        if (value == null) {
+            return url;
+        }
+        if (url.contains("?")) {
+            if (!url.endsWith("?")) {
+                // there are other parameters in the query string
+                url += "&";
+            }
+        } else {
+            url += "?";
+        }
+
+        // add new parameter to the query string
+        url += "_" + name  + "=" + value;
+        return url;
     }
 
     /**

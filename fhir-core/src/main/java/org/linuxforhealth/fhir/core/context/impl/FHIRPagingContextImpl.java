@@ -20,6 +20,12 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
     protected Integer totalCount;
     protected int matchCount;
     protected boolean lenient = true;
+    
+    // the resource Id of the first resource of the next search result
+    protected String firstId;
+    
+    // the resource Id of the last resource of the previous search result
+    protected String lastId;
 
     /**
      * Create a FHIRPagingContextImpl with the default values:
@@ -118,4 +124,26 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
     public void setLenient(boolean lenient) {
         this.lenient = lenient;
     }
+
+    @Override
+    public String getFirstId() {
+        return firstId;
+    }
+
+    @Override
+    public void setFirstId(String firstId) {
+        this.firstId = firstId;
+    }
+
+    @Override
+    public String getLastId() {
+        return lastId;
+    }
+
+    @Override
+    public void setLastId(String lastId) {
+        this.lastId = lastId;
+    }
+    
+    
 }

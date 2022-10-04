@@ -227,12 +227,56 @@ public class NewQueryBuilder {
      * @return
      */
     private Select renderQuery(SearchQuery domainModel, FHIRSearchContext searchContext, SchemaType schemaType) throws FHIRPersistenceException {
-        final int offset = (searchContext.getPageNumber()-1) * searchContext.getPageSize();
-        final int rowsPerPage = searchContext.getPageSize();
+        // adjust the offset by -1 of the search is for any other page than the first page.
+        int offsetIncrement = getOffsetCounter(searchContext);
+        // increase the value of row count by 1 for first page, 2 for any other pages of search.
+        int rowCountIncrement = getAdditionalRowCount(searchContext);
+        
+        final int offset = ((searchContext.getPageNumber()-1) * searchContext.getPageSize()) + offsetIncrement;
+        final int rowsPerPage = searchContext.getPageSize() + rowCountIncrement;
+        // System.out.println("############### offsetIncrement: "+offsetIncrement +" rowCountIncrement: "+rowCountIncrement +" offset: "+offset +" pageSize: " + searchContext.getPageSize() +" rowsPerPage: "+rowsPerPage);
         SearchQueryRenderer renderer = new SearchQueryRenderer(this.translator, this.identityCache, offset, rowsPerPage, searchContext.isIncludeResourceData(), schemaType);
         QueryData queryData = domainModel.visit(renderer);
         return queryData.getQuery().build();
     }
+    
+    /**
+     * Fetch the value by which the row count needs to be increased in the Select statement.
+     * The additional records and needed to validate if search pages have shifted in an ongoing search session with pagination.
+     * If the request is for the first page of search results then re
+     * @param searchContext The search context containing the search parameters.
+     * @return
+     * If the request is for the first page of search results then return 1 since one additional record is needed at the end of search results.
+     * If the request is for any other page then return 2 since two additional records are needed, one at the beginning of the search results
+     * and one at the end of search results.
+     */
+    private int getAdditionalRowCount(FHIRSearchContext searchContext) {
+        if (searchContext.getPageSize() > 0) {
+            if (searchContext.getPageNumber() == 1) {
+                return 1;
+            } else {
+                return 2;
+            }
+        }
+        return 0;
+    }
+    
+    /**
+     * Fetch the value by which the offset needs to be adjusted in the Select statement.
+     * The offset needs to be adjusted for all other pages other than the first page of the search results.
+     * @param searchContext The search context containing the search parameters.
+     * @return
+     * If the request is for the first page of search results then return 0.
+     * If the request is for any other page then return -1.
+     */
+    private int getOffsetCounter(FHIRSearchContext searchContext) {
+        if (searchContext.getPageNumber() == 1) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+    
 
     /**
      * Construct a FHIR search query

@@ -18,6 +18,7 @@ import org.linuxforhealth.fhir.persistence.context.FHIRPersistenceContextFactory
 import org.linuxforhealth.fhir.persistence.context.FHIRPersistenceEvent;
 import org.linuxforhealth.fhir.search.context.FHIRSearchContext;
 import org.linuxforhealth.fhir.search.context.FHIRSearchContextFactory;
+import org.linuxforhealth.fhir.search.exception.FHIRSearchException;
 
 /**
  * Tests associated with the FHIRPersistenceContextImpl class.
@@ -52,7 +53,7 @@ public class FHIRPersistenceContextTest {
     }
 
     @Test
-    public void test3() {
+    public void test3() throws FHIRSearchException {
         FHIRPersistenceEvent pe = new FHIRPersistenceEvent();
         FHIRSearchContext sc = FHIRSearchContextFactory.createSearchContext();
         assertNotNull(sc);

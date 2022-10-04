@@ -173,7 +173,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
      * @throws Exception
      */
     protected boolean searchReturnsResource(Class<? extends Resource> resourceTypeToSearch, Map<String, List<String>> queryParms, Resource expectedResource) throws Exception {
-        List<? extends Resource> resources = runQueryTest(resourceTypeToSearch, queryParms, Integer.MAX_VALUE);
+        List<? extends Resource> resources = runQueryTest(resourceTypeToSearch, queryParms, Integer.MAX_VALUE - 2);
         assertNotNull(resources);
         return isResourceInResponse(expectedResource, resources);
     }
@@ -194,7 +194,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
         searchContext.setIncludeResourceData(includesData);
         List<ResourceResult<? extends Resource>> resourceResults = runQueryTest(
                 searchContext,
-                resourceTypeToSearch, queryParms, Integer.MAX_VALUE).getResourceResults();
+                resourceTypeToSearch, queryParms, Integer.MAX_VALUE - 2).getResourceResults();
 
         assertNotNull(resourceResults);
 

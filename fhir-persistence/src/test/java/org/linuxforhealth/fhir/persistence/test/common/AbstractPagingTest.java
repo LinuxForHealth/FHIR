@@ -25,6 +25,7 @@ import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.model.resource.Basic;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome;
 import org.linuxforhealth.fhir.model.resource.Resource;
+import org.linuxforhealth.fhir.model.resource.OperationOutcome.Issue;
 import org.linuxforhealth.fhir.model.test.TestUtil;
 import org.linuxforhealth.fhir.model.type.Code;
 import org.linuxforhealth.fhir.model.type.Coding;
@@ -344,6 +345,78 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         OperationOutcome outcome = result.getOutcome();
         assertFalse(outcome != null);
         assertEquals(searchContext.getLastPageNumber(), java.lang.Integer.MAX_VALUE);
+    }
+    
+    @Test
+    public void testValidLastId() throws Exception {
+        Map<String, List<String>> queryParameters;
+        queryParameters = new HashMap<>();
+        queryParameters.put("_sort", Collections.singletonList("integer"));
+        queryParameters.put("_tag", Collections.singletonList("pagingTest"));
+        queryParameters.put("_page", Collections.singletonList("2"));
+        queryParameters.put("_lastId", Collections.singletonList(resource1.getId()));
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(true);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertTrue(result.isSuccess());
+        assertFalse(result.getResourceResults().isEmpty());
+        assertFalse(searchContext.getOutcomeIssues() != null);
+    }
+    
+    @Test
+    public void testInvalidLastId() throws Exception {
+        Map<String, List<String>> queryParameters;
+        queryParameters = new HashMap<>();
+        queryParameters.put("_sort", Collections.singletonList("integer"));
+        queryParameters.put("_tag", Collections.singletonList("pagingTest"));
+        queryParameters.put("_page", Collections.singletonList("2"));
+        queryParameters.put("_lastId", Collections.singletonList("testId"));
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(true);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertTrue(result.isSuccess());
+        assertFalse(result.getResourceResults().isEmpty());
+        List<Issue> issues = searchContext.getOutcomeIssues();
+        assertEquals(issues.size(), 1);
+        assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
+        assertEquals(issues.get(0).getCode(), IssueType.CONFLICT);
+        assertEquals(issues.get(0).getDetails().getText().getValue(), "Pages have shifted; check next pages for changed results");
+    }
+    
+    @Test
+    public void testValidFirstId() throws Exception {
+        Map<String, List<String>> queryParameters;
+        queryParameters = new HashMap<>();
+        queryParameters.put("_sort", Collections.singletonList("integer"));
+        queryParameters.put("_tag", Collections.singletonList("pagingTest"));
+        queryParameters.put("_page", Collections.singletonList("1"));
+        queryParameters.put("_firstId", Collections.singletonList(resource2.getId()));
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(true);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertTrue(result.isSuccess());
+        assertFalse(result.getResourceResults().isEmpty());
+        assertFalse(searchContext.getOutcomeIssues() != null);
+    }
+    
+    @Test
+    public void testInvalidFirstId() throws Exception {
+        Map<String, List<String>> queryParameters;
+        queryParameters = new HashMap<>();
+        queryParameters.put("_sort", Collections.singletonList("integer"));
+        queryParameters.put("_tag", Collections.singletonList("pagingTest"));
+        queryParameters.put("_page", Collections.singletonList("1"));
+        queryParameters.put("_firstId", Collections.singletonList("testId"));
+        FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
+        searchContext.setLenient(true);
+        MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
+        assertTrue(result.isSuccess());
+        assertFalse(result.getResourceResults().isEmpty());
+        List<Issue> issues = searchContext.getOutcomeIssues();
+        assertEquals(issues.size(), 1);
+        assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
+        assertEquals(issues.get(0).getCode(), IssueType.CONFLICT);
+        assertEquals(issues.get(0).getDetails().getText().getValue(), "Pages have shifted; check prior pages for changed results");
     }
 
     private Meta tag(String tag) {

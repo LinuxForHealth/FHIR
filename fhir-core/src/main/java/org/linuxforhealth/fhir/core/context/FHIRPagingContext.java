@@ -59,6 +59,18 @@ public interface FHIRPagingContext {
      *           such as OperationOutcome or included resources that may also be returned
      */
     int getMatchCount();
+    
+    /**
+     * 
+     * @return the resource Id of the first resource of the next search result
+     */
+    String getFirstId();
+    
+    /**
+     * 
+     * @return the resource Id of the last resource of the previous search result
+     */
+    String getLastId();
 
     /**
      * @param lastPageNumber the last page of results that can be requested for the corresponding query
@@ -118,4 +130,16 @@ public interface FHIRPagingContext {
      * @param lenient whether the request should be handled with leniency
      */
     void setLenient(boolean lenient);
+    
+    /**
+     * firstId the resource Id of the first resource of the next search result
+     * @param firstId
+     */
+    void setFirstId(String firstId);
+    
+    /**
+     * lastId the resource Id of the last resource of the previous search result
+     * @param lastId
+     */
+    void setLastId(String lastId);
 }

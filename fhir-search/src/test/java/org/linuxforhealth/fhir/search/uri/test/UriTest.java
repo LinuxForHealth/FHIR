@@ -20,6 +20,7 @@ import org.linuxforhealth.fhir.search.SearchConstants.Type;
 import org.linuxforhealth.fhir.search.TotalValueSet;
 import org.linuxforhealth.fhir.search.context.FHIRSearchContext;
 import org.linuxforhealth.fhir.search.context.FHIRSearchContextFactory;
+import org.linuxforhealth.fhir.search.exception.FHIRSearchException;
 import org.linuxforhealth.fhir.search.parameters.QueryParameter;
 import org.linuxforhealth.fhir.search.parameters.QueryParameterValue;
 import org.linuxforhealth.fhir.search.util.SearchHelper;
@@ -30,7 +31,7 @@ import org.linuxforhealth.fhir.search.util.SearchHelper;
 public class UriTest {
 
     @Test
-    public void testUriTrimmedUrl() throws URISyntaxException {
+    public void testUriTrimmedUrl() throws URISyntaxException, FHIRSearchException {
         String incoming =
                 "https://localhost:9443/fhir-server/api/v4/_search?_count=10&_security=http://example.com/fhir/security&_fudge=tag&_page=1";
         String requestUriString = incoming.split("\\?")[0];
@@ -61,7 +62,7 @@ public class UriTest {
     }
 
     @Test
-    public void testUriBadSecurity() throws URISyntaxException {
+    public void testUriBadSecurity() throws URISyntaxException, FHIRSearchException {
         String incoming =
                 "https://localhost:9443/fhir-server/api/v4/_search?_count=10&_security=http://example.com/fhir/security&_fudge=tag&_page=1";
         String requestUriString = incoming;
@@ -92,7 +93,7 @@ public class UriTest {
     }
 
     @Test
-    public void testUriWithOnlyCompartmentInclusionSearchParmeter() throws URISyntaxException {
+    public void testUriWithOnlyCompartmentInclusionSearchParmeter() throws URISyntaxException, FHIRSearchException {
         String expectedUri = "https://localhost:9443/fhir-server/api/v4/Patient/1234/Observation?_count=10&_page=1";
         String requestUriString = expectedUri.split("\\?")[0];
 
@@ -109,7 +110,7 @@ public class UriTest {
     }
 
     @Test
-    public void testUriWithUnencodedPipe() throws URISyntaxException {
+    public void testUriWithUnencodedPipe() throws URISyntaxException, FHIRSearchException {
         String expectedUri = "https://test?_count=10&param=system%7Cvalue&_page=1";
         String requestUriString = "https://test?param=system|value";
 
@@ -126,7 +127,7 @@ public class UriTest {
     }
 
     @Test
-    public void testUriWithTotalParameter() throws URISyntaxException {
+    public void testUriWithTotalParameter() throws URISyntaxException, FHIRSearchException {
         String expectedUri = "https://test?_count=10&_total=none&_page=1";
         String requestUriString = "https://test?_total=none";
 
@@ -139,7 +140,7 @@ public class UriTest {
     }
 
     @Test
-    public void testUriWithSystemOnly() throws URISyntaxException {
+    public void testUriWithSystemOnly() throws URISyntaxException, FHIRSearchException {
         String expectedUri = "https://test?_count=10&param=system%7C&_page=1";
         String requestUriString = "https://test?param=system|";
 
@@ -155,7 +156,7 @@ public class UriTest {
     }
 
     @Test
-    public void testUriWithDateTimeWithTimeZone() throws URISyntaxException {
+    public void testUriWithDateTimeWithTimeZone() throws URISyntaxException, FHIRSearchException {
         String expectedUri = "https://test?_count=10&date=gt1940-10-04T00:00:00%2B00:00&_page=1";
         String requestUriString = "https://test?date=gt1940-10-04T00:00:00+00:00";
         String val = "gt1940-10-04T00:00:00+00:00";
@@ -173,7 +174,7 @@ public class UriTest {
     }
 
     @Test
-    public void testUriWithMultipleDateTimeWithTimeZone() throws URISyntaxException {
+    public void testUriWithMultipleDateTimeWithTimeZone() throws URISyntaxException, FHIRSearchException {
         String expectedUri = "https://test?_count=10&date1=gt1940-10-04T00:00:00%2B00:00&date2=lt1949-10-04T00:00:00%2B00:00&_page=1";
         String requestUriString = "https://test?date1=gt1940-10-04T00:00:00+00:00&date2=lt1949-10-04T00:00:00+00:00";
         String val1 = "gt1940-10-04T00:00:00+00:00";
