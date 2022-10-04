@@ -1017,7 +1017,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         org.linuxforhealth.fhir.persistence.jdbc.dto.Resource firstResourceResult = null;
         org.linuxforhealth.fhir.persistence.jdbc.dto.Resource lastResourceResult = null;
         if(resourceDTOList != null) {
-            if (resourceDTOList.size() > 0 && searchContext.getPageNumber() != 1 && (resourceDTOList.size() > searchContext.getPageSize() || resourceDTOList.size() <= 1)){
+            if (resourceDTOList.size() > 0 && searchContext.getPageNumber() != 1){
                 firstResourceResult = resourceDTOList.get(0);
                 resourceDTOList.remove(0);
                 resultBuilder.expectedPreviousId(firstResourceResult.getLogicalId());
