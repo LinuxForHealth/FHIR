@@ -422,11 +422,9 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         assertEquals(issues.size(), 1);
         assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
         assertEquals(issues.get(0).getCode(), IssueType.CONFLICT);
-        assertEquals(issues.get(0).getDetails().getText().getValue(), "Pages have shifted; check previous pages for changed results");
+        assertEquals(issues.get(0).getDetails().getText().getValue(), "Pages have shifted; check next pages for changed results");
         assertEquals(result.getExpectedNextId(), resource3.getId());
         assertEquals(result.getExpectedPreviousId(), resource1.getId());
-       
-        
     }
     
     /**
@@ -451,7 +449,6 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         assertFalse(searchContext.getOutcomeIssues() != null);
         assertEquals(result.getExpectedNextId(), resource3.getId());
         assertEquals(result.getExpectedPreviousId(), resource1.getId());
-       
     }
     
     /**
@@ -477,7 +474,6 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         assertFalse(searchContext.getOutcomeIssues() != null);
         assertFalse(result.getExpectedNextId() != null);
         assertEquals(result.getExpectedPreviousId(), resource2.getId());
-       
     }
     
     /**
@@ -503,7 +499,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         assertEquals(issues.size(), 1);
         assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
         assertEquals(issues.get(0).getCode(), IssueType.CONFLICT);
-        assertEquals(issues.get(0).getDetails().getText().getValue(), "Pages have shifted; check next pages for changed results");
+        assertEquals(issues.get(0).getDetails().getText().getValue(), "Pages have shifted; check previous pages for changed results");
         assertEquals(result.getExpectedNextId(), resource3.getId());
         assertEquals(result.getExpectedPreviousId(), resource1.getId());
     }

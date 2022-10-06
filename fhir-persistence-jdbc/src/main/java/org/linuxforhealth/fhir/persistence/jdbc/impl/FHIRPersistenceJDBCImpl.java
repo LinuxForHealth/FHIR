@@ -1023,7 +1023,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 resultBuilder.expectedPreviousId(resourceDTOList.get(0).getLogicalId());
                 resourceDTOList.remove(0);
             } 
-            if (resourceDTOList.size() > 0 && (resourceDTOList.size() > searchContext.getPageSize())) {
+            if (resourceDTOList.size() > searchContext.getPageSize()) {
                 resultBuilder.expectedNextId(resourceDTOList.get(resourceDTOList.size() - 1).getLogicalId());
                 resourceDTOList.remove(resourceDTOList.size() - 1);
             }
@@ -1036,7 +1036,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .severity(IssueSeverity.WARNING)
                     .code(IssueType.CONFLICT)
                     .details(CodeableConcept.builder()
-                        .text(string("Pages have shifted; check next pages for changed results"))
+                        .text(string("Pages have shifted; check previous pages for changed results"))
                         .build())
                     .build());
             }
@@ -1045,7 +1045,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .severity(IssueSeverity.WARNING)
                     .code(IssueType.CONFLICT)
                     .details(CodeableConcept.builder()
-                        .text(string("Pages have shifted; check previous pages for changed results"))
+                        .text(string("Pages have shifted; check next pages for changed results"))
                         .build())
                     .build());
             }
