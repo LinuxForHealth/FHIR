@@ -6,7 +6,7 @@ For a detailed description of FHIR conformance, see https://linuxforhealth.githu
 The server is available in the following forms:
 * a web application archive (war)
 * a zip file with installation script
-* a [Linux container image](https://hub.docker.com/r/ibmcom/ibm-fhir-server) from the ibmcom org on DockerHub
+* a [Linux container image](https://github.com/LinuxForHealth/FHIR/pkgs/container/fhir-server) from GitHub Packages
 * a [helm chart](https://artifacthub.io/packages/helm/alvearie/ibm-fhir-server) from the alvearie org on ArtifactHub
 
 ### Running the server
@@ -20,15 +20,15 @@ Download the fhir-persistence-schema and fhir-install assets from the [Releases 
 #### From the container image
 Quickstart:
 ```
-docker run -p 9443:9443 -e BOOTSTRAP_DB=true ibmcom/ibm-fhir-server
+docker run -p 9443:9443 -e BOOTSTRAP_DB=true ghcr.io/linuxforhealth/fhir-server
 ```
 
 See https://hub.docker.com/r/ibmcom/ibm-fhir-server for more information.
 
 Note:
-1. The Docker image [ibmcom/ibm-fhir-schematool](https://hub.docker.com/r/ibmcom/ibm-fhir-schematool) is an early technology preview and is experimental.
-2. The Docker image [ibmcom/ibm-fhir-bucket-tool](https://hub.docker.com/r/ibmcom/ibm-fhir-bucket-tool) is an early technology preview and is experimental.
-3. The Docker image [ibmcom/ibm-fhir-term-loader](https://hub.docker.com/r/ibmcom/ibm-fhir-term-loader) is an early technology preview and is experimental.
+1. The Docker image [ghcr.io/linuxforhealth/fhir-schematool](https://github.com/LinuxForHealth/FHIR/pkgs/container/fhir-schematool) is an early technology preview and is experimental.
+2. The Docker image [ghcr.io/linuxforhealth/fhir-bucket-tool](https://github.com/LinuxForHealth/FHIR/pkgs/container/fhir-bucket-tool) is an early technology preview and is experimental.
+3. The Docker image [ghcr.io/linuxforhealth/fhir-term-loader](https://github.com/LinuxForHealth/FHIR/pkgs/container/fhir-term-loader) is an early technology preview and is experimental.
 
 #### From the helm chart
 Quickstart:
