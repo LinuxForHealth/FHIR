@@ -1004,9 +1004,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
-     * Remove the expected first and last search results of the adjacent pages. 
+     * Remove the additional resources fetched at the beginning and end of the search results for validating 
+     * the expected first and last search results of the adjacent pages.
      * Validate the input expected first resource Id and last resource Id with the search results.
-     * If the expected first resource Id or last resource Id do not match with the search results then add a OperationOutcome with Issue Severity Warning to the result Builder.
+     * If the expected first resource Id or last resource Id do not match with the search results then add a OperationOutcome 
+     * with Issue Severity Warning to the result Builder.
      * @param resourceDTOList the list of 'match' resources
      * @param searchContext the current search context
      * @param resultBuilder The MultiResourceResult builder
@@ -1029,7 +1031,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 firstResourceResult = resourceDTOList.get(0);
                 lastResourceResult = resourceDTOList.get(resourceDTOList.size() - 1);
             }
-            if (firstResourceResult != null && searchContext.getLastId() != null && !searchContext.getLastId().equals(firstResourceResult.getLogicalId())) {
+            if (firstResourceResult != null && searchContext.getFirstId() != null && !searchContext.getFirstId().equals(firstResourceResult.getLogicalId())) {
                 searchContext.addOutcomeIssue(OperationOutcome.Issue.builder()
                     .severity(IssueSeverity.WARNING)
                     .code(IssueType.CONFLICT)
@@ -1038,12 +1040,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         .build())
                     .build());
             }
-            if (lastResourceResult != null && searchContext.getFirstId() != null && !searchContext.getFirstId().equals(lastResourceResult.getLogicalId())) {
+            if (lastResourceResult != null && searchContext.getLastId() != null && !searchContext.getLastId().equals(lastResourceResult.getLogicalId())) {
                 searchContext.addOutcomeIssue(OperationOutcome.Issue.builder()
                     .severity(IssueSeverity.WARNING)
                     .code(IssueType.CONFLICT)
                     .details(CodeableConcept.builder()
-                        .text(string("Pages have shifted; check prior pages for changed results"))
+                        .text(string("Pages have shifted; check previous pages for changed results"))
                         .build())
                     .build());
             }
