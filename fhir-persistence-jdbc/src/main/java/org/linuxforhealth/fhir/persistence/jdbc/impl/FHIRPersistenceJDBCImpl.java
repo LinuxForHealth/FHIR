@@ -1004,7 +1004,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
-     * Remove the additional resources fetched at the beginning and end of the search results for validating the expected first and last search results. 
+     * Remove the expected first and last search results of the adjacent pages. 
      * Validate the input expected first resource Id and last resource Id with the search results.
      * If the expected first resource Id or last resource Id do not match with the search results then add a OperationOutcome with Issue Severity Warning to the result Builder.
      * @param resourceDTOList the list of 'match' resources
@@ -1016,19 +1016,19 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         validateExpectedSearchPagingResults(List<org.linuxforhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, FHIRSearchContext searchContext, Builder resultBuilder) {
         org.linuxforhealth.fhir.persistence.jdbc.dto.Resource firstResourceResult = null;
         org.linuxforhealth.fhir.persistence.jdbc.dto.Resource lastResourceResult = null;
-        if(resourceDTOList != null) {
-            if (resourceDTOList.size() > 0 && searchContext.getPageNumber() != 1){
-                firstResourceResult = resourceDTOList.get(0);
+        if (resourceDTOList != null) {
+            if (resourceDTOList.size() > 0 && searchContext.getPageNumber() != 1) {
+                resultBuilder.expectedPreviousId(resourceDTOList.get(0).getLogicalId());
                 resourceDTOList.remove(0);
-                resultBuilder.expectedPreviousId(firstResourceResult.getLogicalId());
-                
             } 
             if (resourceDTOList.size() > 0 && (resourceDTOList.size() > searchContext.getPageSize())) {
-                lastResourceResult = resourceDTOList.get(resourceDTOList.size() - 1);
+                resultBuilder.expectedNextId(resourceDTOList.get(resourceDTOList.size() - 1).getLogicalId());
                 resourceDTOList.remove(resourceDTOList.size() - 1);
-                resultBuilder.expectedNextId(lastResourceResult.getLogicalId());
             }
-            
+            if (resourceDTOList.size() > 0) {
+                firstResourceResult = resourceDTOList.get(0);
+                lastResourceResult = resourceDTOList.get(resourceDTOList.size() - 1);
+            }
             if (firstResourceResult != null && searchContext.getLastId() != null && !searchContext.getLastId().equals(firstResourceResult.getLogicalId())) {
                 searchContext.addOutcomeIssue(OperationOutcome.Issue.builder()
                     .severity(IssueSeverity.WARNING)
@@ -1037,8 +1037,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         .text(string("Pages have shifted; check next pages for changed results"))
                         .build())
                     .build());
-                
-                
             }
             if (lastResourceResult != null && searchContext.getFirstId() != null && !searchContext.getFirstId().equals(lastResourceResult.getLogicalId())) {
                 searchContext.addOutcomeIssue(OperationOutcome.Issue.builder()
@@ -1048,11 +1046,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         .text(string("Pages have shifted; check prior pages for changed results"))
                         .build())
                     .build());
-                
             }
-            
         }
-        
         return resourceDTOList;
     }
 

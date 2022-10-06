@@ -363,7 +363,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters = new HashMap<>();
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
         queryParameters.put("_page", Collections.singletonList("2"));
-        queryParameters.put("_lastId", Collections.singletonList(resource1.getId()));
+        queryParameters.put("_lastId", Collections.singletonList(resource2.getId()));
         FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(true);
         MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
@@ -386,15 +386,15 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParameters;
         queryParameters = new HashMap<>();
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
-        queryParameters.put("_page", Collections.singletonList("2"));
-        queryParameters.put("_lastId", Collections.singletonList(resource3.getId()));
+        queryParameters.put("_page", Collections.singletonList("3"));
+        queryParameters.put("_lastId", Collections.singletonList(resource1.getId()));
         queryParameters.put("_sort", Collections.singletonList("-integer"));
         FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(true);
         MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
         assertTrue(result.isSuccess());
-        assertEquals(result.getExpectedNextId(), resource1.getId());
-        assertEquals(result.getExpectedPreviousId(), resource3.getId());
+        assertFalse(result.getExpectedNextId() != null);
+        assertEquals(result.getExpectedPreviousId(), resource2.getId());
         assertFalse(result.getResourceResults().isEmpty());
         assertFalse(searchContext.getOutcomeIssues() != null);
     }
@@ -442,7 +442,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         queryParameters = new HashMap<>();
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
         queryParameters.put("_page", Collections.singletonList("2"));
-        queryParameters.put("_firstId", Collections.singletonList(resource3.getId()));
+        queryParameters.put("_firstId", Collections.singletonList(resource2.getId()));
         FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
         searchContext.setLenient(true);
         MultiResourceResult result = runQueryTest(searchContext, Basic.class, queryParameters, 1);
@@ -466,7 +466,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParameters;
         queryParameters = new HashMap<>();
         queryParameters.put("_tag", Collections.singletonList("pagingTest"));
-        queryParameters.put("_page", Collections.singletonList("2"));
+        queryParameters.put("_page", Collections.singletonList("3"));
         queryParameters.put("_firstId", Collections.singletonList(resource1.getId()));
         queryParameters.put("_sort", Collections.singletonList("-integer"));
         FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Basic.class, queryParameters);
@@ -475,8 +475,8 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         assertTrue(result.isSuccess());
         assertFalse(result.getResourceResults().isEmpty());
         assertFalse(searchContext.getOutcomeIssues() != null);
-        assertEquals(result.getExpectedNextId(), resource1.getId());
-        assertEquals(result.getExpectedPreviousId(), resource3.getId());
+        assertFalse(result.getExpectedNextId() != null);
+        assertEquals(result.getExpectedPreviousId(), resource2.getId());
        
     }
     
@@ -548,7 +548,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_type", Collections.singletonList("Basic"));
         queryParms.put("_page", Collections.singletonList("2"));
-        queryParms.put("_lastId", Collections.singletonList(resource1.getId()));
+        queryParms.put("_lastId", Collections.singletonList(resource2.getId()));
         FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Resource.class, queryParms);
         searchContext.setLenient(true);
         MultiResourceResult result = runQueryTest(searchContext, Resource.class, queryParms, 1);
@@ -564,7 +564,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_type", Collections.singletonList("Basic"));
         queryParms.put("_page", Collections.singletonList("2"));
-        queryParms.put("_firstId", Collections.singletonList(resource3.getId()));
+        queryParms.put("_firstId", Collections.singletonList(resource2.getId()));
         FHIRSearchContext searchContext = searchHelper.parseQueryParameters(Resource.class, queryParms);
         searchContext.setLenient(true);
         MultiResourceResult result = runQueryTest(searchContext, Resource.class, queryParms, 1);
