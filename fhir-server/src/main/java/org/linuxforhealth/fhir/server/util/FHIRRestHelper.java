@@ -2497,6 +2497,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 log.log(Level.WARNING, "Unable to construct self link for search result bundle; using the request URI instead.", e);
             }
         }
+        requestUri = requestUri.replace("&_firstId=" + context.getFirstId(), "").replace("_firstId="
+                + context.getFirstId() + "&", "").replace("_firstId="
+                        + context.getFirstId(), "");
+        requestUri = requestUri.replace("&_lastId=" + context.getLastId(), "").replace("_lastId="
+                + context.getLastId() + "&", "").replace("_lastId="
+                        + context.getLastId(), "");
         if (selfUri == null) {
             selfUri = requestUri;
         }
@@ -2587,9 +2593,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     
     /**
      * Add a new parameter with the name and value to the url.
-     * @param url
-     * @param name
-     * @param value
+     * @param url the url to which the parameter has to be added
+     * @param name the name of the parameter
+     * @param value the value of the parameter
      * @return
      */
     private String addParameterToUrl(String url, String name, String value) {

@@ -228,11 +228,11 @@ public class NewQueryBuilder {
      */
     private Select renderQuery(SearchQuery domainModel, FHIRSearchContext searchContext, SchemaType schemaType) throws FHIRPersistenceException {
         // adjust the offset by -1 of the search is for any other page than the first page.
-        int offsetIncrement = getOffsetCounter(searchContext);
+        int firstRowOffset = getOffsetCounter(searchContext);
         // increase the value of row count by 1 for first page, 2 for any other pages of search.
         int rowCountIncrement = getAdditionalRowCount(searchContext);
         
-        final int offset = ((searchContext.getPageNumber()-1) * searchContext.getPageSize()) + offsetIncrement;
+        final int offset = ((searchContext.getPageNumber()-1) * searchContext.getPageSize()) + firstRowOffset;
         final int rowsPerPage = searchContext.getPageSize() + rowCountIncrement;
         SearchQueryRenderer renderer = new SearchQueryRenderer(this.translator, this.identityCache, offset, rowsPerPage, searchContext.isIncludeResourceData(), schemaType);
         QueryData queryData = domainModel.visit(renderer);

@@ -23,9 +23,7 @@ import org.testng.annotations.Test;
 
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.model.resource.Basic;
-import org.linuxforhealth.fhir.model.resource.Observation;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome;
-import org.linuxforhealth.fhir.model.resource.Patient;
 import org.linuxforhealth.fhir.model.resource.Resource;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome.Issue;
 import org.linuxforhealth.fhir.model.test.TestUtil;
@@ -422,7 +420,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         assertEquals(issues.size(), 1);
         assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
         assertEquals(issues.get(0).getCode(), IssueType.CONFLICT);
-        assertEquals(issues.get(0).getDetails().getText().getValue(), "Pages have shifted; check next pages for changed results");
+        assertEquals(issues.get(0).getDetails().getText().getValue(), "Pages have shifted; check pages for changed results.");
         assertEquals(result.getExpectedNextId(), resource3.getId());
         assertEquals(result.getExpectedPreviousId(), resource1.getId());
     }
@@ -499,7 +497,7 @@ public abstract class AbstractPagingTest extends AbstractPersistenceTest {
         assertEquals(issues.size(), 1);
         assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
         assertEquals(issues.get(0).getCode(), IssueType.CONFLICT);
-        assertEquals(issues.get(0).getDetails().getText().getValue(), "Pages have shifted; check previous pages for changed results");
+        assertEquals(issues.get(0).getDetails().getText().getValue(), "Pages have shifted; check pages for changed results.");
         assertEquals(result.getExpectedNextId(), resource3.getId());
         assertEquals(result.getExpectedPreviousId(), resource1.getId());
     }

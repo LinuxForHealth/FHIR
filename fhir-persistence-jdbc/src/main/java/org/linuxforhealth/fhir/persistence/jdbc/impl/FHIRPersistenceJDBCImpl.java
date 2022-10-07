@@ -1031,21 +1031,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 firstResourceResult = resourceDTOList.get(0);
                 lastResourceResult = resourceDTOList.get(resourceDTOList.size() - 1);
             }
-            if (firstResourceResult != null && searchContext.getFirstId() != null && !searchContext.getFirstId().equals(firstResourceResult.getLogicalId())) {
+            if ((firstResourceResult != null && searchContext.getFirstId() != null && !searchContext.getFirstId().equals(firstResourceResult.getLogicalId())) 
+                    || (lastResourceResult != null && searchContext.getLastId() != null && !searchContext.getLastId().equals(lastResourceResult.getLogicalId()))) {
                 searchContext.addOutcomeIssue(OperationOutcome.Issue.builder()
                     .severity(IssueSeverity.WARNING)
                     .code(IssueType.CONFLICT)
                     .details(CodeableConcept.builder()
-                        .text(string("Pages have shifted; check previous pages for changed results"))
-                        .build())
-                    .build());
-            }
-            if (lastResourceResult != null && searchContext.getLastId() != null && !searchContext.getLastId().equals(lastResourceResult.getLogicalId())) {
-                searchContext.addOutcomeIssue(OperationOutcome.Issue.builder()
-                    .severity(IssueSeverity.WARNING)
-                    .code(IssueType.CONFLICT)
-                    .details(CodeableConcept.builder()
-                        .text(string("Pages have shifted; check next pages for changed results"))
+                        .text(string("Pages have shifted; check pages for changed results."))
                         .build())
                     .build());
             }
