@@ -241,8 +241,7 @@ public class NewQueryBuilder {
     
     /**
      * Fetch the value by which the row count needs to be increased in the Select statement.
-     * The additional records and needed to validate if search pages have shifted in an ongoing search session with pagination.
-     * If the request is for the first page of search results then re
+     * The additional records are needed to validate if search pages have shifted in an ongoing search session with pagination.
      * @param searchContext The search context containing the search parameters.
      * @return
      * If the request is for the first page of search results then return 1 since one additional record is needed at the end of search results.

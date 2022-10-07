@@ -1008,7 +1008,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * the expected first and last search results of the adjacent pages.
      * Validate the input expected first resource Id and last resource Id with the search results.
      * If the expected first resource Id or last resource Id do not match with the search results then add a OperationOutcome 
-     * with Issue Severity Warning to the result Builder.
+     * with Issue Severity Warning to the searchContext.
      * @param resourceDTOList the list of 'match' resources
      * @param searchContext the current search context
      * @param resultBuilder The MultiResourceResult builder

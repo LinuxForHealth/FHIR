@@ -95,10 +95,10 @@ public class SearchConstants {
     // _source
     public static final String SOURCE = "_source";
     
-    // _firstId the resource Id of the first resource of the next search result.
+    // _firstId the expected resource Id of the first resource on the requested page of search results.
     public static final String FIRST_ID = "_firstId";
 
-    // _lastId the resource Id of the last resource of the previous search result.
+    // _lastId the expected resource Id of the last resource on the requested page of search results.
     public static final String LAST_ID = "_lastId";
 
     // url

@@ -2501,9 +2501,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             selfUri = requestUri;
         }
         // add the resource Id of the first resource of the search result as a query parameter to self uri
-        selfUri = addParameterToUrl(selfUri, "firstId", firstId);
+        selfUri = addParameterToUrl(selfUri, SearchConstants.FIRST_ID, firstId);
         // add the resource Id of the last resource of the search result as a query parameter to self uri
-        selfUri = addParameterToUrl(selfUri, "lastId", lastId);
+        selfUri = addParameterToUrl(selfUri, SearchConstants.LAST_ID, lastId);
         // create 'self' link
         Bundle.Link selfLink = Bundle.Link.builder()
                 .relation(string("self"))
@@ -2539,7 +2539,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 nextLinkUrl += "_page=" + nextPageNumber;
 
                 // add the expected resource Id of the first resource in the next page of search results as a query parameter to next url
-                nextLinkUrl = addParameterToUrl(nextLinkUrl, "firstId", expectedNextId);
+                nextLinkUrl = addParameterToUrl(nextLinkUrl, SearchConstants.FIRST_ID, expectedNextId);
 
                 // create 'next' link
                 Bundle.Link nextLink =
@@ -2572,7 +2572,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 prevLinkUrl += "_page=" + prevPageNumber;
 
                 // add the expected resource Id of the last resource in the previous page of search results as a query parameter to previous url
-                prevLinkUrl = addParameterToUrl(prevLinkUrl, "lastId", expectedPreviousId);
+                prevLinkUrl = addParameterToUrl(prevLinkUrl, SearchConstants.LAST_ID, expectedPreviousId);
                 
 
                 // create 'previous' link
@@ -2593,7 +2593,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return
      */
     private String addParameterToUrl(String url, String name, String value) {
-        
         if (value == null) {
             return url;
         }
@@ -2605,9 +2604,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         } else {
             url += "?";
         }
-
         // add new parameter to the query string
-        url += "_" + name  + "=" + value;
+        url += name  + "=" + value;
         return url;
     }
 
