@@ -6,7 +6,7 @@ For a detailed description of FHIR conformance, see https://linuxforhealth.githu
 The server is available in the following forms:
 * a web application archive (war)
 * a zip file with installation script
-* a [Linux container image](https://hub.docker.com/r/ibmcom/ibm-fhir-server) from the ibmcom org on DockerHub
+* a [Linux container image](https://github.com/LinuxForHealth/FHIR/pkgs/container/fhir-server) from GitHub Packages
 * a [helm chart](https://artifacthub.io/packages/helm/alvearie/ibm-fhir-server) from the alvearie org on ArtifactHub
 
 ### Running the server
@@ -20,15 +20,15 @@ Download the fhir-persistence-schema and fhir-install assets from the [Releases 
 #### From the container image
 Quickstart:
 ```
-docker run -p 9443:9443 -e BOOTSTRAP_DB=true ibmcom/ibm-fhir-server
+docker run -p 9443:9443 -e BOOTSTRAP_DB=true ghcr.io/linuxforhealth/fhir-server
 ```
 
 See https://hub.docker.com/r/ibmcom/ibm-fhir-server for more information.
 
 Note:
-1. The Docker image [ibmcom/ibm-fhir-schematool](https://hub.docker.com/r/ibmcom/ibm-fhir-schematool) is an early technology preview and is experimental.
-2. The Docker image [ibmcom/ibm-fhir-bucket-tool](https://hub.docker.com/r/ibmcom/ibm-fhir-bucket-tool) is an early technology preview and is experimental.
-3. The Docker image [ibmcom/ibm-fhir-term-loader](https://hub.docker.com/r/ibmcom/ibm-fhir-term-loader) is an early technology preview and is experimental.
+1. The Docker image [ghcr.io/linuxforhealth/fhir-schematool](https://github.com/LinuxForHealth/FHIR/pkgs/container/fhir-schematool) is an early technology preview and is experimental.
+2. The Docker image [ghcr.io/linuxforhealth/fhir-bucket-tool](https://github.com/LinuxForHealth/FHIR/pkgs/container/fhir-bucket-tool) is an early technology preview and is experimental.
+3. The Docker image [ghcr.io/linuxforhealth/fhir-term-loader](https://github.com/LinuxForHealth/FHIR/pkgs/container/fhir-term-loader) is an early technology preview and is experimental.
 
 #### From the helm chart
 Quickstart:
@@ -43,7 +43,7 @@ See https://artifacthub.io/packages/helm/alvearie/ibm-fhir-server for more infor
 ### Building with the LinuxForHealth FHIR Modules
 Each of the LinuxForHealth FHIR Server modules are published to Maven Central under [org.linuxforhealth.fhir](https://repo1.maven.org/maven2/org/linuxforhealth/fhir/).
 
-To use the artifacts from a Maven project, declare the dependencies. For example, to use our visitable, thread-safe FHIR R4 object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
+To use the artifacts from a Maven project, declare the dependencies. For example, to use our visitable, thread-safe FHIR object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
 
 ```
 ...
@@ -55,19 +55,6 @@ To use the artifacts from a Maven project, declare the dependencies. For example
     </dependency>
     ...
 ```
-
-Note, if you are using a local repository or private host, you must add the repository to your pom.xml:
-
-```
-<repositories>
-    <repository>
-        <id>ibm-fhir</id>
-        <url>https://myhost.com/ibm-fhir-server-releases</url>
-    </repository>
-    ...
-```
-
-For versions prior to 4.7.0, the LinuxForHealth FHIR Server modules are only available from the [Releases tab](https://github.com/LinuxForHealth/FHIR/releases) in an archived Maven repository format.
 
 ### LinuxForHealth FHIR modules
 The LinuxForHealth FHIR Server is modular and extensible. The following tables provide an overview of all the modules, along with an indicator of the stability of the Java APIs defined in each module. This indicator is only applicable to the direct usage of the modules, not for usage of the LinuxForHealth FHIR Server as a whole.
