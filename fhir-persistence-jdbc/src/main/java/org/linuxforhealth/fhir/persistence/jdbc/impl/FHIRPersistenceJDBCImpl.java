@@ -1910,6 +1910,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 // Alternatively, we could pull the search parameter from the FHIRRegistry so we can use versioned references.
                                 // However, that would bypass search parameter filtering and so we favor the SeachUtil method here instead.
                                 SearchParameter compSP = searchHelper.getSearchParameter(p.getResourceType(), component.getDefinition());
+                                if(compSP==null){
+                                    throw new NullPointerException(String.format("The 'compSP' parameter was specified to null [ResourceType=%s,Uri=%s]",p.getResourceType(),component.getDefinition()));
+                                }                                
                                 JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(p.getResourceType(), compSP);
                                 FHIRPathNode node = nodes.iterator().next();
                                 if (nodes.size() > 1 ) {
