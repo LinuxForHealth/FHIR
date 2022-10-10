@@ -1912,7 +1912,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 SearchParameter compSP = searchHelper.getSearchParameter(p.getResourceType(), component.getDefinition());
                                 if (compSP == null) {
                                     throw new NullPointerException(String.format("The 'compSP' parameter was " + 
-                                        specified to null [ResourceType=%s,Uri=%s]", p.getResourceType(), component.getDefinition()));
+                                        "specified to null [ResourceType=%s,Uri=%s]", p.getResourceType(), component.getDefinition()));
                                 }                                
                                 JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(p.getResourceType(), compSP);
                                 FHIRPathNode node = nodes.iterator().next();
