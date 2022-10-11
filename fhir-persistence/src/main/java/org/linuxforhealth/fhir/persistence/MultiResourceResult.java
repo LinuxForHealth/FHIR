@@ -24,11 +24,18 @@ public class MultiResourceResult {
     final boolean success;
     final List<ResourceResult<? extends Resource>> resourceResults;
     final OperationOutcome outcome;
+    // the expected resource Id of the first resource in the next page of search results.
+    final String expectedNextId;
+    
+    // the expected resource Id of the last resource in the previous page of search results.
+    final String expectedPreviousId;
     
     private MultiResourceResult(Builder builder) {
         success = ValidationSupport.requireNonNull(builder.success, "success");
         resourceResults = Collections.unmodifiableList(builder.resourceResults);
         outcome = builder.outcome;
+        this.expectedNextId = builder.expectedNextId;
+        this.expectedPreviousId = builder.expectedPreviousId;
         if (!success && (outcome == null || outcome.getIssue().isEmpty())) {
             throw new IllegalStateException("Failed interaction results must include an OperationOutcome with one or more issue.");
         }
@@ -66,12 +73,35 @@ public class MultiResourceResult {
     public static Builder builder() {
         return new Builder();
     }
-    
+
+
+    /**
+     *  Get the expected resource Id of the first resource in the next page of search results.
+     * @return the expected resource Id of the first resource in the next page of search results.
+     */
+    public String getExpectedNextId() {
+        return expectedNextId;
+    }
+
+    /**
+     * Get the expected resource Id of the last resource in the previous page of search results.
+     * @return the expected resource Id of the last resource in the previous page of search results.
+     */
+    public String getExpectedPreviousId() {
+        return expectedPreviousId;
+    }
+
+
+
     // result builder
     public static class Builder {
         boolean success;
         final List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>();
         OperationOutcome outcome;
+        
+        String expectedNextId;
+        
+        String expectedPreviousId;
         
         /**
          * Whether or not the interaction was successful
@@ -145,6 +175,26 @@ public class MultiResourceResult {
          */
         public MultiResourceResult build() {
             return new MultiResourceResult(this);
+        }
+
+        /**
+         * Build the expected resource Id of the first resource in the next page of search results.
+         * @param expectedNextId
+         * @return A reference to this Builder instance
+         */
+        public Builder expectedNextId(String expectedNextId) {
+            this.expectedNextId = expectedNextId;
+            return this;
+        }
+
+        /**
+         * Build the expected resource Id of the last resource in the previous page of search results.
+         * @param expectedPreviousId
+         * @return A reference to this Builder instance
+         */
+        public Builder expectedPreviousId(String expectedPreviousId) {
+            this.expectedPreviousId = expectedPreviousId;
+            return this;
         }
     }
 }

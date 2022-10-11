@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import org.linuxforhealth.fhir.search.SearchConstants;
 import org.linuxforhealth.fhir.search.context.FHIRSearchContext;
 import org.linuxforhealth.fhir.search.context.FHIRSearchContextFactory;
+import org.linuxforhealth.fhir.search.exception.FHIRSearchException;
 import org.linuxforhealth.fhir.search.parameters.SortParameter;
 import org.linuxforhealth.fhir.search.sort.Sort;
 import org.linuxforhealth.fhir.search.uri.UriBuilder;
@@ -25,7 +26,7 @@ import org.linuxforhealth.fhir.search.uri.UriBuilder;
 public class SortUriTest {
 
     @Test
-    public void testSortUriSingleDescendingParameter() throws URISyntaxException {
+    public void testSortUriSingleDescendingParameter() throws URISyntaxException, FHIRSearchException {
         SortParameter parameter = new SortParameter("_id", SearchConstants.Type.NUMBER, Sort.Direction.DECREASING);
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.getSortParameters().add(parameter);
@@ -38,7 +39,7 @@ public class SortUriTest {
     }
     
     @Test
-    public void testSortUriSingleAscendingParameter() throws URISyntaxException {
+    public void testSortUriSingleAscendingParameter() throws URISyntaxException, FHIRSearchException {
         SortParameter parameter = new SortParameter("_id", SearchConstants.Type.NUMBER, Sort.Direction.INCREASING);
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         context.getSortParameters().add(parameter);
@@ -51,7 +52,7 @@ public class SortUriTest {
     }
 
     @Test
-    public void testSortUriDoubleDescendingParameter() throws URISyntaxException {
+    public void testSortUriDoubleDescendingParameter() throws URISyntaxException, FHIRSearchException {
         SortParameter parameter1 = new SortParameter("test1", SearchConstants.Type.NUMBER, Sort.Direction.DECREASING);
         SortParameter parameter2 = new SortParameter("test2", SearchConstants.Type.NUMBER, Sort.Direction.DECREASING);
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
@@ -66,7 +67,7 @@ public class SortUriTest {
     }
     
     @Test
-    public void testSortUriDoubleMixingParameter() throws URISyntaxException {
+    public void testSortUriDoubleMixingParameter() throws URISyntaxException, FHIRSearchException {
         SortParameter parameter1 = new SortParameter("test1", SearchConstants.Type.NUMBER, Sort.Direction.DECREASING);
         SortParameter parameter2 = new SortParameter("test2", SearchConstants.Type.NUMBER, Sort.Direction.INCREASING);
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
@@ -81,7 +82,7 @@ public class SortUriTest {
     }
     
     @Test
-    public void testSortUriDoubleIncreasingParameter() throws URISyntaxException {
+    public void testSortUriDoubleIncreasingParameter() throws URISyntaxException, FHIRSearchException {
         SortParameter parameter1 = new SortParameter("test1", SearchConstants.Type.NUMBER, Sort.Direction.INCREASING);
         SortParameter parameter2 = new SortParameter("test2", SearchConstants.Type.NUMBER, Sort.Direction.INCREASING);
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();

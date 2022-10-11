@@ -94,6 +94,7 @@ import org.linuxforhealth.fhir.persistence.FHIRPersistenceTransaction;
 import org.linuxforhealth.fhir.persistence.HistorySortOrder;
 import org.linuxforhealth.fhir.persistence.InteractionStatus;
 import org.linuxforhealth.fhir.persistence.MultiResourceResult;
+import org.linuxforhealth.fhir.persistence.MultiResourceResult.Builder;
 import org.linuxforhealth.fhir.persistence.ResourceChangeLogRecord;
 import org.linuxforhealth.fhir.persistence.ResourceEraseRecord;
 import org.linuxforhealth.fhir.persistence.ResourcePayload;
@@ -966,7 +967,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 } else {
                     resourceDTOList = resourceDao.search(query);
                 }
-
+                resourceDTOList = validateExpectedSearchPagingResults(resourceDTOList, searchContext, resultBuilder);
                 resourceResults = this.convertResourceDTOList(resourceDao, resourceDTOList, resourceType, elements, searchContext.isIncludeResourceData());
                 searchContext.setMatchCount(resourceResults.size());
 
@@ -1000,6 +1001,48 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
+    }
+
+    /**
+     * Remove the additional resources fetched at the beginning and end of the search results for validating 
+     * the expected first and last search results of the adjacent pages.
+     * Validate the input expected first resource Id and last resource Id with the search results.
+     * If the expected first resource Id or last resource Id do not match with the search results then add a OperationOutcome 
+     * with Issue Severity Warning to the searchContext.
+     * @param resourceDTOList the list of 'match' resources
+     * @param searchContext the current search context
+     * @param resultBuilder The MultiResourceResult builder
+     * @return the list of filtered resources after removing the additional resources.
+     */
+    private List<org.linuxforhealth.fhir.persistence.jdbc.dto.Resource>
+        validateExpectedSearchPagingResults(List<org.linuxforhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, FHIRSearchContext searchContext, Builder resultBuilder) {
+        org.linuxforhealth.fhir.persistence.jdbc.dto.Resource firstResourceResult = null;
+        org.linuxforhealth.fhir.persistence.jdbc.dto.Resource lastResourceResult = null;
+        if (resourceDTOList != null) {
+            if (resourceDTOList.size() > 0 && searchContext.getPageNumber() != 1) {
+                resultBuilder.expectedPreviousId(resourceDTOList.get(0).getLogicalId());
+                resourceDTOList.remove(0);
+            } 
+            if (resourceDTOList.size() > searchContext.getPageSize()) {
+                resultBuilder.expectedNextId(resourceDTOList.get(resourceDTOList.size() - 1).getLogicalId());
+                resourceDTOList.remove(resourceDTOList.size() - 1);
+            }
+            if (resourceDTOList.size() > 0) {
+                firstResourceResult = resourceDTOList.get(0);
+                lastResourceResult = resourceDTOList.get(resourceDTOList.size() - 1);
+            }
+            if ((firstResourceResult != null && searchContext.getFirstId() != null && !searchContext.getFirstId().equals(firstResourceResult.getLogicalId())) 
+                    || (lastResourceResult != null && searchContext.getLastId() != null && !searchContext.getLastId().equals(lastResourceResult.getLogicalId()))) {
+                searchContext.addOutcomeIssue(OperationOutcome.Issue.builder()
+                    .severity(IssueSeverity.WARNING)
+                    .code(IssueType.CONFLICT)
+                    .details(CodeableConcept.builder()
+                        .text(string("Pages have shifted; check pages for changed results."))
+                        .build())
+                    .build());
+            }
+        }
+        return resourceDTOList;
     }
 
     /**

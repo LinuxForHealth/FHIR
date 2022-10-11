@@ -205,7 +205,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
     protected boolean compartmentSearchReturnsResource(String compartmentType, String compartmentId,
             String searchParamCode, String queryValue, Resource expectedResource) throws Exception {
         List<? extends Resource> resources = runCompartmentQueryTest(compartmentType, compartmentId,
-                expectedResource.getClass(), searchParamCode, queryValue, Integer.MAX_VALUE);
+                expectedResource.getClass(), searchParamCode, queryValue, Integer.MAX_VALUE - 2);
         assertNotNull(resources);
         return isResourceInResponse(expectedResource, resources);
     }
@@ -245,7 +245,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
             Map<String, List<String>> queryParms, Resource expectedResource) throws Exception {
 
         List<? extends Resource> resources = runCompartmentQueryTest(compartmentType, compartmentIds,
-                expectedResource.getClass(), queryParms, Integer.MAX_VALUE);
+                expectedResource.getClass(), queryParms, Integer.MAX_VALUE - 2);
         assertNotNull(resources);
         return isResourceInResponse(expectedResource, resources);
     }

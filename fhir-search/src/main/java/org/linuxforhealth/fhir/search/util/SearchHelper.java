@@ -1385,6 +1385,12 @@ public class SearchHelper {
                 context.setSummaryParameter(SummaryValueSet.from(first));
             } else if (SearchConstants.TOTAL.equals(name) && first != null) {
                 context.setTotalParameter(TotalValueSet.from(first));
+            } else if (SearchConstants.FIRST_ID.equals(name) && first != null) {
+                // the resource Id of the first resource of the next search result
+                context.setFirstId(first);
+            } else if (SearchConstants.LAST_ID.equals(name) && first != null) {
+                // the resource Id of the last resource of the previous search result
+                context.setLastId(first);
             }
         } catch (FHIRSearchException se) {
             throw se;

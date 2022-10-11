@@ -19,6 +19,7 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -2973,6 +2974,80 @@ public class FHIRRestHelperTest {
                 assertEquals(returnedCondition.getSubject().getReference().getValue(), "Patient/generated-2");
             } else {
                 fail();
+            }
+        }
+    }
+    
+    /**
+     * Test search when the results of previous page have shifted. 
+     * The bundle response should contain a warning that pages have shifted.
+     */
+    @Test
+    public void testSearchWithPreviousPageResultsShiftWarning() throws Exception {
+        final String testResourceId = UUID.randomUUID().toString();
+        final String testResourceId1 = UUID.randomUUID().toString();
+        // Create the search response for our persistence mock
+        Patient patient = Patient.builder()
+            .name(HumanName.builder()
+                .given(string("Bob"))
+                .family(string("Ortiz"))
+                .build())
+            .id(testResourceId)
+            .meta(Meta.builder()
+                .lastUpdated(Instant.now())
+                .versionId(Id.of("1"))
+                .build())
+            .build();
+        List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>();
+        resourceResults.add(ResourceResult.from(patient));
+        MultiResourceResult searchResult = MultiResourceResult.builder()
+                .addResourceResults(resourceResults).expectedNextId(testResourceId1).expectedPreviousId(testResourceId)
+                .success(true)
+                .build();
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        @SuppressWarnings("unchecked")
+        SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
+        when(mockResult.getResource()).thenReturn(patient);
+
+        when(persistence.generateResourceId()).thenReturn("generated-0");
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.read(any(), any(), any())).thenReturn(mockResult);
+        when(persistence.search(any(), any())).thenReturn(searchResult);
+        FHIRRequestContext.get().setOriginalRequestUri("https://fhir.example.com/r4/_search");
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
+        MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
+        queryParameters.put("_page", Collections.singletonList("0"));
+        queryParameters.put("_lastId", Collections.singletonList(testResourceId));
+        queryParameters.put("_count", Collections.singletonList("1"));
+        queryParameters.put("_total", Collections.singletonList("none"));
+        Bundle searchResponse = helper.doSearch("Patient", null, null, queryParameters, "https://fhir.example.com/r4/_search");
+        
+        validateSearchResponse(searchResponse);
+        
+        queryParameters.put("_page", Collections.singletonList("2"));
+        searchResponse = helper.doSearch("Patient", null, null, queryParameters, "https://fhir.example.com/r4/_search");
+        validateSearchResponse(searchResponse);
+        
+    }
+
+    /**
+     * Validate if _firstId and _lastId parameters are added to the links in the searchResponse  
+     * @param searchResponse
+     */
+    private void validateSearchResponse(Bundle searchResponse) {
+        assertNotNull(searchResponse);
+        for (Bundle.Link entry: searchResponse.getLink()) {
+            String relation = entry.getRelation().getValue();
+            if(relation.equals("self")) {
+                assertTrue(entry.getUrl().getValue().contains("_firstId"));
+                assertTrue(entry.getUrl().getValue().contains("_lastId"));
+            }
+            if(relation.equals("next")) {
+                assertTrue(entry.getUrl().getValue().contains("_firstId"));
+            }
+            if(relation.equals("previous")) {
+                assertTrue(entry.getUrl().getValue().contains("_lastId"));
             }
         }
     }

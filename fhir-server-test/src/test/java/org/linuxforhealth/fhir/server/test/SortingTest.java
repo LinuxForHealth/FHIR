@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2021
+ * (C) Copyright IBM Corp. 2017, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,6 +44,7 @@ import org.linuxforhealth.fhir.model.generator.exception.FHIRGeneratorException;
 import org.linuxforhealth.fhir.model.resource.Bundle;
 import org.linuxforhealth.fhir.model.resource.Observation;
 import org.linuxforhealth.fhir.model.resource.Observation.Component;
+import org.linuxforhealth.fhir.model.resource.OperationOutcome;
 import org.linuxforhealth.fhir.model.resource.Patient;
 import org.linuxforhealth.fhir.model.test.TestUtil;
 import org.linuxforhealth.fhir.model.type.Code;
@@ -1056,5 +1057,73 @@ public class SortingTest extends FHIRServerTestBase {
             }
         }
         assertTrueNaturalOrderingReverseInstant(list);
+    }
+    
+    /**
+     * Test Operation outcome warning message when the results of a page have shifted due to an insert or delete or update during an on going search session. 
+     * @throws Exception 
+     */
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreatePatient1",
+            "testCreatePatient2", "testCreatePatient3", "testCreatePatient4", "testCreatePatient5" })
+    public void testSearchResultsOperationOutcomeWarning() throws Exception {
+       
+        WebTarget target = getWebTarget();
+        
+        // Build a new Patient to delete during the search session.
+        Patient patient = TestUtil.readLocalResource("patient-example-d.json");
+        patient = FHIRUtil.addTag(patient, TAG);
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        String testPatientId = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new patient and verify it.
+        response =
+                target.path("Patient/" + testPatientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        
+        response =
+                target.path("Patient").queryParam("_count", "2")
+                .queryParam("_sort", "-family")
+                .queryParam("_page", "3")
+                .queryParam("_tag", TAG_CODE)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() > 1);
+        // delete the patient resource created above, with id = testPatientId
+        response =
+                target.path("Patient/" + testPatientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        
+        // call the previous search link with _lastId parameter and check if the search response bundle has the warning message.
+        response =
+                target.path("Patient").queryParam("_count", "2")
+                .queryParam("_sort", "-family")
+                .queryParam("_page", "2")
+                .queryParam("_tag", TAG_CODE)
+                .queryParam("_lastId", testPatientId)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        
+        // validate the response
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() > 1);
+        String warningMessage = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if(entry.getSearch().getMode().getValue().equals("outcome")) {
+                OperationOutcome outcome = (OperationOutcome) entry.getResource();
+                List<OperationOutcome.Issue> issues = outcome.getIssue();
+                for (OperationOutcome.Issue issue: issues) {
+                    warningMessage = issue.getDetails().getText().getValue();
+                }
+            }
+        }    
+        assertEquals(warningMessage, "Pages have shifted; check pages for changed results.");
     }
 }

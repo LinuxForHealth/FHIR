@@ -2311,7 +2311,7 @@ public class SearchTest extends FHIRServerTestBase {
         this.printOutResource(true, bundle);
         assertNotNull(bundle);
         String selfLink = getSelfLink(bundle);
-        assertEquals(selfLink, "https://chocolate.fudge/Patient?_count=11&_page=1");
+        assertTrue(selfLink.contains("https://chocolate.fudge/Patient?_count=11&_page=1"));
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })

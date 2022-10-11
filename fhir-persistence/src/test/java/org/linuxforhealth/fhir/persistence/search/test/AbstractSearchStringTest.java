@@ -134,7 +134,7 @@ public abstract class AbstractSearchStringTest extends AbstractPLSearchTest {
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testSearchString_string_invalidEscaping() throws Exception {
-        runQueryTest(Basic.class, "string", "\\", Integer.MAX_VALUE);
+        runQueryTest(Basic.class, "string", "\\", Integer.MAX_VALUE - 2);
     }
 
     @Test
