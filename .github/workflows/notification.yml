@@ -3,6 +3,7 @@ name: Integration - Notifications
 on:
   pull_request:
     paths-ignore:
+      - '**.md'
       - 'docs/**'
       - 'demo/**'
       - '.github/workflows/site.yml'
