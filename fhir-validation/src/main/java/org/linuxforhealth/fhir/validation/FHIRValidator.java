@@ -330,10 +330,11 @@ public class FHIRValidator {
                 constraints.addAll(ProfileSupport.getConstraints(profiles, resourceType));
             }
 
-            // path (with array indices) -> Extension instance (which never have a url version suffix)
-            Map<String, Extension> pathToExtension = gatherInstanceExtensions(resourceNode);
             // path (with no array indices) -> Extension URLs (with no version suffix)
             Map<String, Set<String>> alreadyGeneratedExtensionConstraints = gatherExtensionConstraints(constraints);
+
+            // path (with array indices) -> Extension instance (which never have a url version suffix)
+            Map<String, Extension> pathToExtension = gatherInstanceExtensions(resourceNode);
 
             // for each extension in the resource instance
             for (Entry<String, Extension> entry : pathToExtension.entrySet()) {

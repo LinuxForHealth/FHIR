@@ -21,6 +21,7 @@ import org.linuxforhealth.fhir.model.resource.Resource;
 import org.linuxforhealth.fhir.model.spec.test.IExampleProcessor;
 import org.linuxforhealth.fhir.model.visitor.ResourceFingerprintVisitor;
 import org.linuxforhealth.fhir.persistence.FHIRPersistence;
+import org.linuxforhealth.fhir.persistence.FHIRPersistenceTransaction;
 import org.linuxforhealth.fhir.persistence.context.FHIRHistoryContext;
 import org.linuxforhealth.fhir.persistence.context.FHIRPersistenceContext;
 import org.linuxforhealth.fhir.persistence.context.FHIRPersistenceContextFactory;
@@ -187,11 +188,20 @@ public class R4JDBCExamplesProcessor implements IExampleProcessor {
         context.setOriginalFingerprint(v.getSaltAndHash());
 
         if (this.persistence == null) {
-            try (ITransaction tx = this.transactionProvider.getTransaction()) {
-                // ITestResourceOperation#process throws Exception, which precludes the
-                // use of forEach here...so going old-school keeps it simpler
-                for (ITestResourceOperation op: operations) {
+
+            // ITestResourceOperation#process throws Exception, which precludes the
+            // use of forEach here...so going old-school keeps it simpler
+            for (ITestResourceOperation op: operations) {
+                FHIRPersistenceTransaction tx = context.getPersistence().getTransaction();
+                tx.begin();
+                try {
                     op.process(context);
+                } catch (Throwable t) {
+                    tx.setRollbackOnly();
+                    throw t;
+                } finally {
+                    // will do a commit, or rollback if tx.setRollbackOnly() has been set
+                    tx.end();
                 }
             }
         } else {
