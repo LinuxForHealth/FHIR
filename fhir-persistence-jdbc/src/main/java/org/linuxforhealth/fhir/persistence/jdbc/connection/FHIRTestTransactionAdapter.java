@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2022
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,32 +19,32 @@ import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
  * Hides the logic behind obtaining a JDBC {@link Connection} from the DAO code.
- * 
+ *
  * Use by unit tests or other scenarios where connections are obtained using an
  * IConnectionProvider implementation, outside the scope of a JEE container.
  * Transactions are managed with the help of the SimpleTransactionProvider and
  * wrapped by this class, meaning we have a uniform interface for handling
  * transactions across JEE and unit-test scenarios.
- * 
+ *
  */
 public class FHIRTestTransactionAdapter implements FHIRPersistenceTransaction {
     private static final Logger log = Logger.getLogger(FHIRDbTestConnectionStrategy.class.getName());
-    
+
     // Provides connections when outside of a container
     private final IConnectionProvider connectionProvider;
-    
+
     // If given, invoke this callback just prior to commit
     private final IFHIRTransactionAdapterCallback beforeCommitCallback;
 
     // Support transactions for the persistence unit tests
     private final SimpleTransactionProvider transactionProvider;
-    
+
     // Just in case we have nesting issues, use ThreadLocal to track the current tx
     private final ThreadLocal<ITransaction> currentTransaction = new ThreadLocal<>();
-    
+
     // Was this instance responsible for starting the transaction
     private boolean startedByThis;
-    
+
     // support nesting by tracking the number of begin/end requests
     private int startCount;
 
@@ -68,7 +68,7 @@ public class FHIRTestTransactionAdapter implements FHIRPersistenceTransaction {
             this.currentTransaction.set(this.transactionProvider.getTransaction());
             this.startedByThis = true;
         }
-        
+
         // add to the start request counter every time. We only close when this
         // counter reaches 0.
         startCount++;
@@ -79,14 +79,15 @@ public class FHIRTestTransactionAdapter implements FHIRPersistenceTransaction {
         if (currentTransaction.get() == null) {
             throw new FHIRPersistenceDataAccessException("Transaction not started");
         }
-        
+
         try {
             // only end it if we started it
             if (startedByThis && --startCount == 0) {
-                if (this.beforeCommitCallback != null) {
-                    this.beforeCommitCallback.beforeCommit();
+                try (ITransaction tx = this.currentTransaction.get()) {
+                    if (this.beforeCommitCallback != null) {
+                        this.beforeCommitCallback.beforeCommit();
+                    }
                 }
-                this.currentTransaction.get().close();
             }
         } catch (Throwable x) {
             // translate to a FHIRPersistenceException
