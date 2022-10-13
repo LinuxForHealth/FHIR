@@ -79,6 +79,7 @@ jobs:
         )
         jdbc_paths=(
           fhir-persistence-jdbc
+          fhir-persistence-params
           fhir-search/src/main
           fhir-persistence/src/main
           fhir-persistence-schema/src/main

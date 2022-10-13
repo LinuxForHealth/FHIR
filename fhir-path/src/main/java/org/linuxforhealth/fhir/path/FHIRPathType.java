@@ -6,10 +6,8 @@
 
 package org.linuxforhealth.fhir.path;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -339,8 +337,10 @@ public enum FHIRPathType {
 
     private static final Map<java.lang.String, FHIRPathType> TYPE_NAME_MAP = buildTypeNameMap();
     private static final Map<Class<?>, FHIRPathType> TYPE_MAP = buildTypeMap();
-    private static final Set<FHIRPathType> SYSTEM_TYPES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(SYSTEM_BOOLEAN, SYSTEM_STRING, SYSTEM_INTEGER, SYSTEM_DECIMAL, SYSTEM_DATE, SYSTEM_DATE_TIME, SYSTEM_QUANTITY, SYSTEM_TIME)));
-    private static final Set<FHIRPathType> METAMODEL_TYPES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(SYSTEM_TYPE_INFO, SYSTEM_CLASS_INFO, SYSTEM_TUPLE_TYPE_INFO, SYSTEM_LIST_TYPE_INFO, SYSTEM_SIMPLE_TYPE_INFO)));
+    private static final Set<FHIRPathType> SYSTEM_TYPES =
+            Set.of(SYSTEM_BOOLEAN, SYSTEM_STRING, SYSTEM_INTEGER, SYSTEM_DECIMAL, SYSTEM_DATE, SYSTEM_DATE_TIME, SYSTEM_QUANTITY, SYSTEM_TIME);
+    private static final Set<FHIRPathType> METAMODEL_TYPES =
+            Set.of(SYSTEM_TYPE_INFO, SYSTEM_CLASS_INFO, SYSTEM_TUPLE_TYPE_INFO, SYSTEM_LIST_TYPE_INFO, SYSTEM_SIMPLE_TYPE_INFO);
     private static final Map<Class<?>, FHIRPathType> METAMODEL_TYPE_MAP = buildMetamodelTypeMap();
     private static final Map<Class<?>, FHIRPathType> JAVA_TYPE_MAP = buildJavaTypeMap();
 
