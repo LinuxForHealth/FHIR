@@ -14,7 +14,7 @@ on:
       - 'fhir-database-utils/**'
       - 'fhir-persistence-schema/**'
       - '!fhir-persistence-schema/docs/**'
-      - '!**/README.md'
+      - '!**.md'
   # allows the workflow to be manually executed any time
   workflow_dispatch:
     inputs:
