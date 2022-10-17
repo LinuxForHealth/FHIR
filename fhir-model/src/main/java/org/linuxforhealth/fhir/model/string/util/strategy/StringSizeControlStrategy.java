@@ -19,7 +19,7 @@ public interface StringSizeControlStrategy {
     String getStrategyIdentifier();
     
     /**
-     * Truncate the input String value to fit the input maxBytes(maximum bytes) and return the truncated string.
+     * Truncate the input String value to fit the input maxBytes(maximum bytes) size and return the truncated string.
      * @param value the input String value.
      * @param maxBytes the maximum String byte size.
      * @return 

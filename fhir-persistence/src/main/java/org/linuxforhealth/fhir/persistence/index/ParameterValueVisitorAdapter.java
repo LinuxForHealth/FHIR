@@ -26,7 +26,7 @@ public interface ParameterValueVisitorAdapter {
      * @param wholeSystem
      * @param maxBytes the maximum allowed size of input String in bytes
      */
-    void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem, int maxBytes) throws FHIRPersistenceException;
+    void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem, int maxBytes);
 
     /**
      * Process a number parameter

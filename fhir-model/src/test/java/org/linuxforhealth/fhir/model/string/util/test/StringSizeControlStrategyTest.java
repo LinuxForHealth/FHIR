@@ -8,15 +8,10 @@ import org.linuxforhealth.fhir.exception.FHIROperationException;
 import org.linuxforhealth.fhir.model.string.util.StringSizeControlStrategyFactory;
 import org.linuxforhealth.fhir.model.string.util.StringSizeControlStrategyFactory.Strategy;
 import org.linuxforhealth.fhir.model.string.util.strategy.MaxBytesStringSizeControlStrategy;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class StringSizeControlStrategyTest {
     
-    @BeforeClass
-    public void setup() {
-        
-    }
     
     public static final int MAX_SEARCH_STRING_BYTES = 1024;
     
@@ -78,7 +73,7 @@ public class StringSizeControlStrategyTest {
         StringSizeControlStrategyFactory factory = StringSizeControlStrategyFactory.factory();
         assertNotNull(factory);
         org.linuxforhealth.fhir.model.string.util.strategy.StringSizeControlStrategy strategy = factory.getStrategy(Strategy.MAX_BYTES.getValue());
-        String description = "ab\u0080"; //  padding character
+        String description = "ab\u0080"; // padding character
         int maxBytes = 4;
         String truncatedDescription = strategy.truncateString(description, maxBytes);
         assertTrue(truncatedDescription.equals(description));
@@ -96,7 +91,7 @@ public class StringSizeControlStrategyTest {
         StringSizeControlStrategyFactory factory = StringSizeControlStrategyFactory.factory();
         assertNotNull(factory);
         org.linuxforhealth.fhir.model.string.util.strategy.StringSizeControlStrategy strategy = factory.getStrategy(Strategy.MAX_BYTES.getValue());
-        String description = "ab\u0080";
+        String description = "ab\u0080"; // padding character
         int maxBytes = 3;
         String truncatedDescription = strategy.truncateString(description, maxBytes);
         assertFalse(truncatedDescription.equals(description));
@@ -114,9 +109,8 @@ public class StringSizeControlStrategyTest {
         StringSizeControlStrategyFactory factory = StringSizeControlStrategyFactory.factory();
         assertNotNull(factory);
         org.linuxforhealth.fhir.model.string.util.strategy.StringSizeControlStrategy strategy = factory.getStrategy(Strategy.MAX_BYTES.getValue());
-        String description = "\uD834\uDD1E"; //  surrogate character
+        String description = "\uD834\uDD1E"; // surrogate pair
         int maxBytes = 4;
-        System.out.println("size: "+description.getBytes().length);
         String truncatedDescription = strategy.truncateString(description, maxBytes);
         assertTrue(truncatedDescription.equals(description));
         assertTrue(truncatedDescription.getBytes().length == maxBytes);
@@ -133,10 +127,9 @@ public class StringSizeControlStrategyTest {
         StringSizeControlStrategyFactory factory = StringSizeControlStrategyFactory.factory();
         assertNotNull(factory);
         org.linuxforhealth.fhir.model.string.util.strategy.StringSizeControlStrategy strategy = factory.getStrategy(Strategy.MAX_BYTES.getValue());
-        String description = "ab\uD834\uDD1E"; //  surrogate character
+        String description = "ab\uD834\uDD1E"; // surrogate pair
         int maxBytes = 4;
         String truncatedDescription = strategy.truncateString(description, maxBytes);
-        System.out.println("size1: "+truncatedDescription.getBytes().length);
         assertFalse(truncatedDescription.equals(description));
         assertTrue(truncatedDescription.getBytes().length <= maxBytes);
         assertFalse(truncatedDescription.getBytes().length == description.getBytes().length);

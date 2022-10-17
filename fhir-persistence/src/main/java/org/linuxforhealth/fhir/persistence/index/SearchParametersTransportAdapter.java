@@ -39,9 +39,10 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
      * @param lastUpdated
      * @param requestShard
      * @param parameterHash
+     * @throws FHIRPersistenceException 
      */
     public SearchParametersTransportAdapter(String resourceType, String logicalId, long logicalResourceId, 
-            int versionId, Instant lastUpdated, String requestShard, String parameterHash) {
+            int versionId, Instant lastUpdated, String requestShard, String parameterHash) throws FHIRPersistenceException {
         builder = SearchParametersTransport.builder()
             .withResourceType(resourceType)
             .withLogicalId(logicalId)
@@ -50,6 +51,7 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
             .withLastUpdated(lastUpdated)
             .withRequestShard(requestShard)
             .withParameterHash(parameterHash);
+        stringSizeControlStrategy = getStringSizeControlStrategy();
     }
 
     /**
@@ -61,10 +63,9 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
     }
 
     @Override
-    public void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem, int maxBytes) throws FHIRPersistenceException {
+    public void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem, int maxBytes){
         StringParameter value = new StringParameter();
         value.setName(name);
-        stringSizeControlStrategy = getStringSizeControlStrategy();
         value.setValue(valueString != null ? stringSizeControlStrategy.truncateString(valueString, maxBytes) : valueString);
         value.setCompositeId(compositeId);
         value.setWholeSystem(wholeSystem);
@@ -173,9 +174,9 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
     }
     
     /**
-     * 
-     * @return
-     * @throws FHIRPersistenceException
+     * Fetch the StringSizeControlStrategy implementation from StringSizeControlStrategyFactory.
+     * @return StringSizeControlStrategy the StringSizeControlStrategy implementation
+     * @throws FHIRPersistenceException when the strategyIdentifier is invalid
      */
     private StringSizeControlStrategy getStringSizeControlStrategy() throws FHIRPersistenceException {
         try {

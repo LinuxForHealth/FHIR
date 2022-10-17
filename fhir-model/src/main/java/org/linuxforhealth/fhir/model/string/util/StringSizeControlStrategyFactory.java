@@ -23,7 +23,7 @@ public class StringSizeControlStrategyFactory {
     
     private static final StringSizeControlStrategyFactory FACTORY = new StringSizeControlStrategyFactory();
     
-    private Map<String, StringSizeControlStrategy> keyToMemberMatchStrategy = new HashMap<>();
+    private Map<String, StringSizeControlStrategy> keyToStringSizeControlStrategy = new HashMap<>();
 
    /**
     * Private Constructor to load the StringSizeControlStrategy objects using the ServiceLoader
@@ -31,21 +31,29 @@ public class StringSizeControlStrategyFactory {
     private StringSizeControlStrategyFactory() {
         ServiceLoader<StringSizeControlStrategy> strategies = ServiceLoader.load(StringSizeControlStrategy.class);
         for (StringSizeControlStrategy strategy : strategies) {
-            keyToMemberMatchStrategy.put(strategy.getStrategyIdentifier(), strategy);
+            keyToStringSizeControlStrategy.put(strategy.getStrategyIdentifier(), strategy);
         }
     }
 
     /**
-     * The various types of StringSizeControlStrategy.
+     * Enumeration of the various types of StringSizeControlStrategy.
      */
     public enum Strategy {
         MAX_BYTES("max_bytes");
         public String value;
         
+        /**
+         * Constructor for the enum
+         * @param value the type of StringSizeControlStrategy
+         */
         Strategy(String value) {
             this.value = value;
         }
         
+        /**
+         * Get the type of StringSizeControlStrategy
+         * @return the type of StringSizeControlStrategy
+         */
         public String getValue() {
             return this.value;
         }
@@ -64,11 +72,11 @@ public class StringSizeControlStrategyFactory {
     /**
      * Gets the strategy for this specific strategyIdentifier.
      * @param strategyIdentifier the unique StringSizeControlStrategy identifier.
-     * @return the StringSizeControlStrategy
+     * @return the StringSizeControlStrategy implementation
      * @throws FHIROperationException when the strategyIdentifier is invalid. 
      */
     public StringSizeControlStrategy getStrategy(String strategyIdentifier) throws FHIROperationException {
-        StringSizeControlStrategy strategy = keyToMemberMatchStrategy.get(strategyIdentifier);
+        StringSizeControlStrategy strategy = keyToStringSizeControlStrategy.get(strategyIdentifier);
         if (strategy == null) {
             String message =  "The StringSizeControlStrategy is not found [" + strategyIdentifier + "]";
             OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(message, IssueType.EXCEPTION);

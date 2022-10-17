@@ -115,7 +115,7 @@ public class RemoteIndexTest {
      * @return
      * @throws FHIROperationException 
      */
-    private List<String> getMessages(long logicalResourceId) throws FHIROperationException {
+    private List<String> getMessages(long logicalResourceId) throws FHIRPersistenceException {
         RemoteIndexMessage sent = new RemoteIndexMessage();
         sent.setMessageVersion(RemoteIndexConstants.MESSAGE_VERSION);
         sent.setInstanceIdentifier(instanceIdentifier);

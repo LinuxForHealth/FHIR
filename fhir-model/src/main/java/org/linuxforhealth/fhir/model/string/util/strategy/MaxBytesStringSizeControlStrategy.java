@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import org.linuxforhealth.fhir.model.string.util.StringSizeControlStrategyFactory.Strategy;
 
 /**
- * Truncate the input String value to fit the input maxBytes(maximum bytes) size and return the truncated string. 
+ * Truncate the input String value to fit the input maxBytes(maximum bytes) size. 
  */
 public class MaxBytesStringSizeControlStrategy implements StringSizeControlStrategy {
 
@@ -25,7 +25,7 @@ public class MaxBytesStringSizeControlStrategy implements StringSizeControlStrat
     @Override
     public String truncateString(String value, int maximumBytes) {
         
-        LOG.fine("truncate input string " +value + ", to " + maximumBytes);
+        LOG.fine("truncate input string " + value + ", to " + maximumBytes);
         Objects.requireNonNull(value);
         Charset charset = Charset.forName("UTF-8");
         CharsetDecoder charsetDecoder = charset.newDecoder();
