@@ -24,6 +24,7 @@ import org.linuxforhealth.fhir.persistence.jdbc.dto.QuantityParmVal;
 import org.linuxforhealth.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import org.linuxforhealth.fhir.persistence.jdbc.dto.StringParmVal;
 import org.linuxforhealth.fhir.persistence.jdbc.dto.TokenParmVal;
+import org.linuxforhealth.fhir.schema.control.FhirSchemaConstants;
 import org.linuxforhealth.fhir.search.SearchConstants;
 import org.linuxforhealth.fhir.search.util.ReferenceValue;
 import org.linuxforhealth.fhir.search.util.ReferenceValue.ReferenceType;
@@ -63,7 +64,7 @@ public class ParameterTransportVisitor implements ExtractedParameterValueVisitor
             adapter.profileValue(pp.getName(), pp.getUrl(), pp.getVersion(), pp.getFragment(), IS_WHOLE_SYSTEM);
         } else {
             Integer compositeId = this.currentCompositeParameterName != null ? this.compositeIdCounter : null;
-            adapter.stringValue(stringParameter.getName(), stringParameter.getValueString(), compositeId, stringParameter.isWholeSystem());
+            adapter.stringValue(stringParameter.getName(), stringParameter.getValueString(), compositeId, stringParameter.isWholeSystem(), FhirSchemaConstants.MAX_SEARCH_STRING_BYTES);
         }
     }
 

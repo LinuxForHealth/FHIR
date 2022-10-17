@@ -9,6 +9,13 @@ package org.linuxforhealth.fhir.persistence.index;
 import java.math.BigDecimal;
 import java.time.Instant;
 
+import org.linuxforhealth.fhir.exception.FHIROperationException;
+import org.linuxforhealth.fhir.model.string.util.StringSizeControlStrategyFactory;
+import org.linuxforhealth.fhir.model.string.util.StringSizeControlStrategyFactory.Strategy;
+import org.linuxforhealth.fhir.model.string.util.strategy.StringSizeControlStrategy;
+import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceException;
+
+
 
 /**
  * Visitor adapter implementation to build an instance of {@link SearchParametersTransport} to
@@ -21,7 +28,8 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
 
     // The builder we use to collect all the visited parameter values
     private final SearchParametersTransport.Builder builder;
-
+    
+    private StringSizeControlStrategy stringSizeControlStrategy;
     /**
      * Public constructor
      * @param resourceType
@@ -53,14 +61,17 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
     }
 
     @Override
-    public void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem) {
+    public void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem, int maxBytes) throws FHIRPersistenceException {
         StringParameter value = new StringParameter();
         value.setName(name);
-        value.setValue(valueString);
+        stringSizeControlStrategy = getStringSizeControlStrategy();
+        value.setValue(valueString != null ? stringSizeControlStrategy.truncateString(valueString, maxBytes) : valueString);
         value.setCompositeId(compositeId);
         value.setWholeSystem(wholeSystem);
         builder.addStringValue(value);
     }
+
+   
 
     @Override
     public void numberValue(String name, BigDecimal valueNumber, BigDecimal valueNumberLow, BigDecimal valueNumberHigh, Integer compositeId) {
@@ -159,5 +170,23 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
         value.setRefVersionId(refVersion);
         value.setCompositeId(compositeId);
         builder.addReferenceValue(value);
+    }
+    
+    /**
+     * 
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    private StringSizeControlStrategy getStringSizeControlStrategy() throws FHIRPersistenceException {
+        try {
+            return StringSizeControlStrategyFactory.factory().
+                    getStrategy(Strategy.MAX_BYTES.getValue());
+        } catch (FHIROperationException foe) {
+            FHIRPersistenceException fpe = new FHIRPersistenceException(foe.getMessage());
+            if(foe.getIssues() != null) {
+                fpe.withIssue(foe.getIssues());
+            }
+            throw fpe;
+        }
     }
 }

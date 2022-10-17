@@ -32,6 +32,7 @@ import org.linuxforhealth.fhir.database.utils.api.IDatabaseTranslator;
 import org.linuxforhealth.fhir.database.utils.common.PreparedStatementHelper;
 import org.linuxforhealth.fhir.database.utils.common.ResultSetReader;
 import org.linuxforhealth.fhir.database.utils.derby.DerbyTranslator;
+import org.linuxforhealth.fhir.exception.FHIROperationException;
 import org.linuxforhealth.fhir.model.test.TestUtil;
 import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceException;
 import org.linuxforhealth.fhir.persistence.helper.RemoteIndexSupport;
@@ -44,6 +45,7 @@ import org.linuxforhealth.fhir.persistence.params.database.PlainDerbyParamValueP
 import org.linuxforhealth.fhir.remote.index.cache.IdentityCacheImpl;
 import org.linuxforhealth.fhir.remote.index.database.CacheLoader;
 import org.linuxforhealth.fhir.remote.index.database.RemoteIndexMessageHandler;
+import org.linuxforhealth.fhir.schema.control.FhirSchemaConstants;
 
 /**
  * Unit test for remote index message handling and database processing
@@ -111,8 +113,9 @@ public class RemoteIndexTest {
     /**
      * Get a list of messages to process
      * @return
+     * @throws FHIROperationException 
      */
-    private List<String> getMessages(long logicalResourceId) {
+    private List<String> getMessages(long logicalResourceId) throws FHIROperationException {
         RemoteIndexMessage sent = new RemoteIndexMessage();
         sent.setMessageVersion(RemoteIndexConstants.MESSAGE_VERSION);
         sent.setInstanceIdentifier(instanceIdentifier);
@@ -120,7 +123,7 @@ public class RemoteIndexTest {
         // Create an Observation resource with a few parameters
         SearchParametersTransportAdapter adapter = new SearchParametersTransportAdapter(OBSERVATION, OBSERVATION_LOGICAL_ID, logicalResourceId, 
             versionId, lastUpdated, requestShard, parameterHash);
-        adapter.stringValue("string-param", valueString, compositeId, WHOLE_SYSTEM);
+        adapter.stringValue("string-param", valueString, compositeId, WHOLE_SYSTEM, FhirSchemaConstants.MAX_SEARCH_STRING_BYTES);
         adapter.dateValue("date-param", ts1, ts2, null, WHOLE_SYSTEM);
         adapter.numberValue("number-param", valueNumber, valueNumberLow, valueNumberHigh, null);
         adapter.quantityValue("quantity-param", valueSystem, valueCode, valueNumber, valueNumberLow, valueNumberHigh, compositeId);
