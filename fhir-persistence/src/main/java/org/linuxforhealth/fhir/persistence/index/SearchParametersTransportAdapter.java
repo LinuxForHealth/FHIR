@@ -63,7 +63,7 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
     }
 
     @Override
-    public void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem, int maxBytes){
+    public void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem, int maxBytes) {
         StringParameter value = new StringParameter();
         value.setName(name);
         value.setValue(valueString != null ? stringSizeControlStrategy.truncateString(valueString, maxBytes) : valueString);
@@ -184,7 +184,7 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
                     getStrategy(Strategy.MAX_BYTES.getValue());
         } catch (FHIROperationException foe) {
             FHIRPersistenceException fpe = new FHIRPersistenceException(foe.getMessage());
-            if(foe.getIssues() != null) {
+            if (foe.getIssues() != null) {
                 fpe.withIssue(foe.getIssues());
             }
             throw fpe;

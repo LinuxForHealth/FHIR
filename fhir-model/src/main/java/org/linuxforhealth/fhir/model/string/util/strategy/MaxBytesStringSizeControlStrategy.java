@@ -25,7 +25,7 @@ public class MaxBytesStringSizeControlStrategy implements StringSizeControlStrat
     @Override
     public String truncateString(String value, int maximumBytes) {
         
-        LOG.fine("truncate input string " + value + ", to " + maximumBytes);
+        LOG.fine(() -> "truncate input string " + value + ", to " + maximumBytes);
         Objects.requireNonNull(value);
         Charset charset = Charset.forName("UTF-8");
         CharsetDecoder charsetDecoder = charset.newDecoder();
