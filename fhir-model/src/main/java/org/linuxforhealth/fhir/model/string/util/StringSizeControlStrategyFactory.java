@@ -6,12 +6,9 @@
 
 package org.linuxforhealth.fhir.model.string.util;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ServiceLoader;
-
 import org.linuxforhealth.fhir.exception.FHIROperationException;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome;
+import org.linuxforhealth.fhir.model.string.util.strategy.MaxBytesStringSizeControlStrategy;
 import org.linuxforhealth.fhir.model.string.util.strategy.StringSizeControlStrategy;
 import org.linuxforhealth.fhir.model.type.code.IssueType;
 import org.linuxforhealth.fhir.model.util.FHIRUtil;
@@ -23,16 +20,11 @@ public class StringSizeControlStrategyFactory {
     
     private static final StringSizeControlStrategyFactory FACTORY = new StringSizeControlStrategyFactory();
     
-    private Map<String, StringSizeControlStrategy> keyToStringSizeControlStrategy = new HashMap<>();
-
    /**
-    * Private Constructor to load the StringSizeControlStrategy objects using the ServiceLoader
+    * Private Constructor
     */
     private StringSizeControlStrategyFactory() {
-        ServiceLoader<StringSizeControlStrategy> strategies = ServiceLoader.load(StringSizeControlStrategy.class);
-        for (StringSizeControlStrategy strategy : strategies) {
-            keyToStringSizeControlStrategy.put(strategy.getStrategyIdentifier(), strategy);
-        }
+        // Nop
     }
 
     /**
@@ -75,13 +67,15 @@ public class StringSizeControlStrategyFactory {
      * @return the StringSizeControlStrategy implementation
      * @throws FHIROperationException when the strategyIdentifier is invalid. 
      */
-    public StringSizeControlStrategy getStrategy(String strategyIdentifier) throws FHIROperationException {
-        StringSizeControlStrategy strategy = keyToStringSizeControlStrategy.get(strategyIdentifier);
-        if (strategy == null) {
+    public StringSizeControlStrategy getStrategy(Strategy strategyIdentifier) throws FHIROperationException {
+        switch (strategyIdentifier) {
+        case MAX_BYTES:
+            return new MaxBytesStringSizeControlStrategy();
+        default:
             String message =  "The StringSizeControlStrategy is not found [" + strategyIdentifier + "]";
             OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(message, IssueType.EXCEPTION);
             throw new FHIROperationException(message, null).withIssue(ooi);
         }
-        return strategy;
+        
     }
 }

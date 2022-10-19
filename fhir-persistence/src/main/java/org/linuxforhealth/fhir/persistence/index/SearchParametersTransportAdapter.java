@@ -181,7 +181,7 @@ public class SearchParametersTransportAdapter implements ParameterValueVisitorAd
     private StringSizeControlStrategy getStringSizeControlStrategy() throws FHIRPersistenceException {
         try {
             return StringSizeControlStrategyFactory.factory().
-                    getStrategy(Strategy.MAX_BYTES.getValue());
+                    getStrategy(Strategy.MAX_BYTES);
         } catch (FHIROperationException foe) {
             FHIRPersistenceException fpe = new FHIRPersistenceException(foe.getMessage());
             if (foe.getIssues() != null) {

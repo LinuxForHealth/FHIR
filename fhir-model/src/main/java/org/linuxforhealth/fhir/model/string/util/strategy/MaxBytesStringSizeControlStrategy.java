@@ -13,8 +13,6 @@ import java.nio.charset.CodingErrorAction;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-import org.linuxforhealth.fhir.model.string.util.StringSizeControlStrategyFactory.Strategy;
-
 /**
  * Truncate the input String value to fit the input maxBytes(maximum bytes) size. 
  */
@@ -22,12 +20,13 @@ public class MaxBytesStringSizeControlStrategy implements StringSizeControlStrat
 
     private static final Logger LOG = Logger.getLogger(MaxBytesStringSizeControlStrategy.class.getName());
     
+    private static Charset charset = Charset.forName("UTF-8");
+    
     @Override
     public String truncateString(String value, int maximumBytes) {
         
         LOG.fine(() -> "truncate input string " + value + ", to " + maximumBytes);
         Objects.requireNonNull(value);
-        Charset charset = Charset.forName("UTF-8");
         CharsetDecoder charsetDecoder = charset.newDecoder();
         byte[] byteValue = value.getBytes(charset);
         if (byteValue.length <= maximumBytes) {
@@ -35,6 +34,7 @@ public class MaxBytesStringSizeControlStrategy implements StringSizeControlStrat
         }
         // Ensure truncation by having byteBuffer = maximumBytes
         ByteBuffer byteBuffer = ByteBuffer.wrap(byteValue, 0, maximumBytes);
+        // using maximumBytes in the context of a character buffer length
         CharBuffer charBuffer = CharBuffer.allocate(maximumBytes);
         // Ignore an incomplete character
         charsetDecoder.onMalformedInput(CodingErrorAction.IGNORE);
@@ -42,10 +42,4 @@ public class MaxBytesStringSizeControlStrategy implements StringSizeControlStrat
         charsetDecoder.flush(charBuffer);
         return new String(charBuffer.array(), 0, charBuffer.position());
     }
-
-    @Override
-    public String getStrategyIdentifier() {
-        return Strategy.MAX_BYTES.getValue();
-    }
-
 }

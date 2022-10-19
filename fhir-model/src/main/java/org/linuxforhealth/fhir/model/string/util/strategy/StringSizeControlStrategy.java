@@ -11,13 +11,6 @@ package org.linuxforhealth.fhir.model.string.util.strategy;
  */
 public interface StringSizeControlStrategy {
     
-    
-    /**
-     * used to uniquely identify the strategy.
-     * @return the String size control strategy identifier
-     */
-    String getStrategyIdentifier();
-    
     /**
      * Truncate the input String value to fit the input maxBytes(maximum bytes) size and return the truncated string.
      * @param value the input String value.
