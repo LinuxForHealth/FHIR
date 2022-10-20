@@ -92,6 +92,8 @@ public class FHIRConfiguration {
     public static final String PROPERTY_SECURITY_OAUTH_SMART_ENABLED = "fhirServer/security/oauth/smart/enabled";
     public static final String PROPERTY_SECURITY_OAUTH_SMART_SCOPES = "fhirServer/security/oauth/smart/scopes";
     public static final String PROPERTY_SECURITY_OAUTH_SMART_CAPABILITIES = "fhirServer/security/oauth/smart/capabilities";
+    //configuration option to validate securityContext field of a Binary Resource.
+    public static final String PROPERTY_SECURITY_VALIDATE_SECURITY_CONTEXT = "fhirServer/security/validateSecurityContext";
 
     // Audit config properties
     public static final String PROPERTY_AUDIT_SERVICE_CLASS_NAME = "fhirServer/audit/serviceClassName";

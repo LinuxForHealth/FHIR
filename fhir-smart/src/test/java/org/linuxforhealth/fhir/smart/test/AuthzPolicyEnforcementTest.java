@@ -11,6 +11,7 @@ import static org.linuxforhealth.fhir.core.ResourceType.OBSERVATION;
 import static org.linuxforhealth.fhir.core.ResourceType.PATIENT;
 import static org.linuxforhealth.fhir.core.ResourceType.PROVENANCE;
 import static org.linuxforhealth.fhir.core.ResourceType.RESOURCE;
+import static org.linuxforhealth.fhir.core.ResourceType.BINARY;
 import static org.linuxforhealth.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -37,6 +38,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.core.ResourceType;
+import org.linuxforhealth.fhir.model.resource.Binary;
 import org.linuxforhealth.fhir.model.resource.Bundle;
 import org.linuxforhealth.fhir.model.resource.Condition;
 import org.linuxforhealth.fhir.model.resource.Observation;
@@ -84,6 +86,9 @@ public class AuthzPolicyEnforcementTest {
     private Provenance patientProvenance;
     private Provenance observationProvenance;
     private Map<String, Object> properties;
+    private Binary binary;
+    private Binary binaryWithSecurityContext;
+    
 
     @BeforeClass
     public void setup() throws Exception {
@@ -134,7 +139,9 @@ public class AuthzPolicyEnforcementTest {
                     .build())
                 .meta(Meta.builder().lastUpdated(Instant.now()).versionId(Id.of("1")).build())
                 .build();
-
+        
+        binary = TestUtil.getMinimalResource(Binary.class);
+        binaryWithSecurityContext = TestUtil.readExampleResource("json/spec/binary-example.json");
         properties = new HashMap<String, Object>();
 
         MockPersistenceImpl mockPersistenceImpl = new MockPersistenceImpl(patient, observation);
@@ -170,6 +177,25 @@ public class AuthzPolicyEnforcementTest {
             assertTrue(shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
             assertFalse(shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
+        }
+        
+        // Test create Binary Resource which does not have a securityContext. Should Succeed
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(binary, properties);
+            interceptor.beforeCreate(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
+        }
+        
+        // Test create Binary Resource which has a securityContext. Should Fail since securityContext is not supported.
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(binaryWithSecurityContext, properties);
+            interceptor.beforeCreate(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertTrue(e.getMessage() != null);
         }
     }
 
@@ -212,6 +238,31 @@ public class AuthzPolicyEnforcementTest {
             assertFalse(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission) &&
                         shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
         }
+        
+        // Test update Binary Resource which does not have a securityContext. Should Succeed
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(binary, properties);
+            event.setPrevFhirResource(binary);
+            interceptor.beforeUpdate(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
+        }
+        
+        // Test update Binary Resource which has a securityContext. Should Fail since securityContext is not supported.
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(binaryWithSecurityContext, properties);
+            event.setPrevFhirResource(binaryWithSecurityContext);
+            interceptor.beforeUpdate(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertTrue(e.getMessage() != null);
+        }
+        
+        
     }
 
     @Test(dataProvider = "scopeStringProvider")

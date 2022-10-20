@@ -24,8 +24,10 @@ import java.util.stream.Stream;
 import javax.ws.rs.core.Response;
 
 import org.linuxforhealth.fhir.config.FHIRConfigHelper;
+import org.linuxforhealth.fhir.config.FHIRConfiguration;
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.core.ResourceType;
+import org.linuxforhealth.fhir.model.resource.Binary;
 import org.linuxforhealth.fhir.model.resource.Bundle;
 import org.linuxforhealth.fhir.model.resource.Parameters;
 import org.linuxforhealth.fhir.model.resource.Parameters.Parameter;
@@ -445,6 +447,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     public void beforeCreate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
         enforce(event.getFhirResource(), getPatientIdFromToken(jwt), Permission.WRITE, getScopesFromToken(jwt));
+        validateSecurityContext(event.getFhirResourceType(), event.getFhirResourceId(), event.getFhirResource());
     }
 
     @Override
@@ -463,6 +466,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         // the user doesn't have access to
         enforce(event.getPrevFhirResource(), patientIdFromToken, Permission.READ, scopesFromToken);
         enforce(event.getFhirResource(), patientIdFromToken, Permission.WRITE, scopesFromToken);
+        validateSecurityContext(event.getFhirResourceType(), event.getFhirResourceId(), event.getFhirResource());
     }
 
     @Override
@@ -1104,5 +1108,30 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             }
         }
         return null;
+    }
+    
+    /**
+     * Validate if a FHIR Binary resource passed by the user for create/update operation has the securityContext field.
+     * If the securityContext field exists, throw an error or log a warning message based on the validateSecurityContext configuration.
+     * By default, validateSecurityContext is set to true and will throw an error if securityContext field is passed in the request.
+     * If validateSecurityContext configuration is set to false, then log a warning message.
+     * @param resourceType the FHIR resource type.
+     * @param resource the FHIR Resource instance.
+     * @throws FHIRPersistenceInterceptorException when validateSecurityContext configuration is set to true and securityContext field is passed in the request.
+     */
+    private void validateSecurityContext(String resourceType Resource resource) throws FHIRPersistenceInterceptorException {
+        if (resource instanceof Binary) {
+            Binary binaryResource = (Binary) resource;
+            if (binaryResource.getSecurityContext() != null &&
+                    binaryResource.getSecurityContext().getReference() != null) {
+                boolean validateSecurityContext = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_VALIDATE_SECURITY_CONTEXT, true);
+                String msg = "securityContext is not supported for resource type " + resourceType;    
+                if (validateSecurityContext) {
+                    throw new FHIRPersistenceInterceptorException(msg)
+                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+                }
+                log.warning(msg);
+            } 
+        }
     }
 }
