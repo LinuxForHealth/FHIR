@@ -447,7 +447,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     public void beforeCreate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
         enforce(event.getFhirResource(), getPatientIdFromToken(jwt), Permission.WRITE, getScopesFromToken(jwt));
-        validateSecurityContext(event.getFhirResourceType(), event.getFhirResourceId(), event.getFhirResource());
+        validateSecurityContext(event.getFhirResourceType(), event.getFhirResource());
     }
 
     @Override
@@ -466,7 +466,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         // the user doesn't have access to
         enforce(event.getPrevFhirResource(), patientIdFromToken, Permission.READ, scopesFromToken);
         enforce(event.getFhirResource(), patientIdFromToken, Permission.WRITE, scopesFromToken);
-        validateSecurityContext(event.getFhirResourceType(), event.getFhirResourceId(), event.getFhirResource());
+        validateSecurityContext(event.getFhirResourceType(), event.getFhirResource());
     }
 
     @Override
@@ -1119,7 +1119,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * @param resource the FHIR Resource instance.
      * @throws FHIRPersistenceInterceptorException when validateSecurityContext configuration is set to true and securityContext field is passed in the request.
      */
-    private void validateSecurityContext(String resourceType Resource resource) throws FHIRPersistenceInterceptorException {
+    private void validateSecurityContext(String resourceType, Resource resource) throws FHIRPersistenceInterceptorException {
         if (resource instanceof Binary) {
             Binary binaryResource = (Binary) resource;
             if (binaryResource.getSecurityContext() != null &&
