@@ -20,7 +20,7 @@ public class MaxBytesStringSizeControlStrategy implements StringSizeControlStrat
 
     private static final Logger LOG = Logger.getLogger(MaxBytesStringSizeControlStrategy.class.getName());
     
-    private static Charset charset = Charset.forName("UTF-8");
+    private static final Charset charset = Charset.forName("UTF-8");
     
     @Override
     public String truncateString(String value, int maximumBytes) {
