@@ -24,6 +24,9 @@ import org.linuxforhealth.fhir.persistence.index.SearchParametersTransportAdapte
  * Unit test for message serialization (for the payload sent over Kafka as a string)
  */
 public class MessageSerializationTest {
+    
+ // Size of string columns in the search tables. DSTU2 was 511
+    public static final int MAX_SEARCH_STRING_BYTES = 1024;
 
     @Test
     public void testRoundtrip() throws Exception {
@@ -62,7 +65,7 @@ public class MessageSerializationTest {
         adapter.quantityValue("quantity-param", valueSystem, valueCode, valueNumber, valueNumberLow, valueNumberHigh, compositeId);
         adapter.referenceValue("reference-param", refResourceType, refLogicalId, refVersion, compositeId);
         adapter.securityValue("security-param", valueSystem, valueCode, wholeSystem);
-        adapter.stringValue("string-param", valueString, compositeId, wholeSystem);
+        adapter.stringValue("string-param", valueString, compositeId, wholeSystem, MAX_SEARCH_STRING_BYTES);
         adapter.tagValue("tag-param", valueSystem, valueCode, wholeSystem);
         adapter.tokenValue("token-param", valueSystem, valueCode, compositeId, false);
 

@@ -9,6 +9,8 @@ package org.linuxforhealth.fhir.persistence.index;
 import java.math.BigDecimal;
 import java.time.Instant;
 
+import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceException;
+
 /**
  * Used by a parameter value visitor to translate the parameter values
  * to a new form
@@ -22,8 +24,9 @@ public interface ParameterValueVisitorAdapter {
      * @param valueString
      * @param compositeId
      * @param wholeSystem
+     * @param maxBytes the maximum allowed size of input String in bytes
      */
-    void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem);
+    void stringValue(String name, String valueString, Integer compositeId, boolean wholeSystem, int maxBytes);
 
     /**
      * Process a number parameter
