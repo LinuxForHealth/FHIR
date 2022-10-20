@@ -27,7 +27,7 @@
         displayTextWhenNoErrorPageDefined="Unexpected request/response. Please check the URL and try again."
         deferServletLoad="false"/>
 
-    <!-- IBM FHIR Server's keystore and truststore configuration -->
+    <!-- LinuxForHealth FHIR Server's keystore and truststore configuration -->
     <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" sslProtocol="TLSv1.2"/>
     <keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/fhirKeyStore.p12" password="change-password"/>
     <keyStore id="defaultTrustStore" location="${server.config.dir}/resources/security/fhirTrustStore.p12" password="change-password"/>
@@ -64,7 +64,7 @@
 
     <applicationMonitor updateTrigger="mbean"/>
 
-    <!-- This is the main IBM FHIR Server REST API war -->
+    <!-- This is the main LinuxForHealth FHIR Server REST API war -->
     <webApplication id="fhir-server-webapp" contextRoot="fhir-server/api/v4" location="fhir-server.war" name="fhir-server-webapp">
         <classloader privateLibraryRef="fhirUserLib"/>
         <!-- Include id attributes to make it easier to override this via dropinConfig -->
@@ -80,7 +80,7 @@
 
     <!--
         This sharedlib can contain user-contributed jars that are intended to augment
-        the IBM FHIR Server installation (persistence interceptors, persistence layer impl's,
+        the LinuxForHealth FHIR Server installation (persistence interceptors, persistence layer impl's,
         custom operation impl's, etc.)
      -->
     <library id="fhirUserLib">
