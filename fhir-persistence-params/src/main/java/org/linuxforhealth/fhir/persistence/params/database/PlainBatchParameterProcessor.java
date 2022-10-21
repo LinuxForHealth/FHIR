@@ -114,7 +114,7 @@ public class PlainBatchParameterProcessor implements IBatchParameterProcessor {
                 try {
                     dao.pushBatch();
                 } catch (SQLException x) {
-                    throw new FHIRPersistenceException("pushBatch failed for '" + resourceType + "'");
+                    throw new FHIRPersistenceException("pushBatch failed for '" + resourceType + "'", x);
                 }
             }
 
