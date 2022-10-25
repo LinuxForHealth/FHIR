@@ -110,7 +110,9 @@ If a match is found and the fhir-server-config element `fhirServer/core/ifNoneMa
 
 The server also implements an optimization for updates that do not change the resource contents. See Section 5.2. Conditional Update of the [Performance Guide](guides/FHIRPerformanceGuide#52-conditional-update) for more information.
 
-Finally, the LinuxForHealth FHIR Server supports multi-tenancy through custom headers as defined at https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy. By default, the server will look for a tenantId in a `X-FHIR-TENANT-ID` header and a datastoreId in the `X-FHIR-DSID` header, and use `default` for either one if the headers are not present.
+The LinuxForHealth FHIR Server supports multi-tenancy through custom headers as defined at https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy. By default, the server will look for a tenantId in a `X-FHIR-TENANT-ID` header and a datastoreId in the `X-FHIR-DSID` header, and use `default` for either one if the headers are not present.
+
+The LinuxForHealth FHIR Server does not support interacting with the Binary resources with contentTypes other than application/fhir (xml and json) and therefore the X-Security-Context header is not supported either. For Binary resources, Binary.securityContext is not supported and the validation for Binary.securityContext is only considered if fhir-smart is enabled. 
 
 ### General parameters
 The `_format` parameter is supported and provides a useful mechanism for requesting a specific format (`XML` or `JSON`) in requests made from a browser. In the absence of either an `Accept` header or a `_format` query parameter, the server defaults to `application/fhir+json`.
