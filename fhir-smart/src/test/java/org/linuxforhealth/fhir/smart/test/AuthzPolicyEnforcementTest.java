@@ -194,8 +194,11 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(binaryWithSecurityContext, properties);
             interceptor.beforeCreate(event);
+            fail("Did not receive the expected FHIRPersistenceInterceptorException");
         } catch (FHIRPersistenceInterceptorException e) {
-            assertTrue(e.getMessage() != null);
+            if (shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission)) {
+                assertTrue(e.getMessage().equals("securityContext is not supported for resource type Binary"));
+            }
         }
     }
 
@@ -245,11 +248,11 @@ public class AuthzPolicyEnforcementTest {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(binary, properties);
             event.setPrevFhirResource(binary);
             interceptor.beforeUpdate(event);
-            assertTrue(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission) &&
-                        shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, BINARY, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
         } catch (FHIRPersistenceInterceptorException e) {
-            assertFalse(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission) &&
-                        shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, BINARY, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
         }
         
         // Test update Binary Resource which has a securityContext. Should Fail since securityContext is not supported.
@@ -258,8 +261,12 @@ public class AuthzPolicyEnforcementTest {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(binaryWithSecurityContext, properties);
             event.setPrevFhirResource(binaryWithSecurityContext);
             interceptor.beforeUpdate(event);
+            fail("Did not receive the expected FHIRPersistenceInterceptorException");
         } catch (FHIRPersistenceInterceptorException e) {
-            assertTrue(e.getMessage() != null);
+            if (shouldSucceed(resourceTypesPermittedByScope, BINARY, READ_APPROVED, permission) &&
+                    shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission)) {
+                assertTrue(e.getMessage().equals("securityContext is not supported for resource type Binary"));
+            }
         }
         
         

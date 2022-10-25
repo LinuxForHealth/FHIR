@@ -2323,7 +2323,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/smart/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
 |`fhirServer/security/oauth/smart/scopes`|array|The list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
 |`fhirServer/security/oauth/smart/capabilities`|array|The list of SMART capabilities to advertise in the `.well-known/smart-configuration endpoint|
-|`fhirServer/security/validateSecurityContext`|boolean| Whether or not the securityContext validation is enabled for Binary resources|
+|`fhirServer/security/validateBinarySecurityContext`|boolean| Whether or not the securityContext validation is enabled for Binary resources|
 |`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, org.linuxforhealth.fhir.audit.impl.NopService to indicate the logger service is disabled, and org.linuxforhealth.fhir.audit.impl.KafkaService to indicate using Kafka as a destination.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configured for audit logging service.|
@@ -2512,7 +2512,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/smart/enabled`|false|
 |`fhirServer/security/oauth/smart/scopes`|null|
 |`fhirServer/security/oauth/smart/capabilities`|null|
-|`fhirServer/security/validateSecurityContext`|true|
+|`fhirServer/security/validateBinarySecurityContext`|true|
 |`fhirServer/audit/serviceClassName`|""|
 |`fhirServer/audit/serviceProperties/auditTopic`|FHIR_AUDIT|
 |`fhirServer/audit/serviceProperties/geoCity`|UnknownCity|
@@ -2695,7 +2695,7 @@ Cases where that behavior is not supported are marked below with an `N` in the `
 |`fhirServer/security/oauth/smart/enabled`|Y|Y|Y|
 |`fhirServer/security/oauth/smart/scopes`|Y|Y|Y|
 |`fhirServer/security/oauth/smart/capabilities`|Y|Y|Y|
-|`fhirServer/security/validateSecurityContext`|Y|Y|Y|
+|`fhirServer/security/validateBinarySecurityContext`|Y|Y|Y|
 |`fhirServer/audit/serviceClassName`|N|N||
 |`fhirServer/audit/serviceProperties/auditTopic`|N|N||
 |`fhirServer/audit/serviceProperties/geoCity`|N|N||
