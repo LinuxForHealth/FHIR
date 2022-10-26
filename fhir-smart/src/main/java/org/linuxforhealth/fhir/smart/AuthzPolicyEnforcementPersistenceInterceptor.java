@@ -1122,8 +1122,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     private void validateBinarySecurityContext(String resourceType, Resource resource) throws FHIRPersistenceInterceptorException {
         if (resource instanceof Binary) {
             Binary binaryResource = (Binary) resource;
-            if (binaryResource.getSecurityContext() != null &&
-                    binaryResource.getSecurityContext().getReference() != null) {
+            if (binaryResource.getSecurityContext() != null) {
                 boolean validateBinarySecurityContext = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_VALIDATE_BINARY_SECURITY_CONTEXT, true);
                 String msg = "securityContext is not supported for resource type " + resourceType;    
                 if (validateBinarySecurityContext) {
