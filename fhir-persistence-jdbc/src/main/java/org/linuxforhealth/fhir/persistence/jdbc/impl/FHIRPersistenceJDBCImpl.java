@@ -1018,21 +1018,21 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         validateExpectedSearchPagingResults(List<org.linuxforhealth.fhir.persistence.jdbc.dto.Resource> resourceDTOList, FHIRSearchContext searchContext, Builder resultBuilder) {
         org.linuxforhealth.fhir.persistence.jdbc.dto.Resource firstResourceResult = null;
         org.linuxforhealth.fhir.persistence.jdbc.dto.Resource lastResourceResult = null;
-        if (resourceDTOList != null) {
+        if (resourceDTOList != null && !resourceDTOList.isEmpty()) {
             if (resourceDTOList.size() > 0 && searchContext.getPageNumber() != 1) {
-                resultBuilder.expectedPreviousId(resourceDTOList.get(0).getLogicalId());
+                resultBuilder.expectedPreviousId(resourceDTOList.get(0).getResourceId());
                 resourceDTOList.remove(0);
             } 
             if (resourceDTOList.size() > searchContext.getPageSize()) {
-                resultBuilder.expectedNextId(resourceDTOList.get(resourceDTOList.size() - 1).getLogicalId());
+                resultBuilder.expectedNextId(resourceDTOList.get(resourceDTOList.size() - 1).getResourceId());
                 resourceDTOList.remove(resourceDTOList.size() - 1);
             }
             if (resourceDTOList.size() > 0) {
                 firstResourceResult = resourceDTOList.get(0);
                 lastResourceResult = resourceDTOList.get(resourceDTOList.size() - 1);
             }
-            if ((firstResourceResult != null && searchContext.getFirstId() != null && !searchContext.getFirstId().equals(firstResourceResult.getLogicalId())) 
-                    || (lastResourceResult != null && searchContext.getLastId() != null && !searchContext.getLastId().equals(lastResourceResult.getLogicalId()))) {
+            if ((firstResourceResult != null && searchContext.getFirstId() != null && searchContext.getFirstId().longValue() != firstResourceResult.getResourceId())
+                    || (lastResourceResult != null && searchContext.getLastId() != null && searchContext.getLastId().longValue() != lastResourceResult.getResourceId())) {
                 searchContext.addOutcomeIssue(OperationOutcome.Issue.builder()
                     .severity(IssueSeverity.WARNING)
                     .code(IssueType.CONFLICT)
@@ -1041,6 +1041,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         .build())
                     .build());
             }
+            resultBuilder.firstId(resourceDTOList.get(0).getResourceId());
+            resultBuilder.lastId(resourceDTOList.get(resourceDTOList.size() - 1).getResourceId());
         }
         return resourceDTOList;
     }

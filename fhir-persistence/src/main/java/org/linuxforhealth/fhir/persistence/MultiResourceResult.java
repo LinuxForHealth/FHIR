@@ -25,10 +25,16 @@ public class MultiResourceResult {
     final List<ResourceResult<? extends Resource>> resourceResults;
     final OperationOutcome outcome;
     // the expected resource Id of the first resource in the next page of search results.
-    final String expectedNextId;
+    final Long expectedNextId;
     
     // the expected resource Id of the last resource in the previous page of search results.
-    final String expectedPreviousId;
+    final Long expectedPreviousId;
+    
+    // the resource Id of the first resource from the search results.
+    final Long firstId;
+    
+    // the resource Id of the last resource from the search results.
+    final Long lastId;
     
     private MultiResourceResult(Builder builder) {
         success = ValidationSupport.requireNonNull(builder.success, "success");
@@ -36,6 +42,8 @@ public class MultiResourceResult {
         outcome = builder.outcome;
         this.expectedNextId = builder.expectedNextId;
         this.expectedPreviousId = builder.expectedPreviousId;
+        this.firstId = builder.firstId;
+        this.lastId = builder.lastId;
         if (!success && (outcome == null || outcome.getIssue().isEmpty())) {
             throw new IllegalStateException("Failed interaction results must include an OperationOutcome with one or more issue.");
         }
@@ -79,7 +87,7 @@ public class MultiResourceResult {
      *  Get the expected resource Id of the first resource in the next page of search results.
      * @return the expected resource Id of the first resource in the next page of search results.
      */
-    public String getExpectedNextId() {
+    public Long getExpectedNextId() {
         return expectedNextId;
     }
 
@@ -87,8 +95,24 @@ public class MultiResourceResult {
      * Get the expected resource Id of the last resource in the previous page of search results.
      * @return the expected resource Id of the last resource in the previous page of search results.
      */
-    public String getExpectedPreviousId() {
+    public Long getExpectedPreviousId() {
         return expectedPreviousId;
+    }
+    
+    /**
+     *  Get the resource Id of the first resource from the search results.
+     * @return the resource Id of the first resource from the search results.
+     */
+    public Long geFirstId() {
+        return firstId;
+    }
+
+    /**
+     * Get the resource Id of the last resource from the search results.
+     * @return tthe resource Id of the last resource from the search results.
+     */
+    public Long getLastId() {
+        return lastId;
     }
 
 
@@ -99,9 +123,13 @@ public class MultiResourceResult {
         final List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>();
         OperationOutcome outcome;
         
-        String expectedNextId;
+        Long expectedNextId;
         
-        String expectedPreviousId;
+        Long expectedPreviousId;
+        
+        Long firstId;
+        
+        Long lastId;
         
         /**
          * Whether or not the interaction was successful
@@ -182,7 +210,7 @@ public class MultiResourceResult {
          * @param expectedNextId
          * @return A reference to this Builder instance
          */
-        public Builder expectedNextId(String expectedNextId) {
+        public Builder expectedNextId(Long expectedNextId) {
             this.expectedNextId = expectedNextId;
             return this;
         }
@@ -192,8 +220,28 @@ public class MultiResourceResult {
          * @param expectedPreviousId
          * @return A reference to this Builder instance
          */
-        public Builder expectedPreviousId(String expectedPreviousId) {
+        public Builder expectedPreviousId(Long expectedPreviousId) {
             this.expectedPreviousId = expectedPreviousId;
+            return this;
+        }
+        
+        /**
+         * Build the resource Id of the first resource of the search results.
+         * @param firstId
+         * @return A reference to this Builder instance
+         */
+        public Builder firstId(Long firstId) {
+            this.firstId = firstId;
+            return this;
+        }
+
+        /**
+         * Build the resource Id of the last resource of the search results.
+         * @param lastId
+         * @return A reference to this Builder instance
+         */
+        public Builder lastId(Long lastId) {
+            this.lastId = lastId;
             return this;
         }
     }

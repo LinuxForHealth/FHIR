@@ -21,6 +21,7 @@ import static org.testng.Assert.fail;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -2984,6 +2985,7 @@ public class FHIRRestHelperTest {
      */
     @Test
     public void testSearchWithPreviousPageResultsShiftWarning() throws Exception {
+        Random random = new Random();   
         final String testResourceId = UUID.randomUUID().toString();
         final String testResourceId1 = UUID.randomUUID().toString();
         // Create the search response for our persistence mock
@@ -3001,7 +3003,11 @@ public class FHIRRestHelperTest {
         List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>();
         resourceResults.add(ResourceResult.from(patient));
         MultiResourceResult searchResult = MultiResourceResult.builder()
-                .addResourceResults(resourceResults).expectedNextId(testResourceId1).expectedPreviousId(testResourceId)
+                .addResourceResults(resourceResults)
+                .expectedNextId(random.nextLong())
+                .expectedPreviousId(random.nextLong())
+                .firstId(random.nextLong())
+                .lastId(random.nextLong())
                 .success(true)
                 .build();
         FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);

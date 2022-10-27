@@ -8,12 +8,14 @@ package org.linuxforhealth.fhir.server.test;
 
 import static org.linuxforhealth.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.net.URISyntaxException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -38,7 +41,8 @@ import javax.ws.rs.core.Response;
 import org.testng.SkipException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URIBuilder;
 import org.linuxforhealth.fhir.core.FHIRMediaType;
 import org.linuxforhealth.fhir.model.generator.exception.FHIRGeneratorException;
 import org.linuxforhealth.fhir.model.resource.Bundle;
@@ -1088,32 +1092,72 @@ public class SortingTest extends FHIRServerTestBase {
         response =
                 target.path("Patient").queryParam("_count", "2")
                 .queryParam("_sort", "-family")
-                .queryParam("_page", "3")
+                .queryParam("_page", "1")
                 .queryParam("_tag", TAG_CODE)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() > 1);
+        
+        // get the self link(page 1) and validate. The search response should not have 'Pages have shifted' warning 
+        target = getWebTarget();
+        target = addQueryParam(bundle, target, "self");
+        response = target.path("Patient").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() > 1);
+        validateNoSearchResponseWarningExists(bundle);
+        
+        // get the next page(page 2) link and validate. The search response should not have 'Pages have shifted' warning 
+        target = getWebTarget();
+        target = addQueryParam(bundle, target, "next");
+        response = target.path("Patient").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() > 1);
+        validateNoSearchResponseWarningExists(bundle);
+        
+        // get the previous page(page 1) link and validate. The search response should not have 'Pages have shifted' warning 
+        target = getWebTarget();
+        target = addQueryParam(bundle, target, "previous");
+        response = target.path("Patient").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() > 1);
+        validateNoSearchResponseWarningExists(bundle);
+        
+        
+        
         // delete the patient resource created above, with id = testPatientId
         response =
                 target.path("Patient/" + testPatientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
         assertResponse(response, Response.Status.OK.getStatusCode());
         
-        // call the previous search link with _lastId parameter and check if the search response bundle has the warning message.
-        response =
-                target.path("Patient").queryParam("_count", "2")
-                .queryParam("_sort", "-family")
-                .queryParam("_page", "2")
-                .queryParam("_tag", TAG_CODE)
-                .queryParam("_lastId", testPatientId)
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         
-        // validate the response
+        // get the next page(page 2) link and validate. The search response should have 'Pages have shifted' warning since a resource got deleted in the above step. 
+        target = getWebTarget();
+        target = addQueryParam(bundle, target, "next");
+        response = target.path("Patient").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        
         assertResponse(response, Response.Status.OK.getStatusCode());
         bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() > 1);
+        validateSearchResponseWarningExists(bundle);
+    }
+
+    /**
+     * validate whether the search result has 'Pages have shifted' warning. Fail the test if the search result has no 'Pages have shifted' warning.
+     * @param bundle the search response bundle
+     */
+    private void validateSearchResponseWarningExists(Bundle bundle) {
         String warningMessage = null;
         for (Bundle.Entry entry : bundle.getEntry()) {
             if(entry.getSearch().getMode().getValue().equals("outcome")) {
@@ -1125,5 +1169,54 @@ public class SortingTest extends FHIRServerTestBase {
             }
         }    
         assertEquals(warningMessage, "Pages have shifted; check pages for changed results.");
+    }
+    
+    /**
+     * validate whether the search result has no 'Pages have shifted' warning. Fail the test if the search result has 'Pages have shifted' warning.
+     * @param bundle the search response bundle
+     */
+    private void validateNoSearchResponseWarningExists(Bundle bundle) {
+        String warningMessage = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if(entry.getSearch().getMode().getValue().equals("outcome")) {
+                OperationOutcome outcome = (OperationOutcome) entry.getResource();
+                List<OperationOutcome.Issue> issues = outcome.getIssue();
+                for (OperationOutcome.Issue issue: issues) {
+                    warningMessage = issue.getDetails().getText().getValue();
+                    assertFalse(warningMessage.equals("Pages have shifted; check pages for changed results."));
+                }
+            }
+        }    
+        
+    }
+    
+    /**
+     * Add query parameters to the WebTarget
+     * @param bundle the search response bundle.
+     * @param target a resource target identified by the resource URI.
+     * @param linkType self, previous or next link from the search results.
+     * @throws URISyntaxException
+     */
+    private WebTarget addQueryParam(Bundle bundle, WebTarget target, String linkType) throws URISyntaxException {
+        String url = getLink(bundle, linkType);
+        List<NameValuePair> queryParams =  new URIBuilder(url).getQueryParams();
+        for (NameValuePair queryParam : queryParams) {
+            target = target.queryParam(queryParam.getName(), queryParam.getValue());
+        }
+        return target;
+    }
+
+    /**
+     * Get the link to self, next or previous search results page from search results response.   
+     * @param bundle the search response bundle.
+     */
+    private String getLink(Bundle bundle, String linkType) {
+        for (Bundle.Link entry: bundle.getLink()) {
+            String relation = entry.getRelation().getValue();
+            if(relation.equals(linkType)) {
+                return entry.getUrl().getValue();
+            }
+        }
+        return null;
     }
 }
