@@ -497,12 +497,6 @@
                 <version>3.21.7</version>
             </dependency>
             <dependency>
-                <groupId>com.google.protobuf</groupId>
-                <artifactId>protoc</artifactId>
-                <version>3.21.7</version>
-                <type>pom</type>
-            </dependency>
-            <dependency>
                 <groupId>com.datastax.oss</groupId>
                 <artifactId>java-driver-core</artifactId>
                 <version>4.14.1</version>
@@ -527,11 +521,6 @@
                 <groupId>redis.clients</groupId>
                 <artifactId>jedis</artifactId>
                 <version>4.2.3</version>
-            </dependency>
-            <dependency>
-                <groupId>org.foundationdb</groupId>
-                <artifactId>fdb-java</artifactId>
-                <version>7.1.23</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
