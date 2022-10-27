@@ -1041,8 +1041,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         .build())
                     .build());
             }
-            resultBuilder.firstId(resourceDTOList.get(0).getResourceId());
-            resultBuilder.lastId(resourceDTOList.get(resourceDTOList.size() - 1).getResourceId());
+            if (resourceDTOList.size() > 0) {
+                resultBuilder.firstId(resourceDTOList.get(0).getResourceId());
+                resultBuilder.lastId(resourceDTOList.get(resourceDTOList.size() - 1).getResourceId());
+            }
         }
         return resourceDTOList;
     }
