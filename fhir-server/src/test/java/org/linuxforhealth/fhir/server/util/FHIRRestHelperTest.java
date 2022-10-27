@@ -2987,7 +2987,6 @@ public class FHIRRestHelperTest {
     public void testSearchWithPreviousPageResultsShiftWarning() throws Exception {
         Random random = new Random();   
         final String testResourceId = UUID.randomUUID().toString();
-        final String testResourceId1 = UUID.randomUUID().toString();
         // Create the search response for our persistence mock
         Patient patient = Patient.builder()
             .name(HumanName.builder()
@@ -3024,7 +3023,7 @@ public class FHIRRestHelperTest {
 
         MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
         queryParameters.put("_page", Collections.singletonList("0"));
-        queryParameters.put("_lastId", Collections.singletonList(testResourceId));
+        queryParameters.put("_lastId", Collections.singletonList(String.valueOf(random.nextLong())));
         queryParameters.put("_count", Collections.singletonList("1"));
         queryParameters.put("_total", Collections.singletonList("none"));
         Bundle searchResponse = helper.doSearch("Patient", null, null, queryParameters, "https://fhir.example.com/r4/_search");
