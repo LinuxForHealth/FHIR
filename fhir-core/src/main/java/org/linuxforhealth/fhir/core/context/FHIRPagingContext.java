@@ -62,13 +62,15 @@ public interface FHIRPagingContext {
     
     /**
      * 
-     * @return the resource Id of the first resource of the next search result
+     * @return the expected id of the first entry of the requested page; this id should
+     *        uniquely identify a particular version of a particular resource type with a particular logical id
      */
     Long getFirstId();
     
     /**
      * 
-     * @return the resource Id of the last resource of the previous search result
+     * @return the expected id of the last entry of the requested page; this id should
+     *        uniquely identify a particular version of a particular resource type with a particular logical id
      */
     Long getLastId();
 
@@ -132,13 +134,15 @@ public interface FHIRPagingContext {
     void setLenient(boolean lenient);
     
     /**
-     * firstId the resource Id of the first resource of the next search result
+     * Set the expected id of the first entry of the requested page; this id should
+     *        uniquely identify a particular version of a particular resource type with a particular logical id
      * @param firstId
      */
     void setFirstId(Long firstId);
     
     /**
-     * lastId the resource Id of the last resource of the previous search result
+     * Set the expected id of the last entry of the requested page; this id should
+     *        uniquely identify a particular version of a particular resource type with a particular logical id
      * @param lastId
      */
     void setLastId(Long lastId);

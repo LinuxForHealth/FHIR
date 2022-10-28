@@ -24,16 +24,16 @@ public class MultiResourceResult {
     final boolean success;
     final List<ResourceResult<? extends Resource>> resourceResults;
     final OperationOutcome outcome;
-    // the expected resource Id of the first resource in the next page of search results.
+    // the expected id of the first entry in the next page
     final Long expectedNextId;
     
-    // the expected resource Id of the last resource in the previous page of search results.
+    // the expected id of the last entry in the previous page
     final Long expectedPreviousId;
     
-    // the resource Id of the first resource from the search results.
+    // the id of the first entry in the current page
     final Long firstId;
     
-    // the resource Id of the last resource from the search results.
+    // the id of the last entry in the current page
     final Long lastId;
     
     private MultiResourceResult(Builder builder) {
@@ -84,32 +84,32 @@ public class MultiResourceResult {
 
 
     /**
-     *  Get the expected resource Id of the first resource in the next page of search results.
-     * @return the expected resource Id of the first resource in the next page of search results.
+     * Get the expected id of the first entry in the next page.
+     * @return An id that uniquely identifies a particular version of a particular resource type with a particular logical id.
      */
     public Long getExpectedNextId() {
         return expectedNextId;
     }
 
     /**
-     * Get the expected resource Id of the last resource in the previous page of search results.
-     * @return the expected resource Id of the last resource in the previous page of search results.
+     * Get the expected id of the last entry in the previous page.
+     * @return An id that uniquely identifies a particular version of a particular resource type with a particular logical id.
      */
     public Long getExpectedPreviousId() {
         return expectedPreviousId;
     }
     
     /**
-     *  Get the resource Id of the first resource from the search results.
-     * @return the resource Id of the first resource from the search results.
+     * Get the id of the first entry in the current page.
+     * @return An id that uniquely identifies a particular version of a particular resource type with a particular logical id.
      */
     public Long geFirstId() {
         return firstId;
     }
 
     /**
-     * Get the resource Id of the last resource from the search results.
-     * @return tthe resource Id of the last resource from the search results.
+     * Get the id of the last entry in the current page.
+     * @return An id that uniquely identifies a particular version of a particular resource type with a particular logical id.
      */
     public Long getLastId() {
         return lastId;
@@ -226,7 +226,7 @@ public class MultiResourceResult {
         }
         
         /**
-         * Build the resource Id of the first resource of the search results.
+         * Set an id that corresponds to the first entry of the current page of results.
          * @param firstId
          * @return A reference to this Builder instance
          */
@@ -236,7 +236,7 @@ public class MultiResourceResult {
         }
 
         /**
-         * Build the resource Id of the last resource of the search results.
+         * Set an id that corresponds to the last entry of the current page of results.
          * @param lastId
          * @return A reference to this Builder instance
          */
