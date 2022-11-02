@@ -797,7 +797,7 @@ public class RestAuditLogger {
     }
     
     /**
-     * Populate the AuditLogEntry with the resources read, created, updated, deleted count
+     * Populate the AuditLogEntry with the resources read, created, updated and deleted count in a bundle.
      * @param request - The HttpServletRequest representation of the REST request.
      * @param requestBundle - The Bundle that contains the requests.
      * @param startTime - The start time of the request execution.
