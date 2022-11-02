@@ -129,23 +129,23 @@ public class Batch {
         public static void generate(Batch obj, JsonGenerator generator)
                 throws IOException {
             if (obj.getResourcesRead() != null) {
-                generator.write("resources_read", obj.getResourcesRead());
+                generator.write("reads", obj.getResourcesRead());
             }
 
             if (obj.getResourcesCreated() != null) {
-                generator.write("resources_created", obj.getResourcesCreated());
+                generator.write("creates", obj.getResourcesCreated());
             }
 
             if (obj.getResourcesUpdated() != null) {
-                generator.write("resources_updated", obj.getResourcesUpdated());
+                generator.write("updates", obj.getResourcesUpdated());
             }
 
             if (obj.getResourcesDeleted() != null) {
-                generator.write("resources_deleted", obj.getResourcesDeleted());
+                generator.write("deletes", obj.getResourcesDeleted());
             }
 
             if (obj.getResourcesExecuted() != null) {
-                generator.write("resources_executed", obj.getResourcesExecuted());
+                generator.write("executions", obj.getResourcesExecuted());
             }
 
             if (obj.getStatus() != null) {
@@ -179,33 +179,33 @@ public class Batch {
             Batch.Builder builder =
                     Batch.builder();
 
-            JsonValue t = jsonObject.get("resources_read");
+            JsonValue t = jsonObject.get("reads");
             if (t != null) {
-                long resourcesRead = jsonObject.getInt("resources_read");
+                long resourcesRead = jsonObject.getInt("reads");
                 builder.resourcesRead(resourcesRead);
             }
 
-            t = jsonObject.get("resources_created");
+            t = jsonObject.get("creates");
             if (t != null) {
-                long resourcesCreated = jsonObject.getInt("resources_created");
+                long resourcesCreated = jsonObject.getInt("creates");
                 builder.resourcesCreated(resourcesCreated);
             }
 
-            t = jsonObject.get("resources_updated");
+            t = jsonObject.get("updates");
             if (t != null) {
-                long resourcesUpdated = jsonObject.getInt("resources_updated");
+                long resourcesUpdated = jsonObject.getInt("updates");
                 builder.resourcesUpdated(resourcesUpdated);
             }
 
-            t = jsonObject.get("resources_deleted");
+            t = jsonObject.get("deletes");
             if (t != null) {
-                long resourcesDeleted = jsonObject.getInt("resources_deleted");
+                long resourcesDeleted = jsonObject.getInt("deletes");
                 builder.resourcesDeleted(resourcesDeleted);
             }
 
-            t = jsonObject.get("resources_executed");
+            t = jsonObject.get("executions");
             if (t != null) {
-                long resourcesExecuted = jsonObject.getInt("resources_executed");
+                long resourcesExecuted = jsonObject.getInt("executions");
                 builder.resourcesExecuted(resourcesExecuted);
             }
 
