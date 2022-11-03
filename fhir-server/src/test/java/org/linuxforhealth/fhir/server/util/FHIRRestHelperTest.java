@@ -18,10 +18,10 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.ws.rs.core.MultivaluedHashMap;
@@ -2985,7 +2985,7 @@ public class FHIRRestHelperTest {
      */
     @Test
     public void testSearchWithPreviousPageResultsShiftWarning() throws Exception {
-        Random random = new Random();   
+        SecureRandom random = new SecureRandom();   
         final String testResourceId = UUID.randomUUID().toString();
         // Create the search response for our persistence mock
         Patient patient = Patient.builder()

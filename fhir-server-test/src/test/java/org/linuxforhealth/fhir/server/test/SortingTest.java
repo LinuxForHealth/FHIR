@@ -58,6 +58,7 @@ import org.linuxforhealth.fhir.model.type.HumanName;
 import org.linuxforhealth.fhir.model.type.Quantity;
 import org.linuxforhealth.fhir.model.type.Uri;
 import org.linuxforhealth.fhir.model.type.code.AdministrativeGender;
+import org.linuxforhealth.fhir.model.type.code.SearchEntryMode;
 import org.linuxforhealth.fhir.model.type.code.SortDirection;
 import org.linuxforhealth.fhir.model.util.FHIRUtil;
 import org.linuxforhealth.fhir.model.util.JsonSupport;
@@ -1160,7 +1161,7 @@ public class SortingTest extends FHIRServerTestBase {
     private void validateSearchResponseWarningExists(Bundle bundle) {
         String warningMessage = null;
         for (Bundle.Entry entry : bundle.getEntry()) {
-            if(entry.getSearch().getMode().getValue().equals("outcome")) {
+            if (entry.getSearch().getMode().getValueAsEnum() == SearchEntryMode.Value.OUTCOME) {
                 OperationOutcome outcome = (OperationOutcome) entry.getResource();
                 List<OperationOutcome.Issue> issues = outcome.getIssue();
                 for (OperationOutcome.Issue issue: issues) {
@@ -1178,7 +1179,7 @@ public class SortingTest extends FHIRServerTestBase {
     private void validateNoSearchResponseWarningExists(Bundle bundle) {
         String warningMessage = null;
         for (Bundle.Entry entry : bundle.getEntry()) {
-            if(entry.getSearch().getMode().getValue().equals("outcome")) {
+            if (entry.getSearch().getMode().getValueAsEnum() == SearchEntryMode.Value.OUTCOME) {
                 OperationOutcome outcome = (OperationOutcome) entry.getResource();
                 List<OperationOutcome.Issue> issues = outcome.getIssue();
                 for (OperationOutcome.Issue issue: issues) {
