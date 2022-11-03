@@ -97,7 +97,6 @@ The LinuxForHealth FHIR Server is modular and extensible. The following tables p
 |fhir-search|Utilities for working with the FHIR search specification|false|
 |fhir-persistence|Interfaces, helpers, and tests for implementing a persistence layer for the server|false|
 |fhir-persistence-jdbc|A relational FHIRPersistence implementation that uses JDBC to store and query FHIR resources|false|
-|fhir-persistence-scout|A scale out persistence layer to store and query FHIR resources *experimental* |false|
 |fhir-persistence-cos|Decorates the fhir-persistence-jdbc module with the ability to offload payload storage to IBM Cloud Object Storage *experimental* |false|
 |fhir-persistence-cassandra|Decorates the fhir-persistence-jdbc module with the ability to offload payload storage to Cassandra *experimental* |false|
 |fhir-persistence-blob|Decorates the fhir-persistence-jdbc module with the ability to offload payload storage to Azure Blob *experimental* |false|
