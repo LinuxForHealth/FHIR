@@ -1371,10 +1371,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         txn.begin();
 
         Bundle bundle = null;
-        // The resource Id of the first resource from the search result
-        String firstId = null;
-        // The resource Id of the last resource from the search result
-        String lastId = null;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -1408,14 +1404,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             MultiResourceResult searchResult =
                     persistence.search(persistenceContext, resourceType);
             bundle = createSearchResponseBundle(searchResult.getResourceResults(), searchContext, type);
-            if (searchResult.getResourceResults() != null && !searchResult.getResourceResults().isEmpty()) {
-                // fetch the resource Id of the first resource from the search result
-                firstId = getResourceId(searchResult.getResourceResults().get(0));
-                // fetch the resource Id of the last resource from the search result
-                lastId = getResourceId(searchResult.getResourceResults().get(searchResult.getResourceResults().size() - 1));
-            }
+           
             if (requestUri != null) {
-                bundle = addLinks(searchContext, bundle, requestUri, firstId, lastId, searchResult.getExpectedNextId(), searchResult.getExpectedPreviousId());
+                bundle = addLinks(searchContext, bundle, requestUri, searchResult.geFirstId(), searchResult.getLastId(), searchResult.getExpectedNextId(), searchResult.getExpectedPreviousId());
             }
             event.setFhirResource(bundle);
 
@@ -2483,7 +2474,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return the search results bundle that is returned to the REST service caller
      * @throws Exception Any non-recoverable exception thrown while adding links to the response bundle
      */
-    private Bundle addLinks(FHIRPagingContext context, Bundle responseBundle, String requestUri, String firstId, String lastId, String expectedNextId, String expectedPreviousId) throws Exception {
+    private Bundle addLinks(FHIRPagingContext context, Bundle responseBundle, String requestUri, Long firstId, Long lastId, Long expectedNextId, Long expectedPreviousId) throws Exception {
         String selfUri = null;
         SummaryValueSet summaryParameter = null;
         Bundle.Builder bundleBuilder = responseBundle.toBuilder();
@@ -2598,7 +2589,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @param value the value of the parameter
      * @return
      */
-    private String addParameterToUrl(String url, String name, String value) {
+    private String addParameterToUrl(String url, String name, Long value) {
         if (value == null) {
             return url;
         }

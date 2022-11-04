@@ -18,6 +18,7 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -2984,8 +2985,8 @@ public class FHIRRestHelperTest {
      */
     @Test
     public void testSearchWithPreviousPageResultsShiftWarning() throws Exception {
+        SecureRandom random = new SecureRandom();   
         final String testResourceId = UUID.randomUUID().toString();
-        final String testResourceId1 = UUID.randomUUID().toString();
         // Create the search response for our persistence mock
         Patient patient = Patient.builder()
             .name(HumanName.builder()
@@ -3001,7 +3002,11 @@ public class FHIRRestHelperTest {
         List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>();
         resourceResults.add(ResourceResult.from(patient));
         MultiResourceResult searchResult = MultiResourceResult.builder()
-                .addResourceResults(resourceResults).expectedNextId(testResourceId1).expectedPreviousId(testResourceId)
+                .addResourceResults(resourceResults)
+                .expectedNextId(random.nextLong())
+                .expectedPreviousId(random.nextLong())
+                .firstId(random.nextLong())
+                .lastId(random.nextLong())
                 .success(true)
                 .build();
         FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
@@ -3018,7 +3023,7 @@ public class FHIRRestHelperTest {
 
         MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
         queryParameters.put("_page", Collections.singletonList("0"));
-        queryParameters.put("_lastId", Collections.singletonList(testResourceId));
+        queryParameters.put("_lastId", Collections.singletonList(String.valueOf(random.nextLong())));
         queryParameters.put("_count", Collections.singletonList("1"));
         queryParameters.put("_total", Collections.singletonList("none"));
         Bundle searchResponse = helper.doSearch("Patient", null, null, queryParameters, "https://fhir.example.com/r4/_search");

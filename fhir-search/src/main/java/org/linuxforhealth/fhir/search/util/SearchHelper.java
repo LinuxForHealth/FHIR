@@ -1387,10 +1387,12 @@ public class SearchHelper {
                 context.setTotalParameter(TotalValueSet.from(first));
             } else if (SearchConstants.FIRST_ID.equals(name) && first != null) {
                 // the resource Id of the first resource of the next search result
-                context.setFirstId(first);
+                long firstId = Long.parseLong(first);
+                context.setFirstId(firstId);
             } else if (SearchConstants.LAST_ID.equals(name) && first != null) {
                 // the resource Id of the last resource of the previous search result
-                context.setLastId(first);
+                long lastId = Long.parseLong(first);
+                context.setLastId(lastId);
             }
         } catch (FHIRSearchException se) {
             throw se;
