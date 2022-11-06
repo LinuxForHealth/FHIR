@@ -2201,7 +2201,7 @@ The originalRequestUriHeader is expected to contain the full path of the origina
 
 ### 4.13 Remote Index Service
 
-To use the experimental remote index service feature, see the instructions documented in the [fhir-remote-index](https://github.com/LinuxForHealth/FHIR/tree/main/operation/fhir-remote-index/README.md) project.
+To use the experimental remote index service feature, see the instructions documented in the [fhir-remote-index](https://github.com/LinuxForHealth/FHIR/tree/main/fhir-remote-index/README.md) project.
 
 # 5 Appendix
 
