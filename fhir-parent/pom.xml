@@ -714,7 +714,7 @@
                 <!-- [CVE-2018-18928] CWE-190: Integer Overflow or Wraparound; unclear whether it affects icu4j at all, but 63.2 is the patched version of ICU -->
                 <groupId>com.ibm.icu</groupId>
                 <artifactId>icu4j</artifactId>
-                <version>71.1</version>
+                <version>72.1</version>
             </dependency>
             <dependency>
                 <groupId>org.hashids</groupId>
