@@ -3156,7 +3156,7 @@ public class BundleTest extends FHIRServerTestBase {
      */
     public void setUpConsumer() {
         try {
-            Properties kafkaAuditSSLProperties = TestUtil.readTestProperties("client-ssl.properties");
+            Properties kafkaAuditSSLProperties = TestUtil.readTestProperties("kafka/client-ssl.properties");
             // Set up our properties for connecting to the kafka server.
             connectionProps = new Properties();
             connectionProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, getAuditKafkaConnectionInfo());
@@ -3204,6 +3204,7 @@ public class BundleTest extends FHIRServerTestBase {
      */
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionCreates", "testTransactionCreatesError" })
     public void testTransactionAuditLog() throws Exception {
+        logger.info("validating transaction bundle audit log");
         assertNotNull(transactionSupported);
         if (!transactionSupported.booleanValue()) {
             return;
@@ -3217,6 +3218,7 @@ public class BundleTest extends FHIRServerTestBase {
             int count = 0; 
             while (continuePoll) { 
                 ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
+                logger.info("transaction bundle records size "+records.count());
                 for (ConsumerRecord<String, String> record : records) {
                     JSONObject auditRecord = new JSONObject(record.value());
                     if ("CADF".equals(mapperType.name())) {
