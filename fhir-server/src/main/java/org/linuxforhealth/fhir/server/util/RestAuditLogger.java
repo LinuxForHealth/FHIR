@@ -502,6 +502,7 @@ public class RestAuditLogger {
             return;
         }
         AuditLogEntry entry = null;
+        // log individual audit event messages when the batch transaction is successful. 
         if (responseStatus == Status.OK) {
             // We need the requestBundle so we know what the request was for at this point.
             // We don't have a "request" field otherwise
@@ -515,6 +516,7 @@ public class RestAuditLogger {
                 auditLogSvc.logEntry(entry);
             }
         } else {
+         // log a single audit event message when the batch transaction has failed.
             entry = populateAuditLogWithResourceCount(request, requestBundle, startTime, endTime, responseStatus);
             auditLogSvc.logEntry(entry);
         }
