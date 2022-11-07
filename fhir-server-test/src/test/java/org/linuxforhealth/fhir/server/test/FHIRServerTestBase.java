@@ -88,6 +88,9 @@ public abstract class FHIRServerTestBase {
     private static final String DEFAULT_WEBSOCKET_URL = "wss://localhost:9443/fhir-server/api/v4/notification";
     private static final String DEFAULT_KAFKA_CONNINFO = "localhost:9092";
     private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
+    private static final String DEFAULT_AUDIT_KAFKA_CONNINFO = "localhost:19092";
+    private static final String DEFAULT_AUDIT_KAFKA_TOPICNAME = "FHIR_AUDIT";
+    
 
     // Default values for FHIRClient properties that we use here.
     private static final String DEFAULT_TRUSTSTORE_LOCATION = "fhirClientTruststore.jks";
@@ -134,6 +137,12 @@ public abstract class FHIRServerTestBase {
     private CapabilityStatement conformanceStmt = null;
 
     private Map<String, HashSet<String>> resourceRegistry = new HashMap<String,HashSet<String>>();
+    
+    private String auditKafkaConnectionInfo = null;
+    private String auditKafkaTopicName = null;
+
+    private static final String PROPNAME_AUDIT_KAFKA_CONNINFO = "test.audit.kafka.connectionInfo";
+    private static final String PROPNAME_AUDIT_KAFKA_TOPICNAME = "test.audit.kafka.topicName";
 
     /**
      * creates the resource and returns the logical id
@@ -301,6 +310,9 @@ public abstract class FHIRServerTestBase {
         // Retrieve the info needed by a Kafka consumer.
         kafkaConnectionInfo = getProperty(properties, PROPNAME_KAFKA_CONNINFO, DEFAULT_KAFKA_CONNINFO);
         kafkaTopicName = getProperty(properties, PROPNAME_KAFKA_TOPICNAME, DEFAULT_KAFKA_TOPICNAME);
+        
+        auditKafkaConnectionInfo = getProperty(properties, PROPNAME_AUDIT_KAFKA_CONNINFO, DEFAULT_AUDIT_KAFKA_CONNINFO);
+        auditKafkaTopicName = getProperty(properties, PROPNAME_AUDIT_KAFKA_TOPICNAME, DEFAULT_AUDIT_KAFKA_TOPICNAME);
 
         fhirUser = getProperty(properties, FHIRClient.PROPNAME_CLIENT_USERNAME, DEFAULT_USERNAME);
         fhirPassword = FHIRUtilities
@@ -890,4 +902,163 @@ public abstract class FHIRServerTestBase {
         }
         return null;
     }
+
+    
+    public FHIRClient getClient() {
+        return client;
+    }
+
+    
+    public static String getDefaultRestBaseUrl() {
+        return DEFAULT_REST_BASE_URL;
+    }
+
+    
+    public static String getDefaultWebsocketUrl() {
+        return DEFAULT_WEBSOCKET_URL;
+    }
+
+    
+    public static String getDefaultKafkaConninfo() {
+        return DEFAULT_KAFKA_CONNINFO;
+    }
+
+    
+    public static String getDefaultKafkaTopicname() {
+        return DEFAULT_KAFKA_TOPICNAME;
+    }
+
+    
+    public static String getDefaultAuditKafkaConninfo() {
+        return DEFAULT_AUDIT_KAFKA_CONNINFO;
+    }
+
+    
+    public static String getDefaultAuditKafkaTopicname() {
+        return DEFAULT_AUDIT_KAFKA_TOPICNAME;
+    }
+
+    
+    public static String getDefaultTruststoreLocation() {
+        return DEFAULT_TRUSTSTORE_LOCATION;
+    }
+
+    
+    public static String getDefaultTruststorePassword() {
+        return DEFAULT_TRUSTSTORE_PASSWORD;
+    }
+
+    
+    public static String getDefaultKeystoreLocation() {
+        return DEFAULT_KEYSTORE_LOCATION;
+    }
+
+    
+    public static String getDefaultKeystorePassword() {
+        return DEFAULT_KEYSTORE_PASSWORD;
+    }
+
+    
+    public static String getDefaultUsername() {
+        return DEFAULT_USERNAME;
+    }
+
+    
+    public static String getDefaultPassword() {
+        return DEFAULT_PASSWORD;
+    }
+
+    
+    public static String getPropnameRestBaseUrl() {
+        return PROPNAME_REST_BASE_URL;
+    }
+
+    
+    public static String getPropnameWebsocketUrl() {
+        return PROPNAME_WEBSOCKET_URL;
+    }
+
+    
+    public static String getPropnameKafkaConninfo() {
+        return PROPNAME_KAFKA_CONNINFO;
+    }
+
+    
+    public static String getPropnameKafkaTopicname() {
+        return PROPNAME_KAFKA_TOPICNAME;
+    }
+
+    
+    public static String getPropnameSslEngineConfigurator() {
+        return PROPNAME_SSL_ENGINE_CONFIGURATOR;
+    }
+
+    
+    public static Coding getSubsettedTag() {
+        return SUBSETTED_TAG;
+    }
+
+    
+    public String getRestBaseUrl() {
+        return restBaseUrl;
+    }
+
+    
+    public String getWebsocketUrl() {
+        return websocketUrl;
+    }
+
+    
+    public static String getMediatypeJson() {
+        return MEDIATYPE_JSON;
+    }
+
+    
+    public static String getMediatypeJsonFhir() {
+        return MEDIATYPE_JSON_FHIR;
+    }
+
+    
+    public static String getMediatypeXml() {
+        return MEDIATYPE_XML;
+    }
+
+    
+    public static String getMediatypeXmlFhir() {
+        return MEDIATYPE_XML_FHIR;
+    }
+
+    
+    public CapabilityStatement getConformanceStmt() {
+        return conformanceStmt;
+    }
+
+    
+    public Map<String, HashSet<String>> getResourceRegistry() {
+        return resourceRegistry;
+    }
+
+    
+    public String getAuditKafkaConnectionInfo() {
+        return auditKafkaConnectionInfo;
+    }
+
+    
+    public String getAuditKafkaTopicName() {
+        return auditKafkaTopicName;
+    }
+
+    
+    public static String getPropnameAuditKafkaConninfo() {
+        return PROPNAME_AUDIT_KAFKA_CONNINFO;
+    }
+
+    
+    public static String getPropnameAuditKafkaTopicname() {
+        return PROPNAME_AUDIT_KAFKA_TOPICNAME;
+    }
+    
+    
+    
+    
 }
