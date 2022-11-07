@@ -277,41 +277,41 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
-                <version>2.13.4</version>
+                <version>2.14.0</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>2.13.4</version>
+                <version>2.14.0</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-jaxb-annotations</artifactId>
-                <version>2.13.4</version>
+                <version>2.14.0</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-scala_2.12</artifactId>
-                <version>2.13.4</version>
+                <version>2.14.0</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-cbor</artifactId>
-                <version>2.13.4</version>
+                <version>2.14.0</version>
             </dependency>
             <dependency>
                 <!--  Used by COS in fhir-bucket and bulkdata -->
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
-                <version>2.13.4</version>
+                <version>2.14.0</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>2.13.4.2</version>
+                <version>2.14.0</version>
             </dependency>
             <dependency>
                 <!-- used by postgres and janus graph -->
