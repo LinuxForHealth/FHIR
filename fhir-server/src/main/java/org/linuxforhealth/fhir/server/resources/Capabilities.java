@@ -113,9 +113,8 @@ public class Capabilities extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Capabilities.class.getName());
 
     // Constants
-    private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
-    private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2022";
-    private static final String FHIR_PUBLISHER = "IBM Corporation";
+    private static final String FHIR_SERVER_NAME = "LinuxForHealth FHIR Server";
+    private static final String FHIR_COPYRIGHT = "© Merative US L.P. and others 2016, 2022";
     private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
     private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
     private static final List<String> ALL_INTERACTIONS = Arrays.asList("create", "read", "vread", "update", "patch", "delete", "history", "search");
@@ -249,7 +248,6 @@ public class Capabilities extends FHIRResource {
             .name(string(FHIR_SERVER_NAME))
             .description(Markdown.of(buildDescription))
             .copyright(Markdown.of(FHIR_COPYRIGHT))
-            .publisher(string(FHIR_PUBLISHER))
             .software(TerminologyCapabilities.Software.builder()
                 .name(string(FHIR_SERVER_NAME))
                 .version(string(buildInfo.getBuildVersion()))
@@ -487,29 +485,30 @@ public class Capabilities extends FHIRResource {
         if (FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_ENABLED, false)) {
             String actualHost = new URI(getRequestUri()).getHost();
 
-            String authURLTemplate = null;
-            String tokenURLTemplate = null;
-            String regURLTemplate = null;
-            String manageURLTemplate = null;
-            String introspectURLTemplate = null;
-            String revokeURLTemplate = null;
+            String authURL = null;
+            String tokenURL = null;
+            String regURL = null;
+            String manageURL = null;
+            String introspectURL = null;
+            String revokeURL = null;
 
             try {
-                authURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_AUTH_URL, "");
-                tokenURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_TOKEN_URL, "");
-                regURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_REG_URL, "");
-                manageURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_MANAGE_URL, "");
-                introspectURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_INTROSPECT_URL, "");
-                revokeURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_REVOKE_URL, "");
+                String authURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_AUTH_URL, "");
+                String tokenURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_TOKEN_URL, "");
+                String regURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_REG_URL, "");
+                String manageURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_MANAGE_URL, "");
+                String introspectURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_INTROSPECT_URL, "");
+                String revokeURLTemplate = FHIRConfigHelper.getStringProperty(PROPERTY_SECURITY_OAUTH_REVOKE_URL, "");
+
+                tokenURL = tokenURLTemplate.replaceAll("<host>", actualHost);
+                authURL = authURLTemplate.replaceAll("<host>", actualHost);
+                regURL = regURLTemplate.replaceAll("<host>", actualHost);
+                manageURL = manageURLTemplate.replaceAll("<host>", actualHost);
+                introspectURL = introspectURLTemplate.replaceAll("<host>", actualHost);
+                revokeURL = revokeURLTemplate.replaceAll("<host>", actualHost);
             } catch (Exception e) {
                 log.log(Level.SEVERE, "An error occurred while adding OAuth URLs to the conformance statement", e);
             }
-            String tokenURL = tokenURLTemplate.replaceAll("<host>", actualHost);
-            String authURL = authURLTemplate.replaceAll("<host>", actualHost);
-            String regURL = regURLTemplate.replaceAll("<host>", actualHost);
-            String manageURL = manageURLTemplate.replaceAll("<host>", actualHost);
-            String introspectURL = introspectURLTemplate.replaceAll("<host>", actualHost);
-            String revokeURL = revokeURLTemplate.replaceAll("<host>", actualHost);
 
             Boolean smartEnabled = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_ENABLED, false);
             securityBuilder.service(CodeableConcept.builder()
@@ -543,7 +542,7 @@ public class Capabilities extends FHIRResource {
         format.add(Code.of(FHIRMediaType.APPLICATION_FHIR_XML));
 
         /*
-         * The following checks to see if there is a IBM FHIR Server Service URL that we want to inline into the Capabilities Statement
+         * The following checks to see if there is a Service URL that we want to inline into the Capabilities Statement
          * else the minimal implementation.description.
          */
         String customImpl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_CAPABILITIES_URL, null);
@@ -573,7 +572,6 @@ public class Capabilities extends FHIRResource {
                 .name(string(FHIR_SERVER_NAME))
                 .description(Markdown.of(buildDescription))
                 .copyright(Markdown.of(FHIR_COPYRIGHT))
-                .publisher(string(FHIR_PUBLISHER))
                 .software(CapabilityStatement.Software.builder()
                           .name(string(FHIR_SERVER_NAME))
                           .version(string(buildInfo.getBuildVersion()))
