@@ -3211,7 +3211,7 @@ public class BundleTest extends FHIRServerTestBase {
         logger.info("validating transaction bundle audit log");
         assertNotNull(kafkaAuditEnabled);
         assertNotNull(transactionSupported);
-        if (!kafkaAuditEnabled.booleanValue() && !transactionSupported.booleanValue()) {
+        if (!kafkaAuditEnabled.booleanValue() || !transactionSupported.booleanValue()) {
             return;
         }
         validateAuditLogMessages();
