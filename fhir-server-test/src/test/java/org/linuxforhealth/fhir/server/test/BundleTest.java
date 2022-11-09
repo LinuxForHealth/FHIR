@@ -129,7 +129,7 @@ public class BundleTest extends FHIRServerTestBase {
     private static final String PREFER_HEADER_RETURN_REPRESENTATION = "return=representation";
     private static final String PREFER_HEADER_NAME = "Prefer";
     
-    private static boolean kafkaAuditEnabled = false;
+    private static Boolean kafkaAuditEnabled = false;
     private KafkaConsumer<String, String> consumer = null;
     private Properties connectionProps = null;
     private static final Logger logger = Logger.getLogger(BundleTest.class.getName());
@@ -3209,8 +3209,9 @@ public class BundleTest extends FHIRServerTestBase {
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionCreates", "testTransactionCreatesError" })
     public void testTransactionAuditLog() throws Exception {
         logger.info("validating transaction bundle audit log");
+        assertNotNull(kafkaAuditEnabled);
         assertNotNull(transactionSupported);
-        if (!transactionSupported.booleanValue()) {
+        if (!kafkaAuditEnabled.booleanValue() && !transactionSupported.booleanValue()) {
             return;
         }
         validateAuditLogMessages();
@@ -3223,6 +3224,10 @@ public class BundleTest extends FHIRServerTestBase {
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionCreates", "testTransactionCreatesError" })
     public void testBatchAuditLog() throws Exception {
         logger.info("validating batch bundle audit log");
+        assertNotNull(kafkaAuditEnabled);
+        if (!kafkaAuditEnabled) {
+            return;
+        }
         validateAuditLogMessages();
     }
 
