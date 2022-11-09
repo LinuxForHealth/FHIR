@@ -559,13 +559,18 @@ public abstract class FHIRServerTestBase {
     protected boolean isTransactionSupported() throws Exception {
         SystemRestfulInteraction transactionMode = null;
         CapabilityStatement conf = retrieveConformanceStatement();
-
+        boolean txnSupported = false;
         List<CapabilityStatement.Rest> restList = conf.getRest();
         if (restList != null) {
             CapabilityStatement.Rest rest = restList.get(0);
             if (rest != null) {
                 assertEquals(RestfulCapabilityMode.SERVER.getValue(), rest.getMode().getValue());
                 if (rest.getInteraction() != null) {
+                    for (org.linuxforhealth.fhir.model.resource.CapabilityStatement.Rest.Interaction interaction : rest.getInteraction()) {
+                        if (interaction.getCode().getValue().equals(SystemRestfulInteraction.TRANSACTION.getValue())) {
+                            txnSupported = true;
+                        }
+                    }
                     transactionMode = rest.getInteraction().get(0).getCode();
                 }
             }
@@ -575,7 +580,7 @@ public abstract class FHIRServerTestBase {
             transactionMode = SystemRestfulInteraction.BATCH;
         }
 
-        boolean txnSupported = false;
+
 
         if (transactionMode.getValue().equals(SystemRestfulInteraction.TRANSACTION.getValue())) {
             txnSupported = true;
