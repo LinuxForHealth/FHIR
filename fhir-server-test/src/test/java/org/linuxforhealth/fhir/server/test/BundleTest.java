@@ -11,7 +11,6 @@ import static org.linuxforhealth.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
-import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -37,7 +36,6 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.linuxforhealth.fhir.audit.beans.FHIRContext;
 import org.linuxforhealth.fhir.audit.cadf.CadfAttachment;
@@ -158,6 +156,7 @@ public class BundleTest extends FHIRServerTestBase {
         System.out.println("Delete operation supported?: " + deleteSupported.toString());
         
         kafkaAuditEnabled = Boolean.parseBoolean(testProperties.getProperty("test.audit.kafka.enabled", "false"));
+        logger.info("kafkaAuditEnabled flag "+kafkaAuditEnabled);
         if (kafkaAuditEnabled) {
             setUpConsumer();
         }
@@ -3188,12 +3187,15 @@ public class BundleTest extends FHIRServerTestBase {
     private List<TopicPartition> getPartitionInfo(KafkaConsumer<String,String> consumer, String topicName) {
         // Checking for topic existence before subscribing
         List<TopicPartition> partitionList = new ArrayList<>();
+        logger.info("fetching partitions for " +topicName);
         List<PartitionInfo> partitions = consumer.partitionsFor(topicName);
         if (partitions == null || partitions.isEmpty()) {
-            throw new IllegalStateException("topic not found");
+            logger.severe("partition not found for topic " +topicName);
+            throw new IllegalStateException("partiotion not found for topic " +topicName);
         } else {
             // dump the list of partitions configured for this topic
             for (PartitionInfo partition: partitions) {
+                logger.info("Topic '" + topicName + "' has partition " + partition.toString());
                 partitionList.add(new TopicPartition(topicName, partition.partition()));
             }
         }
