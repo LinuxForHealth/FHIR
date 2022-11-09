@@ -47,7 +47,6 @@ fi
 
 # Change to the release directory
 cd "${WORKSPACE}"
-. ${WORKSPACE}/build/common/set-tenant1-datastore-vars.sh
 
 required_build
 audit_build "${1}"

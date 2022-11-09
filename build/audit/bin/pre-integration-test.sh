@@ -30,6 +30,8 @@ pushd $(pwd) > /dev/null
 
 # Change to the audit_pre
 cd "${WORKSPACE}"
+# Source the tenant1 datastore variables
+. ${WORKSPACE}/build/common/set-tenant1-datastore-vars.sh
 
 audit_pre "${1}"
 
