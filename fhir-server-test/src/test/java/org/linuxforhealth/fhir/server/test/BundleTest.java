@@ -143,7 +143,6 @@ public class BundleTest extends FHIRServerTestBase {
     @BeforeClass
     public void retrieveConfig() throws Exception {
         updateCreateEnabled = isUpdateCreateSupported();
-        Properties testProperties = TestUtil.readTestProperties("test.properties");
         System.out.println("Update/Create enabled?: " + updateCreateEnabled.toString());
 
         transactionSupported = isTransactionSupported();
@@ -1146,16 +1145,23 @@ public class BundleTest extends FHIRServerTestBase {
         }
 
         WebTarget target = getWebTarget();
+        Patient updatePatientT1 = patientT1;
+        String uniqueFamily1 = UUID.randomUUID().toString();
+        updatePatientT1 = setUniqueFamilyName(updatePatientT1, uniqueFamily1);
+
+        Patient updatePatientT2 = patientT2;
+        String uniqueFamily2 = UUID.randomUUID().toString();
+        updatePatientT2 = setUniqueFamilyName(updatePatientT2, uniqueFamily2);
 
         // Retrieve the family names of the resources to be updated.
-        String family1 = patientT1.getName().get(0).getFamily().getValue();
-        String family2 = patientT2.getName().get(0).getFamily().getValue();
+        String family1 = updatePatientT1.getName().get(0).getFamily().getValue();
+        String family2 = updatePatientT2.getName().get(0).getFamily().getValue();
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId(), null,
-                patientT1);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT2.getId(), null,
-                patientT2);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + updatePatientT1.getId(), null,
+            updatePatientT1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + updatePatientT2.getId(), null,
+            updatePatientT2);
 
         printBundle(method, "request", bundle);
 
@@ -1187,16 +1193,26 @@ public class BundleTest extends FHIRServerTestBase {
         }
 
         WebTarget target = getWebTarget();
+        
+        Patient updatePatientTVA1 = patientTVA1;
+        String uniqueFamily1 = UUID.randomUUID().toString();
+        updatePatientTVA1 = setUniqueFamilyName(updatePatientTVA1, uniqueFamily1);
+
+        Patient updatePatientTVA2 = patientTVA2;
+        String uniqueFamily2 = UUID.randomUUID().toString();
+        updatePatientTVA2 = setUniqueFamilyName(updatePatientTVA2, uniqueFamily2);
 
         // Retrieve the family names of the resources to be updated.
-        String family1 = patientTVA1.getName().get(0).getFamily().getValue();
-        String family2 = patientTVA2.getName().get(0).getFamily().getValue();
+        String family1 = updatePatientTVA1.getName().get(0).getFamily().getValue();
+        String family2 = updatePatientTVA2.getName().get(0).getFamily().getValue();
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA1.getId(), "W/\"1\"",
-                patientTVA1);
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA2.getId(), "W/\"1\"",
-                patientTVA2);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + updatePatientTVA1.getId(), "W/\"1\"",
+            updatePatientTVA1);
+        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + updatePatientTVA2.getId(), "W/\"1\"",
+            updatePatientTVA2);
+        
+       
 
         printBundle(method, "request", bundle);
 
