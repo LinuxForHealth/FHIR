@@ -155,7 +155,7 @@ public class BundleTest extends FHIRServerTestBase {
         deleteSupported = isDeleteSupported();
         System.out.println("Delete operation supported?: " + deleteSupported.toString());
         
-        kafkaAuditEnabled = Boolean.parseBoolean(testProperties.getProperty("test.audit.kafka.enabled", "false"));
+        kafkaAuditEnabled = isAuditLogSupported();
         logger.info("kafkaAuditEnabled flag "+kafkaAuditEnabled);
         if (kafkaAuditEnabled) {
             setUpConsumer();

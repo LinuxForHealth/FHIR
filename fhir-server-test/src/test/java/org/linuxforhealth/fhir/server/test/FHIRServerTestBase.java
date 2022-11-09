@@ -1063,7 +1063,28 @@ public abstract class FHIRServerTestBase {
         return PROPNAME_AUDIT_KAFKA_TOPICNAME;
     }
     
-    
+    /**
+     * Determines whether or not the server supports the audit logs
+     * examining the conformance statement.
+     */
+    protected boolean isAuditLogSupported() throws Exception {
+        Boolean auditLogSupported = Boolean.FALSE;
+        CapabilityStatement conf = retrieveConformanceStatement();
+        List<Extension> extensions = conf.getExtension();
+        String auditLogServiceName = null;
+        
+        if (extensions != null) { 
+            for (Extension extension : extensions) {
+                if (extension.getUrl().contains("auditLogServiceName")) {
+                    auditLogServiceName = extension.getValue().as(org.linuxforhealth.fhir.model.type.String.class).getValue();
+                }
+            }
+        }
+        if (auditLogServiceName != null) {
+            auditLogSupported = auditLogServiceName.equals("KafkaService");
+        }
+        return auditLogSupported.booleanValue();
+    }
     
     
 }
