@@ -123,10 +123,6 @@ bringup(){
     [ $? -eq 0 ] || exit 9
 
     echo "Topic is created 'FHIR_AUDIT'"
-
-    # set kafka container names
-    set_container_names
-
     exit 0
 }
 
@@ -138,30 +134,6 @@ is_ready_to_run(){
         echo "ERROR: WORKSPACE environment variable not set!"
         exit 1
     fi
-}
-
-# set kafka container names
-set_container_names(){
-    echo "Preparing environment for kafka audit integration tests..."
-    kafkaContainerName1=$(docker ps --format "{{.Names}}" | grep kafka-1)
-        if [ -z "${kafkaContainerName1}" ]
-        then
-            echo "Warning: Could not find the kafka container!!!"
-        else
-            echo "kafka1 container name: ${kafkaContainerName1}"
-            export KAFKA_CONTAINER_1="${kafkaContainerName1}"
-            echo "KAFKA_CONTAINER_1: ${KAFKA_CONTAINER_1}"
-        fi
-    kafkaContainerName2=$(docker ps --format "{{.Names}}" | grep kafka-2)
-            if [ -z "${kafkaContainerName2}" ]
-            then
-                echo "Warning: Could not find the kafka container!!!"
-            else
-                echo "kafka2 container name: ${kafkaContainerName2}"
-                export KAFKA_CONTAINER_2="${kafkaContainerName2}"
-                echo "KAFKA_CONTAINER_2: ${kafkaContainerName2}"
-            fi
-
 }
 
 ###############################################################################
