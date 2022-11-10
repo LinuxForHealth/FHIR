@@ -84,7 +84,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertNotNull(c);
         assertEquals(MIMETYPE_XML, c.getDefaultMimeType());
     }
-    
+
     @Test
     public void testFHIRClientMimeType() throws Exception {
         // The default mimetype should specify FHIR version 4.3, so let's make
@@ -119,7 +119,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         builder.parameter(parameters);
-        
+
         FHIRResponse eraseResponse = client.invoke(Ingredient.class.getSimpleName(), "$erase", ing1.getId(), builder.build());
         assertNotNull(eraseResponse);
         assertResponse(eraseResponse.getResponse(), Response.Status.OK.getStatusCode());
@@ -167,7 +167,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertNotNull(conf.getFormat());
         assertEquals(6, conf.getFormat().size());
         assertNotNull(conf.getVersion());
-        assertNotNull(conf.getName());
+        assertNotNull(conf.getTitle());
         assertNotNull(conf.getInstantiates());
         boolean foundBulkdata = false;
         for (Canonical instantiate : conf.getInstantiates()) {
@@ -193,7 +193,7 @@ public class FHIRClientTest extends FHIRClientTestBase {
         assertNotNull(conf.getFormat());
         assertEquals(6, conf.getFormat().size());
         assertNotNull(conf.getVersion());
-        assertNotNull(conf.getName());
+        assertNotNull(conf.getTitle());
         assertNotNull(conf.getInstantiates());
         boolean foundBulkdata = false;
         for (Canonical instantiate : conf.getInstantiates()) {

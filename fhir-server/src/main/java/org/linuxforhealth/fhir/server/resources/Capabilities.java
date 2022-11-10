@@ -230,12 +230,12 @@ public class Capabilities extends FHIRResource {
         TerminologyCapabilities.Implementation impl;
         if (customTerminologyImpl != null) {
             impl = TerminologyCapabilities.Implementation.builder()
-                    .description(string(buildDescription))
+                    .description(buildDescription)
                     .url(org.linuxforhealth.fhir.model.type.Url.of(customTerminologyImpl))
                     .build();
         } else {
             impl = TerminologyCapabilities.Implementation.builder()
-                    .description(string(buildDescription))
+                    .description(buildDescription)
                     .build();
         }
 
@@ -244,13 +244,13 @@ public class Capabilities extends FHIRResource {
             .experimental(org.linuxforhealth.fhir.model.type.Boolean.TRUE)
             .date(DateTime.now(ZoneOffset.UTC))
             .kind(CapabilityStatementKind.INSTANCE)
-            .version(string(buildInfo.getBuildVersion()))
-            .name(string(FHIR_SERVER_NAME))
+            .version(buildInfo.getBuildVersion())
+            .title(FHIR_SERVER_NAME)
             .description(Markdown.of(buildDescription))
             .copyright(Markdown.of(FHIR_COPYRIGHT))
             .software(TerminologyCapabilities.Software.builder()
-                .name(string(FHIR_SERVER_NAME))
-                .version(string(buildInfo.getBuildVersion()))
+                .name(FHIR_SERVER_NAME)
+                .version(buildInfo.getBuildVersion())
                 .id(buildInfo.getBuildId())
                 .build())
             .implementation(impl)
@@ -284,7 +284,7 @@ public class Capabilities extends FHIRResource {
             List<TerminologyCapabilities.CodeSystem.Version> versions = versionMap.computeIfAbsent(url, k -> new ArrayList<>());
             if (!Version.NO_VERSION.equals(version)) {
                 versions.add(TerminologyCapabilities.CodeSystem.Version.builder()
-                    .code(string(version.toString()))
+                    .code(version.toString())
                     .isDefault(registryResource.isDefaultVersion() ? org.linuxforhealth.fhir.model.type.Boolean.TRUE : null)
                     .build());
             }
@@ -516,7 +516,7 @@ public class Capabilities extends FHIRResource {
                         .code(Code.of(smartEnabled ? "SMART-on-FHIR" : "OAuth"))
                         .system(Uri.of("http://terminology.hl7.org/CodeSystem/restful-security-service"))
                         .build())
-                    .text(smartEnabled ? string("OAuth") : string("OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)"))
+                    .text(smartEnabled ? "OAuth" : "OAuth2 using SMART-on-FHIR profile (see http://docs.smarthealthit.org)")
                     .build())
                 .extension(buildOAuthURIsExtension(authURL, tokenURL, regURL, manageURL, introspectURL, revokeURL));
         }
@@ -549,12 +549,12 @@ public class Capabilities extends FHIRResource {
         CapabilityStatement.Implementation impl;
         if (customImpl != null) {
             impl = CapabilityStatement.Implementation.builder()
-                    .description(string(buildDescription))
+                    .description(buildDescription)
                     .url(org.linuxforhealth.fhir.model.type.Url.of(customImpl))
                     .build();
         } else {
             impl = CapabilityStatement.Implementation.builder()
-                    .description(string(buildDescription))
+                    .description(buildDescription)
                     .build();
         }
 
@@ -568,13 +568,13 @@ public class Capabilities extends FHIRResource {
                 .patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH),
                              Code.of(FHIRMediaType.APPLICATION_FHIR_JSON),
                              Code.of(FHIRMediaType.APPLICATION_FHIR_XML))
-                .version(string(buildInfo.getBuildVersion()))
-                .name(string(FHIR_SERVER_NAME))
+                .version(buildInfo.getBuildVersion())
+                .title(FHIR_SERVER_NAME)
                 .description(Markdown.of(buildDescription))
                 .copyright(Markdown.of(FHIR_COPYRIGHT))
                 .software(CapabilityStatement.Software.builder()
-                          .name(string(FHIR_SERVER_NAME))
-                          .version(string(buildInfo.getBuildVersion()))
+                          .name(FHIR_SERVER_NAME)
+                          .version(buildInfo.getBuildVersion())
                           .id(buildInfo.getBuildId())
                           .build())
                 .rest(rest)
@@ -764,25 +764,25 @@ public class Capabilities extends FHIRResource {
         List<Extension> extentions = new ArrayList<>();
         Extension extension = Extension.builder()
                 .url(EXT_BASE + "defaultTenantId")
-                .value(string(fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID)))
+                .value(fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
                 .url(EXT_BASE + "websocketNotificationsEnabled")
-                .value(org.linuxforhealth.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED, Boolean.FALSE)))
+                .value(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED, Boolean.FALSE))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
                 .url(EXT_BASE + "kafkaNotificationsEnabled")
-                .value(org.linuxforhealth.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_ENABLED, Boolean.FALSE)))
+                .value(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_ENABLED, Boolean.FALSE))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
                 .url(EXT_BASE + "natsNotificationsEnabled")
-                .value(org.linuxforhealth.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_NATS_ENABLED, Boolean.FALSE)))
+                .value(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_NATS_ENABLED, Boolean.FALSE))
                 .build();
         extentions.add(extension);
 
@@ -793,7 +793,7 @@ public class Capabilities extends FHIRResource {
 
         extension = Extension.builder()
                 .url(EXT_BASE + "notificationResourceTypes")
-                .value(string(notificationResourceTypes))
+                .value(notificationResourceTypes)
                 .build();
         extentions.add(extension);
 
@@ -809,13 +809,13 @@ public class Capabilities extends FHIRResource {
 
         extension = Extension.builder()
                 .url(EXT_BASE + "auditLogServiceName")
-                .value(string(auditLogServiceName))
+                .value(auditLogServiceName)
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
                 .url(EXT_BASE + "persistenceType")
-                .value(string(getPersistenceImpl().getClass().getSimpleName()))
+                .value(getPersistenceImpl().getClass().getSimpleName())
                 .build();
         extentions.add(extension);
 

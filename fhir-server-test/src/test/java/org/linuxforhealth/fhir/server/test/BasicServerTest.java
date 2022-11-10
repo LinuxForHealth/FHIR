@@ -26,28 +26,21 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.Test;
-
 import org.linuxforhealth.fhir.core.FHIRMediaType;
 import org.linuxforhealth.fhir.model.format.Format;
 import org.linuxforhealth.fhir.model.generator.FHIRGenerator;
 import org.linuxforhealth.fhir.model.resource.Bundle;
 import org.linuxforhealth.fhir.model.resource.Bundle.Entry;
 import org.linuxforhealth.fhir.model.resource.CapabilityStatement;
-import org.linuxforhealth.fhir.model.resource.Immunization;
 import org.linuxforhealth.fhir.model.resource.Observation;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome.Issue;
 import org.linuxforhealth.fhir.model.resource.Patient;
-import org.linuxforhealth.fhir.model.resource.Resource;
 import org.linuxforhealth.fhir.model.resource.TerminologyCapabilities;
 import org.linuxforhealth.fhir.model.test.TestUtil;
 import org.linuxforhealth.fhir.model.type.ContactPoint;
-import org.linuxforhealth.fhir.model.type.Narrative;
-import org.linuxforhealth.fhir.model.type.Xhtml;
 import org.linuxforhealth.fhir.model.type.code.ContactPointSystem;
 import org.linuxforhealth.fhir.model.type.code.ContactPointUse;
-import org.linuxforhealth.fhir.model.type.code.NarrativeStatus;
 import org.linuxforhealth.fhir.path.FHIRPathBooleanValue;
 import org.linuxforhealth.fhir.path.FHIRPathNode;
 import org.linuxforhealth.fhir.path.evaluator.FHIRPathEvaluator;
@@ -56,6 +49,7 @@ import org.linuxforhealth.fhir.path.exception.FHIRPathException;
 import org.linuxforhealth.fhir.validation.FHIRValidator;
 import org.linuxforhealth.fhir.validation.exception.FHIRValidationException;
 import org.linuxforhealth.fhir.validation.util.FHIRValidationUtil;
+import org.testng.annotations.Test;
 
 import jakarta.json.JsonObject;
 
@@ -81,7 +75,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         assertNotNull(conf.getFormat());
         assertEquals(conf.getFormat().size(), 6);
         assertNotNull(conf.getVersion());
-        assertNotNull(conf.getName());
+        assertNotNull(conf.getTitle());
 
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         EvaluationContext evaluationContext = new EvaluationContext(conf);
@@ -122,7 +116,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         TerminologyCapabilities conf = response.readEntity(TerminologyCapabilities.class);
         assertNotNull(conf);
         assertNotNull(conf.getVersion());
-        assertNotNull(conf.getName());
+        assertNotNull(conf.getTitle());
 
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         EvaluationContext evaluationContext = new EvaluationContext(conf);
@@ -168,7 +162,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         assertNotNull(conf.getFormat());
         assertEquals(conf.getFormat().size(), 6);
         assertNotNull(conf.getVersion());
-        assertNotNull(conf.getName());
+        assertNotNull(conf.getTitle());
     }
 
     /**
@@ -188,7 +182,7 @@ public class BasicServerTest extends FHIRServerTestBase {
         assertNotNull(conf.getFormat());
         assertEquals(conf.getFormat().size(), 6);
         assertNotNull(conf.getVersion());
-        assertNotNull(conf.getName());
+        assertNotNull(conf.getTitle());
     }
 
     /**
