@@ -23,6 +23,7 @@ Source - http://hl7.org/fhir/us/davinci-drug-formulary/STU1.1 retrieved on May 2
 Source - http://hl7.org/fhir/us/davinci-drug-formulary/STU2/ retrieved on September 05, 2022.
 - Modified ig-r4.json to remove parameters that aren't valid in FHIR R4
 - Stripped narrative text to reduce the size and formatted the JSON contents (both via the ResourceProcessor tool)
+- Fixed the code for SearchParameter-Basic-subject.json (per https://jira.hl7.org/browse/FHIR-39401)
 
 # Steps to update
 1. download the npm package for whatever version of PDEX US Drug Formulary you want (and note what downloads we used from where in this file)
