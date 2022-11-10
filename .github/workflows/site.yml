@@ -19,7 +19,7 @@ jobs:
 
     strategy:
         matrix:
-            node-version: [14.x]
+            node-version: [18.x]
 
     steps:
     - name: Grab the main Branch
