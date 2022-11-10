@@ -5,7 +5,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
-set -ex
+set -e
 set -o nounset
 set -o pipefail
 
