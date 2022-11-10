@@ -3173,6 +3173,7 @@ public class BundleTest extends FHIRServerTestBase {
             // Set up our properties for connecting to the kafka server.
             connectionProps = new Properties();
             connectionProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, getAuditKafkaConnectionInfo());
+            logger.info("kafka bootstrap servers " +getAuditKafkaConnectionInfo());
             connectionProps.put("group.id", "test-audit-group");
             connectionProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             connectionProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
