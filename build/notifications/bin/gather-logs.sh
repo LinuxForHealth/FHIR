@@ -34,11 +34,15 @@ package_logs(){
         docker cp -L $containerId:/logs ${it_results}/server-logs
     fi
 
-    echo "Gathering integration test output"
-    cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
-    
-    echo "Move the ${1} Elements too the output area'"
-    cp -pr ${WORKSPACE}/build/notifications/${1}/workarea/* ${it_results}
+    if [ -d "${WORKSPACE}/fhir-server-test/target/surefire-reports" ]; then
+        echo "Gathering integration test output"
+        cp -r ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+    fi
+
+    if [ -d "${WORKSPACE}/build/notifications/${1}/workarea" ]; then
+        echo "Move the ${1} files to the output area'"
+        cp -r ${WORKSPACE}/build/notifications/${1}/workarea/* ${it_results}
+    fi
 }
 
 ###############################################################################

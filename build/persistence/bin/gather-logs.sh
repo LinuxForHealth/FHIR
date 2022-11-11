@@ -34,8 +34,10 @@ package_logs(){
         docker cp -L $containerId:/logs ${it_results}/server-logs
     fi
 
-    echo "Gathering integration test output"
-    cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+    if [ -d "${WORKSPACE}/fhir-server-test/target/surefire-reports" ]; then
+        echo "Gathering integration test output"
+        cp -r ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+    fi
 }
 
 ###############################################################################

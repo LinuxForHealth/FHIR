@@ -7,6 +7,7 @@
 ###############################################################################
 set -ex
 
+export WORKSPACE=$(pwd)
 DIST="${WORKSPACE}/build/audit/kafka/workarea/volumes/dist"
 
 # pre_integration
@@ -21,7 +22,7 @@ config(){
     mkdir -p ${DIST}/userlib
     mkdir -p ${DIST}/
     mkdir -p ${WORKSPACE}/build/audit/kafka/workarea/output
-
+    mkdir -p ${DIST}/overrides
     touch ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     chmod +rwx ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     chmod -R 777 ${WORKSPACE}/build/audit/kafka/workarea/output/
@@ -29,6 +30,8 @@ config(){
     echo "Copying fhir configuration files..."
     cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST/
     cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* $DIST/config/
+    # Copy over the tenant1 derby datasource definitions
+    cp ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml $DIST/overrides/datasource-derby.xml
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
@@ -36,6 +39,7 @@ config(){
     find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
     cp ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*.jar ${USERLIB}
     cp ${WORKSPACE}/term/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}
+
     echo "Finished copying fhir-server dependencies..."
 
     # Move over the test configurations
@@ -117,7 +121,7 @@ bringup(){
     echo "The fhir-server appears to be running..."
 
     # Create the FHIR_AUDIT topic
-    docker-compose -f build/audit/kafka/docker-compose.yml exec kafka-1 bash /bin/kafka-topics \
+    docker-compose -f build/audit/kafka/docker-compose.yml exec -T kafka-1 bash /bin/kafka-topics \
         --bootstrap-server kafka-1:19092,kafka-2:29092 --command-config /etc/kafka/secrets/client-ssl.properties \
         --create --topic FHIR_AUDIT --partitions 10 --replication-factor 2
     [ $? -eq 0 ] || exit 9
