@@ -29,6 +29,8 @@ config(){
     echo "Copying fhir configuration files..."
     cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST/
     cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* $DIST/config/
+    # Copy over the tenant1 derby datasource definitions
+    cp ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml $DIST/configDropins/overrides/datasource-derby.xml
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
@@ -36,6 +38,7 @@ config(){
     find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
     cp ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*.jar ${USERLIB}
     cp ${WORKSPACE}/term/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}
+
     echo "Finished copying fhir-server dependencies..."
 
     # Move over the test configurations
