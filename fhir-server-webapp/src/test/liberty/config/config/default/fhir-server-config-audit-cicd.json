@@ -142,6 +142,15 @@
         },
         "bulkdata": {
             "enabled": false
+        },
+        "operations": {
+            "erase": {
+                "enabled": true,
+                "allowedRoles": [
+                    "FHIROperationAdmin",
+                    "FHIRUsers"
+                ]
+            }
         }
     }
 }
