@@ -559,13 +559,18 @@ public abstract class FHIRServerTestBase {
     protected boolean isTransactionSupported() throws Exception {
         SystemRestfulInteraction transactionMode = null;
         CapabilityStatement conf = retrieveConformanceStatement();
-
+        boolean txnSupported = false;
         List<CapabilityStatement.Rest> restList = conf.getRest();
         if (restList != null) {
             CapabilityStatement.Rest rest = restList.get(0);
             if (rest != null) {
                 assertEquals(RestfulCapabilityMode.SERVER.getValue(), rest.getMode().getValue());
                 if (rest.getInteraction() != null) {
+                    for (org.linuxforhealth.fhir.model.resource.CapabilityStatement.Rest.Interaction interaction : rest.getInteraction()) {
+                        if (interaction.getCode().getValue().equals(SystemRestfulInteraction.TRANSACTION.getValue())) {
+                            txnSupported = true;
+                        }
+                    }
                     transactionMode = rest.getInteraction().get(0).getCode();
                 }
             }
@@ -574,8 +579,6 @@ public abstract class FHIRServerTestBase {
         if (transactionMode == null) {
             transactionMode = SystemRestfulInteraction.BATCH;
         }
-
-        boolean txnSupported = false;
 
         if (transactionMode.getValue().equals(SystemRestfulInteraction.TRANSACTION.getValue())) {
             txnSupported = true;
@@ -904,161 +907,43 @@ public abstract class FHIRServerTestBase {
     }
 
     
-    public FHIRClient getClient() {
-        return client;
-    }
-
-    
-    public static String getDefaultRestBaseUrl() {
-        return DEFAULT_REST_BASE_URL;
-    }
-
-    
-    public static String getDefaultWebsocketUrl() {
-        return DEFAULT_WEBSOCKET_URL;
-    }
-
-    
-    public static String getDefaultKafkaConninfo() {
-        return DEFAULT_KAFKA_CONNINFO;
-    }
-
-    
-    public static String getDefaultKafkaTopicname() {
-        return DEFAULT_KAFKA_TOPICNAME;
-    }
-
-    
-    public static String getDefaultAuditKafkaConninfo() {
-        return DEFAULT_AUDIT_KAFKA_CONNINFO;
-    }
-
-    
-    public static String getDefaultAuditKafkaTopicname() {
-        return DEFAULT_AUDIT_KAFKA_TOPICNAME;
-    }
-
-    
-    public static String getDefaultTruststoreLocation() {
-        return DEFAULT_TRUSTSTORE_LOCATION;
-    }
-
-    
-    public static String getDefaultTruststorePassword() {
-        return DEFAULT_TRUSTSTORE_PASSWORD;
-    }
-
-    
-    public static String getDefaultKeystoreLocation() {
-        return DEFAULT_KEYSTORE_LOCATION;
-    }
-
-    
-    public static String getDefaultKeystorePassword() {
-        return DEFAULT_KEYSTORE_PASSWORD;
-    }
-
-    
-    public static String getDefaultUsername() {
-        return DEFAULT_USERNAME;
-    }
-
-    
-    public static String getDefaultPassword() {
-        return DEFAULT_PASSWORD;
-    }
-
-    
-    public static String getPropnameRestBaseUrl() {
-        return PROPNAME_REST_BASE_URL;
-    }
-
-    
-    public static String getPropnameWebsocketUrl() {
-        return PROPNAME_WEBSOCKET_URL;
-    }
-
-    
-    public static String getPropnameKafkaConninfo() {
-        return PROPNAME_KAFKA_CONNINFO;
-    }
-
-    
-    public static String getPropnameKafkaTopicname() {
-        return PROPNAME_KAFKA_TOPICNAME;
-    }
-
-    
-    public static String getPropnameSslEngineConfigurator() {
-        return PROPNAME_SSL_ENGINE_CONFIGURATOR;
-    }
-
-    
-    public static Coding getSubsettedTag() {
-        return SUBSETTED_TAG;
-    }
-
-    
-    public String getRestBaseUrl() {
-        return restBaseUrl;
-    }
-
-    
-    public String getWebsocketUrl() {
-        return websocketUrl;
-    }
-
-    
-    public static String getMediatypeJson() {
-        return MEDIATYPE_JSON;
-    }
-
-    
-    public static String getMediatypeJsonFhir() {
-        return MEDIATYPE_JSON_FHIR;
-    }
-
-    
-    public static String getMediatypeXml() {
-        return MEDIATYPE_XML;
-    }
-
-    
-    public static String getMediatypeXmlFhir() {
-        return MEDIATYPE_XML_FHIR;
-    }
-
-    
-    public CapabilityStatement getConformanceStmt() {
-        return conformanceStmt;
-    }
-
-    
-    public Map<String, HashSet<String>> getResourceRegistry() {
-        return resourceRegistry;
-    }
-
-    
+    /**
+     * Get the Kafka host/service name.
+     * @return String - The Kafka host/service name.
+     */
     public String getAuditKafkaConnectionInfo() {
         return auditKafkaConnectionInfo;
     }
 
-    
+    /**
+     * Get the Kafka topic name.
+     * @return String - the Kafka topic name.
+     */
     public String getAuditKafkaTopicName() {
         return auditKafkaTopicName;
     }
 
-    
-    public static String getPropnameAuditKafkaConninfo() {
-        return PROPNAME_AUDIT_KAFKA_CONNINFO;
+    /**
+     * Determines whether or not the server supports the audit logs
+     * examining the conformance statement.
+     */
+    protected boolean isAuditLogSupported() throws Exception {
+        Boolean auditLogSupported = Boolean.FALSE;
+        CapabilityStatement conf = retrieveConformanceStatement();
+        List<Extension> extensions = conf.getExtension();
+        String auditLogServiceName = null;
+        if (extensions != null) {
+            for (Extension extension : extensions) {
+                if (extension.getUrl().contains("auditLogServiceName")) {
+                    auditLogServiceName = extension.getValue().as(org.linuxforhealth.fhir.model.type.String.class).getValue();
+                }
+            }
+        }
+        if (auditLogServiceName != null) {
+            auditLogSupported = auditLogServiceName.equals("KafkaService");
+        }
+        return auditLogSupported.booleanValue();
     }
-
-    
-    public static String getPropnameAuditKafkaTopicname() {
-        return PROPNAME_AUDIT_KAFKA_TOPICNAME;
-    }
-    
-    
     
     
 }
