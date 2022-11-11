@@ -4,6 +4,7 @@
         "core": {
             "tenantIdHeaderName": "X-FHIR-TENANT-ID",
             "datastoreIdHeaderName": "X-FHIR-DSID",
+            "originalRequestUriHeaderName": "X-FHIR-FORWARDED-URL",
             "checkReferenceTypes": true,
             "conditionalDeleteMaxNumber": 10,
             "__comment": "The CI changes this to true, and the false is intentional as we recommend for performance reasons.",
