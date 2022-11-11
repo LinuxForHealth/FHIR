@@ -7,6 +7,7 @@
 ###############################################################################
 set -ex
 
+export WORKSPACE=$(pwd)
 DIST="${WORKSPACE}/build/audit/kafka/workarea/volumes/dist"
 
 # pre_integration
@@ -21,7 +22,7 @@ config(){
     mkdir -p ${DIST}/userlib
     mkdir -p ${DIST}/
     mkdir -p ${WORKSPACE}/build/audit/kafka/workarea/output
-
+    mkdir -p ${DIST}/overrides
     touch ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     chmod +rwx ${WORKSPACE}/build/audit/kafka/workarea/output/fhir_audit-messages.log
     chmod -R 777 ${WORKSPACE}/build/audit/kafka/workarea/output/
@@ -30,7 +31,7 @@ config(){
     cp -r ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST/
     cp -r ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/config/* $DIST/config/
     # Copy over the tenant1 derby datasource definitions
-    cp ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml $DIST/configDropins/overrides/datasource-derby.xml
+    cp ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml $DIST/overrides/datasource-derby.xml
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
