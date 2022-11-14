@@ -90,6 +90,25 @@ bringup(){
         docker cp -L ${containerId}:/logs ${pre_it_logs}
     fi
 
+    kafkaContainerId=$(docker ps -a | grep kafka-1 | cut -d ' ' -f 1)
+    if [[ -z "${kafkaContainerId}" ]]; then
+        echo "Warning: Could not find the kafka-1 container!!!"
+    else
+        echo "kafka-1 id: ${containerId}"
+        # Grab the container's console log
+        docker logs ${kafkaContainerId}
+
+    fi
+
+    kafka2ContainerId=$(docker ps -a | grep kafka-2 | cut -d ' ' -f 1)
+    if [[ -z "${kafka2ContainerId}" ]]; then
+        echo "Warning: Could not find the kafka-2 container!!!"
+    else
+        echo "kafka-2 id: ${kafka2ContainerId}"
+        # Grab the container's console log
+        docker logs ${kafka2ContainerId}
+    fi
+
     # Wait until the fhir server is up and running...
     echo "Waiting for fhir-server to complete initialization..."
     healthcheck_url='https://localhost:9443/fhir-server/api/v4/$healthcheck'
