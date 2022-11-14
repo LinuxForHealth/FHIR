@@ -1147,6 +1147,11 @@ public class BundleTest extends FHIRServerTestBase {
         }
 
         WebTarget target = getWebTarget();
+        String uniqueFamily1 = UUID.randomUUID().toString();
+        patientT1 = setUniqueFamilyName(patientT1, uniqueFamily1);
+
+        String uniqueFamily2 = UUID.randomUUID().toString();
+        patientT2 = setUniqueFamilyName(patientT2, uniqueFamily2);
 
         // Retrieve the family names of the resources to be updated.
         String family1 = patientT1.getName().get(0).getFamily().getValue();
@@ -1154,9 +1159,9 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId(), null,
-                patientT1);
+            patientT1);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT2.getId(), null,
-                patientT2);
+            patientT2);
 
         printBundle(method, "request", bundle);
 
@@ -1189,15 +1194,23 @@ public class BundleTest extends FHIRServerTestBase {
 
         WebTarget target = getWebTarget();
 
+        String uniqueFamily1 = UUID.randomUUID().toString();
+        patientTVA1 = setUniqueFamilyName(patientTVA1, uniqueFamily1);
+
+        String uniqueFamily2 = UUID.randomUUID().toString();
+        patientTVA2 = setUniqueFamilyName(patientTVA2, uniqueFamily2);
+
         // Retrieve the family names of the resources to be updated.
         String family1 = patientTVA1.getName().get(0).getFamily().getValue();
         String family2 = patientTVA2.getName().get(0).getFamily().getValue();
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA1.getId(), "W/\"1\"",
-                patientTVA1);
+            patientTVA1);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA2.getId(), "W/\"1\"",
-                patientTVA2);
+            patientTVA2);
+
+
 
         printBundle(method, "request", bundle);
 
