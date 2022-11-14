@@ -101,7 +101,7 @@
                 "geoState": "Texas",
                 "geoCounty": "USA",
                 "kafka": {
-                    "bootstrap.servers": "kafka-1:19092,kafka-2:29092",
+                    "bootstrap.servers": "kafka-1:19092,kafka-2:39096",
                     "security.protocol": "SSL",
                     "ssl.protocol": "TLSv1.2",
                     "ssl.enabled.protocols": "TLSv1.2",

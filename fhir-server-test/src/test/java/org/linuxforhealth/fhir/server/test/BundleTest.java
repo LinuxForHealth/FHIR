@@ -16,6 +16,7 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -3165,7 +3166,7 @@ public class BundleTest extends FHIRServerTestBase {
             connectionProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             connectionProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             connectionProps.put("max.poll.records", "100");
-            connectionProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
+            connectionProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
             connectionProps.putAll(kafkaAuditSSLProperties);
             consumer = new KafkaConsumer<String, String>(connectionProps);
             List<TopicPartition> partitionList = getPartitionInfo(consumer, getAuditKafkaTopicName());
@@ -3278,6 +3279,7 @@ public class BundleTest extends FHIRServerTestBase {
         int count = 0; 
         ConsumerRecords<String, String> records = null;
         while (continuePoll) { 
+            logger.info("polling consumer "+count);
             records = consumer.poll(timeout);
             logger.info("audit logs records size "+records.count());
             

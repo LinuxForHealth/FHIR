@@ -141,7 +141,7 @@ bringup(){
 
     # Create the FHIR_AUDIT topic
     docker-compose -f build/audit/kafka/docker-compose.yml exec -T kafka-1 bash /bin/kafka-topics \
-        --bootstrap-server kafka-1:19092,kafka-2:29092 --command-config /etc/kafka/secrets/client-ssl.properties \
+        --bootstrap-server kafka-1:19092,kafka-2:39096 --command-config /etc/kafka/secrets/client-ssl.properties \
         --create --topic FHIR_AUDIT --partitions 10 --replication-factor 2
     [ $? -eq 0 ] || exit 9
 
