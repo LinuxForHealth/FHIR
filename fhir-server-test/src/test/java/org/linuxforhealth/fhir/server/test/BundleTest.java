@@ -11,6 +11,7 @@ import static org.linuxforhealth.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
+import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.io.ByteArrayInputStream;
@@ -3231,8 +3232,13 @@ public class BundleTest extends FHIRServerTestBase {
         PropertyGroup auditProps = pg.getPropertyGroup(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_PROPERTIES);
         mapperType = translator.getMapperType(auditProps);
         FHIRContext fhirCtx = null;
-        ConsumerRecords<String, String> records = fetchAuditLogs(Duration.ofSeconds(1));
+        ConsumerRecords<String, String> records = fetchAuditLogs(Duration.ofSeconds(5));
+        if (records == null) {
+            logger.severe("no consumer records found for topic "+getAuditKafkaTopicName());
+            fail();
+        }
         for (ConsumerRecord<String, String> record : records) {
+            logger.info("kafka record : " + record.value());
             JSONObject auditRecord = new JSONObject(record.value());
             if ("CADF".equals(mapperType.name())) {
                 org.json.JSONArray attachements = auditRecord.getJSONArray("attachments");
@@ -3254,6 +3260,7 @@ public class BundleTest extends FHIRServerTestBase {
                 
             }
             assertNotNull(fhirCtx);
+            logger.info("kafka record event type: " + fhirCtx.getEventType() + " data: "+fhirCtx.getData());
             if (fhirCtx.getEventType().equals("fhir-bundle") && fhirCtx.getData() != null) {
                 logger.info("validating audit log messages for resource " + fhirCtx.getData().getResourceType() + " with id "+ fhirCtx.getData().getId());
                 assertNotNull(fhirCtx.getData().getId());
