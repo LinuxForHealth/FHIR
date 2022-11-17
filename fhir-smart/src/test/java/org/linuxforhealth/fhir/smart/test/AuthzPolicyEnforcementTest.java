@@ -354,7 +354,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test
-    public void testUserInteraction() throws FHIRPersistenceInterceptorException {
+    public void testUserInteraction() {
         // don't use buildRequestHeaders because we want to test without a "patient_id" claim
         Map<String, List<String>> requestHeaders = new LinkedHashMap<String, List<String>>();
         List<String> authHeader = Collections.singletonList("Bearer " + JWT.create()
