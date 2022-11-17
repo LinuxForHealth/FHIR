@@ -1056,7 +1056,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      */
     private Set<String> getPatientIdFromToken(DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
         Claim claim = jwt.getClaim("patient_id");
-        if (claim.isNull()) {
+        if (claim.isMissing() || claim.isNull()) {
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Authorization token is missing 'patient_id' claim");
             }
@@ -1109,7 +1109,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         }
         return null;
     }
-    
+
     /**
      * Validate if a FHIR Binary resource passed by the user for create/update operation has the securityContext field.
      * If the securityContext field exists, throw an error or log a warning message based on the validateBinarySecurityContext configuration.
@@ -1124,13 +1124,13 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             Binary binaryResource = (Binary) resource;
             if (binaryResource.getSecurityContext() != null) {
                 boolean validateBinarySecurityContext = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_VALIDATE_BINARY_SECURITY_CONTEXT, true);
-                String msg = "securityContext is not supported for resource type " + resourceType;    
+                String msg = "securityContext is not supported for resource type " + resourceType;
                 if (validateBinarySecurityContext) {
                     throw new FHIRPersistenceInterceptorException(msg)
                         .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
                 }
                 log.warning(msg);
-            } 
+            }
         }
     }
 }
