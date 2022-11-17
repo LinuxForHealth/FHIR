@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         java: [ '11' ]
-        tag: [ '5.0.0' ]
+        tag: [ '5.0.0', '5.1.0' ]
       fail-fast: false
     steps:
     - uses: actions/checkout@v2
@@ -42,6 +42,8 @@ jobs:
         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
         GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
         GPG_KEY_FILE: ${{ secrets.GPG_KEY_FILE }}
+      # fail-fast behavior is set when `shell: bash` is explicitly specified. It is not applied by default.
+      shell: bash
       run: |
         # set GITHUB_REF so we can use the same logic we use for our tag-push release
         export GITHUB_REF=refs/tags/${{ matrix.tag }}
