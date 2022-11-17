@@ -375,12 +375,31 @@ public class AuthzPolicyEnforcementTest {
         }
 
         try {
-            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
-            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "whatever");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
             interceptor.beforeRead(event);
+            fail("Observation read interaction was allowed but should not have been");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "whatever");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
             interceptor.beforeVread(event);
+            fail("Observation vread interaction was allowed but should not have been");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "whatever");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
             interceptor.beforeHistory(event);
+            fail("Observation history interaction was allowed but should not have been");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
         }
