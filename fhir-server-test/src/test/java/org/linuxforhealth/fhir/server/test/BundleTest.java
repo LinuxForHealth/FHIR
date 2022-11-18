@@ -3242,6 +3242,16 @@ public class BundleTest extends FHIRServerTestBase {
         validateAuditLogMessages();
     }
     
+    /**
+     * Test if a batch bundle audit log message contains the resource type, id and version.
+     * @throws Exception
+     */
+    @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionCreates", "testTransactionCreatesError" })
+    public void testBatchAuditLog() throws Exception {
+        logger.info("validating batch bundle audit log");
+        validateAuditLogMessages();
+    }
+    
 
     /**
      * Method to validate the 'bundle' audit log messages.
