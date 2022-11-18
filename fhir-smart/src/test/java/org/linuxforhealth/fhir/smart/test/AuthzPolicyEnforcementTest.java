@@ -88,7 +88,7 @@ public class AuthzPolicyEnforcementTest {
     private Map<String, Object> properties;
     private Binary binary;
     private Binary binaryWithSecurityContext;
-    
+
 
     @BeforeClass
     public void setup() throws Exception {
@@ -139,7 +139,7 @@ public class AuthzPolicyEnforcementTest {
                     .build())
                 .meta(Meta.builder().lastUpdated(Instant.now()).versionId(Id.of("1")).build())
                 .build();
-        
+
         binary = TestUtil.getMinimalResource(Binary.class);
         binaryWithSecurityContext = TestUtil.readExampleResource("json/spec/binary-example.json");
         properties = new HashMap<String, Object>();
@@ -178,7 +178,7 @@ public class AuthzPolicyEnforcementTest {
         } catch (FHIRPersistenceInterceptorException e) {
             assertFalse(shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
         }
-        
+
         // Test create Binary Resource which does not have a securityContext. Should Succeed
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
@@ -188,7 +188,7 @@ public class AuthzPolicyEnforcementTest {
         } catch (FHIRPersistenceInterceptorException e) {
             assertFalse(shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
         }
-        
+
         // Test create Binary Resource which has a securityContext. Should Fail since securityContext is not supported.
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
@@ -241,7 +241,7 @@ public class AuthzPolicyEnforcementTest {
             assertFalse(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission) &&
                         shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
         }
-        
+
         // Test update Binary Resource which does not have a securityContext. Should Succeed
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
@@ -254,7 +254,7 @@ public class AuthzPolicyEnforcementTest {
             assertFalse(shouldSucceed(resourceTypesPermittedByScope, BINARY, READ_APPROVED, permission) &&
                         shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
         }
-        
+
         // Test update Binary Resource which has a securityContext. Should Fail since securityContext is not supported.
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
@@ -268,8 +268,8 @@ public class AuthzPolicyEnforcementTest {
                 assertTrue(e.getMessage().equals("securityContext is not supported for resource type Binary"));
             }
         }
-        
-        
+
+
     }
 
     @Test(dataProvider = "scopeStringProvider")
@@ -348,6 +348,58 @@ public class AuthzPolicyEnforcementTest {
                     .build());
             interceptor.afterHistory(event);
             fail("Patient history was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+        }
+    }
+
+    @Test
+    public void testUserInteraction() {
+        // don't use buildRequestHeaders because we want to test without a "patient_id" claim
+        Map<String, List<String>> requestHeaders = new LinkedHashMap<String, List<String>>();
+        List<String> authHeader = Collections.singletonList("Bearer " + JWT.create()
+                .withClaim("scope", "user/Patient.read")
+                .sign(Algorithm.none()));
+        requestHeaders.put("Authorization", authHeader);
+        FHIRRequestContext.get().setHttpHeaders(requestHeaders);
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            interceptor.beforeRead(event);
+            interceptor.beforeVread(event);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Patient interaction was not allowed but should have been", e);
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "whatever");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            interceptor.beforeRead(event);
+            fail("Observation read interaction was allowed but should not have been");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "whatever");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            interceptor.beforeVread(event);
+            fail("Observation vread interaction was allowed but should not have been");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "whatever");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            interceptor.beforeHistory(event);
+            fail("Observation history interaction was allowed but should not have been");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
         }
