@@ -10,22 +10,45 @@ import static org.linuxforhealth.fhir.model.test.TestUtil.isResourceInResponse;
 import static org.linuxforhealth.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.io.ByteArrayInputStream;
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.PartitionInfo;
+import org.apache.kafka.common.TopicPartition;
+import org.json.JSONObject;
+import org.linuxforhealth.fhir.audit.beans.FHIRContext;
+import org.linuxforhealth.fhir.audit.cadf.CadfAttachment;
+import org.linuxforhealth.fhir.audit.configuration.ConfigurationTranslator;
+import org.linuxforhealth.fhir.audit.mapper.MapperType;
 import org.linuxforhealth.fhir.client.FHIRRequestHeader;
 import org.linuxforhealth.fhir.client.FHIRResponse;
+import org.linuxforhealth.fhir.config.ConfigurationService;
+import org.linuxforhealth.fhir.config.FHIRConfigHelper;
+import org.linuxforhealth.fhir.config.FHIRConfiguration;
+import org.linuxforhealth.fhir.config.PropertyGroup;
 import org.linuxforhealth.fhir.core.FHIRMediaType;
 import org.linuxforhealth.fhir.core.HTTPReturnPreference;
 import org.linuxforhealth.fhir.exception.FHIRException;
@@ -41,6 +64,7 @@ import org.linuxforhealth.fhir.model.resource.Patient;
 import org.linuxforhealth.fhir.model.resource.Practitioner;
 import org.linuxforhealth.fhir.model.resource.Resource;
 import org.linuxforhealth.fhir.model.test.TestUtil;
+import org.linuxforhealth.fhir.model.type.Base64Binary;
 import org.linuxforhealth.fhir.model.type.Code;
 import org.linuxforhealth.fhir.model.type.Extension;
 import org.linuxforhealth.fhir.model.type.HumanName;
@@ -107,6 +131,14 @@ public class BundleTest extends FHIRServerTestBase {
 
     private static final String PREFER_HEADER_RETURN_REPRESENTATION = "return=representation";
     private static final String PREFER_HEADER_NAME = "Prefer";
+    
+    private static Boolean kafkaAuditEnabled = false;
+    private KafkaConsumer<String, String> consumer = null;
+    private Properties connectionProps = null;
+    private static final Logger logger = Logger.getLogger(BundleTest.class.getName());
+    
+    private MapperType mapperType = null;
+    private String topicName = null;
 
     /**
      * Retrieve the server's conformance statement to determine the status of
@@ -127,6 +159,14 @@ public class BundleTest extends FHIRServerTestBase {
 
         deleteSupported = isDeleteSupported();
         System.out.println("Delete operation supported?: " + deleteSupported.toString());
+        
+        kafkaAuditEnabled = isAuditLogSupported();
+        logger.info("kafkaAuditEnabled flag " + kafkaAuditEnabled);
+        if (kafkaAuditEnabled) {
+            setUpConsumer();
+        }
+        
+        
     }
 
     /**
@@ -1111,6 +1151,11 @@ public class BundleTest extends FHIRServerTestBase {
         }
 
         WebTarget target = getWebTarget();
+        String uniqueFamily1 = UUID.randomUUID().toString();
+        patientT1 = setUniqueFamilyName(patientT1, uniqueFamily1);
+
+        String uniqueFamily2 = UUID.randomUUID().toString();
+        patientT2 = setUniqueFamilyName(patientT2, uniqueFamily2);
 
         // Retrieve the family names of the resources to be updated.
         String family1 = patientT1.getName().get(0).getFamily().getValue();
@@ -1118,9 +1163,9 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId(), null,
-                patientT1);
+            patientT1);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT2.getId(), null,
-                patientT2);
+            patientT2);
 
         printBundle(method, "request", bundle);
 
@@ -1153,15 +1198,23 @@ public class BundleTest extends FHIRServerTestBase {
 
         WebTarget target = getWebTarget();
 
+        String uniqueFamily1 = UUID.randomUUID().toString();
+        patientTVA1 = setUniqueFamilyName(patientTVA1, uniqueFamily1);
+
+        String uniqueFamily2 = UUID.randomUUID().toString();
+        patientTVA2 = setUniqueFamilyName(patientTVA2, uniqueFamily2);
+
         // Retrieve the family names of the resources to be updated.
         String family1 = patientTVA1.getName().get(0).getFamily().getValue();
         String family2 = patientTVA2.getName().get(0).getFamily().getValue();
 
         Bundle bundle = buildBundle(BundleType.TRANSACTION);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA1.getId(), "W/\"1\"",
-                patientTVA1);
+            patientTVA1);
         bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientTVA2.getId(), "W/\"1\"",
-                patientTVA2);
+            patientTVA2);
+
+
 
         printBundle(method, "request", bundle);
 
@@ -3115,5 +3168,152 @@ public class BundleTest extends FHIRServerTestBase {
     @SuppressWarnings("unused")
     private void printOOMessage(OperationOutcome oo) {
         System.out.println("Message: " + oo.getIssue().get(0).getDiagnostics().getValue());
+    }
+    
+    /**
+     * method for setting up the Kafka-consumer properties.
+     */
+    public void setUpConsumer() {
+        try {
+            Properties kafkaAuditSSLProperties = TestUtil.readTestProperties("kafka/client-ssl.properties");
+            // Set up our properties for connecting to the kafka server.
+            ConfigurationTranslator translator = new ConfigurationTranslator();
+            PropertyGroup pg = ConfigurationService.loadConfiguration("../fhir-server-webapp/src/test/liberty/config/config/default/fhir-server-config-audit-cicd.json");
+            PropertyGroup auditProps = pg.getPropertyGroup(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_PROPERTIES);
+            PropertyGroup auditLogProperties = pg.getPropertyGroup(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_PROPERTIES);
+            mapperType = translator.getMapperType(auditProps);
+            topicName = translator.getTopic(auditLogProperties);
+            connectionProps = new Properties();
+            connectionProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, getAuditKafkaConnectionInfo());
+            logger.info("kafka bootstrap servers " +getAuditKafkaConnectionInfo());
+            connectionProps.put("group.id", "test-audit-group");
+            connectionProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+            connectionProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+            connectionProps.put("max.poll.records", "100");
+            connectionProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+            connectionProps.putAll(kafkaAuditSSLProperties);
+            consumer = new KafkaConsumer<String, String>(connectionProps);
+            List<TopicPartition> partitionList = getPartitionInfo(consumer, getAuditKafkaTopicName());
+            consumer.assign(partitionList);
+            consumer.seekToEnd(partitionList);
+            consumer.poll(Duration.ofSeconds(1));
+        } catch (Throwable t) {
+            logger.log(Level.SEVERE, "failed to set up consumer: ", t);
+        } 
+        
+    }
+    
+    /**
+     * Method to fetch the Kafka partition information for a Kafka topic.
+     * @param consumer The Kafka consumer. 
+     * @param topicName the topic name.
+     * @return
+     */
+    private List<TopicPartition> getPartitionInfo(KafkaConsumer<String,String> consumer, String topicName) {
+        // Checking for topic existence before subscribing
+        List<TopicPartition> partitionList = new ArrayList<>();
+        logger.info("fetching partitions for " +topicName);
+        List<PartitionInfo> partitions = consumer.partitionsFor(topicName);
+        if (partitions == null || partitions.isEmpty()) {
+            logger.severe("partition not found for topic " +topicName);
+            throw new IllegalStateException("partiotion not found for topic " +topicName);
+        } else {
+            // dump the list of partitions configured for this topic
+            for (PartitionInfo partition: partitions) {
+                logger.info("Topic '" + topicName + "' has partition " + partition.toString());
+                partitionList.add(new TopicPartition(topicName, partition.partition()));
+            }
+        }
+        return partitionList;
+    }
+    
+    /**
+     * Test if a transaction bundle audit log message contains the resource type, id and version.
+     * @throws Exception
+     */
+    @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionCreates", "testTransactionCreatesError" })
+    public void testTransactionAuditLog() throws Exception {
+        logger.info("validating transaction bundle audit log");
+        assertNotNull(kafkaAuditEnabled);
+        assertNotNull(transactionSupported);
+        if (!kafkaAuditEnabled.booleanValue() || !transactionSupported.booleanValue()) {
+            return;
+        }
+        validateAuditLogMessages();
+    }
+    
+
+    /**
+     * Method to validate the 'bundle' audit log messages.
+     * @throws Exception
+     */
+    private void validateAuditLogMessages() throws Exception {
+        logger.info("validating audit log messages");
+        FHIRContext fhirCtx = null;
+        ConsumerRecords<String, String> records = fetchAuditLogs(Duration.ofSeconds(5));
+        if (records == null) {
+            logger.severe("no consumer records found for topic "+getAuditKafkaTopicName());
+            fail();
+        }
+        for (ConsumerRecord<String, String> record : records) {
+            logger.info("kafka record : " + record.value());
+            JSONObject auditRecord = new JSONObject(record.value());
+            if ("CADF".equals(mapperType.name())) {
+                org.json.JSONArray attachements = auditRecord.getJSONArray("attachments");
+                JSONObject attachment = (JSONObject) attachements.get(0);
+                ByteArrayInputStream attachmentStream = new ByteArrayInputStream(attachment.toString().getBytes());
+                CadfAttachment item = CadfAttachment.Parser.parse(attachmentStream);
+                ByteArrayInputStream fhirCtxStream = new ByteArrayInputStream(item.getContent().toString().getBytes());
+                fhirCtx = FHIRContext.FHIRParser.parse(fhirCtxStream);
+                
+            } else {
+                org.json.JSONArray entityArray = auditRecord.getJSONArray("entity");
+                org.json.JSONArray detailsArray = ((JSONObject)entityArray.get(0)).getJSONArray("detail");
+                String jsonValue = ((JSONObject)detailsArray.get(0)).getString("valueBase64Binary");
+                Base64Binary base64Binary = Base64Binary.builder().value(jsonValue).build();
+                Assert.assertNotNull(base64Binary);
+                byte[] bytes = base64Binary.getValue();
+                ByteArrayInputStream fhirCtxStream = new ByteArrayInputStream(bytes);
+                fhirCtx = FHIRContext.FHIRParser.parse(fhirCtxStream);
+                
+            }
+            assertNotNull(fhirCtx);
+            logger.info("kafka record event type: " + fhirCtx.getEventType() + " data: "+fhirCtx.getData());
+            if (fhirCtx.getEventType().equals("fhir-bundle") && fhirCtx.getData() != null) {
+                logger.info("validating audit log messages for resource " + fhirCtx.getData().getResourceType() + " with id "+ fhirCtx.getData().getId());
+                assertNotNull(fhirCtx.getData().getId());
+                assertNotNull(fhirCtx.getData().getResourceType());
+                // skip version Id validation for history and search requests
+                if (!"Bundle".equals(fhirCtx.getData().getResourceType())) {
+                    assertNotNull(fhirCtx.getData().getVersionId());
+                }
+                if (fhirCtx.getApiParameters() != null && fhirCtx.getApiParameters().getStatus() != null && fhirCtx.getApiParameters().getStatus().intValue() == Status.OK.getStatusCode()) {
+                    assertNull(fhirCtx.getBatch());
+                }
+            }
+        }
+    }
+    
+    /**
+     * Method to fetch the audit logs from kafka broker.
+     * @param timeout the poll timeout duration.
+     * @return ConsumerRecords - the kafka consumer records.
+     */
+    private ConsumerRecords<String, String> fetchAuditLogs(Duration timeout) {
+        boolean continuePoll = true;
+        int count = 0; 
+        ConsumerRecords<String, String> records = null;
+        while (continuePoll) { 
+            logger.info("polling consumer "+count);
+            records = consumer.poll(timeout);
+            logger.info("audit logs records size "+records.count());
+            
+            if (records.count() > 0 || count > 2) {
+                continuePoll = false;
+            }
+            count++;
+        }
+        
+        return records;
     }
 }

@@ -31,6 +31,7 @@ services:
     tty: false
     ports:
       - 19092:19092
+      - 29094:29094
   kafka-2:
     image: confluentinc/cp-kafka:latest
     depends_on:
@@ -47,7 +48,8 @@ services:
     stdin_open: false
     tty: false
     ports:
-      - 29092:29092
+      - 39096:39096
+      - 49098:49098
   fhir-server:
     image: linuxforhealth/fhir-server:latest
     depends_on:

@@ -72,6 +72,7 @@ import org.linuxforhealth.fhir.model.type.code.IssueType;
 import org.linuxforhealth.fhir.model.type.code.RestfulCapabilityMode;
 import org.linuxforhealth.fhir.model.type.code.SystemRestfulInteraction;
 import org.linuxforhealth.fhir.model.type.code.TypeRestfulInteraction;
+import static org.linuxforhealth.fhir.model.util.ModelSupport.FHIR_STRING;
 import org.linuxforhealth.fhir.registry.FHIRRegistry;
 import org.linuxforhealth.fhir.server.test.websocket.FHIRNotificationServiceClientEndpoint;
 import org.linuxforhealth.fhir.validation.FHIRValidator;
@@ -88,6 +89,9 @@ public abstract class FHIRServerTestBase {
     private static final String DEFAULT_WEBSOCKET_URL = "wss://localhost:9443/fhir-server/api/v4/notification";
     private static final String DEFAULT_KAFKA_CONNINFO = "localhost:9092";
     private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
+    private static final String DEFAULT_AUDIT_KAFKA_CONNINFO = "localhost:19092";
+    private static final String DEFAULT_AUDIT_KAFKA_TOPICNAME = "FHIR_AUDIT";
+    
 
     // Default values for FHIRClient properties that we use here.
     private static final String DEFAULT_TRUSTSTORE_LOCATION = "fhirClientTruststore.jks";
@@ -134,6 +138,12 @@ public abstract class FHIRServerTestBase {
     private CapabilityStatement conformanceStmt = null;
 
     private Map<String, HashSet<String>> resourceRegistry = new HashMap<String,HashSet<String>>();
+    
+    private String auditKafkaConnectionInfo = null;
+    private String auditKafkaTopicName = null;
+
+    private static final String PROPNAME_AUDIT_KAFKA_CONNINFO = "test.audit.kafka.connectionInfo";
+    private static final String PROPNAME_AUDIT_KAFKA_TOPICNAME = "test.audit.kafka.topicName";
 
     /**
      * creates the resource and returns the logical id
@@ -301,6 +311,9 @@ public abstract class FHIRServerTestBase {
         // Retrieve the info needed by a Kafka consumer.
         kafkaConnectionInfo = getProperty(properties, PROPNAME_KAFKA_CONNINFO, DEFAULT_KAFKA_CONNINFO);
         kafkaTopicName = getProperty(properties, PROPNAME_KAFKA_TOPICNAME, DEFAULT_KAFKA_TOPICNAME);
+        
+        auditKafkaConnectionInfo = getProperty(properties, PROPNAME_AUDIT_KAFKA_CONNINFO, DEFAULT_AUDIT_KAFKA_CONNINFO);
+        auditKafkaTopicName = getProperty(properties, PROPNAME_AUDIT_KAFKA_TOPICNAME, DEFAULT_AUDIT_KAFKA_TOPICNAME);
 
         fhirUser = getProperty(properties, FHIRClient.PROPNAME_CLIENT_USERNAME, DEFAULT_USERNAME);
         fhirPassword = FHIRUtilities
@@ -547,28 +560,21 @@ public abstract class FHIRServerTestBase {
     protected boolean isTransactionSupported() throws Exception {
         SystemRestfulInteraction transactionMode = null;
         CapabilityStatement conf = retrieveConformanceStatement();
-
+        boolean txnSupported = false;
         List<CapabilityStatement.Rest> restList = conf.getRest();
         if (restList != null) {
             CapabilityStatement.Rest rest = restList.get(0);
             if (rest != null) {
                 assertEquals(RestfulCapabilityMode.SERVER.getValue(), rest.getMode().getValue());
                 if (rest.getInteraction() != null) {
-                    transactionMode = rest.getInteraction().get(0).getCode();
+                    for (org.linuxforhealth.fhir.model.resource.CapabilityStatement.Rest.Interaction interaction : rest.getInteraction()) {
+                        if (interaction.getCode().getValueAsEnum() == SystemRestfulInteraction.TRANSACTION.getValueAsEnum()) {
+                            txnSupported = true;
+                        }
+                    }
                 }
             }
         }
-
-        if (transactionMode == null) {
-            transactionMode = SystemRestfulInteraction.BATCH;
-        }
-
-        boolean txnSupported = false;
-
-        if (transactionMode.getValue().equals(SystemRestfulInteraction.TRANSACTION.getValue())) {
-            txnSupported = true;
-        }
-
         return txnSupported;
     }
 
@@ -890,4 +896,45 @@ public abstract class FHIRServerTestBase {
         }
         return null;
     }
+
+    
+    /**
+     * Get the Kafka host/service name.
+     * @return String - The Kafka host/service name.
+     */
+    public String getAuditKafkaConnectionInfo() {
+        return auditKafkaConnectionInfo;
+    }
+
+    /**
+     * Get the Kafka topic name.
+     * @return String - the Kafka topic name.
+     */
+    public String getAuditKafkaTopicName() {
+        return auditKafkaTopicName;
+    }
+
+    /**
+     * Determines whether or not the server supports the audit logs
+     * examining the conformance statement.
+     */
+    protected boolean isAuditLogSupported() throws Exception {
+        Boolean auditLogSupported = Boolean.FALSE;
+        CapabilityStatement conf = retrieveConformanceStatement();
+        List<Extension> extensions = conf.getExtension();
+        String auditLogServiceName = null;
+        if (extensions != null) {
+            for (Extension extension : extensions) {
+                if (extension.getUrl().contains("auditLogServiceName")) {
+                    auditLogServiceName = extension.getValue().as(FHIR_STRING).getValue();
+                }
+            }
+        }
+        if (auditLogServiceName != null) {
+            auditLogSupported = auditLogServiceName.equals("KafkaService");
+        }
+        return auditLogSupported.booleanValue();
+    }
+    
+    
 }
