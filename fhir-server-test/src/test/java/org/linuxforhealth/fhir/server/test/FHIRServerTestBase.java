@@ -72,6 +72,7 @@ import org.linuxforhealth.fhir.model.type.code.IssueType;
 import org.linuxforhealth.fhir.model.type.code.RestfulCapabilityMode;
 import org.linuxforhealth.fhir.model.type.code.SystemRestfulInteraction;
 import org.linuxforhealth.fhir.model.type.code.TypeRestfulInteraction;
+import static org.linuxforhealth.fhir.model.util.ModelSupport.FHIR_STRING;
 import org.linuxforhealth.fhir.registry.FHIRRegistry;
 import org.linuxforhealth.fhir.server.test.websocket.FHIRNotificationServiceClientEndpoint;
 import org.linuxforhealth.fhir.validation.FHIRValidator;
@@ -567,23 +568,13 @@ public abstract class FHIRServerTestBase {
                 assertEquals(RestfulCapabilityMode.SERVER.getValue(), rest.getMode().getValue());
                 if (rest.getInteraction() != null) {
                     for (org.linuxforhealth.fhir.model.resource.CapabilityStatement.Rest.Interaction interaction : rest.getInteraction()) {
-                        if (interaction.getCode().getValue().equals(SystemRestfulInteraction.TRANSACTION.getValue())) {
+                        if (interaction.getCode().getValueAsEnum() == SystemRestfulInteraction.TRANSACTION.getValueAsEnum()) {
                             txnSupported = true;
                         }
                     }
-                    transactionMode = rest.getInteraction().get(0).getCode();
                 }
             }
         }
-
-        if (transactionMode == null) {
-            transactionMode = SystemRestfulInteraction.BATCH;
-        }
-
-        if (transactionMode.getValue().equals(SystemRestfulInteraction.TRANSACTION.getValue())) {
-            txnSupported = true;
-        }
-
         return txnSupported;
     }
 
@@ -935,7 +926,7 @@ public abstract class FHIRServerTestBase {
         if (extensions != null) {
             for (Extension extension : extensions) {
                 if (extension.getUrl().contains("auditLogServiceName")) {
-                    auditLogServiceName = extension.getValue().as(org.linuxforhealth.fhir.model.type.String.class).getValue();
+                    auditLogServiceName = extension.getValue().as(FHIR_STRING).getValue();
                 }
             }
         }

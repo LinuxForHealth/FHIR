@@ -46,6 +46,7 @@ import org.linuxforhealth.fhir.audit.mapper.MapperType;
 import org.linuxforhealth.fhir.client.FHIRRequestHeader;
 import org.linuxforhealth.fhir.client.FHIRResponse;
 import org.linuxforhealth.fhir.config.ConfigurationService;
+import org.linuxforhealth.fhir.config.FHIRConfigHelper;
 import org.linuxforhealth.fhir.config.FHIRConfiguration;
 import org.linuxforhealth.fhir.config.PropertyGroup;
 import org.linuxforhealth.fhir.core.FHIRMediaType;
@@ -135,6 +136,9 @@ public class BundleTest extends FHIRServerTestBase {
     private KafkaConsumer<String, String> consumer = null;
     private Properties connectionProps = null;
     private static final Logger logger = Logger.getLogger(BundleTest.class.getName());
+    
+    private MapperType mapperType = null;
+    private String topicName = null;
 
     /**
      * Retrieve the server's conformance statement to determine the status of
@@ -157,7 +161,7 @@ public class BundleTest extends FHIRServerTestBase {
         System.out.println("Delete operation supported?: " + deleteSupported.toString());
         
         kafkaAuditEnabled = isAuditLogSupported();
-        logger.info("kafkaAuditEnabled flag " +kafkaAuditEnabled);
+        logger.info("kafkaAuditEnabled flag " + kafkaAuditEnabled);
         if (kafkaAuditEnabled) {
             setUpConsumer();
         }
@@ -3173,6 +3177,12 @@ public class BundleTest extends FHIRServerTestBase {
         try {
             Properties kafkaAuditSSLProperties = TestUtil.readTestProperties("kafka/client-ssl.properties");
             // Set up our properties for connecting to the kafka server.
+            ConfigurationTranslator translator = new ConfigurationTranslator();
+            PropertyGroup pg = ConfigurationService.loadConfiguration("../fhir-server-webapp/src/test/liberty/config/config/default/fhir-server-config-audit-cicd.json");
+            PropertyGroup auditProps = pg.getPropertyGroup(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_PROPERTIES);
+            PropertyGroup auditLogProperties = pg.getPropertyGroup(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_PROPERTIES);
+            mapperType = translator.getMapperType(auditProps);
+            topicName = translator.getTopic(auditLogProperties);
             connectionProps = new Properties();
             connectionProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, getAuditKafkaConnectionInfo());
             logger.info("kafka bootstrap servers " +getAuditKafkaConnectionInfo());
@@ -3239,11 +3249,6 @@ public class BundleTest extends FHIRServerTestBase {
      */
     private void validateAuditLogMessages() throws Exception {
         logger.info("validating audit log messages");
-        MapperType mapperType = null;
-        ConfigurationTranslator translator = new ConfigurationTranslator();
-        PropertyGroup pg = ConfigurationService.loadConfiguration("src/test/resources/fhir-server-config.json");
-        PropertyGroup auditProps = pg.getPropertyGroup(FHIRConfiguration.PROPERTY_AUDIT_SERVICE_PROPERTIES);
-        mapperType = translator.getMapperType(auditProps);
         FHIRContext fhirCtx = null;
         ConsumerRecords<String, String> records = fetchAuditLogs(Duration.ofSeconds(5));
         if (records == null) {
