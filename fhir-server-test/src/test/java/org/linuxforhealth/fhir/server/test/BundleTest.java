@@ -3249,6 +3249,9 @@ public class BundleTest extends FHIRServerTestBase {
     @Test(groups = { "transaction" }, dependsOnMethods = { "testBatchCreates", "testBatchUpdates" })
     public void testBatchAuditLog() throws Exception {
         logger.info("validating batch bundle audit log");
+        if (!kafkaAuditEnabled.booleanValue()) {
+            return;
+        }
         validateAuditLogMessages();
     }
     
