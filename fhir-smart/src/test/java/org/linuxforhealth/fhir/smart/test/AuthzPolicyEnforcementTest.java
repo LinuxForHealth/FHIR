@@ -268,8 +268,74 @@ public class AuthzPolicyEnforcementTest {
                 assertTrue(e.getMessage().equals("securityContext is not supported for resource type Binary"));
             }
         }
+    }
 
+    @Test(dataProvider = "scopeStringProvider")
+    public void testPatch(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
 
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            event.setPrevFhirResource(patient);
+            interceptor.beforePatch(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission) &&
+                    shouldSucceed(resourceTypesPermittedByScope, PATIENT, WRITE_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission) &&
+                    shouldSucceed(resourceTypesPermittedByScope, PATIENT, WRITE_APPROVED, permission));
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            event.setPrevFhirResource(observation);
+            interceptor.beforePatch(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, WRITE_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, WRITE_APPROVED, permission));
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Condition");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(condition, properties);
+            event.setPrevFhirResource(condition);
+            interceptor.beforePatch(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
+        }
+
+        // Test update Binary Resource which does not have a securityContext. Should Succeed
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(binary, properties);
+            event.setPrevFhirResource(binary);
+            interceptor.beforePatch(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, BINARY, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, BINARY, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
+        }
+
+        // Test update Binary Resource which has a securityContext. Should Fail since securityContext is not supported.
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(binaryWithSecurityContext, properties);
+            event.setPrevFhirResource(binaryWithSecurityContext);
+            interceptor.beforePatch(event);
+            fail("Did not receive the expected FHIRPersistenceInterceptorException");
+        } catch (FHIRPersistenceInterceptorException e) {
+            if (shouldSucceed(resourceTypesPermittedByScope, BINARY, READ_APPROVED, permission) &&
+                    shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission)) {
+                assertTrue(e.getMessage().equals("securityContext is not supported for resource type Binary"));
+            }
+        }
     }
 
     @Test(dataProvider = "scopeStringProvider")
