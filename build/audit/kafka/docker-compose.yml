@@ -97,6 +97,46 @@ services:
       - ./.fhir.env
     networks:
       - fhir
+  fhir-bulkdata-server:
+    image: linuxforhealth/fhir-bulkdata-server:latest
+    hostname: fhir-bulkdata
+    volumes:
+      - type: bind
+        source: ./fhir/config
+        target: /opt/ol/wlp/usr/servers/defaultServer/config
+        read_only: true
+      - type: bind
+        source: ./fhir/configDropins/overrides
+        target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
+        read_only: true
+      - type: bind
+        source: ./fhir/userlib
+        target: /opt/ol/wlp/usr/servers/defaultServer/userlib
+        read_only: true
+      - type: bind
+        source: ./fhir/openapi.json
+        target: /opt/ol/wlp/usr/servers/defaultServer/apps/expanded/fhir-openapi.war/META-INF/openapi.json
+        read_only: true
+      - type: bind
+        source: ./bulkdata
+        target: /output/bulkdata
+    environment:
+      TRACE_SPEC: "org.linuxforhealth.fhir.*=FINE"
+      TRACE_FILE: "stdout"
+    command: bash -c "/opt/ol/wlp/bin/server run"
+    healthcheck:
+      start_period: 32s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      # https://docs.docker.com/compose/compose-file/#variable-substitution
+      test: curl --fail -k -u 'fhiruser:change-password' 'https://localhost:8443/fhir-bulkdata-server/api/v4/healthcheck'
+    ports:
+      - 8080:8080
+      - 8443:8443
+    depends_on:
+      postgres:
+        condition: service_healthy
 networks:
   fhir:
     driver: bridge

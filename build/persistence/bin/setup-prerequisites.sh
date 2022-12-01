@@ -23,6 +23,9 @@ required_build(){
 
     # Build from dockerfile
     docker build fhir-install --build-arg VERBOSE=false -t linuxforhealth/fhir-server
+
+     echo "Building fhir-bulkdata-server image!!!!"
+     docker build fhir-install-bulkdata --build-arg VERBOSE=false -t linuxforhealth/fhir-bulkdata-server
 }
 
 # persistence_build - executes for each persistence build triggering the persistence layer's required steps.

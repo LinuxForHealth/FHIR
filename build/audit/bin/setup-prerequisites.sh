@@ -23,6 +23,9 @@ required_build(){
 
     # Build from dockerfile
     docker build fhir-install --build-arg VERBOSE=false -t linuxforhealth/fhir-server
+
+     echo "Building fhir-bulkdata-server image!!"
+     docker build fhir-install-bulkdata --build-arg VERBOSE=false -t linuxforhealth/fhir-bulkdata-server
 }
 
 # audit_build - executes for each audit type.
