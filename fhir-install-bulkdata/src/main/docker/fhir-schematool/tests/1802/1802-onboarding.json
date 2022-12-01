@@ -1,0 +1,22 @@
+{
+    "persistence": [
+        {
+            "db":  {
+                "host": "db",
+                "port": "5432",
+                "database": "fhirdb",
+                "user": "postgres",
+                "password": "change-password",
+                "type": "postgresql",
+                "ssl": "false",
+                "certificate_base64": "empty"
+            },
+            "schema": {
+                "fhir": "fhirdata",
+                "batch": "",
+                "oauth": ""
+            },
+            "behavior": "onboard"
+        }
+    ]
+}
