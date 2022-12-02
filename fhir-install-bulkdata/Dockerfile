@@ -5,7 +5,7 @@
 # ----------------------------------------------------------------------------
 # Stage: Base
 
-FROM --platform=linux/amd64 openliberty/open-liberty:22.0.0.10-kernel-slim-java11-openj9-ubi as base
+FROM openliberty/open-liberty:22.0.0.10-kernel-slim-java11-openj9-ubi as base
 
 USER root
 RUN yum install -y unzip
