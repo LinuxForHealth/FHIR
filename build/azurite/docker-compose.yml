@@ -145,7 +145,7 @@ services:
       timeout: 5s
       retries: 3
       # https://docs.docker.com/compose/compose-file/#variable-substitution
-      test: curl --fail -k -u 'fhiruser:change-password' 'https://localhost:8443/fhir-server/api/v4/healthcheck'
+      test: curl --fail -k -u 'fhiruser:change-password' 'https://localhost:8443/fhir-bulkdata-server/api/v4/healthcheck'
     ports:
       - 8080:8080
       - 8443:8443
