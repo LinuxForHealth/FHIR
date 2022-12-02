@@ -321,7 +321,7 @@
       "enabled": true,
       "core": {
         "api": {
-          "url": "https://localhost:9443/ibm/api/batch",
+          "url": "https://localhost:8443/ibm/api/batch",
           "user": "fhiradmin",
           "password": "change-password",
           "truststore": "resources/security/fhirTrustStore.p12",
