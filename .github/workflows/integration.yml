@@ -61,7 +61,7 @@ jobs:
         rm -fr ${it_results} 2>/dev/null
         mkdir -p ${it_results}/server-logs
         mkdir -p ${it_results}/fhir-server-test
-        containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
+        containerId=$(docker ps -a | grep fhir-server | cut -d ' ' -f 1)
         if [[ -z "${containerId}" ]]; then
             echo "Warning: Could not find fhir container!!!"
         else
@@ -69,6 +69,23 @@ jobs:
 
             # Grab the container's console log
             docker logs $containerId  >& ${it_results}/docker-console.txt
+            echo "fhir container logs!!"
+            docker logs $containerId
+
+            echo "Gathering post-test server logs from docker container: $containerId"
+            docker cp -L $containerId:/logs ${it_results}/server-logs
+        fi
+        
+        bulkDataContainerId=$(docker ps -a | fhir-bulkdata-server | cut -d ' ' -f 1)
+        if [[ -z "${bulkDataContainerId}" ]]; then
+            echo "Warning: Could not find bulkdata fhir container!!!"
+        else
+            echo "bulkdata fhir container id: $containerId"
+
+            # Grab the container's console log
+            docker logs $bulkDataContainerId  >& ${it_results}/docker-console_bulkdata.txt
+            echo "bulkdata fhir container logs!!"
+            docker logs $bulkDataContainerId
 
             echo "Gathering post-test server logs from docker container: $containerId"
             docker cp -L $containerId:/logs ${it_results}/server-logs

@@ -63,6 +63,9 @@ echo "
 Docker container status:"
 docker ps -a
 
+echo "docker image status:"
+docker images
+
 echo "Waiting for fhir-server to complete initialization..."
 ${WORKSPACE}/build/common/wait-for-it.sh
 
