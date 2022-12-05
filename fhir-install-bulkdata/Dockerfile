@@ -43,7 +43,7 @@ ENV FHIR_CONFIG_HOME=/opt/ol/wlp/usr/servers/defaultServer \
 
 COPY target/LICENSE /licenses/
 
-COPY --chown=1001:0 --from=base /opt/ol/wlp/usr/servers/defaultServer/bulkdata.xml /opt/ol/wlp/usr/servers/defaultServer/server.xml
+COPY --chown=1001:0 --from=base /opt/ol/wlp/usr/servers/defaultServer/server.xml /opt/ol/wlp/usr/servers/defaultServer/
 COPY --chown=1001:0 --from=base /opt/ol/wlp/usr/servers/defaultServer/configDropins /opt/ol/wlp/usr/servers/defaultServer/configDropins
 
  RUN ls /opt/ol/wlp/usr/servers/defaultServer
