@@ -14,6 +14,7 @@ CONFIG="${WORKSPACE}/build/minio/fhir-server/config"
 TEST_RESOURCES="${WORKSPACE}/fhir-server-test/src/test/resources"
 
 # Set the fhir-server-config
+echo "Copying the fhir server config files..."
 cp ${CONFIG}/default/fhir-server-config-postgresql-minio.json ${CONFIG}/default/fhir-server-config.json
 
 # Enable the file-based import/export tests and set the path to the output dir

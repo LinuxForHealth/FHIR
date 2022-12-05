@@ -47,7 +47,6 @@ COPY --chown=1001:0 --from=base /opt/ol/wlp/usr/servers/defaultServer/bulkdata.x
 COPY --chown=1001:0 --from=base /opt/ol/wlp/usr/servers/defaultServer/configDropins /opt/ol/wlp/usr/servers/defaultServer/configDropins
 
  RUN ls /opt/ol/wlp/usr/servers/defaultServer
- RUN cat /opt/ol/wlp/usr/servers/defaultServer/server.xml
 
 RUN features.sh
 
