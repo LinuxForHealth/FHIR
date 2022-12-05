@@ -176,7 +176,7 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - fhir
+      - fhirbulkdata
 
   minio:
     build:
