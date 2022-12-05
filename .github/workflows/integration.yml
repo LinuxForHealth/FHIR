@@ -76,7 +76,7 @@ jobs:
             docker cp -L $containerId:/logs ${it_results}/server-logs
         fi
         
-        bulkDataContainerId=$(docker ps -a | fhir-bulkdata-server | cut -d ' ' -f 1)
+        bulkDataContainerId=$(docker ps -a | grep fhir-bulkdata-server | cut -d ' ' -f 1)
         if [[ -z "${bulkDataContainerId}" ]]; then
             echo "Warning: Could not find bulkdata fhir container!!!"
         else
