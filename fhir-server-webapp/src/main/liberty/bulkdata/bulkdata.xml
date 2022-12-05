@@ -51,7 +51,7 @@
         Note: on Linux, the server must be running with root priviledges in order to
         listen on ports <= 1024.
      -->
-    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="-1" httpsPort="8443" onError="FAIL"/>
+    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="-1" httpsPort="9445" onError="FAIL"/>
 
     <!-- Prevent the HTTP channel from throwing an I/O exception when an inbound connection is closed while still in use. -->
     <httpOptions id="defaultHttpOptions" ThrowIOEForInboundConnections="false"/>
