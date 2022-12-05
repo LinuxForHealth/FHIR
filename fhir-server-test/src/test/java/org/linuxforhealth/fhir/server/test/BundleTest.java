@@ -3298,7 +3298,7 @@ public class BundleTest extends FHIRServerTestBase {
                 assertNotNull(fhirCtx.getData().getResourceType());
                 // skip version Id validation for history and search requests
                 if (!"Bundle".equals(fhirCtx.getData().getResourceType()) && !"OperationOutcome".equals(fhirCtx.getData().getResourceType())) {
-                    assertNotNull(fhirCtx.getData().getVersionId(), "versionId is null for "+fhirCtx.getData().getResourceType());
+                    assertNotNull(fhirCtx.getData().getVersionId(), "versionId is null for "+ fhirCtx.getData().getResourceType());
                 }
                 if (fhirCtx.getApiParameters() != null && fhirCtx.getApiParameters().getStatus() != null && fhirCtx.getApiParameters().getStatus().intValue() == Status.OK.getStatusCode()) {
                     assertNull(fhirCtx.getBatch());
