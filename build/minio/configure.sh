@@ -16,6 +16,17 @@ TEST_RESOURCES="${WORKSPACE}/fhir-server-test/src/test/resources"
 # Set the fhir-server-config
 echo "Copying the fhir server config files..."
 cp ${CONFIG}/default/fhir-server-config-postgresql-minio.json ${CONFIG}/default/fhir-server-config.json
+# debug: validate the config files
+echo "validate the config files in config directory..."
+ls ${CONFIG}
+
+echo "validate the config files in configDropins directory..."
+ls ${CONFIG}/configDropins/defaults/
+
+echo "validate the config files in overrides directory..."
+ls ${CONFIG}/configDropins/overrides/
+
+cat ${CONFIG}/server.xml
 
 # Enable the file-based import/export tests and set the path to the output dir
 sed -i -e 's/test.bulkdata.export.enabled = false/test.bulkdata.export.enabled = true/g' ${TEST_RESOURCES}/test.properties
