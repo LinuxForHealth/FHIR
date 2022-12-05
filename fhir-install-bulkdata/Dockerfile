@@ -48,6 +48,9 @@ COPY --chown=1001:0 --from=base /opt/ol/wlp/usr/servers/defaultServer/configDrop
 
  RUN ls /opt/ol/wlp/usr/servers/defaultServer
 
+ # debug: validate server xml content
+ RUN cat /opt/ol/wlp/usr/servers/defaultServer/server.xml
+
 RUN features.sh
 
 COPY --chown=1001:0 --from=base /opt/ol/wlp/usr /opt/ol/wlp/usr
