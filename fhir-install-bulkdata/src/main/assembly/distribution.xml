@@ -15,7 +15,16 @@
             <outputDirectory>artifacts/servers/defaultServer</outputDirectory>
             <excludes>
                 <exclude>server.xml</exclude>
+                <exclude>configDropins/disabled/datasource-postgresql.xml</exclude>
+                <exclude>configDropins/disabled/jwtRS.xml</exclude>
+                <exclude>configDropins/defaults/openapi.xml</exclude>
+                <exclude>configDropins/defaults/monitoring.xml</exclude>
             </excludes>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>../fhir-server-webapp/src/main/liberty/bulkdata/disabled</directory>
+            <outputDirectory>artifacts/servers/defaultServer/configDropins/disabled</outputDirectory>
             <fileMode>0755</fileMode>
         </fileSet>
         <fileSet>
