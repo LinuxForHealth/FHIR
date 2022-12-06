@@ -135,19 +135,19 @@ services:
     image: linuxforhealth/fhir-bulkdata-server:latest
     hostname: fhirbulkdata
     volumes:
-      - type: bind
+      - type: volume
         source: fhirconfig
         target: /opt/ol/wlp/usr/servers/defaultServer/config
         read_only: true
-      - type: bind
+      - type: volume
         source: fhirconfigoverrides
         target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
         read_only: true
-      - type: bind
+      - type: volume
         source: fhiruserlib
         target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
-      - type: bind
+      - type: volume
         source: fhirbulkdata
         target: /output/bulkdata
     environment:
