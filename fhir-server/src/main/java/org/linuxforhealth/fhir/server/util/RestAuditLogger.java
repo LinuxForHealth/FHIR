@@ -403,52 +403,21 @@ public class RestAuditLogger {
                     HTTPVerb requestMethod = requestEntry.getRequest().getMethod();
                     switch (HTTPVerb.Value.from(requestMethod.getValue())) {
                     case GET:
-                        if (operation) {
-                            entry.getContext()
-                                .setBatch(Batch.builder()
-                                .resourcesExecuted(1)
-                                .build());
-                        } else {
+                        if (!operation) {
                             action = "R";
-                            entry.getContext()
-                                .setBatch(Batch.builder()
-                                .resourcesRead(1)
-                                .build());
                         }
                         break;
                     case POST:
-                        if (operation) {
-                            entry.getContext()
-                                .setBatch(Batch.builder()
-                                .resourcesExecuted(1)
-                                .build());
-                        } else {
+                        if (!operation) {
                             action = "C";
-                            entry.getContext()
-                                .setBatch(Batch.builder()
-                                .resourcesCreated(1)
-                                .build());
                         }
                         break;
                     case PUT:
                         action = "U";
-                        entry.getContext()
-                            .setBatch(Batch.builder()
-                            .resourcesUpdated(1)
-                            .build());
                         break;
                     case DELETE:
-                        if (operation) {
-                            entry.getContext()
-                                .setBatch(Batch.builder()
-                                .resourcesExecuted(1)
-                                .build());
-                        } else {
+                        if (!operation) {
                             action = "D";
-                            entry.getContext()
-                                .setBatch(Batch.builder()
-                                .resourcesDeleted(1)
-                                .build());
                         }
                         break;
                     default:

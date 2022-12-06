@@ -3242,6 +3242,19 @@ public class BundleTest extends FHIRServerTestBase {
         validateAuditLogMessages();
     }
     
+    /**
+     * Test if a batch bundle audit log message contains the resource type, id and version.
+     * @throws Exception
+     */
+    @Test(groups = { "transaction" }, dependsOnMethods = { "testBatchCreates", "testBatchUpdates" })
+    public void testBatchAuditLog() throws Exception {
+        logger.info("validating batch bundle audit log");
+        if (!kafkaAuditEnabled.booleanValue()) {
+            return;
+        }
+        validateAuditLogMessages();
+    }
+    
 
     /**
      * Method to validate the 'bundle' audit log messages.
@@ -3284,8 +3297,8 @@ public class BundleTest extends FHIRServerTestBase {
                 assertNotNull(fhirCtx.getData().getId());
                 assertNotNull(fhirCtx.getData().getResourceType());
                 // skip version Id validation for history and search requests
-                if (!"Bundle".equals(fhirCtx.getData().getResourceType())) {
-                    assertNotNull(fhirCtx.getData().getVersionId());
+                if (!"Bundle".equals(fhirCtx.getData().getResourceType()) && !"OperationOutcome".equals(fhirCtx.getData().getResourceType())) {
+                    assertNotNull(fhirCtx.getData().getVersionId(), "versionId is null for "+ fhirCtx.getData().getResourceType());
                 }
                 if (fhirCtx.getApiParameters() != null && fhirCtx.getApiParameters().getStatus() != null && fhirCtx.getApiParameters().getStatus().intValue() == Status.OK.getStatusCode()) {
                     assertNull(fhirCtx.getBatch());
