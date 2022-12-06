@@ -45,17 +45,11 @@
             <outputDirectory>artifacts/servers/defaultServer/docs</outputDirectory>
             <fileMode>0755</fileMode>
         </file>
-
         <file>
             <source>../fhir-bulkdata-webapp/target/fhir-bulkdata-webapp.war</source>
             <outputDirectory>artifacts/servers/defaultServer/apps</outputDirectory>
             <fileMode>0755</fileMode>
         </file>
-        <!--<file>
-            <source>../fhir-openapi/target/fhir-openapi.war</source>
-            <outputDirectory>artifacts/servers/defaultServer/apps</outputDirectory>
-            <fileMode>0755</fileMode>
-        </file>-->
     </files>
     <dependencySets>
         <dependencySet>
