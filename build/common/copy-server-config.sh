@@ -27,7 +27,7 @@ mkdir -p ${OVERRIDES}
 
 # Copy over both the postgres (default_default) and derby (tenant1_*) datasource definitions
 cp ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml ${OVERRIDES}/
-cp ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/postgres/bulkdata.xml ${OVERRIDES}/
+cp ${WORKSPACE}/fhir-server-webapp/src/main/liberty/bulkdata/disabled/postgres/datasource-bulkdata-postgres.xml ${OVERRIDES}/
 cp ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml ${OVERRIDES}/
 
 echo "Finished copying the server config."
