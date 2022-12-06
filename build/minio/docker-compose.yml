@@ -131,6 +131,49 @@ services:
         condition: service_healthy
     networks:
       - fhir
+  fhir-bulkdata-server:
+    image: linuxforhealth/fhir-bulkdata-server:latest
+    hostname: fhirbulkdata
+    volumes:
+      - type: bind
+        source: fhirconfig
+        target: /opt/ol/wlp/usr/servers/defaultServer/config
+        read_only: true
+      - type: bind
+        source: fhirconfigoverrides
+        target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
+        read_only: true
+      - type: bind
+        source: fhiruserlib
+        target: /opt/ol/wlp/usr/servers/defaultServer/userlib
+        read_only: true
+      - type: bind
+        source: fhirbulkdata
+        target: /output/bulkdata
+    environment:
+      TRACE_SPEC: "org.linuxforhealth.fhir.*=INFO"
+      TRACE_FILE: "stdout"
+      BATCH_DB_HOSTNAME: postgres
+      BATCH_DB_USER: fhirbatch
+      BATCH_DB_PASS: change-password
+      BATCH_DB_SSL: "false"
+      BATCH_DB_NAME: fhirdb
+    command: bash -c "/opt/ol/wlp/bin/server run"
+    healthcheck:
+      start_period: 32s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      # https://docs.docker.com/compose/compose-file/#variable-substitution
+      test: curl --fail -k -u 'fhiruser:change-password' 'https://localhost:9445/fhir-bulkdata-server/api/v4/healthcheck'
+    ports:
+      - 9082:9082
+      - 9445:9445
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - fhir
 
   nats-node1:
     image: nats-streaming:0.24
@@ -159,49 +202,6 @@ services:
         - 4224:4222
     networks:
     - fhir
-  fhir-bulkdata-server:
-    image: linuxforhealth/fhir-bulkdata-server:latest
-    hostname: fhirbulkdata
-    volumes:
-      - type: bind
-        source: ./fhir-server/config
-        target: /opt/ol/wlp/usr/servers/defaultServer/config
-        read_only: true
-      - type: bind
-        source: ./fhir-server/configDropins/overrides
-        target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
-        read_only: true
-      - type: bind
-        source: ./fhir-server/userlib
-        target: /opt/ol/wlp/usr/servers/defaultServer/userlib
-        read_only: true
-      - type: bind
-        source: ./fhir-server/bulkdata
-        target: /output/bulkdata
-    environment:
-      TRACE_SPEC: "org.linuxforhealth.fhir.*=INFO"
-      TRACE_FILE: "stdout"
-      BATCH_DB_HOSTNAME: postgres
-      BATCH_DB_USER: fhirbatch
-      BATCH_DB_PASS: change-password
-      BATCH_DB_SSL: "false"
-      BATCH_DB_NAME: fhirdb
-    command: bash -c "/opt/ol/wlp/bin/server run"
-    healthcheck:
-      start_period: 32s
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      # https://docs.docker.com/compose/compose-file/#variable-substitution
-      test: curl --fail -k -u 'fhiruser:change-password' 'https://localhost:9445/fhir-bulkdata-server/api/v4/healthcheck'
-    ports:
-      - 9082:9082
-      - 9445:9445
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - fhir
 
   minio:
     build:
