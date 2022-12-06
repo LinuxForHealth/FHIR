@@ -310,7 +310,7 @@ public class AuthzPolicyEnforcementTest {
                         shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
         }
 
-        // Test update Binary Resource which does not have a securityContext. Should Succeed
+        // Test beforePatch Binary Resource which does not have a securityContext. Should Succeed
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(binary, properties);
@@ -323,7 +323,7 @@ public class AuthzPolicyEnforcementTest {
                         shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
         }
 
-        // Test update Binary Resource which has a securityContext. Should Fail since securityContext is not supported.
+        // Test beforePatch Binary Resource which has a securityContext. Should Fail since securityContext is not supported.
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(binaryWithSecurityContext, properties);
