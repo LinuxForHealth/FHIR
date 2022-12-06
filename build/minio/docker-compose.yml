@@ -3,6 +3,31 @@ version: '3.8'
 volumes:
   pgdata:
     driver: local
+  fhirconfig:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./fhir-server/config
+  fhirconfigoverrides:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./fhir-server/configDropins/overrides
+  fhiruserlib:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./fhir-server/userlib
+  fhirbulkdata:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./fhir-server/bulkdata
+
 
 services:
   postgres:
@@ -46,19 +71,19 @@ services:
     hostname: fhir
     volumes:
       - type: bind
-        source: ./fhir-server/config
+        source: fhirconfig
         target: /opt/ol/wlp/usr/servers/defaultServer/config
         read_only: true
       - type: bind
-        source: ./fhir-server/configDropins/overrides
+        source: fhirconfigoverrides
         target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
         read_only: true
       - type: bind
-        source: ./fhir-server/userlib
+        source: fhiruserlib
         target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
       - type: bind
-        source: ./fhir-server/bulkdata
+        source: fhirbulkdata
         target: /output/bulkdata
     environment:
         TRACE_SPEC: "org.linuxforhealth.fhir.*=INFO"
