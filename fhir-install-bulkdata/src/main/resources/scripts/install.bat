@@ -1,6 +1,6 @@
 @echo off
 @REM ----------------------------------------------------------------------------
-@REM (C) Copyright IBM Corp. 2017, 2022
+@REM (C) Copyright IBM Corp. 2022
 @REM
 @REM SPDX-License-Identifier: Apache-2.0
 @REM ----------------------------------------------------------------------------
@@ -9,7 +9,7 @@ SETLOCAL ENABLEDELAYEDEXPANSION
 
 set LIBERTY_VERSION=22.0.0.10
 
-echo Executing %0 to deploy the fhir-server web application...
+echo Executing %0 to deploy the fhir-bulkdata-server web application...
 
 @REM Make sure that JAVA_HOME is set
 if "-%JAVA_HOME%-"=="--" (
@@ -47,7 +47,7 @@ if not "-%1-"=="--" set WLP_INSTALL_DIR=%1
 @REM Add a trailing \ to WLP_INSTALL_DIR if needed
 if not "%WLP_INSTALL_DIR:~-1%"=="\" set WLP_INSTALL_DIR=%WLP_INSTALL_DIR%\
 
-echo Deploying fhir-server in location: %WLP_INSTALL_DIR%
+echo Deploying fhir-bulkdata-server in location: %WLP_INSTALL_DIR%
 
 @REM If the liberty install directory doesnt exist, then create it.
 if not exist %WLP_INSTALL_DIR% (
@@ -81,16 +81,16 @@ if errorlevel 1 (
 )
 
 @REM Copy our server assets
-echo Deploying fhir-server assets to the server runtime environment.
+echo Deploying fhir-bulkdata-server assets to the server runtime environment.
 xcopy /S /Y /Q %BASEDIR%\artifacts\* %WLP_ROOT%\usr\
 if errorlevel 1 (
     set rc=%ERRORLEVEL%
-    echo Error deploying fhir-server assets to server runtime environment: %rc%
+    echo Error deploying fhir-bulkdata-server assets to server runtime environment: %rc%
     goto :exit
 )
 
 
-echo The FHIR Server has been successfully deployed to the Liberty runtime
+echo The FHIR Bulkdata Server has been successfully deployed to the Liberty runtime
 echo at: %WLP_ROOT%
 echo The fhir-server application requires Java 11.
 echo If you do not have one, a copy of the Java 11 SDK can be obtained at https://adoptium.net.
@@ -103,7 +103,7 @@ echo    and grant necessary permissions.
 echo 4. Modify the Liberty server config by adding/removing/modifying the XML snippets under
 echo    %WLP_ROOT%\usr\servers\defaultServer\configDropins to configure datasource definitions, 
 echo    TLS configuration (keystores), webapp security, and more.
-echo 5. Modify the FHIR server config (fhir-server-config.json) under
+echo 5. Modify the FHIR Bulkdata server config (fhir-server-config.json) under
 echo    %WLP_ROOT%\usr\servers\defaultServer\config to configure the persistence, resource endpoints,
 echo    and related FHIR server features.
 echo You can start and stop the server with these commands:

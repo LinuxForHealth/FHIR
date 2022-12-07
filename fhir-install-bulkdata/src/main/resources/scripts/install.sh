@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2022
+# (C) Copyright IBM Corp. 2022
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -8,7 +8,7 @@
 export LIBERTY_VERSION="22.0.0.10"
 
 echo "
-Executing $0 to deploy the fhir-server web application...
+Executing $0 to deploy the fhir-bulkdata-server web application...
 "
 
 # Determine the location of this script.
@@ -66,11 +66,11 @@ if [ ! -d "${LIBERTY_ROOT}/usr/servers/defaultServer" ]; then
 fi
 
 # Copy our server assets
-echo "Deploying fhir-server assets to the server runtime environment... "
+echo "Deploying fhir-bulkdata-server assets to the server runtime environment... "
 cp -r ${basedir}/artifacts/* ${LIBERTY_ROOT}/usr/
 rc=$?
 if [ $rc != 0 ]; then
-    echo "Error deploying fhir-server assets to server runtime environment: $rc"
+    echo "Error deploying fhir-bulkdata-server assets to server runtime environment: $rc"
     exit $rc
 else
     echo "done!"
@@ -78,10 +78,10 @@ fi
 
 echo "
 
-The FHIR Server has been successfully deployed to the Liberty runtime
+The FHIR Bulkdata Server has been successfully deployed to the Liberty runtime
 at: ${LIBERTY_ROOT}
 
-The fhir-server application requires Java 11.
+The fhir-bulkdata-server application requires Java 11.
 If you do not have one, a copy of the Java 11 SDK can be obtained at https://adoptium.net.
 The following steps must be completed before the server can be started:
 
@@ -94,10 +94,10 @@ The following steps must be completed before the server can be started:
    and grant necessary permissions.
 
 4) Modify the Liberty server config (server.xml) by adding/removing/modifying the XML snippets under
-   ${LIBERTY_ROOT}/usr/servers/defaultServer/configDropins to configure datasource definitions, 
+   ${LIBERTY_ROOT}/usr/servers/defaultServer/configDropins to configure datasource definitions,
    TLS configuration (keystores), webapp security, and more.
 
-5) Modify the FHIR server config (fhir-server-config.json) under
+5) Modify the FHIR Bulkdata server config (fhir-server-config.json) under
    ${LIBERTY_ROOT}/usr/servers/defaultServer/config to configure the persistence, resource endpoints,
    and related FHIR server features.
 

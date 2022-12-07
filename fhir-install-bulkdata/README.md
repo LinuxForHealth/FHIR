@@ -20,7 +20,7 @@ docker build -t fhir-bulkdata-server .
 Once the image is built, start it with:
 
 ```sh
-docker run -it -p 9443:9443 --name fhir-bulkdata-server --rm fhir-bulkdata-server
+docker run -it -p 9445:9445 --name fhir-bulkdata-server --rm fhir-bulkdata-server
 ```
 
 ## Test
@@ -30,7 +30,7 @@ Once the fhir-server is ready, you can test it by accessing: https://localhost:9
 For example:
 
 ```sh
-curl -k -i -u 'fhiruser:change-password' 'https://localhost:8443/fhir-bulkdata-server/api/v4/healthcheck'
+curl -k -i -u 'fhiruser:change-password' 'https://localhost:9445/fhir-bulkdata-server/api/v4/healthcheck'
 ```
 
 This request makes a connection to the configured database (embedded Derby by default) and a successful response will return with:
