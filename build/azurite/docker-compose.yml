@@ -143,8 +143,8 @@ services:
         source: fhirconfig
         target: /opt/ol/wlp/usr/servers/defaultServer/config
         read_only: true
-      - type: volume
-        source: fhirconfigoverrides
+      - type: bind
+        source: ./fhir-bulkdata-server/configDropins/overrides
         target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
         read_only: true
       - type: volume
