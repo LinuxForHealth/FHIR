@@ -50,11 +50,14 @@ function _call_derby_db {
 function _bootstrap_db {
     if [ "$PERFORM_BOOTSTRAP_DB" = "true" ]
     then
+        echo "Performing Derby database bootstrapping"
         info "Performing Derby database bootstrapping"
         _call_derby_db "--update-schema"
+        echo "Finished Derby database bootstrapping"
         info "Finished Derby database bootstrapping"
     else
         info "Skipping Derby database bootstrapping"
+        echo "Skipping Derby database bootstrapping"
     fi
 }
 
