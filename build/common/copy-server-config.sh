@@ -27,7 +27,7 @@ rm -rf ${OVERRIDES}/* 2> /dev/null
 mkdir -p ${OVERRIDES}
 
 echo "Create overrides directory for bulkdata db config..."
-m -rf ${BULKDATA_OVERRIDES}/* 2> /dev/null
+rm -rf ${BULKDATA_OVERRIDES}/* 2> /dev/null
 mkdir -p ${BULKDATA_OVERRIDES}
 
 # Copy over both the postgres (default_default) and derby (tenant1_*) datasource definitions
