@@ -1,4 +1,24 @@
 version: '3.8'
+volumes:
+  fhirconfig:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./workarea/volumes/dist/config
+  fhirconfigoverrides:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./workarea/volumes/dist/overrides
+  fhiruserlib:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./workarea/volumes/dist/userlib/
+
 services:
   zookeeper-1:
     image: confluentinc/cp-zookeeper:latest
@@ -57,16 +77,16 @@ services:
       - kafka-2
     hostname: fhir
     volumes:
-      - type: bind
-        source: ./workarea/volumes/dist/config
+      - type: volume
+        source: fhirconfig
         target: /opt/ol/wlp/usr/servers/defaultServer/config
         read_only: true
-      - type: bind
-        source: ./workarea/volumes/dist/overrides
+      - type: volume
+        source: fhirconfigoverrides
         target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
         read_only: true
-      - type: bind
-        source: ./workarea/volumes/dist/userlib/
+      - type: volume
+        source: fhiruserlib
         target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
     environment:
@@ -99,44 +119,40 @@ services:
       - fhir
   fhir-bulkdata-server:
     image: linuxforhealth/fhir-bulkdata-server:latest
-    hostname: fhir-bulkdata
+    depends_on:
+      - kafka-1
+      - kafka-2
+    hostname: fhirbulkdata
     volumes:
-      - type: bind
-        source: ./fhir/config
+      - type: volume
+        source: fhirconfig
         target: /opt/ol/wlp/usr/servers/defaultServer/config
         read_only: true
-      - type: bind
-        source: ./fhir/configDropins/overrides
+      - type: volume
+        source: fhirconfigoverrides
         target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
         read_only: true
-      - type: bind
-        source: ./fhir/userlib
+      - type: volume
+        source: fhiruserlib
         target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
-      - type: bind
-        source: ./fhir/openapi.json
-        target: /opt/ol/wlp/usr/servers/defaultServer/apps/expanded/fhir-openapi.war/META-INF/openapi.json
-        read_only: true
-      - type: bind
-        source: ./bulkdata
-        target: /output/bulkdata
     environment:
-      TRACE_SPEC: "org.linuxforhealth.fhir.*=FINE"
-      TRACE_FILE: "stdout"
+      - BOOTSTRAP_DB=false
     command: bash -c "/opt/ol/wlp/bin/server run"
     healthcheck:
-      start_period: 32s
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      # https://docs.docker.com/compose/compose-file/#variable-substitution
-      test: curl --fail -k -u 'fhiruser:change-password' 'https://localhost:8443/fhir-bulkdata-server/api/v4/healthcheck'
+      start_period: 120s
+      interval: 10s
+      timeout: 10s
+      retries: 2
+      test: curl --max-time 5 -v -f -k -u 'fhiruser:change-password' 'https://localhost:9445/fhir-server/api/v4/healthcheck'
     ports:
-      - 8080:8080
-      - 8443:8443
-    depends_on:
-      postgres:
-        condition: service_healthy
+      - 9082:9082
+      - 9445:9445
+    env_file:
+      - ./.fhir.env
+    networks:
+      - fhir
+
 networks:
   fhir:
     driver: bridge
