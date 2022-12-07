@@ -132,6 +132,7 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
 
             // configure the connection if it's the first time we've accessed it in this transaction
             configure(connection, tenantId, dsId);
+            log.info("DB Connection schema: " + connection.getSchema());
         } catch (Throwable t) {
             // clean up if something goes wrong during configuration
             try {
