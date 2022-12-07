@@ -140,7 +140,7 @@ services:
         target: /opt/ol/wlp/usr/servers/defaultServer/config
         read_only: true
       - type: volume
-        source: fhirconfigoverrides
+        source: ./fhir-bulkdata-server/configDropins/overrides
         target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
         read_only: true
       - type: volume
