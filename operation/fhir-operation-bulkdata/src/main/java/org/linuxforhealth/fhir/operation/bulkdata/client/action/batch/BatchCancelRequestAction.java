@@ -113,30 +113,11 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
 
         // Stop the Job's execution across all JobExecutions
         stopJobExecutions(jobExecutions);
-
-        if (supportsDeleteJob()) {
-            deleteJob(job);
-        } else {
-            throw export.buildOperationException("Job deletion is not supported with the default Java Batch (in-memory) datastore. The Java Batch schema must be deployed and configured.", IssueType.NOT_SUPPORTED);
-        }
+        deleteJob(job);
 
         // Check for a server-side error
         if (Status.INTERNAL_SERVER_ERROR == result) {
             throw export.buildOperationException("Canceling the Bulk Data Request has failed for the job; the content is not abandonded", IssueType.EXCEPTION);
-        }
-    }
-
-    /**
-     * @return True when there is a fhirbatchDb jndi instance, else, we have to assume this is in memory ONLY (also known as False).
-     */
-    private boolean supportsDeleteJob() {
-        try {
-            Context ctx = new InitialContext();
-            ctx.lookup("jdbc/fhirbatchDB");
-            return true;
-        } catch (Exception ex) {
-            LOG.throwing(CLASSNAME, "supportsDeleteJob", ex);
-            return false;
         }
     }
 
