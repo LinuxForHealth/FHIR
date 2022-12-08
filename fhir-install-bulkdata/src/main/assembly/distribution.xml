@@ -28,8 +28,8 @@
             <fileMode>0755</fileMode>
         </fileSet>
         <fileSet>
-            <directory>../fhir-server-webapp/src/main/liberty/bulkdata/defaults/derby</directory>
-            <outputDirectory>artifacts/servers/defaultServer/configDropins/defaults</outputDirectory>
+            <directory>../fhir-server-webapp/src/main/liberty/bulkdata/disabled/derby</directory>
+            <outputDirectory>artifacts/servers/defaultServer/configDropins/overrides</outputDirectory>
             <fileMode>0755</fileMode>
         </fileSet>
         <fileSet>

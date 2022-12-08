@@ -35,7 +35,7 @@ cp ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/configDropins/overrid
 cp ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml ${OVERRIDES}/
 
 echo "Copy over both the postgres (default_default) and derby (tenant1_*) datasource definitions to bulkdata_overrides..."
-cp ${WORKSPACE}/fhir-server-webapp/src/main/liberty/bulkdata/disabled/postgres/datasource-bulkdata-postgres.xml ${BULKDATA_OVERRIDES}/
+cp ${WORKSPACE}/fhir-server-webapp/src/main/liberty/bulkdata/disabled/postgres/datasource-bulkdata.xml ${BULKDATA_OVERRIDES}/
 cp ${WORKSPACE}/fhir-server-webapp/src/test/liberty/config/configDropins/overrides/datasource-derby.xml ${BULKDATA_OVERRIDES}/
 cp ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml ${BULKDATA_OVERRIDES}/
 
