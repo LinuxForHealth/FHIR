@@ -6,12 +6,12 @@ The document helps developers setup the development environment for the LinuxFor
 
 ``` shell
 export WORKSPACE=`pwd`
-cd fhir-install/src/main/docker/fhir-schematool
+cd fhir-install-bulkdata/src/main/docker/fhir-schematool
 mvn clean install -DskipTests -f ${WORKSPACE}/fhir-examples/
 mvn clean install -DskipTests -f ${WORKSPACE}/fhir-parent/
 ```
 
-2. Change to the `fhir-install/src/main/docker/fhir-schematool` directory
+2. Change to the `fhir-install-bulkdata/src/main/docker/fhir-schematool` directory
 
 3. Prep the contents
 

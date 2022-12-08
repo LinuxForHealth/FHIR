@@ -17,6 +17,11 @@ Once the project is built, the LinuxForHealth FHIR Server container image can be
 docker build fhir-install -t linuxforhealth/fhir-server
 ```
 
+The LinuxForHealth FHIR Bulkdata Server container image can be built from the Dockerfile under fhir-install-bulkdata:
+```sh
+docker build fhir-install-bulkdata -t linuxforhealth/fhir-bulkdata-server
+```
+
 ## Running the integration tests locally
 
 Steps to install the server to the local filesystem at the root of the project and execute the tests.
@@ -61,6 +66,7 @@ The commands are expected to work on MacOS and/or Linux.
 
 - [Docker](https://www.docker.com)
 - `linuxforhealth/fhir-server:latest` (built from the fhir-install module as described above)
+- - `linuxforhealth/fhir-bulkdata-server:latest` (built from the fhir-install-bulkdata module as described above)
 
 ### Run
 

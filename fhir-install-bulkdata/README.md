@@ -25,7 +25,7 @@ docker run -it -p 9445:9445 --name fhir-bulkdata-server --rm fhir-bulkdata-serve
 
 ## Test
 
-Once the fhir-server is ready, you can test it by accessing: https://localhost:9443/fhir-server/api/v4/$healthcheck
+Once the fhir-server is ready, you can test it by accessing: https://localhost:9444/fhir-bulkdata-server/api/v4/healthcheck
 
 For example:
 
