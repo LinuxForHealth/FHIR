@@ -88,11 +88,6 @@ services:
     environment:
         TRACE_SPEC: "org.linuxforhealth.fhir.*=INFO"
         TRACE_FILE: "stdout"
-        BATCH_DB_HOSTNAME: postgres
-        BATCH_DB_USER: fhirbatch
-        BATCH_DB_PASS: change-password
-        BATCH_DB_SSL: "false"
-        BATCH_DB_NAME: fhirdb
     command: bash -c "
       java -jar /opt/fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type postgresql --prop db.host=postgres --prop db.port=5432 --prop db.database=fhirdb --prop user=fhiradmin --prop password=change-password
