@@ -458,6 +458,15 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     @Override
     public void beforeUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        beforeUpdateOrPatch(event);
+    }
+
+    @Override
+    public void beforePatch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        beforeUpdateOrPatch(event);
+    }
+
+    private void beforeUpdateOrPatch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
         Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
         Map<ContextType, List<Scope>> scopesFromToken = getScopesFromToken(jwt);
