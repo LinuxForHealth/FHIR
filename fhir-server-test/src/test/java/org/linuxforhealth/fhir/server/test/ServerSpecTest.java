@@ -16,12 +16,15 @@ import static org.testng.AssertJUnit.assertNotNull;
 
 import java.net.URI;
 import java.time.ZoneOffset;
+import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import org.linuxforhealth.fhir.client.FHIRParameters;
@@ -30,6 +33,7 @@ import org.linuxforhealth.fhir.core.FHIRMediaType;
 import org.linuxforhealth.fhir.model.resource.Bundle;
 import org.linuxforhealth.fhir.model.resource.Observation;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome;
+import org.linuxforhealth.fhir.model.resource.OperationOutcome.Issue;
 import org.linuxforhealth.fhir.model.resource.Patient;
 import org.linuxforhealth.fhir.model.test.TestUtil;
 import org.linuxforhealth.fhir.model.type.Boolean;
@@ -44,6 +48,8 @@ import org.linuxforhealth.fhir.model.type.Meta;
 import org.linuxforhealth.fhir.model.type.Reference;
 import org.linuxforhealth.fhir.model.type.code.AdministrativeGender;
 import org.linuxforhealth.fhir.model.type.code.BundleType;
+import org.linuxforhealth.fhir.model.type.code.IssueSeverity;
+import org.linuxforhealth.fhir.model.type.code.IssueType;
 import org.linuxforhealth.fhir.model.type.code.ObservationStatus;
 import org.linuxforhealth.fhir.model.util.FHIRUtil;
 
@@ -60,6 +66,16 @@ public class ServerSpecTest extends FHIRServerTestBase {
     private Patient savedPatient;
     @SuppressWarnings("unused")
     private Observation savedObservation;
+    
+    private boolean updateCreateEnabled;
+    
+    @BeforeClass
+    public void setUp() throws Exception {
+        Properties testProperties = TestUtil.readTestProperties("test.properties");
+        setUp(testProperties);
+        updateCreateEnabled = isUpdateCreateSupported();
+        System.out.println("Update/Create enabled?: " + updateCreateEnabled);
+    }
 
     @Test(groups = { "server-spec" })
     public void testCreatePatient() throws Exception {
@@ -695,6 +711,82 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertExceptionOperationOutcome(response.getResource(OperationOutcome.class),
                 "Input resource 'id' attribute must match the id of the search result resource");
 
+    }
+    
+    /**
+     * Test conditional update when :
+     * 1. No matches, no id provided.
+     * 2. No matches, id provided and doesn't already exist and update/create is enabled.
+     * 3. No matches, id provided and doesn't already exist and update/create is not enabled. 
+     * 4. No matches, id provided and id already exists.
+     * @throws Exception
+     */
+    @Test(groups = { "server-spec" }, dependsOnMethods = { "testConditionalCreateObservation" })
+    public void testConditionalUpdateObservation3() throws Exception {
+        String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
+        String obsId = UUID.randomUUID().toString();
+        Observation obs = TestUtil.readLocalResource("Observation1.json");
+        Observation obsWithNoId = obs.toBuilder()
+                .subject(Reference.builder().reference(string(fakePatientRef)).build())
+                .build();
+        Observation obsWithId = obs.toBuilder()
+                .subject(Reference.builder().reference(string(fakePatientRef)).build())
+                .id(obsId)
+                .build();
+        Observation obsWithExistingId = obs.toBuilder()
+                .subject(Reference.builder().reference(string(fakePatientRef)).build())
+                .id(savedObservation.getId())
+                .build();
+        String randomObsId = UUID.randomUUID().toString();
+        // Test conditional update when : No matches, no id provided.
+        // Expected output: The resource is created successfully.
+        FHIRParameters query = new FHIRParameters().searchParam("_id", obsId);
+        FHIRResponse response = client.conditionalUpdate(obsWithNoId, query);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+        String locationURI = response.getLocation();
+        assertNotNull(locationURI);
+        if (updateCreateEnabled) {
+            // Test conditional update when : No matches, id provided and doesn't already exist and update/create is enabled. 
+            // Expected output : The resource is created successfully.The server treats the interaction as an Update as Create interaction.
+            query = new FHIRParameters().searchParam("_id", obsId);
+            response = client.conditionalUpdate(obsWithId, query);
+            assertNotNull(response);
+            assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
+            locationURI = response.getLocation();
+            assertNotNull(locationURI);
+        } else {
+            // No matches, id provided and doesn't already exist and update/create is not enabled. 
+            // Expected output : Should be rejected with error message.
+            query = new FHIRParameters().searchParam("_id", randomObsId);
+            response = client.conditionalUpdate(obsWithId, query);
+            assertNotNull(response);
+            assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
+            String expectedErrorMsg = "Resource 'Observation/" + obsWithId.getId() + "' not found.";
+            OperationOutcome operationOutcome = response.getResource(OperationOutcome.class);
+            assertNotNull(operationOutcome);
+            List<Issue> issues = operationOutcome.getIssue();
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(), expectedErrorMsg);
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.FATAL);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
+        }
+        
+        // Test conditional update when : No matches, id provided and id already exists. 
+        // Expected output : Should be rejected with 409 Conflict error message.
+        query = new FHIRParameters().searchParam("_id", randomObsId);
+        response = client.conditionalUpdate(obsWithExistingId, query);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.CONFLICT.getStatusCode());
+        OperationOutcome operationOutcome = response.getResource(OperationOutcome.class);
+        assertNotNull(operationOutcome);
+        List<Issue> issues = operationOutcome.getIssue();
+        assertEquals(issues.size(), 1);
+        String expectedErrorMsg = "Conflict error! The search criteria specified for a conditional update operation did not return any results"
+                + " but the input resource with id: " + obsWithExistingId.getId() + " already exists.";
+        assertEquals(issues.get(0).getDetails().getText().getValue(), expectedErrorMsg);
+        assertEquals(issues.get(0).getSeverity(), IssueSeverity.FATAL);
+        assertEquals(issues.get(0).getCode(), IssueType.CONFLICT);
     }
 
     // Test: retrieve Patient with _summary=true.
