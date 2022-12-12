@@ -7,7 +7,7 @@
 
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-set LIBERTY_VERSION=22.0.0.10
+set LIBERTY_VERSION=22.0.0.12
 
 echo Executing %0 to deploy the fhir-server web application...
 
