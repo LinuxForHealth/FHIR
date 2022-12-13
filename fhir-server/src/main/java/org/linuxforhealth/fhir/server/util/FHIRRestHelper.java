@@ -602,6 +602,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         SingleResourceResult<? extends Resource> srr = doRead(type, id, false, null, false);
                         ior.setPrevResource(srr.getResource()); // might be null if resource is deleted
                         isDeleted = srr.isDeleted();
+                        
+                        // Check that the resource exists, unless the updateCreate feature is enabled.
+                        // No matches, id provided and doesn't already exist and updateCreate feature is not enabled : Should be rejected with error message.
+                        if (srr.getResource() == null && !persistence.isUpdateCreateEnabled()) {
+                            String msg = "Resource '" + type + "/" + id + "' not found.";
+                            log.log(Level.SEVERE, msg);
+                            throw new FHIRResourceNotFoundException(msg);
+                        } else if (srr.getResource() != null && !isDeleted) {
+                            // No matches, id provided and already exist: The server rejects the update with a 409 Conflict error
+                            String msg =
+                                    "Conflict error! The search criteria specified for a conditional update operation did not return any results but the input resource with id: " + id + " already exists." ;
+                            throw buildRestException(msg, IssueType.CONFLICT);
+                        } 
                         currentVersion = srr.getVersion();
                         currentLastUpdated = srr.getLastUpdated();
                     }
