@@ -10,6 +10,8 @@ import static org.linuxforhealth.fhir.model.type.String.string;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
@@ -1695,12 +1697,16 @@ public class FHIRRestHelperTest {
      */
     @Test
     public void testTransactionBundlePutWithConditionalDependencyAndIdSet() throws Exception {
-        FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+        MockPersistenceImpl spyPersistence = spy(MockPersistenceImpl.class);
+        FHIRRestHelper helper = new FHIRRestHelper(spyPersistence, searchHelper);
 
         // Interesting that this ends up as a patient search not a read
         Patient patient = Patient.builder()
                 .id("1")
+                .meta(Meta.builder()
+                    .lastUpdated(Instant.now())
+                    .versionId(Id.of("1"))
+                    .build())
                 .build();
         Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
                 .method(HTTPVerb.PUT)
@@ -1733,7 +1739,12 @@ public class FHIRRestHelperTest {
                 .type(BundleType.TRANSACTION)
                 .entry(bundleEntry, bundleEntry2)
                 .build();
+        MultiResourceResult searchResult = MultiResourceResult.builder()
+                .resourceResult(ResourceResult.from(patient))
+                .success(true)
+                .build();
 
+        doReturn(searchResult).when(spyPersistence).search(any(), any());
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
