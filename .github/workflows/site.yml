@@ -63,6 +63,7 @@ jobs:
             pushd $(pwd)
             cd fhir/docs/
             npm install yarn -g
+            yarn global add node-sass
             yarn global add gatsby-cli
             yarn add node-sass
             gatsby telemetry --disable
