@@ -17,7 +17,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -46,7 +45,6 @@ import org.linuxforhealth.fhir.audit.mapper.MapperType;
 import org.linuxforhealth.fhir.client.FHIRRequestHeader;
 import org.linuxforhealth.fhir.client.FHIRResponse;
 import org.linuxforhealth.fhir.config.ConfigurationService;
-import org.linuxforhealth.fhir.config.FHIRConfigHelper;
 import org.linuxforhealth.fhir.config.FHIRConfiguration;
 import org.linuxforhealth.fhir.config.PropertyGroup;
 import org.linuxforhealth.fhir.core.FHIRMediaType;
@@ -130,6 +128,7 @@ public class BundleTest extends FHIRServerTestBase {
     private static final String PATIENT_EXTENSION_URL = "http://my.url.domain.com/acme-healthcare/related-patient";
 
     private static final String PREFER_HEADER_RETURN_REPRESENTATION = "return=representation";
+    private static final String PREFER_HEADER_RETURN_OPERATION_OUTCOME = "return=OperationOutcome";
     private static final String PREFER_HEADER_NAME = "Prefer";
     
     private static Boolean kafkaAuditEnabled = false;
@@ -987,64 +986,69 @@ public class BundleTest extends FHIRServerTestBase {
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
     public void testBatchMixture() throws Exception {
         String method = "testBatchMixture";
-        WebTarget target = getWebTarget();
+        
+        List<String> preferredHeaders = List.of(PREFER_HEADER_RETURN_REPRESENTATION, PREFER_HEADER_RETURN_OPERATION_OUTCOME);
+        for (String preferredHeader : preferredHeaders) {
+            WebTarget target = getWebTarget();
 
-        // change at least one field so that the update below isn't skipped
-        patientB1 = patientB1.toBuilder()
-                .deceased(true)
-                .build();
+            // change at least one field so that the update below isn't skipped
+            patientB1 = patientB1.toBuilder()
+                    .deceased(true)
+                    .build();
 
-        // Perform a mixture of request types.
-        Bundle bundle = buildBundle(BundleType.BATCH);
-        // create
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
-        // update
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientB1.getId(), null,
-                patientB1);
-        // read
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB2.getId(), null, null);
-        // vread
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, locationB1, null, null);
-        // history
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB1.getId() + "/_history",
-                null, null);
-        // search
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family=Ortiz&_count=100", null, null);
+            // Perform a mixture of request types.
+            Bundle bundle = buildBundle(BundleType.BATCH);
+            // create
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                    TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
+            // update
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientB1.getId(), null,
+                    patientB1);
+            // read
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB2.getId(), null, null);
+            // vread
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, locationB1, null, null);
+            // history
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientB1.getId() + "/_history",
+                    null, null);
+            // search
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family=Ortiz&_count=100", null, null);
 
-        printBundle(method, "request", bundle);
+            printBundle(method, "request", bundle);
 
-        Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.request()
-                                .header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION)
-                                .post(entity, Response.class);
-        assertResponse(response, Response.Status.OK.getStatusCode());
+            Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
+            Response response = target.request()
+                                    .header(PREFER_HEADER_NAME, preferredHeader)
+                                    .post(entity, Response.class);
+            assertResponse(response, Response.Status.OK.getStatusCode());
 
-        Bundle responseBundle = getEntityWithExtraWork(response,method);
+            Bundle responseBundle = getEntityWithExtraWork(response,method);
 
-        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 6);
-        assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
-        assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
-        assertGoodGetResponse(responseBundle.getEntry().get(2), Status.OK.getStatusCode());
-        assertGoodGetResponse(responseBundle.getEntry().get(3), Status.OK.getStatusCode());
-        assertGoodGetResponse(responseBundle.getEntry().get(4), Status.OK.getStatusCode());
-        assertGoodGetResponse(responseBundle.getEntry().get(5), Status.OK.getStatusCode());
+            assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 6);
+            assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
+            assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
+            assertGoodGetResponse(responseBundle.getEntry().get(2), Status.OK.getStatusCode());
+            assertGoodGetResponse(responseBundle.getEntry().get(3), Status.OK.getStatusCode());
+            assertGoodGetResponse(responseBundle.getEntry().get(4), Status.OK.getStatusCode());
+            assertGoodGetResponse(responseBundle.getEntry().get(5), Status.OK.getStatusCode());
 
-        Bundle resultSet;
+            Bundle resultSet;
 
-        // Verify the history results.
-        resultSet = (Bundle) responseBundle.getEntry().get(4).getResource();
-        assertNotNull(resultSet);
-        assertTrue(resultSet.getEntry().size() > 2);
+            // Verify the history results.
+            resultSet = (Bundle) responseBundle.getEntry().get(4).getResource();
+            assertNotNull(resultSet);
+            assertTrue(resultSet.getEntry().size() > 2);
 
-        // Verify the search results.
-        resultSet = (Bundle) responseBundle.getEntry().get(5).getResource();
-        assertNotNull(resultSet);
-        assertTrue(resultSet.getEntry().size() >= 1);
-
-        patientB1 = (Patient) responseBundle.getEntry().get(1).getResource();
-
+            // Verify the search results.
+            resultSet = (Bundle) responseBundle.getEntry().get(5).getResource();
+            assertNotNull(resultSet);
+            assertTrue(resultSet.getEntry().size() >= 1);
+            if (preferredHeader.equals(PREFER_HEADER_RETURN_REPRESENTATION)) {
+                patientB1 = (Patient) responseBundle.getEntry().get(1).getResource();
+            }
+        }
     }
+    
 
     @Test(groups = { "transaction" })
     public void testTransactionCreates() throws Exception {
@@ -1542,51 +1546,58 @@ public class BundleTest extends FHIRServerTestBase {
         if (!transactionSupported.booleanValue()) {
             return;
         }
+        
+        List<String> preferredHeaders = List.of(PREFER_HEADER_RETURN_REPRESENTATION, PREFER_HEADER_RETURN_OPERATION_OUTCOME);
+        for (String preferredHeader : preferredHeaders) { 
+            WebTarget target = getWebTarget();
 
-        WebTarget target = getWebTarget();
+            // Perform a mixture of request types.
+            Bundle bundle = buildBundle(BundleType.TRANSACTION);
+            // create
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
+                    TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
+            // update
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId(), null,
+                    patientT1);
+            // read
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientT2.getId(), null, null);
+            // vread
+            bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, locationT1, null, null);
+            // history
+//          bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientT1.getId() + "/_history", null, null);
+            // search
+//          bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family=Ortiz&_count=100", null, null);
 
-        // Perform a mixture of request types.
-        Bundle bundle = buildBundle(BundleType.TRANSACTION);
-        // create
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient", null,
-                TestUtil.readLocalResource("Patient_DavidOrtiz.json"));
-        // update
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.PUT, "Patient/" + patientT1.getId(), null,
-                patientT1);
-        // read
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientT2.getId(), null, null);
-        // vread
-        bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, locationT1, null, null);
-        // history
-//      bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient/" + patientT1.getId() + "/_history", null, null);
-        // search
-//      bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "Patient?family=Ortiz&_count=100", null, null);
+            printBundle(method, "request", bundle);
 
-        printBundle(method, "request", bundle);
+            Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
+            Response response = target.request()
+                                       .header(PREFER_HEADER_NAME, preferredHeader)
+                                       .post(entity, Response.class);
+            assertResponse(response, Response.Status.OK.getStatusCode());
+            Bundle responseBundle = getEntityWithExtraWork(response,method);
+            assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 4);
+            assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
+            assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
+            assertGoodGetResponse(responseBundle.getEntry().get(2), Status.OK.getStatusCode());
+            assertGoodGetResponse(responseBundle.getEntry().get(3), Status.OK.getStatusCode());
+//          assertGoodGetResponse(responseBundle.getEntry().get(4), Status.OK.getStatusCode());
+//          assertGoodGetResponse(responseBundle.getEntry().get(5), Status.OK.getStatusCode());
 
-        Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.request().post(entity, Response.class);
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle responseBundle = getEntityWithExtraWork(response,method);
-        assertResponseBundle(responseBundle, BundleType.TRANSACTION_RESPONSE, 4);
-        assertGoodPostPutResponse(responseBundle.getEntry().get(0), Status.CREATED.getStatusCode());
-        assertGoodPostPutResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
-        assertGoodGetResponse(responseBundle.getEntry().get(2), Status.OK.getStatusCode());
-        assertGoodGetResponse(responseBundle.getEntry().get(3), Status.OK.getStatusCode());
-//      assertGoodGetResponse(responseBundle.getEntry().get(4), Status.OK.getStatusCode());
-//      assertGoodGetResponse(responseBundle.getEntry().get(5), Status.OK.getStatusCode());
+//          Bundle resultSet;
 
-//      Bundle resultSet;
+            // Verify the history results.
+//          resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(4).getResource());
+//          assertNotNull(resultSet);
+//          assertTrue(resultSet.getEntry().size() > 2);
 
-        // Verify the history results.
-//      resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(4).getResource());
-//      assertNotNull(resultSet);
-//      assertTrue(resultSet.getEntry().size() > 2);
+            // Verify the search results.
+//          resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(5).getResource());
+//          assertNotNull(resultSet);
+//          assertTrue(resultSet.getEntry().size() > 3);
+        }
 
-        // Verify the search results.
-//      resultSet = (Bundle) FHIRUtil.getResourceContainerResource(responseBundle.getEntry().get(5).getResource());
-//      assertNotNull(resultSet);
-//      assertTrue(resultSet.getEntry().size() > 3);
+       
     }
 
     @Test(groups = { "batch" })
