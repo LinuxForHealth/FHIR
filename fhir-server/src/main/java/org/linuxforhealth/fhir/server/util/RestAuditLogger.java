@@ -33,6 +33,7 @@ import org.linuxforhealth.fhir.config.FHIRConfigHelper;
 import org.linuxforhealth.fhir.config.FHIRConfiguration;
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.core.FHIRUtilities;
+import org.linuxforhealth.fhir.core.HTTPReturnPreference;
 import org.linuxforhealth.fhir.core.util.handler.IPHandler;
 import org.linuxforhealth.fhir.model.resource.Basic;
 import org.linuxforhealth.fhir.model.resource.Bundle;
@@ -395,7 +396,7 @@ public class RestAuditLogger {
 
                 AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
 
-                populateAuditLogEntry(entry, request, responseEntry.getResource(), startTime, endTime, responseStatus);
+                populateBundleAuditLogEntry(entry, responseEntry, request, responseEntry.getResource(), startTime, endTime, responseStatus);
                 if (requestEntry.getRequest() != null && requestEntry.getRequest().getMethod() != null) {
                     boolean operation =  requestEntry.getRequest().getUrl().getValue().contains("$")
                                             || requestEntry.getRequest().getUrl().getValue().contains("/%24");
@@ -431,7 +432,6 @@ public class RestAuditLogger {
                 // Only for BATCH we want to override the REQUEST URI and Status Code
                 StringBuilder builder = new StringBuilder();
                 builder.append(request.getRequestURI())
-                        .append("/")
                         .append(loc);
                 entry.getContext()
                     .setApiParameters(
@@ -479,7 +479,7 @@ public class RestAuditLogger {
             for (Entry bundleEntry : responseBundle.getEntry()) {
                 Bundle.Entry requestEntry = iter.next();
                 entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
-                populateAuditLogEntry(entry, request, bundleEntry.getResource(), startTime, endTime, responseStatus);
+                populateBundleAuditLogEntry(entry, bundleEntry, request, bundleEntry.getResource(), startTime, endTime, responseStatus);
                 entry.setDescription("FHIR Bundle Transaction request");
                 entry.getContext().setAction(selectActionForBundleEntry(requestEntry));
                 auditLogSvc.logEntry(entry);
@@ -742,6 +742,64 @@ public class RestAuditLogger {
         entry.setPatientId(FHIRUtil.getExtensionStringValue(resource, patientIdExtUrl));
         entry.getContext().setRequestUniqueId(FHIRRequestContext.get().getRequestUniqueId());
 
+        log.exiting(CLASSNAME, METHODNAME);
+        return entry;
+    }
+
+    /**
+     * Populates the passed audit log entry for Bundle entry.
+     * This method will populate the resource id, resource type and version id from the
+     * Bundle response entry location when the return preference is "OperationOutcome".
+     * When the return preference is "representation" the populateAuditLogEntry method will
+     * populate the resource id, resource type and version id.
+     * @param entry
+     *  The AuditLogEntry to be populated.
+     * @param responseEntry
+     *  The Bundle response entry.
+     * @param request
+     *  The HttpServletRequest representation of the REST request.
+     * @param resource
+     *  The Resource object.
+     * @param startTime
+     *  The start time of the request execution.
+     * @param endTime
+     *  The end time of the request execution.
+     * @param responseStatus
+     *  The response status.
+     * @return AuditLogEntry - an initialized audit log entry.
+     */
+    protected static AuditLogEntry populateBundleAuditLogEntry(AuditLogEntry entry, Bundle.Entry responseEntry, HttpServletRequest request, Resource resource,
+        Date startTime, Date endTime, Response.Status responseStatus) { 
+        final String METHODNAME = "populateBundleAuditLogEntry";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        // call populateAuditLogEntry to populate common attributes to all rest
+        populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
+        
+        // Populate the resource id, resource type and version id from the
+        // Bundle response entry location when the return preference is "OperationOutcome".
+        if (HTTPReturnPreference.OPERATION_OUTCOME.equals(FHIRRequestContext.get().getReturnPreference())) {
+            if (responseEntry.getResponse() != null && responseEntry.getResponse().getLocation() != null) {
+                String location = responseEntry.getResponse().getLocation().getValue();
+                String[] parts = location.split("/");
+                String resourceType = null;
+                String id = null;
+                String versionId = null;
+                if (parts.length == 10) {
+                    resourceType = parts[6];
+                    id = parts[7];
+                    versionId = parts[9];
+                } else if (parts.length == 4) {
+                    resourceType = parts[0];
+                    id = parts[1];
+                    versionId = parts[3];
+                }
+                entry.getContext().setData(Data.builder().resourceType(resourceType).build());
+                entry.getContext().getData().setId(id);
+                entry.getContext().getData().setVersionId(versionId);
+            }
+        }
+        
         log.exiting(CLASSNAME, METHODNAME);
         return entry;
     }
