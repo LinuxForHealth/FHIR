@@ -715,33 +715,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     return ior; // early exit, before firing any update events
                 }
                 performVersionAwareUpdateCheck(ior.getPrevResource(), ifMatchValue);
-
-                // In the case of a patch, we should not be updating meaninglessly.
-                if ((skippableUpdate || patch != null) && !isDeleted) {
-                    ResourceFingerprintVisitor fingerprinter = new ResourceFingerprintVisitor();
-                    ior.getPrevResource().accept(fingerprinter);
-                    SaltHash baseline = fingerprinter.getSaltAndHash();
-
-                    fingerprinter = new ResourceFingerprintVisitor(baseline);
-                    newResource.accept(fingerprinter);
-                    if (fingerprinter.getSaltAndHash().equals(baseline)) {
-                        ior.setResource(ior.getPrevResource());
-                        ior.setStatus(Status.OK);
-                        ior.setLocationURI(FHIRUtil.buildLocationURI(type, ior.getPrevResource()));
-                        ior.setOperationOutcome(OperationOutcome.builder()
-                                .issue(Issue.builder()
-                                    .severity(IssueSeverity.INFORMATION)
-                                    .code(IssueType.INFORMATIONAL)
-                                    .details(CodeableConcept.builder()
-                                        .text(string("Update resource matches the existing resource; skipping the update"))
-                                        .build())
-                                    .build())
-                                .build());
-
-                        ior.setCompleted(true);
-                        return ior; // early exit, before firing any update events
-                    }
-                }
             }
 
             // Configure the persistence event ready to fire the "before create|update|patch" events.
@@ -763,6 +736,33 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // capture the resource in case the interceptors modified it in some way
             newResource = event.getFhirResource();
+
+            // In the case of a patch, we should not be updating meaninglessly.
+            if ((skippableUpdate || patch != null) && !isDeleted && ior.getPrevResource() != null) {
+                ResourceFingerprintVisitor fingerprinter = new ResourceFingerprintVisitor();
+                ior.getPrevResource().accept(fingerprinter);
+                SaltHash baseline = fingerprinter.getSaltAndHash();
+
+                fingerprinter = new ResourceFingerprintVisitor(baseline);
+                newResource.accept(fingerprinter);
+                if (fingerprinter.getSaltAndHash().equals(baseline)) {
+                    ior.setResource(ior.getPrevResource());
+                    ior.setStatus(Status.OK);
+                    ior.setLocationURI(FHIRUtil.buildLocationURI(type, ior.getPrevResource()));
+                    ior.setOperationOutcome(OperationOutcome.builder()
+                            .issue(Issue.builder()
+                                .severity(IssueSeverity.INFORMATION)
+                                .code(IssueType.INFORMATIONAL)
+                                .details(CodeableConcept.builder()
+                                    .text(string("Update resource matches the existing resource; skipping the update"))
+                                    .build())
+                                .build())
+                            .build());
+
+                    ior.setCompleted(true);
+                    return ior; // early exit
+                }
+            }
 
             // update the meta in the new resource. Use the version from the previous resource - this gets checked
             // again under a database lock during the persistence phase and the request will be rejected if there's
@@ -1404,7 +1404,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             MultiResourceResult searchResult =
                     persistence.search(persistenceContext, resourceType);
             bundle = createSearchResponseBundle(searchResult.getResourceResults(), searchContext, type);
-           
+
             if (requestUri != null) {
                 bundle = addLinks(searchContext, bundle, requestUri, searchResult.geFirstId(), searchResult.getLastId(), searchResult.getExpectedNextId(), searchResult.getExpectedPreviousId());
             }
@@ -1448,7 +1448,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             return null;
         }
         return resourceResult.getResource().getId();
-        
+
     }
 
     @Override
@@ -2570,7 +2570,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                 // add the expected resource Id of the last resource in the previous page of search results as a query parameter to previous url
                 prevLinkUrl = addParameterToUrl(prevLinkUrl, SearchConstants.LAST_ID, expectedPreviousId);
-                
+
 
                 // create 'previous' link
                 Bundle.Link prevLink =
@@ -2581,7 +2581,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         return bundleBuilder.build();
     }
-    
+
     /**
      * Add a new parameter with the name and value to the url.
      * @param url the url to which the parameter has to be added

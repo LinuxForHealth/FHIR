@@ -88,7 +88,7 @@ public class AuthzPolicyEnforcementTest {
     private Map<String, Object> properties;
     private Binary binary;
     private Binary binaryWithSecurityContext;
-    
+
 
     @BeforeClass
     public void setup() throws Exception {
@@ -139,7 +139,7 @@ public class AuthzPolicyEnforcementTest {
                     .build())
                 .meta(Meta.builder().lastUpdated(Instant.now()).versionId(Id.of("1")).build())
                 .build();
-        
+
         binary = TestUtil.getMinimalResource(Binary.class);
         binaryWithSecurityContext = TestUtil.readExampleResource("json/spec/binary-example.json");
         properties = new HashMap<String, Object>();
@@ -178,7 +178,7 @@ public class AuthzPolicyEnforcementTest {
         } catch (FHIRPersistenceInterceptorException e) {
             assertFalse(shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
         }
-        
+
         // Test create Binary Resource which does not have a securityContext. Should Succeed
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
@@ -188,7 +188,7 @@ public class AuthzPolicyEnforcementTest {
         } catch (FHIRPersistenceInterceptorException e) {
             assertFalse(shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
         }
-        
+
         // Test create Binary Resource which has a securityContext. Should Fail since securityContext is not supported.
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
@@ -202,6 +202,10 @@ public class AuthzPolicyEnforcementTest {
         }
     }
 
+    // For the update interaction, both read and write permissions are needed.
+    // * In the "allowed" case both READ and WRITE "shouldSucceed" (or else it should not have been allowed)
+    // * In the "disallowed" (Exception) case, then either the READ or WRITE interaction was expected
+    //   to not succeed (or else it should have been allowed)
     @Test(dataProvider = "scopeStringProvider")
     public void testUpdate(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
@@ -241,7 +245,7 @@ public class AuthzPolicyEnforcementTest {
             assertFalse(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission) &&
                         shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
         }
-        
+
         // Test update Binary Resource which does not have a securityContext. Should Succeed
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
@@ -254,8 +258,9 @@ public class AuthzPolicyEnforcementTest {
             assertFalse(shouldSucceed(resourceTypesPermittedByScope, BINARY, READ_APPROVED, permission) &&
                         shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
         }
-        
-        // Test update Binary Resource which has a securityContext. Should Fail since securityContext is not supported.
+
+        // Test beforePatch Binary Resource which has a securityContext.
+        // It should be an exception since securityContext is not supported.
         try {
             properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(binaryWithSecurityContext, properties);
@@ -267,9 +272,82 @@ public class AuthzPolicyEnforcementTest {
                     shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission)) {
                 assertTrue(e.getMessage().equals("securityContext is not supported for resource type Binary"));
             }
+            // else beforeUpdate was rejected due to normal fhir-smart behavior (non-securityContext-related)
         }
-        
-        
+    }
+
+    // The patch interaction is just like the update interaction; both read and write permissions are needed.
+    // * In the "allowed" case both READ and WRITE "shouldSucceed" (or else it should not have been allowed)
+    // * In the "disallowed" (Exception) case, then either the READ or WRITE interaction was expected
+    //   to not succeed (or else it should have been allowed)
+    @Test(dataProvider = "scopeStringProvider")
+    public void testPatch(String scopeString, List<String> contextIds, Set<ResourceType> resourceTypesPermittedByScope, Permission permission) {
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString, contextIds));
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            event.setPrevFhirResource(patient);
+            interceptor.beforePatch(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission) &&
+                    shouldSucceed(resourceTypesPermittedByScope, PATIENT, WRITE_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, PATIENT, READ_APPROVED, permission) &&
+                    shouldSucceed(resourceTypesPermittedByScope, PATIENT, WRITE_APPROVED, permission));
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            event.setPrevFhirResource(observation);
+            interceptor.beforePatch(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, WRITE_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, OBSERVATION, WRITE_APPROVED, permission));
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Condition");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(condition, properties);
+            event.setPrevFhirResource(condition);
+            interceptor.beforePatch(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, CONDITION, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, CONDITION, WRITE_APPROVED, permission));
+        }
+
+        // Test beforePatch Binary Resource which does not have a securityContext. Should Succeed
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(binary, properties);
+            event.setPrevFhirResource(binary);
+            interceptor.beforePatch(event);
+            assertTrue(shouldSucceed(resourceTypesPermittedByScope, BINARY, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
+        } catch (FHIRPersistenceInterceptorException e) {
+            assertFalse(shouldSucceed(resourceTypesPermittedByScope, BINARY, READ_APPROVED, permission) &&
+                        shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission));
+        }
+
+        // Test beforePatch Binary Resource which has a securityContext.
+        // It should be an exception since securityContext is not supported.
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Binary");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(binaryWithSecurityContext, properties);
+            event.setPrevFhirResource(binaryWithSecurityContext);
+            interceptor.beforePatch(event);
+            fail("Did not receive the expected FHIRPersistenceInterceptorException");
+        } catch (FHIRPersistenceInterceptorException e) {
+            if (shouldSucceed(resourceTypesPermittedByScope, BINARY, READ_APPROVED, permission) &&
+                    shouldSucceed(resourceTypesPermittedByScope, BINARY, WRITE_APPROVED, permission)) {
+                assertTrue(e.getMessage().equals("securityContext is not supported for resource type Binary"));
+            }
+            // else beforePatch was rejected due to normal fhir-smart behavior (non-securityContext-related)
+        }
     }
 
     @Test(dataProvider = "scopeStringProvider")
@@ -348,6 +426,58 @@ public class AuthzPolicyEnforcementTest {
                     .build());
             interceptor.afterHistory(event);
             fail("Patient history was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+        }
+    }
+
+    @Test
+    public void testUserInteraction() {
+        // don't use buildRequestHeaders because we want to test without a "patient_id" claim
+        Map<String, List<String>> requestHeaders = new LinkedHashMap<String, List<String>>();
+        List<String> authHeader = Collections.singletonList("Bearer " + JWT.create()
+                .withClaim("scope", "user/Patient.read")
+                .sign(Algorithm.none()));
+        requestHeaders.put("Authorization", authHeader);
+        FHIRRequestContext.get().setHttpHeaders(requestHeaders);
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Patient");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, PATIENT_ID);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            interceptor.beforeRead(event);
+            interceptor.beforeVread(event);
+            interceptor.beforeHistory(event);
+        } catch (FHIRPersistenceInterceptorException e) {
+            fail("Patient interaction was not allowed but should have been", e);
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "whatever");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            interceptor.beforeRead(event);
+            fail("Observation read interaction was allowed but should not have been");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "whatever");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            interceptor.beforeVread(event);
+            fail("Observation vread interaction was allowed but should not have been");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+        }
+
+        try {
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, "whatever");
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(patient, properties);
+            interceptor.beforeHistory(event);
+            fail("Observation history interaction was allowed but should not have been");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
         }
@@ -1507,6 +1637,7 @@ public class AuthzPolicyEnforcementTest {
 
     /**
      * @return true if the interaction should succeed, otherwise false
+     * @implNote this method is used to help establish the "expected outcome" of a given interaction
      */
     private boolean shouldSucceed(Set<ResourceType> resourceTypesPermittedByScope, ResourceType requiredResourceType,
             List<Permission> permissionsPermittedByScope, Permission requiredPermission) {

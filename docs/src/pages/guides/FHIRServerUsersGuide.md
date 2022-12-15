@@ -2792,6 +2792,19 @@ Here are some notes related to these authentication schemes:
 *   OAuth 2.0 authentication can only be used in conjunction with an HTTPS endpoint because the OAuth authorization steps rely on SSL handshake negotiations.
 *   Client certificate-based authentication can only be used in conjunction with an HTTPS endpoint since it involves SSL handshake negotiations. The main value of client authentication is that the server is able to securely authenticate the client through the use of certificates.
 
+To disable basic authentication, add the below snippet under configDropins/overrides:
+```xml
+<server>
+    <webApplication id="fhir-server-webapp">
+        <application-bnd id="bind">
+            <security-role id="users" name="FHIRUsers">
+                <special-subject type="EVERYONE"/>
+            </security-role>
+        </application-bnd>
+    </webApplication>
+</server>
+```
+
 ### 5.2.3 Configuring mutual TLS authentication
 To properly configure the FHIR server's keystore and truststore files, perform the following steps.
 
