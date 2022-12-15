@@ -64,6 +64,7 @@ jobs:
             cd fhir/docs/
             npm install yarn -g
             yarn global add gatsby-cli
+            yarn add node-sass
             gatsby telemetry --disable
 
             # Install the packages
