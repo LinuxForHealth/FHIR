@@ -77,6 +77,9 @@ jobs:
             # npm install --save gatsby-transformer-remark gatsby-source-filesystem
             echo "installing yarn.."  
             yarn install
+        
+            echo "running  yarn upgrade.." 
+            yarn upgrade --latest
 
             # don't use gatsby build directly per https://github.com/gatsbyjs/gatsby/issues/17557
             # use the suggestion as a workaround due to path/issues in the gatsby component dependency of fsevents
