@@ -8,6 +8,7 @@ package org.linuxforhealth.fhir.server.util;
 
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -775,31 +776,22 @@ public class RestAuditLogger {
         
         // call populateAuditLogEntry to populate common attributes to all rest
         populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
-        
+        if (HTTPReturnPreference.REPRESENTATION.equals(FHIRRequestContext.get().getReturnPreference())) {
+            return entry;
+        }
+        if (responseEntry.getResponse() == null || responseEntry.getResponse().getLocation() == null) {
+            return entry;
+        }
         // Populate the resource id, resource type and version id from the
         // Bundle response entry location when the return preference is "OperationOutcome".
-        if (HTTPReturnPreference.OPERATION_OUTCOME.equals(FHIRRequestContext.get().getReturnPreference())) {
-            if (responseEntry.getResponse() != null && responseEntry.getResponse().getLocation() != null) {
-                String location = responseEntry.getResponse().getLocation().getValue();
-                String[] parts = location.split("/");
-                String resourceType = null;
-                String id = null;
-                String versionId = null;
-                if (parts.length == 10) {
-                    resourceType = parts[6];
-                    id = parts[7];
-                    versionId = parts[9];
-                } else if (parts.length == 4) {
-                    resourceType = parts[0];
-                    id = parts[1];
-                    versionId = parts[3];
-                }
-                entry.getContext().setData(Data.builder().resourceType(resourceType).build());
-                entry.getContext().getData().setId(id);
-                entry.getContext().getData().setVersionId(versionId);
-            }
+        String location = responseEntry.getResponse().getLocation().getValue();
+        String[] parts = location.split("/");
+        if (parts.length > 3) {
+            Collections.reverse(Arrays.asList(parts));
+            entry.getContext().setData(Data.builder().resourceType(parts[3]).build());
+            entry.getContext().getData().setVersionId(parts[0]);
+            entry.getContext().getData().setId(parts[2]);
         }
-        
         log.exiting(CLASSNAME, METHODNAME);
         return entry;
     }
