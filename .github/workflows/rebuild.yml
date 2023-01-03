@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         java: [ '11' ]
-        tag: [ '5.0.0', '5.1.0' ]
+        tag: [ '5.1.1' ]
       fail-fast: false
     steps:
     - uses: actions/checkout@v2
