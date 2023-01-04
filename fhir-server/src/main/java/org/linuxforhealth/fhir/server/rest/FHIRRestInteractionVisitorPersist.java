@@ -8,6 +8,7 @@ package org.linuxforhealth.fhir.server.rest;
 
 import static org.linuxforhealth.fhir.model.type.String.string;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -15,6 +16,7 @@ import java.util.concurrent.Callable;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response.Status;
 
+import org.linuxforhealth.fhir.core.FHIRConstants;
 import org.linuxforhealth.fhir.exception.FHIROperationException;
 import org.linuxforhealth.fhir.model.patch.FHIRPatch;
 import org.linuxforhealth.fhir.model.resource.Bundle;
@@ -22,6 +24,7 @@ import org.linuxforhealth.fhir.model.resource.Bundle.Entry;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome;
 import org.linuxforhealth.fhir.model.resource.OperationOutcome.Issue;
 import org.linuxforhealth.fhir.model.resource.Resource;
+import org.linuxforhealth.fhir.model.type.Extension;
 import org.linuxforhealth.fhir.model.util.FHIRUtil;
 import org.linuxforhealth.fhir.persistence.SingleResourceResult;
 import org.linuxforhealth.fhir.persistence.context.FHIRPersistenceEvent;
@@ -31,6 +34,7 @@ import org.linuxforhealth.fhir.search.exception.FHIRSearchException;
 import org.linuxforhealth.fhir.server.exception.FHIRResourceDeletedException;
 import org.linuxforhealth.fhir.server.exception.FHIRResourceNotFoundException;
 import org.linuxforhealth.fhir.server.spi.operation.FHIROperationContext;
+import org.linuxforhealth.fhir.server.spi.operation.FHIRResourceContext;
 import org.linuxforhealth.fhir.server.spi.operation.FHIRResourceHelpers;
 import org.linuxforhealth.fhir.server.spi.operation.FHIRRestOperationResponse;
 import org.linuxforhealth.fhir.server.util.FHIRUrlParser;
@@ -48,6 +52,8 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
 
     // True if the bundle type is TRANSACTION
     final boolean transaction;
+    
+    private static final String EXTENSION_BASE_URL = FHIRConstants.EXT_BASE + "deletedId";
 
     /**
      * Public constructor
@@ -234,6 +240,7 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
                         .status(string(Integer.toString(httpStatus)))
                         .outcome(oo)
                         .build())
+                        .extension(buildFHIRResourceContext(ior.getFhirResourceContexts()))
                     .build();
         });
 
@@ -339,5 +346,30 @@ public class FHIRRestInteractionVisitorPersist extends FHIRRestInteractionVisito
             final long elapsed = System.nanoTime() - start;
             setEntryComplete(entryIndex, entry, requestDescription, accumulatedTime + elapsed);
         }
+    }
+    
+    /**
+     * Method to build a list of Extension objects which contains the deleted resources id, type and version Id.
+     * @param resourceContexts the resourceContext with deleted resource id, type and versionId.
+     * @return The list of Extension objects with the value in the format {resourceType}/{resourceId}/{versionId}.
+     */
+    private List<Extension> buildFHIRResourceContext(List<FHIRResourceContext> resourceContexts) {
+        List<Extension> extensions = new ArrayList<>();
+        if (resourceContexts != null && !resourceContexts.isEmpty()) {
+            for (FHIRResourceContext resourceContext : resourceContexts) {
+                if (resourceContext.getId() != null && resourceContext.getResourceType() != null) {
+                    Extension.Builder builder = Extension.builder();
+                    builder.url(EXTENSION_BASE_URL);
+                    StringBuilder extensionValue = new StringBuilder(resourceContext.getResourceType())
+                                                        .append("/")
+                                                        .append(resourceContext.getId())
+                                                        .append("/")
+                                                        .append(resourceContext.getVersionId());
+                    builder.value(extensionValue.toString());
+                    extensions.add(builder.build());
+                }
+            }
+        }
+        return extensions;
     }
 }
