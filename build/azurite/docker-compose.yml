@@ -5,6 +5,30 @@ volumes:
     driver: local
   blobdata:
     driver: local
+  fhirconfig:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./fhir-server/config
+  fhirconfigoverrides:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./fhir-server/configDropins/overrides
+  fhiruserlib:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./fhir-server/userlib
+  fhirbulkdata:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ./fhir-server/bulkdata
 
 services:
   postgres:
@@ -47,29 +71,24 @@ services:
     image: linuxforhealth/fhir-server:latest
     hostname: fhir
     volumes:
-      - type: bind
-        source: ./fhir-server/config
+      - type: volume
+        source: fhirconfig
         target: /opt/ol/wlp/usr/servers/defaultServer/config
         read_only: true
-      - type: bind
-        source: ./fhir-server/configDropins/overrides
+      - type: volume
+        source: fhirconfigoverrides
         target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
         read_only: true
-      - type: bind
-        source: ./fhir-server/userlib
+      - type: volume
+        source: fhiruserlib
         target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
-      - type: bind
-        source: ./fhir-server/bulkdata
+      - type: volume
+        source: fhirbulkdata
         target: /output/bulkdata
     environment:
         TRACE_SPEC: "org.linuxforhealth.fhir.*=INFO"
         TRACE_FILE: "stdout"
-        BATCH_DB_HOSTNAME: postgres
-        BATCH_DB_USER: fhirbatch
-        BATCH_DB_PASS: change-password
-        BATCH_DB_SSL: "false"
-        BATCH_DB_NAME: fhirdb
     command: bash -c "
       java -jar /opt/fhir-server/tools/fhir-persistence-blob-app-*-cli.jar
           --fhir-config-dir /opt/ol/wlp/usr/servers/defaultServer
@@ -106,6 +125,49 @@ services:
     ports:
       - 9080:9080
       - 9443:9443
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - fhir
+  fhir-bulkdata-server:
+    image: linuxforhealth/fhir-bulkdata-server:latest
+    hostname: fhirbulkdata
+    volumes:
+      - type: volume
+        source: fhirconfig
+        target: /opt/ol/wlp/usr/servers/defaultServer/config
+        read_only: true
+      - type: bind
+        source: ./fhir-bulkdata-server/configDropins/overrides
+        target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
+        read_only: true
+      - type: volume
+        source: fhiruserlib
+        target: /opt/ol/wlp/usr/servers/defaultServer/userlib
+        read_only: true
+      - type: volume
+        source: fhirbulkdata
+        target: /output/bulkdata
+    environment:
+      TRACE_SPEC: "org.linuxforhealth.fhir.*=INFO"
+      TRACE_FILE: "stdout"
+      BATCH_DB_HOSTNAME: postgres
+      BATCH_DB_USER: fhirbatch
+      BATCH_DB_PASS: change-password
+      BATCH_DB_SSL: "false"
+      BATCH_DB_NAME: fhirdb
+    command: bash -c "/opt/ol/wlp/bin/server run"
+    healthcheck:
+      start_period: 32s
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      # https://docs.docker.com/compose/compose-file/#variable-substitution
+      test: curl --fail -k -u 'fhiruser:change-password' 'https://localhost:9445/fhir-bulkdata-server/api/v4/healthcheck'
+    ports:
+      - 9082:9082
+      - 9445:9445
     depends_on:
       postgres:
         condition: service_healthy

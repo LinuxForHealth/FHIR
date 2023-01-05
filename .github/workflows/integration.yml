@@ -33,6 +33,8 @@ jobs:
         mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
         mvn -B install --file fhir-parent -DskipTests -P include-fhir-igs,integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
         docker build fhir-install --build-arg VERBOSE=false -t linuxforhealth/fhir-server
+        echo "Building fhir-bulkdata-server image!"
+        docker build fhir-install-bulkdata --build-arg VERBOSE=false -t linuxforhealth/fhir-bulkdata-server
     - name: free disk space
       run: |
         # create and remove a 200 MB file to make sure we have the room needed later
@@ -59,7 +61,7 @@ jobs:
         rm -fr ${it_results} 2>/dev/null
         mkdir -p ${it_results}/server-logs
         mkdir -p ${it_results}/fhir-server-test
-        containerId=$(docker ps -a | grep fhir | cut -d ' ' -f 1)
+        containerId=$(docker ps -a | grep fhir-server | cut -d ' ' -f 1)
         if [[ -z "${containerId}" ]]; then
             echo "Warning: Could not find fhir container!!!"
         else
@@ -67,6 +69,23 @@ jobs:
 
             # Grab the container's console log
             docker logs $containerId  >& ${it_results}/docker-console.txt
+            echo "fhir container logs!!"
+            docker logs $containerId
+
+            echo "Gathering post-test server logs from docker container: $containerId"
+            docker cp -L $containerId:/logs ${it_results}/server-logs
+        fi
+        
+        bulkDataContainerId=$(docker ps -a | grep fhir-bulkdata-server | cut -d ' ' -f 1)
+        if [[ -z "${bulkDataContainerId}" ]]; then
+            echo "Warning: Could not find bulkdata fhir container!!!"
+        else
+            echo "bulkdata fhir container id: $containerId"
+
+            # Grab the container's console log
+            docker logs $bulkDataContainerId  >& ${it_results}/docker-console_bulkdata.txt
+            echo "bulkdata fhir container logs!!"
+            docker logs $bulkDataContainerId
 
             echo "Gathering post-test server logs from docker container: $containerId"
             docker cp -L $containerId:/logs ${it_results}/server-logs

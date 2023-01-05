@@ -183,7 +183,6 @@
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <warSourceDirectory>WebContent</warSourceDirectory>
                     <warName>${fhir.bulk.war.name}</warName>
                 </configuration>
             </plugin>

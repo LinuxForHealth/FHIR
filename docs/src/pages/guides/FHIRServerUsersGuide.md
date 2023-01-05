@@ -44,50 +44,60 @@ This FHIR server is intended to be a common component for providing FHIR capabil
 ## 2.1 Installing a new server
 0.  Prereqs: The LinuxForHealth FHIR Server requires Java 11 and has been tested with OpenJDK 11. To install Java on your system, we recommend downloading and installing OpenJDK 11 from https://adoptium.net/.
 
-1.  To install the LinuxForHealth FHIR Server, build or download the `fhir-install` zip installer.
-The Maven build creates the zip package under `fhir-install/target`. Alternatively, releases are available from the [Releases tab](https://github.com/LinuxForHealth/fhir/releases).
+1.  To install the LinuxForHealth FHIR Server, build or download the `fhir-install` zip installer. To install the LinuxForHealth FHIR Bulkdata Server, build or download the `fhir-install-bulkdata` zip installer.
+The Maven build creates the zip package under `fhir-install/target` and `fhir-install-bulkdata/target`. Alternatively, releases are available from the [Releases tab](https://github.com/LinuxForHealth/fhir/releases).
 
-2.  Unzip the `.zip` package into a clean directory (referred to as `fhir-installer` here):
+2.  Unzip the `.zip` packages into a clean directory (referred to as `fhir-installer` and `fhir-bulkdata-installer` here):
     ```
         mkdir fhir-installer
         cd fhir-installer
         unzip fhir-server-distribution.zip
+    
+        mkdir fhir-bulkdata-installer
+        cd fhir-bulkdata-installer
+        unzip fhir-bulkdata-server-distribution.zip
     ```
 
-3.  Determine an install location for the OpenLiberty server and the LinuxForHealth FHIR Server webapp. Example:  `/opt/ibm/fhir-server`
+3.  Determine an install location for the OpenLiberty server, the LinuxForHealth FHIR Server webapp and the LinuxForHealth FHIR Bulkdata Server webapp. Example:  `/opt/linuxforhealth/fhir-server` and `/opt/linuxforhealth/fhir-bulkdata-server` 
 
-4.  Run the `install.sh/.bat` script to install the server:
-    ```
-        ./fhir-server-dist/install.sh /opt/ibm/fhir-server
-    ```
-    This step installs the OpenLiberty runtime and the LinuxForHealth FHIR Server web application. The Liberty runtime is installed in a directory called `wlp` within the installation directory that you specify. For example, in the preceding command, the root directory of the Liberty server runtime would be `/opt/ibm/fhir-server/wlp`.
+   4.  Run the `install.sh/.bat` script to install the servers:
+       ```
+          install fhir-server: ./fhir-server-dist/install.sh /opt/linuxforhealth/fhir-server
+          install fhir-bulkdata-server: ./fhir-bulkdata-server-dist/install.sh /opt/linuxforhealth/fhir-bulkdata-server
+       ```
+       This step installs the OpenLiberty runtime, the LinuxForHealth FHIR Server web application and the LinuxForHealth FHIR Bulkdata Server web application. The Liberty runtime is installed in a directory called `wlp` within the installation directory that you specify. For example, in the preceding command, the root directory of the Liberty server runtime would be `/opt/ibm/fhir-server/wlp`.
 
-5.  Configure the fhir-server's `server.xml` file as needed by completing the following steps:
-    * Configure the ports that the server listen on. The server is installed with only port 9443 (HTTPS) enabled by default. To change the port numbers, modify the values in the `httpEndpoint` element.
+5.  Configure the fhir-server's `server.xml` and the fhir-bulkdata-server's `server.xml`  file as needed by completing the following steps:
+    * Configure the ports that the server listen on. The fhir-server is installed with only port 9443 (HTTPS) enabled by default. The fhir-bulkdata-server is installed with only port 9445 (HTTPS) enabled by default.  To change the port numbers, modify the values in the `httpEndpoint` element.
     * Configure a server keystore and truststore. The LinuxForHealth FHIR Server is installed with a default keystore file that contains a single self-signed certificate for localhost. For production use, you must create and configure your own keystore and truststore files for the FHIR server deployment (that is, generate your own server certificate or obtain a trusted certificate, and then share the public key certificate with API consumers so that they can insert it into their client-side truststore). The keystore and truststore files are used along with the server's HTTPS endpoint and the FHIR server's client-certificate-based authentication protocol to secure the FHIR server's endpoint. For more information, see [Section 5.2 Keystores, truststores, and the FHIR server](#52-keystores-truststores-and-the-fhir-server).
     * Configure an appropriate user registry. The FHIR server is installed with a basic user registry that contains a single user named `fhiruser`. For production use, it's best to configure your own user registry. For more information about configuring user registries, see the [OpenLiberty documentation](https://openliberty.io/guides/security-intro.html#configuring-the-user-registry).
 
     To override the default fhiruser's password, one may set an Environment variable `FHIR_USER_PASSWORD` and for the fhiradmin's password one may set an Environment variable `FHIR_ADMIN_PASSWORD`.
 
 6.  Make sure that your selected database product is running and ready to accept requests as needed:
-    * By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. When using the `ibmcom/ibm-fhir-server` docker image, set the `BOOTSTRAP_DB` environment variable to `true` in order to bootstrap this database. For any other configuration, note the database host and port and, if necessary, create a user with privileges for deploying the schema.
+    * By default, the FHIR server and the FHIR Bulkdata server are installed with the JDBC persistence layer configured to use an Embedded Derby database. When using the `ibmcom/ibm-fhir-server` docker image, set the `BOOTSTRAP_DB` environment variable to `true` in order to bootstrap this database. For any other configuration, note the database host and port and, if necessary, create a user with privileges for deploying the schema.
 
 7.  Create and deploy the LinuxForHealth FHIR Server database schema as needed:
-    * By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. When using the `ibmcom/ibm-fhir-server` docker image, set the `BOOTSTRAP_DB` environment variable to `true` in order to bootstrap this database. For any other configuration, use the `fhir-persistence-schema` module to create and deploy the database schema.
+    * By default, the FHIR server and the FHIR Bulkdata server are installed with the JDBC persistence layer configured to use an Embedded Derby database. When using the `ibmcom/ibm-fhir-server` docker image, set the `BOOTSTRAP_DB` environment variable to `true` in order to bootstrap this database. For any other configuration, use the `fhir-persistence-schema` module to create and deploy the database schema.
 
 8.  Configure the `fhir-server-config.json`<sup id="a1">[1](#f1)</sup> configuration file as needed:
     * By default, the FHIR server is installed with the JDBC persistence layer configured to use a single-tenant Embedded Derby database. For more information, see [Section 3.3 Persistence layer configuration](#33-persistence-layer-configuration).
-
-9.  To start and stop the server, use the Liberty server command:
+    * Update the 'fhirServer/bulkdata/core/api/url' with the port number of fhir-bulkdata-server.
+9.  To start and stop the servers, use the Liberty server command:
 ```
     <WLP_HOME>/bin/server start fhir-server
     <WLP_HOME>/bin/server stop fhir-server
+    
+    <WLP_HOME>/bin/server start fhir-bulkdata-server
+    <WLP_HOME>/bin/server stop fhir-bulkdata-server
 ```
 
-9.  After you start the server, you can verify that it's running properly by invoking the `$healthcheck` endpoint like this:
+9.  After you start the servers, you can verify that it's running properly by invoking the `$healthcheck` endpoints like this:
 
 ```
-    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/$healthcheck'
+    fhir-server: curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/$healthcheck'
+    
+    fhir-bulkdata-server:  curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-bulkdata-server/api/v4/healthcheck'
 ```
 
 where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).  
