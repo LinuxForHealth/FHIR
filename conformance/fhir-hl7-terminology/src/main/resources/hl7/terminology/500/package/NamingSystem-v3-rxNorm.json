@@ -1,0 +1,52 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-rxNorm",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "RxNorm"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-rxNorm"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.0.0"
+        }
+    ],
+    "name": "RxNorm",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2020-11-03",
+    "publisher": "National Library of Medicine (NLM)",
+    "contact": [
+        {
+            "name": "National Library of Medicine (NLM)",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "rxnorminfo@nlm.nih.gov"
+                }
+            ]
+        }
+    ],
+    "responsible": "National Library of Medicine (NLM)",
+    "description": "RxNorm provides normalized names for clinical drugs and links its names to many of the drug vocabularies commonly used in pharmacy management and drug interaction software, including those of First Databank, Micromedex, and Gold Standard Drug Database. By providing links between these vocabularies, RxNorm can mediate messages between systems not using the same software and vocabulary. RxNorm now includes the United States Pharmacopeia (USP) Compendial Nomenclature from the United States Pharmacopeial Convention. USP is a cumulative data set of all Active Pharmaceutical Ingredients (API).",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.88",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "preferred": true
+        }
+    ]
+}

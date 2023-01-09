@@ -1,0 +1,49 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-cci",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Canadian Classification of Health Interventions"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-cci"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.0.1"
+        }
+    ],
+    "name": "CCI",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "Canadian Institute for Health Information",
+    "contact": [
+        {
+            "name": "CIHI (Canadian Institute for Health Information)"
+        }
+    ],
+    "responsible": "Canadian Institute for Health Information",
+    "description": "CCI  (Canadian Classification of Health Interventions) was developed by CIHI to accompany ICD-10-CA. It was designed to be service-provider and service-setting neutral and can be used comprehensively throughout Canada’s health systems. CCI classifies a broad range of interventions including therapeutic and diagnostic interventions and other health care interventions, such as assistance with activities of daily living, environmental assessments and counselling.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.95",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://cihi.ca/fhir/CodeSystem/cihi-cci",
+            "preferred": true,
+            "period": {
+                "start": "2020-09-24"
+            }
+        }
+    ]
+}

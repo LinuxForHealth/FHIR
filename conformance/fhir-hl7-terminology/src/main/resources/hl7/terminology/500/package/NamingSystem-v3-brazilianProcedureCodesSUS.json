@@ -1,0 +1,47 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-brazilianProcedureCodesSUS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Brazilian Procedure Codes SUS"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-brazilianProcedureCodesSUS"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.0.1"
+        }
+    ],
+    "name": "BrazilianProcedureCodesSUS",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "HL7 Brazil",
+    "responsible": "HL7 Brazil",
+    "description": "Brazilian Procedure Codes used in the National Health System",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.2.21.10",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "https://fhir.infoway-inforoute.ca/CodeSystem/scpqual",
+            "preferred": false,
+            "comment": "Error in published import values, do not use."
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/v3-brazilianProcedureCodesSUS",
+            "preferred": true
+        }
+    ]
+}

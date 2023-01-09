@@ -1,0 +1,757 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-CalendarCycle",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-CalendarCycle",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.9"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "CalendarCycle",
+    "title": "Calendar Cycle Codes",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "Calendar cycle identifiers",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "notSelectable",
+            "uri": "http://hl7.org/fhir/concept-properties#notSelectable",
+            "description": "Indicates that the code is abstract - only intended to be used as a selector for other concepts",
+            "type": "boolean"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "A property that indicates the status of the concept. One of active, experimental, deprecated, or retired.",
+            "type": "code"
+        },
+        {
+            "code": "deprecationDate",
+            "uri": "http://hl7.org/fhir/concept-properties#deprecationDate",
+            "description": "The date at which a concept was deprecated. Concepts that are deprecated but not inactive can still be used, but their use is discouraged.",
+            "type": "dateTime"
+        },
+        {
+            "code": "synonymCode",
+            "uri": "http://hl7.org/fhir/concept-properties#synonym",
+            "description": "An additional concept code that was also attributed to a concept",
+            "type": "code"
+        },
+        {
+            "code": "subsumedBy",
+            "uri": "http://hl7.org/fhir/concept-properties#parent",
+            "description": "The concept code of a parent concept",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "_CalendarCycleOneLetter",
+            "display": "CalendarCycleOneLetter",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2013-06-29"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21046"
+                }
+            ]
+        },
+        {
+            "code": "_CalendarCycleTwoLetter",
+            "display": "CalendarCycleTwoLetter",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2013-06-29"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21047"
+                }
+            ]
+        },
+        {
+            "code": "WM",
+            "display": "week of the month",
+            "definition": "The week with the month's first Thursday in it (analagous to the ISO 8601 definition for week of the year).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23532"
+                }
+            ]
+        },
+        {
+            "code": "CW",
+            "display": "week (continuous)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "W"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10689"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "W",
+            "display": "week (continuous)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "CW"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10689"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "CY",
+            "display": "year",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "Y"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10686"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "Y",
+            "display": "year",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "CY"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10686"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "D",
+            "display": "day of the month",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "DM"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10691"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "DM",
+            "display": "day of the month",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "D"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10691"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "DW",
+            "display": "day of the week (begins with Monday)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "J"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10694"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "J",
+            "display": "day of the week (begins with Monday)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "DW"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10694"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "H",
+            "display": "hour of the day",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "HD"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10695"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "HD",
+            "display": "hour of the day",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "H"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10695"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "M",
+            "display": "month of the year",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "MY"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10687"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "MY",
+            "display": "month of the year",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "M"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10687"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "N",
+            "display": "minute of the hour",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "NH"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10697"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "NH",
+            "display": "minute of the hour",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "N"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10697"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "S",
+            "display": "second of the minute",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "SN"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10699"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "SN",
+            "display": "second of the minute",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "S"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10699"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleOneLetter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "_GregorianCalendarCycle",
+            "display": "GregorianCalendarCycle",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21048"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "CD",
+            "display": "day (continuous)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10692"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "CH",
+            "display": "hour (continuous)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10696"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "CM",
+            "display": "month (continuous)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10688"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "CN",
+            "display": "minute (continuous)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10698"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "CS",
+            "display": "second (continuous)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10700"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "DY",
+            "display": "day of the year",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10693"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        },
+        {
+            "code": "WY",
+            "display": "week of the year",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10690"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_CalendarCycleTwoLetter"
+                }
+            ]
+        }
+    ]
+}

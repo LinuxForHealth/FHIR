@@ -1,0 +1,52 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "icd10PCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ICD-10 Procedure Codes"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/icd10PCS"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.1"
+        }
+    ],
+    "name": "Icd10PCS",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-02-16T00:00:00-04:00",
+    "publisher": "CMS",
+    "contact": [
+        {
+            "name": "Centers for Medicare and Medicaid Services"
+        }
+    ],
+    "responsible": "CMS",
+    "description": "ICD Procedure Coding System (ICD 10 PCS)",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.4",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://www.cms.gov/Medicare/Coding/ICD10",
+            "preferred": true,
+            "comment": "This is the URL as specified by the terminology owner, and is considereed authoritative."
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/icd10PCS",
+            "preferred": false
+        }
+    ]
+}

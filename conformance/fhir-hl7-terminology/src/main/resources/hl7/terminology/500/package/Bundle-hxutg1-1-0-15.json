@@ -1,0 +1,1663 @@
+{
+    "resourceType": "Bundle",
+    "id": "hxutg1-1-0-15",
+    "type": "collection",
+    "entry": [
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/NDFRT-cs-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-NDFRT-cs-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-NDFRT-cs-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-NDFRT-cs-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"CodeSystem-NDFRT.html\">CodeSystem/NDFRT</a> &quot;NDFRT&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 11:00:00 PM</p><p><b>reason</b>: Added National Drug File Reference Terminology (NDF-RT) Code System Metadata Record; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "CodeSystem/NDFRT"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T15:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Added National Drug File Reference Terminology (NDF-RT) Code System Metadata Record; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/UNII-cs-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-UNII-cs-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-UNII-cs-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-UNII-cs-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"CodeSystem-UNII.html\">CodeSystem/UNII</a> &quot;UNII&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 11:00:00 PM</p><p><b>reason</b>: Added Unique Ingredient Identifier (UNII) Code System Metadata Record; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "CodeSystem/UNII"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T15:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Added Unique Ingredient Identifier (UNII) Code System Metadata Record; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/ISO3166Part1-cs-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-ISO3166Part1-cs-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-ISO3166Part1-cs-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-ISO3166Part1-cs-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"CodeSystem-ISO3166Part1.html\">CodeSystem/ISO3166Part1</a> &quot;ISO3166Part1&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 11:00:00 PM</p><p><b>reason</b>: Added ISO 3166 Part 1 Code System Metadata Record; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "CodeSystem/ISO3166Part1"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T15:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Added ISO 3166 Part 1 Code System Metadata Record; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/ISO3166Part2-cs-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-ISO3166Part2-cs-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-ISO3166Part2-cs-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-ISO3166Part2-cs-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"CodeSystem-ISO3166Part2.html\">CodeSystem/ISO3166Part2</a> &quot;ISO3166Part2&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 11:00:00 PM</p><p><b>reason</b>: Added ISO 3166 Part 2 Code System Metadata Record; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "CodeSystem/ISO3166Part2"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T15:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Added ISO 3166 Part 2 Code System Metadata Record; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/ISO3166Part3-cs-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-ISO3166Part3-cs-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-ISO3166Part3-cs-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-ISO3166Part3-cs-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"CodeSystem-ISO3166Part3.html\">CodeSystem/ISO3166Part3</a> &quot;ISO3166Part3&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 11:00:00 PM</p><p><b>reason</b>: Added ISO 3166 Part 3 Code System Metadata Record; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "CodeSystem/ISO3166Part3"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T15:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Added ISO 3166 Part 3 Code System Metadata Record; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/NDFRT-ns-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-NDFRT-ns-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-NDFRT-ns-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-NDFRT-ns-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"NamingSystem-NDFRT.html\">NamingSystem/NDFRT</a> &quot;NDFRT&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 11:00:00 PM</p><p><b>reason</b>: Added National Drug File Reference Terminology (NDF-RT) Code System Identifier Record; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "NamingSystem/NDFRT"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T15:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Added National Drug File Reference Terminology (NDF-RT) Code System Identifier Record; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/UNII-ns-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-UNII-ns-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-UNII-ns-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-UNII-ns-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"NamingSystem-UNII.html\">NamingSystem/UNII</a> &quot;UNII&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 11:00:00 PM</p><p><b>reason</b>: Added Unique Ingredient Identifier (UNII) Code System Identifier Record; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "NamingSystem/UNII"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T15:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Added Unique Ingredient Identifier (UNII) Code System Identifier Record; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/ISO3166Part1-ns-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-ISO3166Part1-ns-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-ISO3166Part1-ns-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-ISO3166Part1-ns-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"NamingSystem-ISO3166Part1.html\">NamingSystem/ISO3166Part1</a> &quot;ISO3166Part1&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 11:00:00 PM</p><p><b>reason</b>: Added ISO 3166 Part 1 Code System Identifier Record; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "NamingSystem/ISO3166Part1"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T15:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Added ISO 3166 Part 1 Code System Identifier Record; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/ISO3166Part2-ns-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-ISO3166Part2-ns-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-ISO3166Part2-ns-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-ISO3166Part2-ns-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"NamingSystem-ISO3166Part2.html\">NamingSystem/ISO3166Part2</a> &quot;ISO3166Part2&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 11:00:00 PM</p><p><b>reason</b>: Added ISO 3166 Part 2 Code System Identifier Record; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "NamingSystem/ISO3166Part2"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T15:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Added ISO 3166 Part 2 Code System Identifier Record; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/ISO3166Part3-ns-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-ISO3166Part3-ns-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-ISO3166Part3-ns-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-ISO3166Part3-ns-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"NamingSystem-ISO3166Part3.html\">NamingSystem/ISO3166Part3</a> &quot;ISO3166Part3&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 11:00:00 PM</p><p><b>reason</b>: Added ISO 3166 Part 3 Code System Identifier Record; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "NamingSystem/ISO3166Part3"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T15:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Added ISO 3166 Part 3 Code System Identifier Record; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/iso3166-1edition2alpha2-cs-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-iso3166-1edition2alpha2-cs-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-iso3166-1edition2alpha2-cs-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-iso3166-1edition2alpha2-cs-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"CodeSystem-iso3166-1edition2alpha2.html\">CodeSystem/iso3166-1edition2alpha2</a> &quot;Iso31661edition2alpha2&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2023, 6:00:00 PM</p><p><b>reason</b>: Code System Metadata Record being retired; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: revise <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#UPDATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "CodeSystem/iso3166-1edition2alpha2"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2023-08-23T10:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Code System Metadata Record being retired; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "UPDATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/iso3166-1edition2alpha3-cs-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-iso3166-1edition2alpha3-cs-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-iso3166-1edition2alpha3-cs-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-iso3166-1edition2alpha3-cs-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"CodeSystem-iso3166-1edition2alpha3.html\">CodeSystem/iso3166-1edition2alpha3</a> &quot;Iso31661edition2alpha3&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2023, 6:00:00 PM</p><p><b>reason</b>: Code System Metadata Record being retired; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: revise <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#UPDATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "CodeSystem/iso3166-1edition2alpha3"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2023-08-23T10:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Code System Metadata Record being retired; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "UPDATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/v3-iso3166-2-cs-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-v3-iso3166-2-cs-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-v3-iso3166-2-cs-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-v3-iso3166-2-cs-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"CodeSystem-v3-iso3166-2.html\">CodeSystem/v3-iso3166-2</a> &quot;Iso3166_2&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2023, 6:00:00 PM</p><p><b>reason</b>: Code System Metadata Record being retired; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: revise <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#UPDATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "CodeSystem/v3-iso3166-2"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2023-08-23T10:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Code System Metadata Record being retired; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "UPDATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/iso3166-1edition2-cs-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-iso3166-1edition2-cs-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-iso3166-1edition2-cs-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-iso3166-1edition2-cs-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"CodeSystem-iso3166-1edition2.html\">CodeSystem/iso3166-1edition2</a> &quot;Iso31661edition2&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2023, 6:00:00 PM</p><p><b>reason</b>: Code System Metadata Record being retired; UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: revise <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#UPDATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "CodeSystem/iso3166-1edition2"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2023-08-23T10:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Code System Metadata Record being retired; UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "UPDATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/iso3166-1edition2alpha2-ns-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-iso3166-1edition2alpha2-ns-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-iso3166-1edition2alpha2-ns-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-iso3166-1edition2alpha2-ns-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"NamingSystem-iso3166-1edition2alpha2.html\">NamingSystem/iso3166-1edition2alpha2</a> &quot;Iso31661edition2alpha2&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 6:00:00 PM</p><p><b>reason</b>: Code System Identification Record being retired – UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: revise <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#UPDATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "NamingSystem/iso3166-1edition2alpha2"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T10:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Code System Identification Record being retired – UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "UPDATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/iso3166-1edition2alpha3-ns-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-iso3166-1edition2alpha3-ns-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-iso3166-1edition2alpha3-ns-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-iso3166-1edition2alpha3-ns-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"NamingSystem-iso3166-1edition2alpha3.html\">NamingSystem/iso3166-1edition2alpha3</a> &quot;Iso31661edition2alpha3&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 6:00:00 PM</p><p><b>reason</b>: Code System Identification Record being retired – UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: revise <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#UPDATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "NamingSystem/iso3166-1edition2alpha3"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T10:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Code System Identification Record being retired – UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "UPDATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/iso3166-2-ns-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-iso3166-2-ns-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-iso3166-2-ns-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-iso3166-2-ns-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"NamingSystem-iso3166-2.html\">NamingSystem/iso3166-2</a> &quot;Iso31662&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 6:00:00 PM</p><p><b>reason</b>: Code System Identification Record being retired – UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: revise <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#UPDATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "NamingSystem/iso3166-2"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T10:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Code System Identification Record being retired – UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "UPDATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/iso3166-1edition2-ns-3-1-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1k-iso3166-1edition2-ns-3-1-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1k-iso3166-1edition2-ns-3-1-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1k-iso3166-1edition2-ns-3-1-14&quot; </p></div><p><b>target</b>: <a href=\"NamingSystem-iso3166-1edition2.html\">NamingSystem/iso3166-1edition2</a> &quot;Iso31661edition2&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-08-23</p><p><b>recorded</b>: Aug 22, 2022, 6:00:00 PM</p><p><b>reason</b>: Code System Identification Record being retired – UP-289 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: revise <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#UPDATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Reuben Daniels</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: TSMG</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "NamingSystem/iso3166-1edition2"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-08-23"
+                },
+                "recorded": "2022-08-23T10:00:00+10:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Code System Identification Record being retired – UP-289"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "UPDATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Reuben Daniels"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "TSMG"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/v3-nciThesaurus-cs-3-0-10",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-v3-nciThesaurus-cs-3-0-10",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-v3-nciThesaurus-cs-3-0-10\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-v3-nciThesaurus-cs-3-0-10&quot; </p></div><p><b>target</b>: <a href=\"CodeSystem-v3-nciThesaurus.html\">CodeSystem/v3-nciThesaurus</a> &quot;NciThesaurus&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-10-22</p><p><b>recorded</b>: Oct 22, 2022, 12:39:26 AM</p><p><b>reason</b>: Update Preferred URI for NCI Thesaurus; up-345 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: revise <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#UPDATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Jessica Bota</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: HTA</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "CodeSystem/v3-nciThesaurus"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-10-22"
+                },
+                "recorded": "2022-10-22T00:39:26-06:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Update Preferred URI for NCI Thesaurus; up-345"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "UPDATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Jessica Bota"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "HTA"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/v3-nciThesaurus-ns-3-0-10",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-v3-nciThesaurus-ns-3-0-10",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-v3-nciThesaurus-ns-3-0-10\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-v3-nciThesaurus-ns-3-0-10&quot; </p></div><p><b>target</b>: <a href=\"NamingSystem-v3-nciThesaurus.html\">NamingSystem/v3-nciThesaurus</a> &quot;NciThesaurus&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-10-22</p><p><b>recorded</b>: Oct 22, 2022, 12:39:33 AM</p><p><b>reason</b>: Update Preferred URI for NCI Thesaurus; up-345 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: revise <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#UPDATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Jessica Bota</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: HTA</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "NamingSystem/v3-nciThesaurus"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-10-22"
+                },
+                "recorded": "2022-10-22T00:39:33-06:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Update Preferred URI for NCI Thesaurus; up-345"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "UPDATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Jessica Bota"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "HTA"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/appropriateness-score-cs-3-0-11",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-appropriateness-score-cs-3-0-11",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-appropriateness-score-cs-3-0-11\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-appropriateness-score-cs-3-0-11&quot; </p></div><p><b>target</b>: <a href=\"CodeSystem-appropriateness-score.html\">CodeSystem/appropriateness-score</a> &quot;AppropriatenessScore&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-10-22</p><p><b>recorded</b>: Oct 22, 2022, 11:12:07 AM</p><p><b>reason</b>: Create new CodeSystem for Appropriateness Score based upon RAND; up-360 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Abdullah Rafiqi</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: CQI</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "CodeSystem/appropriateness-score"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-10-22"
+                },
+                "recorded": "2022-10-22T11:12:07-06:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Create new CodeSystem for Appropriateness Score based upon RAND; up-360"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Abdullah Rafiqi"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "CQI"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/appropriateness-score-vs-3-0-12",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-appropriateness-score-vs-3-0-12",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-appropriateness-score-vs-3-0-12\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-appropriateness-score-vs-3-0-12&quot; </p></div><p><b>target</b>: <a href=\"ValueSet-appropriateness-score.html\">ValueSet/appropriateness-score</a> &quot;AppropriatenessScore&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-10-22</p><p><b>recorded</b>: Oct 22, 2022, 11:24:43 AM</p><p><b>reason</b>: Create Appropriateness Score Valueset; up-361 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Abdullah Rafiqi</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: CQI</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "ValueSet/appropriateness-score"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-10-22"
+                },
+                "recorded": "2022-10-22T11:24:43-06:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Create Appropriateness Score Valueset; up-361"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Abdullah Rafiqi"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "CQI"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/clinical-discharge-disposition-vs-3-0-13",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-clinical-discharge-disposition-vs-3-0-13",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-clinical-discharge-disposition-vs-3-0-13\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-clinical-discharge-disposition-vs-3-0-13&quot; </p></div><p><b>target</b>: <a href=\"ValueSet-clinical-discharge-disposition.html\">ValueSet/clinical-discharge-disposition</a> &quot;ClinicalDischargeDisposition&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-10-22</p><p><b>recorded</b>: Oct 22, 2022, 2:08:25 PM</p><p><b>reason</b>: Create Clinical Discharge Disposition Valueset; up-362 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Abdullah Rafiqi</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: CQI</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "ValueSet/clinical-discharge-disposition"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-10-22"
+                },
+                "recorded": "2022-10-22T14:08:25-06:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Create Clinical Discharge Disposition Valueset; up-362"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Abdullah Rafiqi"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "CQI"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://terminology.hl7.org/fhir/Provenance/v3-HL7DocumentFormatCodes-cs-3-0-14",
+            "resource": {
+                "resourceType": "Provenance",
+                "id": "hx1n-v3-HL7DocumentFormatCodes-cs-3-0-14",
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: Provenance</b><a name=\"hx1n-v3-HL7DocumentFormatCodes-cs-3-0-14\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource Provenance &quot;hx1n-v3-HL7DocumentFormatCodes-cs-3-0-14&quot; </p></div><p><b>target</b>: <a href=\"CodeSystem-v3-HL7DocumentFormatCodes.html\">CodeSystem/v3-HL7DocumentFormatCodes</a> &quot;HL7DocumentFormatCodes&quot;</p><p><b>occurred</b>: ?? --&gt; 2022-10-22</p><p><b>recorded</b>: Oct 22, 2022, 2:14:19 PM</p><p><b>reason</b>: Please add additional format Codes to the http://terminology.hl7.org/CodeSystem/v3-HL7DocumentFormatCodes codeSystem; up-UP-337 <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-ActReason.html\">ActReason</a>#METAMGT)</span></p><p><b>activity</b>: create <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-v3-DataOperation.html\">DataOperation</a>#CREATE)</span></p><blockquote><p><b>agent</b></p><p><b>type</b>: Author <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#author)</span></p><p><b>who</b>: <span>: Marc Duteau</span></p></blockquote><blockquote><p><b>agent</b></p><p><b>type</b>: Custodian <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"CodeSystem-provenance-participant-type.html\">Provenance participant type</a>#custodian)</span></p><p><b>who</b>: <span>: SD</span></p></blockquote></div>"
+                },
+                "target": [
+                    {
+                        "reference": "CodeSystem/v3-HL7DocumentFormatCodes"
+                    }
+                ],
+                "occurredPeriod": {
+                    "end": "2022-10-22"
+                },
+                "recorded": "2022-10-22T14:14:19-06:00",
+                "authorization": [
+                    {
+                        "concept": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+                                    "code": "METAMGT"
+                                }
+                            ],
+                            "text": "Please add additional format Codes to the http://terminology.hl7.org/CodeSystem/v3-HL7DocumentFormatCodes codeSystem; up-UP-337"
+                        }
+                    }
+                ],
+                "activity": {
+                    "coding": [
+                        {
+                            "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                            "code": "CREATE"
+                        }
+                    ]
+                },
+                "agent": [
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "author"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "Marc Duteau"
+                        }
+                    },
+                    {
+                        "type": {
+                            "coding": [
+                                {
+                                    "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                                    "code": "custodian"
+                                }
+                            ]
+                        },
+                        "who": {
+                            "display": "SD"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

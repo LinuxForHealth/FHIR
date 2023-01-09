@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "icpc",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "International Classification of Primary Care, 1993 edition"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/icpc"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Icpc",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "World Health Organization (WHO)",
+    "responsible": "World Health Organization (WHO)",
+    "description": "The International Classification of Primary Care (ICPC). Denmark: World Organisation of Family Doctors, 1993. Various language translations are identified beneath this OID.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.138",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/icpc",
+            "preferred": false
+        },
+        {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/sid/icpc-1",
+            "preferred": true
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "MSDRG",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Medicare Severity Diagnosis Related Groups (MS-DRGs)"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/MSDRG"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "MSDRG",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-04-07T00:00:00-00:00",
+    "publisher": "Centers for Medicare & Medicaid Services",
+    "contact": [
+        {
+            "name": "Centers for Medicare & Medicaid Services; 7500 Security Boulevard, Baltimore, MD 21244"
+        }
+    ],
+    "responsible": "Centers for Medicare & Medicaid Services",
+    "description": "Section 1886(d) of the Act specifies that the Secretary shall establish a classification system (referred to as DRGs) for inpatient discharges and adjust payments under the IPPS based on appropriate weighting factors assigned to each DRG.  Therefore, under the IPPS, we[CMS] pay for inpatient hospital services on a rate per discharge basis that varies according to the DRG to which a beneficiary's stay is assigned. The formula used to calculate payment for a specific case multiplies an individual hospital's payment rate per case by the weight of the DRG to which the case is assigned.  Each DRG weight represents the average resources required to care for cases in that particular DRG, relative to the average resources used to treat cases in all DRGs. Congress recognized that it would be necessary to recalculate the DRG relative weights periodically to account for changes in resource consumption.  Accordingly, section 1886(d)(4)(C) of the Act requires that the Secretary adjust the DRG classifications and relative weights at least annually.  These adjustments are made to reflect changes in treatment patterns, technology, and any other factors that may change the relative use of hospital resources.\r\n\r\nCurrently, cases are classified into Medicare Severity Diagnosis Related Groups (MS-DRGs) for payment under the IPPS based on the following information reported by the hospital: the principal diagnosis, up to 25 additional diagnoses, and up to 25 procedures performed during the stay.  In a small number of MS-DRGs, classification is also based on the age, sex, and discharge status of the patient.  Effective October 1, 2015, the diagnosis and procedure information is reported by the hospital using codes from the International Classification of Diseases, Tenth Revision, Clinical Modification (ICD-10-CM) and the International Classification of Diseases, Tenth Revision, Procedure Coding System (ICD-10-PCS).\r\n\r\nContent can be obtained on the CMS hosted page located at https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/AcuteInpatientPPS/MS-DRG-Classifications-and-Software \r\n\r\nThe DRGs are released annually with errata published infrequently. The fiscal year and release version should be noted (e.g., 2021.38.R1).\r\n\r\nRequests for annual MS-DRG classification changes and any MS-DRG related inquiries should be sent to the MSDRGClassificationChange@cms.hhs.gov mailbox.\r\n\r\nFor additional information on the MS-DRG system, including yearly reviews and changes to the MS-DRGs, please view prior Inpatient Prospective Payment System (IPPS) proposed and final rules located in the left navigational area of https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/AcuteInpatientPPS/MS-DRG-Classifications-and-Software",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/AcuteInpatientPPS/MS-DRG-Classifications-and-Software",
+            "preferred": true,
+            "comment": "This is the URL endorsed by the HTA and is considered authoritative.",
+            "period": {
+                "start": "2022-04-07"
+            }
+        }
+    ]
+}

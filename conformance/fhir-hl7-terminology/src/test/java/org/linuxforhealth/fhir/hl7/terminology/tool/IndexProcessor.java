@@ -22,7 +22,7 @@ public class IndexProcessor {
     public static void main(String[] args) throws Exception {
         Index index = new Index(1);
 
-        File indexFile = new File("src/main/resources/hl7/terminology/310/package/.index.json");
+        File indexFile = new File("src/main/resources/hl7/terminology/500/package/.index.json");
         try (Reader reader = new FileReader(indexFile)) {
             index.load(reader);
         }

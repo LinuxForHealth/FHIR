@@ -1,0 +1,69 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "contractaction",
+    "meta": {
+        "lastUpdated": "2020-04-09T21:10:28.568+00:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fm"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/contractaction",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1202"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "ContractActionCodes",
+    "title": "Contract Action Codes",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-11-04T19:44:38-06:00",
+    "publisher": "Financial Management",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set includes sample Contract Action codes.",
+    "copyright": "This is an example set.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/contract-action",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "action-a",
+            "display": "Action A",
+            "definition": "Definition for Action A"
+        },
+        {
+            "code": "action-b",
+            "display": "Action B",
+            "definition": "Definition for Action B"
+        }
+    ]
+}

@@ -1,0 +1,45 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-HealthcareProviderTaxonomyHIPAA",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Healthcare Provider Taxonomy HIPAA"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-HealthcareProviderTaxonomyHIPAA"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.0.0"
+        }
+    ],
+    "name": "HealthcareProviderTaxonomyHIPAA",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "description": "This HL7 Version 3 code system stub was created many years ago for the convenience of the HL7 community using the RIM; it has been determined that there is licensure issue with the republishing of the content for this code system by HL7, as well as erroneous and incomplete content.  Content should be accessed using the links at nucc.org",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.101",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://nucc.org/provider-taxonomy",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/v3-HealthcareProviderTaxonomyHIPAA",
+            "preferred": false,
+            "comment": "Published for many years in HL7 Standards with this name, but has now been corrected to refer to the IP owner.   Retained here for backwards-compatibility and reference.  Content removed as of the July 2016 v3 harmonization meeting."
+        }
+    ]
+}

@@ -1,0 +1,53 @@
+{
+    "resourceType": "List",
+    "id": "deprCSVS-Rendering",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "status": "current",
+    "mode": "working",
+    "title": "Deprecated Code Systems Rendering Manifest",
+    "code": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                "code": "UTGCTGManifest"
+            }
+        ]
+    },
+    "orderedBy": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                "code": "alphabetic"
+            }
+        ]
+    },
+    "entry": [
+        {
+            "item": {
+                "reference": "CodeSystem/v3-MessageCondition",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-Ethnicity",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-Race",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-RoleClassSubsumer",
+                "type": "ValueSet"
+            }
+        }
+    ]
+}

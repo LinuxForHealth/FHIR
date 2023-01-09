@@ -1,0 +1,30 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "ICD-9CM-diagnosiscodes",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/ICD-9CM-diagnosiscodes",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.103"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "ICD9CMDiagnosiscodes",
+    "title": "National Center for Health Statistics",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "National Center for Health Statistics"
+        }
+    ],
+    "description": "The International Classification of Diseases, 9th Revision, Clinical Modification (ICD-9-CM), Volumes I, II (diagnoses) and III (procedures) describes the classification of morbidity and mortality information for statistical purposes and for the indexing of healthcare records by diseases and procedures. The ICD-9-CM codes can be used as the value of the Act.cd attribute.",
+    "caseSensitive": true,
+    "content": "not-present"
+}

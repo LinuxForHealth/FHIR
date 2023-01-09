@@ -1,0 +1,45 @@
+{
+    "resourceType": "ValueSet",
+    "id": "appropriateness-score",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/appropriateness-score",
+    "identifier": [
+        {
+            "use": "old",
+            "value": "http://hl7.org/fhir/us/qicore/ValueSet/appropriateness-score"
+        }
+    ],
+    "version": "1.0.0",
+    "name": "AppropriatenessScore",
+    "title": "Appropriateness Score",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-10-19",
+    "publisher": "Health Level Seven, Inc. - CQI WG",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/special/committees/CQI"
+                }
+            ]
+        }
+    ],
+    "description": "The scoring for appropriateness of an action based upon RAND.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/appropriateness-score"
+            }
+        ]
+    }
+}

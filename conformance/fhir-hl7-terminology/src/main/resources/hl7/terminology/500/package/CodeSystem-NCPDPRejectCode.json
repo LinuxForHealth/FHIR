@@ -1,0 +1,34 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "NCPDPRejectCode",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/NCPDPRejectCode",
+    "version": "1.0.2",
+    "name": "NCPDPRejectCode",
+    "title": "NCPDP Reject Code",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-03-10T00:00:00-04:00",
+    "publisher": "National Council for Prescription Drug Programs",
+    "contact": [
+        {
+            "name": "National Council for Prescription Drug Programs",
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "480.477.1000"
+                },
+                {
+                    "system": "email",
+                    "value": "info@ncpdp.org"
+                }
+            ]
+        }
+    ],
+    "description": "Code indicating the error encountered. Contains exception definitions for use when transaction processing cannot be completed.",
+    "caseSensitive": true,
+    "content": "not-present"
+}

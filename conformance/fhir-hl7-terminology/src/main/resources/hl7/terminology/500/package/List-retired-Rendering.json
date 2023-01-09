@@ -1,0 +1,329 @@
+{
+    "resourceType": "List",
+    "id": "retired-Rendering",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "status": "current",
+    "mode": "working",
+    "title": "Retired Manifest",
+    "code": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                "code": "UTGCTGManifest"
+            }
+        ]
+    },
+    "orderedBy": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/list-order",
+                "code": "alphabetic"
+            }
+        ]
+    },
+    "entry": [
+        {
+            "item": {
+                "reference": "CodeSystem/v3-CodeSystem",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-CodeSystemType",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-ConceptCodeRelationship",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActClassConditionNode",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActProcedureCodeCCI",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActClassLeftLateralDecubitus",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActClassProne",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActClassReverseTrendelenburg",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActClassRightLateralDecubitus",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActClassSemiFowlers",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActClassSitting",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActClassStanding",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActClassSubjectBodyPosition",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActClassSupine",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActClassTrendelenburg",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-HumanActSite",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-CodeSystem",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-ActRelationshipUpdate",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-Ethnicity",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-HL7ConformanceInclusion",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-HL7CommitteeIDInRIM",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-HL7DefinedRoseProperty",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-MDFAttributeType",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-MdfHmdMetSourceType",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-MdfHmdRowType",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-MdfRmimRowType",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-MDFSubjectAreaPrefix",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-MessageCondition",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-OrganizationNameType",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-ParameterizedDataType",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-PostalAddressUse",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-QueryQuantityUnit",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-Race",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-TelecommunicationAddressUse",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-Country",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-Currency",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-DataType",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-EncounterAccident",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-ConceptGenerality",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-ConceptProperty",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-EditStatus",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-ConceptStatus",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-EncounterReferralSource",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-EncounterAcuity",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "ValueSet/v3-EPSG-GeodeticParameterDataset",
+                "type": "ValueSet"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-MaterialForm",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-MaterialType",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-VocabularyDomainQualifier",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v3-PeriodicIntervalOfTimeAbbreviation",
+                "type": "CodeSystem"
+            }
+        },
+        {
+            "item": {
+                "reference": "CodeSystem/v2-0005",
+                "type": "CodeSystem"
+            }
+        }
+    ]
+}

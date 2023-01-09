@@ -1,0 +1,52 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-snomed-CT",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "SNOMED CT International Edition"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-snomed-CT"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.1.0"
+        }
+    ],
+    "name": "SNOMED_CT_INT",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2020-11-03",
+    "publisher": "International Health Terminology Standards Development Organisation (IHTSDO) trading as SNOMED International",
+    "contact": [
+        {
+            "name": "International Health Terminology Standards Development Organisation (IHTSDO) trading as SNOMED International",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "info@snomed.org"
+                }
+            ]
+        }
+    ],
+    "responsible": "International Health Terminology Standards Development Organisation (IHTSDO) trading as SNOMED International",
+    "description": "SNOMED CT is a core clinical healthcare terminology that contains concepts with unique meanings and formal logic based definitions organized into hierarchies.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.96",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://snomed.info/sct",
+            "preferred": true
+        }
+    ]
+}

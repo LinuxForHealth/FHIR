@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "naics",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "North American Industry Classification System"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/naics"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Naics",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "US Government",
+    "contact": [
+        {
+            "name": "US Census Bureau"
+        }
+    ],
+    "responsible": "US Government",
+    "description": "North American Industry Classification System(NAICS) for the United States, a new economic classification system that replaces the 1987 Standard Industrial Classification (SIC) for statistical purposes. NAICS is a system for classifying establishments by type of economic activity. Its purposes are: (1) to facilitate the collection, tabulation, presentation, and analysis of data relating to establishments, and (2) to promote uniformity and comparability in the presentation of statistical data describing the economy. NAICS will be used by Federal statistical agencies that collect or publish data by industry.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.85",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/naics",
+            "preferred": true
+        }
+    ]
+}

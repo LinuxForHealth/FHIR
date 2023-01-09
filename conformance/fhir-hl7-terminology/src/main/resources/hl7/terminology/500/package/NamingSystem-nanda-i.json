@@ -1,0 +1,56 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "nanda-i",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "NANDA International"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/nanda-i"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.1.0"
+        }
+    ],
+    "name": "NandaI",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00.000-04:00",
+    "publisher": "Kay C. Avant, RN, PhD, FAAN; 7601 Tallahassee, Waco, Tx 76712; Telephone: 254 772 5572; Fax: 254 741 9850; E-mail: kayavant@aol.com",
+    "contact": [
+        {
+            "name": "Name: North American Nursing Diagnosis Association; Address: 1211 Locust St., Philadelphia, PA 19107; Telephone: 215 545 7222; Fax: 215 545 8107; E-mail: www.NANDA@rmpinc.com or www.NANDA.org"
+        }
+    ],
+    "responsible": "Kay C. Avant, RN, PhD, FAAN; 7601 Tallahassee, Waco, Tx 76712; Telephone: 254 772 5572; Fax: 254 741 9850; E-mail: kayavant@aol.com",
+    "description": "The terminology consists of standardized terms and codes for patient problems or life processes expressed as nursing diagnoses. These data elements would be classified by HL7 as \"observations\". The taxonomy is multi-axial. It consists of 12 domains and 36 classes. All domains and classes are defined. There are 7 axes with definitions for each. Each nursing diagnosis consists of: a concept label or term expressed as a noun or a noun phrase; a definition of the term; a set of defining characteristics (signs and symptoms) of the diagnostic term; an approved list of modifiers of the term; a set of risk factors with definitions; and a set of related factors (or etiologies) for the term. The system preserves semantics by having robust review procedures and policies to ensure against semantic drift in the meanings of the encoded terms over time. NANDA as an organization is committed to updating the terminology on a regular biannual basis. NANDA has been in existence since 1973 and is thus the oldest developer of standardized language in nursing. Most other nursing language systems use many of the older NANDA terms in their vocabularies. The express purpose of the organization is to develop a comprehensive standardized nursing language that captures the conclusions that nurses make based on observations - in effect, the nursing diagnoses. The work is a continuing effort and diagnoses are revised, retired or added bi-annually. The codes are simple integers and are not linked to each other. If a diagnostic term is retired, the code is also retired. If a new diagnosis is added a new code is given to that term. If a diagnostic term is revised, the code is kept intact but the date of the revision is published alongside the term. Domains and classes are not coded.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.20",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/nanda",
+            "preferred": false,
+            "comment": "Original pro-forma v3 URL; replaced with canonical URL as per terminology owner."
+        },
+        {
+            "type": "uri",
+            "value": "http://www.nanda.org/",
+            "preferred": true,
+            "comment": "Official canonical URL as validated with termminology owner.",
+            "period": {
+                "start": "2019-04-19"
+            }
+        }
+    ]
+}

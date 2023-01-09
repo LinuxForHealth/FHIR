@@ -1,0 +1,58 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "SOPT",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Source of Payment Typology"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/SOPT"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.1"
+        }
+    ],
+    "name": "SOPT",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-06-07T00:00:00-00:00",
+    "publisher": "National Association of Health Data Organizations (NAHDO)",
+    "contact": [
+        {
+            "name": "National Association of Health Data Organizations (NAHDO); 124 South 400 East, Suite 220, Salt Lake City, Utah 84111-5312",
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "801-532-2299"
+                },
+                {
+                    "system": "email",
+                    "value": "info@nahdo.org"
+                }
+            ]
+        }
+    ],
+    "description": "The Source of Payment Typology is a standardized Payer Type classification system. It is a mechanism for consistent reporting of payer data to state health data organizations and supports data comparisons by payer type across states, various provider types, and to national benchmarks.  Developed by the Public Health Data Standards Consortium (PHDSC) Payer Typology Subcommittee, the typology includes broad hierarchial payer type categories with more specific subcategories. \r\n\r\nThe audience for Source of Payment Typology includes researchers, public health advocates, and healthcare analysts.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.3.221.5",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "https://nahdo.org/sopt",
+            "preferred": true,
+            "period": {
+                "start": "2020-05-20T00:00:00-00:00"
+            }
+        }
+    ]
+}

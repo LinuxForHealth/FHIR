@@ -1,0 +1,62 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "HPO",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Human Phenotype Ontology"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/HPO"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "HPO",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-06-02T00:00:00-00:00",
+    "contact": [
+        {
+            "name": "Peter Robinson or Melissa Haendel, The Monarch Initiative",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://www.human-phenotype-ontology.org/"
+                }
+            ]
+        }
+    ],
+    "description": "\"The Human Phenotype Ontology (HPO) provides a standardized vocabulary of phenotypic abnormalities encountered in human disease. Each term in the HPO describes a phenotypic abnormality, such as Atrial septal defect. The HPO is currently being developed using the medical literature, Orphanet, DECIPHER, and OMIM. HPO currently contains over 13,000 terms and over 156,000 annotations to hereditary diseases. The HPO project and others have developed software for phenotype-driven differential diagnostics, genomic diagnostics, and translational research. The HPO is a flagship product of the Monarch Initiative, an NIH-supported international consortium dedicated to semantic integration of biomedical and model organism data with the ultimate goal of improving biomedical research. The HPO, as a part of the Monarch Initiative, is a central component of one of the 13 driver projects in the Global Alliance for Genomics and Health (GA4GH) strategic roadmap.\"\r\n\r\nPlease see https://hpo.jax.org/app/download/ontology.\r\n\r\nReleases, produced approximately every 2 months, can be found [here](https://github.com/obophenotype/human-phenotype-ontology/releases).",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "http://human-phenotype-ontology.org",
+            "preferred": true,
+            "comment": "This is the URL as specified by the terminology owner, and is considered authoritative.",
+            "period": {
+                "start": "2022-06-02"
+            }
+        },
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.339",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://purl.obolibrary.org/obo/hp.owl",
+            "preferred": false,
+            "period": {
+                "start": "2022-06-02"
+            }
+        }
+    ]
+}

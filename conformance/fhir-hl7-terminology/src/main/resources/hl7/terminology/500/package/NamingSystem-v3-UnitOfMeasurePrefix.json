@@ -1,0 +1,39 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-UnitOfMeasurePrefix",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Unit of Measure Prefix"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-UnitOfMeasurePrefix"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.2.0"
+        }
+    ],
+    "name": "UnitOfMeasurePrefix",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "description": "Decimal multipliers for units of measure\r\n\r\n**Deprecation Comment:** This code system was created in error. Implementations should use the code system UCUM with OID 2.16.840.1.113883.6.8\r\n\r\nNote that due to some tooling issues, some of the synonym codes that differed only in case (upper/lower) were not being assembled into MIF correctly, therefore they have been removed as a workaround for these tooling issues. This should have limited effect as this system has been deprecated for 8 years, and retired for 4 years, and will be removed soon.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.5.1072",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/v3-UnitOfMeasurePrefix",
+            "preferred": true
+        }
+    ]
+}

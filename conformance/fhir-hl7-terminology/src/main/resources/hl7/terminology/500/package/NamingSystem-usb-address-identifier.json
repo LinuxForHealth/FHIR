@@ -1,0 +1,42 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "usb-address-identifier",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "USB VID and PID as a device identifier"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/usb-address-identifier"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "USB_Address_Identifier",
+    "status": "active",
+    "kind": "identifier",
+    "date": "2021-06-14T00:00:00-00:00",
+    "publisher": "IHE Patient Care Devices (PCD)",
+    "contact": [
+        {
+            "name": "Devices on FHIR working group; IHE Patient Care Devices"
+        }
+    ],
+    "responsible": "IHE Patient Care Devices",
+    "description": "A USB device that is plugged in identifies itself by its VID/PID combination. A VID is a 16-bit vendor number (Vendor ID). A PID is a 16-bit product number (Product ID). A host uses the VID/PID combination to find the drivers (if any) that are to be used for the USB device. For this to work, the VID/PID combination must be unique, in the sense that each USB device with the same VID/PID will use the same driver. So, whenever you need a specific driver for your USB product, you will need a unique VID/PID for that product. In that sense, the VID/PID combination does not really serve as a truly unique identifier of a single device instance. It is, however, useful to know for medical devices that communicate using USB.",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/sid/usb",
+            "preferred": true,
+            "comment": "USB VID (Vendor identifier) and PID (Product identifier) values"
+        }
+    ]
+}

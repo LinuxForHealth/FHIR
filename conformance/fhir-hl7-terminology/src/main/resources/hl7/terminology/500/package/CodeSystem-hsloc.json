@@ -1,0 +1,40 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "hsloc",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "https://www.cdc.gov/nhsn/cdaportal/terminology/codesystem/hsloc.html",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.259"
+        }
+    ],
+    "version": "3.0.1",
+    "name": "HSLOC",
+    "title": "NHSN Healthcare Facility Patient Care Location",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-02-21T00:00:00-04:00",
+    "publisher": "U.S. Centers for Disease Control and Prevention (CDC), National Healthcare Safety Network (NHSN)",
+    "contact": [
+        {
+            "name": "U.S. Centers for Disease Control and Prevention (CDC), National Healthcare Safety Network (NHSN)",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "nhsncda@cdc.gov"
+                },
+                {
+                    "system": "url",
+                    "value": "https://www.cdc.gov/nhsn"
+                }
+            ]
+        }
+    ],
+    "description": "A classification of patient care locations within healthcare facilities for public health purposes.",
+    "caseSensitive": true,
+    "content": "not-present"
+}

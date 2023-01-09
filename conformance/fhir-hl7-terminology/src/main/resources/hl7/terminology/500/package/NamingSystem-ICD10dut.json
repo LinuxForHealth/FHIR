@@ -1,0 +1,53 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "ICD10dut",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ICD10, Dutch Translation"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/ICD10dut"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.2.0"
+        }
+    ],
+    "name": "ICD10dut",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "WHO",
+    "contact": [
+        {
+            "name": "World Health Organization"
+        }
+    ],
+    "responsible": "WHO",
+    "description": "Hirs, W., H.W. Becker, C. van Boven, S.K. Oskam, I.M. Okkes, H. Lamberts. ICD-10, Dutch Translation, 200403. Amsterdam: Department of General Practice, Academic Medical Center/University of Amsterdam, Dutch College of General Practitioners (NHG), March 20",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.3.2",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/ICD10dut",
+            "preferred": false,
+            "comment": "Published for many years in HL7 V3 Standards, but has been superceded.   Retained here for backwards-compatibility and convenience."
+        },
+        {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/sid/icd-10-nl",
+            "preferred": true,
+            "comment": "As published in HL7 FHIR Standards."
+        }
+    ]
+}

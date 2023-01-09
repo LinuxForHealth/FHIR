@@ -1,0 +1,41 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-fda-FFRN",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Food and Drug Administration Food Facility Registration Numbers"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-fda-FFRN"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "FdaFFRN",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "FDA",
+    "contact": [
+        {
+            "name": "FDA Data Standards Council"
+        }
+    ],
+    "responsible": "FDA",
+    "description": "Entered in error originally - do not use. Correct OID for this item is 2.16.840.1.113883.4.344.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.3.24.6.1",
+            "preferred": true
+        }
+    ]
+}

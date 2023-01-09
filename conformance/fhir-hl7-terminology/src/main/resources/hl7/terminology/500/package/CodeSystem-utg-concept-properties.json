@@ -1,0 +1,871 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "utg-concept-properties",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/utg-concept-properties",
+    "version": "2.1.0",
+    "name": "ConceptProperties",
+    "title": "UTG Specific Concept Properties",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-11-04T19:44:38-06:00",
+    "publisher": "UTG Project",
+    "description": "A set of concept properties used by UTG to maintain legacy terminology distribution systems",
+    "caseSensitive": true,
+    "content": "complete",
+    "property": [
+        {
+            "code": "comment",
+            "uri": "http://hl7.org/fhir/concept-properties#comment",
+            "description": "VComments and notes on the Domain.",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "code": "v2-binding",
+            "display": "V2 Binding Code",
+            "definition": "Coded value identifying the binding realm for those tables that have a binding to a value set.  0=no binding or binding N/A; 1=Example; 2=Representative; 3=Universal; 4=US Realm.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "v2-cld",
+            "display": "V2 VS CLD Type",
+            "definition": "Categorization of Content Logical Definition for the V2 value set informing the table, as printed in the V2 ballot.  0=no expansion, 1=all codes, 2=enumerated, 3=V3 vaue set definition, 4=unique intensional definition, 5=non-HL7 value set definition, 6=FHIR value set definition",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used only for value sets informing the coded content of HL7 V2 tables. There are only a few types of value set compose statements for V2, and this code indicates now the exapnsion for puisblishing is to be caclulated."
+                }
+            ]
+        },
+        {
+            "code": "v2-cs-oid",
+            "display": "V2 Code System OID",
+            "definition": "OID of the code system associated with the table",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "v2-cs-uri",
+            "display": "V2 Code System URI",
+            "definition": "URI of the code system associated with the table",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "v2-vs-uri",
+            "display": "V2 Value Set URI",
+            "definition": "URI of the value set informing the content of the table",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "v2-table-deprecated",
+            "display": "deprecated",
+            "definition": "Indicates that although still being published in the V2 international standard, the table has been deprecated in favor of alternative codes, and will be withdrawn in the future.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "v2TblStatus",
+            "display": "V2 Table Status",
+            "definition": "Status of the table as published in the V2 ballots. This is different from the concept status, which is the status of the concept representing the table infomration in the V2 Tables code system.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "steward",
+            "display": "Steward WorkGroup",
+            "definition": "Steward Work Group for the concept and its tree of subconcepts.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "This is the HL7 Work Group primarily responsible for the content of the artifact."
+                }
+            ]
+        },
+        {
+            "code": "v2-table-oid",
+            "display": "V2 Table OID",
+            "definition": "OID value for the table object",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "v2-table-type",
+            "display": "V2 Table Type",
+            "definition": "Type of V2 table, e.g. HL7 or User",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "v2-cs-version",
+            "display": "V2 Code System Version",
+            "definition": "Version of the code system informing the table. Note this is a denorm",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "v2-version-tbl-introduced",
+            "display": "version-tbl-introduced",
+            "definition": "HL7 V2 version when the V2 Table was introduced",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "v2-version-csvs-introduced",
+            "display": "version-csvs-introduced",
+            "definition": "HL7 V2 version when the code system and value set were introduced.   This is either the creation date of the V2 code system or value set objects, or the date when the FHIR or V3 or External code system and/or value set were associated to the table.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "vocab-domain",
+            "display": "Concept Domain",
+            "definition": "Associated Concept Domain for the table",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "v2-vs-oid",
+            "display": "V2 Value Set OID",
+            "definition": "OID of the value set informing the table",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "v2-where-used",
+            "display": "Field Where Used",
+            "definition": "String holding the segment and field where the table is bound in the interational standard.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in v2-tables.xml"
+                }
+            ]
+        },
+        {
+            "code": "rim-classifies-class-code",
+            "display": "ClassifiesC RIM Class Code",
+            "definition": "Associates a concept domain with th ActClass code that it is intended to be associated with, ie for late binding, informs the IG devloper which code should be populated in ActClass when a value sset for ActCode is being bound.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in concept domains; in the coremif called 'ConceptualSpaceForClassCode'"
+                }
+            ]
+        },
+        {
+            "code": "rim-qualified-by",
+            "display": "May Be QualifiedB y",
+            "definition": "One of the types of concept relationships that implements qualifying relationships",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "This needs reexamination to see how it is represented in UTG and if it correct; in V3 relationships between concepts in the same code system are represented internal to the system, not as a map.  Note that we have an extension for code systems for 'conceptrelationshipkind'"
+                }
+            ]
+        },
+        {
+            "code": "rim-inbound-relationship",
+            "display": "Name:Act:inboundRelationship:ActRelationship",
+            "definition": "Name of inboundRelationship from Act to ActReln",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-outbound-relationship",
+            "display": "Name:Act:outboundRelationship:ActRelationship",
+            "definition": "Formal name of outboundRelationship from Act to ActReln",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-participation",
+            "display": "Name:Act:participation:Participation",
+            "definition": "Name of relationship from Act to Participation",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-ActRelationship-source",
+            "display": "Name:ActRelationship:source:Act",
+            "definition": "The name of the assciation from ActRelationship to the source Act",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-ActRelationship-target",
+            "display": "Name:ActRelationship:target:Act",
+            "definition": "The name of the assciation from ActRelationship to the source Act",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-Class",
+            "display": "Name:Class",
+            "definition": "The formal name for the class clone under this code",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-Entity-played",
+            "display": "Name:Entity:playedRole:Role",
+            "definition": "The name of the relationship from the Entity to the playedRole",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-Entity-scoped",
+            "display": "Name:Entity:scopedRole:Role",
+            "definition": "The name of the relationship from the Entity to the scopedRole",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-Participation-act",
+            "display": "Name:Participation:act:Act",
+            "definition": "The formal name for relationship from Participation to Act",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-Participation-role",
+            "display": "Name:Participation:role:Role",
+            "definition": "The name of the relationship from Participation to Role",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-Role-inbound",
+            "display": "Name:Role:inboundLink:RoleLink",
+            "definition": "Name of inboundLink relationship from Role to RoleLink",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-Role-outbound",
+            "display": "Name:Role:outboundLink:RoleLink",
+            "definition": "Name of outboundLink relationship from Role to RoleLink",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-Role-participation",
+            "display": "Name:Role:participation:Participation",
+            "definition": "Name of relationship from Role to Participation",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-Role-player",
+            "display": "Name:Role:player:Entity",
+            "definition": "The name of the relationship from Role to the payer Entity",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "rim-Role-scoper",
+            "display": "Name:Role:scoper:Entity",
+            "definition": "The name of the relationship from Role to the scoper Entity",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in structural code system content"
+                }
+            ]
+        },
+        {
+            "code": "v3-cs-oid",
+            "display": "OID",
+            "definition": "Property applies to concepts in the CodeSystem Code System.  The property holds the OID that uniquely identifies the code system represented by this coded concept.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "This code system of code systems was retired a long time ago, and should not be in UTG so this property is unnecessary"
+                }
+            ]
+        },
+        {
+            "code": "owning-affiliate",
+            "display": "OwningAffiliate",
+            "definition": "Property defined in V3 tooling, but may not be currently used.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "not certain where this came from"
+                }
+            ]
+        },
+        {
+            "code": "owning-section",
+            "display": "OwningSection",
+            "definition": "Property defined in V3 tooling, but may not be currently used.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "not certain where this came from"
+                }
+            ]
+        },
+        {
+            "code": "owning-subsection",
+            "display": "OwningSubSection",
+            "definition": "Property defined in V3 tooling, but may not be currently used.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "not certain where this came from"
+                }
+            ]
+        },
+        {
+            "code": "v3-smaller-than",
+            "display": "SmallerThan",
+            "definition": "Property defined in V3 tooling, but may not be currently used.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "not certain where this came from"
+                }
+            ]
+        },
+        {
+            "code": "rim-Act-inbound-sort",
+            "display": "Sort:Act:inboundRelationship:ActRelationship",
+            "definition": "Sort key for the inboundRelationship from Act to ActReln; used to publish the RIM"
+        },
+        {
+            "code": "rim-act-outbound-sort",
+            "display": "Sort:Act:outboundRelationship:ActRelationship",
+            "definition": "Sort key for the outboundRelationship from Act to ActReln; used to publish the RIM"
+        },
+        {
+            "code": "rim-Act-participation-sort",
+            "display": "Sort:Act:participation:Participation",
+            "definition": "Sort key for relationship from Act to Participation; used to publish the RIM"
+        },
+        {
+            "code": "rim-Entity-played-sort",
+            "display": "Sort:Entity:playedRole:Role",
+            "definition": "Sort key for the relationship from the Entity to the playedRole; used to publish the RIM"
+        },
+        {
+            "code": "rim-Entity-scoped-sort",
+            "display": "Sort:Entity:scopedRole:Role",
+            "definition": "The sort key for the relationship from the Entity to the scopedRole; used to publish the RIM"
+        },
+        {
+            "code": "rim-Role-inbound-sort",
+            "display": "Sort:Role:inboundLink:RoleLink",
+            "definition": "Sort key for inboundLink relationship from Role to RoleLink; used to publish the RIM"
+        },
+        {
+            "code": "rim-Role-outbound-sort",
+            "display": "Sort:Role:outboundLink:RoleLink",
+            "definition": "Sort key for outboundLink relationship from Role to RoleLink; used to publish the RIM"
+        },
+        {
+            "code": "rim-Role-participation-sort",
+            "display": "Sort:Role:participation:Participation",
+            "definition": "Sort key for relationship from Role to Participation; used to publish the RIM"
+        },
+        {
+            "code": "v3-applies-to",
+            "display": "appliesTo",
+            "definition": "Haven't a clue!",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in ObservationMethod, and appears to link types of tests with equipment, manufacturers, reagents, or organisms."
+                }
+            ]
+        },
+        {
+            "code": "rim-conductible",
+            "display": "conductible",
+            "definition": "If true, indicates that ActRelationships or Participations of the specified type (and any specializations thereof) will normally conduct. For more usage information, refer to the Core Principles specification."
+        },
+        {
+            "code": "v3-how-applies",
+            "display": "howApplies",
+            "definition": "Haven't a clue!",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in ObservationMethod, and appears to link types of tests with equipment, manufacturers, reagents, or organisms."
+                }
+            ]
+        },
+        {
+            "code": "v3-internal-id",
+            "display": "internalId",
+            "definition": "The internal identifier for the concept in the HL7 Access database repository.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "this should not be migrated to UTG"
+                }
+            ]
+        },
+        {
+            "code": "v3-inverse-relationship",
+            "display": "inverseRelationship",
+            "definition": "Property applies to the ConceptCodeRelationship code system. For each concept, it identifies the name of the inverse relationship.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "only used in the code system of contept relationships..  Forgot we had this.   Not sure how it should be modeled in UTG."
+                }
+            ]
+        },
+        {
+            "code": "rim-document-characteristic",
+            "display": "isDocumentCharacteristic",
+            "definition": "If true, indicates that the Act attribute or association (as represented by a typeCode for eaither ActRelationship or Pareticipation is a descriptor of the document (record) represented by the act object. If false, indicates the property is a descriptor of the action itself, actual, intended, or potential.  Applies to interpretation of attributes and associations with respect to changes in the value of Act.actionNegationInd and Act.moodCode. (See descriptions of these attributes for further discussion.) For example, in an order, the id attribute [isDocumentCharacteristic = true] is an identifier of the record of the order, not an identifier of the intended event.  On the other hand, the code attribute [isDocumentCharacteristic = false] describes a characteristic of the intended event.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "This may not behave the same based on the final outcome from the negation project.   Or this may be the impleentation of their recommendations; need to discuss with Rob Hausam.   Clear the this is used as part of RIM documentation.  Note that this is only used in these two structural code systems."
+                }
+            ]
+        },
+        {
+            "code": "ConceptualSpaceForClassCode",
+            "display": "Conceptual Space For ClassCode",
+            "definition": "This concept domain provides the semantic category space indicates by the identifies Class code.  Used in HL7 V3 RIM.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Only used in the V3 RIM concept domains.  Identifies the class code that should be used in either ActClass or EntityClass when this domain is the terminology constraint for ActCode or EntityCode attribute"
+                }
+            ]
+        },
+        {
+            "code": "source",
+            "display": "Source",
+            "definition": "Indicaates the etiology of this domain, i.e. which HL7 product family or other area that the domain originally was needed for and triggered its creation.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Current values are v2, v3, cda.  Note the ones for CDA have been added manually."
+                }
+            ]
+        },
+        {
+            "code": "openIssue",
+            "display": "Open Issue",
+            "definition": "Documents some V3 issue that was never resolved for a particular concept domain.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Currently valued only for the v3 Concept Domains, and reflect open issues to be addressed in various concept domains.  May be used for open issues on particular concepts in code systems later."
+                }
+            ]
+        },
+        {
+            "code": "deprecationInfo",
+            "display": "Deprecation Information",
+            "definition": "Documentation of V3 concept domains that have been deprecated.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Currently valued only for the v3 Concept Domains.   Includes commentary and release IDs when they were deprecated, and possibly replacement information"
+                }
+            ]
+        },
+        {
+            "code": "contextBindingUV-valueSet",
+            "display": "UV Bound ValueSet",
+            "definition": "Identifies the Value Set bound to this Concept Domain in the Universal Realm."
+        },
+        {
+            "code": "contextBindingUV-effectiveDate",
+            "display": "UV Binding Effective Date",
+            "definition": "Effective Date of the specified Value Set bound to this Concwpt Domain in the Universal Realm."
+        },
+        {
+            "code": "contextBindingUV-strength",
+            "display": "UV Binding Coding Strength",
+            "definition": "Coding strength for the Universal Realm binding; either CWE or CNE."
+        },
+        {
+            "code": "contextBindingR1-valueSet",
+            "display": "R1 Bound ValueSet",
+            "definition": "Identifies the Value Set bound to this Concept Domain in the Representative Realm.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "R1 Bindings have been implemented in at least one Realm, and are offered for general use as they may be valid in other Realms."
+                }
+            ]
+        },
+        {
+            "code": "contextBindingR1-effectiveDate",
+            "display": "R1 Binding Effective Date",
+            "definition": "Effective Date of the specified Value Set bound to this Concept Domain in the Representative Realm."
+        },
+        {
+            "code": "contextBindingR1-strength",
+            "display": "R1 Binding Coding Strength",
+            "definition": "Coding strength for the Representatie binding; either CWE or CNE."
+        },
+        {
+            "code": "contextBindingX1-valueSet",
+            "display": "X1 Bound ValueSet",
+            "definition": "Identifies the Value Set bound to this Concept Domain in the Example Realm.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "X1 Bindings are used solely for published or educational examples, and are known to be incorrect or invalid content for real world systems.  They should not be used in production systems."
+                }
+            ]
+        },
+        {
+            "code": "contextBindingX1-effectiveDate",
+            "display": "X1 Binding Effective Date",
+            "definition": "Effective Date of the specified Value Set bound to this Concept Domain in the Example Realm."
+        },
+        {
+            "code": "contextBindingX1-strength",
+            "display": "X1 Binding Coding Strength",
+            "definition": "Coding strength for the Example binding; either CWE or CNE."
+        },
+        {
+            "code": "contextBindingC1-valueSet",
+            "display": "C1 Bound ValueSet",
+            "definition": "Identifies the Value Set bound to this Concept Domain in the Example Realm.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "C1 Bindings are used solely for provisional or draft bindings, and are intended to be removed or updated at some tiem in the future.  In general, C1 bindings may be incorrect or invalid content for real world systems, or may be subject to change without notice.  They should not be used in production systems."
+                }
+            ]
+        },
+        {
+            "code": "contextBindingC1-effectiveDate",
+            "display": "C1 Binding Effective Date",
+            "definition": "Effective Date of the specified Value Set bound to this Concept Domain in the Unclassified Realm."
+        },
+        {
+            "code": "contextBindingC1-strength",
+            "display": "C1 Binding Coding Strength",
+            "definition": "Coding strength for the Example binding; either CWE or CNE."
+        },
+        {
+            "code": "contextBindingUS-valueSet",
+            "display": "US Bound ValueSet",
+            "definition": "Identifies the Value Set bound to this Concept Domain in the US (United States of America) Realm."
+        },
+        {
+            "code": "contextBindingUS-effectiveDate",
+            "display": "US Binding Effective Date",
+            "definition": "Effective Date of the specified Value Set bound to this Concwpt Domain in the US Realm."
+        },
+        {
+            "code": "contextBindingUS-strength",
+            "display": "US Binding Coding Strength",
+            "definition": "Coding strength for the US Realm binding; either CWE or CNE."
+        },
+        {
+            "code": "rim-assoc-conc-property",
+            "display": "Assoc Concpt Property",
+            "definition": "Formal code of an Associated Concept Property.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used only in the V3 RIM, and required for Formal Naming.  Also needed for proper operation of RoseTree in display of cormif content."
+                }
+            ]
+        },
+        {
+            "code": "rim-assoc-conc-propname",
+            "display": "Assoc Concpt Prop Name",
+            "definition": "Formal name of an Associated Concept Property.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used only in the V3 RIM, and required for Formal Naming.  Also needed for proper operation of RoseTree in display of cormif content."
+                }
+            ]
+        },
+        {
+            "code": "rim-assoc-conc-propvalue",
+            "display": "Assoc Concpt Prop Value",
+            "definition": "Value of an Associated Concept Property.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used only in the V3 RIM, and required for Formal Naming.  Also needed for proper operation of RoseTree in display of cormif content."
+                }
+            ]
+        },
+        {
+            "code": "v2-concComment",
+            "display": "V2 Concept Comment",
+            "definition": "String value from the V2 publishing database source holding comments for the concepts for populated tables.  These comments are separate from the concept Definition and the Usage Notes.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in Version 2 code systems concepts"
+                }
+            ]
+        },
+        {
+            "code": "v2-concCommentAsPub",
+            "display": "V2 Concept Comment As Published",
+            "definition": "String value from the V2 publishing database source holding comments as published for the concepts for populated tables.  These comments are separate from the concept Definition and the Usage Notes, and may be distinct from the other comments due to publishing requirements.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in Version 2 code systems concepts"
+                }
+            ]
+        },
+        {
+            "code": "HL7usageNotes",
+            "display": "HL7 Concept Usage Notes",
+            "definition": "String value from the HL7 sources holding the Usage Notes for the concepts for populated tables and code systems.  These  are separate from the concept Definitions and the other comments.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "used only in the Version 2 code systems concepts"
+                }
+            ]
+        },
+        {
+            "code": "propIsMandatory",
+            "display": "RIM Property is Mandatory",
+            "definition": "Boolean indicating when an attribure of a RIM class attribute is mandatory.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used as a property of a property, in RIM Class Codes primarily."
+                }
+            ]
+        },
+        {
+            "code": "propDefaultValue",
+            "display": "Default value of RIM Property",
+            "definition": "String holding an optional default value for a mandatory property.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used as a property of a property, in RIM Class Codes primarily."
+                }
+            ]
+        },
+        {
+            "code": "propDefaultHandling",
+            "display": "Default handling of RIM Property",
+            "definition": "Code value identifying the default handling code of a RIM attribute mandatory property.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used as a property of a property, in RIM Class Codes primarily."
+                }
+            ]
+        },
+        {
+            "code": "rim-ClassifiesClassCode",
+            "display": "Concept Domain that classifies a RIM Class Code",
+            "definition": "Code value from a RIM Class such as ActClass or EntityClass which the Domain classifies.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used as a property of a property, in RIM Class Codes primarily."
+                }
+            ]
+        },
+        {
+            "code": "ComponentOf",
+            "display": "Special additional relationship for part relatioships",
+            "definition": "Code value identifying the code in the codeSystem which this concept is a component of.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used as a property of a property, in RIM Class Codes primarily."
+                }
+            ]
+        },
+        {
+            "code": "MayBeQualifiedBy",
+            "display": "Qualifier relationship",
+            "definition": "Code value identifying another code in the codeSystem which this concept may be qualified by",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used as a property of a property, in RIM Class Codes primarily."
+                }
+            ]
+        },
+        {
+            "code": "OwningSubSection",
+            "display": "Subsection containment relationship",
+            "definition": "Used in the V3 publication process, indicates a ballot subsection which encloses this content.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used as a property of a property, in RIM Class Codes primarily."
+                }
+            ]
+        },
+        {
+            "code": "OwningSection",
+            "display": "Section containment relationship",
+            "definition": "Used in the V3 publication process, indicates a ballot section which encloses this content.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used as a property of a property, in RIM Class Codes primarily."
+                }
+            ]
+        },
+        {
+            "code": "OwningAffiliate",
+            "display": "HL7 Affiliate Owner",
+            "definition": "Used in the V3 ballot and publication process to indicate content which is owned by one of the HL7 International Affiliates.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used as a property of a property, in RIM Class Codes primarily."
+                }
+            ]
+        },
+        {
+            "code": "DeprecationInfo",
+            "display": "Deprecation Informaton",
+            "definition": "Used to support the capture of comments, remarks, V3 release ID, and other information related to the deprecation of a concept.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used primarily to hold the imported comments and release version information on deprecated concepts in the V3 coremif."
+                }
+            ]
+        },
+        {
+            "code": "SmallerThan",
+            "display": "Smaller Than",
+            "definition": "Points to another code value in the codeSystem which this concept is smaller than.  Typically used in systems of Ordinal relationship codes, where size or magnitude is the ordering key.",
+            "property": [
+                {
+                    "code": "comment",
+                    "valueString": "Used as a property of a property, in RIM Class Codes primarily."
+                }
+            ]
+        }
+    ]
+}

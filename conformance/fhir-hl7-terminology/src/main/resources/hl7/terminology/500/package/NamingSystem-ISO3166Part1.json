@@ -1,0 +1,52 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "ISO3166Part1",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ISO 3166-1 Codes for the representation of names of countries and their subdivisions — Part 1: Country code"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/ISO3166Part1"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "ISO3166Part1",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-08-23T00:00:00-00:00",
+    "publisher": "International Organization for Standardization (ISO)",
+    "contact": [
+        {
+            "name": "International Organization for Standardization (ISO)",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://www.iso.org/"
+                }
+            ]
+        }
+    ],
+    "responsible": "International Organization for Standardization (ISO)",
+    "description": "ISO 3166-1 establishes codes that represent the current names of countries, dependencies, and other areas of particular geopolitical interest, on the basis of country names obtained from the United Nations.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "1.0.3166.1",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "urn:iso:std:iso:3166",
+            "preferred": true
+        }
+    ]
+}

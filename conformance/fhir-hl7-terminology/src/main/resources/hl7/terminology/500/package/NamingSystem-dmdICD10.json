@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "dmdICD10",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ICD-10 German"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/dmdICD10"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.0.1"
+        }
+    ],
+    "name": "DmdICD10",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "WHO",
+    "contact": [
+        {
+            "name": "World Health Organization"
+        }
+    ],
+    "responsible": "WHO",
+    "description": "Internationale Klassifikation der Krankheiten 10 \\[German translation of ICD10\\]. Germany: Deutsches Institut fuer Medizinische Dokumentation und Information, 1998.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.3.3",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/dmdICD10",
+            "preferred": true
+        }
+    ]
+}

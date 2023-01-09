@@ -1,0 +1,83 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "presentOnAdmission",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "CMS Present on Admission (POA) Indicator"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/presentOnAdmission"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "PresentOnAdmission",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-01-07T00:00:00.000-07:00",
+    "publisher": "Centers for Medicare & Medicaid Services",
+    "contact": [
+        {
+            "name": "Centers for Medicare & Medicaid Services"
+        },
+        {
+            "name": "Marilu Hue",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "marilu.hue@cms.hhs.gov"
+                }
+            ]
+        },
+        {
+            "name": "James Poyer",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "james.poyer@cms.hhs.gov"
+                }
+            ]
+        }
+    ],
+    "description": "This code system consists of Present on Admission (POA) indicators which are assigned to the principal and secondary diagnoses (as defined in Section II of the Official Guidelines for Coding and Reporting) and the external cause of injury codes to indicate the presence or absence of the diagnosis at the time of inpatient admission.",
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "urn:iso:std:iso:3166",
+                    "code": "US"
+                }
+            ]
+        }
+    ],
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "https://www.cms.gov/Medicare/Medicare-Fee-for-Service-Payment/HospitalAcqCond/Coding",
+            "preferred": true
+        },
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.301.11",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "https://www.nubc.org/CodeSystem/PresentOnAdmissionIndicator",
+            "comment": "The uri created for this code system by the CARIN project"
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/v2-0895",
+            "comment": "The v2 table of present on admission indicators."
+        }
+    ]
+}

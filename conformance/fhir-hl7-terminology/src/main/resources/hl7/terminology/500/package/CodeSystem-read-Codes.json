@@ -1,0 +1,30 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "read-Codes",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/read-Codes",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.6"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "ReadCodes",
+    "title": "Read Classification",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "Name: Dr David Robinson; Address: NHS Information Authority; Aqueous 2; Rocky lane; Aston cross; Birmingham; UK; Telephone: +44 (0)121 333 0314; Fax: +44 (0)121 333 0334; E-mail: david.robinson@nhsia.nhs.uk"
+        }
+    ],
+    "description": "Clinical Terms Version 3 contains over 200,000 coded concepts arranged in a sub-type hierarchical structure.\r\n\r\nTop level hierarchy sections: Disorders Findings Morphology Surgical procedures Regimes & therapies Investigations Stages & scales Occupations Organisms Units Drugs Appliances & equipment",
+    "caseSensitive": true,
+    "content": "not-present"
+}

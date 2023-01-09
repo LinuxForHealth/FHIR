@@ -1,0 +1,51 @@
+{
+    "resourceType": "ValueSet",
+    "id": "action-participant-role",
+    "meta": {
+        "lastUpdated": "2017-02-15T16:33:00.000-07:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/action-participant-role",
+    "version": "0.2.0",
+    "name": "ActionParticipantRole",
+    "title": "Action Participant Role",
+    "status": "draft",
+    "experimental": false,
+    "date": "2017-02-15T16:33:00.000-07:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "other",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "Either a practitioner role or a relationship type.  Note from UTG import - may have been a temporary entry that subsequently disappeared from the FHIR source; unable to locate.   Version set to 0.1.0",
+    "compose": {
+        "include": [
+            {
+                "valueSet": [
+                    "http://hl7.org/fhir/ValueSet/practitioner-role"
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype"
+                ]
+            }
+        ]
+    }
+}

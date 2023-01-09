@@ -1,0 +1,30 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "csaid",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/csaid",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.235"
+        }
+    ],
+    "version": "2.0.2",
+    "name": "Csaid",
+    "title": "CAN/CSA-Z795-96",
+    "status": "retired",
+    "experimental": false,
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "Canadian Standards Association (CSA)"
+        }
+    ],
+    "description": "Inactive since 2015.   Nature of injury (NOI) codes, which are part of the Work Injury or Disease Information coding system (CAN/CSA-Z795-96 - R2003).\r\n\r\nThe CSA code set includes 3 parts: Nature of injury (NOI), body part (BP), side of body (SB).\r\n\r\nFor example:\r\n\r\n *  NOI - Cut or laceration Injury = 03400\r\n *  BP - Upper Arm body part = 31100\r\n *  SOB - Left Side of Body = L\r\n\r\nThe Body Part codes are qualified by the Side of Body codes code system, to be more precise in specifying the location of the injury being coded.\r\n\r\nCode set is maintained by the Canadian Standards Association (CSA).\r\n\r\nset is maintained by the Canadian Standards Association (CSA).\r\n\r\nThe Canadian Standards Association 5060 Spectrum Way Mississauga, Ontario Canada L4W 5N6\r\n\r\nPhone: (416) 747-4000 1-800-463-6727 Fax: (416) 747-2473",
+    "caseSensitive": true,
+    "content": "not-present"
+}

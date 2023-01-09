@@ -1,0 +1,5289 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-CodeSystem",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-CodeSystem",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.22"
+        }
+    ],
+    "version": "2.2.1",
+    "name": "CodeSystem",
+    "title": "CodeSystem",
+    "status": "retired",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "Code systems used in HL7 standards.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state.  Normally is not populated unless the state is retired.",
+            "type": "code"
+        },
+        {
+            "code": "OID",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-cs-oid",
+            "description": "Property applies to concepts in the CodeSystem Code System.  The property holds the OID that uniquely identifies the code system represented by this coded concept.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "ABCcodes",
+            "display": "ABCcodes",
+            "definition": "Five character alphabetic codes fit into current claims processing software or onto standard paper claim forms. ABC Codes give business parity to licensed CAM and nurse providers who file claims to insurance companies. .",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19944"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.25"
+                }
+            ]
+        },
+        {
+            "code": "AcknowledgementCondition",
+            "display": "AcknowledgementCondition",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19820"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1050"
+                }
+            ]
+        },
+        {
+            "code": "AcknowledgementDetailCode",
+            "display": "AcknowledgementDetailCode",
+            "definition": "A site specific problem code",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21410"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1096"
+                }
+            ]
+        },
+        {
+            "code": "AcknowledgementDetailType",
+            "display": "Acknowledgement Detail Type",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19785"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1082"
+                }
+            ]
+        },
+        {
+            "code": "AcknowledgementType",
+            "display": "AcknowledgementType",
+            "definition": "Acknowledgement code as described in HL7 message processing rules.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19877"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.18"
+                }
+            ]
+        },
+        {
+            "code": "ACR",
+            "display": "American College of Radiology finding codes",
+            "definition": "Index for Radiological Diagnosis Revised, 3rd Edition 1986, American College of Radiology, Reston, VA.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11058"
+                }
+            ]
+        },
+        {
+            "code": "ActClass",
+            "display": "ActClass",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19910"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.6"
+                }
+            ]
+        },
+        {
+            "code": "ActCode",
+            "display": "ActCode",
+            "definition": "The table that provides the detailed or rich codes for the Act classes.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19893"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.4"
+                }
+            ]
+        },
+        {
+            "code": "ActExposureLevelCode",
+            "display": "ActExposureLevelCode",
+            "definition": "A qualitative measure of the degree of exposure to the causative agent. This includes concepts such as \"low\", \"medium\" and \"high\". This quantifies how the quantity that was available to be administered to the target differs from typical or background levels of the substance.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22371"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1114"
+                }
+            ]
+        },
+        {
+            "code": "ActInvoiceElementModifier",
+            "display": "ActInvoiceElementModifier",
+            "definition": "Processing consideration and clarification codes.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19821"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1051"
+                }
+            ]
+        },
+        {
+            "code": "ActMood",
+            "display": "ActMood",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19802"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1001"
+                }
+            ]
+        },
+        {
+            "code": "ActPriority",
+            "display": "ActPriority",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19917"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.7"
+                }
+            ]
+        },
+        {
+            "code": "ActReason",
+            "display": "ActReason",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19925"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.8"
+                }
+            ]
+        },
+        {
+            "code": "ActRelationshipCheckpoint",
+            "display": "ActRelationshipCheckpoint",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19800"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.10"
+                }
+            ]
+        },
+        {
+            "code": "ActRelationshipJoin",
+            "display": "ActRelationshipJoin",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19858"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.12"
+                }
+            ]
+        },
+        {
+            "code": "ActRelationshipSplit",
+            "display": "ActRelationshipSplit",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19860"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.13"
+                }
+            ]
+        },
+        {
+            "code": "ActRelationshipSubset",
+            "display": "ActRelationshipSubset",
+            "definition": "Used to indicate that the target of the relationship will be a filtered subset of the total related set of targets.\r\n\r\nUsed when there is a need to limit the number of components to the first, the last, the next, the total, the average or some other filtered or calculated subset.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21366"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1094"
+                }
+            ]
+        },
+        {
+            "code": "ActRelationshipType",
+            "display": "ActRelationshipType",
+            "definition": "The source is an excerpt from the target.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19803"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1002"
+                }
+            ]
+        },
+        {
+            "code": "ActSite",
+            "display": "ActSite",
+            "definition": "An anatomical location on an organism which can be the focus of an act.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19822"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1052"
+                }
+            ]
+        },
+        {
+            "code": "ActStatus",
+            "display": "ActStatus",
+            "definition": "Contains the names (codes) for each of the states in the state-machine of the RIM Act class.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19868"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.14"
+                }
+            ]
+        },
+        {
+            "code": "ActUncertainty",
+            "display": "ActUncertainty",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19823"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1053"
+                }
+            ]
+        },
+        {
+            "code": "ActUSPrivacyLaw",
+            "display": "Act US Privacy Law",
+            "definition": "**Description:** A jurisdictional mandate in the US relating to privacy.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23359"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1138"
+                }
+            ]
+        },
+        {
+            "code": "ada-snodent",
+            "display": "Systematized Nomenclature of Dentistry (SNODENT)",
+            "definition": "Systematized Nomenclature of Dentistry (SNODENT) is owned, maintained and distributed by the American Dental Association (ADA). SNODENT is a vocabulary designed for use in the electronic environment - for electronic health and dental records. The intended purpose is to:\r\n\r\n *  Provide standardized terms for describing dental disease\r\n *  Capture clinical detail and patient characteristics\r\n *  Permit analysis of patient care services and outcomes\r\n *  To be interoperable with Electronic Health Records (EHR) and Electronic Dental Records (EDR)\r\n\r\nSNODENT licensing information can be found at: http://www.ada.org/8466.aspx\r\n\r\nURL for Official Source: http://www.ada.org/snodent.aspx",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23792"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.3.3150"
+                }
+            ]
+        },
+        {
+            "code": "AddressPartType",
+            "display": "AddressPartType",
+            "definition": "Discussion: The hierarchical nature of these concepts shows composition. E.g. \"Street Name\" is part of \"Street Address Line\"",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19876"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.16"
+                }
+            ]
+        },
+        {
+            "code": "AddressUse",
+            "display": "AddressUse",
+            "definition": "**Description:** Uses of Addresses. Lloyd to supply more complete description.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22728"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1119"
+                }
+            ]
+        },
+        {
+            "code": "AdministrativeGender",
+            "display": "AdministrativeGender",
+            "definition": "The gender of a person used for adminstrative purposes (as opposed to clinical gender)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19799"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1"
+                }
+            ]
+        },
+        {
+            "code": "AHFS",
+            "display": "AHFS Pharmacologic-Therapeutic Classification",
+            "definition": "**Description:** The AHFS Pharmacologic-Therapeutic Classification has been in use in hospitals in the United States since its inception in 1959. An integral part of the American Hospital Formulary Service, the AHFS classification allows the grouping of drugs with similar pharmacologic, therapeutic, and/or chemical characteristics. Today, the AHFS classification is used by many people outside of hospitals.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22762"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.234"
+                }
+            ]
+        },
+        {
+            "code": "AmericanIndianAlaskaNativeLanguages",
+            "display": "AmericanIndianAlaskaNativeLanguages",
+            "definition": "American Indian and Alaska Native languages currently being used in the United States.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19824"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1054"
+                }
+            ]
+        },
+        {
+            "code": "ART",
+            "display": "WHO Adverse Reaction Terms",
+            "definition": "WHO Collaborating Centre for International Drug Monitoring, Box 26, S-751 03, Uppsala, Sweden.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11122"
+                }
+            ]
+        },
+        {
+            "code": "AS4",
+            "display": "ASTM E1238/ E1467 Universal",
+            "definition": "American Society for Testing & Materials and CPT4 (see Appendix X1 of Specification E1238 and Appendix X2 of Specification E1467).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11057"
+                }
+            ]
+        },
+        {
+            "code": "AS4E",
+            "display": "AS4 Neurophysiology Codes",
+            "definition": "ASTM's diagnostic codes and test result coding/grading systems for clinical neurophysiology. See ASTM Specification E1467, Appendix 2.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11060"
+                }
+            ]
+        },
+        {
+            "code": "atc",
+            "display": "American Type Culture Collection",
+            "definition": "Reference cultures (microorganisms, tissue cultures, etc.), related biological materials and associated data. American Type Culture Collection, 12301 Parklawn Dr, Rockville MD, 20852. (301) 881-2600. http://www.atcc.org",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11059"
+                }
+            ]
+        },
+        {
+            "code": "BindingRealm",
+            "display": "BindingRealm",
+            "definition": "Coded concepts representing the Binding Realms used for Context Binding of terminology in HL7 models. Where concepts align with nations, the country codes from ISO 3166-1 2-character alpha are used for the codes. For those realms where they do not,. codes are created for the concepts. These codes are generally carried in InfrastructureRoot.realmcode, and are used in Context Binding statements.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22934"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1124"
+                }
+            ]
+        },
+        {
+            "code": "BodySite",
+            "display": "HL7 table 0163 - Body site",
+            "definition": "**Description:** HL7 version 2.x Body site used in chapter(s) 4; HL7 table 0163",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22763"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.12.163"
+                }
+            ]
+        },
+        {
+            "code": "C4",
+            "display": "CPT-4",
+            "definition": "American Medical Association, P.O. Box 10946, Chicago IL 60610.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11065"
+                }
+            ]
+        },
+        {
+            "code": "C5",
+            "display": "CPT-5",
+            "definition": "American Medical Association, P.O. Box 10946, Chicago IL 60610.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11066"
+                }
+            ]
+        },
+        {
+            "code": "Calendar",
+            "display": "Calendar",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19825"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1055"
+                }
+            ]
+        },
+        {
+            "code": "CalendarCycle",
+            "display": "CalendarCycle",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19934"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.9"
+                }
+            ]
+        },
+        {
+            "code": "CalendarType",
+            "display": "CalendarType",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19812"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1017"
+                }
+            ]
+        },
+        {
+            "code": "CAMNCVS",
+            "display": "CAMNCVS",
+            "definition": "CAM & Nursing Coding Vocabulary Set",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19940"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.19"
+                }
+            ]
+        },
+        {
+            "code": "CAS",
+            "display": "Chemical abstract codes",
+            "definition": "These include unique codes for each unique chemical, including all generic drugs. The codes do not distinguish among different dosing forms. When multiple equivalent CAS numbers exist, use the first one listed in USAN. USAN 1990 and the USP dictionary of drug names, William M. Heller, Ph.D., Executive Editor, United States Pharmacopeial Convention, Inc., 12601 Twinbrook Parkway, Rockville, MD 20852.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11109"
+                }
+            ]
+        },
+        {
+            "code": "CCI",
+            "display": "Canadian Classification of Health Interventions",
+            "definition": "CCI - Canadian Classification of Health Interventions, developed to accompany ICD-10-CA, maintained by CIHI (Canadian Institute for Health Information).\r\n\r\nFor example: sections 3.AA-3.BZ Diagnostic Imaging Interventions on the Nervous System 3.AN.^ ^.^ ^ Diagnostic Imaging Interventions on the Brain 3.AN.40. ^ ^ Magnetic Resonance Imaging, Brain Incudes: That for meninges, ventricles, cerebellum, brain stem, cisterna \\[of brain\\], posterior fossa MRI, brain 3.AN.40.VA without contrast 3.AN.40.VC following intravenous injection of contrast 3.AN.40.VZ following percutaneous injection of contrast\r\n\r\nCIHI Toronto Attn: Director of Standards 90 Eglinton Avenue, Suite 300 Toronto, Ontario Canada M4P 2Y3\r\n\r\nPhone: (416) 481.2002 Fax: (416) 481-2950\r\n\r\nwww.cihi.ca",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19710"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.87"
+                }
+            ]
+        },
+        {
+            "code": "CD2",
+            "display": "CDT-2 Codes",
+            "definition": "American Dental Association's Current Dental Terminology (CDT-2) code. American Dental Association, 211 E. Chicago Avenue,. Chicago, Illinois 60611.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11062"
+                }
+            ]
+        },
+        {
+            "code": "CDCA",
+            "display": "CDC Analyte Codes",
+            "definition": "Public Health Practice Program Office, Centers for Disease Control and Prevention, 4770 Buford Highway, Atlanta, GA, 30421. Also available via FTP: ftp.cdc.gov/pub/laboratory \\_info/CLIA and Gopher: gopher.cdc.gov:70/11/laboratory\\_info/CLIA",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11105"
+                }
+            ]
+        },
+        {
+            "code": "CDCM",
+            "display": "CDC Methods/Instruments Codes",
+            "definition": "Public Health Practice Program Office, Centers for Disease Control and Prevention, 4770 Buford Highway, Atlanta, GA, 30421. Also available via FTP: ftp.cdc.gov/pub/laboratory \\_info/CLIA and Gopher: gopher.cdc.gov:70/11/laboratory\\_info/CLIA",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11106"
+                }
+            ]
+        },
+        {
+            "code": "CDS",
+            "display": "CDC Surveillance",
+            "definition": "CDC Surveillance Codes. For data unique to specific public health surveillance requirements. Epidemiology Program Office, Centers for Disease Control and Prevention, 1600 Clifton Rd, Atlanta, GA, 30333. (404) 639-3661.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11061"
+                }
+            ]
+        },
+        {
+            "code": "CE",
+            "display": "CEN ECG diagnostic codes",
+            "definition": "CEN PT007. A quite comprehensive set of ECG diagnostic codes (abbreviations) and descriptions published as a pre-standard by CEN TC251. Available from CEN TC251 secretariat, c/o Georges DeMoor, State University Hospital Gent, De Pintelaan 185-5K3, 9000 Ge",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11063"
+                }
+            ]
+        },
+        {
+            "code": "Charset",
+            "display": "Charset",
+            "definition": "Internet Assigned Numbers Authority (IANA) Charset Types",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19879"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.21"
+                }
+            ]
+        },
+        {
+            "code": "CLP",
+            "display": "CLIP",
+            "definition": "Simon Leeming, Beth Israel Hospital, Boston MA. Codes for radiology reports.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11064"
+                }
+            ]
+        },
+        {
+            "code": "CodeSystem",
+            "display": "CodeSystem",
+            "definition": "Code systems used in HL7 standards.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19880"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.22"
+                }
+            ]
+        },
+        {
+            "code": "CodeSystemType",
+            "display": "HL7 Code System Type",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19954"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1085"
+                }
+            ]
+        },
+        {
+            "code": "CodingRationale",
+            "display": "CodingRationale",
+            "definition": "Identifies how to interpret the instance of the code, codeSystem value in a set of translations. Since HL7 (or a government body) may mandate that codes from certain code systems be sent in conformant messages, other synonyms that are sent in the translation set need to be distinguished among the originally captured source, the HL7 specified code, or some future role. When this code is NULL, it indicates that the translation is an undefined type. When valued, this property must contain one of the following values:\r\n\r\nSRC - Source (or original) code HL7 - HL7 Specified or Mandated SH - both HL7 mandated and the original code (precoordination)\r\n\r\nThere may be additional values added to this value set as we work through the use of codes in messages and determine other Use Cases requiring special interpretation of the translations.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19846"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1074"
+                }
+            ]
+        },
+        {
+            "code": "CommunicationFunctionType",
+            "display": "CommunicationFunctionType",
+            "definition": "Describes the type of communication function that the associated entity plays in the associated transmission.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19826"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1056"
+                }
+            ]
+        },
+        {
+            "code": "CompressionAlgorithm",
+            "display": "CompressionAlgorithm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19806"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1009"
+                }
+            ]
+        },
+        {
+            "code": "ConceptCodeRelationship",
+            "display": "Possible Concept Code Relationships",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19969"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1088"
+                }
+            ]
+        },
+        {
+            "code": "ConceptGenerality",
+            "display": "ConceptGenerality",
+            "definition": "Indicates whether the concept that is the target should be interpreted as itself, or whether it should be expanded to include its child concepts, or both when it is included in the source domain/valueset.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19881"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.24"
+                }
+            ]
+        },
+        {
+            "code": "ConceptProperty",
+            "display": "HL7 Value Set and Coded Concept Property Codes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19963"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1087"
+                }
+            ]
+        },
+        {
+            "code": "ConceptStatus",
+            "display": "HL7 Coded Concept Status",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19958"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1086"
+                }
+            ]
+        },
+        {
+            "code": "Confidentiality",
+            "display": "Confidentiality",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19882"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.25"
+                }
+            ]
+        },
+        {
+            "code": "ContainerCap",
+            "display": "ContainerCap",
+            "definition": "The type of cap associated with a container",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19883"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.26"
+                }
+            ]
+        },
+        {
+            "code": "ContainerSeparator",
+            "display": "ContainerSeparator",
+            "definition": "A material in a blood collection container that facilites the separation of of blood cells from serum or plasma",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19884"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.27"
+                }
+            ]
+        },
+        {
+            "code": "ContentProcessingMode",
+            "display": "ContentProcessingMode",
+            "definition": "**Description:**Identifies the order in which content should be processed.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21994"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1110"
+                }
+            ]
+        },
+        {
+            "code": "ContextConductionStyle",
+            "display": "ContextConductionStyle",
+            "definition": "The styles of context conduction usable by relationships within a static model derived from tyhe HL7 Reference Information Model.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23083"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1129"
+                }
+            ]
+        },
+        {
+            "code": "ContextControl",
+            "display": "ContextControl",
+            "definition": "This table contains the control codes that are used to manage the propagation and scope of a particular ActRelationship or Participation within a set of Acts.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19827"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1057"
+                }
+            ]
+        },
+        {
+            "code": "CSAID",
+            "display": "CAN/CSA-Z795-96 (R2001)",
+            "definition": "CAN/CSA-Z795-96 (R2001) - This Standard provides a framework for consistent recording and classification of information on work-related injuries and diseases in Canada (injury coding).\r\n\r\nIt is constituted of Nature of injury, body part, side of body. For example: Cut or laceration of the Upper Arm, Left Injury = 03400; body part = 31100; side of body = L\r\n\r\nCode set is maintained by the Canadian Standards Association (CSA).\r\n\r\nThe Canadian Standards Association 5060 Spectrum Way Mississauga, Ontario Canada L4W 5N6\r\n\r\nPhone: (416) 747-4000 1-800-463-6727 Fax: (416) 747-2473",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19709"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.86"
+                }
+            ]
+        },
+        {
+            "code": "CST",
+            "display": "COSTART",
+            "definition": "International coding system for adverse drug reactions. In the USA, maintained by the FDA, Rockville, MD.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11110"
+                }
+            ]
+        },
+        {
+            "code": "Currency",
+            "display": "Currency",
+            "definition": "The currency unit as defined in ISO 4217",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19828"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1058"
+                }
+            ]
+        },
+        {
+            "code": "CVX",
+            "display": "CDC Vaccine Codes",
+            "definition": "National Immunization Program, Centers for Disease Control and Prevention, 1660 Clifton Road, Atlanta, GA, 30333",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11107"
+                }
+            ]
+        },
+        {
+            "code": "DataOperation",
+            "display": "DataOperation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22872"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1123"
+                }
+            ]
+        },
+        {
+            "code": "DataType",
+            "display": "DataType",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19804"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1007"
+                }
+            ]
+        },
+        {
+            "code": "DCL",
+            "display": "DICOM Class Label",
+            "definition": "From the Message Standards Classes table of the SNOMED-DICOM-Microglossary. College of American Pathologists, Skokie, IL, 60077-1034",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11067"
+                }
+            ]
+        },
+        {
+            "code": "DCM",
+            "display": "DICOM modality codes",
+            "definition": "Dean Bidgood, MD; Duke University Medical Center, Durham NC. Digital Imaging and Communications in Medicine (DICOM). From NEMA Publications PS-3.1 - PS 3.12: The ACR-NEMA DICOM Standard. National Electrical Manufacturers Association (NEMA). Rosslyn, VA,",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11068"
+                }
+            ]
+        },
+        {
+            "code": "Dentition",
+            "display": "Dentition",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19403"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1080"
+                }
+            ]
+        },
+        {
+            "code": "DeviceAlertLevel",
+            "display": "DeviceAlertLevel",
+            "definition": "Domain values for the Device.Alert\\_levelCode",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19886"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.31"
+                }
+            ]
+        },
+        {
+            "code": "DocumentCompletion",
+            "display": "DocumentCompletion",
+            "definition": "Identifies the current completion state of a clinical document.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19887"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.33"
+                }
+            ]
+        },
+        {
+            "code": "DocumentStorage",
+            "display": "DocumentStorage",
+            "definition": "Identifies the storage status of a document.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19888"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.34"
+                }
+            ]
+        },
+        {
+            "code": "DQL",
+            "display": "DICOM Query Label",
+            "definition": "HL7 Image Management Special Interest Group, Health Level Seven, Ann Arbor, MI.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11069"
+                }
+            ]
+        },
+        {
+            "code": "E",
+            "display": "EUCLIDES",
+            "definition": "Available from Euclides Foundation International nv, Excelsiorlaan 4A, B-1930 Zaventem, Belgium; Phone: 32 2 720 90 60.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11071"
+                }
+            ]
+        },
+        {
+            "code": "E5",
+            "display": "Euclides quantity codes",
+            "definition": "Available from Euclides Foundation International nv (see above)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11072"
+                }
+            ]
+        },
+        {
+            "code": "E6",
+            "display": "Euclides Lab method codes",
+            "definition": "Available from Euclides Foundation International nv, Excelsiorlaan 4A, B-1930 Zaventem, Belgium; Phone: 32 2 720 90 60.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11073"
+                }
+            ]
+        },
+        {
+            "code": "E7",
+            "display": "Euclides Lab equipment codes",
+            "definition": "Available from Euclides Foundation International nv (see above)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11074"
+                }
+            ]
+        },
+        {
+            "code": "EditStatus",
+            "display": "EditStatus",
+            "definition": "The status of an entry as it pertains to its review and incorporation into the HL7 domain specification database.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19889"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.35"
+                }
+            ]
+        },
+        {
+            "code": "EducationLevel",
+            "display": "Education Level",
+            "definition": "Years of education that a person has completed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19849"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1077"
+                }
+            ]
+        },
+        {
+            "code": "EmployeeJobClass",
+            "display": "EmployeeJobClass",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19829"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1059"
+                }
+            ]
+        },
+        {
+            "code": "EncounterAccident",
+            "display": "EncounterAccident",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19890"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.36"
+                }
+            ]
+        },
+        {
+            "code": "EncounterAcuity",
+            "display": "Encounter Acuity",
+            "definition": "The level of resource intensiveness of patient care.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19795"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1084"
+                }
+            ]
+        },
+        {
+            "code": "EncounterAdmissionSource",
+            "display": "EncounterAdmissionSource",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19891"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.37"
+                }
+            ]
+        },
+        {
+            "code": "EncounterReferralSource",
+            "display": "EncounterReferralSource",
+            "definition": "This domain is defined in UB92 and applies to US realm only",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19892"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.39"
+                }
+            ]
+        },
+        {
+            "code": "EncounterSpecialCourtesy",
+            "display": "EncounterSpecialCourtesy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19894"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.40"
+                }
+            ]
+        },
+        {
+            "code": "EntityClass",
+            "display": "EntityClass",
+            "definition": "Classifies the Entity class and all of its subclasses. The terminology is hierarchical. At the top is this HL7-defined domain of high-level categories (such as represented by the Entity subclasses). Each of these terms must be harmonized and is specializable. The value sets beneath are drawn from multiple, frequently external, domains that reflect much more fine-grained typing.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19895"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.41"
+                }
+            ]
+        },
+        {
+            "code": "EntityCode",
+            "display": "EntityCode",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19831"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1060"
+                }
+            ]
+        },
+        {
+            "code": "EntityDeterminer",
+            "display": "EntityDeterminer",
+            "definition": "EntityDeterminer in natural language grammar is the class of words that comprises articles, demonstrative pronouns, and quantifiers. In the RIM, determiner is a structural code in the Entity class to distinguish whether any given Entity object stands for some, any one, or a specific thing.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19885"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.30"
+                }
+            ]
+        },
+        {
+            "code": "EntityHandling",
+            "display": "EntityHandling",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19896"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.42"
+                }
+            ]
+        },
+        {
+            "code": "EntityNamePartQualifier",
+            "display": "EntityNamePartQualifier",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19897"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.43"
+                }
+            ]
+        },
+        {
+            "code": "EntityNamePartQualifierR2",
+            "display": "EntityNamePartQualifierR2",
+            "definition": "**Description:**The qualifier is a set of codes each of which specifies a certain subcategory of the name part in addition to the main name part type. For example, a given name may be flagged as a nickname, a family name may be a pseudonym or a name of public records.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22788"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1122"
+                }
+            ]
+        },
+        {
+            "code": "EntityNamePartType",
+            "display": "EntityNamePartType",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19898"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.44"
+                }
+            ]
+        },
+        {
+            "code": "EntityNamePartTypeR2",
+            "display": "EntityNamePartTypeR2",
+            "definition": "**Description:**Indicates whether the name part is a given name, family name, prefix, suffix, etc.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22783"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1121"
+                }
+            ]
+        },
+        {
+            "code": "EntityNameUse",
+            "display": "EntityNameUse",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19899"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.45"
+                }
+            ]
+        },
+        {
+            "code": "EntityNameUseR2",
+            "display": "EntityNameUseR2",
+            "definition": "**Description:**A set of codes advising a system or user which name in a set of names to select for a given purpose.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22764"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1120"
+                }
+            ]
+        },
+        {
+            "code": "EntityRisk",
+            "display": "EntityRisk",
+            "definition": "The vocabulary table for the Entity.riskCode attribute",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19900"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.46"
+                }
+            ]
+        },
+        {
+            "code": "EntityStatus",
+            "display": "EntityStatus",
+            "definition": "The status of an instance of the RIM Entity class.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19832"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1061"
+                }
+            ]
+        },
+        {
+            "code": "ENZC",
+            "display": "Enzyme Codes",
+            "definition": "Enzyme Committee of the International Union of Biochemistry and Molecular Biology. Enzyme Nomenclature: Recommendations on the Nomenclature and Classification of Enzyme-Catalysed Reactions. London: Academic Press, 1992.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11070"
+                }
+            ]
+        },
+        {
+            "code": "EPSG_CA",
+            "display": "European Petroleum Survey Group Geodetic Parameter Dataset Coordinate Axis",
+            "definition": "**Description:**The set of values found in the Coord Axis Code column of the Coordinate Axis table as maintained in the EPSG geodetic parameter dataset. These define the axis for coordinate systems for geographic coordinates.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22804"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.279"
+                }
+            ]
+        },
+        {
+            "code": "EPSG_CRS",
+            "display": "European Petroleum Survey Group Geodetic Parameter Dataset Coordinate Reference System",
+            "definition": "**Description:** The set of values found in the Coord Axis Code column of the Coordinate Axis table as maintained in the EPSG geodetic parameter dataset. These define the axis for coordinate systems for geographic coordinates.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22803"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.278"
+                }
+            ]
+        },
+        {
+            "code": "EPSG-GeodeticParameterDataset",
+            "display": "EPSG Geodetic Parameter Dataset",
+            "definition": "**Description:** The EPSG (European Petroleum Survey Group) dataset represents all Datums, coordinate references (projected and 2D geographic) and coordinate systems (including Cartesian coordinate systems) used in surveying worldwide. Each record includes a 4-8 digit unique identifier. The current version is available from http://www.epsg.org/. The database contains over 4000 records covering spatial data applications worldwide.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21649"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.242"
+                }
+            ]
+        },
+        {
+            "code": "EquipmentAlertLevel",
+            "display": "EquipmentAlertLevel",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19901"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.49"
+                }
+            ]
+        },
+        {
+            "code": "Ethnicity",
+            "display": "Ethnicity",
+            "definition": "In the United States, federal standards for classifying data on ethnicity determine the categories used by federal agencies and exert a strong influence on categorization by state and local agencies and private sector organizations. The federal standards do not conceptually define ethnicity, and they recognize the absence of an anthropological or scientific basis for ethnicity classification. Instead, the federal standards acknowledge that ethnicity is a social-political construct in which an individual's own identification with a particular ethnicity is preferred to observer identification. The standards specify two minimum ethnicity categories: Hispanic or Latino, and Not Hispanic or Latino. The standards define a Hispanic or Latino as a person of \"Mexican, Puerto Rican, Cuban, South or Central America, or other Spanish culture or origin, regardless of race.\" The standards stipulate that ethnicity data need not be limited to the two minimum categories, but any expansion must be collapsible to those categories. In addition, the standards stipulate that an individual can be Hispanic or Latino or can be Not Hispanic or Latino, but cannot be both.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19902"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.50"
+                }
+            ]
+        },
+        {
+            "code": "ExposureMode",
+            "display": "ExposureMode",
+            "definition": "Code for the mechanism by which the exposure agent was exchanged or potentially exchanged by the participants involved in the exposure.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22376"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1113"
+                }
+            ]
+        },
+        {
+            "code": "FDDC",
+            "display": "First DataBank Drug Codes",
+            "definition": "National Drug Data File. Proprietary product of First DataBank, Inc. (800) 633-3453, or http://www.firstdatabank.com.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11112"
+                }
+            ]
+        },
+        {
+            "code": "FDDX",
+            "display": "First DataBank Diagnostic Codes",
+            "definition": "Used for drug-diagnosis interaction checking. Proprietary product of First DataBank, Inc. As above for FDDC.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11111"
+                }
+            ]
+        },
+        {
+            "code": "FDK",
+            "display": "FDA K10",
+            "definition": "Dept. of Health & Human Services, Food & Drug Administration, Rockville, MD 20857. (device & analyte process codes).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11075"
+                }
+            ]
+        },
+        {
+            "code": "GenderStatus",
+            "display": "GenderStatus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19903"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.51"
+                }
+            ]
+        },
+        {
+            "code": "GTSAbbreviation",
+            "display": "GTSAbbreviation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19816"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1022"
+                }
+            ]
+        },
+        {
+            "code": "HB",
+            "display": "HIBCC",
+            "definition": "Health Industry Business Communications Council, 5110 N. 40th St., Ste 120, Phoenix, AZ 85018.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11078"
+                }
+            ]
+        },
+        {
+            "code": "HC-AIC",
+            "display": "Active Ingredient Code",
+            "definition": "**Description:**\r\n\r\nA code assigned to any component that has medicinal properties, and supplies pharmacological activity or other direct effect in the diagnosis, cure, mitigation, treatment or prevention of disease, or to affect the structure or any function of the body of man or other animals. http://www.hc-sc.gc.ca/dhp-mps/prodpharma/databasdon/index\\_e.html",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22757"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1103"
+                }
+            ]
+        },
+        {
+            "code": "HC-AIGC",
+            "display": "Active Ingredient Group Code",
+            "definition": "**Description:** Codes for particular grouping of active ingredients. This is the first 5 characters of active ingredient group number. http://www.hc-sc.gc.ca/dhp-mps/prodpharma/databasdon/index\\_e.html",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22758"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1104"
+                }
+            ]
+        },
+        {
+            "code": "HC-AIGN",
+            "display": "Active Ingredient Group Number",
+            "definition": "**Description:** Codes for particular collections of active ingredients combined at specific strengths. http://www.hc-sc.gc.ca/dhp-mps/prodpharma/databasdon/index\\_e.html",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22760"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1106"
+                }
+            ]
+        },
+        {
+            "code": "HC-DIN",
+            "display": "Health Canada Drug Id Number",
+            "definition": "**Description:** A Drug Identification Number (DIN) is a number assigned by Health Canada to a drug product prior to being marketed in Canada. It consists of eight digits (numbers) generated by a computer system in the Submission and Information Policy Division. http://www.hc-sc.gc.ca/dhp-mps/prodpharma/databasdon/index\\_e.html",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22759"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1105"
+                }
+            ]
+        },
+        {
+            "code": "HC-NPN",
+            "display": "Health Canada Natural Product Number",
+            "definition": "A unique identifier assigned to natural health products that have been issued a product licence by Health Canada. http://www.hc-sc.gc.ca/dhp-mps/prodnatur/applications/licen-prod/lnhpd-bdpsnh-eng.php",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22761"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1107"
+                }
+            ]
+        },
+        {
+            "code": "HealthcareProviderTaxonomyHIPAA",
+            "display": "HealthcareProviderTaxonomyHIPAA",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19904"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.53"
+                }
+            ]
+        },
+        {
+            "code": "HealthcareServiceLocation",
+            "display": "Healthcare Service Location",
+            "definition": "A comprehensive classification of locations and settings where healthcare services are provided. This value set is based on the National Healthcare Safety Network (NHSN) location code system that has been developed over a number of years through CDC's interaction with a variety of healthcare facilities and is intended to serve a variety of reporting needs where coding of healthcare service locations is required.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22401"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.259"
+                }
+            ]
+        },
+        {
+            "code": "HHC",
+            "display": "Home Health Care",
+            "definition": "Home Health Care Classification System; Virginia Saba, EdD, RN; Georgetown University School of Nursing; Washington, DC.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11079"
+                }
+            ]
+        },
+        {
+            "code": "HI",
+            "display": "Health Outcomes",
+            "definition": "Health Outcomes Institute codes for outcome variables available (with responses) from Stratis Health (formerly Foundation for Health Care Evaluation and Health Outcomes Institute), 2901 Metro Drive, Suite 400, Bloomington, MN, 55425-1525; (612) 854-3306 (voice); (612) 853-8503 (fax); dziegen@winternet.com. See examples in the Implementation Guide.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11077"
+                }
+            ]
+        },
+        {
+            "code": "hl7ApprovalStatus",
+            "display": "HL7ApprovalStatus",
+            "definition": "**Description:** Codes for concepts describing the approval level of HL7 artifacts. This code system reflects the concepts expressed in HL7's Governance & Operations Manual (GOM) past and present.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23112"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1130"
+                }
+            ]
+        },
+        {
+            "code": "hl7CMETAttribution",
+            "display": "HL7CMETAttribution",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23146"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1132"
+                }
+            ]
+        },
+        {
+            "code": "HL7CommitteeIDInRIM",
+            "display": "HL7CommitteeIDInRIM",
+            "definition": "Holds the codes used to identify the committees and SIGS of HL7 in RIM repository tables.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19905"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.54"
+                }
+            ]
+        },
+        {
+            "code": "HL7ConformanceInclusion",
+            "display": "HL7ConformanceInclusion",
+            "definition": "These concepts represent theconformance requirments defined for including or valuing an element of an HL7 message. The concepts apply equally to conformance profiles defined for Version 2.x messgaes as defined by the Conformance SIG, and to the conformance columns for Version 3 messages as specified in the HMD.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19906"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.55"
+                }
+            ]
+        },
+        {
+            "code": "HL7DefinedRoseProperty",
+            "display": "HL7DefinedRoseProperty",
+            "definition": "The property Ids that HL7 has defined for customizing Rational Rose.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19907"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.56"
+                }
+            ]
+        },
+        {
+            "code": "hl7ITSType",
+            "display": "HL7ITSType",
+            "definition": "**Description:** Codes identifying types of HL7 Implementation Technology Specifications",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23211"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1135"
+                }
+            ]
+        },
+        {
+            "code": "HL7ITSVersionCode",
+            "display": "HL7 ITS Version Code",
+            "definition": "HL7 implementation technology specification versions. These codes will document the ITS type and version for message encoding. The code will appear in the instances based upon rules expressed in the ITS, and do not appear in the abstract message, either as it is presented to received from the ITS.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20090"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1091"
+                }
+            ]
+        },
+        {
+            "code": "hl7PublishingDomain",
+            "display": "HL7PublishingDomain",
+            "definition": "**Description:** Codes for HL7 publishing 'domain's (specific content area)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23170"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1136"
+                }
+            ]
+        },
+        {
+            "code": "hl7PublishingSection",
+            "display": "HL7PublishingSection",
+            "definition": "**Description:** Codes for HL7 publishing 'section's (major business categories)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23154"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1133"
+                }
+            ]
+        },
+        {
+            "code": "hl7PublishingSubSection",
+            "display": "HL7PublishingSubSection",
+            "definition": "**Description:** Codes for HL7 publishing 'sub-section's (business sub-categories)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23159"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1134"
+                }
+            ]
+        },
+        {
+            "code": "HL7StandardVersionCode",
+            "display": "HL7StandardVersionCode",
+            "definition": "This code system holds version codes for the Version 3 standards. Values are to be determined by HL7 and added with each new version of the HL7 Standard.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19985"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.19.5.1"
+                }
+            ]
+        },
+        {
+            "code": "HL7UpdateMode",
+            "display": "HL7UpdateMode",
+            "definition": "The possible modes of updating that occur when an attribute is received by a system that already contains values for that attribute.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19908"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.57"
+                }
+            ]
+        },
+        {
+            "code": "hl7V3Conformance",
+            "display": "HL7V3Conformance",
+            "definition": "**Description:** Identifies allowed codes for HL7aTMs v3 conformance property.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22997"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1125"
+                }
+            ]
+        },
+        {
+            "code": "hl7VoteResolution",
+            "display": "HL7VoteResolution",
+            "definition": "**Description:** Based on concepts for resolutions from HL7 ballot spreadsheet according to HL7's Governance & Operations Manual (GOM).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23132"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1131"
+                }
+            ]
+        },
+        {
+            "code": "HPC",
+            "display": "HCFA Procedure Codes (HCPCS)",
+            "definition": "Health Care Financing Administration (HCFA) Common Procedure Coding System (HCPCS) modifiers.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11076"
+                }
+            ]
+        },
+        {
+            "code": "HtmlLinkType",
+            "display": "HtmlLinkType",
+            "definition": "HtmlLinkType values are drawn from HTML 4.0 and describe the relationship between the current document and the anchor that is the target of the link",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19909"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.58"
+                }
+            ]
+        },
+        {
+            "code": "I10",
+            "display": "ICD-10",
+            "definition": "World Health Publications, Albany, NY.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11084"
+                }
+            ]
+        },
+        {
+            "code": "I10P",
+            "display": "ICD-10 Procedure Codes",
+            "definition": "Procedure Coding System (ICD-10-PCS). See http://www/hcfa.gov/stats/icd10.icd10.htm for more information.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11083"
+                }
+            ]
+        },
+        {
+            "code": "I9",
+            "display": "ICD9",
+            "definition": "World Health Publications, Albany, NY.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11082"
+                }
+            ]
+        },
+        {
+            "code": "I9C",
+            "display": "ICD-9CM",
+            "definition": "Commission on Professional and Hospital Activities, 1968 Green Road, Ann Arbor, MI 48105 (includes all procedures and diagnostic tests).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11081"
+                }
+            ]
+        },
+        {
+            "code": "IBT",
+            "display": "ISBT",
+            "definition": "International Society of Blood Transfusion. Blood Group Terminology 1990. VOX Sanquines 1990 58(2):152-169.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11088"
+                }
+            ]
+        },
+        {
+            "code": "IC2",
+            "display": "ICHPPC-2",
+            "definition": "International Classification of Health Problems in Primary Care, Classification Committee of World Organization of National Colleges, Academies and Academic Associations of General Practitioners (WONCA), 3rd edition. An adaptation of ICD9 intended for use in General Medicine, Oxford University Press.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11086"
+                }
+            ]
+        },
+        {
+            "code": "ICD-10-CA",
+            "display": "CanadianDiagnosisCodesICD-10-CA",
+            "definition": "Canadian Coding Standards ICD-10 CA. These standards are a compilation of international rules of coding as established by the World Health Organization (International Classification of Diseases, 10th Revision, Volume 2) and the Diagnosis Typing Standard developed to denote case complexity for application in Canadian facilities.\r\n\r\nFor example:\r\n\r\n *  L40 Psoriasis\r\n *  L40.0 Psoriasis vulgaris\r\n    \r\n     *  Nummular psoriasis\r\n     *  Plaque psoriasis\r\n *  L40.1 Generalized pustular psoriasis\r\n    \r\n     *  Impetigo herpetiformis\r\n     *  Von ZumbuschaTMs disease\r\n *  L40.2 Acrodermatitis continua\r\n *  L40.3 Pustulosis palmaris et plantaris\r\n *  L40.4 Guttate psoriasis\r\n *  L40.5\\* Arthropathic psoriasis (M07.0-M07.3\\*)(M09.0\\*)\r\n *  L40.8 Other psoriasis\r\n    \r\n     *  Erythroderma psoraticum\r\n     *  Erythrodermic psoriasis\r\n     *  Flexural psoriasis\r\n *  L40.9 Psoriasis unspecified\r\n\r\nThey are maintained by CIHI (Canadian Institute for Health Information).\r\n\r\nCIHI Toronto\r\n\r\nAttn: Director of Standards\r\n\r\n90 Eglinton Avenue, Suite 300\r\n\r\nToronto, Ontario\r\n\r\nCanada\r\n\r\nM4P 2Y3\r\n\r\nPhone: (416) 481.2002\r\n\r\nFax: (416) 481-2950\r\n\r\nwww.cihi.ca",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20078"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.94"
+                }
+            ]
+        },
+        {
+            "code": "ICDO",
+            "display": "International Classification of Diseases for Oncology",
+            "definition": "International Classification of Diseases for Oncology, 2nd Edition. World Health Organization: Geneva, Switzerland, 1990. Order from: College of American Pathologists, 325 Waukegan Road, Northfield, IL, 60093-2750. (847) 446-8800.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11085"
+                }
+            ]
+        },
+        {
+            "code": "ICS",
+            "display": "ICCS",
+            "definition": "Commission on Professional and Hospital Activities, 1968 Green Road, Ann Arbor, MI 48105.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11080"
+                }
+            ]
+        },
+        {
+            "code": "ICSD",
+            "display": "International Classification of Sleep Disorders",
+            "definition": "International Classification of Sleep Disorders Diagnostic and Coding Manual, 1990, available from American Sleep Disorders Association, 604 Second Street SW, Rochester, MN 55902",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11087"
+                }
+            ]
+        },
+        {
+            "code": "IdentifierReliability",
+            "display": "IdentifierReliability",
+            "definition": "Specifies the reliability with which the identifier is known. This attribute MAY be used to assist with identifier matching algorithms.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22613"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1117"
+                }
+            ]
+        },
+        {
+            "code": "IdentifierScope",
+            "display": "IdentifierScope",
+            "definition": "**Description:** Codes to specify the scope in which the identifier applies to the object with which it is associated, and used in the datatype property II.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22608"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1116"
+                }
+            ]
+        },
+        {
+            "code": "IETF1766",
+            "display": "IETF RFC 1766",
+            "definition": "Language identifiers as defined by IETF RFC 1766: Tags for the Identification of Languages, or its successor on the IETF Standards Track. The biblio ref for RFC 1766 is: IETF (Internet Engineering Task Force), RFC 1766: Tag",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19951"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.84"
+                }
+            ]
+        },
+        {
+            "code": "IETF3066",
+            "display": "Tags for the Identification of Languages",
+            "definition": "from OID registry",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21430"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.121"
+                }
+            ]
+        },
+        {
+            "code": "IntegrityCheckAlgorithm",
+            "display": "IntegrityCheckAlgorithm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19808"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1010"
+                }
+            ]
+        },
+        {
+            "code": "iso21000-6-2004E-RDD",
+            "display": "ISO/IEC 21000-6:2004(E) Rights Data Dictionary",
+            "definition": "ISO/IEC 21000-6:2004 describes a Rights Data Dictionary which comprises a set of clear, consistent, structured, integrated and uniquely identified terms to support the MPEG-21 Rights Expression Language (REL), ISO/IEC 21000-5. Annex A specifies the methodology for and structure of the RDD Dictionary, and specifies how further Terms may be defined under the governance of a Registration Authority, requirements for which are described in Annex C.\r\n\r\nTaken together, these specifications and the RDD Dictionary and Database make up the RDD System. Use of the RDD System will facilitate the accurate exchange and processing of information between interested parties involved in the administration of rights in, and use of, Digital Items, and in particular it is intended to support ISO/IEC 21000-5 (REL). Clause 6 describes how ISO/IEC 21000-6:2004 relates to ISO/IEC 21000-5.\r\n\r\nAs well as providing definitions of terms for use in ISO/IEC 21000-5, the RDD System is designed to support the mapping of terms from different namespaces. Such mapping will enable the transformation of metadata from the terminology of one namespace (or Authority) into that of another namespace. Mapping, to ensure minimum ambiguity or loss of semantic integrity, will be the responsibility of the Registration Authority. Provision of automated trm look-up is also a requirement.\r\n\r\nThe RDD Dictionary is a prescriptive dctionary, in the sense that it defines a single meaning for a trm represented by a particular RddAuthorized TermName, but it is also inclusive in that it can recognize the prescription of other Headwords and definitions by other Authorities and incorporates them through mappings. The RDD Dictionary also supports the circumstance that the same name may have different meanings under different Authorities. ISO/IEC 21000-6:2004describes audit provisions so that additions, amendments and deletions to Terms and their attributes can be tracked.\r\n\r\nISO/IEC 21000-6:2004 recognizes legal definitions as and only as Terms from other Authorities that can be mapped into the RDD Dictionary. Therefore Terms that are directly authorized by the RDD Registration Authority neither define nor prescribe intellectual property rights or other legal entities.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23074"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "1.0.21000.6"
+                }
+            ]
+        },
+        {
+            "code": "ISO3166-1",
+            "display": "ISO 3166 2 Character Country Codes",
+            "definition": "Two character country codes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "inactive",
+                    "valueCode": "true"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19796"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.1"
+                }
+            ]
+        },
+        {
+            "code": "ISO3166-2",
+            "display": "ISO 3166 3 Character Country Codes",
+            "definition": "Three character country codes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "inactive",
+                    "valueCode": "true"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19797"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.2"
+                }
+            ]
+        },
+        {
+            "code": "ISO3166-3",
+            "display": "ISO 3166 Numeric country Codes",
+            "definition": "Numeric country codes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "inactive",
+                    "valueCode": "true"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19798"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.3"
+                }
+            ]
+        },
+        {
+            "code": "ISO4217",
+            "display": "ISO4217",
+            "definition": "ISO 4217 currency code",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19953"
+                }
+            ]
+        },
+        {
+            "code": "IUPC",
+            "display": "IUPAC/IFCC Component Codes",
+            "definition": "Codes used by IUPAC/IFF to identify the component (analyte) measured. Contact Henrik Olesen, as above for IUPP.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11090"
+                }
+            ]
+        },
+        {
+            "code": "IUPP",
+            "display": "IUPAC/IFCC Property Codes",
+            "definition": "International Union of Pure and Applied Chemistry/International Federation of Clinical Chemistry. The Silver Book: Compendium of terminology and nomenclature of properties in clinical laboratory sciences. Oxford: Blackwell Scientific Publishers, 1995. Henrik Olesen, M.D., D.M.Sc., Chairperson, Department of Clinical Chemistry, KK76.4.2, Rigshospitalet, University Hospital of Copenhagen, DK-2200, Copenhagen. http://inet.uni-c.dk/~qukb7642/",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11089"
+                }
+            ]
+        },
+        {
+            "code": "JC8",
+            "display": "Japanese Chemistry",
+            "definition": "Clinical examination classification code. Japan Association of Clinical Pathology. Version 8, 1990. A multiaxial code including a subject code (e.g., Rubella = 5f395, identification code (e.g., virus ab IGG), a specimen code (e.g., serum =023) and a method code (e.g., ELISA = 022)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11091"
+                }
+            ]
+        },
+        {
+            "code": "LanguageAbilityMode",
+            "display": "LanguageAbilityMode",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19911"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.60"
+                }
+            ]
+        },
+        {
+            "code": "LanguageAbilityProficiency",
+            "display": "LanguageAbilityProficiency",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19912"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.61"
+                }
+            ]
+        },
+        {
+            "code": "LivingArrangement",
+            "display": "LivingArrangement",
+            "definition": "A code depicting the living arrangements of a person",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19913"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.63"
+                }
+            ]
+        },
+        {
+            "code": "LN",
+            "display": "Logical Observation Identifier Names and Codes (LOINC)",
+            "definition": "Regenstrief Institute, c/o LOINC, 1050 Wishard Blvd., 5th floor, Indianapolis, IN 46202. 317/630-7433. Available from the Regenstrief Institute server at http://www.regenstrief.org/loinc/loinc.htm. Also available via HL7 file server: FTP/Gopher (www.mcis.duke.edu/standards/ termcode/loinclab and www.mcis.duke.edu/standards/termcode/loinclin) and World Wide Web (http:// www.mcis.duke.edu/ standards/termcode/loincl.htm). January 2000 version has identifiers, synonyms and cross-reference codes for reporting over 26,000 laboratory and related observations and 1,500 clinical measures.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11092"
+                }
+            ]
+        },
+        {
+            "code": "LocalMarkupIgnore",
+            "display": "LocalMarkupIgnore",
+            "definition": "Tells a receiver to ignore just the local markup tags (local\\_markup, local\\_header, local\\_attr) when value=\"markup\", or to ignore the local markup tags and all contained content when value=\"all\"",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19914"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.65"
+                }
+            ]
+        },
+        {
+            "code": "LocalRemoteControlState",
+            "display": "LocalRemoteControlState",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19915"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.66"
+                }
+            ]
+        },
+        {
+            "code": "ManagedParticipationStatus",
+            "display": "ManagedParticipationStatus",
+            "definition": "The status of an instance of the RIM Participation class.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19833"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1062"
+                }
+            ]
+        },
+        {
+            "code": "MapRelationship",
+            "display": "MapRelationship",
+            "definition": "The closeness or quality of the mapping between the HL7 concept (as represented by the HL7 concept identifier) and the source coding system. The values are patterned after the similar relationships used in the UMLS Metathesaurus. Because the HL7 coding sy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19916"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.67"
+                }
+            ]
+        },
+        {
+            "code": "MaritalStatus",
+            "display": "MaritalStatus",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19878"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.2"
+                }
+            ]
+        },
+        {
+            "code": "MaterialType",
+            "display": "MaterialType",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19918"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.73"
+                }
+            ]
+        },
+        {
+            "code": "MDC",
+            "display": "ISO 11073-10101 Health informatics - Point-of-care",
+            "definition": "The nomenclature relates primarily to vital signs monitoring, but also includes semantics of other medical devices that are commonly used in acute care settings. There are multiple coding partitions each of which has a systematic name consisting of a set of base concepts and differentiating criteria.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19943"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.24"
+                }
+            ]
+        },
+        {
+            "code": "MDDX",
+            "display": "Medispan Diagnostic Codes",
+            "definition": "Codes Used for drug-diagnosis interaction checking. Proprietary product. Hierarchical drug codes for identifying drugs down to manufacturer and pill size. MediSpan, Inc., 8425 Woodfield Crossing Boulevard, Indianapolis, IN 46240. Tel: (800) 428-4495. WWW: http://www.espan.com/medispan/pages/ medhome.html. As above for MGPI.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11113"
+                }
+            ]
+        },
+        {
+            "code": "MDFAttributeType",
+            "display": "MDFAttributeType",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19919"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.74"
+                }
+            ]
+        },
+        {
+            "code": "MdfHmdMetSourceType",
+            "display": "MdfHmdMetSourceType",
+            "definition": "Code to identify the source of a Message Element Type represented in the 'of MET' column of an HMD.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19920"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.75"
+                }
+            ]
+        },
+        {
+            "code": "MdfHmdRowType",
+            "display": "MdfHmdRowType",
+            "definition": "The row type codes for the tabular representation of a Hierarchical Message Description.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19921"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.76"
+                }
+            ]
+        },
+        {
+            "code": "MdfRmimRowType",
+            "display": "MdfRmimRowType",
+            "definition": "The row types for the tabular representation of an R-MIM.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19922"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.77"
+                }
+            ]
+        },
+        {
+            "code": "MDFSubjectAreaPrefix",
+            "display": "MDFSubjectAreaPrefix",
+            "definition": "The standard prefixes used in Rose for RIM subject areas that determine the role or function of each subject area.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19923"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.78"
+                }
+            ]
+        },
+        {
+            "code": "MEDC",
+            "display": "Medical Economics Drug Codes",
+            "definition": "Proprietary Codes for identifying drugs. Proprietary product of Medical Economics Data, Inc. (800) 223-0581.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11115"
+                }
+            ]
+        },
+        {
+            "code": "MEDCIN",
+            "display": "MEDCIN",
+            "definition": "MEDCIN contains more than 175,000 clinical data elements arranged in a hierarchy, with each item having weighted links to relevant diagnoses. The clinical data elements are organized into six basic termtypes designed to accommodate information relevant to a clinical encounter. The basic termtypes in MEDCIN's terminological hierarchy are as follows:\r\n\r\nSymptoms History Physical Examination Tests Diagnoses Therapy\r\n\r\nWithin this basic structure, MEDCIN terms are further organized in a ten level terminological hierarchy, supplemented by an optional, multi-hierarchical diagnostic index. For example, the symptom of \"difficulty breathing\" is placed in the terminological hierarchy as a subsidiary (or \"child\") finding of \"pulmonary symptoms\" although the presence (or absence) of difficulty breathing can related to conditions as diverse as myocardial infarction, bronchitis, pharyngeal foreign bodies, asthma, pulmonary embolism, etc. MEDCIN's diagnostic index provides more than 800 such links for difficulty breathing.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19945"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.26"
+                }
+            ]
+        },
+        {
+            "code": "MediaType",
+            "display": "MediaType",
+            "definition": "Internet Assigned Numbers Authority (IANA) Mime Media Types",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19924"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.79"
+                }
+            ]
+        },
+        {
+            "code": "MEDR",
+            "display": "Medical Dictionary for Drug Regulatory Affairs (MEDRA)",
+            "definition": "Dr. Louise Wood, Medicines Control Agency, Market Towers, 1 Nine Elms Lane, London SW85NQ, UK Tel: (44)0 171-273-0000 WWW: http://www.open.gov.uk/mca/mcahome.htm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11118"
+                }
+            ]
+        },
+        {
+            "code": "MEDX",
+            "display": "Medical Economics Diagnostic Codes",
+            "definition": "Used for drug-diagnosis interaction checking. Proprietary product of Medical Economics Data, Inc. (800) 223-0581.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11114"
+                }
+            ]
+        },
+        {
+            "code": "MessageCondition",
+            "display": "MessageCondition",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19926"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.80"
+                }
+            ]
+        },
+        {
+            "code": "MessageWaitingPriority",
+            "display": "Message Waiting Priority",
+            "definition": "Indicates that the receiver has messages for the sender",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19789"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1083"
+                }
+            ]
+        },
+        {
+            "code": "MGPI",
+            "display": "Medispan GPI",
+            "definition": "Medispan hierarchical drug codes for identifying drugs down to manufacturer and pill size. Proprietary product of MediSpan, Inc., 8425 Woodfield Crossing Boulevard, Indianapolis, IN 46240. Tel: (800) 428-4495.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11116"
+                }
+            ]
+        },
+        {
+            "code": "MIME",
+            "display": "MIME",
+            "definition": "IETF MIME media types",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19938"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.10"
+                }
+            ]
+        },
+        {
+            "code": "ModifyIndicator",
+            "display": "ModifyIndicator",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19927"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.81"
+                }
+            ]
+        },
+        {
+            "code": "MSH",
+            "display": "MeSH",
+            "definition": "Medical Subject Headings (MeSH). Bethesda (MD): National Library of Medicine, 2004",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23092"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.177"
+                }
+            ]
+        },
+        {
+            "code": "MULTUM",
+            "display": "Multum Lexicon",
+            "definition": "Broadly, the fields and values in the Multum Lexicon and the VantageRx Database are intended to be available for use in any HL7 message that includes a reference to non-veterinary drug products or active ingredients that are either approved for sale by the FDA or readily available in the United States. The following inter-related definitions recently circulated by us to the HL7 Vocabulary Technical Committee explain the scope of what we mean by \"drug product\" and \"active ingredient.\" (A definition for \"drug ingredient\" is also provided here because the definition of \"active ingredient\" is reliant on this term.)\r\n\r\nDrug Product A drug product is a manufactured or extemporaneously-compounded physiologically-active material intended by the preparer to achieve therapeutic, diagnostic, or preventative effects via biochemical mechanisms when applied to an epithelial surface or placed in an internal body space of a targeted organism.\r\n\r\nDrug Ingredient A drug ingredient is a chemical compound or biologic agent that occurs in a drug product.\r\n\r\nActive Ingredient An active ingredient is a drug ingredient that mediates one or more of the intended therapeutic, diagnostic, or preventative effects of a drug product and is present in sufficient quantities to achieve such effects according to the allopathic tradition of healthcare practice.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19946"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.27"
+                }
+            ]
+        },
+        {
+            "code": "MVX",
+            "display": "CDC Vaccine Manufacturer Codes",
+            "definition": "National Immunization Program, Centers for Disease Control and Prevention, 1660 Clifton Road, Atlanta, GA, 30333",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11108"
+                }
+            ]
+        },
+        {
+            "code": "NAACCR",
+            "display": "NAACCR",
+            "definition": "NAACCR Cancer Registry",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19949"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.7"
+                }
+            ]
+        },
+        {
+            "code": "NAICS",
+            "display": "North American Industry Classification System",
+            "definition": "North American Industry Classification System(NAICS) for the United States, a new economic classification system that replaces the 1987 Standard Industrial Classification (SIC) for statistical purposes. NAICS is a system for classifying establishments by type of economic activity. Its purposes are: (1) to facilitate the collection, tabulation, presentation, and analysis of data relating to establishments, and (2) to promote uniformity and comparability in the presentation of statistical data describing the economy. NAICS will be used by Federal statistical agencies that collect or publish data by industry.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19952"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.85"
+                }
+            ]
+        },
+        {
+            "code": "NDA",
+            "display": "NANDA",
+            "definition": "North American Nursing Diagnosis Association, Philadelphia, PA.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11095"
+                }
+            ]
+        },
+        {
+            "code": "NDC",
+            "display": "National drug codes",
+            "definition": "These provide unique codes for each distinct drug, dosing form, manufacturer, and packaging. (Available from the National Drug Code Directory, FDA, Rockville, MD, and other sources.)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11117"
+                }
+            ]
+        },
+        {
+            "code": "NIC",
+            "display": "Nursing Intervention Classification",
+            "definition": "Iowa Intervention Project, College of Nursing, University of Iowa, Iowa City, Iowa",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11093"
+                }
+            ]
+        },
+        {
+            "code": "NMMDS",
+            "display": "Nursing Management Minimum Data Set",
+            "definition": "The NMMDS is the minimum set of items of information with uniform definitions and categories concerning the specific dimension of the context of patient care delivery. It represents the minimum data used to support the management and administration of patient/nursing care delivery across all types of settings. The NMMDS is composed of seventeen (17) data elements organized into three categories: environment, nurse resources, and financial resources. See Tables 1-3 for the elements and related definitions organized by each categories. The NMMDS most appropriately focuses at the first level of accountability for patient/client/family/community nursing care: this may be the delivery unit, service, or center of excellence level. The NMMDS supports numerous constructed variables as well as aggregation of data at the unit, institution, network, and system, etc levels. This minimum data set provides the structure for the collection of uniform information that influences quality of patient care, directly and indirectly.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19942"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.23"
+                }
+            ]
+        },
+        {
+            "code": "NOC",
+            "display": "NOC",
+            "definition": "NOC - Nursing Outcome Codes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19939"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.16"
+                }
+            ]
+        },
+        {
+            "code": "NUBC-UB92",
+            "display": "National Uniform Billing Council, UB 92",
+            "definition": "The UB-92 data element specifications are developed and maintained by the NUBC. The data element specifications are for use in EDI billing and payment transactions and related business applications. There is a proprietary fee. Available from the National Uniform Billing Committee of the American Hospital Association, One North Franklin, Chicago, IL 60606. \"UB-92 National Uniform Billing Data Element Specifications as developed by the National Uniform Billing Committee as of August 13, 1999\". url: http://www.nubc.org",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "15926"
+                }
+            ]
+        },
+        {
+            "code": "NUCCProviderCodes",
+            "display": "NUCC Health Care Provider Taxonomy",
+            "definition": "The Provider Taxonomy Code List is published (released) twice a year on July 1st and January 1st. The July publication is effective for use on October 1st and the January publication is effective for use on April 1st. The time between the publication release and the effective date is considered an implementation period to allow providers, payers and vendors an opportunity to incorporate any changes into their systems. This listing includes Active codes approved for use effective April 1st, 2003, version 3.0; and codes that are New and approved for use effective October 1st, 2003, version 3.1.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20095"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.101"
+                }
+            ]
+        },
+        {
+            "code": "NullFlavor",
+            "display": "NullFlavor",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19805"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1008"
+                }
+            ]
+        },
+        {
+            "code": "ObservationCategory",
+            "display": "ObservationCategory",
+            "definition": "High level observation categories for the general type of observation being made.\r\n\r\nURL: http://hl7-fhir.github.io/valueset-observation-category.html\r\n\r\nThis is an inline code system http://hl7.org/fhir/observation-category.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23733"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.4.642.1.222"
+                }
+            ]
+        },
+        {
+            "code": "ObservationInterpretation",
+            "display": "ObservationInterpretation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19928"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.83"
+                }
+            ]
+        },
+        {
+            "code": "ObservationMethod",
+            "display": "ObservationMethod",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19929"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.84"
+                }
+            ]
+        },
+        {
+            "code": "ObservationValue",
+            "display": "ObservationValue",
+            "definition": "This domain is the root domain to which all HL7-recognized value sets for the Observation.value attribute will be linked when Observation.value has a coded data type.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19834"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1063"
+                }
+            ]
+        },
+        {
+            "code": "OHA",
+            "display": "Omaha System",
+            "definition": "Omaha Visiting Nurse Association, Omaha, NB.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11094"
+                }
+            ]
+        },
+        {
+            "code": "OPINIONS",
+            "display": "Online Product Identification Number Index of Nova Scotia",
+            "definition": "**Description:** Codes to identify products and services that do not have DIN's and which need to be billed. http://www.atlanticpharmaceutical.ca/default.asp?mn=5.23",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22756"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1102"
+                }
+            ]
+        },
+        {
+            "code": "OrderableDrugForm",
+            "display": "OrderableDrugForm",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19930"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.85"
+                }
+            ]
+        },
+        {
+            "code": "OrganizationNameType",
+            "display": "OrganizationNameType",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19811"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1016"
+                }
+            ]
+        },
+        {
+            "code": "ParameterizedDataType",
+            "display": "ParameterizedDataType",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19931"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.87"
+                }
+            ]
+        },
+        {
+            "code": "ParticipationFunction",
+            "display": "ParticipationFunction",
+            "definition": "This code is used to specify the exact function an actor had in a service in all necessary detail. This domain may include local extensions (CWE).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19932"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.88"
+                }
+            ]
+        },
+        {
+            "code": "ParticipationMode",
+            "display": "ParticipationMode",
+            "definition": "Identifies the primary means by which an Entity participates in an Act.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19835"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1064"
+                }
+            ]
+        },
+        {
+            "code": "ParticipationSignature",
+            "display": "ParticipationSignature",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19933"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.89"
+                }
+            ]
+        },
+        {
+            "code": "ParticipationType",
+            "display": "ParticipationType",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19935"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.90"
+                }
+            ]
+        },
+        {
+            "code": "PatientImportance",
+            "display": "PatientImportance",
+            "definition": "Patient VIP code",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19847"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1075"
+                }
+            ]
+        },
+        {
+            "code": "PaymentTerms",
+            "display": "PaymentTerms",
+            "definition": "Describes payment terms for a financial transaction, used in an invoice.\r\n\r\nThis is typically expressed as a responsibility of the acceptor or payor of an invoice.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19936"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.91"
+                }
+            ]
+        },
+        {
+            "code": "PeriodicIntervalOfTimeAbbreviation",
+            "display": "PeriodicIntervalOfTimeAbbreviation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19815"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1021"
+                }
+            ]
+        },
+        {
+            "code": "PersonDisabilityType",
+            "display": "PersonDisabilityType",
+            "definition": "A code identifying a person's disability.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19937"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.93"
+                }
+            ]
+        },
+        {
+            "code": "PH_Industry_CDC_Census2010",
+            "display": "Industry CDC Census 2010",
+            "definition": "2010 Industry coding system used by CDC (NIOSH and NCHS) for coding industry text. Industry describes an economic/business sector comprised of businesses/ enterprises concerned with the output of a specified category of products or services.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23917"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.114222.4.5.315"
+                }
+            ]
+        },
+        {
+            "code": "PH_Occupation_CDC_Census2010",
+            "display": "Occupation CDC Census 2010",
+            "definition": "2010 Occupation coding system used by CDC (NIOSH and NCHS) for coding occupation text. Occupation describes a set of activities or tasks that individuals are paid to perform or, if unpaid, define a person's contribution to a household/family business/community.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23923"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.114222.4.5.314"
+                }
+            ]
+        },
+        {
+            "code": "PH_OccupationalDataForHealth_ODH",
+            "display": "Occupational Data for Health (ODH)",
+            "definition": "The concepts representing the values supporting Occupational Data for Health, including Job Supervisory Level or Pay Grade (ODH) code system consists of data elements that describe a person's work information, structured to facilitate individual, population, and public health use; not intended to support billing.).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23918"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.114222.4.5.327"
+                }
+            ]
+        },
+        {
+            "code": "PNDS",
+            "display": "Perioperative Nursing Data Set",
+            "definition": "The PNDS provides standardized terms and codes for patient problems/nursing diagnoses, nursing interventions including actual or expected (goal) outcomes. The PNDS provides standardized terms and codes for nursing diagnoses (a subset of NANDA), nursing interventions and outcomes. The outcomes and interventions are in a relational database. The PNDS intervention and outcome statements are attached in an Access Database. The NANDA diagnoses in the PNDS have already been registered by HL7.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19941"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.22"
+                }
+            ]
+        },
+        {
+            "code": "POS",
+            "display": "POS Codes",
+            "definition": "HCFA Place of Service Codes for Professional Claims (see http://www.hcfa.gov/medicare/poscode.htm).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11096"
+                }
+            ]
+        },
+        {
+            "code": "PostalAddressUse",
+            "display": "PostalAddressUse",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19810"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1012"
+                }
+            ]
+        },
+        {
+            "code": "ProbabilityDistributionType",
+            "display": "ProbabilityDistributionType",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19814"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1020"
+                }
+            ]
+        },
+        {
+            "code": "ProcedureMethod",
+            "display": "ProcedureMethod",
+            "definition": "Identifies the technique used to perform a procedure.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19836"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1065"
+                }
+            ]
+        },
+        {
+            "code": "ProcessingID",
+            "display": "ProcessingID",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19801"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.100"
+                }
+            ]
+        },
+        {
+            "code": "ProcessingMode",
+            "display": "ProcessingMode",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19807"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.101"
+                }
+            ]
+        },
+        {
+            "code": "QueryParameterValue",
+            "display": "QueryParameterValue",
+            "definition": "The domain of coded values used as parameters within QueryByParameter queries.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21536"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1096"
+                }
+            ]
+        },
+        {
+            "code": "QueryPriority",
+            "display": "QueryPriority",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19813"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.102"
+                }
+            ]
+        },
+        {
+            "code": "QueryQuantityUnit",
+            "display": "QueryQuantityUnit",
+            "definition": "Values in this domain specify the units of a query quantity limited request.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19837"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1066"
+                }
+            ]
+        },
+        {
+            "code": "QueryRequestLimit",
+            "display": "QueryRequestLimit",
+            "definition": "**Definition:** Defines the units associated with the magnitude of the maximum size limit of a query response that can be accepted by the requesting application.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22256"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1112"
+                }
+            ]
+        },
+        {
+            "code": "QueryResponse",
+            "display": "QueryResponse",
+            "definition": "Values in this domain allow a query response system to return a precise response status.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19838"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1067"
+                }
+            ]
+        },
+        {
+            "code": "QueryStatusCode",
+            "display": "QueryStatusCode",
+            "definition": "State attributes for Query event",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19817"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.103"
+                }
+            ]
+        },
+        {
+            "code": "Race",
+            "display": "Race",
+            "definition": "In the United States, federal standards for classifying data on race determine the categories used by federal agencies and exert a strong influence on categorization by state and local agencies and private sector organizations. The federal standards do not conceptually define race, and they recognize the absence of an anthropological or scientific basis for racial classification. Instead, the federal standards acknowledge that race is a social-political construct in which an individual's own identification with one more race categories is preferred to observer identification. The standards use a variety of features to define five minimum race categories. Among these features are descent from \"the original peoples\" of a specified region or nation. The minimum race categories are American Indian or Alaska Native, Asian, Black or African American, Native Hawaiian or Other Pacific Islander, and White. The federal standards stipulate that race data need not be limited to the five minimum categories, but any expansion must be collapsible to those categories.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19818"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.104"
+                }
+            ]
+        },
+        {
+            "code": "RC",
+            "display": "Read Classification",
+            "definition": "The Read Clinical Classification of Medicine, Park View Surgery, 26 Leicester Rd., Loughborough LE11 2AG (includes drug procedure and other codes, as well as diagnostic codes).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11097"
+                }
+            ]
+        },
+        {
+            "code": "RCFB",
+            "display": "The Read Codes Four Byte Set:",
+            "definition": "The Read Codes Four Byte Set consists of 4 alphanumeric characters. This version contains approximately 40,000 codes arranged in a hierarchical structure.\r\n\r\nTop level hierarchy sections: Disorders Findings Surgical procedures Investigations Occupations Drugs",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19947"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.28"
+                }
+            ]
+        },
+        {
+            "code": "RCV2",
+            "display": "The Read Codes Version 2",
+            "definition": "The Read Codes Version 2 contains over 70,000 coded concepts arranged in a hierarchical structure.\r\n\r\nTop level hierarchy sections: Disorders Findings Surgical procedures Investigations Occupations Drugs",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19948"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.29"
+                }
+            ]
+        },
+        {
+            "code": "RelationalOperator",
+            "display": "RelationalOperator",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19819"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.105"
+                }
+            ]
+        },
+        {
+            "code": "RelationshipConjunction",
+            "display": "RelationshipConjunction",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19830"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.106"
+                }
+            ]
+        },
+        {
+            "code": "ReligiousAffiliation",
+            "display": "Religious Affiliation",
+            "definition": "Assigment of spiritual faith affiliation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19848"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1076"
+                }
+            ]
+        },
+        {
+            "code": "ResponseLevel",
+            "display": "ResponseLevel",
+            "definition": "Specifies whether a response is expected from the addressee of this interaction and what level of detail that response should include",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19852"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.108"
+                }
+            ]
+        },
+        {
+            "code": "ResponseModality",
+            "display": "ResponseModality",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19853"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.109"
+                }
+            ]
+        },
+        {
+            "code": "ResponseMode",
+            "display": "ResponseMode",
+            "definition": "Specifies the mode, immediate versus deferred or queued, by which a receiver should communicate its receiver responsibilities.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21431"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.19.5.1"
+                }
+            ]
+        },
+        {
+            "code": "RoleClass",
+            "display": "RoleClass",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19854"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.110"
+                }
+            ]
+        },
+        {
+            "code": "RoleCode",
+            "display": "RoleCode",
+            "definition": "Specific classification codes for further qualifying RoleClass codes.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19855"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.111"
+                }
+            ]
+        },
+        {
+            "code": "RoleLinkStatus",
+            "display": "RoleLink Status",
+            "definition": "**Description:** Codes representing possible states of a RoleLink, as defined by the RoleLink class state machine.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23253"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1137"
+                }
+            ]
+        },
+        {
+            "code": "RoleLinkType",
+            "display": "RoleLinkType",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19841"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.107"
+                }
+            ]
+        },
+        {
+            "code": "RoleStatus",
+            "display": "RoleStatus",
+            "definition": "The status of an instance of the RIM Role class.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19839"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1068"
+                }
+            ]
+        },
+        {
+            "code": "RouteOfAdministration",
+            "display": "RouteOfAdministration",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19856"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.112"
+                }
+            ]
+        },
+        {
+            "code": "SCDHEC-GISSpatialAccuracyTiers",
+            "display": "SCDHEC GIS Spatial Accuracy Tiers",
+            "definition": "**Description:** The South Carolina Department of Health and Environmental Control GIS Spatial Data Accuracy Tiers have been derived from the National Standard for Spatial Data Accuracy as a means to categorize the accuracy of spatial data assignment utilizing a variety of tools for capturing coordinates including digitizers, geocoding software and global positioning system devices.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21650"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.241"
+                }
+            ]
+        },
+        {
+            "code": "SDM",
+            "display": "SNOMED- DICOM Microglossary",
+            "definition": "College of American Pathologists, Skokie, IL, 60077-1034. (formerly designated as 99SDM).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11101"
+                }
+            ]
+        },
+        {
+            "code": "Sequencing",
+            "display": "Sequencing",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19857"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.113"
+                }
+            ]
+        },
+        {
+            "code": "SetOperator",
+            "display": "SetOperator",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19840"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1069"
+                }
+            ]
+        },
+        {
+            "code": "SNM",
+            "display": "Systemized Nomenclature of Medicine (SNOMED)",
+            "definition": "Systemized Nomenclature of Medicine, 2nd Edition 1984 Vols 1, 2, College of American Pathologists, Skokie, IL.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11098"
+                }
+            ]
+        },
+        {
+            "code": "SNM3",
+            "display": "SNOMED International",
+            "definition": "SNOMED International, 1993 Vols 1-4, College of American Pathologists, Skokie, IL, 60077-1034..",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11099"
+                }
+            ]
+        },
+        {
+            "code": "SNT",
+            "display": "SNOMED topology codes (anatomic sites)",
+            "definition": "College of American Pathologists, 5202 Old Orchard Road, Skokie, IL 60077-1034.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11100"
+                }
+            ]
+        },
+        {
+            "code": "SpecialArrangement",
+            "display": "SpecialArrangement",
+            "definition": "A code indicating the type of special arrangements provided for a patient encounter (e.g., wheelchair, stretcher, interpreter, attendant, seeing eye dog). For encounters in intention moods, this information can be used to identify special arrangements that will need to be made for the incoming patient.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21583"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.19.6.1"
+                }
+            ]
+        },
+        {
+            "code": "SpecimenType",
+            "display": "SpecimenType",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19859"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.129"
+                }
+            ]
+        },
+        {
+            "code": "StyleType",
+            "display": "StyleType",
+            "definition": "The style code is used within the CDA/SPL narrative block to give the instance author some control over various aspects of style",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21333"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1093"
+                }
+            ]
+        },
+        {
+            "code": "SubstanceAdminSubstitution",
+            "display": "SubstanceAdminSubstitution",
+            "definition": "Identifies what sort of change is permitted or has occurred between the therapy that was ordered and the therapy that was/will be provided.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19842"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1070"
+                }
+            ]
+        },
+        {
+            "code": "SubstitutionCondition",
+            "display": "SubstitutionCondition",
+            "definition": "Identifies what sort of change is permitted or has occurred between the item that was ordered/requested and the one that was/will be provided.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19843"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1071"
+                }
+            ]
+        },
+        {
+            "code": "TableCellHorizontalAlign",
+            "display": "TableCellHorizontalAlign",
+            "definition": "These values are defined within the XHTML 4.0 Table Model",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19861"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.131"
+                }
+            ]
+        },
+        {
+            "code": "TableCellScope",
+            "display": "TableCellScope",
+            "definition": "These values are defined within the XHTML 4.0 Table Model",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19862"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.132"
+                }
+            ]
+        },
+        {
+            "code": "TableCellVerticalAlign",
+            "display": "TableCellVerticalAlign",
+            "definition": "These values are defined within the XHTML 4.0 Table Model",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19863"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.133"
+                }
+            ]
+        },
+        {
+            "code": "TableFrame",
+            "display": "TableFrame",
+            "definition": "These values are defined within the XHTML 4.0 Table Model",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19864"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.134"
+                }
+            ]
+        },
+        {
+            "code": "TableRules",
+            "display": "TableRules",
+            "definition": "These values are defined within the XHTML 4.0 Table Model",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19865"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.136"
+                }
+            ]
+        },
+        {
+            "code": "TargetAwareness",
+            "display": "TargetAwareness",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19866"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.137"
+                }
+            ]
+        },
+        {
+            "code": "TelecommunicationAddressUse",
+            "display": "TelecommunicationAddressUse",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19809"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1011"
+                }
+            ]
+        },
+        {
+            "code": "TelecommunicationCapabilities",
+            "display": "TelecommunicationCapabilities",
+            "definition": "**Description:** Concepts that define the telecommunication capabilities of a particular device. Used to identify the expected capabilities to be found at a particular telecommunication address.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22722"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1118"
+                }
+            ]
+        },
+        {
+            "code": "TimingEvent",
+            "display": "TimingEvent",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19867"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.139"
+                }
+            ]
+        },
+        {
+            "code": "TransmissionRelationshipTypeCode",
+            "display": "TransmissionRelationshipTypeCode",
+            "definition": "**Description:**A code specifying the meaning and purpose of every TransmissionRelationship instance. Each of its values implies specific constraints to what kinds of Transmission objects can be related and in which way.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22038"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1111"
+                }
+            ]
+        },
+        {
+            "code": "TribalEntityUS",
+            "display": "TribalEntityUS",
+            "definition": "INDIAN ENTITIES RECOGNIZED AND ELIGIBLE TO RECEIVE SERVICES FROM THE UNITED STATES BUREAU OF INDIAN AFFAIRS",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19869"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.140"
+                }
+            ]
+        },
+        {
+            "code": "TriggerEventID",
+            "display": "TriggerEventID",
+            "definition": "**Description:**Trigger Event ID as published in the standard.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22663"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.1.18"
+                }
+            ]
+        },
+        {
+            "code": "UC",
+            "display": "UCDS",
+            "definition": "Uniform Clinical Data Systems. Ms. Michael McMullan, Office of Peer Review Health Care Finance Administration, The Meadows East Bldg., 6325 Security Blvd., Baltimore, MD 21207; (301) 966 6851.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11102"
+                }
+            ]
+        },
+        {
+            "code": "UCUM",
+            "display": "UCUM",
+            "definition": "Unified Code for Units of Measure",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19950"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.6.8"
+                }
+            ]
+        },
+        {
+            "code": "UMD",
+            "display": "MDNS",
+            "definition": "Universal Medical Device Nomenclature System. ECRI, 5200 Butler Pike, Plymouth Meeting, PA 19462 USA. Phone: 215-825-6000, Fax: 215-834-1275.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11123"
+                }
+            ]
+        },
+        {
+            "code": "UML",
+            "display": "Unified Medical Language",
+            "definition": "National Library of Medicine, 8600 Rockville Pike, Bethesda, MD 20894.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11104"
+                }
+            ]
+        },
+        {
+            "code": "UnitsOfMeasure",
+            "display": "UnitsOfMeasureCaseInsensitive",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19870"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.141"
+                }
+            ]
+        },
+        {
+            "code": "UPC",
+            "display": "Universal Product Code",
+            "definition": "The Uniform Code Council. 8163 Old Yankee Road, Suite J, Dayton, OH 45458; (513) 435 3070",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11103"
+                }
+            ]
+        },
+        {
+            "code": "URLScheme",
+            "display": "URLScheme",
+            "definition": "A Universal Resource Locator (URL) is a type of telecommunications address specified as Internet standard RFC 1738 \\[http://www.ietf.org/rfc/rfc1738.txt\\]. The URL specifies the protocol and the contact point defined by that protocol for the resource.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19872"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.143"
+                }
+            ]
+        },
+        {
+            "code": "VaccineManufacturer",
+            "display": "VaccineManufacturer",
+            "definition": "The manufacturer of a vaccine.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19873"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.144"
+                }
+            ]
+        },
+        {
+            "code": "VaccineType",
+            "display": "VaccineType",
+            "definition": "The kind of vaccine.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19874"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.145"
+                }
+            ]
+        },
+        {
+            "code": "VocabularyDomainQualifier",
+            "display": "VocabularyDomainQualifier",
+            "definition": "Vocabulary domain qualifiers are concepts that are used in domain constraints to specify behavior of the new domain.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19875"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.147"
+                }
+            ]
+        },
+        {
+            "code": "W1-W2",
+            "display": "WHO rec# drug codes",
+            "definition": "World Health organization record number code. A unique sequential number is assigned to each unique single component drug and to each multi-component drug. Eight digits are allotted to each such code, six to identify the active agent, and 2 to identify the salt, of single content drugs. Six digits are assigned to each unique combination of drugs in a dispensing unit. The six digit code is identified by W1, the 8 digit code by W2.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11119"
+                }
+            ]
+        },
+        {
+            "code": "W4",
+            "display": "WHO rec# code with ASTM extension",
+            "definition": "With ASTM extensions (see Implementation Guide), the WHO codes can be used to report serum (and other) levels, patient compliance with drug usage instructions, average daily doses and more (see Appendix X1 the Implementation Guide).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11120"
+                }
+            ]
+        },
+        {
+            "code": "WC",
+            "display": "WHO ATC",
+            "definition": "WHO's ATC codes provide a hierarchical classification of drugs by therapeutic class. They are linked to the record number codes listed above.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11121"
+                }
+            ]
+        },
+        {
+            "code": "WorkClassificationODH",
+            "display": "Work Classification (Occupational Data for Health)",
+            "definition": "Code system of concepts representing a person's job type as defined by compensation and sector (e.g. paid vs. unpaid, self-employed vs. not self-employed, government vs. private, etc.).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23897"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.1139"
+                }
+            ]
+        },
+        {
+            "code": "UnitsOfMeasureCaseSensitive",
+            "display": "UnitsOfMeasureCaseSensitive",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "19871"
+                },
+                {
+                    "code": "OID",
+                    "valueCode": "2.16.840.1.113883.5.142"
+                }
+            ]
+        }
+    ]
+}

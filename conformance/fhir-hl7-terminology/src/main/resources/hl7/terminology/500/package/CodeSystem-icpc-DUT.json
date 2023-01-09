@@ -1,0 +1,25 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "icpc-DUT",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/icpc-DUT",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.138.3"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "IcpcDUT",
+    "title": "International Classification of Primary Care 1993 Dutch",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "description": "The International Classification of Primary Care (ICPC). Dutch Translation. Denmark: World Organisation of Family Doctors, 1993.",
+    "caseSensitive": true,
+    "content": "not-present"
+}

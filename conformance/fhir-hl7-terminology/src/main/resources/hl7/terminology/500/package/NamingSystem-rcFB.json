@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "rcFB",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "The Read Codes Four Byte Set:"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/rcFB"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "RcFB",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "National Health Service (UK)",
+    "contact": [
+        {
+            "name": "Paul Frosdick, NHS Information Authority"
+        }
+    ],
+    "responsible": "National Health Service (UK)",
+    "description": "The Read Codes Four Byte Set consists of 4 alphanumeric characters. This version contains approximately 40,000 codes arranged in a hierarchical structure.\r\n\r\nTop level hierarchy sections: Disorders Findings Surgical procedures Investigations Occupations Drugs",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.28",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/rcFB",
+            "preferred": true
+        }
+    ]
+}

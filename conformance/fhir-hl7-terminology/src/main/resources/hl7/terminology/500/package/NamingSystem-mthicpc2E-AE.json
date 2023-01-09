@@ -1,0 +1,41 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "mthicpc2E-AE",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ICPC2E Am Engl (Metathesaurus)"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/mthicpc2E-AE"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Mthicpc2EAE",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "World Health Organization (WHO)",
+    "responsible": "World Health Organization (WHO)",
+    "description": "Henk Lamberts and Inge Hofmans-Okkes. International Classification of Primary Care 2nd Edition, Electronic, 2E, American English Equivalents. Amsterdam: International Classification of Primary Care / prepared by the Classification Committee of the World Health Organization. Entry derived from the UMLS Metathesaurus.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.139.3",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/mthicpc2E-AE",
+            "preferred": true
+        }
+    ]
+}

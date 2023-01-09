@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "USCOC",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "US Census Occupation Code"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/USCOC"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "USCOC",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "US Government",
+    "contact": [
+        {
+            "name": "US Census Bureau"
+        }
+    ],
+    "responsible": "US Government",
+    "description": "Coding system of United States Census Occupation Codes, published by the US Governmetn Bureau of the Census. Doucmentation and Crosswalk mapping between the COC and the SOC and NAICS code systems available at http://www.census.gov/hhes/www/ioindex/view.html",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.240",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/USCOC",
+            "preferred": true
+        }
+    ]
+}

@@ -1,0 +1,3171 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-EntityCode",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-EntityCode",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1060"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "EntityCode",
+    "title": "EntityCode",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "*OpenIssue:* Missing description.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                }
+            ],
+            "code": "rim-ClassifiesClassCode",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#rim-ClassifiesClassCode",
+            "description": "The child code is a classification of the particular class group identified by the 'classCode' in a RIM class as the parent code.  Used only in RIM backbone classes to link the code and classCode values.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "A property that indicates the status of the concept. One of active, experimental, deprecated, or retired.",
+            "type": "code"
+        },
+        {
+            "code": "deprecationDate",
+            "uri": "http://hl7.org/fhir/concept-properties#deprecationDate",
+            "description": "The date at which a concept was deprecated. Concepts that are deprecated but not inactive can still be used, but their use is discouraged.",
+            "type": "dateTime"
+        },
+        {
+            "code": "notSelectable",
+            "uri": "http://hl7.org/fhir/concept-properties#notSelectable",
+            "description": "Indicates that the code is abstract - only intended to be used as a selector for other concepts",
+            "type": "boolean"
+        },
+        {
+            "code": "subsumedBy",
+            "uri": "http://hl7.org/fhir/concept-properties#parent",
+            "description": "The concept code of a parent concept",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "_MaterialEntityAdditive",
+            "display": "_MaterialEntityAdditive",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-08-20"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23527"
+                }
+            ]
+        },
+        {
+            "code": "_MaterialEntityClassType",
+            "display": "MaterialEntityClassType",
+            "definition": "Types of Material for EntityClass \"MAT\"",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "rim-ClassifiesClassCode",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityClass",
+                        "code": "MAT"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21066"
+                }
+            ]
+        },
+        {
+            "code": "_NonDrugAgentEntity",
+            "display": "NonDrugAgentEntity",
+            "definition": "Indicates types of allergy and intolerance agents which are non-drugs. (E.g. foods, latex, etc.)",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22382"
+                }
+            ]
+        },
+        {
+            "code": "_OrganizationEntityType",
+            "display": "OrganizationEntityType",
+            "definition": "Further classifies entities of classCode ORG.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "rim-ClassifiesClassCode",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityClass",
+                        "code": "ORG"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21356"
+                }
+            ]
+        },
+        {
+            "code": "_PlaceEntityType",
+            "display": "PlaceEntityType",
+            "definition": "Types of places for EntityClass \"PLC\"",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "rim-ClassifiesClassCode",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityClass",
+                        "code": "PLC"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21070"
+                }
+            ]
+        },
+        {
+            "code": "_ResourceGroupEntityType",
+            "display": "ResourceGroupEntityType",
+            "definition": "Codes to characterize a Resource Group using categories that typify its membership and/or function\r\n\r\n.\r\n\r\n*Example:* PractitionerGroup",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "rim-ClassifiesClassCode",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityClass",
+                        "code": "RGRP"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22383"
+                }
+            ]
+        },
+        {
+            "code": "_NonPersonLivingSubjectEntityType",
+            "display": "NonPersonLivingSubjectEntityType",
+            "definition": "**Description:**Types of NonPersonLivingSubjects for the EntityClass 'NLIV'",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22163"
+                }
+            ]
+        },
+        {
+            "code": "LINE",
+            "display": "Line",
+            "definition": "A hollow tube used to administer a substance into a vein, artery or body cavity",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16201"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_AccessMedicalDevice"
+                }
+            ]
+        },
+        {
+            "code": "_InjectionMedicalDevice",
+            "display": "InjectionMedicalDevice",
+            "definition": "A device intended to administer liquid into a subject via a",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21063"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_AdministrationMedicalDevice"
+                }
+            ]
+        },
+        {
+            "code": "APLCTR",
+            "display": "Applicator",
+            "definition": "A device used to apply a liquid or powder to a surface.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16190"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_AdministrationMedicalDevice"
+                }
+            ]
+        },
+        {
+            "code": "INH",
+            "display": "Inhaler",
+            "definition": "A small device used for inhaling medicine in the form of a vapour or gas in order to ease a respiratory condition such as asthma or to relieve nasal congestion.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16196"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_AdministrationMedicalDevice"
+                }
+            ]
+        },
+        {
+            "code": "PMP",
+            "display": "Pump",
+            "definition": "A device that is used to raise, compress, or transfer liquids or gases and is operated by a piston or similar mechanism.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16195"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_AdministrationMedicalDevice"
+                }
+            ]
+        },
+        {
+            "code": "_ActiveIngredientDrugEntityType",
+            "display": "ActiveIngredientDrugEntityType",
+            "definition": "Any substance which, when combined with other ingredients, delivers all or part of the therapeutic benefit associated with a medication.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21533"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ClinicalDrug"
+                }
+            ]
+        },
+        {
+            "code": "_ManufacturedDrug",
+            "display": "ManufacturedDrug",
+            "definition": "Identifies a drug or the use of a drug as produced by a specific manufacturer",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21064"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ClinicalDrug"
+                }
+            ]
+        },
+        {
+            "code": "PKG",
+            "display": "Package",
+            "definition": "A material intended to hold other materials for purposes of storage or transportation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16144"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "_ClinicalDrug",
+            "display": "ClinicalDrug",
+            "definition": "Any substance or mixture of substances manufactured, sold or represented for use in: (a) the diagnosis, treatment, mitigation or prevention of a disease, disorder, abnormal physical state, or its symptoms, in human beings or animals; (b) restoring, correcting or modifying organic functions in human beings or animals.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21059"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_DrugEntity"
+                }
+            ]
+        },
+        {
+            "code": "AMP",
+            "display": "Ampule",
+            "definition": "A small sealed glass container that holds a measured amount of a medicinal substance.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16177"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_IndividualPackageEntityType"
+                }
+            ]
+        },
+        {
+            "code": "MINIM",
+            "display": "Minim",
+            "definition": "Individually dosed ophthalmic solution. One time eye dropper dispenser.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16178"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_IndividualPackageEntityType"
+                }
+            ]
+        },
+        {
+            "code": "NEBAMP",
+            "display": "Nebuamp",
+            "definition": "Individually dosed inhalation solution.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16179"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_IndividualPackageEntityType"
+                }
+            ]
+        },
+        {
+            "code": "OVUL",
+            "display": "Ovule",
+            "definition": "A container either glass or plastic and a narrow neck, for storing liquid.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16180"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_IndividualPackageEntityType"
+                }
+            ]
+        },
+        {
+            "code": "AINJ",
+            "display": "AutoInjector",
+            "definition": "Automatically injects medication.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16192"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_InjectionMedicalDevice"
+                }
+            ]
+        },
+        {
+            "code": "PEN",
+            "display": "Pen",
+            "definition": "A device which can contain a cartridge for injection purposes. Eg. Insulin pen.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16194"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_InjectionMedicalDevice"
+                }
+            ]
+        },
+        {
+            "code": "SYR",
+            "display": "Syringe",
+            "definition": "A barrel with a plunger.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16193"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_InjectionMedicalDevice"
+                }
+            ]
+        },
+        {
+            "code": "_ContainerEntityType",
+            "display": "ContainerEntityType",
+            "definition": "Material intended to hold another material for purpose of storage or transport.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21060"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MaterialEntityClassType"
+                }
+            ]
+        },
+        {
+            "code": "_MedicalDevice",
+            "display": "MedicalDevice",
+            "definition": "A device with direct or indirect therapeutic purpose. Values for EntityCode when EntityClass = \"DEV\"",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "rim-ClassifiesClassCode",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityClass",
+                        "code": "DEV"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21067"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MaterialEntityClassType"
+                }
+            ]
+        },
+        {
+            "code": "_SpecimenAdditiveEntity",
+            "display": "SpecimenAdditiveEntity",
+            "definition": "Set of codes related to specimen additives",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "rim-ClassifiesClassCode",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityClass",
+                        "code": "MAT"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21065"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MaterialEntityClassType"
+                }
+            ]
+        },
+        {
+            "code": "BLDPRD",
+            "display": "Blood Product",
+            "definition": "A manufactured product that is produced from the raw blood oi a donor with the intention of using it in a recipient transfusion.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21459"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MaterialEntityClassType"
+                }
+            ]
+        },
+        {
+            "code": "VCCNE",
+            "display": "Vaccine",
+            "definition": "A Type of medicine that creates an immune protection without the recipient experiencing the disease.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21458"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MaterialEntityClassType"
+                }
+            ]
+        },
+        {
+            "code": "_DeviceGenericType",
+            "display": "Device Generic Type",
+            "definition": "Includes the set of codes used to identify a device that may be referred to in an ICSR report. Example code set reference is the FDA Center for Devices and Radiological Health product code list.\r\n\r\nExample product codes include: FOZ = Catheter, Intravascular, Therapeutic, short-term less than 30 days, MOP = Rotator, Prosthetic Heart Valve.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21396"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MaterialEntityClassType"
+                }
+            ]
+        },
+        {
+            "code": "_DrugEntity",
+            "display": "DrugEntity",
+            "definition": "A substance whose therapeutic effect is produced by chemical action within the body.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21061"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MaterialEntityClassType"
+                }
+            ]
+        },
+        {
+            "code": "_ExposureAgentEntityType",
+            "display": "ExposureAgentEntityType",
+            "definition": "Indicates the material to which the patient was exposed which is believed to be related to the adverse reaction",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21497"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MaterialEntityClassType"
+                }
+            ]
+        },
+        {
+            "code": "_x_BillableProduct",
+            "display": "x_BillableProduct",
+            "definition": "**Description:**The billable codes selected for Clinical Product Invoices. Steward is Financial Management.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22154"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MaterialEntityClassType"
+                }
+            ]
+        },
+        {
+            "code": "_AccessMedicalDevice",
+            "display": "AccessMedicalDevice",
+            "definition": "A device used to allow access to a part of a body",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21057"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MedicalDevice"
+                }
+            ]
+        },
+        {
+            "code": "_AdministrationMedicalDevice",
+            "display": "AdministrationMedicalDevice",
+            "definition": "A device intended to administer a substance to a subject",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21058"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MedicalDevice"
+                }
+            ]
+        },
+        {
+            "code": "BOT",
+            "display": "Bottle",
+            "definition": "A container, typically rounded, either glass or plastic with a narrow neck and capable of storing liquid.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16155"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MultiUseContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "BOX",
+            "display": "Box",
+            "definition": "A 6-sided container commonly made from paper or cardboard used for solid forms.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16154"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MultiUseContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "CAN",
+            "display": "Can",
+            "definition": "A metal container in which a material is hermetically sealed to enable storage over long periods.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16161"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MultiUseContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "CART",
+            "display": "Cartridge",
+            "definition": "A sealed container of liquid or powder intended to be loaded into a device.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16163"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MultiUseContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "CNSTR",
+            "display": "Canister",
+            "definition": "A pressurized metal container holding a substance released as a spray or aerosol.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16162"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MultiUseContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "JAR",
+            "display": "Jar",
+            "definition": "A container of glass, earthenware, plastic, etc. Top of the container has a diameter of similar size to the diameter of the container as a whole",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16164"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MultiUseContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "JUG",
+            "display": "Jug",
+            "definition": "A deep vessel for holding liquids, with a handle and often with a spout or lip shape for pouring.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16165"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MultiUseContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "TIN",
+            "display": "Tin",
+            "definition": "A lidded container made of thin sheet metal.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16166"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MultiUseContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "TUB",
+            "display": "Tub",
+            "definition": "An open flat bottomed round container.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16167"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MultiUseContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "TUBE",
+            "display": "Tube",
+            "definition": "A long hollow rigid or flexible cylinder. Material is extruded by squeezing the container.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16168"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MultiUseContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "VIAL",
+            "display": "Vial",
+            "definition": "A small cylindrical glass for holding liquid medicines.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16169"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_MultiUseContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "NDA01",
+            "display": "egg",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21586"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA02",
+            "display": "fish",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21587"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA03",
+            "display": "lactose",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21588"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA04",
+            "display": "peanut",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21589"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA05",
+            "display": "soy",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21590"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA06",
+            "display": "sulfites",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21591"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA07",
+            "display": "wheat or gluten",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21592"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA08",
+            "display": "isocyanates",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21593"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA09",
+            "display": "solvents",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21594"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA10",
+            "display": "oils",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21595"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA11",
+            "display": "venoms",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21596"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA12",
+            "display": "latex",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21597"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA13",
+            "display": "shellfish",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21598"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA14",
+            "display": "strawberries",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21599"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA15",
+            "display": "tomatoes",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21600"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA16",
+            "display": "dust",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21601"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "NDA17",
+            "display": "dust mites",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21602"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonDrugAgentEntity"
+                }
+            ]
+        },
+        {
+            "code": "BAG",
+            "display": "Bag",
+            "definition": "A pouched or pendulous container.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16148"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonRigidContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "PACKT",
+            "display": "Packet",
+            "definition": "A paper",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16149"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonRigidContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "PCH",
+            "display": "Pouch",
+            "definition": "A small bag or container made of a soft material.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16151"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonRigidContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "SACH",
+            "display": "Sachet",
+            "definition": "A small bag or packet containing a small portion of a substance.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16150"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_NonRigidContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "HHOLD",
+            "display": "household",
+            "definition": "The group of persons who occupy a single housing unit.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23072"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_OrganizationEntityType"
+                }
+            ]
+        },
+        {
+            "code": "NAT",
+            "display": "NationEntityType",
+            "definition": "Codes identifying nation states. Allows for finer grained specification of Entity with classcode <= NAT\r\n\r\n*Example:*ISO3166 country codes.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21584"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_OrganizationEntityType"
+                }
+            ]
+        },
+        {
+            "code": "RELIG",
+            "display": "religious institution",
+            "definition": "An organization that provides religious rites of worship.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21357"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_OrganizationEntityType"
+                }
+            ]
+        },
+        {
+            "code": "_IndividualCaseSafetyReportSenderType",
+            "display": "Individual Case Safety Report Sender Type",
+            "definition": "A code that is used to indicate the type of organization which is originating and sending the ICSR. The current code example reference is from the International Conference on Harmonisation (ICH) Expert Workgroup guideline on Clinical Safety Data Management: Data Elements for Transmission of Individual Case Safety Reports.\r\n\r\nExample concepts are: Pharmaceutical Company, Regulatory Authority, Health Professional, Regional Pharmacovigilence Center, World Health Organization Collaborating Center for International Drug Monitoring.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21395"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_OrganizationEntityType"
+                }
+            ]
+        },
+        {
+            "code": "BED",
+            "display": "Bed Location",
+            "definition": "The location of a bed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16101"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_PlaceEntityType"
+                }
+            ]
+        },
+        {
+            "code": "BLDG",
+            "display": "Building Location",
+            "definition": "The location of a building",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16104"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_PlaceEntityType"
+                }
+            ]
+        },
+        {
+            "code": "FLOOR",
+            "display": "Floor Location",
+            "definition": "The location of a floor of a building",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16103"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_PlaceEntityType"
+                }
+            ]
+        },
+        {
+            "code": "ROOM",
+            "display": "Room Location",
+            "definition": "The location of a room",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16102"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_PlaceEntityType"
+                }
+            ]
+        },
+        {
+            "code": "WING",
+            "display": "Wing Location",
+            "definition": "The location of a wing of a building (e.g. East Wing). The same room number for the same floor number can be distinguished by wing number in some situations",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17703"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_PlaceEntityType"
+                }
+            ]
+        },
+        {
+            "code": "PRAC",
+            "display": "PractitionerGroup",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21439"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ResourceGroupEntityType"
+                }
+            ]
+        },
+        {
+            "code": "_IndividualPackageEntityType",
+            "display": "IndividualPackageEntityType",
+            "definition": "Container intended to contain sufficient material for only one use.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21062"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_RigidContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "_MultiUseContainerEntityType",
+            "display": "MultiUseContainerEntityType",
+            "definition": "A container intended to contain sufficient material for more than one use. (I.e. Material is intended to be removed from the container at more than one discrete time period.)",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "rim-ClassifiesClassCode",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityClass",
+                        "code": "CONT"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21068"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_RigidContainerEntityType"
+                }
+            ]
+        },
+        {
+            "code": "BLSTRPK",
+            "display": "Blister Pack",
+            "definition": "A bubblepack. Medications sealed individually, separated into doses.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16171"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_RigidContainerEntityType"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "COMPPKG"
+                }
+            ]
+        },
+        {
+            "code": "ACDA",
+            "display": "ACD Solution A",
+            "definition": "ACD Solution A of trisodium citrate, 22.0g/L; citric acid, 8.0 g/L; and dextrose 24.5 g/L. Used in Blood banking and histocompatibilty testing",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16047"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "ACDB",
+            "display": "ACD Solution B",
+            "definition": "ACD Solution B of trisodium citrate, 13.2g/L; citric acid, 4.8 g/L; and dextrose 14.7 g/L. Used in Blood banking and histocompatibilty testing.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16048"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "ACET",
+            "display": "Acetic Acid",
+            "definition": "50% V/V acetic acid in water. Used as a urine preservative",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16049"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "AMIES",
+            "display": "Amies transport medium",
+            "definition": "Sodium Chloride 3.0g, Potassium Chloride 0.2g, Calcium Chloride 0.1g, Magnesium Chloride 0.1g, Monopotassium Phosphate 0.2g, Disodium Phosphate 1.15g, Sodium Thiogly collate 1.0g, Distilled Water 1 liter",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16050"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "BACTM",
+            "display": "Bacterial Transport medium",
+            "definition": "Any medium used to maintain bacterial viability (e.g. Stuart's, Cary-Blair, Amies)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16052"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "BF10",
+            "display": "Buffered 10% formalin",
+            "definition": "Formaldehyde 4% w/v; methyl alcohol 1% w/v; phosphate buffering salts. Tissue preservative",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16055"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "BOR",
+            "display": "Boric Acid",
+            "definition": "Powdered boric acid (usually 10 g) added to 24-hour urine collections as a preservative.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16053"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "BOUIN",
+            "display": "Bouin's solution",
+            "definition": "Picric acid, saturated aqueous solution (750.0 ml), 37-40% formalin (250.0 ml), glacial acetic acid (50.0 ml). Tissue preservative.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16054"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "BSKM",
+            "display": "Buffered skim milk",
+            "definition": "50% skim milk in 0.01 M phosphate-buffered saline. Maintain virus viability",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16057"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "C32",
+            "display": "3.2% Citrate",
+            "definition": "A 3.2% solution of Sodium Citrate in water. Used as a blood preservative",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16044"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "C38",
+            "display": "3.8% Citrate",
+            "definition": "A 3.8% solution of Sodium Citrate in water. Used as a blood preservative",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16045"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "CARS",
+            "display": "Carson's Modified 10% formalin",
+            "definition": "A modification of buffered 10% formalin used as a general tissue preservative.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16058"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "CARY",
+            "display": "Cary Blair Medium",
+            "definition": "Sodium Thioglycollate 1.5 g, Disodium Hydrogen Phosphate 1.1 g, Sodium Chloride 5.0 g, Calcium Chloride 0.09 g, Agar 5.0 g, per Liter of Water",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16059"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "CHLTM",
+            "display": "Chlamydia transport medium",
+            "definition": "Any of a number of non-nutritive buffered media used to maintain Chlamydia viability during transportation to the laboratory",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16060"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "CTAD",
+            "display": "CTAD",
+            "definition": "Buffered tri-sodium citrate solution with theophylline, adenosine and dipyridamole",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16061"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "EDTK15",
+            "display": "Potassium/K EDTA 15%",
+            "definition": "Potassium EDTA 15% solution in water",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16077"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "EDTK75",
+            "display": "Potassium/K EDTA 7.5%",
+            "definition": "Potassium EDTA 7.5% solution in water",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16078"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "EDTN",
+            "display": "Sodium/Na EDTA",
+            "definition": "Sodium fluoride and Disodium EDTA",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16087"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "ENT",
+            "display": "Enteric bacteria transport medium",
+            "definition": "Any of a number of non-nutritive buffered media used to maintain enteric bacterial viability during transportation to the laboratory",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16062"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "F10",
+            "display": "10% Formalin",
+            "definition": "A 10% v/v solution in water of formalin( a 37% solution of formaldehyde and water). Used for tissue preservation.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16043"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "FDP",
+            "display": "Thrombin NIH; soybean trypsin inhibitor",
+            "definition": "Thrombin plus soybean trypsin inhibitor. For use in identifying fibrn degredation products.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16091"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "FL10",
+            "display": "Sodium Fluoride, 10mg",
+            "definition": "Sodium fluoride, 10mg added as a urine preservative.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16085"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "FL100",
+            "display": "Sodium Fluoride, 100mg",
+            "definition": "Sodium fluoride, 100mg added as a urine preservative.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16084"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "HCL6",
+            "display": "6N HCL",
+            "definition": "A solution of HCl containing 6moles of hydrogen ion/L. Used as a Urine Preservative.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16046"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "HEPA",
+            "display": "Ammonium heparin",
+            "definition": "Ammonium heparin",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16051"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "HEPL",
+            "display": "Lithium/Li Heparin",
+            "definition": "Lithium heparin salt",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16066"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "HEPN",
+            "display": "Sodium/Na Heparin",
+            "definition": "Sodium heparin salt",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16086"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "HNO3",
+            "display": "Nitric Acid",
+            "definition": "6N Nitric acid used to preserve urine for heavy metal analysis.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16072"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "JKM",
+            "display": "Jones Kendrick Medium",
+            "definition": "A transport medium formulated to maintain Bordetella pertussis viability.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16063"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "KARN",
+            "display": "Karnovsky's fixative",
+            "definition": "5% Glutaraldehyde, 4% Formaldehyde in 0.08M buffer. Tissue preservation",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16064"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "KOX",
+            "display": "Potassium Oxalate",
+            "definition": "Potassium oxalate and sodium fluoride in a 1.25:1 ratio",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16076"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "LIA",
+            "display": "Lithium iodoacetate",
+            "definition": "Iodoacetate lithium salt",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16065"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "M4",
+            "display": "M4",
+            "definition": "Modified Hank's balanced salt solution supplemented with bovine serum albumin, gelatin, sucrose and glutamic acid. It is buffered to pH 7.3+ or - 0.2 with HEPES buffer. Phenol red is used to indicate pH. Vancomycin, Amphotericin B and Colistin are used to",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16067"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "M4RT",
+            "display": "M4-RT",
+            "definition": "Modified Hank's balanced salt solution supplemented with bovine serum albumin, gelatin, sucrose and glutamic acid. It is buffered to pH 7.3+ or - 0.2 with Hepes buffer. Phenol red is used to indicate pH. Gentamicin and amphotericin B are used to inhibit c",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16068"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "M5",
+            "display": "M5",
+            "definition": "Modified Hank's balanced salt solution supplemented with protein stabilizers, sucrose and glutamic acid. It is buffered to pH 7.3+ or - 0.2 with Hepes buffer. Phenol red is used to indicate pH. Vancomycin, Amphotericin B and Colistin are used to inhibit c",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16069"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "MICHTM",
+            "display": "Michel's transport medium",
+            "definition": "1M potassium citrate, pH 7.0 2.5 ml, 0.1M magnesium sulfate 5.0 ml, 0.1M N-ethyl malemide 5.0 ml, dH2O 87.5 ml, ammonium sulfate 55gm. Preserve antigens for Immunofluorescence procedures",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16070"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "MMDTM",
+            "display": "MMD transport medium",
+            "definition": "A buffered medium with ammonium sulfate added to preserve antigens for Immunofluorescence procedures",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16071"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "NAF",
+            "display": "Sodium Fluoride",
+            "definition": "Sodium fluoride",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16083"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "NONE",
+            "display": "None",
+            "definition": "No additive. Specifically identifes the specimen as having no additives.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16073"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "PAGE",
+            "display": "Page's Saline",
+            "definition": "0.12 g NaCl, 0.004 g MgSO, 0.004 g, CaCl, 0.142 g Na2HPO4 and 0.136 g KH2PO4 per liter of distilled water. Maintain Acanthaoemba viability.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16074"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "PHENOL",
+            "display": "Phenol",
+            "definition": "Phenol. Urine preservative",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16075"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "PVA",
+            "display": "Polyvinylalcohol",
+            "definition": "Polyvinyl alcohol",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16079"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "RLM",
+            "display": "Reagan Lowe Medium",
+            "definition": "A transport medium formulated to maintain Bordetella pertussis viability.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16080"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "SILICA",
+            "display": "Siliceous earth",
+            "definition": "Diatomaceous earth. For glucose determination blood samples",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16082"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "SPS",
+            "display": "Sodium polyanethol sulfonate 0.35% in 0.85% sodium chloride",
+            "definition": "Sodium polyanethol sulfonate in saline. Anticomplementary and antiphagocytic properties. Used in blood culture collection.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16088"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "SST",
+            "display": "Serum Separator Tube",
+            "definition": "Polymer separator gel with clot activator",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16081"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "STUTM",
+            "display": "Stuart transport medium",
+            "definition": "Sodium Glycerophosphate 10.0g, Calcium Chloride 0.1g, Mercaptoacetic Acid 1.0ml, Distilled Water 1 liter",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16089"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "THROM",
+            "display": "Thrombin",
+            "definition": "Thrombin. Accelerates clotting.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16090"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "THYMOL",
+            "display": "Thymol",
+            "definition": "2-Isopropyl-5-methyl phenol. A preservative for 24 Hr Urine samples",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16092"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "THYO",
+            "display": "Thyoglycolate broth",
+            "definition": "A nutritive medium with a reducing agent (sodium thioglycolate) which, due to a chemical reaction, removes oxygen from the broth.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16093"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "TOLU",
+            "display": "Toluene",
+            "definition": "Also known as Methylbenzene; Toluol; Phenylmethane. A preservative for 24 Hr Urine samples",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16094"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "URETM",
+            "display": "Ureaplasma transport medium",
+            "definition": "A buffered salt solution with antifungal agents added for the collection and transport of Ureaplasma specimens.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16095"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "VIRTM",
+            "display": "Viral Transport medium",
+            "definition": "Sucrose 74.6g, Potassium hydrogenphosphate 0.52g, L-glutamic acid 0.72g, Bovine serum albumin 5.0g, Gentamicin 50mg, Potassium dihydrogenphosphate 1.25g, L-15 medium 9.9L, Water to 10L. Maintain Virus viability.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16096"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "WEST",
+            "display": "Buffered Citrate",
+            "definition": "3.8% Citrate buffered to a pH of 5.5 for Westergren Sedimentation Rate",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16056"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SpecimenAdditiveEntity"
+                }
+            ]
+        },
+        {
+            "code": "CARD",
+            "display": "Card",
+            "definition": "A bubble pack card. Multiple individual/separated doses.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16172"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BLSTRPK"
+                }
+            ]
+        },
+        {
+            "code": "BOTA",
+            "display": "Amber Bottle",
+            "definition": "A bottle of yellow to brown color. Used to store light-sensitive materials",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16156"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BOT"
+                }
+            ]
+        },
+        {
+            "code": "BOTD",
+            "display": "Dropper Bottle",
+            "definition": "A bottle with a cap designed to release the contained liquid in droplets of a specific size.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16157"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BOT"
+                }
+            ]
+        },
+        {
+            "code": "BOTG",
+            "display": "Glass Bottle",
+            "definition": "A bottle made of glass",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16158"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BOT"
+                }
+            ]
+        },
+        {
+            "code": "BOTP",
+            "display": "Plastic Bottle",
+            "definition": "A bottle made of plastic",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16159"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BOT"
+                }
+            ]
+        },
+        {
+            "code": "BOTPLY",
+            "display": "Polyethylene Bottle",
+            "definition": "A bottle made of polyethylene",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16160"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "BOTP"
+                }
+            ]
+        },
+        {
+            "code": "DIALPK",
+            "display": "Dial Pack",
+            "definition": "Rotatable dispenser. Eg. Birth control package.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16173"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "COMPPKG"
+                }
+            ]
+        },
+        {
+            "code": "DISK",
+            "display": "Disk",
+            "definition": "Object that is thin, flat, and circular. Doses of medication often contained in bubbles on the disk.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16174"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "COMPPKG"
+                }
+            ]
+        },
+        {
+            "code": "DOSET",
+            "display": "Dosette",
+            "definition": "Special packaging that will help patients take their medications on a regular basis.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16175"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "COMPPKG"
+                }
+            ]
+        },
+        {
+            "code": "STRIP",
+            "display": "Strip",
+            "definition": "A continuous strip of plastic sectioned into individual pouches, each one containing the quantity of 1 or more medications intended to be administered at a specific time",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17849"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "COMPPKG"
+                }
+            ]
+        },
+        {
+            "code": "DSKS",
+            "display": "Diskus",
+            "definition": "The device used to inhale the doses of medication contained in the disk form.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16199"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "INH"
+                }
+            ]
+        },
+        {
+            "code": "DSKUNH",
+            "display": "Diskhaler",
+            "definition": "The device used to inhale the doses of medication contained in the disk form.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16198"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "INH"
+                }
+            ]
+        },
+        {
+            "code": "TRBINH",
+            "display": "Turbuhaler",
+            "definition": "Asthma medication delivery device.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16197"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "INH"
+                }
+            ]
+        },
+        {
+            "code": "SYSTM",
+            "display": "System",
+            "definition": "A kit in which the components are interconnected.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16146"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "KIT"
+                }
+            ]
+        },
+        {
+            "code": "IALINE",
+            "display": "Intra-arterial Line",
+            "definition": "A line used to administer a substance into an artery",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16203"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LINE"
+                }
+            ]
+        },
+        {
+            "code": "IVLINE",
+            "display": "Intraveneous Line",
+            "definition": "A line used to administer a substance into a vein",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16202"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "LINE"
+                }
+            ]
+        },
+        {
+            "code": "_NonRigidContainerEntityType",
+            "display": "NonRigidContainerEntityType",
+            "definition": "A container having dimensions that adjust somewhat based on the amount and shape of the material placed within it.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "rim-ClassifiesClassCode",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityClass",
+                        "code": "CONT"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21069"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "PKG"
+                }
+            ]
+        },
+        {
+            "code": "_RigidContainerEntityType",
+            "display": "RigidContainerEntityType",
+            "definition": "A container having a fixed and inflexible dimensions and volume",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "rim-ClassifiesClassCode",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityClass",
+                        "code": "CONT"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21071"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "PKG"
+                }
+            ]
+        },
+        {
+            "code": "COMPPKG",
+            "display": "Compliance Package",
+            "definition": "A container intended to contain sufficient material for more than one use, but grouped or organized to provide individual access to sufficient material for a single use. Often used to ensure that the proper type and amount of material is consumed/expended for each use.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16170"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "PKG"
+                }
+            ]
+        },
+        {
+            "code": "KIT",
+            "display": "Kit",
+            "definition": "A container for a diverse collection of products intended to be used together for some purpose (e.g. Medicinal kits often contain a syringe, a needle and the injectable medication).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16145"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "PKG"
+                }
+            ]
+        }
+    ]
+}

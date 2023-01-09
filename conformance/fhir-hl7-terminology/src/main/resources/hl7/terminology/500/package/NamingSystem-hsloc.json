@@ -1,0 +1,66 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "hsloc",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "NHSN Healthcare Facility Patient Care Location"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/hsloc"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.0.0"
+        }
+    ],
+    "name": "HSLOC",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-02-21T00:00:00-04:00",
+    "publisher": "U.S. Centers for Disease Control and Prevention (CDC), National Healthcare Safety Network (NHSN)",
+    "contact": [
+        {
+            "name": "U.S. Centers for Disease Control and Prevention (CDC), National Healthcare Safety Network (NHSN)",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "nhsncda@cdc.gov"
+                },
+                {
+                    "system": "url",
+                    "value": "https://www.cdc.gov/nhsn"
+                }
+            ]
+        }
+    ],
+    "description": "A classification of patient care locations within healthcare facilities for public health purposes.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.259",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/hsloc",
+            "preferred": false,
+            "period": {
+                "end": "2020-07-01T00:00:00-04:00"
+            }
+        },
+        {
+            "type": "uri",
+            "value": "https://www.cdc.gov/nhsn/cdaportal/terminology/codesystem/hsloc.html",
+            "preferred": true,
+            "period": {
+                "start": "2020-07-01T00:00:00-04:00"
+            }
+        }
+    ]
+}

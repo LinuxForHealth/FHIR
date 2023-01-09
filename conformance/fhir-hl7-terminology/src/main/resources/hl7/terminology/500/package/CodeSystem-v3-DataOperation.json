@@ -1,0 +1,451 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-DataOperation",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1123"
+        }
+    ],
+    "version": "4.1.0",
+    "name": "DataOperation",
+    "title": "DataOperation",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "HL7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "**** MISSING DESCRIPTION ****",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "OPERATE",
+            "display": "operate",
+            "definition": "Act on an object or objects.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22873"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "CREATE",
+                    "display": "create",
+                    "definition": "Fundamental operation in an Information System (IS) that results only in the act of bringing an object into existence. Note: The preceding definition is taken from the HL7 RBAC specification. There is no restriction on how the operation is invoked, e.g., via a user interface. For an HL7 Act, the state transitions per the HL7 Reference Information Model.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22874"
+                        }
+                    ]
+                },
+                {
+                    "code": "DELETE",
+                    "display": "delete",
+                    "definition": "Fundamental operation in an Information System (IS) that results only in the removal of information about an object from memory or storage. Note: The preceding definition is taken from the HL7 RBAC specification. There is no restriction on how the operation is invoked, e.g., via a user interface.",
+                    "designation": [
+                        {
+                            "language": "en",
+                            "use": {
+                                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                                "code": "preferredForLanguage"
+                            },
+                            "value": "remove"
+                        }
+                    ],
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22891"
+                        }
+                    ]
+                },
+                {
+                    "code": "EXECUTE",
+                    "display": "execute",
+                    "definition": "Fundamental operation in an IS that results only in initiating performance of a single or set of programs (i.e., software objects). Note: The preceding definition is taken from the HL7 RBAC specification. There is no restriction on how the operation is invoked, e.g., via a user interface.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22892"
+                        }
+                    ]
+                },
+                {
+                    "code": "READ",
+                    "display": "read",
+                    "definition": "Fundamental operation in an Information System (IS) that results only in the flow of information about an object to a subject. Note: The preceding definition is taken from the HL7 RBAC specification. There is no restriction on how the operation is invoked, e.g., via a user interface.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22875"
+                        }
+                    ]
+                },
+                {
+                    "code": "UPDATE",
+                    "display": "revise",
+                    "definition": "Fundamental operation in an Information System (IS) that results only in the revision or alteration of an object. Note: The preceding definition is taken from the HL7 RBAC specification. There is no restriction on how the operation is invoked, e.g., via a user interface.",
+                    "designation": [
+                        {
+                            "language": "en",
+                            "use": {
+                                "system": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+                                "code": "preferredForLanguage"
+                            },
+                            "value": "update"
+                        }
+                    ],
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22876"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "APPEND",
+                            "display": "append",
+                            "definition": "Fundamental operation in an Information System (IS) that results only in the addition of information to an object already in existence. Note: The preceding definition is taken from the HL7 RBAC specification. There is no restriction on how the operation is invoked, e.g., via a user interface.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22877"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "MODIFYSTATUS",
+                            "display": "modify status",
+                            "definition": "Change the status of an object representing an Act.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22878"
+                                }
+                            ],
+                            "concept": [
+                                {
+                                    "code": "ABORT",
+                                    "display": "abort",
+                                    "definition": "Change the status of an object representing an Act to \"aborted\", i.e., terminated prior to the originally intended completion. For an HL7 Act, the state transitions per the HL7 Reference Information Model.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "22879"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "ACTIVATE",
+                                    "display": "activate",
+                                    "definition": "Change the status of an object representing an Act to \"active\", i.e., so it can be performed or is being performed, for the first time. (Contrast with REACTIVATE.) For an HL7 Act, the state transitions per the HL7 Reference Information Model.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "22880"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "CANCEL",
+                                    "display": "cancel",
+                                    "definition": "Change the status of an object representing an Act to \"cancelled\", i.e., abandoned before activation. For an HL7 Act, the state transitions per the HL7 Reference Information Model.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "22881"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "COMPLETE",
+                                    "display": "complete",
+                                    "definition": "Change the status of an object representing an Act to \"completed\", i.e., terminated normally after all of its constituents have been performed. For an HL7 Act, the state transitions per the HL7 Reference Information Model.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "22882"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "HOLD",
+                                    "display": "hold",
+                                    "definition": "Change the status of an object representing an Act to \"held\", i.e., put aside an Act that is still in preparatory stages. No action can occur until the Act is released. For an HL7 Act, the state transitions per the HL7 Reference Information Model.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "22883"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "JUMP",
+                                    "display": "jump",
+                                    "definition": "Change the status of an object representing an Act to a normal state. For an HL7 Act, the state transitions per the HL7 Reference Information Model.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "22884"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "NULLIFY",
+                                    "display": "nullify",
+                                    "definition": "Change the status of an object representing an Act to \"nullified\", i.e., treat as though it never existed. For an HL7 Act, the state transitions per the HL7 Reference Information Model.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "22885"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "OBSOLETE",
+                                    "display": "obsolete",
+                                    "definition": "Change the status of an object representing an Act to \"obsolete\" when it has been replaced by a new instance. For an HL7 Act, the state transitions per the HL7 Reference Information Model.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "22886"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "DEPRECATE",
+                                    "display": "deprecate",
+                                    "definition": "Fundamental operation in HL7 Standards Governance that results only in the addition of deprecation information to an object already in existence without changing the status of the object.  Operation used internally in the maintenance and recordkeeping of HL7 terminology and standards artifacts.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "722877"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "REACTIVATE",
+                                    "display": "reactivate",
+                                    "definition": "Change the status of a formerly active object representing an Act to \"active\", i.e., so it can again be performed or is being performed. (Contrast with ACTIVATE.) For an HL7 Act, the state transitions per the HL7 Reference Information Model.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "22887"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "RELEASE",
+                                    "display": "release",
+                                    "definition": "Change the status of an object representing an Act so it is no longer \"held\", i.e., allow action to occur. For an HL7 Act, the state transitions per the HL7 Reference Information Model.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "22888"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "RESUME",
+                                    "display": "resume",
+                                    "definition": "Change the status of a suspended object representing an Act to \"active\", i.e., so it can be performed or is being performed. For an HL7 Act, the state transitions per the HL7 Reference Information Model.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "22889"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "code": "SUSPEND",
+                                    "display": "suspend",
+                                    "definition": "Change the status of an object representing an Act to **suspended**, i.e., so it is temporarily not in service.",
+                                    "property": [
+                                        {
+                                            "code": "status",
+                                            "valueCode": "active"
+                                        },
+                                        {
+                                            "code": "internalId",
+                                            "valueCode": "22890"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

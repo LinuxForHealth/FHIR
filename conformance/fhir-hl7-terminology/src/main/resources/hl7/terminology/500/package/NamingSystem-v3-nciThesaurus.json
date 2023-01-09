@@ -1,0 +1,56 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-nciThesaurus",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "NCI Thesaurus"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-nciThesaurus"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.0.0"
+        }
+    ],
+    "name": "NciThesaurus",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-10-13T00:00:00-00:00",
+    "publisher": "NCI",
+    "contact": [
+        {
+            "name": "National Cancer Institute"
+        }
+    ],
+    "responsible": "NCI",
+    "description": "NCI Thesaurus NCI Thesaurus is a biomedical thesaurus created specifically to meet the needs of the cancer research community, especially those engaged in translational research NCI Thesaurus is produced by the NCI Enterprise Vocabulary Services project. The NCI Thesaurus is provided under an open content license.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.3.26.1.1",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+            "preferred": true,
+            "comment": "This is the URL as specified by the terminology owner, and is considered authoritative.",
+            "period": {
+                "start": "2022-09-07"
+            }
+        },
+        {
+            "type": "uri",
+            "value": "http://ncithesaurus-stage.nci.nih.gov",
+            "preferred": false,
+            "comment": "Maintained for backwards compatibility"
+        }
+    ]
+}

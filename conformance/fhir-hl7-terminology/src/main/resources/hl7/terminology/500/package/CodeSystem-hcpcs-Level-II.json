@@ -1,0 +1,40 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "hcpcs-Level-II",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "https://www.cms.gov/Medicare/Coding/HCPCSReleaseCodeSets",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.285"
+        }
+    ],
+    "version": "1.0.1",
+    "name": "HCPCSLevelII",
+    "title": "Healthcare Common Procedure Coding System (HCPCS) level II alphanumeric codes",
+    "status": "active",
+    "experimental": false,
+    "date": "2021-02-23T00:00:00-04:00",
+    "publisher": "U.S. Centers for Medicare & Medicaid Services (CMS)",
+    "contact": [
+        {
+            "name": "U.S. Centers for Medicare & Medicaid Services (CMS)",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://www.cms.gov/"
+                },
+                {
+                    "system": "email",
+                    "value": "hcpcs@cms.hhs.gov"
+                }
+            ]
+        }
+    ],
+    "description": "The Level II HCPCS codes, which are established by CMS's Alpha-Numeric Editorial Panel, primarily represent items and supplies and non-physician services not covered by the American Medical Association's Current Procedural Terminology-4 (CPT-4) codes; Medicare, Medicaid, and private health insurers use HCPCS procedure and modifier codes for claims processing.  Level II alphanumeric procedure and modifier codes comprise the A to V range.",
+    "caseSensitive": true,
+    "content": "not-present"
+}

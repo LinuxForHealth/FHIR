@@ -1,0 +1,59 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "icaosex",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "International Civil Aviation Organization Sex"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/icaosex"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "ICAO_Sex",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-04-21T00:00:00-00:00",
+    "publisher": "International Civil Aviation Organization (ICAO)",
+    "contact": [
+        {
+            "name": "International Civil Aviation Organization (ICAO); 999 Robert-Bourassa Boulevard, Montréal, Québec H3C 5H7, Canada",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "icaohq@icao.int"
+                },
+                {
+                    "system": "phone",
+                    "value": "+1 514-954-8219"
+                },
+                {
+                    "system": "url",
+                    "value": "https://www.icao.int/Pages/default.aspx"
+                }
+            ]
+        }
+    ],
+    "responsible": "International Civil Aviation Organization (ICAO)",
+    "description": "ICAO is funded and directed by 193 national governments to support their diplomacy and cooperation in air transport as signatory states to the [Chicago Convention (1944)](https://www.icao.int/about-icao/History/Pages/default.aspx)\r\n\r\nIts core function is to maintain an administrative and expert bureaucracy (the [ICAO Secretariat](https://www.icao.int/secretariat/Pages/default.aspx) supporting these diplomatic interactions, and to research new air transport policy and standardization innovations as directed and endorsed by governments through the [ICAO Assembly](https://www.icao.int/about-icao/assembly/Pages/default.aspx), or by the [ICAO Council](https://www.icao.int/about-icao/Council/Pages/council.aspx) which the assembly elects.\r\n\r\nICAO has developed a technical specification (sample version form 2021 [here](https://www.icao.int/publications/Documents/9303_p7_cons_en.pdf) ) to \"allow compatibility and global interchange using both visual (eye readable) and machine readable means. The specifications lay down standards for visas which can, where issued by a State and accepted by a receiving State, be used for travel purposes. The MRV[Machine Readable Visa] shall, as a minimum, contain the data specified herein in a form that is legible both visually and by optical character recognition methods..\" \r\n\r\nFurther, defining that \"Sex of MRV-A[Format A - Machine Readable Visa] holder, when included, is to be specified by use of the single initial commonly used in the language of the State of issue. If translation into English, French or Spanish is necessary, followed by an oblique and the capital letter F for female, M for male, or X for unspecified.\"\r\n\r\nSex of MRV-B[Format B - Machine Readable Visa] holder, when included, is to be specified by use of the single initial commonly used in the language of the State of issue. If translation into English, French or Spanish is necessary, followed by an oblique and the capital letter F for female, M for male, or X for unspecified.",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/icaosex",
+            "preferred": true,
+            "comment": "This is the URL as specified by the terminology owner, and is considered authoritative.",
+            "period": {
+                "start": "2022-04-21"
+            }
+        }
+    ]
+}

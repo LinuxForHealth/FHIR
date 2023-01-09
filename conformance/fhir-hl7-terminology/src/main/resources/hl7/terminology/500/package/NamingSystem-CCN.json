@@ -1,0 +1,50 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "CCN",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "CMS Certification Numbers"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/CCN"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "CCN",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-11-01T00:00:00-00:00",
+    "publisher": "Centers for Medicare & Medicaid Services (CMS)",
+    "contact": [
+        {
+            "name": "Centers for Medicare & Medicaid Services (CMS); 7500 Security Boulevard, Baltimore, MD 21244"
+        }
+    ],
+    "responsible": "Centers for Medicare & Medicaid Services (CMS)",
+    "description": "Per CMS Transmittal 29 dated OCTOBER 12, 2007:\r\n\r\n\"The National Provider Identifier (NPI) will replace the Medicare/Medicaid Provider Number on Medicare claims. The NPI will assume the Medicare/Medicaid Provider Number's role as a primary identifier. However, the Medicare/Medicaid Provider Number will continue to be issued to providers and used to verify Medicare/Medicaid certification on all survey and certification, and resident/patient assessment transactions. In order to avoid confusion with the NPI, the Medicare/Medicaid Provider Number (also known as the OSCAR Provider Number, Medicare Identification Number or Provider Number) has been renamed the CMS Certification Number (CCN). The CCN continues to serve a critical role in verifying that a provider has been Medicare certified and for what type of services.\"\r\n\r\nSee https://www.cms.gov/regulations-and-guidance/guidance/transmittals/downloads/r29soma.pdf",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.336",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/NamingSystem/CMSCertificationNumber",
+            "preferred": true,
+            "comment": "Official canonical URL going forward.",
+            "period": {
+                "start": "2021-11-01"
+            }
+        }
+    ]
+}

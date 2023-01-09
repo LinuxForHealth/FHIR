@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "pnds",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Perioperative Nursing Data Set"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/pnds"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Pnds",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "AORN",
+    "contact": [
+        {
+            "name": "Suzanne C. Beyea, PhD, RN - AORN"
+        }
+    ],
+    "responsible": "AORN",
+    "description": "The PNDS provides standardized terms and codes for patient problems/nursing diagnoses, nursing interventions including actual or expected (goal) outcomes. The PNDS provides standardized terms and codes for nursing diagnoses (a subset of NANDA), nursing interventions and outcomes. The outcomes and interventions are in a relational database. The PNDS intervention and outcome statements are attached in an Access Database. The NANDA diagnoses in the PNDS have already been registered by HL7.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.22",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/pnds",
+            "preferred": true
+        }
+    ]
+}

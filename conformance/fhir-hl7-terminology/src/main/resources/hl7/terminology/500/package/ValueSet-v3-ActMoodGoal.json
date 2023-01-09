@@ -1,0 +1,38 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-ActMoodGoal",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-ActMoodGoal",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.19941"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "ActMoodGoal",
+    "title": "ActMoodGoal",
+    "status": "active",
+    "experimental": false,
+    "date": "2014-03-26",
+    "description": "**Definition:**An observation that is considered to be desirable to occur in the future. The essential feature of a goal is that if it occurs it would be considered as a marker of a positive outcome or of progress towards a positive outcome.\r\n\r\n**Examples:**Target weight below 80Kg, Stop smoking, Regain ability to walk, goal is to administer thrombolytics to candidate patients presenting with acute myocardial infarction.\r\n\r\n**Discussion:** INT (intent) reflects a plan for the future, which is a declaration to do something. This contrasts with goal which doesn't represent an intention to act, merely a hope for an eventual result. A goal is distinct from the intended actions to reach that goal. \"I will reduce the dose of drug x to 20mg\" is an intent. \"I hope to be able to get the patient to the point where I can reduce the dose of drug x to 20mg\" is a goal. EXPEC (expectation) reflects a prediction rather than a hope. RSK (risk) reflects a potential negative event rather than a hope.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActMood",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "GOL"
+                    }
+                ]
+            }
+        ]
+    }
+}

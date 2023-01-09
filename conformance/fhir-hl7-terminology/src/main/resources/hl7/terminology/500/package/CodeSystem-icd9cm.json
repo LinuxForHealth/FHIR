@@ -1,0 +1,30 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "icd9cm",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/icd9cm",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.2"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "Icd9cm",
+    "title": "ICD-9CM",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "National Center for Health Statistics"
+        }
+    ],
+    "description": "International Classification of Diseases revision 9, with Clinical Modifications (ICD 9 CM)",
+    "caseSensitive": true,
+    "content": "not-present"
+}

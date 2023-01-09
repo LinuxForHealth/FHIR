@@ -1,0 +1,65 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-hgnc",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "HUGO Gene Nomenclature Committee Genes"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-hgnc"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.0.0"
+        }
+    ],
+    "name": "HGNCGenes",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-11-04T19:44:38-06:00",
+    "publisher": "HUGO Gene Nomenclature Committee",
+    "contact": [
+        {
+            "name": "HUGO Gene Nomenclature Committee",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://www.genenames.org/"
+                },
+                {
+                    "system": "email",
+                    "value": "hgnc@genenames.org"
+                }
+            ]
+        }
+    ],
+    "responsible": "HUGO Gene Nomenclature Committee",
+    "description": "The HGNC is responsible for approving unique symbols and names for human loci, including protein coding genes, ncRNA genes and pseudogenes, to allow unambiguous scientific communication.\r\n\r\nFor each known human gene we approve a gene name and symbol (short-form abbreviation). All approved symbols are stored in the HGNC database,[www.genenames.org](https://www.genenames.org/tools/search), a curated online repository of HGNC-approved gene nomenclature, gene groups and associated resources including links to genomic, proteomic and phenotypic information. Each symbol is unique and we ensure that each gene is only given one approved gene symbol. It is necessary to provide a unique symbol for each gene so that we and others can talk about them, and this also facilitates electronic data retrieval from publications and databases.\r\n\r\nHGNC gene symbols can be used with the HL7 coded data type. For example, in the HL7 messages specified according to the HL7 V2 Clinical Genomics Fully LOINC-Qualified Genetic Variation Model Implementation Guide, HGNC gene symbols can be used to as the observation values for gene identifiers. For example, OBX|1|CWE|48018-6^Gene identifier^||BRCA1^HGNC|\r\n\r\nVersioning Information: The version of the HGNC database is reported using the last updated date and timestamp. The last updated date and timestamp is posted on the main HGNC Search screen in the format like \"Monday March 30 23:00:56 2009\".\r\n\r\nHGNC is updated daily.\r\n\r\nHGNC is a free database for the public.\r\n\r\nPlease see https://www.genenames.org/ for more info.",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "http://www.genenames.org",
+            "preferred": true,
+            "comment": "This is the URL as specified by the terminology owner, and is considered authoritative.",
+            "period": {
+                "start": "2022-08-25"
+            }
+        },
+        {
+            "type": "uri",
+            "value": "http://www.genenames.org/geneId",
+            "preferred": false
+        },
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.281",
+            "preferred": true
+        }
+    ]
+}

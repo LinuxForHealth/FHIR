@@ -1,0 +1,80 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "definition-use",
+    "meta": {
+        "lastUpdated": "2020-04-09T21:10:28.568+00:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "fhir"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/definition-use",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1191"
+        }
+    ],
+    "version": "1.0.0",
+    "name": "DefinitionUseCodes",
+    "title": "Structure Definition Use Codes / Keywords",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-11-04T19:44:38-06:00",
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "Structure Definition Use Codes / Keywords",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/definition-use",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "fhir-structure",
+            "display": "FHIR Structure",
+            "definition": "This structure is defined as part of the base FHIR Specification"
+        },
+        {
+            "code": "custom-resource",
+            "display": "Custom Resource",
+            "definition": "This structure is intended to be treated like a FHIR resource (e.g. on the FHIR API)"
+        },
+        {
+            "code": "dam",
+            "display": "Domain Analysis Model",
+            "definition": "This structure captures an analysis of a domain"
+        },
+        {
+            "code": "wire-format",
+            "display": "Wire Format",
+            "definition": "This structure represents and existing structure (e.g. CDA, HL7 v2)"
+        },
+        {
+            "code": "archetype",
+            "display": "Domain Analysis Model",
+            "definition": "This structure captures an analysis of a domain"
+        },
+        {
+            "code": "template",
+            "display": "Template",
+            "definition": "This structure is a template (n.b: 'template' has many meanings)"
+        }
+    ]
+}

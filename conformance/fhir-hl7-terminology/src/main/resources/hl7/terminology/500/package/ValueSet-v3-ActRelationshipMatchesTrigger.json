@@ -1,0 +1,38 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-ActRelationshipMatchesTrigger",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-ActRelationshipMatchesTrigger",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.19993"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "ActRelationshipMatchesTrigger",
+    "title": "ActRelationshipMatchesTrigger",
+    "status": "active",
+    "experimental": false,
+    "date": "2014-03-26",
+    "description": "A trigger-match links an actual service (e.g., an observation or procedure that took place) with a service in criterion mood. For example if the trigger is \"observation of pain\" and pain is actually observed, and if that pain-observation caused the trigger to fire, that pain-observation can be linked with the trigger.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActRelationshipType",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "MTCH"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "fipspub92",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "FIPS_SOC"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/fipspub92"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Fipspub92",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "NIST",
+    "contact": [
+        {
+            "name": "National Institute of Standards and Technology, Information Technology Laboratory"
+        }
+    ],
+    "responsible": "NIST",
+    "description": "FIPSPUB92 - GUIDELINE FOR STANDARD OCCUPATIONAL CLASSIFICATION (SOC) CODES, version 1983 February 24. This entry is now obsolete, as FIPS92 was withdrawn from use in February 2005 by the US Government. It has been replaced by 2.16.840.1.113883.6.243; please use that OID instead.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.91",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/fipspub92",
+            "preferred": true
+        }
+    ]
+}

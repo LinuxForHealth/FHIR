@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "nciVersionOfNDF-RT",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "NCI Version of NDF-RT"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/nciVersionOfNDF-RT"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "NciVersionOfNDFRT",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "NCI",
+    "contact": [
+        {
+            "name": "National Cancer Institute"
+        }
+    ],
+    "responsible": "NCI",
+    "description": "The National Drug File RT (NDF-RT) is published by the US Veterans' Administration (VA). NDF-RT covers clinical drugs used at the VA. The NCI version of NDF-RT is used by NCI to provide automated terminology access to the Food and Drug Administration (FDA) Structured Product Label (SPL) initiative. NCI makes its version of NDF-RT available publicly thru the Web, download via FTP and via open APIs for Java, SOAP and HTTP.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.3.26.1.5",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/nciVersionOfNDF-RT",
+            "preferred": true
+        }
+    ]
+}

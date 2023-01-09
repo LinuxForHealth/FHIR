@@ -1,0 +1,25 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "PHOccupationalDataForHealthODH",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/PHOccupationalDataForHealthODH",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.114222.4.5.327"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "PHOccupationalDataForHealthODH",
+    "title": "Occupational Data for Health (ODH)",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "TBD - External Body",
+    "description": "The concepts representing the values supporting Occupational Data for Health, including Job Supervisory Level or Pay Grade (ODH) code system consists of data elements that describe a person's work information, structured to facilitate individual, population, and public health use; not intended to support billing.).",
+    "caseSensitive": true,
+    "content": "not-present"
+}

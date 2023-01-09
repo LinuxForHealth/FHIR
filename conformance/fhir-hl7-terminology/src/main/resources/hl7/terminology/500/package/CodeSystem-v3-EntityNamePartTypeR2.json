@@ -1,0 +1,317 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-EntityNamePartTypeR2",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartTypeR2",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1121"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "EntityNamePartTypeR2",
+    "title": "EntityNamePartTypeR2",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "HL7",
+    "description": "**Description:**Indicates whether the name part is a given name, family name, prefix, suffix, etc.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "NonDefinitionallyQualifiedBy"
+                }
+            ],
+            "code": "MayBeQualifiedBy",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#MayBeQualifiedBy",
+            "description": "Relationship points from a concept in EntityNamePartType to a concept in  EntityNamePartQualifier and indicates that the former concept may be qualified by the latter.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "DEL",
+            "display": "delimiter",
+            "definition": "**Description:**A delimiter has no meaning other than being literally printed in this name representation. A delimiter has no implicit leading and trailing white space.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22786"
+                }
+            ]
+        },
+        {
+            "code": "FAM",
+            "display": "family",
+            "definition": "**Description:**Family name, this is the name that links to the genealogy. In some cultures (e.g. Eritrea) the family name of a son is the first name of his father.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "AD"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "BR"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "CL"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "IN"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "MID"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "PFX"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "SP"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22784"
+                }
+            ]
+        },
+        {
+            "code": "GIV",
+            "display": "given",
+            "definition": "**Description:**Given name. Note: don't call it \"first name\" since the given names do not always come first.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "AD"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "BR"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "CL"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "IN"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "PFX"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "SFX"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "SP"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22785"
+                }
+            ]
+        },
+        {
+            "code": "TITLE",
+            "display": "title",
+            "definition": "**Description:**Part of the name that is acquired as a title due to academic, legal, employment or nobility status etc.\r\n\r\n**Note:**Title name parts include name parts that come after the name such as qualifications, even if they are not always considered to be titles.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "AC"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "LS"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "NB"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "PFX"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "PR"
+                    }
+                },
+                {
+                    "code": "MayBeQualifiedBy",
+                    "valueCoding": {
+                        "system": "http://terminology.hl7.org/CodeSystem/v3-EntityNamePartQualifierR2",
+                        "code": "SFX"
+                    }
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22787"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "sic",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "US Census Bureau"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/sic"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Sic",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "US Government",
+    "contact": [
+        {
+            "name": "US Census Bureau"
+        }
+    ],
+    "responsible": "US Government",
+    "description": "The Standard Industrial Classification Codes that appear in a company's disseminated EDGAR filings indicate the company's type of business. These codes are also used in the Division of Corporation Finance as a basis for assigning review responsibility for the company's filings. For example, a company whose business was Metal Mining (SIC 1000) would have its filings reviewed by staffers in A/D Office 4. Note that this code system is published both by the US Bureau of Labor Statistics (BLS) at http://www.sec.gov/info/edgar/siccodes.htm, and by the US Occupational & Safety Health Administration (OSHA) at http://www.osha.gov/pls/imis/sic\\_manual.html.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.232",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/sic",
+            "preferred": true
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "X12ClaimAdjustmentReasonCodes",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "https://x12.org/codes/claim-adjustment-reason-codes",
+    "version": "1.0.0",
+    "name": "X12ClaimAdjustmentReasonCodes",
+    "title": "X12 Claim Adjustment Reason Codes",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-05-26T00:00:00-00:00",
+    "publisher": "X12",
+    "contact": [
+        {
+            "name": "X12; 1405 S Fern St #92957, Arlington, Virginia 22202",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://x12.org/index.php/resources/contact-us"
+                },
+                {
+                    "system": "phone",
+                    "value": "703.970.4480"
+                }
+            ]
+        }
+    ],
+    "description": "\"X12, chartered by the American National Standards Institute for more than 40 years, develops and maintains EDI standards and XML schemas which drive business processes globally. X12's diverse membership includes technologists and business process experts in health care, insurance, transportation, finance, government, supply chain and other industries.\"\r\n\r\nThe X12 Claim Adjustment Reason Codes describe why a claim or service line was paid differently than it was billed. These codes are listed within an X12 implementation guide (TR3) and maintained by X12.\r\n\r\nExternal code lists maintained by X12 and external code lists maintained by others and distributed by WPC on behalf of the maintainer can be found here: [here](https://x12.org/codes)\r\n\r\nClick on the name of any external code list to access more information about the code list, view the codes, or submit a maintenance request. These external code lists were previously published on either [www.wpc-edi.com/reference](http://www.wpc-edi.com/reference) or [www.x12.org/codes](https://x12.org/codes)",
+    "copyright": "All X12 products are subject to this IP policy, including published and draft works.\r\n\r\nX12 is the only organization authorized to grant permission for use of X12 products. Users of all X12 products should make sure that they understand the permissible uses, as well as the limitations on such usage, as outlined below.\r\n\r\nAdditional IP information can be found [here](https://x12.org/products/ip-use)\r\n\r\nSend an email to ip@x12.org to request permission to reproduce X12 IP. Include your name, organization, title, address, city, state, zip, email, a detailed description of the Submitted Artifact, including the underlying or cited X12 Product, and a detailed description of the intended audience and planned distribution method for the Artifact.\r\n\r\nAdditional information on X12 licensing program can be found [here](https://x12.org/products/licensing-program)\r\n\r\nTo purchase code list subscriptions call (425) 562-2245 or email admin@wpc-edi.com.",
+    "caseSensitive": true,
+    "content": "not-present"
+}

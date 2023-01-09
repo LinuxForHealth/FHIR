@@ -1,0 +1,52 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "NDFRT",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "National Drug File Reference Terminology (NDF-RT)"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/NDFRT"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "NDFRT",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-08-23T00:00:00-00:00",
+    "publisher": "National Cancer Institute (NCI) Enterprise Vocabulary Services (EVS)",
+    "contact": [
+        {
+            "name": "U.S. Department of Veterans Affairs, Veterans Health Administration",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://www.va.gov/"
+                }
+            ]
+        }
+    ],
+    "responsible": "U.S. Department of Veterans Affairs, Veterans Health Administration",
+    "description": "NDF-RT is a concept-oriented terminology, a collection of concepts, each of which represents a single, unique meaning. Every concept has one fully-specified name and an arbitrary number of other names, all of which are intended to mean the same thing and are therefore synonymous terms. Synonymous terms from external vocabulary sources may have associated unique identifiers. Publication of NDF-RT has ended. The Medication Reference Terminology (MED-RT) is the evolutionary successor to the NDF-RT.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.209",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/ndfrt",
+            "preferred": true
+        }
+    ]
+}

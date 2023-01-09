@@ -1,0 +1,38 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-RoleClassBase",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-RoleClassBase",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.20114"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "RoleClassBase",
+    "title": "RoleClassBase",
+    "status": "active",
+    "experimental": false,
+    "date": "2014-03-26",
+    "description": "A base ingredient (player) is what comprises the major part of a mixture (scoper). E.g., Water in most i.v. solutions, or Vaseline in salves. Among all ingredients of a material, there should be only one base. A base substance can, in turn, be a mixture.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-RoleClass",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "BASE"
+                    }
+                ]
+            }
+        ]
+    }
+}

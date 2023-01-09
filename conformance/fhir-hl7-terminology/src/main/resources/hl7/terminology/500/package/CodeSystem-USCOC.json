@@ -1,0 +1,30 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "USCOC",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/USCOC",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.240"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "USCOC",
+    "title": "US Census Occupation Code",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "US Census Bureau"
+        }
+    ],
+    "description": "Coding system of United States Census Occupation Codes, published by the US Governmetn Bureau of the Census. Doucmentation and Crosswalk mapping between the COC and the SOC and NAICS code systems available at http://www.census.gov/hhes/www/ioindex/view.html",
+    "caseSensitive": true,
+    "content": "not-present"
+}

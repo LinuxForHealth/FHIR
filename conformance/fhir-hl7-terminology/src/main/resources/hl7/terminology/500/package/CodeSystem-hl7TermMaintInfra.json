@@ -1,0 +1,208 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "hl7TermMaintInfra",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/hl7TermMaintInfra",
+    "version": "2.1.1",
+    "name": "Hl7TermMaintInfra",
+    "title": "HL7 Terminology Maintenance Infrastructure Vocabulary",
+    "status": "active",
+    "experimental": false,
+    "date": "2018-12-15",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "Codes that may have been strings or other types of data in pre-existing tooling for V3 and V2 terminology maintenance, and moved to codes in this code system for proper handling in the FHIR based UTG maintenance facilities.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "synonymCode",
+            "display": "synonymCode",
+            "definition": "Notes a different identifying concept representation (code) which is the same concept and thus considered a synonym. Used in UTG CodeSystem extensions."
+        },
+        {
+            "code": "preferredForLanguage",
+            "display": "Preferred For Language",
+            "definition": "Denotes a code designation which is preferred for the identified language among more than one for that language. Used in value set designation-use in FHIR."
+        },
+        {
+            "code": "consumer",
+            "display": "Consumer-friendly",
+            "definition": "Designation for use in display to non-clinicians and those not in healthcare professions as a more friendly term for coommunication."
+        },
+        {
+            "code": "sponsor",
+            "display": "sponsor",
+            "definition": "Sponsor of the terminology object, as defined in the MIF using legacy tooling, and held in the codeSystem.header.contributor.role element."
+        },
+        {
+            "code": "Publisher",
+            "display": "Publisher of the terminology object",
+            "definition": "Publisher of the terminology object, as defined in the MIF using legacy tooling, and held in the codeSystem.header.contributor.role element. Typically used only where the developer and steward is different than the organization publishing the code system."
+        },
+        {
+            "code": "HL7REALM",
+            "display": "Context Binding Realm for codes HL7 v3",
+            "definition": "Abstract root node for the realm codes.",
+            "concept": [
+                {
+                    "code": "UV",
+                    "display": "Universal Realm",
+                    "definition": "Universal realm or context, used in every instance"
+                },
+                {
+                    "code": "X1",
+                    "display": "Example Realm",
+                    "definition": "Example Realm"
+                },
+                {
+                    "code": "C1",
+                    "display": "Unclassified Realm",
+                    "definition": "Unclassified Realm"
+                },
+                {
+                    "code": "R1",
+                    "display": "Representative Realm",
+                    "definition": "Representative Realm"
+                },
+                {
+                    "code": "US",
+                    "display": "United States of America",
+                    "definition": "United States of America"
+                }
+            ]
+        },
+        {
+            "code": "UTGLISTUSE",
+            "display": "UTG List Usage Codes",
+            "definition": "Abstract root for usage codes in the List resources.",
+            "concept": [
+                {
+                    "code": "UTGCTGManifest",
+                    "display": "UTG Control Manifest",
+                    "definition": "Identifies LIst resouce used as a Manifest for control of publishing and releases in UTG."
+                },
+                {
+                    "code": "UTGRELManifest",
+                    "display": "UTG Release Instance Manifest",
+                    "definition": "Identifies List resourrce instance used as a Manifest of a release of the HL7 Vocabulary through UTG."
+                }
+            ]
+        },
+        {
+            "code": "MIF",
+            "definition": "Frouper code for MIF-related terminology",
+            "concept": [
+                {
+                    "code": "MIF-ConceptRelationshipKind",
+                    "definition": "Grouper code for MIF SupportedConceptRelationship.relationshipKind codes",
+                    "concept": [
+                        {
+                            "code": "Specializes",
+                            "definition": "The child code is a more narrow version of concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymetric."
+                        },
+                        {
+                            "code": "ComponentOf",
+                            "definition": "The child code is a part of the concept represented by the parent code.  Used to determine allowed nesting, for example of address components.  Must be transitive, irreflexive, antisymetric."
+                        },
+                        {
+                            "code": "GroupedBy",
+                            "definition": "The child code is a part of a grouping represented by the parent code.  Used to determine navigational hierarchy not based on a specializes or component relationship.  E.g. ICD9 hierarchy.  Is transitive, irreflexive and antisymetric"
+                        },
+                        {
+                            "code": "LessThan",
+                            "definition": "For coded ordeinal code systems, indicates that the specified code is considered less than the related code.  Used to determine relationships for coded ordinals.  Must be transitive, irreflexive, antisymetric."
+                        },
+                        {
+                            "code": "DefinitionallyQualifies",
+                            "definition": "Identifies a code that can act as a qualifier for the referenced code, both as part of concept definition within the code system and as part of run-time concept definition to determine concepts allowed for use as qualifiers for a concept within a CD datatype.  Must be non-transitive, irreflexive."
+                        },
+                        {
+                            "code": "NonDefinitionallyQualifies",
+                            "definition": "Same as definitionally qualifies, but restricted to only being used at run-time.  Must be non-transitive, irreflexive."
+                        },
+                        {
+                            "code": "Generalizes",
+                            "definition": "Inverse of Specializes.  Only included as a derived relationship"
+                        },
+                        {
+                            "code": "Component",
+                            "definition": "Inverse of ComponentOf.  Only included as a derived relationship"
+                        },
+                        {
+                            "code": "InGroup",
+                            "definition": "Inverse of GroupedBy.  Only included as a derived relationship"
+                        },
+                        {
+                            "code": "GreaterThan",
+                            "definition": "Inverse of LessThan.  Only included as a derived relationship"
+                        },
+                        {
+                            "code": "DefinitionallyQualifiedBy",
+                            "definition": "Inverse of DefinitionallyQualifies.  Only included as a derived relationship"
+                        },
+                        {
+                            "code": "NonDefinitionallyQualifiedBy",
+                            "definition": "Inverse of NonDefinitionallyQualifies.  Only included as a derived relationship"
+                        },
+                        {
+                            "code": "Other",
+                            "definition": "The child code has a relationship with the parent that does not follow one of the pre-defined stereotypical patterns.  Any application behavior based on the relationship must be custom-coded.  Transitivity, Reflexivity and Symmetry must be asserted"
+                        }
+                    ]
+                },
+                {
+                    "code": "MIF-ConceptRelationshipReflexivity",
+                    "definition": "Grouper code for MIF SupportedConceptRelationship.reflexivity codes",
+                    "concept": [
+                        {
+                            "code": "reflexive",
+                            "definition": "Relationship always holds from a code to itself"
+                        },
+                        {
+                            "code": "irreflexive",
+                            "definition": "Relationship never holds from a code to itself"
+                        }
+                    ]
+                },
+                {
+                    "code": "MIF-ConceptRelationshipSymmetry",
+                    "definition": "Grouper code for MIF SupportedConceptRelationship.symmetry codes",
+                    "concept": [
+                        {
+                            "code": "symmetric",
+                            "definition": "Relationship always holds from target to source if it holds from source to target"
+                        },
+                        {
+                            "code": "antisymmetric",
+                            "definition": "Relationship never holds from target to source if it holds from source to target"
+                        }
+                    ]
+                },
+                {
+                    "code": "MIF-ConceptRelationshipTransitivity",
+                    "definition": "Grouper code for MIF SupportedConceptRelationship.transitivity codes",
+                    "concept": [
+                        {
+                            "code": "transitive",
+                            "definition": "If a relationship exists from A to B and B to C, it always holds from A to C as well"
+                        },
+                        {
+                            "code": "antitransitive",
+                            "definition": "If a relationship exists from A to B and B to C, it never holds from A to C as well"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

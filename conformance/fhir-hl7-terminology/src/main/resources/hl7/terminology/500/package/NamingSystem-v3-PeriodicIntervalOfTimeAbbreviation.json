@@ -1,0 +1,45 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-PeriodicIntervalOfTimeAbbreviation",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "PeriodicIntervalOfTimeAbbreviation"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-PeriodicIntervalOfTimeAbbreviation"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.2.0"
+        }
+    ],
+    "name": "PeriodicIntervalOfTimeAbbreviation",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "responsible": "Health Level 7",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.5.1021",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/v3-PeriodicIntervalOfTimeAbbreviation",
+            "preferred": true
+        }
+    ]
+}

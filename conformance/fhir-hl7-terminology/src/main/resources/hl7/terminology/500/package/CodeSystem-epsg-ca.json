@@ -1,0 +1,30 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "epsg-ca",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/epsg-ca",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.279"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "EpsgCa",
+    "title": "European Petroleum Survey Group Geodetic Parameter Dataset Coordinate Axis",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "International Association of Oil & Gas Producers"
+        }
+    ],
+    "description": "**Description:**The set of values found in the Coord Axis Code column of the Coordinate Axis table as maintained in the EPSG geodetic parameter dataset. These define the axis for coordinate systems for geographic coordinates.",
+    "caseSensitive": true,
+    "content": "not-present"
+}

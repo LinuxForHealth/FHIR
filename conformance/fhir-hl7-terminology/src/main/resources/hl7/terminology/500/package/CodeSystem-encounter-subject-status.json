@@ -1,0 +1,83 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "encounter-subject-status",
+    "meta": {
+        "lastUpdated": "2020-04-09T21:10:28.568+00:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/encounter-subject-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1420"
+        }
+    ],
+    "version": "1.0.0",
+    "name": "EncounterSubjectStatus",
+    "title": "Encounter subject status",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-11-04T19:44:38-06:00",
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This example value set defines a set of codes that can be used to indicate the status of the subject within the encounter",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/encounter-subject-status",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "arrived",
+            "display": "Arrived",
+            "definition": "The subject has arrived at the physical or virtual location and is ready to receive care."
+        },
+        {
+            "code": "triaged",
+            "display": "Triaged",
+            "definition": "The subject has been seen triaged by staff and is waiting for further care."
+        },
+        {
+            "code": "receiving-care",
+            "display": "Receiving Care",
+            "definition": "The subject is present and commenced receiving care.  This can include periods of waiting between care."
+        },
+        {
+            "code": "on-leave",
+            "display": "On Leave",
+            "definition": "The subject has left the physical or virtual location, but is expected to return and resume care as part of this encounter."
+        },
+        {
+            "code": "departed",
+            "display": "Departed",
+            "definition": "The subject has left the physical or virtual location, and is not expected to return as part of this encounter."
+        }
+    ]
+}

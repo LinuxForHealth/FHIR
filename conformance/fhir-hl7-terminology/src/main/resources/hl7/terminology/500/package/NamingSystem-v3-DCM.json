@@ -1,0 +1,57 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-DCM",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "DICOM Controlled Terminology"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-DCM"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.0.0"
+        }
+    ],
+    "name": "DCM",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2020-09-03T00:00:00-04:00",
+    "publisher": "DICOM",
+    "contact": [
+        {
+            "name": "DICOM Standards Committee"
+        }
+    ],
+    "responsible": "DICOM",
+    "description": "Coded concepts defined in PS 3.16 Digital Imaging and Communications in Medicine (DICOM): Part 16: Content Mapping Resource, Annex D: DICOM Controlled Terminology Definition",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "1.2.840.10008.2.16.4",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://dicom.nema.org/resources/ontology/DCM",
+            "preferred": true,
+            "period": {
+                "start": "2020-09-03T15:32:00-04:00"
+            }
+        },
+        {
+            "type": "uri",
+            "value": "http://dicom.nema.org/medical/dicom",
+            "preferred": false,
+            "period": {
+                "end": "2020-09-03T15:32:00-04:00"
+            }
+        }
+    ]
+}

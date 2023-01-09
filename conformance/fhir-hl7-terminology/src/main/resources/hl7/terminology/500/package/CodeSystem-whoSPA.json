@@ -1,0 +1,30 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "whoSPA",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/whoSPA",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.230.4"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "WhoSPA",
+    "title": "WHO Adverse Reaction Terms Spanish",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "World Health Organization"
+        }
+    ],
+    "description": "WHO Adverse Drug Reaction Terminology (WHOART). Spanish Translation. Uppsala (Sweden): WHO Collaborating Centre for International Drug Monitoring, 1997. For more information, see http://www.umc-products.com/graphics/3149.pdf",
+    "caseSensitive": true,
+    "content": "not-present"
+}

@@ -1,0 +1,37 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "ISO3166Part2",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "urn:iso:std:iso:3166:-2",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:1.0.3166.2"
+        }
+    ],
+    "version": "1.0.0",
+    "name": "ISO3166Part2",
+    "title": "ISO 3166-2 Codes for the representation of names of countries and their subdivisions — Part 2: Country subdivision code",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-08-23T00:00:00-00:00",
+    "publisher": "International Organization for Standardization (ISO)",
+    "contact": [
+        {
+            "name": "International Organization for Standardization (ISO)",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://www.iso.org/"
+                }
+            ]
+        }
+    ],
+    "description": "ISO 3166-2 establishes a code that represents the names of the principal administrative divisions, or similar areas, of the countries and entities included in ISO 3166-1.",
+    "copyright": "ISO Maintains the copyright on the country codes, and controls it's use carefully. For futher details see the ISO 3166 web page: https://www.iso.org/iso-3166-country-codes.html",
+    "caseSensitive": true,
+    "content": "not-present"
+}

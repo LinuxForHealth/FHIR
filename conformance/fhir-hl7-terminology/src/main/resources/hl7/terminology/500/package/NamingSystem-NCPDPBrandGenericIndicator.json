@@ -1,0 +1,51 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "NCPDPBrandGenericIndicator",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "NCPDP Brand Generic Indicator"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/NCPDPBrandGenericIndicator"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.1"
+        }
+    ],
+    "name": "NCPDPBrandGenericIndicator",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-03-10T00:00:00-04:00",
+    "publisher": "National Council for Prescription Drug Programs",
+    "contact": [
+        {
+            "name": "National Council for Prescription Drug Programs",
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "480.477.1000"
+                },
+                {
+                    "system": "email",
+                    "value": "info@ncpdp.org"
+                }
+            ]
+        }
+    ],
+    "responsible": "National Council for Prescription Drug Programs",
+    "description": "Denotes brand or generic drug dispensed.",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/NCPDPBrandGenericIndicator",
+            "preferred": true
+        }
+    ]
+}

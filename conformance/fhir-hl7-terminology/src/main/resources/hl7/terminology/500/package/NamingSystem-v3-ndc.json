@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-ndc",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "National drug codes"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-ndc"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Ndc",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "FDA",
+    "contact": [
+        {
+            "name": "FDA Data Standards Council"
+        }
+    ],
+    "responsible": "FDA",
+    "description": "National drug codes",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.69",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/sid/ndc",
+            "preferred": true
+        }
+    ]
+}

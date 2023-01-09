@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "X12.3",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "X12.3 Data Elementary Dictionary"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/X12.3"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "X123",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "Z12",
+    "contact": [
+        {
+            "name": "X12N,X12N,X12N,X12N"
+        }
+    ],
+    "responsible": "Z12",
+    "description": "X12.3 Data Elementary Dictionary\r\n\r\nThis is the root OID for vocabulary defined internally by X12N. OIDS for each vocabulary will be assigned underneath this oid by appending the X12N data element id to the root OID. Data Element 1336 is Insurance Type Code, so the OID for the X12N Insurance Type Code vocabulary will be 2.16.840.1.113883.6.255.1336",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.255",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/X12.3",
+            "preferred": true
+        }
+    ]
+}

@@ -1,0 +1,52 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "pclocd",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "pan-Canadian LOINC Observation Code Database"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/pclocd"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.2.0"
+        }
+    ],
+    "name": "Pclocd",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "Canada Health Infoway",
+    "contact": [
+        {
+            "name": "Canada Health Infoway",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "standards@infoway-inforoute.ca"
+                }
+            ]
+        }
+    ],
+    "responsible": "Canada Health Infoway",
+    "description": "The pan Canadian LOINC Observation Code Database (pCLOCD) is the Canadian version of the LOINC(tm) database. It was created using the LOINC(tm) records and attributes that were constrained for Canadian use and supplemented to specifically meet Canadian requirements. It contains the core LOINC(tm) attributes as required by Regenstrief copyright rules. The LOINC(tm) Component has been customized to meet Canadian requirements and is displayed as the pan Canadian Component Name. This component name is the basis for the pan Canadian Display Name. Core attributes are include both English and Canadian French.\r\n\r\nThis code system contains supplemental \"X\" codes defined in the pCLOCD that do not yet exist in the LOINC code system.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.2.20.5.1",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "https://fhir.infoway-inforoute.ca/CodeSystem/pCLOCD",
+            "preferred": true
+        }
+    ]
+}

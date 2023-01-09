@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "cpnum",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Gold Standard's Clinical Pharmacology Monograph Number"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/cpnum"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.0.1"
+        }
+    ],
+    "name": "Cpnum",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "HL7",
+    "contact": [
+        {
+            "name": "Gold Standard Inc."
+        }
+    ],
+    "responsible": "HL7",
+    "description": "Gold Standard's Clinical Pharmacology Monograph Number",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.81",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/cpnum",
+            "preferred": true
+        }
+    ]
+}

@@ -1,0 +1,50 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "opinions",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Online Product Identification Number Index of Nova Scotia"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/opinions"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.2.1"
+        }
+    ],
+    "name": "Opinions",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-07-27T00:00:00-04:00",
+    "publisher": "HL7",
+    "contact": [
+        {
+            "name": "Atlantic Pharmaceutical Services Inc."
+        }
+    ],
+    "responsible": "HL7",
+    "description": "**Description:** Codes to identify products and services that do not have DIN's and which need to be billed. http://www.atlanticpharmaceutical.ca/default.asp?mn=5.23",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.5.1102",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/opinions",
+            "preferred": true,
+            "comment": "Updated status to active.  Should not have been set to retired..",
+            "period": {
+                "start": "2021-07-27"
+            }
+        }
+    ]
+}

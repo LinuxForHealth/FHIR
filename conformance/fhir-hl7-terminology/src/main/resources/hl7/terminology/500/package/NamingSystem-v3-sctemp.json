@@ -1,0 +1,52 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-sctemp",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "pan-Canadian Temporary Codes"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-sctemp"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.1.0"
+        }
+    ],
+    "name": "Sctemp",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "Canada Health Infoway",
+    "contact": [
+        {
+            "name": "Canada Health Infoway",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "standards@infoway-inforoute.ca"
+                }
+            ]
+        }
+    ],
+    "responsible": "Canada Health Infoway",
+    "description": "These pan-Canadian codes are maintained in circumstances where the desired code is not yet available in another code system (HL7 code systems, LOINC, SNOMED, etc.) In general, the codes will be deprecated once an equivalent code is available in the preferred code system. The SCTEMP is a transitional or temporary CodeSystem supported and maintained by Canada Health Infoway.  It houses the code(s) required and accepted by Canadian implementers if the implementation cannot wait for the code to be harmonized  with the international terminology authority. The SCTEMP CodeSystem also served as a  source for tracking  submissions that need to be made to the various terminology authorities. The SCTEMP CodeSystem applies to HL7, non-SNOMED CT and non-LOINC /pCLOCD used within pan-Canadian specifications. The SCTEMP is not used for the Unified Code for Units of Measure (UCUM).",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.2.20.5.2",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "https://fhir.infoway-inforoute.ca/CodeSystem/sctemp",
+            "preferred": true
+        }
+    ]
+}

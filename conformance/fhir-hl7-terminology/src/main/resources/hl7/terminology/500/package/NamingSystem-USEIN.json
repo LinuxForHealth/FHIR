@@ -1,0 +1,54 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "USEIN",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "United States Employer Identification Number"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/USEIN"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "USEIN",
+    "status": "active",
+    "kind": "identifier",
+    "date": "2022-06-13T00:00:00-00:00",
+    "contact": [
+        {
+            "name": "U.S. Internal Revenue Service",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://www.irs.gov/businesses/small-businesses-self-employed/employer-id-numbers"
+                }
+            ]
+        }
+    ],
+    "description": "An Employer Identification Number (EIN) is also known as a Federal Tax Identification Number, and is used to identify a business entity.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.4",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "urn:oid:2.16.840.1.113883.4.4",
+            "preferred": true,
+            "comment": "This is the URL endorsed by the HTA and is considered authoritative.",
+            "period": {
+                "start": "2022-06-02"
+            }
+        }
+    ]
+}

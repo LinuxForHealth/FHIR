@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-mdc",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ISO 11073-10101 Health informatics - Point-of-care"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-mdc"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Mdc",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "IEEE 1073 General Committee",
+    "contact": [
+        {
+            "name": "Melvin Reynolds"
+        }
+    ],
+    "responsible": "IEEE 1073 General Committee",
+    "description": "The nomenclature relates primarily to vital signs monitoring, but also includes semantics of other medical devices that are commonly used in acute care settings. There are multiple coding partitions each of which has a systematic name consisting of a set of base concepts and differentiating criteria.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.24",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "urn:iso:std:iso:11073:10101",
+            "preferred": true
+        }
+    ]
+}

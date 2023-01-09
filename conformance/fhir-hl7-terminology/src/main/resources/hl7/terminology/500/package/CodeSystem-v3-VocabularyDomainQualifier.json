@@ -1,0 +1,274 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-VocabularyDomainQualifier",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-VocabularyDomainQualifier",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.147"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "VocabularyDomainQualifier",
+    "title": "VocabularyDomainQualifier",
+    "status": "retired",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "Vocabulary domain qualifiers are concepts that are used in domain constraints to specify behavior of the new domain.\r\n\r\nCode system retired.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "notSelectable",
+            "uri": "http://hl7.org/fhir/concept-properties#notSelectable",
+            "description": "Indicates that the code is abstract - only intended to be used as a selector for other concepts",
+            "type": "boolean"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        },
+        {
+            "code": "synonymCode",
+            "uri": "http://hl7.org/fhir/concept-properties#synonym",
+            "description": "An additional concept code that was also attributed to a concept",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "_Extensibility",
+            "display": "Extensibility",
+            "definition": "The extensibility of coding determines whether or not extensions are allowed in the domain of a coded attribute.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21294"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "CNE",
+                    "display": "Coded No Extensions",
+                    "definition": "The coded attribute allows only concepts from the defined value set. No extensions are allowed.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "11049"
+                        }
+                    ]
+                },
+                {
+                    "code": "CWE",
+                    "display": "Coded With Extensions",
+                    "definition": "The coded attribute allows local codes or user entered text to be sent when the concept that the user would like to express is not a member of the defined value set. If the concept that the user wants to express is represented by a code in the standard value set, the standard code must be sent. The local code can be sent in addition to the standard code if desired. Only if the concept that the user wants to express is NOT represented by a standard code, can a solitary local code be sent.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "11048"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "_RealmOfUse",
+            "display": "RealmOfUse",
+            "definition": "The jurisdiction or realm within which the domain will be used. A realm might be a country, a group of countries, a region of the world, or an organization.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21295"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "Canada",
+                    "display": "Canada",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "20838"
+                        }
+                    ]
+                },
+                {
+                    "code": "NorthAmerica",
+                    "display": "North America",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "20837"
+                        }
+                    ]
+                },
+                {
+                    "code": "USA",
+                    "display": "United States",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "20836"
+                        }
+                    ]
+                },
+                {
+                    "code": "UV",
+                    "display": "Universal",
+                    "definition": "The root or universal HL7 jurisdiction or realm from which all subsequent specializations are derived.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "synonymCode",
+                            "valueCode": "U"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "11051"
+                        }
+                    ]
+                },
+                {
+                    "code": "U",
+                    "display": "Universal",
+                    "definition": "The root or universal HL7 jurisdiction or realm from which all subsequent specializations are derived.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "retired"
+                        },
+                        {
+                            "code": "synonymCode",
+                            "valueCode": "UV"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "11051"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

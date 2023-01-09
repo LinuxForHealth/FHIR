@@ -1,0 +1,55 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "AHANUBCTypeOfBill",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "AHA NUBC Type Of Bill Codes"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/AHANUBCTypeOfBill"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "AHA_NUBC_TypeOfBill",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-05-17T00:00:00-00:00",
+    "publisher": "American Hospital Association (AHA)",
+    "contact": [
+        {
+            "name": "American Hospital Association (AHA); 155 North Wacker Drive, Suite 400, Chicago, IL 60606",
+            "telecom": [
+                {
+                    "system": "fax",
+                    "value": "312-422-4500"
+                },
+                {
+                    "system": "phone",
+                    "value": "312-422-3000"
+                }
+            ]
+        }
+    ],
+    "responsible": "American Hospital Association (AHA)",
+    "description": "The UB-04 Data File contains the complete set of NUBC codes. Every code in the range of possible codes is accounted for sequentially. There are no gaps because all used and unused codes are identified.\r\n\r\nThis code system consists of the following:\r\n\r\n \\* FL 04 - Type of Bill Facility Codes\r\n\r\n \\* FL 04 - Type of Bill Frequency Codes\r\n\r\nA code indicating the specific Type of Bill (TOB), e.g., hospital inpatient, outpatient, replacements, voids, etc. The first digit is a leading zero*. The fourth digit defines the frequency of the bill for the institutional and electronic professional claim.\r\n\r\nNote that with the advent of UB-04, the matrix methodology of constructing the first component of TOB codes according to digit position was abandoned in favor of specifying valid discrete codes. As a result, the first three digits in TOB have no underlying meaning.\r\n\r\nTo obtain the underlying code systems, please see information [here](https://www.nubc.org/subscription-information)\r\n\r\nThe UB-04 Manual has a 12-month subscription period from June 30 through July 1.",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "https://www.nubc.org/CodeSystem/TypeOfBill",
+            "preferred": true,
+            "comment": "This is the URL as specified by the terminology owner, and is considered authoritative.",
+            "period": {
+                "start": "2020-11-05"
+            }
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-ActRelationshipHasPre-condition",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-ActRelationshipHasPre-condition",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.20001"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "ActRelationshipHasPreCondition",
+    "title": "ActRelationshipHasPre-condition",
+    "status": "active",
+    "experimental": false,
+    "date": "2014-03-26",
+    "description": "A requirement to be true before a service is performed. The target can be any service in criterion mood. For multiple pre-conditions a conjunction attribute (AND, OR, XOR) is applicable.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActRelationshipType",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "PRCN"
+                    }
+                ]
+            }
+        ]
+    }
+}

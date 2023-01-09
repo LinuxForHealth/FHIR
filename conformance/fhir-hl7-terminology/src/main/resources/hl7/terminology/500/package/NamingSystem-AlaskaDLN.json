@@ -1,0 +1,47 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "AlaskaDLN",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Alaska Driver's License"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/AlaskaDLN"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "AlaskaDLN",
+    "status": "active",
+    "kind": "identifier",
+    "date": "2022-02-07T00:00:00-00:00",
+    "type": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                "code": "DL"
+            }
+        ]
+    },
+    "description": "Alaska Motor Vehicle Bureau",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.3.2",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "urn:oid:2.16.840.1.113883.4.3.2",
+            "preferred": true
+        }
+    ]
+}

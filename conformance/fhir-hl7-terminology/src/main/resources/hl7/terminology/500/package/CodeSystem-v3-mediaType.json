@@ -1,0 +1,658 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-mediaType",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-mediaType",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.79"
+        }
+    ],
+    "version": "2.2.0",
+    "name": "MediaType",
+    "title": "Media Type",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "Internet Assigned Numbers Authority (IANA) Mime Media Types. Identifies the type of the encapsulated data and identifies a method to interpret or render the data. The IANA defined domain of media types is established by the Internet standard RFC 2045 \\[http://www.ietf.org/rfc/rfc2045.txt\\] and 2046 \\[http://www.ietf.org/rfc/rfc2046.txt\\]. RFC 2046 defines the media type to consist of two parts:\r\n\r\n1.  top level media type, and\r\n2.  media subtype\r\n\r\nHowever, this HL7 datatypes specification treats the entire media type as one atomic code symbol in the form defined by IANA, i.e., top level type followed by a slash \"/\" followed by media subtype. Currently defined media types are registered in a database \\[http://www.iana.org/assignments/media-types/index.html\\] maintained by IANA. Currently several hundred different MIME media types are defined, with the list growing rapidly. In general, all those types defined by the IANA MAY be used.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "fragment",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        },
+        {
+            "code": "synonymCode",
+            "uri": "http://hl7.org/fhir/concept-properties#synonym",
+            "description": "An additional concept code that was also attributed to a concept",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "application",
+            "display": "ApplicationMediaType",
+            "definition": "Application specific media type.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21083"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "application/dicom",
+                    "display": "DICOM",
+                    "definition": "Digital Imaging and Communications in Medicine (DICOM) MIME type defined in RFC3240 \\[http://ietf.org/rfc/rfc3240.txt\\].",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "21460"
+                        }
+                    ]
+                },
+                {
+                    "code": "application/msword",
+                    "display": "MSWORD",
+                    "definition": "This format is very prone to compatibility problems. If sharing of edit-able text is required, text/plain, text/html or text/rtf should be used instead.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14834"
+                        }
+                    ]
+                },
+                {
+                    "code": "application/pdf",
+                    "display": "PDF",
+                    "definition": "The Portable Document Format is recommended for written text that is completely laid out and read-only. PDF is a platform independent, widely deployed, and open specification with freely available creation and rendering tools.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14833"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "audio",
+            "display": "AudioMediaType",
+            "definition": "Audio media type.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21084"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "audio/basic",
+                    "display": "Basic Audio",
+                    "definition": "This is a format for single channel audio, encoded using 8bit ISDN mu-law \\[PCM\\] at a sample rate of 8000 Hz. This format is standardized by: CCITT, Fascicle III.4 -Recommendation G.711. Pulse Code Modulation (PCM) of Voice Frequencies. Geneva, 1972.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14836"
+                        }
+                    ]
+                },
+                {
+                    "code": "audio/k32adpcm",
+                    "display": "K32ADPCM Audio",
+                    "definition": "ADPCM allows compressing audio data. It is defined in the Internet specification RFC 2421 \\[ftp://ftp.isi.edu/in-notes/rfc2421.txt\\]. Its implementation base is unclear.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14838"
+                        }
+                    ]
+                },
+                {
+                    "code": "audio/mpeg",
+                    "display": "MPEG audio layer 3",
+                    "definition": "MPEG-1 Audio layer-3 is an audio compression algorithm and file format defined in ISO 11172-3 and ISO 13818-3. MP3 has an adjustable sampling frequency for highly compressed telephone to CD quality audio.",
+                    "designation": [
+                        {
+                            "language": "en",
+                            "use": {
+                                "system": "http://snomed.info/sct",
+                                "code": "900000000000013009"
+                            },
+                            "value": "MP3 Audio"
+                        }
+                    ],
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14837"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "image",
+            "display": "ImageMediaType",
+            "definition": "Image media type.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21085"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "image/g3fax",
+                    "display": "G3Fax Image",
+                    "definition": "This is recommended only for fax applications.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14843"
+                        }
+                    ]
+                },
+                {
+                    "code": "image/gif",
+                    "display": "GIF Image",
+                    "definition": "GIF is a popular format that is universally well supported. However GIF is patent encumbered and should therefore be used with caution.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14841"
+                        }
+                    ]
+                },
+                {
+                    "code": "image/jpeg",
+                    "display": "JPEG Image",
+                    "definition": "This format is required for high compression of high color photographs. It is a \"lossy\" compression, but the difference to lossless compression is almost unnoticeable to the human vision.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14842"
+                        }
+                    ]
+                },
+                {
+                    "code": "image/png",
+                    "display": "PNG Image",
+                    "definition": "Portable Network Graphics (PNG) \\[http://www.cdrom.com/pub/png\\] is a widely supported lossless image compression standard with open source code available.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14840"
+                        }
+                    ]
+                },
+                {
+                    "code": "image/tiff",
+                    "display": "TIFF Image",
+                    "definition": "Although TIFF (Tag Image File Format) is an international standard it has many interoperability problems in practice. Too many different versions that are not handled by all software alike.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14844"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "model",
+            "display": "ModelMediaType",
+            "definition": "Model media type.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21086"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "model/vrml",
+                    "display": "VRML Model",
+                    "definition": "This is an openly standardized format for 3D models that can be useful for virtual reality applications such as anatomy or biochemical research (visualization of the steric structure of macromolecules)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14849"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "multipart",
+            "display": "MultipartMediaType",
+            "definition": "Multipart Media Type",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21087"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "multipart/x-hl7-cda-level-one",
+                    "display": "CDA Level 1 Multipart",
+                    "definition": "The HL7 clinical document Architecture, Level 1 MIME package.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "synonymCode",
+                            "valueCode": "multipart/x-hl7-cda-level1"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14851"
+                        }
+                    ]
+                },
+                {
+                    "code": "multipart/x-hl7-cda-level1",
+                    "display": "CDA Level 1 Multipart",
+                    "definition": "The HL7 clinical document Architecture, Level 1 MIME package.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "retired"
+                        },
+                        {
+                            "code": "synonymCode",
+                            "valueCode": "multipart/x-hl7-cda-level-one"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14851"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "text",
+            "display": "TextMediaType",
+            "definition": "For any text",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21088"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "text/html",
+                    "display": "HTML Text",
+                    "definition": "For marked-up text according to the Hypertext Mark-up Language. HTML markup is sufficient for typographically marking-up most written-text documents. HTML is platform independent and widely deployed.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14828"
+                        }
+                    ]
+                },
+                {
+                    "code": "text/plain",
+                    "display": "Plain Text",
+                    "definition": "**Description:**For any plain text. This is the default and is used for a character string (ST) data type.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14826"
+                        }
+                    ]
+                },
+                {
+                    "code": "text/rtf",
+                    "display": "RTF Text",
+                    "definition": "The Rich Text Format is widely used to share word-processor documents. However, RTF does have compatibility problems, as it is quite dependent on the word processor. May be useful if word processor edit-able text should be shared.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14831"
+                        }
+                    ]
+                },
+                {
+                    "code": "text/sgml",
+                    "display": "SGML Text",
+                    "definition": "For structured character based data. There is a risk that general SGML/XML is too powerful to allow a sharing of general SGML/XML documents between different applications.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14829"
+                        }
+                    ]
+                },
+                {
+                    "code": "text/x-hl7-ft",
+                    "display": "HL7 Text",
+                    "definition": "For compatibility, this represents the HL7 v2.x FT data type. Its use is recommended only for backward compatibility with HL7 v2.x systems.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14827"
+                        }
+                    ]
+                },
+                {
+                    "code": "text/x-hl7-text+xml",
+                    "display": "HL7 Structured Narrative",
+                    "definition": "**Description:**  The content described by the CDA Narrative Block (not just used by CDA).",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22607"
+                        }
+                    ]
+                },
+                {
+                    "code": "text/xml",
+                    "display": "XML Text",
+                    "definition": "For structured character based data. There is a risk that general SGML/XML is too powerful to allow a sharing of general SGML/XML documents between different applications.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14830"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "video",
+            "display": "VideoMediaType",
+            "definition": "Video media type.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21089"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "video/mp4",
+                    "display": "MP4 Video",
+                    "definition": "Video format by the Motion Picture Experts Group under ISO/IEC 14496",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "24125"
+                        }
+                    ]
+                },
+                {
+                    "code": "video/mpeg",
+                    "display": "MPEG Video",
+                    "definition": "MPEG is an international standard, widely deployed, highly efficient for high color video; open source code exists; highly interoperable.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14846"
+                        }
+                    ]
+                },
+                {
+                    "code": "video/quicktime",
+                    "display": "QuickTime Video",
+                    "definition": "Proprietary video format from Apple, Inc.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "24127"
+                        }
+                    ]
+                },
+                {
+                    "code": "video/webm",
+                    "display": "WebM Video",
+                    "definition": "A royalty-free audiovisual media file format.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "24128"
+                        }
+                    ]
+                },
+                {
+                    "code": "video/x-avi",
+                    "display": "X-AVI Video",
+                    "definition": "The AVI file format is just a wrapper for many different codecs; it is a source of many interoperability problems.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "14847"
+                        }
+                    ]
+                },
+                {
+                    "code": "video/x-ms-wmv",
+                    "display": "Windows Media Video",
+                    "definition": "Proprietary video format from Microsoft, Inc.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "24126"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

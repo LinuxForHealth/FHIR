@@ -1,0 +1,30 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-HealthcareServiceLocation",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-HealthcareServiceLocation",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.20275"
+        }
+    ],
+    "version": "3.0.0",
+    "name": "HealthcareServiceLocation",
+    "title": "HealthcareServiceLocation",
+    "status": "active",
+    "experimental": false,
+    "date": "2014-03-26",
+    "description": "A comprehensive classification of locations and settings where healthcare services are provided. This value set is based on the NHSN location code system that has been developed over a number of years through CDCaTMs interaction with a variety of healthcare facilities and is intended to serve a variety of reporting needs where coding of healthcare service locations is required.  This valu set is aavailalbe from VSAC at https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.1.11.20275/expansion/Latest ",
+    "compose": {
+        "include": [
+            {
+                "system": "https://www.cdc.gov/nhsn/cdaportal/terminology/codesystem/hsloc.html"
+            }
+        ]
+    }
+}
