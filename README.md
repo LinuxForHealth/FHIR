@@ -7,7 +7,7 @@ The server is available in the following forms:
 * a web application archive (war)
 * a zip file with installation script
 * a [Linux container image](https://github.com/LinuxForHealth/FHIR/pkgs/container/fhir-server) from GitHub Packages
-* a [helm chart](https://artifacthub.io/packages/helm/alvearie/ibm-fhir-server) from the alvearie org on ArtifactHub
+* a [helm chart](https://artifacthub.io/packages/helm/linuxforhealth/fhir-server) registered on ArtifactHub
 
 ### Running the server
 Guides for configuring, operating, and extending the LinuxForHealth FHIR Server are available from https://linuxforhealth.github.io/FHIR/guides/FHIRServerUsersGuide.
@@ -23,8 +23,6 @@ Quickstart:
 docker run -p 9443:9443 -e BOOTSTRAP_DB=true ghcr.io/linuxforhealth/fhir-server
 ```
 
-See https://hub.docker.com/r/ibmcom/ibm-fhir-server for more information.
-
 Note:
 1. The Docker image [ghcr.io/linuxforhealth/fhir-schematool](https://github.com/LinuxForHealth/FHIR/pkgs/container/fhir-schematool) is an early technology preview and is experimental.
 2. The Docker image [ghcr.io/linuxforhealth/fhir-bucket-tool](https://github.com/LinuxForHealth/FHIR/pkgs/container/fhir-bucket-tool) is an early technology preview and is experimental.
@@ -33,12 +31,12 @@ Note:
 #### From the helm chart
 Quickstart:
 ```
-helm repo add alvearie https://alvearie.io/alvearie-helm
+helm repo add linuxforhealth https://linuxforhealth.github.io/lfh-helm
 export POSTGRES_PASSWORD=$(openssl rand -hex 20)
-helm upgrade --install --render-subchart-notes ibm-fhir-server alvearie/ibm-fhir-server --set postgresql.postgresqlPassword=${POSTGRES_PASSWORD} --set ingress.hostname=example.com --set 'ingress.tls[0].secretName=cluster-tls-secret'
+helm upgrade --install --render-subchart-notes fhir-server linuxforhealth/fhir-server --set postgresql.postgresqlPassword=${POSTGRES_PASSWORD} --set ingress.hostname=example.com --set 'ingress.tls[0].secretName=cluster-tls-secret'
 ```
 
-See https://artifacthub.io/packages/helm/alvearie/ibm-fhir-server for more information.
+See https://artifacthub.io/packages/helm/linuxforhealth/fhir-server for more information.
 
 ### Building with the LinuxForHealth FHIR Modules
 Each of the LinuxForHealth FHIR Server modules are published to Maven Central under [org.linuxforhealth.fhir](https://repo1.maven.org/maven2/org/linuxforhealth/fhir/).

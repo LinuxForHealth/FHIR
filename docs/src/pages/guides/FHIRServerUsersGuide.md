@@ -70,10 +70,10 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
     To override the default fhiruser's password, one may set an Environment variable `FHIR_USER_PASSWORD` and for the fhiradmin's password one may set an Environment variable `FHIR_ADMIN_PASSWORD`.
 
 6.  Make sure that your selected database product is running and ready to accept requests as needed:
-    * By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. When using the `ibmcom/ibm-fhir-server` docker image, set the `BOOTSTRAP_DB` environment variable to `true` in order to bootstrap this database. For any other configuration, note the database host and port and, if necessary, create a user with privileges for deploying the schema.
+    * By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. When using the `linuxforhealth/fhir-server` docker image, set the `BOOTSTRAP_DB` environment variable to `true` in order to bootstrap this database. For any other configuration, note the database host and port and, if necessary, create a user with privileges for deploying the schema.
 
 7.  Create and deploy the LinuxForHealth FHIR Server database schema as needed:
-    * By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. When using the `ibmcom/ibm-fhir-server` docker image, set the `BOOTSTRAP_DB` environment variable to `true` in order to bootstrap this database. For any other configuration, use the `fhir-persistence-schema` module to create and deploy the database schema.
+    * By default, the FHIR server is installed with the JDBC persistence layer configured to use an Embedded Derby database. When using the `linuxforhealth/fhir-server` docker image, set the `BOOTSTRAP_DB` environment variable to `true` in order to bootstrap this database. For any other configuration, use the `fhir-persistence-schema` module to create and deploy the database schema.
 
 8.  Configure the `fhir-server-config.json`<sup id="a1">[1](#f1)</sup> configuration file as needed:
     * By default, the FHIR server is installed with the JDBC persistence layer configured to use a single-tenant Embedded Derby database. For more information, see [Section 3.3 Persistence layer configuration](#33-persistence-layer-configuration).
@@ -111,7 +111,7 @@ Complete the following steps to upgrade the server:
 5. Disable traffic to the old server and enable traffic to the new server.
 
 ## 2.3 Docker
-The LinuxForHealth FHIR Server includes a Docker image [ibmcom/ibm-fhir-server](https://hub.docker.com/r/ibmcom/ibm-fhir-server).
+The LinuxForHealth FHIR Server includes a Docker image [linuxforhealth/fhir-server](https://github.com/LinuxForHealth/FHIR/pkgs/container/fhir-server).
 
 Note, logging for the LinuxForHealth FHIR Server docker image is to stderr and stdout, and is picked up by Logging agents.
 
@@ -119,15 +119,7 @@ The LinuxForHealth FHIR Server is configured using Environment variables using:
 
 | Environment Variable | Description |
 |----------------------|-------------|
-|`DISABLED_OPERATIONS`|A comma-separated list of operations which are disabled on the LinuxForHealth FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
-
-*Development-Only*: If you are using the LinuxForHealth FHIR Server on a development machine with under 3.25G of RAM. You should download [jvm-dev.options](https://github.com/LinuxForHealth/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/jvm-dev.options) and mount it when starting the Docker container.  You can use the following pattern for starting up in a restricted test environment (or build your own layer).
-
-```
-docker run -d -p 9443:9443 -e BOOTSTRAP_DB=true \
-  -v $(pwd)/jvm-dev.options:/config/configDropins/default/jvm.options \
-  ibmcom/ibm-fhir-server
-```
+|`DISABLED_OPERATIONS`|A comma-separated list of operations which are disabled on the LinuxForHealth FHIR Server, for example, `validate,import`. Do not include the dollar sign `$`|
 
 # 3 Configuration
 This chapter contains information about the various ways in which the LinuxForHealth FHIR Server can be configured by users.
@@ -167,7 +159,7 @@ The default server.xml includes variables for configuring the log output:
     <variable name="TRACE_FORMAT" defaultValue="BASIC"/>
 ```
 
-By default, INFO level messages will go to both the console and a log file at `wlp/usr/servers/fhir-server/logs/messages.log`. For the `ibmcom/ibm-fhir-server` docker image, the default is changed to go just to the console.
+By default, INFO level messages will go to both the console and a log file at `wlp/usr/servers/fhir-server/logs/messages.log`. For the `linuxforhealth/fhir-server` docker image, the default is changed to log to just the console.
 
 To enable tracing, set the TRACE_SPEC variable (e.g. by setting an environment variable by the same name) to a `:`-delimited list of `component = level` pair values. For example, to turn on tracing for the SQL generated by `fhir-persistence-jdbc`, set the TRACE_SPEC to `org.linuxforhealth.fhir.persistence.jdbc.dao.impl.*=fine:org.linuxforhealth.fhir.database.utils.query.QueryUtil=fine`.
 
@@ -298,7 +290,7 @@ The LinuxForHealth FHIR Server will look up the tenant and datastore id for each
 
 #### 3.3.1.1 Supported databases
 ##### Embedded Derby (default)
-If you are using the `ibmcom/ibm-fhir-server` docker image, you can ask the entrypoint script to create (bootstrap) the database and the schema during startup by setting the `BOOTSTRAP_DB` environment variable to `true`.
+If you are using the `linuxforhealth/fhir-server` docker image, you can ask the entrypoint script to create (bootstrap) the database and the schema during startup by setting the `BOOTSTRAP_DB` environment variable to `true`.
 
 This database bootstrap step is only supported for Embedded Derby and will only bootstrap the default datastore of the default tenant (the default for requests with no tenant or datastore headers).
 
@@ -1755,7 +1747,7 @@ There are tests in the `fhir-server-test` module for system, patient and group e
 Because the bulk import and export operations are built on Liberty's java batch implementation, users may need to check the [Liberty batch job logs](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_view_joblog.html) for detailed step information / troubleshooting.
 
 In a standard installation, these logs will be at `wlp/usr/servers/fhir-server/logs/joblogs`.
-In the `ibmcom/ibm-fhir-server` docker image, these logs will be at `/logs/joblogs`.
+In the `linuxforhealth/fhir-server` docker image, these logs will be at `/logs/joblogs`.
 
 Note, if you are using the default Apache Derby, the logs are overwritten upon restart of the server. You should use PostgreSQL for production purposes.
 
