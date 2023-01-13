@@ -441,7 +441,7 @@ public class RestAuditLogger {
                     }
 
                 }
-                String loc = requestEntry.getRequest().getUrl() != null ? requestEntry.getRequest().getUrl().getValue() : "";
+                String loc = requestEntry.getRequest() != null && requestEntry.getRequest().getUrl() != null ? requestEntry.getRequest().getUrl().getValue() : "";
                 // if action is delete log an audit entry for each deleted resource
                 if (action.equals("D") && !(responseEntry.getExtension() == null || responseEntry.getExtension().isEmpty())) {
                     logBundleDelete(auditLogSvc, responseEntry, request, null, startTime, endTime, responseStatus, loc, "FHIR Bundle Batch request");

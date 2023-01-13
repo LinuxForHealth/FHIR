@@ -75,7 +75,7 @@ public class Delete extends FHIRResource {
             try {
                 RestAuditLogger.logDelete(httpServletRequest,
                         ior != null ? ior.getResource() : null,
-                        startTime, new Date(), status, ior.getFhirResourceContexts());
+                        startTime, new Date(), status,  ior != null ? ior.getFhirResourceContexts() : null);
             } catch (Exception e) {
                 log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
             }
@@ -120,7 +120,7 @@ public class Delete extends FHIRResource {
             try {
                 RestAuditLogger.logDelete(httpServletRequest,
                         ior != null ? ior.getResource() : null,
-                        startTime, new Date(), status, ior.getFhirResourceContexts());
+                        startTime, new Date(), status, ior != null ? ior.getFhirResourceContexts() : null);
             } catch (Exception e) {
                 log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
             }
