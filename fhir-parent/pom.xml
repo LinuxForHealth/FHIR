@@ -615,7 +615,7 @@
                 <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-all</artifactId>
-                <version>4.1.86.Final</version>
+                <version>4.1.87.Final</version>
             </dependency>
             <dependency>
                 <!-- Used in com.amazonaws:aws-java-sdk which is brought in by com.ibm.stocator:stocator (but marked provided by default) -->
@@ -623,14 +623,14 @@
                 <!-- [CVE-2021-37137] SnappyFrameDecoder doesn't restrict chunk length any may buffer skippable chunks in an unnecessary way; patched in 4.1.68.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-codec-http</artifactId>
-                <version>4.1.86.Final</version>
+                <version>4.1.87.Final</version>
             </dependency>
             <dependency>
                 <!-- Used in com.datastax.oss:java-driver-core -->
                 <!-- [CVE-2022-24823] CWE-378: Creation of Temporary File With Insecure Permissions; patched in 4.1.77.Final -->
                 <groupId>io.netty</groupId>
                 <artifactId>netty-handler</artifactId>
-                <version>4.1.86.Final</version>
+                <version>4.1.87.Final</version>
             </dependency>
             <dependency>
                 <!--  [CVE-2020-8908] A temp directory creation vulnerability exists in all versions of Guava, addressed in latest versions -->
