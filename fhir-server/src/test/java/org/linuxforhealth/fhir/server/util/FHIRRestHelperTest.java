@@ -10,6 +10,8 @@ import static org.linuxforhealth.fhir.model.type.String.string;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
@@ -35,6 +37,7 @@ import org.testng.annotations.Test;
 
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.core.HTTPReturnPreference;
+import org.linuxforhealth.fhir.exception.FHIROperationException;
 import org.linuxforhealth.fhir.model.resource.Bundle;
 import org.linuxforhealth.fhir.model.resource.Condition;
 import org.linuxforhealth.fhir.model.resource.Encounter;
@@ -77,6 +80,7 @@ import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceException;
 import org.linuxforhealth.fhir.search.context.FHIRSearchContext;
 import org.linuxforhealth.fhir.search.context.FHIRSearchContextFactory;
 import org.linuxforhealth.fhir.search.util.SearchHelper;
+import org.linuxforhealth.fhir.server.exception.FHIRResourceNotFoundException;
 import org.linuxforhealth.fhir.server.interceptor.FHIRPersistenceInterceptorMgr;
 import org.linuxforhealth.fhir.server.spi.interceptor.FHIRPersistenceInterceptor;
 import org.linuxforhealth.fhir.server.spi.interceptor.FHIRPersistenceInterceptorException;
@@ -1693,12 +1697,16 @@ public class FHIRRestHelperTest {
      */
     @Test
     public void testTransactionBundlePutWithConditionalDependencyAndIdSet() throws Exception {
-        FHIRPersistence persistence = new MockPersistenceImpl();
-        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+        MockPersistenceImpl spyPersistence = spy(MockPersistenceImpl.class);
+        FHIRRestHelper helper = new FHIRRestHelper(spyPersistence, searchHelper);
 
         // Interesting that this ends up as a patient search not a read
         Patient patient = Patient.builder()
                 .id("1")
+                .meta(Meta.builder()
+                    .lastUpdated(Instant.now())
+                    .versionId(Id.of("1"))
+                    .build())
                 .build();
         Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
                 .method(HTTPVerb.PUT)
@@ -1731,7 +1739,12 @@ public class FHIRRestHelperTest {
                 .type(BundleType.TRANSACTION)
                 .entry(bundleEntry, bundleEntry2)
                 .build();
+        MultiResourceResult searchResult = MultiResourceResult.builder()
+                .resourceResult(ResourceResult.from(patient))
+                .success(true)
+                .build();
 
+        doReturn(searchResult).when(spyPersistence).search(any(), any());
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
@@ -3055,5 +3068,184 @@ public class FHIRRestHelperTest {
                 assertTrue(entry.getUrl().getValue().contains("_lastId"));
             }
         }
+    }
+    
+    /**
+     * Test conditional update when : No matches, no id provided.
+     * Expected output: The resource is created successfully.
+     */
+    @Test
+    public void testConditionalUpdateWhenNoResourceIdIsProvided() throws Exception {
+        // test conditional update when no resource Id is provided in the request body JSON.
+        Patient patientNoId = Patient.builder()
+                .name(HumanName.builder()
+                    .given(string("John"))
+                    .family(string("Doe"))
+                    .build())
+                .build();
+        Patient patientWithId = patientNoId.toBuilder()
+                .id("123")
+                .meta(Meta.builder()
+                    .lastUpdated(Instant.now())
+                    .versionId(Id.of("1"))
+                    .build())
+                .build();
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
+            .resource(patientWithId)
+            .success(true)
+            .interactionStatus(InteractionStatus.READ)
+            .build();
+        
+        List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>(0);
+        MultiResourceResult searchResult = MultiResourceResult.builder()
+                .addResourceResults(resourceResults)
+                .success(true)
+                .build();
+       
+        when(persistence.search(any(), any())).thenReturn(searchResult);
+        when(persistence.generateResourceId()).thenReturn("generated-0");
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.create(any(), any())).thenReturn(resourceResult);
+        when(persistence.update(any(), any())).thenReturn(resourceResult);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
+        String searchQueryString = "_id=id123";
+        FHIRRestOperationResponse response = helper.doUpdate("Patient", "123", patientNoId, null, searchQueryString, false, null);
+        assertNotNull(response);
+        assertNotNull(response.getResource());
+        assertEquals(response.getStatus().getStatusCode(), 201);
+    }
+    
+    /**
+     * Test conditional update when : No matches, id provided and doesn't already exist and update/create is not enabled. 
+     * Expected output : Should be rejected with error message.
+     */
+    @Test(expectedExceptions = { FHIRResourceNotFoundException.class } , expectedExceptionsMessageRegExp  = "Resource 'Patient/123' not found.")
+    public void testConditionalUpdateWhenResourceIdIsProvided() throws Exception {
+        // test conditional update when no resource Id is provided in the request body JSON.
+        Patient patientWithId = Patient.builder()
+                .name(HumanName.builder()
+                    .given(string("John"))
+                    .family(string("Doe"))
+                    .build())
+                .id("123")
+                .meta(Meta.builder()
+                    .lastUpdated(Instant.now())
+                    .versionId(Id.of("1"))
+                    .build())
+                .build();
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
+            .resource(null)
+            .success(true)
+            .version(1)
+            .interactionStatus(InteractionStatus.READ)
+            .build();
+        
+        List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>(0);
+        MultiResourceResult searchResult = MultiResourceResult.builder()
+                .addResourceResults(resourceResults)
+                .success(true)
+                .build();
+       
+        when(persistence.search(any(), any())).thenReturn(searchResult);
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.read(any(), any(), any())).thenReturn(resourceResult);
+        when(persistence.isUpdateCreateEnabled()).thenReturn(false);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
+        String searchQueryString = "_id=id123";
+        helper.doUpdate("Patient", "123", patientWithId, null, searchQueryString, false, null);
+    }
+    
+    /**
+     * Test conditional update when : No matches, id provided and doesn't already exist and update/create is enabled. 
+     * Expected output : The resource is created successfully.The server treats the interaction as an Update as Create interaction.
+     */
+    @Test
+    public void testConditionalUpdateWhenResourceIdIsProvided1() throws Exception {
+        // test conditional update when no resource Id is provided in the request body JSON.
+        Patient patientWithId = Patient.builder()
+                .name(HumanName.builder()
+                    .given(string("John"))
+                    .family(string("Doe"))
+                    .build())
+                .id("123")
+                .meta(Meta.builder()
+                    .lastUpdated(Instant.now())
+                    .versionId(Id.of("1"))
+                    .build())
+                .build();
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
+            .resource(null)
+            .success(true)
+            .version(1)
+            .interactionStatus(InteractionStatus.READ)
+            .build();
+        
+        List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>(0);
+        MultiResourceResult searchResult = MultiResourceResult.builder()
+                .addResourceResults(resourceResults)
+                .success(true)
+                .build();
+       
+        when(persistence.search(any(), any())).thenReturn(searchResult);
+        when(persistence.generateResourceId()).thenReturn("generated-0");
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.read(any(), any(), any())).thenReturn(resourceResult);
+        when(persistence.create(any(), any())).thenReturn(resourceResult);
+        when(persistence.update(any(), any())).thenReturn(resourceResult);
+        when(persistence.isUpdateCreateEnabled()).thenReturn(true);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
+        String searchQueryString = "_id=id123";
+        FHIRRestOperationResponse response = helper.doUpdate("Patient", "123", patientWithId, null, searchQueryString, false, null);
+        assertNotNull(response);
+        assertNotNull(response.getResource());
+        assertEquals(response.getStatus().getStatusCode(), 201);
+    }
+    
+    /**
+     * Test conditional update when : No matches, id provided and id already exists. 
+     * Expected output : Should be rejected with 409 Conflict error message.
+     */
+    @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = "Conflict error! The search criteria specified for a conditional update operation did not return any results but the input resource with id: 123 already exists.")
+    public void testConditionalUpdateWhenResourceIdIsProvided2() throws Exception {
+        // test conditional update when no resource Id is provided in the request body JSON.
+        Patient patientWithId = Patient.builder()
+                .name(HumanName.builder()
+                    .given(string("John"))
+                    .family(string("Doe"))
+                    .build())
+                .id("123")
+                .meta(Meta.builder()
+                    .lastUpdated(Instant.now())
+                    .versionId(Id.of("1"))
+                    .build())
+                .build();
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
+            .resource(patientWithId)
+            .success(true)
+            .version(1)
+            .interactionStatus(InteractionStatus.READ)
+            .build();
+        
+        List<ResourceResult<? extends Resource>> resourceResults = new ArrayList<>(0);
+        MultiResourceResult searchResult = MultiResourceResult.builder()
+                .addResourceResults(resourceResults)
+                .success(true)
+                .build();
+       
+        when(persistence.search(any(), any())).thenReturn(searchResult);
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.read(any(), any(), any())).thenReturn(resourceResult);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence, searchHelper);
+
+        String searchQueryString = "_id=id123";
+        //Test conditional update when resource ID already exists.
+        helper.doUpdate("Patient", "123", patientWithId, null, searchQueryString, false, null);
     }
 }
