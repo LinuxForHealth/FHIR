@@ -822,7 +822,7 @@ public class RestAuditLogger {
      * @return AuditLogEntry - an initialized audit log entry.
      */
     protected static AuditLogEntry populateBundleAuditLogEntry(AuditLogEntry entry, Bundle.Entry responseEntry, HttpServletRequest request, Resource resource,
-        Date startTime, Date endTime, Response.Status responseStatus) {
+            Date startTime, Date endTime, Response.Status responseStatus) { 
         final String METHODNAME = "populateBundleAuditLogEntry";
         log.entering(CLASSNAME, METHODNAME);
 
