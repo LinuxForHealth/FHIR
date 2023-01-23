@@ -525,7 +525,7 @@
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-core</artifactId>
-                <version>0.6.2</version>
+                <version>0.6.3-20230111-095504.5bf95e7</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.boundary</groupId>
@@ -536,12 +536,12 @@
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-berkeleyje</artifactId>
-                <version>0.6.2</version>
+                <version>0.6.3-20230111-095504.5bf95e7</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-cql</artifactId>
-                <version>0.6.2</version>
+                <version>0.6.3-20230111-095504.5bf95e7</version>
                 <exclusions>
                     <exclusion>
                         <groupId>it.unimi.dsi</groupId>
@@ -560,12 +560,12 @@
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-lucene</artifactId>
-                <version>0.6.2</version>
+                <version>0.6.3-20230111-095504.5bf95e7</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-es</artifactId>
-                <version>0.6.2</version>
+                <version>0.6.3-20230111-095504.5bf95e7</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.tinkerpop</groupId>
