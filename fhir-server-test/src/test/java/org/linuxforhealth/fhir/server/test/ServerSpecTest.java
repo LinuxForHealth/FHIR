@@ -74,7 +74,6 @@ public class ServerSpecTest extends FHIRServerTestBase {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         setUp(testProperties);
         updateCreateEnabled = isUpdateCreateSupported();
-        System.out.println("Update/Create enabled?: " + updateCreateEnabled);
     }
 
     @Test(groups = { "server-spec" })
@@ -727,14 +726,14 @@ public class ServerSpecTest extends FHIRServerTestBase {
         String obsId = UUID.randomUUID().toString();
         Observation obs = TestUtil.readLocalResource("Observation1.json");
         Observation obsWithNoId = obs.toBuilder()
-                .subject(Reference.builder().reference(string(fakePatientRef)).build())
+                .subject(Reference.builder().reference(fakePatientRef).build())
                 .build();
         Observation obsWithId = obs.toBuilder()
-                .subject(Reference.builder().reference(string(fakePatientRef)).build())
+                .subject(Reference.builder().reference(fakePatientRef).build())
                 .id(obsId)
                 .build();
         Observation obsWithExistingId = obs.toBuilder()
-                .subject(Reference.builder().reference(string(fakePatientRef)).build())
+                .subject(Reference.builder().reference(fakePatientRef).build())
                 .id(savedObservation.getId())
                 .build();
         String randomObsId = UUID.randomUUID().toString();

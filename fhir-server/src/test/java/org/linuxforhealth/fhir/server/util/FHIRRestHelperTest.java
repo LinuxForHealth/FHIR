@@ -3090,7 +3090,6 @@ public class FHIRRestHelperTest {
                     .versionId(Id.of("1"))
                     .build())
                 .build();
-
         FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
         SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
             .resource(patientWithId)
@@ -3125,20 +3124,17 @@ public class FHIRRestHelperTest {
     @Test(expectedExceptions = { FHIRResourceNotFoundException.class } , expectedExceptionsMessageRegExp  = "Resource 'Patient/123' not found.")
     public void testConditionalUpdateWhenResourceIdIsProvided() throws Exception {
         // test conditional update when no resource Id is provided in the request body JSON.
-        Patient patientNoId = Patient.builder()
+        Patient patientWithId = Patient.builder()
                 .name(HumanName.builder()
                     .given(string("John"))
                     .family(string("Doe"))
                     .build())
-                .build();
-        Patient patientWithId = patientNoId.toBuilder()
                 .id("123")
                 .meta(Meta.builder()
                     .lastUpdated(Instant.now())
                     .versionId(Id.of("1"))
                     .build())
                 .build();
-
         FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
         SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
             .resource(null)
@@ -3170,20 +3166,17 @@ public class FHIRRestHelperTest {
     @Test
     public void testConditionalUpdateWhenResourceIdIsProvided1() throws Exception {
         // test conditional update when no resource Id is provided in the request body JSON.
-        Patient patientNoId = Patient.builder()
+        Patient patientWithId = Patient.builder()
                 .name(HumanName.builder()
                     .given(string("John"))
                     .family(string("Doe"))
                     .build())
-                .build();
-        Patient patientWithId = patientNoId.toBuilder()
                 .id("123")
                 .meta(Meta.builder()
                     .lastUpdated(Instant.now())
                     .versionId(Id.of("1"))
                     .build())
                 .build();
-
         FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
         SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
             .resource(null)
@@ -3221,20 +3214,17 @@ public class FHIRRestHelperTest {
     @Test(expectedExceptions = { FHIROperationException.class } , expectedExceptionsMessageRegExp  = "Conflict error! The search criteria specified for a conditional update operation did not return any results but the input resource with id: 123 already exists.")
     public void testConditionalUpdateWhenResourceIdIsProvided2() throws Exception {
         // test conditional update when no resource Id is provided in the request body JSON.
-        Patient patientNoId = Patient.builder()
+        Patient patientWithId = Patient.builder()
                 .name(HumanName.builder()
                     .given(string("John"))
                     .family(string("Doe"))
                     .build())
-                .build();
-        Patient patientWithId = patientNoId.toBuilder()
                 .id("123")
                 .meta(Meta.builder()
                     .lastUpdated(Instant.now())
                     .versionId(Id.of("1"))
                     .build())
                 .build();
-
         FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
         SingleResourceResult<Resource> resourceResult = new SingleResourceResult.Builder<>()
             .resource(patientWithId)
