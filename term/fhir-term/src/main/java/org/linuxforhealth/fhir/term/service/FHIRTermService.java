@@ -414,7 +414,7 @@ public class FHIRTermService {
      */
     public LookupOutcome lookup(Coding coding, LookupParameters parameters) {
         if (!LookupParameters.EMPTY.equals(parameters)) {
-            throw new UnsupportedOperationException("Lookup parameters are not suppored");
+            throw new UnsupportedOperationException("Lookup parameters are not supported");
         }
         java.lang.String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
         java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;

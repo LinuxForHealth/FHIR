@@ -9,6 +9,8 @@ package org.linuxforhealth.fhir.server.spi.operation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
+import java.util.StringJoiner;
 
 import org.linuxforhealth.fhir.exception.FHIROperationException;
 import org.linuxforhealth.fhir.model.resource.OperationDefinition;
@@ -24,6 +26,7 @@ import org.linuxforhealth.fhir.model.util.ModelSupport;
 import org.linuxforhealth.fhir.search.util.SearchHelper;
 
 public abstract class AbstractOperation implements FHIROperation {
+    private static final Logger LOGGER = Logger.getLogger(AbstractOperation.class.getName());
     protected final OperationDefinition definition;
 
     public AbstractOperation() {
@@ -209,6 +212,7 @@ public abstract class AbstractOperation implements FHIROperation {
                 for (OperationDefinition.Parameter odParameter : operationDefinition.getParameter()) {
                     if (parameter.getName().getValue() != null && odParameter.getName() != null
                             && parameter.getName().getValue().equals(odParameter.getName().getValue())
+                            && odParameter.getUse().equals(OperationParameterUse.IN)
                             && (odParameter.getType() == null || !ModelSupport.isPrimitiveType(ModelSupport.getDataType(odParameter.getType().getValue()))
                                     || (odParameter.getPart() != null && !odParameter.getPart().isEmpty()))) {
                         return false;
