@@ -137,6 +137,9 @@ public class DataDefinitionUtil {
      * @return
      */
     public static boolean isValidName(String name) {
+        if (name.contains("--")) {
+            return false;
+        }
         Matcher m = NAME_PATTERN.matcher(name);
         return m.matches() && name.length() <= 128;
     }
