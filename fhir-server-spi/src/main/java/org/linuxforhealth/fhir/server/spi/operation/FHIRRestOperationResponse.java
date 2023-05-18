@@ -7,6 +7,7 @@
 package org.linuxforhealth.fhir.server.spi.operation;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.ws.rs.core.Response;
 
@@ -24,6 +25,7 @@ public class FHIRRestOperationResponse {
     private Resource prevResource;
     private OperationOutcome operationOutcome;
     private boolean deleted;
+    private List<FHIRResourceContext> fhirResourceContexts;
 
     // For delete we need to return the version of the deletion marker
     private int versionForETag;
@@ -155,4 +157,22 @@ public class FHIRRestOperationResponse {
     public void setVersionForETag(int versionForETag) {
         this.versionForETag = versionForETag;
     }
+
+    
+    /**
+     * @return the fhirResourceContexts
+     */
+    public List<FHIRResourceContext> getFhirResourceContexts() {
+        return fhirResourceContexts;
+    }
+
+    
+    /**
+     * @param fhirResourceContexts the fhirResourceContexts to set
+     */
+    public void setFhirResourceContexts(List<FHIRResourceContext> fhirResourceContexts) {
+        this.fhirResourceContexts = fhirResourceContexts;
+    }
+    
+    
 }

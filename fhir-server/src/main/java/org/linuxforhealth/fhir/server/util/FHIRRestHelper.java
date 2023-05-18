@@ -140,6 +140,7 @@ import org.linuxforhealth.fhir.server.rest.FHIRRestInteractionVisitorReferenceMa
 import org.linuxforhealth.fhir.server.spi.operation.FHIROperation;
 import org.linuxforhealth.fhir.server.spi.operation.FHIROperationContext;
 import org.linuxforhealth.fhir.server.spi.operation.FHIROperationUtil;
+import org.linuxforhealth.fhir.server.spi.operation.FHIRResourceContext;
 import org.linuxforhealth.fhir.server.spi.operation.FHIRResourceHelpers;
 import org.linuxforhealth.fhir.server.spi.operation.FHIRRestOperationResponse;
 import org.linuxforhealth.fhir.validation.FHIRValidator;
@@ -1041,11 +1042,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             if (responseBundle != null) {
-
+                // adding a list of FHIRResourceContext which will contain the deleted resource id, type and versionId.
+                List<FHIRResourceContext> resourceContexts = new ArrayList<>();
                 for (Entry entry: responseBundle.getEntry()) {
                     id = entry.getResource().getId();
                     Resource resourceToDelete = entry.getResource();
-
+                    
                     // For soft-delete we store a new version of the resource with the deleted
                     // flag set. Because we've read the resource already, we need to check that
                     // the version we are deleting matches the version we just read, so the
@@ -1084,9 +1086,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     final int newVersionNumber = currentVersionNumber + 1;
                     Resource deletionMarker = FHIRPersistenceUtil.copyAndSetResourceMetaFields(resourceToDelete, resourceToDelete.getId(), newVersionNumber, lastUpdated);
                     event.setFhirResource(deletionMarker);
+                    
+                    // Populate the FHIRResourceContext with resource type, id and versionId. This will be used to populate the audit event for each deleted resource.
+                    resourceContexts.add(new FHIRResourceContext(type, resourceToDelete.getId(), String.valueOf(newVersionNumber)));
+                    
                     getInterceptorMgr().fireAfterDeleteEvent(event);
                 }
-
+                //set the resourceContexts to the FHIRRestOperationResponse
+                ior.setFhirResourceContexts(resourceContexts);
                 warnings.add(Issue.builder()
                         .severity(IssueSeverity.INFORMATION)
                         .code(IssueType.INFORMATIONAL)

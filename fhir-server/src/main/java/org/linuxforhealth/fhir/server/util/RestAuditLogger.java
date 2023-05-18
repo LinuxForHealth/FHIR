@@ -8,9 +8,11 @@ package org.linuxforhealth.fhir.server.util;
 
 import java.security.Principal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +35,7 @@ import org.linuxforhealth.fhir.config.FHIRConfigHelper;
 import org.linuxforhealth.fhir.config.FHIRConfiguration;
 import org.linuxforhealth.fhir.config.FHIRRequestContext;
 import org.linuxforhealth.fhir.core.FHIRUtilities;
+import org.linuxforhealth.fhir.core.HTTPReturnPreference;
 import org.linuxforhealth.fhir.core.util.handler.IPHandler;
 import org.linuxforhealth.fhir.model.resource.Basic;
 import org.linuxforhealth.fhir.model.resource.Bundle;
@@ -41,11 +44,15 @@ import org.linuxforhealth.fhir.model.resource.Resource;
 import org.linuxforhealth.fhir.model.type.Code;
 import org.linuxforhealth.fhir.model.type.CodeableConcept;
 import org.linuxforhealth.fhir.model.type.Coding;
+import org.linuxforhealth.fhir.model.type.Extension;
 import org.linuxforhealth.fhir.model.type.Id;
 import org.linuxforhealth.fhir.model.type.Meta;
+import org.linuxforhealth.fhir.model.type.Uri;
 import org.linuxforhealth.fhir.model.type.code.BundleType;
 import org.linuxforhealth.fhir.model.type.code.HTTPVerb;
 import org.linuxforhealth.fhir.model.util.FHIRUtil;
+import org.linuxforhealth.fhir.server.spi.operation.FHIRResourceContext;
+import static org.linuxforhealth.fhir.model.util.ModelSupport.FHIR_STRING;
 
 /**
  * This class provides convenience methods for FHIR Rest services that need to write FHIR audit log entries.
@@ -210,21 +217,33 @@ public class RestAuditLogger {
      *  The end time of the read request execution.
      * @param responseStatus
      *  The response status.
+     * @param resourceContexts
+     *  The resource context information.
      * @throws Exception
      */
-    public static void logDelete(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus) throws Exception {
+    public static void logDelete(HttpServletRequest request, Resource resource, Date startTime, Date endTime, Response.Status responseStatus, List<FHIRResourceContext> resourceContexts) throws Exception {
         final String METHODNAME = "logDelete";
         log.entering(CLASSNAME, METHODNAME);
-
         AuditLogService auditLogSvc = AuditLogServiceFactory.getService();
         if (auditLogSvc.isEnabled()) {
-            AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_DELETE);
-            populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
-
-            entry.getContext().setAction("D");
-            entry.setDescription("FHIR Delete request");
-
-            auditLogSvc.logEntry(entry);
+            // populate and log an audit entry with the resource context information for each resource that was successfully deleted.
+            if (responseStatus == Status.OK && resourceContexts != null && !resourceContexts.isEmpty()) {
+                for (FHIRResourceContext resourceContext : resourceContexts) {
+                    AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_DELETE);
+                    populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
+                    populateResourceContext(entry, resourceContext);
+                    entry.getContext().setAction("D");
+                    entry.setDescription("FHIR Delete request");
+                    auditLogSvc.logEntry(entry);
+                }
+            } else {
+                // in case of failure log the
+                AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_DELETE);
+                populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
+                entry.getContext().setAction("D");
+                entry.setDescription("FHIR Delete request");
+                auditLogSvc.logEntry(entry);
+            }
         }
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -392,14 +411,11 @@ public class RestAuditLogger {
             Iterator<Bundle.Entry> iter = requestBundle.getEntry().iterator();
             for (Entry responseEntry : responseBundle.getEntry()) {
                 Bundle.Entry requestEntry = iter.next();
-
-                AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
-
-                populateAuditLogEntry(entry, request, responseEntry.getResource(), startTime, endTime, responseStatus);
+                String action = "E";
                 if (requestEntry.getRequest() != null && requestEntry.getRequest().getMethod() != null) {
                     boolean operation =  requestEntry.getRequest().getUrl().getValue().contains("$")
                                             || requestEntry.getRequest().getUrl().getValue().contains("/%24");
-                    String action = "E";
+
                     HTTPVerb requestMethod = requestEntry.getRequest().getMethod();
                     switch (HTTPVerb.Value.from(requestMethod.getValue())) {
                     case GET:
@@ -423,29 +439,35 @@ public class RestAuditLogger {
                     default:
                         break;
                     }
+
+                }
+                String loc = requestEntry.getRequest() != null && requestEntry.getRequest().getUrl() != null ? requestEntry.getRequest().getUrl().getValue() : "";
+                // if action is delete log an audit entry for each deleted resource
+                if (action.equals("D") && !(responseEntry.getExtension() == null || responseEntry.getExtension().isEmpty())) {
+                    logBundleDelete(auditLogSvc, responseEntry, request, null, startTime, endTime, responseStatus, loc, "FHIR Bundle Batch request");
+                } else {
+                    AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
+                    populateBundleAuditLogEntry(entry, responseEntry, request, responseEntry.getResource(), startTime, endTime, responseStatus);
+
+                    // Only for BATCH we want to override the REQUEST URI and Status Code
+                    StringBuilder builder = new StringBuilder();
+                    builder.append(request.getRequestURI())
+                            .append(loc);
+                    entry.getContext()
+                        .setApiParameters(
+                            ApiParameters.builder()
+                                .request(builder.toString())
+                                .status(Integer.parseInt(responseEntry.getResponse().getStatus().getValue()))
+                                .build());
                     entry.getContext().setAction(action);
+                    entry.setDescription("FHIR Bundle Batch request");
+
+                    // @implNote The audit messages can be batched and sent off to the logEntry.
+                    // The signature would be updated to AuditEntry... entries
+                    // Then a loop and bulk action on Kafka.
+                    auditLogSvc.logEntry(entry);
                 }
 
-                String loc = requestEntry.getRequest().getUrl().getValue();
-
-                // Only for BATCH we want to override the REQUEST URI and Status Code
-                StringBuilder builder = new StringBuilder();
-                builder.append(request.getRequestURI())
-                        .append("/")
-                        .append(loc);
-                entry.getContext()
-                    .setApiParameters(
-                        ApiParameters.builder()
-                            .request(builder.toString())
-                            .status(Integer.parseInt(responseEntry.getResponse().getStatus().getValue()))
-                            .build());
-
-                entry.setDescription("FHIR Bundle Batch request");
-
-                // @implNote The audit messages can be batched and sent off to the logEntry.
-                // The signature would be updated to AuditEntry... entries
-                // Then a loop and bulk action on Kafka.
-                auditLogSvc.logEntry(entry);
             }
         }
     }
@@ -478,11 +500,17 @@ public class RestAuditLogger {
             Iterator<Bundle.Entry> iter = requestBundle.getEntry().iterator();
             for (Entry bundleEntry : responseBundle.getEntry()) {
                 Bundle.Entry requestEntry = iter.next();
-                entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
-                populateAuditLogEntry(entry, request, bundleEntry.getResource(), startTime, endTime, responseStatus);
-                entry.setDescription("FHIR Bundle Transaction request");
-                entry.getContext().setAction(selectActionForBundleEntry(requestEntry));
-                auditLogSvc.logEntry(entry);
+                String action = selectActionForBundleEntry(requestEntry);
+                // if action is delete log an audit entry for each deleted resource
+                if (action.equals("D") && !(bundleEntry.getExtension() == null || bundleEntry.getExtension().isEmpty())) {
+                    logBundleDelete(auditLogSvc, bundleEntry, request, null, startTime, endTime, responseStatus, null, "FHIR Bundle Transaction request");
+                } else {
+                    entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
+                    populateBundleAuditLogEntry(entry, bundleEntry, request, bundleEntry.getResource(), startTime, endTime, responseStatus);
+                    entry.setDescription("FHIR Bundle Transaction request");
+                    entry.getContext().setAction(action);
+                    auditLogSvc.logEntry(entry);
+                }
             }
         } else {
          // log a single audit event message when the batch transaction has failed.
@@ -744,6 +772,142 @@ public class RestAuditLogger {
 
         log.exiting(CLASSNAME, METHODNAME);
         return entry;
+    }
+
+    /**
+     * Populate the resource context(resource id, type and version id) into the AuditLogEntry.
+     * @param entry the audit log entry to be populated.
+     * @param resourceContext the resource context which needs to be populated into the AuditLogEntry.
+     * @return AuditLogEntry - an audit log entry with the required resource context populated.
+     */
+    protected static AuditLogEntry populateResourceContext(AuditLogEntry entry, FHIRResourceContext resourceContext) {
+        final String METHODNAME = "populateResourceContext";
+        log.entering(CLASSNAME, METHODNAME);
+        if (resourceContext != null) {
+            entry.getContext().setData(Data.builder().build());
+            if (resourceContext.getResourceType() != null) {
+                entry.getContext().getData().setResourceType(resourceContext.getResourceType());
+            }
+            if (resourceContext.getId() != null) {
+                entry.getContext().getData().setId(resourceContext.getId());
+            }
+            if (resourceContext.getVersionId() != null) {
+                entry.getContext().getData().setVersionId(resourceContext.getVersionId());
+            }
+        }
+        return entry;
+    }
+
+
+    /**
+     * Populates the passed audit log entry for Bundle entry.
+     * This method will populate the resource id, resource type and version id from the
+     * Bundle response entry location when the return preference is "OperationOutcome".
+     * When the return preference is "representation" the populateAuditLogEntry method will
+     * populate the resource id, resource type and version id.
+     * @param entry
+     *  The AuditLogEntry to be populated.
+     * @param responseEntry
+     *  The Bundle response entry.
+     * @param request
+     *  The HttpServletRequest representation of the REST request.
+     * @param resource
+     *  The Resource object.
+     * @param startTime
+     *  The start time of the request execution.
+     * @param endTime
+     *  The end time of the request execution.
+     * @param responseStatus
+     *  The response status.
+     * @return AuditLogEntry - an initialized audit log entry.
+     */
+    protected static AuditLogEntry populateBundleAuditLogEntry(AuditLogEntry entry, Bundle.Entry responseEntry, HttpServletRequest request, Resource resource,
+            Date startTime, Date endTime, Response.Status responseStatus) { 
+        final String METHODNAME = "populateBundleAuditLogEntry";
+        log.entering(CLASSNAME, METHODNAME);
+
+        // call populateAuditLogEntry to populate common attributes to all rest
+        populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
+        if (HTTPReturnPreference.REPRESENTATION.equals(FHIRRequestContext.get().getReturnPreference())) {
+            return entry;
+        }
+        if (responseEntry.getResponse() == null || responseEntry.getResponse().getLocation() == null) {
+            return entry;
+        }
+        // Populate the resource id, resource type and version id from the
+        // Bundle response entry location when the return preference is "OperationOutcome".
+        String location = responseEntry.getResponse().getLocation().getValue();
+        String[] parts = location.split("/");
+        if (parts.length > 3) {
+            Collections.reverse(Arrays.asList(parts));
+            entry.getContext().setData(Data.builder().build());
+            entry.getContext().getData().setResourceType(parts[3]);
+            entry.getContext().getData().setVersionId(parts[0]);
+            entry.getContext().getData().setId(parts[2]);
+        }
+        log.exiting(CLASSNAME, METHODNAME);
+        return entry;
+    }
+    
+    /**
+     * Log an audit entry for each deleted resource in a Bundle.Entry
+     * @param auditLogSvc
+     *  The internal FHIR Server API for audit logging.
+     * @param responseEntry
+     *  The Bundle response entry.
+     * @param request
+     *  The HttpServletRequest representation of the REST request.
+     * @param resource
+     *  The Resource object.
+     * @param startTime
+     *  The start time of the request execution.
+     * @param endTime
+     *  The end time of the request execution.
+     * @param responseStatus
+     *  The response status.
+     * @param location
+     * @throws Exception
+     */
+    protected static void logBundleDelete(AuditLogService auditLogSvc, Bundle.Entry responseEntry, HttpServletRequest request, Resource resource,
+        Date startTime, Date endTime, Response.Status responseStatus, String location, String description) throws Exception {
+        final String METHODNAME = "logBundleDelete";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        // Populate the resource id, resource type and version id from the
+        // Bundle response entry extensions
+        for (Extension extension : responseEntry.getExtension()) {
+             AuditLogEntry entry = initLogEntry(AuditLogEventType.FHIR_BUNDLE);
+             populateAuditLogEntry(entry, request, resource, startTime, endTime, responseStatus);
+             String resourceInfo = extension.getValue().as(FHIR_STRING).getValue();
+             String[] parts = resourceInfo.split("/");
+             if (parts.length > 2) {
+                 entry.getContext().setData(Data.builder().build());
+                 entry.getContext().getData().setResourceType(parts[0]);
+                 entry.getContext().getData().setId(parts[1]);
+                 entry.getContext().getData().setVersionId(parts[2]);
+                 
+             }
+             if (location != null) {
+                 // Only for BATCH we want to override the REQUEST URI and Status Code
+                 StringBuilder builder = new StringBuilder();
+                 builder.append(request.getRequestURI())
+                         .append(location);
+                 entry.getContext()
+                     .setApiParameters(
+                         ApiParameters.builder()
+                             .request(builder.toString())
+                             .status(Integer.parseInt(responseEntry.getResponse().getStatus().getValue()))
+                             .build());
+             }
+             entry.getContext().setAction("D");
+             entry.setDescription(description);
+
+             // @implNote The audit messages can be batched and sent off to the logEntry.
+             // The signature would be updated to AuditEntry... entries
+             // Then a loop and bulk action on Kafka.
+             auditLogSvc.logEntry(entry);
+        }
+        log.exiting(CLASSNAME, METHODNAME);
     }
 
     /**
