@@ -209,6 +209,7 @@ public abstract class AbstractOperation implements FHIROperation {
                 for (OperationDefinition.Parameter odParameter : operationDefinition.getParameter()) {
                     if (parameter.getName().getValue() != null && odParameter.getName() != null
                             && parameter.getName().getValue().equals(odParameter.getName().getValue())
+                            && odParameter.getUse().getValueAsEnum().equals(OperationParameterUse.IN)
                             && (odParameter.getType() == null || !ModelSupport.isPrimitiveType(ModelSupport.getDataType(odParameter.getType().getValue()))
                                     || (odParameter.getPart() != null && !odParameter.getPart().isEmpty()))) {
                         return false;
