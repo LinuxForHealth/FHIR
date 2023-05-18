@@ -1,0 +1,185 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-MdfRmimRowType",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-MdfRmimRowType",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.77"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "MdfRmimRowType",
+    "title": "MdfRmimRowType",
+    "status": "retired",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "The row types for the tabular representation of an R-MIM.\r\n\r\n**Deprecation Comment:** Deprecated as per 11/2008 Harmonization cleanup; internal and obsolete HL7 usage, no longer used.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "assoc",
+            "display": "Association row",
+            "definition": "Identifies an association leading from the class that is most directly above this row",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10067"
+                }
+            ]
+        },
+        {
+            "code": "attr",
+            "display": "Attribute row",
+            "definition": "Identifies an attribute of the \"class\" that is most directly above this row",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10066"
+                }
+            ]
+        },
+        {
+            "code": "class",
+            "display": "Class row",
+            "definition": "Identifies a \"class\" in the Refined Message Information Model",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10065"
+                }
+            ]
+        },
+        {
+            "code": "rmim",
+            "display": "RMIM identifier",
+            "definition": "Always the first row of the table, identifies the particular Refined Message Information Model in the nomenclature of the HL7 Repository",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10064"
+                }
+            ]
+        },
+        {
+            "code": "stc",
+            "display": "Subtype constraint",
+            "definition": "This row corresponds to a subcomponent of the row above; it would not normally be included in an Refined Message Information Model, but it is included in order to be able to state a constraint on the subtype. This is explained in 10.2.2.4.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10068"
+                }
+            ]
+        }
+    ]
+}

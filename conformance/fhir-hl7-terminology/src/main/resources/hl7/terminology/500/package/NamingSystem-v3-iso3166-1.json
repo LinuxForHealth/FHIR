@@ -1,0 +1,51 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-iso3166-1",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ISO 3166 Part 1 Country Codes"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-iso3166-1"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Iso31661",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "ISO",
+    "contact": [
+        {
+            "name": "International Standards Organization (ISO)"
+        }
+    ],
+    "responsible": "ISO",
+    "description": "Identifies the coding system published in the ISO 3166-1 Standard for Country codes. This standard is released periodically, and a new OID will be assigned by ISO for new editions.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "1.0.3166.1",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/v3-iso3166-1",
+            "preferred": false
+        },
+        {
+            "type": "uri",
+            "value": "urn:iso:std:iso:3166",
+            "preferred": true
+        }
+    ]
+}

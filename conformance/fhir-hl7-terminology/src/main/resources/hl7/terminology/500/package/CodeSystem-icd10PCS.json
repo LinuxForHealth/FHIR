@@ -1,0 +1,30 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "icd10PCS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://www.cms.gov/Medicare/Coding/ICD10",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.4"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "Icd10PCS",
+    "title": "ICD-10 Procedure Codes",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "US Centers for Medicare and Medicaid Services (CMS)",
+    "contact": [
+        {
+            "name": "Centers for Medicare and Medicaid Services"
+        }
+    ],
+    "description": "ICD Procedure Coding System (ICD 10 PCS)",
+    "caseSensitive": true,
+    "content": "not-present"
+}

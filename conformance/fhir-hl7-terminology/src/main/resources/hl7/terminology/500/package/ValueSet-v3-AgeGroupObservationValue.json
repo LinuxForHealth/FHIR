@@ -1,0 +1,64 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-AgeGroupObservationValue",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-AgeGroupObservationValue",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.11.75"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "AgeGroupObservationValue",
+    "title": "AgeGroupObservationValue",
+    "status": "active",
+    "experimental": false,
+    "date": "2010-03-16",
+    "description": "Observation values used to indicate the age group of a person in terms of age group concept codes.",
+    "compose": {
+        "include": [
+            {
+                "system": "https://www.nlm.nih.gov/mesh",
+                "concept": [
+                    {
+                        "code": "D009273"
+                    },
+                    {
+                        "code": "D000293"
+                    },
+                    {
+                        "code": "D000368"
+                    },
+                    {
+                        "code": "D000369"
+                    },
+                    {
+                        "code": "D008875"
+                    },
+                    {
+                        "code": "D055815"
+                    },
+                    {
+                        "code": "D002648"
+                    },
+                    {
+                        "code": "D002675"
+                    },
+                    {
+                        "code": "D000328"
+                    },
+                    {
+                        "code": "D007223"
+                    },
+                    {
+                        "code": "D007231"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-Country",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-Country",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.171"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "Country",
+    "title": "Country",
+    "status": "active",
+    "experimental": false,
+    "date": "2014-03-26",
+    "description": "Countries of the world. ISO 3166, part 1, alpha-3 set.",
+    "compose": {
+        "include": [
+            {
+                "system": "urn:iso:std:iso:3166",
+                "filter": [
+                    {
+                        "property": "code",
+                        "op": "regex",
+                        "value": "[A-Z]{3}"
+                    }
+                ]
+            }
+        ]
+    }
+}

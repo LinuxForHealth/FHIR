@@ -1,0 +1,40 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-immunizationForecastStatusObservationValue",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-immunizationForecastStatusObservationValue",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.11.81"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "ImmunizationForecastStatusObservationValue",
+    "title": "immunizationForecastStatusObservationValue",
+    "status": "active",
+    "experimental": false,
+    "date": "2010-03-22",
+    "description": "Represents the patient's status with respect to their immunization guideline as of an evaluation date.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "171258008"
+                    },
+                    {
+                        "code": "171279008"
+                    },
+                    {
+                        "code": "171259000"
+                    }
+                ]
+            }
+        ]
+    }
+}

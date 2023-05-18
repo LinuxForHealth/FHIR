@@ -1,0 +1,334 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-ActRelationshipSubset",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-ActRelationshipSubset",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.1099"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ActRelationshipSubset",
+    "title": "ActRelationshipSubset",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "HL7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "<ns1:p>Used to indicate that the target of the relationship will be a filtered subset of the total related set of targets.</ns1:p><ns1:p>Used when there is a need to limit the number of components to the first, the last, the next, the total, the average or some other filtered or calculated subset.</ns1:p>",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "notSelectable",
+            "uri": "http://hl7.org/fhir/concept-properties#notSelectable",
+            "description": "Indicates that the code is abstract - only intended to be used as a selector for other concepts",
+            "type": "boolean"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "_ParticipationSubset",
+            "display": "ParticipationSubset",
+            "definition": "Used to indicate that the participation is a filtered subset of the total participations of the same type owned by the Act.\r\n\r\nUsed when there is a need to limit the participations to the first, the last, the next or some other filtered subset.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21567"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "FUTURE",
+                    "display": "expected future",
+                    "definition": "An occurrence that is scheduled to occur in the future. An Act whose effective time is greater than 'now', where 'now' is the time the instance is authored.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "21368"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "FUTSUM",
+                            "display": "future summary",
+                            "definition": "Represents a 'summary' of all acts that are scheduled to occur in the future (whose effective time is greater than 'now' where is the time the instance is authored.). The effectiveTime represents the outer boundary of all occurrences, repeatNumber represents the total number of repetitions, etc.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "21379"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "LAST",
+                            "display": "expected last",
+                            "definition": "Restricted to the latest known occurrence that is scheduled to occur. The Act with the highest known effective time.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "21378"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "NEXT",
+                            "display": "expected next",
+                            "definition": "Restricted to the nearest recent known occurrence scheduled to occur in the future. The Act with the lowest effective time, still greater than 'now'. ('now' is the time the instance is authored.)",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "21377"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "PAST",
+                    "display": "previous",
+                    "definition": "An occurrence that occurred or was scheduled to occur in the past. An Act whose effective time is less than 'now'. ('now' is the time the instance is authored.)",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "21367"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "FIRST",
+                            "display": "first known",
+                            "definition": "Restricted to the earliest known occurrence that occurred or was scheduled to occur in the past. The Act with the lowest effective time. ('now' is the time the instance is authored.)",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "21373"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "PREVSUM",
+                            "display": "previous summary",
+                            "definition": "Represents a 'summary' of all acts that previously occurred or were scheduled to occur. The effectiveTime represents the outer boundary of all occurrences, repeatNumber represents the total number of repetitions, etc. ('now' is the time the instance is authored.)",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "21375"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "RECENT",
+                            "display": "most recent",
+                            "definition": "Restricted to the most recent known occurrence that occurred or was scheduled to occur in the past. The Act with the most recent effective time, still less than 'now'. ('now' is the time the instance is authored.)",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "21374"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "SUM",
+                    "display": "summary",
+                    "definition": "Represents a 'summary' of all acts that have occurred or were scheduled to occur and which are scheduled to occur in the future. The effectiveTime represents the outer boundary of all occurrences, repeatNumber represents the total number of repetitions, etc.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "21371"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "ActRelationshipExpectedSubset",
+            "display": "ActRelationshipExpectedSubset",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21376"
+                }
+            ]
+        },
+        {
+            "code": "ActRelationshipPastSubset",
+            "display": "ActRelationshipPastSubset",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21372"
+                }
+            ]
+        },
+        {
+            "code": "MAX",
+            "display": "maximum",
+            "definition": "The occurrence whose value attribute is greater than all other occurrences at the time the instance is created.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21370"
+                }
+            ]
+        },
+        {
+            "code": "MIN",
+            "display": "minimum",
+            "definition": "The occurrence whose value attribute is less than all other occurrences at the time the instance is created.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21369"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "MDRDUT",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "MedDRA Dutch"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/MDRDUT"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "MDRDUT",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "ICH",
+    "contact": [
+        {
+            "name": "MedDRA MSSO/ Northrop Grumman,MedDRA MSSO/ Northrop Grumman"
+        }
+    ],
+    "responsible": "ICH",
+    "description": "Medical Dictionary for Regulatory Activities Terminology (MedDRA) Version 7.0, Dutch Edition. International conference on Harmonization of Technical Requirements for Registration of Pharmaceuticals for Human Use (ICH). Reston, VA: MedDRA MSSO, March 1, 2004 This is the Dutch language version as encapsulated in the UMLS..",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.163.2",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/MDRDUT",
+            "preferred": true
+        }
+    ]
+}

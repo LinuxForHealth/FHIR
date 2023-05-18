@@ -1,0 +1,39 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "url",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "URL"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/url"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Url",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "description": "Universal Resource Locator (URL) schemes Currently there is no single authority for URL schemes. The authority for URL scheme assignments clearly lies within IANA or W3C and it is likely that a formal URL/URI assigning authority will be formed soon.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.11",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/url",
+            "preferred": true
+        }
+    ]
+}

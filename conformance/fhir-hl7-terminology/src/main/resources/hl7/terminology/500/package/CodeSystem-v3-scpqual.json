@@ -1,0 +1,36 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-scpqual",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "https://fhir.infoway-inforoute.ca/CodeSystem/scpqual",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.2.20.5.4"
+        }
+    ],
+    "version": "2.1.1",
+    "name": "Scpqual",
+    "title": "pan-Canadian Provider Qualification Types",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "Canada Health Infoway",
+    "contact": [
+        {
+            "name": "Canada Health Infoway",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "standards@infoway-inforoute.ca"
+                }
+            ]
+        }
+    ],
+    "description": "SCPQUAL is used to encode the degree or educational rank of a healthcare provider credential as defined by the various Royal Canadian Professional Medical Collages. It is also supports the encoding “Expertise type” in the pan-Canadian version 3 messages",
+    "caseSensitive": true,
+    "content": "not-present"
+}

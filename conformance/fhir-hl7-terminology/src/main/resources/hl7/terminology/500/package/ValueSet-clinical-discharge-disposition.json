@@ -1,0 +1,77 @@
+{
+    "resourceType": "ValueSet",
+    "id": "clinical-discharge-disposition",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/clinical-discharge-disposition",
+    "identifier": [
+        {
+            "use": "old",
+            "value": "http://hl7.org/fhir/us/qicore/ValueSet/clinical-discharge-disposition"
+        }
+    ],
+    "version": "1.0.0",
+    "name": "ClinicalDischargeDisposition",
+    "title": "Clinical Discharge Disposition",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-07-04",
+    "publisher": "Health Level Seven, Inc. - CQI WG",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/special/committees/CQI"
+                }
+            ]
+        }
+    ],
+    "description": "This value set defines a set of codes that can be used to where the patient left the hospital. Note that this value set explicitly removes 'oth' (Other) to allow the binding strength to be extensible and therefore allow the exchange of additional concepts without requiring mapping to 'oth.'",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/discharge-disposition",
+                "concept": [
+                    {
+                        "code": "home"
+                    },
+                    {
+                        "code": "alt-home"
+                    },
+                    {
+                        "code": "other-hcf"
+                    },
+                    {
+                        "code": "hosp"
+                    },
+                    {
+                        "code": "long"
+                    },
+                    {
+                        "code": "aadvice"
+                    },
+                    {
+                        "code": "exp"
+                    },
+                    {
+                        "code": "psy"
+                    },
+                    {
+                        "code": "rehab"
+                    },
+                    {
+                        "code": "snf"
+                    }
+                ]
+            }
+        ]
+    }
+}

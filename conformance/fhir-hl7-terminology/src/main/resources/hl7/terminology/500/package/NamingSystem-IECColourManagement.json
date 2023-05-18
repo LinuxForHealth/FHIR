@@ -1,0 +1,59 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "IECColourManagement",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "IEC 61966-2-1: Colour measurement and management - Part 2-1: Colour management - Default RGB colour space - sRGB"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/IECColourManagement"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "IECColourManagement",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-01-25T00:00:00-00:00",
+    "publisher": "International Electrotechnical Commission",
+    "contact": [
+        {
+            "name": "International Electrotechnical Commission; 3 rue de Varembé, PO Box 131, CH-1211 Geneva 20, Switzerland",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "secretariat@iecee.org"
+                },
+                {
+                    "system": "phone",
+                    "value": "+41 22 919 02 11"
+                },
+                {
+                    "system": "url",
+                    "value": "https://www.iec.ch/homepage"
+                }
+            ]
+        }
+    ],
+    "responsible": "International Electrotechnical Commission",
+    "description": "IEC 61966-2-1:1999 is the official specification of sRGB. It provides viewing environment, encoding, and colorimetric details.\r\n\r\nFor more information, please see https://webstore.iec.ch/publication/6168",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/IECColourManagement",
+            "preferred": true,
+            "comment": "This is the URL endorsed by the HTA and is considered authoritative.",
+            "period": {
+                "start": "2022-01-13"
+            }
+        }
+    ]
+}

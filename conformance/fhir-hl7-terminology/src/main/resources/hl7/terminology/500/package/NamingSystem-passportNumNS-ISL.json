@@ -1,0 +1,47 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "passportNumNS-ISL",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Passport Numbers Namespace for ICELAND"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/passportNumNS-ISL"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "PassportNumNS_ISL",
+    "status": "active",
+    "kind": "identifier",
+    "date": "2022-02-07T00:00:00-00:00",
+    "type": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                "code": "PPN"
+            }
+        ]
+    },
+    "description": "Identifier of the namespace for Passport Numbers issued by the country of ICELAND.  Used for the HL7 v3 data type II.root and FHIR Identifer.system values for Passport Numbers",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.330.352",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/sid/passport-ISL",
+            "preferred": true
+        }
+    ]
+}

@@ -1,0 +1,50 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-SnodentPosteriorInterarchDeviationTypeInternational",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "att"
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v3-SnodentPosteriorInterarchDeviationTypeInternational",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.20571"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "SnodentPosteriorInterarchDeviationTypeInternational",
+    "title": "SnodentPosteriorInterarchDeviationTypeInternational",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20",
+    "description": "The SNODENT identifiers for dental posterior inter-arch deviations utilized to calculate the Salzmann Malocclusion Severity Index.\r\n\r\nThis value set contains content from SNODENT® Copyright American Dental Association (ADA). All rights reserved. SNODENT is a registered trademark of the ADA.\r\n\r\nhttp://www.ada.org/en/member-center/member-benefits/practice-resources/dental-informatics/snodent/licensing-snodent\r\n\r\n*Steward:* Attachments WG",
+    "compose": {
+        "include": [
+            {
+                "system": "http://www.ada.org/snodent",
+                "concept": [
+                    {
+                        "code": "127434D"
+                    },
+                    {
+                        "code": "141881D"
+                    },
+                    {
+                        "code": "210972D"
+                    },
+                    {
+                        "code": "210974D"
+                    }
+                ]
+            }
+        ]
+    }
+}

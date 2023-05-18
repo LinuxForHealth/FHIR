@@ -1,0 +1,49 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "icd10-CA",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Canadian DiagnosisCodes ICD-10-CA"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/icd10-CA"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "ICD10CA",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "Canadian Institute for Health Information",
+    "contact": [
+        {
+            "name": "Canadian Institute for Health Information"
+        }
+    ],
+    "responsible": "Canadian Institute for Health Information",
+    "description": "ICD-10-CA (International Statistical Classification of Diseases and Related Health Problems, 10th Revision, Canada) was developed by the World Health Organization (WHO) and enhanced by CIHI to meet Canadian morbidity data needs. ICD-10-CA classifies diseases, injuries and causes of death, as well as external causes of injury and poisoning. It also includes conditions and situations that are not diseases but represent risk factors to health, such as occupational and environmental factors, lifestyle and psychosocial circumstances.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.94",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/sid/icd-10-ca",
+            "preferred": true,
+            "period": {
+                "start": "2020-09-24"
+            }
+        }
+    ]
+}

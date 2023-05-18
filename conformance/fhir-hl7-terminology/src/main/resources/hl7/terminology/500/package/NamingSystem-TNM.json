@@ -1,0 +1,59 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "TNM",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "TNM Staging System"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/TNM"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "TNM",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-01-14T00:00:00-00:00",
+    "publisher": "American Joint Committee on Cancer",
+    "contact": [
+        {
+            "name": "American Joint Committee on Cancer; 633 N. Saint Clair St., Chicago, IL 60611-3211",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "ajcc@facs.org"
+                },
+                {
+                    "system": "phone",
+                    "value": "(312) 202-5205"
+                },
+                {
+                    "system": "url",
+                    "value": "https://cancerstaging.org/"
+                }
+            ]
+        }
+    ],
+    "responsible": "American Joint Committee on Cancer",
+    "description": "The TNM Staging System was developed and is maintained by the AJCC and the Union for International Cancer Control (UICC). It is the most commonly used staging system by medical professionals around the world. The TNM classification system was developed as a tool for doctors to stage different types of cancer based on certain, standardized criteria. The TNM Staging System is based on the extent of the tumor (T), the extent of spread to the lymph nodes (N), and the presence of metastasis (M).\r\n\r\nHTA Note: Most content of TNM (V6) is in the SNOMED international release but not content from the most recent (V9).  In Europe many countries use TNM codes, taken from the book and referenced using an OID.",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "https://cancerstaging.org",
+            "preferred": true,
+            "comment": "This is the URL as specified by the terminology owner, and is considered authoritative.",
+            "period": {
+                "start": "2021-11-03"
+            }
+        }
+    ]
+}

@@ -1,0 +1,56 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-hc-aign",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Active Ingredient Group Number"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-hc-aign"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.0.0"
+        }
+    ],
+    "name": "HcAIGN",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-03-22T00:00:00-04:00",
+    "publisher": "Health Canada",
+    "contact": [
+        {
+            "name": "Health Canada"
+        }
+    ],
+    "responsible": "HL7 Canada",
+    "description": "The AIG number is a 10 digit number that identifies products that have the same active ingredient(s) and ingredient strength(s). The AIG is comprised of three portions: \r\n\r\n *  the first portion (2 digits) identifies the number of active ingredients\r\n *  the second portion(5 digits) identifies the unique groups of active ingredients(s);\r\n *  the last portion (3 digits) identifies the active ingredient group strength. The strength group has a tolerance of -2% to +10%.\r\n \r\n\r\nFurther information about this Code System can be found at https://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/drug-product-database/terminology.html",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.5.1106",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/v3-hc-aign",
+            "preferred": true,
+            "comment": "Official canonical URL going forward.",
+            "period": {
+                "start": "2021-03-22"
+            }
+        },
+        {
+            "type": "uri",
+            "value": "http://www.canada.ca/en/health-canada/services/drugs-health-products/drug-products/drug-product-database-4",
+            "preferred": false,
+            "comment": "Maintained for backward compatibility."
+        }
+    ]
+}

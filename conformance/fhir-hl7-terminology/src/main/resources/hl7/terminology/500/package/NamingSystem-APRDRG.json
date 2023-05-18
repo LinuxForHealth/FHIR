@@ -1,0 +1,51 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "APRDRG",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "All Patient Refined Diagnosis Related Groups (APR DRGs)"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/APRDRG"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "APRDRG",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2020-11-12T00:00:00-04:00",
+    "publisher": "3M Health Information Systems, Inc.",
+    "contact": [
+        {
+            "name": "3M Health Information Systems, Inc.; 575 West Murray Boulevard, Salt Lake City, UT 84123, USA",
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "+1 800 367 2447"
+                },
+                {
+                    "system": "url",
+                    "value": "http://www.3mhis.com"
+                }
+            ]
+        }
+    ],
+    "responsible": "3M Health Information Systems, Inc.",
+    "description": "3M APR DRGs have become the standard across the U.S. for classifying hospital inpatients in non-Medicare populations. As of January 2019, 27 state Medicaid programs use 3M APR DRGs to pay hospitals, as do approximately a dozen commercial payers and Medicaid managed care organizations. Over 2,400 hospitals have licensed 3M APR DRGs to verify payment and analyze their internal operations.\r\n\r\nThe 3M APR DRG methodology classifies hospital inpatients according to their reason for admission, severity of illness and risk of mortality.\r\n\r\nEach year 3M calculates and releases a set of statistics for each 3M APR DRG based on our analysis of large national data sets. These statistics include a relative weight for each 3M APR DRG. The relative weight reflects the average hospital resource use for a patient in that 3M APR DRG relative to the average hospital resource use of all inpatients. Please note that payers and other users of the 3M APR DRG methodology are responsible for ensuring that they use relative weights that are appropriate for their particular populations. The 3M APR DRG statistics also include data for each 3M APR DRG on relative frequency, average length of stay, average charges and incidence of mortality.\r\n\r\n3M APR DRGs can be rolled up into broader categories. The 326 base DRGs roll up into 25 major diagnostic categories (MDCs) plus a pre-MDC category. An example is MDC 04, Diseases and Disorders of the Respiratory System. As well, each 3M APR DRG is assigned to a service line that is consistent with the outpatient service lines that are defined by the 3M™  Enhanced Ambulatory Patient Groups (EAPGs).",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "http://uri.hddaccess.com/cs/aprdrg",
+            "preferred": true
+        }
+    ]
+}

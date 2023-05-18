@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "ICD-9DualCoding",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ICD-9 Dual Coding"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/ICD-9DualCoding"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "ICD9DualCoding",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "HL7",
+    "contact": [
+        {
+            "name": "HL7,HL7,HL7,HL7"
+        }
+    ],
+    "responsible": "HL7",
+    "description": "ICD-9 Dual Coding Expression Syntax\", description: ICD-9 allows dual coding. Refer to Section ?? of the ICD-9 Instruction Manual (ref?).\r\n\r\nThis OID identifies the code system that describes how to encode Dual Coding in a CD compatible expression (for Datatypes R2 CD only).\r\n\r\nAn ICD-9 dual code expression SHALL consist of two ICD-9 codes separated by space. This code system SHALL NOT be used for single ICD-9 codes; the normal ICD-9 code system oid which is 2.16.840.1.113883.6.3 should be used in this case. DisplayName SHALL not be used.\r\n\r\nDual code expressions SHALL only be used per the rules described in the ICD-9 instruction manual.\r\n\r\n**An example CD:**<br></br><example code=\"989.5 E905.9\" codeSystem=\"2.16.840.1.113883.6.261\"><br></br><originalText value=\"ANAPHYLAXIS DUE TO BITE OR STING\"/><br></br></example><br></br>Where 989.5 is: \"Toxic effect of venom\" and E905.9 is: \"Bite or sting\"",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.261",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/ICD-9DualCoding",
+            "preferred": true
+        }
+    ]
+}

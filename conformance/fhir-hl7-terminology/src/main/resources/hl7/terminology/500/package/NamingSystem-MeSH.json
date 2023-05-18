@@ -1,0 +1,68 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "MeSH",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Medical Subject Headings"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/MeSH"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.0.0"
+        }
+    ],
+    "name": "MeSH",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-06-29T00:00:00-04:00",
+    "publisher": "National Library of Medicine",
+    "contact": [
+        {
+            "name": "National Library of Medicine; 8600 Rockville Pike, Bethesda, MD 20894",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "https://support.nlm.nih.gov/support/create-case/"
+                },
+                {
+                    "system": "url",
+                    "value": "https://www.nlm.nih.gov/"
+                }
+            ]
+        }
+    ],
+    "description": "The Medical Subject Headings (MeSH) thesaurus is a controlled and hierarchically-organized vocabulary produced by the National Library of Medicine. It is used for indexing, cataloging, and searching of biomedical and health-related information. MeSH includes the subject headings appearing in MEDLINE/PubMed, the NLM Catalog, and other NLM databases.\r\n\r\nMeSH can be downloaded from https://www.nlm.nih.gov/databases/download/mesh.html\r\n\r\nMeSH can be browsed here: https://meshb.nlm.nih.gov/search",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.177",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "https://www.nlm.nih.gov/mesh",
+            "preferred": true,
+            "comment": "Official canonical URL going forward.",
+            "period": {
+                "start": "2021-06-29T00:00:00-04:00"
+            }
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/MSH",
+            "preferred": false,
+            "comment": "Maintained for backward compatibility.",
+            "period": {
+                "end": "2021-06-29T00:00:00-04:00"
+            }
+        }
+    ]
+}

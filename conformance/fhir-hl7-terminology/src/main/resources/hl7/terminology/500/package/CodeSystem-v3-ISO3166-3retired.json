@@ -1,0 +1,102 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-ISO3166-3retired",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-ISO3166-3retired",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.3"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "ISO31663retired",
+    "title": "ISO 3166 Numeric country Codes",
+    "status": "retired",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "ISO",
+    "contact": [
+        {
+            "name": "International Standards Organization (ISO)"
+        }
+    ],
+    "description": "Numeric country codes\r\n\r\nNote that this was erroneously entered into the HL7 system some years ago and has been replaced by 1.0.3166.1.2.1 at the request of ISO.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        }
+    ]
+}

@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "ICD-9CM-diagnosiscodes",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "National Center for Health Statistics"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/ICD-9CM-diagnosiscodes"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "ICD9CMDiagnosiscodes",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "NCHS",
+    "contact": [
+        {
+            "name": "National Center for Health Statistics"
+        }
+    ],
+    "responsible": "NCHS",
+    "description": "The International Classification of Diseases, 9th Revision, Clinical Modification (ICD-9-CM), Volumes I, II (diagnoses) and III (procedures) describes the classification of morbidity and mortality information for statistical purposes and for the indexing of healthcare records by diseases and procedures. The ICD-9-CM codes can be used as the value of the Act.cd attribute.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.103",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/ICD-9CM-diagnosiscodes",
+            "preferred": true
+        }
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-snomed-CT",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/codesystem-properties-mode",
+            "valueCode": "not-present"
+        }
+    ],
+    "url": "http://snomed.info/sct",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.6.96"
+        }
+    ],
+    "version": "3.2.1",
+    "name": "SNOMED_CT_INT",
+    "title": "SNOMED CT International Edition",
+    "status": "active",
+    "experimental": false,
+    "date": "2020-11-03",
+    "publisher": "International Health Terminology Standards Development Organisation (IHTSDO) trading as SNOMED International",
+    "contact": [
+        {
+            "name": "International Health Terminology Standards Development Organisation (IHTSDO) trading as SNOMED International",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "info@snomed.org"
+                }
+            ]
+        }
+    ],
+    "description": "SNOMED CT is a core clinical healthcare terminology that contains concepts with unique meanings and formal logic based definitions organized into hierarchies.",
+    "copyright": "This artefact includes content from SNOMED Clinical Terms (SNOMED CT) which is copyrighted material of the International Health Terminology Standards Development Organisation (IHTSDO). Where an implementation of this artefact makes use of SNOMED CT content, the implementer must have the appropriate SNOMED CT Affiliate license - for more information contact http://www.snomed.org/snomed-ct/get-snomed-ct or info@snomed.org",
+    "caseSensitive": true,
+    "content": "not-present"
+}

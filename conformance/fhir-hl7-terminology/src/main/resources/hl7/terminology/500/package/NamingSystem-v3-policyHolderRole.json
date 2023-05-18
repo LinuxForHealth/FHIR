@@ -1,0 +1,41 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-policyHolderRole",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Policy Holder Role"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-policyHolderRole"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "PolicyHolderRole",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "HL7",
+    "responsible": "HL7",
+    "description": "This vocabulary is defined by Implementation Guide for CDA Release 2 - Level 1 - Care Record Summary (US realm).\r\n\r\nIt describes roles recognized through the issuance of an insurance policy to a policyholder who a relationship with the covered party, such as spouse, child, etc. This vocabulary is essentially an inversion of the role relations of the HL7 CoverageRoleType vocabulary. It provides more detailed roles with respect to the underwriter (the scoping organization) for those participants in the policyholder role for a patient.\r\n\r\n*Open Issue:* \r\n\r\nThe code values for this coding system must be extracted from the CDA documentation and brought forward through Harmonization for instantiation in this repository.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.5.1128",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/v3-policyHolderRole",
+            "preferred": true
+        }
+    ]
+}

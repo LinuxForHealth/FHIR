@@ -1,0 +1,113 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-ObservationType",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-ObservationType",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.16226"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "ObservationType",
+    "title": "ObservationType",
+    "status": "active",
+    "experimental": false,
+    "date": "2014-03-26",
+    "description": "Identifies the kinds of observations that can be performed",
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "_ObservationType"
+                    }
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://terminology.hl7.org/ValueSet/v3-ObservationDiagnosisTypes"
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://terminology.hl7.org/ValueSet/v3-LogicalObservationIdentifierNamesAndCodes"
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://terminology.hl7.org/ValueSet/v3-ObservationSeriesType"
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://terminology.hl7.org/ValueSet/v3-ObservationSequenceType"
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://terminology.hl7.org/ValueSet/v3-AnnotationType"
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://terminology.hl7.org/ValueSet/v3-ObservationIntoleranceType"
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://terminology.hl7.org/ValueSet/v3-ObservationIssueTriggerCodedObservationType"
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://terminology.hl7.org/ValueSet/v3-MedicationObservationType"
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://terminology.hl7.org/ValueSet/v3-ObservationActContextAgeType"
+                ]
+            },
+            {
+                "valueSet": [
+                    "http://terminology.hl7.org/ValueSet/v3-GeneticObservationType"
+                ]
+            }
+        ],
+        "exclude": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "concept": [
+                    {
+                        "code": "_ObservationType"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "concept": [
+                    {
+                        "code": "_ObservationIssueTriggerCodedObservationType"
+                    }
+                ]
+            },
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "concept": [
+                    {
+                        "code": "_GeneticObservationType"
+                    }
+                ]
+            }
+        ]
+    }
+}

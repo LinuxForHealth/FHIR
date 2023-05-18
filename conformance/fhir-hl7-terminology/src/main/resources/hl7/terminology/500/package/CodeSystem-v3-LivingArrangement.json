@@ -1,0 +1,296 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-LivingArrangement",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-LivingArrangement",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.63"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "LivingArrangement",
+    "title": "LivingArrangement",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "A code depicting the living arrangements of a person",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "HL",
+            "display": "homeless",
+            "definition": "**Definition:** Living arrangements lacking a permanent residence.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22193"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "M",
+                    "display": "Nomadic",
+                    "definition": "Nomadic",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10195"
+                        }
+                    ]
+                },
+                {
+                    "code": "T",
+                    "display": "Transient",
+                    "definition": "Transient",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10194"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "I",
+            "display": "Institution",
+            "definition": "Institution",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10189"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "CS",
+                    "display": "community shelter",
+                    "definition": "**Definition:** A group living arrangement specifically for the care of those in need of temporary and crisis housing assistance. Examples include domestic violence shelters, shelters for displaced or homeless individuals, Salvation Army, Jesus House, etc. Community based services may be provided.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22192"
+                        }
+                    ]
+                },
+                {
+                    "code": "G",
+                    "display": "Group Home",
+                    "definition": "Group Home",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10193"
+                        }
+                    ]
+                },
+                {
+                    "code": "N",
+                    "display": "Nursing Home",
+                    "definition": "Nursing Home",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10190"
+                        }
+                    ]
+                },
+                {
+                    "code": "X",
+                    "display": "Extended care facility",
+                    "definition": "Extended care facility",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10191"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "PR",
+            "display": "private residence",
+            "definition": "**Definition:**  A living arrangement within a private residence for single family.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22190"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "H",
+                    "display": "Independent Household",
+                    "definition": "Independent Household",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10188"
+                        }
+                    ]
+                },
+                {
+                    "code": "R",
+                    "display": "Retirement Community",
+                    "definition": "Retirement Community",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "10192"
+                        }
+                    ]
+                },
+                {
+                    "code": "SL",
+                    "display": "supported living",
+                    "definition": "**Definition:** Assisted living in a single family residence for persons with physical, behavioral, or functional health, or socio-economic challenges. There may or may not be on-site supervision but the housing is designed to assist the client with developing independent living skills. Community based services may be provided.",
+                    "property": [
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22191"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

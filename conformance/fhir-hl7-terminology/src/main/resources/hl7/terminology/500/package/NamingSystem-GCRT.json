@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "GCRT",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "GCRT"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/GCRT"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "GCRT",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "HL7",
+    "contact": [
+        {
+            "name": "First DataBank, Inc,First DataBank, Inc,First DataBank, Inc,First DataBank, Inc,First DataBank, Inc,"
+        }
+    ],
+    "responsible": "HL7",
+    "description": "GCRT\r\n\r\nRoute of Administration Code (1-character)\r\n\r\na one-character alphanumeric column that provides the normal site or method by which a drug is administered, such as oral, injection, or topical. A GCRT is associated to each GCN\\_SEQNO to identify that component of the generic drug formulation.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.80",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/GCRT",
+            "preferred": true
+        }
+    ]
+}

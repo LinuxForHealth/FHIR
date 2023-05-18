@@ -1,0 +1,38 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-ActClassContract",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-ActClassContract",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.14002"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "ActClassContract",
+    "title": "ActClassContract",
+    "status": "active",
+    "experimental": false,
+    "date": "2014-03-26",
+    "description": "An agreement of obligation between two or more parties that is subject to contractual law and enforcement.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActClass",
+                "filter": [
+                    {
+                        "property": "concept",
+                        "op": "is-a",
+                        "value": "CNTRCT"
+                    }
+                ]
+            }
+        ]
+    }
+}

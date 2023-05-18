@@ -1,0 +1,60 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "MEDRT",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Medication Reference Terminology (MED-RT)"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/MEDRT"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "MEDRT",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-02-16T00:00:00-00:00",
+    "publisher": "National Cancer Institute (NCI) Enterprise Vocabulary Services (EVS)",
+    "contact": [
+        {
+            "name": "US Department of Veterans Affairs; John Kilbourne, MD",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://www.va.gov/"
+                },
+                {
+                    "system": "email",
+                    "value": "medrt@jpsys.com"
+                },
+                {
+                    "system": "email",
+                    "value": "John.Kilbourne@va.gov"
+                }
+            ]
+        }
+    ],
+    "responsible": "US Department of Veterans Affairs; John Kilbourne, MD",
+    "description": "Medication Reference Terminology (MED-RT) is the evolutionary successor to the Veterans Health Administration National Drug File – Reference Terminology (VHA NDF-RT). Both are formal ontology representations of medication terminology, pharmacologic classifications, and asserted authoritative relationships between them.\r\n\r\nThe MED-RT code system includes relationships between MED-RT concepts and concepts in external code systems, as well as relationships between concepts only in the external code systems. The external code systems that MED-RT references include RxNorm, MeSH, and SNOMED CT US Edition.\r\n\r\nMED-RT can be downloaded from https://evs.nci.nih.gov/ftp1/MED-RT/ \r\n\r\nFor more information, please see https://ncit.nci.nih.gov/ncitbrowser/pages/vocabulary.jsf?dictionary=MED-RT",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.345",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://va.gov/terminology/medrt",
+            "preferred": true
+        }
+    ]
+}

@@ -1,0 +1,275 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "triggerEventID",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/triggerEventID",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.18"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "TriggerEventID",
+    "title": "Trigger Event ID",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "HL7",
+    "contact": [
+        {
+            "name": "HL7 Modeling and Methodology Workgroup"
+        }
+    ],
+    "description": "**Description:** This code system contains all HL7 artifacts of type TE (Trigger Event) that are created by HL7 or its affiliates or their designates using the realm namespacing rules approved by HL7. Local implementations who create trigger events outside of these namespacing rules, (e.g. using the ZZ realm code) must register their own code system. The specific list of legal codes can be found by consulting the HL7 publications (editions, ballots, implementation guides, etc.) published by HL7 Inc. and by the various HL7 affiliates and their designates. Codes shall be expressed in upper case, with separator as shown in HL7 publications with no version id. E.g. PORX\\_TE123456UV.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "fragment",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "POLB_TE004000UV",
+            "display": "Result Status",
+            "definition": "**Description:**",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22674"
+                }
+            ]
+        },
+        {
+            "code": "POLB_TE004001UV",
+            "display": "Result Confirm",
+            "definition": "**Description:**",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22668"
+                }
+            ]
+        },
+        {
+            "code": "POLB_TE004002UV",
+            "display": "Result Reject",
+            "definition": "**Description:**",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22672"
+                }
+            ]
+        },
+        {
+            "code": "POLB_TE004007UV",
+            "display": "Result Tracking",
+            "definition": "**Description:**",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22673"
+                }
+            ]
+        },
+        {
+            "code": "POLB_TE004100UV",
+            "display": "Result in Progress",
+            "definition": "**Description:**",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22670"
+                }
+            ]
+        },
+        {
+            "code": "POLB_TE004102UV",
+            "display": "Result Activate",
+            "definition": "**Description:**",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22665"
+                }
+            ]
+        },
+        {
+            "code": "POLB_TE004200UV",
+            "display": "Result Complete with Fulfillment",
+            "definition": "**Description:**",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22667"
+                }
+            ]
+        },
+        {
+            "code": "POLB_TE004201UV",
+            "display": "Result Corrected",
+            "definition": "**Description:**",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22669"
+                }
+            ]
+        },
+        {
+            "code": "POLB_TE004202UV",
+            "display": "Result Complete",
+            "definition": "**Description:**",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22666"
+                }
+            ]
+        },
+        {
+            "code": "POLB_TE004301UV",
+            "display": "Result Abort",
+            "definition": "**Description:**",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22664"
+                }
+            ]
+        },
+        {
+            "code": "POLB_TE004500UV",
+            "display": "Result Nullify",
+            "definition": "**Description:**",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22671"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,42 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "ethernet-address-identifier",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Ethernet MAC Address as a device identifier"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/ethernet-address-identifier"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Ethernet_Address_Identifier",
+    "status": "active",
+    "kind": "identifier",
+    "date": "2021-06-14T00:00:00-00:00",
+    "publisher": "IHE Patient Care Devices (PCD)",
+    "contact": [
+        {
+            "name": "Devices on FHIR working group; IHE Patient Care Devices"
+        }
+    ],
+    "responsible": "IHE Patient Care Devices",
+    "description": "The Ethernet MAC (media access control) address is a unique identifier assigned to a network interface controller (NIC) for use as a network address in communications within a network segment. This use is common in most IEEE 802 networking technologies.  The address typically includes a manufacturer's organizationally unique identifier (OUI). MAC addresses are formed according to the principles of two numbering spaces based on Extended Unique Identifiers (EUI) managed by the Institute of Electrical and Electronics Engineers (IEEE): EUI-48. A device that has an Ethernet MAC address can also have it own Bluetooth MAC address.",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/sid/eui-48/ethernet",
+            "preferred": true,
+            "comment": "Ethernet EUI-48 MAC address"
+        }
+    ]
+}

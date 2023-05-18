@@ -1,0 +1,59 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "GLN",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Global Location Number (GLN)"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/GLN"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "GLN",
+    "status": "active",
+    "kind": "identifier",
+    "date": "2021-12-02T00:00:00-00:00",
+    "publisher": "GS1",
+    "contact": [
+        {
+            "name": "GS1;Avenue Louise 326, 1050 Brussels, Belgium",
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "+1 937 435 3870"
+                },
+                {
+                    "system": "url",
+                    "value": "https://www.gs1.org/gs1-global-office"
+                }
+            ]
+        }
+    ],
+    "responsible": "GS1",
+    "description": "Global Location Number (GLN) can be used by companies to identify their locations, giving them complete flexibility to identify any type or level of location required.\r\n\r\nFor more information as to how GLNs are used in healthcare, see a GS1 provided guide located here https://www.gs1.org/docs/healthcare/GLN_Healthcare_Imp_Guide.pdf \r\n\r\nFor additional information regarding the GLN standard refer to the GS1 General Specifications (https://www.gs1.org/standards/barcodes-epcrfid-id-keys/gs1-general-specifications) and for assignment refer to the GS1 GLN Allocation Rules (https://www.gs1.org/1/glnrules/en/).\r\n\r\nGS1 local offices handle all enquiries related to GS1 standards. Please see the list of GS1 offices (https://www.gs1.org/contact/overview) for more information.\r\n\r\nIn relation to the \"Healthcare GLN Implementation Guideline\":\r\n\r\n\"GS1®, under its IP Policy, seeks to avoid uncertainty regarding intellectual property claims by requiring the participants in the Work Group that developed this Healthcare GLN Implementation Guideline to agree to grant to GS1 members a royalty-free licence or a RAND licence to Necessary Claims, as that term is defined in the GS1 IP Policy. Furthermore, attention is drawn to the possibility that an implementation of one or more features of this Specification may be the subject of a patent or other intellectual property right that does not involve a Necessary Claim. Any such patent or other intellectual property right is not subject to the licensing obligations of GS1. Moreover, the agreement to grant licences provided under the GS1 IP Policy does not include IP rights and any claims of third parties who were not participants in the Work Group.\r\n\r\nAccordingly, GS1 recommends that any organisation developing an implementation designed to be in conformance with this Specification should determine whether there are any patents that may encompass a specific implementation that the organisation is developing in compliance with the Specification and whether a licence under a patent or other intellectual property right is needed. Such a determination of a need for licencing should be made in view of the details of the specific system designed by the organisation in consultation with their own patent counsel.\"\r\n\r\n\"GS1 disclaims all liability for any damages arising from use or misuse of this document, whether special, indirect, consequential, or compensatory damages, and including liability for infringement of any intellectual property rights, relating to use of information in or reliance upon this document.\"\r\n\r\nGS1 and the GS1 logo are registered trademarks of GS1 AISBL.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "1.3.88",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://www.gs1.org/gln",
+            "preferred": true,
+            "period": {
+                "start": "2021-12-02"
+            }
+        }
+    ]
+}

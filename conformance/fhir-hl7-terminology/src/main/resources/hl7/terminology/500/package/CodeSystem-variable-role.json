@@ -1,0 +1,89 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "variable-role",
+    "meta": {
+        "lastUpdated": "2020-04-09T21:10:28.568+00:00"
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/variable-role",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1457"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "EvidenceVariableRole",
+    "title": "EvidenceVariableRole",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-04-09T21:10:28+00:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The role that the assertion variable plays.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/variable-role",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "population",
+            "display": "population",
+            "definition": "variable represents a population."
+        },
+        {
+            "code": "subpopulation",
+            "display": "subpopulation",
+            "definition": "variable represents a subpopulation."
+        },
+        {
+            "code": "exposure",
+            "display": "exposure",
+            "definition": "variable represents an exposure."
+        },
+        {
+            "code": "referenceExposure",
+            "display": "reference exposure",
+            "definition": "variable represents a reference exposure."
+        },
+        {
+            "code": "measuredVariable",
+            "display": "measured variable",
+            "definition": "variable represents a measured variable."
+        },
+        {
+            "code": "confounder",
+            "display": "confounder",
+            "definition": "variable represents a confounder."
+        }
+    ]
+}

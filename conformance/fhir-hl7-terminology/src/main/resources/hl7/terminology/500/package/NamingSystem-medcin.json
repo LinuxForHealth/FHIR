@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "medcin",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "MEDCIN"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/medcin"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Medcin",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "Medicomp Systems",
+    "contact": [
+        {
+            "name": "David Lareau"
+        }
+    ],
+    "responsible": "Medicomp Systems",
+    "description": "MEDCIN contains more than 175,000 clinical data elements arranged in a hierarchy, with each item having weighted links to relevant diagnoses. The clinical data elements are organized into six basic termtypes designed to accommodate information relevant to a clinical encounter. The basic termtypes in MEDCIN's terminological hierarchy are as follows:\r\n\r\nSymptoms History Physical Examination Tests Diagnoses Therapy\r\n\r\nWithin this basic structure, MEDCIN terms are further organized in a ten level terminological hierarchy, supplemented by an optional, multi-hierarchical diagnostic index. For example, the symptom of \"difficulty breathing\" is placed in the terminological hierarchy as a subsidiary (or \"child\") finding of \"pulmonary symptoms,\" although the presence (or absence) of difficulty breathing can related to conditions as diverse as myocardial infarction, bronchitis, pharyngeal foreign bodies, asthma, pulmonary embolism, etc. MEDCIN's diagnostic index provides more than 800 such links for difficulty breathing.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.26",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/medcin",
+            "preferred": true
+        }
+    ]
+}

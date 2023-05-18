@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "iso4217",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ISO 4217 Currency Codes"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/iso4217"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Iso4217",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "ISO",
+    "contact": [
+        {
+            "name": "International Standards Organization (ISO),International Standards Organization (ISO)"
+        }
+    ],
+    "responsible": "ISO",
+    "description": "ISO 4217 currency codes.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "1.0.4217",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/iso4217",
+            "preferred": true
+        }
+    ]
+}

@@ -1,0 +1,54 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-xActMoodPermPermrq",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "extension": [
+                {
+                    "url": "name",
+                    "valueString": "Name:Class"
+                },
+                {
+                    "url": "value",
+                    "valueString": "Permission"
+                }
+            ],
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-assocConceptProp"
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/v3-xActMoodPermPermrq",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.19689"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "XActMoodPermPermrq",
+    "title": "x_ActMoodPermPermrq",
+    "status": "active",
+    "experimental": false,
+    "date": "2014-03-26",
+    "description": "Enumerates the moods that an Act can take when describing privileges.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActMood",
+                "concept": [
+                    {
+                        "code": "PERM"
+                    },
+                    {
+                        "code": "PERMRQ"
+                    }
+                ]
+            }
+        ]
+    }
+}

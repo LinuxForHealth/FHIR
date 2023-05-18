@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "icnp",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "International Classification for Nursing Practice"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/icnp"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Icnp",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "ICN",
+    "contact": [
+        {
+            "name": "International Council of Nurses (ICN)"
+        }
+    ],
+    "responsible": "ICN",
+    "description": "ICNP(r) is a combinatorial terminology, using a multi-axial structure. ICNP(r) provides standardized terms and codes for terms in two classifications that can be used to compose or create pre-coordinated concepts to represent observations and procedures, specifically, patient problems/nursing diagnoses, nursing interventions including those focused on assessment and actual or expected (goal) outcomes. The ICNP(r) Classification for Nursing Phenomena is used to compose concepts or statements to represent observations (nursing diagnoses, patient problems, patient status, patient outcomes). The ICNP(r) Nursing Actions Classification is used to compose concepts or statements to represent procedures (nursing interventions)",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.97",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/icnp",
+            "preferred": true
+        }
+    ]
+}

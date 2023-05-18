@@ -1,0 +1,41 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-AmbulanceHIPAA",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-AmbulanceHIPAA",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.1.11.13850"
+        }
+    ],
+    "version": "3.0.0",
+    "name": "AmbulanceHIPAA",
+    "title": "AmbulanceHIPAA",
+    "status": "retired",
+    "experimental": false,
+    "date": "2014-03-26",
+    "description": "An emergency vehicle used for transporting patients to a health care facility after injury or illness. Types of ambulances used in the United States include ground (surface) ambulance, rotor-wing (helicopter), and fixed-wing aircraft (airplane).",
+    "compose": {
+        "include": [
+            {
+                "system": "http://nucc.org/provider-taxonomy",
+                "concept": [
+                    {
+                        "code": "3416A0800X"
+                    },
+                    {
+                        "code": "3416L0300X"
+                    },
+                    {
+                        "code": "3416S0300X"
+                    }
+                ]
+            }
+        ]
+    }
+}

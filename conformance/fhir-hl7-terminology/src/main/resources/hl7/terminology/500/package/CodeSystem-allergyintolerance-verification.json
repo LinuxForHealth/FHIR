@@ -1,0 +1,85 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "allergyintolerance-verification",
+    "meta": {
+        "lastUpdated": "2020-04-09T21:10:28.568+00:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pc"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 3
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1371"
+        }
+    ],
+    "version": "0.5.0",
+    "name": "AllergyIntoleranceVerificationStatus",
+    "title": "AllergyIntolerance Verification Status",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-11-04T19:44:38-06:00",
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "The verification status to support or decline the clinical status of the allergy or intolerance.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/allergyintolerance-verification",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "unconfirmed",
+            "display": "Unconfirmed",
+            "definition": "The propensity for a reaction to the identified substance has not been objectively verified.",
+            "concept": [
+                {
+                    "code": "presumed",
+                    "display": "Presumed",
+                    "definition": "The available clinical information supports a high liklihood of the propensity for a reaction to the identified substance."
+                }
+            ]
+        },
+        {
+            "code": "confirmed",
+            "display": "Confirmed",
+            "definition": "The propensity for a reaction to the identified substance has been objectively verified (which may include clinical evidence by testing, rechallenge, or observation)."
+        },
+        {
+            "code": "refuted",
+            "display": "Refuted",
+            "definition": "A propensity for a reaction to the identified substance has been disputed or disproven with a sufficient level of clinical certainty to justify invalidating the assertion. This might or might not include testing or rechallenge."
+        },
+        {
+            "code": "entered-in-error",
+            "display": "Entered in Error",
+            "definition": "The statement was entered in error and is not valid."
+        }
+    ]
+}

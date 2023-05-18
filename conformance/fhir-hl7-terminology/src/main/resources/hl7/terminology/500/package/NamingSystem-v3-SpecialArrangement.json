@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-SpecialArrangement",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "SpecialArrangement"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-SpecialArrangement"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "SpecialArrangement",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "HL7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "responsible": "HL7",
+    "description": "A code indicating the type of special arrangements provided for a patient encounter (e.g., wheelchair, stretcher, interpreter, attendant, seeing eye dog). For encounters in intention moods, this information can be used to identify special arrangements that will need to be made for the incoming patient.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.19.6.1",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/v3-SpecialArrangement",
+            "preferred": true
+        }
+    ]
+}

@@ -1,0 +1,39 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "PHOccupationCDCCensus2010",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Occupation CDC Census 2010"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/PHOccupationCDCCensus2010"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "PHOccupationCDCCensus2010",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "description": "2010 Occupation coding system used by CDC (NIOSH and NCHS) for coding occupation text. Occupation describes a set of activities or tasks that individuals are paid to perform or, if unpaid, define a person's contribution to a household/family business/community.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.114222.4.5.314",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/PHOccupationCDCCensus2010",
+            "preferred": true
+        }
+    ]
+}

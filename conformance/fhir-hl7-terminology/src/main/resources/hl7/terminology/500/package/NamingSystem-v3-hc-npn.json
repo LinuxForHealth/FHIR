@@ -1,0 +1,62 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-hc-npn",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Health Canada Natural Product Number"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-hc-npn"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.0.0"
+        }
+    ],
+    "name": "Hc_Npn",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-03-22T00:00:00-04:00",
+    "publisher": "Health Canada",
+    "contact": [
+        {
+            "name": "Health Canada,Health Canada"
+        }
+    ],
+    "responsible": "HL7",
+    "description": "Natural Product Number (NPN) is an eight (8) digit numerical code assigned to each natural health product approved to be marketed under the Natural Health Products Regulations. A Homeopathic Medicine Number (DIN-HM) is an eight (8) digit numerical code assigned to each homeopathic medicine approved to be marketed under the Natural Health Products Regulations. \r\n\r\nFurther information about this Code System can be found at https://www.canada.ca/en/health-canada/services/drugs-health-products/natural-non-prescription/applications-submissions/product-licensing/licensed-natural-health-products-database.html",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.5.1107",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/v3-hc-npn",
+            "preferred": true,
+            "comment": "Official canonical URL going forward.",
+            "period": {
+                "start": "2021-03-22"
+            }
+        },
+        {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/NamingSystem/ca-hc-npn",
+            "preferred": false,
+            "comment": "Maintained for backward compatibility."
+        },
+        {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/sid/ca-hc-npn",
+            "preferred": false,
+            "comment": "Maintained for backward compatibility."
+        }
+    ]
+}

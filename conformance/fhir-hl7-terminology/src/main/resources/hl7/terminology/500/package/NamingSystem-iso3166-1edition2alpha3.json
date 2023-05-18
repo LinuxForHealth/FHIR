@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "iso3166-1edition2alpha3",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ISO 3166 Part 1 Country Codes, 2nd Edition, Alpha-3"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/iso3166-1edition2alpha3"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Iso31661edition2alpha3",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2022-08-23T00:00:00-04:00",
+    "publisher": "ISO",
+    "contact": [
+        {
+            "name": "International Standards Organization (ISO)"
+        }
+    ],
+    "responsible": "ISO",
+    "description": "Identifies the coding system published in the ISO 3166-1 Standard for Country codes, 2nd edition, 3-character alphabetic codes.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "1.0.3166.1.2.3",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/iso3166-1edition2alpha3",
+            "preferred": true
+        }
+    ]
+}

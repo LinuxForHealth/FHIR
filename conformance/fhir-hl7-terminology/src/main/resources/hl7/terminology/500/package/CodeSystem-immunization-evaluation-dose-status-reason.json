@@ -1,0 +1,88 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "immunization-evaluation-dose-status-reason",
+    "meta": {
+        "lastUpdated": "2020-04-09T21:10:28.568+00:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pher"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/immunization-evaluation-dose-status-reason",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1103"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "ImmunizationEvaluationDoseStatusReasonCodes",
+    "title": "Immunization Evaluation Dose Status Reason codes",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-11-04T19:44:38-06:00",
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "The value set to instantiate this attribute should be drawn from a terminologically robust code system that consists of or contains concepts to support describing the reason why an administered dose has been assigned a particular status. Often, this reason describes why a dose is considered invalid. This value set is provided as a suggestive example.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/immunization-evaluation-dose-status-reason",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "partialdose",
+            "display": "Partial Dose",
+            "definition": "The full volume of the dose was not administered to the patient."
+        },
+        {
+            "code": "coldchainbreak",
+            "display": "Cold Chain Break",
+            "definition": "The vaccine experienced a cold chain break."
+        },
+        {
+            "code": "recall",
+            "display": "Manufacturer Recall",
+            "definition": "The vaccine was recalled by the manufacturer."
+        },
+        {
+            "code": "adversestorage",
+            "display": "Adverse Storage",
+            "definition": "The vaccine experienced adverse storage conditions."
+        },
+        {
+            "code": "expired",
+            "display": "Expired Product",
+            "definition": "The vaccine was expired at the time of administration."
+        },
+        {
+            "code": "outsideschedule",
+            "display": "Outside Schedule",
+            "definition": "The vaccine was administered in a manner that is inconsistent with the evaluated schedule."
+        }
+    ]
+}

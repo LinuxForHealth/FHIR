@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "abcCodes",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ABC Codes"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/abcCodes"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.1"
+        }
+    ],
+    "name": "AbcCodes",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "Name Alternative Link Systems, Inc.",
+    "contact": [
+        {
+            "name": "Name Melinna Giannini, Alternative Link Systems, Inc.; Address 1065 S. Main, Building C, Las Cruces, NM 88005; Telephone 505-527-0636; Fax 505-523-4152; E-mail mg@alternativelink.com"
+        }
+    ],
+    "responsible": "Name Alternative Link Systems, Inc.",
+    "description": "Five character alphabetic codes fit into current claims processing software or onto standard paper claim forms. ABC Codes give business parity to licensed CAM and nurse providers who file claims to insurance companies. .",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.25",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/abcCodes",
+            "preferred": true
+        }
+    ]
+}

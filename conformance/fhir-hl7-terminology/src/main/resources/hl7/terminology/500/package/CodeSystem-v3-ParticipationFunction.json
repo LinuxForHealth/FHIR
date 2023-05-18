@@ -1,0 +1,899 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-ParticipationFunction",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-ParticipationFunction",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.88"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "ParticipationFunction",
+    "title": "ParticipationFunction",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "This code is used to specify the exact function an actor had in a service in all necessary detail. This domain may include local extensions (CWE).",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "notSelectable",
+            "uri": "http://hl7.org/fhir/concept-properties#notSelectable",
+            "description": "Indicates that the code is abstract - only intended to be used as a selector for other concepts",
+            "type": "boolean"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "_AuthorizedParticipationFunction",
+            "display": "AuthorizedParticipationFunction",
+            "definition": "This code is used to specify the exact function an actor is authorized to have in a service in all necessary detail.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22338"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "_AuthorizedReceiverParticipationFunction",
+                    "display": "AuthorizedReceiverParticipationFunction",
+                    "definition": "This code is used to specify the exact function an actor is authorized to have as a receiver of information that is the subject of a consent directive or consent override.",
+                    "property": [
+                        {
+                            "code": "notSelectable",
+                            "valueBoolean": true
+                        },
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22341"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "AUCG",
+                            "display": "caregiver information receiver",
+                            "definition": "**Description:**Caregiver authorized to receive patient health information.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22900"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "AULR",
+                            "display": "legitimate relationship information receiver",
+                            "definition": "**Description:**Provider with legitimate relationship authorized to receive patient health information.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22901"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "AUTM",
+                            "display": "care team information receiver",
+                            "definition": "**Description:**Member of care team authorized to receive patient health information.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22902"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "AUWA",
+                            "display": "work area information receiver",
+                            "definition": "**Description:**Entities within specified work area authorized to receive patient health information.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22903"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "_ConsenterParticipationFunction",
+                    "display": "ConsenterParticipationFunction",
+                    "definition": "This code is used to specify the exact function an actor is authorized to have in authoring a consent directive.",
+                    "property": [
+                        {
+                            "code": "notSelectable",
+                            "valueBoolean": true
+                        },
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22339"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "GRDCON",
+                            "display": "legal guardian consent author",
+                            "definition": "**Description:**Legal guardian of the subject of consent authorized to author a consent directive for the subject of consent.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22894"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "POACON",
+                            "display": "healthcare power of attorney consent author",
+                            "definition": "**Description:**Person authorized with healthcare power of attorney to author a consent directive for the subject of consent.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22896"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "PRCON",
+                            "display": "personal representative consent author",
+                            "definition": "**Description:**Personal representative of the subject of consent authorized to author a consent directive for the subject of consent.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22895"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "PROMSK",
+                            "display": "authorized provider masking author",
+                            "definition": "**Definition:**Provider authorized to mask information to protect the patient, a third party, or to ensure that the provider has consulted with the patient prior to release of this information.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22897"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "SUBCON",
+                            "display": "subject of consent author",
+                            "definition": "**Description:**Subject of consent authorized to author a consent directive.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22893"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "_OverriderParticipationFunction",
+                    "display": "OverriderParticipationFunction",
+                    "definition": "This code is used to specify the exact function an actor is authorized to have in authoring a consent override.",
+                    "property": [
+                        {
+                            "code": "notSelectable",
+                            "valueBoolean": true
+                        },
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22340"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "AUCOV",
+                            "display": "consent overrider",
+                            "definition": "**Description:**Entity authorized to override a consent directive.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22898"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "AUEMROV",
+                            "display": "emergency overrider",
+                            "definition": "**Description:**Entity authorized to override a consent directive or privacy policy in an emergency.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22899"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "_CoverageParticipationFunction",
+            "display": "CoverageParticipationFunction",
+            "definition": "**Definition:** Set of codes indicating the manner in which sponsors, underwriters, and payers participate in a policy or program.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22222"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "_PayorParticipationFunction",
+                    "display": "PayorParticipationFunction",
+                    "definition": "**Definition:** Set of codes indicating the manner in which payors participate in a policy or program.</",
+                    "property": [
+                        {
+                            "code": "notSelectable",
+                            "valueBoolean": true
+                        },
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22223"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "CLMADJ",
+                            "display": "claims adjudication",
+                            "definition": "**Definition:** Manages all operations required to adjudicate fee for service claims or managed care encounter reports.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22226"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "ENROLL",
+                            "display": "enrollment broker",
+                            "definition": "**Definition:** Managing the enrollment of covered parties.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22229"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "FFSMGT",
+                            "display": "ffs management",
+                            "definition": "**Definition:** Managing all operations required to administer a fee for service or indemnity health plan including enrolling covered parties and providing customer service, provider contracting, claims payment, care management and utilization review.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22228"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "MCMGT",
+                            "display": "managed care management",
+                            "definition": "**Definition:** Managing all operations required to administer a managed care plan including enrolling covered parties and providing customer service,, provider contracting, claims payment, care management and utilization review.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22227"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "PROVMGT",
+                            "display": "provider management",
+                            "definition": "**Definition:** Managing provider contracting, provider services, credentialing, profiling, performance measures, and ensuring network adequacy.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22230"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "UMGT",
+                            "display": "utilization management",
+                            "definition": "**Definition:** Managing utilization of services by ensuring that providers adhere to, e.g., payeraTMs clinical protocols for medical appropriateness and standards of medical necessity. May include management of authorizations for services and referrals.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22231"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "_SponsorParticipationFunction",
+                    "display": "SponsorParticipationFunction",
+                    "definition": "**Definition:** Set of codes indicating the manner in which sponsors participate in a policy or program. NOTE: use only when the Sponsor is not further specified with a SponsorRoleType as being either a fully insured sponsor or a self insured sponsor.",
+                    "property": [
+                        {
+                            "code": "notSelectable",
+                            "valueBoolean": true
+                        },
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22224"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "FULINRD",
+                            "display": "fully insured",
+                            "definition": "**Definition:** Responsibility taken by a sponsor to contract with one or more underwriters for the assumption of full responsibility for the risk and administration of a policy or program.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22232"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "SELFINRD",
+                            "display": "self insured",
+                            "definition": "**Definition:** Responsibility taken by a sponsor to organize the underwriting of risk and administration of a policy or program.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22233"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "_UnderwriterParticipationFunction",
+                    "display": "UnderwriterParticipationFunction",
+                    "definition": "**Definition:** Set of codes indicating the manner in which underwriters participate in a policy or program.",
+                    "property": [
+                        {
+                            "code": "notSelectable",
+                            "valueBoolean": true
+                        },
+                        {
+                            "code": "status",
+                            "valueCode": "active"
+                        },
+                        {
+                            "code": "internalId",
+                            "valueCode": "22225"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "PAYORCNTR",
+                            "display": "payor contracting",
+                            "definition": "**Definition:** Contracting for the provision and administration of health services to payors while retaining the risk for coverage. Contracting may be for all provision and administration; or for provision of certain types of services; for provision of services by region; and by types of administration, e.g., claims adjudication, enrollment, provider management, and utilization management. Typically done by underwriters for sponsors who need coverage provided to covered parties in multiple regions. The underwriter may act as the payor in some, but not all of the regions in which coverage is provided.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22234"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "REINS",
+                            "display": "reinsures",
+                            "definition": "**Definition:** Underwriting reinsurance for another underwriter for the policy or program.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22235"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "RETROCES",
+                            "display": "retrocessionaires",
+                            "definition": "**Definition:** Underwriting reinsurance for another reinsurer.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22236"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "SUBCTRT",
+                            "display": "subcontracting risk",
+                            "definition": "**Definition:** Delegating risk for a policy or program to one or more subcontracting underwriters, e.g., a major health insurer may delegate risk for provision of coverage under a national health plan to other underwriters by region .",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22237"
+                                }
+                            ]
+                        },
+                        {
+                            "code": "UNDERWRTNG",
+                            "display": "underwriting",
+                            "definition": "**Definition:** Provision of underwriting analysis for another underwriter without assumption of risk.",
+                            "property": [
+                                {
+                                    "code": "status",
+                                    "valueCode": "active"
+                                },
+                                {
+                                    "code": "internalId",
+                                    "valueCode": "22238"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "ADMPHYS",
+            "display": "admitting physician",
+            "definition": "A physician who admitted a patient to a hospital or other care unit that is the context of this service.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10278"
+                }
+            ]
+        },
+        {
+            "code": "ANEST",
+            "display": "anesthesist",
+            "definition": "In a typical anesthesia setting an anesthesiologist or anesthesia resident in charge of the anesthesia and life support, but only a witness to the surgical procedure itself. To clarify responsibilities anesthesia should always be represented as a separate service related to the surgery.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10274"
+                }
+            ]
+        },
+        {
+            "code": "ANRS",
+            "display": "anesthesia nurse",
+            "definition": "In a typical anesthesia setting the nurse principally assisting the anesthesiologist during the critical periods.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10275"
+                }
+            ]
+        },
+        {
+            "code": "ASSEMBLER",
+            "display": "assembly software",
+            "definition": "A device that operates independently of an author on custodian's algorithms for data extraction of existing information for purpose of generating a new artifact.\r\n\r\n*UsageConstraint:* ASSEMBLER ParticipationFunction should be used with DEV (device) ParticipationType.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23655"
+                }
+            ]
+        },
+        {
+            "code": "ATTPHYS",
+            "display": "attending physician",
+            "definition": "A physician who is primarily responsible for a patient during the hospitalization, which is the context of the service.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10277"
+                }
+            ]
+        },
+        {
+            "code": "COMPOSER",
+            "display": "composer software",
+            "definition": "A device used by an author to record new information, which may also be used by the author to select existing information for aggregation with newly recorded information for the purpose of generating a new artifact.\r\n\r\n*UsageConstraint:* COMPOSER ParticipationFunction should be used with DEV (device) ParticipationType.\r\n\r\n*Usage Note:* This code will enable implementers to more specifically represent the manner in which a Device participated in and facilitated the generation of a CDA Clinical Document or a CDA Entry by the responsible Author, which is comprised of the Author's newly entered content, and may include the pre-existing content selected by the Author, for the purpose of establishing the provenance and accountability for these acts.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23722"
+                }
+            ]
+        },
+        {
+            "code": "DISPHYS",
+            "display": "discharging physician",
+            "definition": "A physician who discharged a patient from a hospital or other care unit that is the context of this service.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10279"
+                }
+            ]
+        },
+        {
+            "code": "FASST",
+            "display": "first assistant surgeon",
+            "definition": "In a typical surgery setting the assistant facing the primary surgeon. The first assistant performs parts of the operation and assists in others (e.g., incision, approach, electrocoutering, ligatures, sutures).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10269"
+                }
+            ]
+        },
+        {
+            "code": "MDWF",
+            "display": "midwife",
+            "definition": "A person (usually female) helping a woman deliver a baby. Responsibilities vary locally, ranging from a mere optional assistant to a full required participant, responsible for (normal) births and pre- and post-natal care for both mother and baby.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10276"
+                }
+            ]
+        },
+        {
+            "code": "NASST",
+            "display": "nurse assistant",
+            "definition": "In a typical surgery setting the non-sterile nurse handles material supply from the stock, forwards specimen to pathology, and helps with other non-sterile tasks (e.g., phone calls, etc.).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10273"
+                }
+            ]
+        },
+        {
+            "code": "PCP",
+            "display": "primary care physician",
+            "definition": "The healthcare provider that holds primary responsibility for the overall care of a patient.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10281"
+                }
+            ]
+        },
+        {
+            "code": "PRISURG",
+            "display": "primary surgeon",
+            "definition": "In a typical surgery setting the primary performing surgeon.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10268"
+                }
+            ]
+        },
+        {
+            "code": "REVIEWER",
+            "display": "reviewer",
+            "definition": "A verifier who is accountable for reviewing and asserting that the verification of an Act complies with jurisdictional or organizational policy.\r\n\r\n*UsageConstraint:* UsageConstraint: Specifies the exact function that an actor is authorized to have as a verifier of an Act. Connotes that a specialized verifier asserts compliance for veracity of the review per jurisdictional or organizational policy. E.g., The Provider who takes responsibility for authenticity of a record submitted to a payer.\r\n\r\nREVIEW ParticipationFunction should be used with VFR (verifier)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23656"
+                }
+            ]
+        },
+        {
+            "code": "RNDPHYS",
+            "display": "rounding physician",
+            "definition": "A physician who made rounds on a patient in a hospital or other care center.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10280"
+                }
+            ]
+        },
+        {
+            "code": "SASST",
+            "display": "second assistant surgeon",
+            "definition": "In a typical surgery setting the assistant who primarily holds the hooks.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10270"
+                }
+            ]
+        },
+        {
+            "code": "SNRS",
+            "display": "scrub nurse",
+            "definition": "In a typical surgery setting the nurse in charge of the instrumentation.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10271"
+                }
+            ]
+        },
+        {
+            "code": "TASST",
+            "display": "third assistant",
+            "definition": "In a typical surgery setting there is rarely a third assistant (e.g., in some Hip operations the third assistant postures the affected leg).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10272"
+                }
+            ]
+        }
+    ]
+}

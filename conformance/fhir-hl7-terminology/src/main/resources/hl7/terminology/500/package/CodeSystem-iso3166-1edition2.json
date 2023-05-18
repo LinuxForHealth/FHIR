@@ -1,0 +1,30 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "iso3166-1edition2",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/iso3166-1edition2",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:1.0.3166.1.2"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "Iso31661edition2",
+    "title": "ISO 3166 Part 1 Country Codes, 2nd Edition",
+    "status": "retired",
+    "experimental": false,
+    "date": "2022-08-23T00:00:00-04:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "International Standards Organization (ISO)"
+        }
+    ],
+    "description": "This OID identifies the coding system published in the ISO 3166-1 Standard for Country codes. It contains 3 sets of synonyms for the country codes: 2-character alphabetic, 3-character alphabetic, and numeric. Note that this is the 2nd edition of the standard.",
+    "caseSensitive": true,
+    "content": "not-present"
+}

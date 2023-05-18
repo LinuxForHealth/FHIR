@@ -1,0 +1,43 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-immunizationForecastDate",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-immunizationForecastDate",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.11.82"
+        }
+    ],
+    "version": "2.0.0",
+    "name": "ImmunizationForecastDate",
+    "title": "immunizationForecastDate",
+    "status": "active",
+    "experimental": false,
+    "date": "2013-03-11",
+    "description": "Set of LOINC codes that identify the type of date that is specified within an immunization forecast step.",
+    "compose": {
+        "include": [
+            {
+                "system": "http://loinc.org",
+                "concept": [
+                    {
+                        "code": "30981-5"
+                    },
+                    {
+                        "code": "30980-7"
+                    },
+                    {
+                        "code": "59777-3"
+                    },
+                    {
+                        "code": "59778-1"
+                    }
+                ]
+            }
+        ]
+    }
+}

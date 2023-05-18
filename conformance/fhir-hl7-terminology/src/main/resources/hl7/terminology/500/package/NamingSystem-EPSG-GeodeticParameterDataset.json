@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "EPSG-GeodeticParameterDataset",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "EPSG Geodetic Parameter Dataset"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/EPSG-GeodeticParameterDataset"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.0.1"
+        }
+    ],
+    "name": "EPSGGeodeticParameterDataset",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "HL7",
+    "contact": [
+        {
+            "name": "OGP Surveying and Positioning Committee"
+        }
+    ],
+    "responsible": "HL7",
+    "description": "**Description:** The EPSG (European Petroleum Survey Group) dataset represents all Datums, coordinate references (projected and 2D geographic) and coordinate systems (including Cartesian coordinate systems) used in surveying worldwide. Each record includes a 4-8 digit unique identifier. The current version is available from http://www.epsg.org/. The database contains over 4000 records covering spatial data applications worldwide.\r\n\r\n**Deprecation Comment:** This has been superceded by the two code systems EPSG-CRS and EPSG-CA",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.242",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/EPSG-GeodeticParameterDataset",
+            "preferred": true
+        }
+    ]
+}

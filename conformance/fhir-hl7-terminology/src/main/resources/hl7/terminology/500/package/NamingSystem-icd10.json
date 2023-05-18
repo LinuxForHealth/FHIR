@@ -1,0 +1,58 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "icd10",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ICD-10"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/icd10"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.2.1"
+        }
+    ],
+    "name": "Icd10",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "WHO",
+    "contact": [
+        {
+            "name": "World Health Organization"
+        }
+    ],
+    "responsible": "WHO",
+    "description": "International Classification of Diseases revision 10 (ICD 10)",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.3",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/icd10",
+            "preferred": false,
+            "comment": "Published as a stub for HL7 convenience; the official URL should be used in implementations."
+        },
+        {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/sid/icd-10",
+            "preferred": true
+        },
+        {
+            "type": "other",
+            "value": "I10",
+            "preferred": true,
+            "comment": "This is the V2 code sytstem mnemonic."
+        }
+    ]
+}

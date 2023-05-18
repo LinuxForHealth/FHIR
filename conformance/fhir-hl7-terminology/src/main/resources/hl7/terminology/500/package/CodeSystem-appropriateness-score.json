@@ -1,0 +1,88 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "appropriateness-score",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/appropriateness-score",
+    "identifier": [
+        {
+            "use": "old",
+            "value": "http://hl7.org/fhir/us/qicore/CodeSystem/appropriateness-score"
+        }
+    ],
+    "version": "1.0.0",
+    "name": "AppropriatenessScore",
+    "title": "Appropriateness Score",
+    "status": "active",
+    "experimental": false,
+    "date": "2022-10-18",
+    "publisher": "Health Level Seven, Inc. - CQI WG",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/special/committees/CQI"
+                }
+            ]
+        }
+    ],
+    "description": "The scoring for appropriateness of an action based upon RAND.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/appropriateness-score",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "extremely-inappropriate",
+            "display": "Extremely Inappropriate",
+            "definition": "The action is extremely inappropriate"
+        },
+        {
+            "code": "inappropriate",
+            "display": "Inappropriate",
+            "definition": "The action is inappropriate"
+        },
+        {
+            "code": "probably-inappropriate",
+            "display": "Probably Inappropriate",
+            "definition": "The action is probably inappropriate"
+        },
+        {
+            "code": "uncertain-inappropriate",
+            "display": "Uncertain Inappropriate",
+            "definition": "The appropriateness of the action is uncertain, leaning towards inappropriate"
+        },
+        {
+            "code": "uncertain",
+            "display": "Uncertain",
+            "definition": "The appropriateness of the action is uncertain"
+        },
+        {
+            "code": "uncertain-appropriate",
+            "display": "Uncertain Appropriate",
+            "definition": "The appropriateness of the action is uncertain, leaning towards appropriate"
+        },
+        {
+            "code": "probably-appropriate",
+            "display": "Probably Appropriate",
+            "definition": "The action is probably appropriate"
+        },
+        {
+            "code": "appropriate",
+            "display": "Appropriate",
+            "definition": "The action is appropriate"
+        },
+        {
+            "code": "extremely-appropriate",
+            "display": "Extremely Appropriate",
+            "definition": "The action is extremely appropriate"
+        }
+    ]
+}

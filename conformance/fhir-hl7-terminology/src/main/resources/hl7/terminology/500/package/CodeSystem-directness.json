@@ -1,0 +1,79 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "directness",
+    "meta": {
+        "lastUpdated": "2020-04-09T21:10:28.568+00:00"
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "cds"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 0
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/directness",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1459"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "EvidenceDirectness",
+    "title": "EvidenceDirectness",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-04-09T21:10:28+00:00",
+    "publisher": "HL7 (FHIR Project)",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                },
+                {
+                    "system": "email",
+                    "value": "fhir@lists.hl7.org"
+                }
+            ]
+        }
+    ],
+    "description": "The quality of how direct the match is.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/directness",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "low",
+            "display": "Low quality match",
+            "definition": "Low level of directness."
+        },
+        {
+            "code": "moderate",
+            "display": "Moderate quality match",
+            "definition": "Moderate level of directness."
+        },
+        {
+            "code": "high",
+            "display": "High quality match",
+            "definition": "High level of directness."
+        },
+        {
+            "code": "exact",
+            "display": "Exact match",
+            "definition": "Exact directness."
+        }
+    ]
+}

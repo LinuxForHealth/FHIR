@@ -1,0 +1,56 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "ClinVarV",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ClinVar Variant ID"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/ClinVarV"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "ClinVarV",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-03-11T00:00:00-00:00",
+    "publisher": "National Center for Biotechnology Information, U.S. National Library of Medicine",
+    "contact": [
+        {
+            "name": "National Center for Biotechnology Information, U.S. National Library of Medicine; 8600 Rockville Pike, Bethesda MD, 20894 USA",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://www.ncbi.nlm.nih.gov/clinvar/"
+                }
+            ]
+        }
+    ],
+    "responsible": "National Center for Biotechnology Information, U.S. National Library of Medicine",
+    "description": "ClinVar is a freely accessible, public archive of reports of the relationships among human variations and phenotypes, with supporting evidence. ClinVar thus facilitates access to and communication about the relationships asserted between human variation and observed health status, and the history of that interpretation. ClinVar processes submissions reporting variants found in patient samples, assertions made regarding their clinical significance, information about the submitter, and other supporting data. The alleles described in submissions are mapped to reference sequences, and reported according to the HGVS standard. ClinVar then presents the data for interactive users as well as those wishing to use ClinVar in daily workflows and other local applications. ClinVar works in collaboration with interested organizations to meet the needs of the medical genetics community as efficiently and effectively as possible. Read more about using ClinVar.\r\n\r\nClinVar supports submissions of differing levels of complexity. The submission may be as simple as a representation of an allele and its interpretation (sometimes termed a variant-level submission), or as detailed as providing multiple types of structured observational (case-level) or experimental evidence about the effect of the variation on phenotype. A major goal is to support computational (re)evaluation, both of genotypes and assertions, and to enable the ongoing evolution and development of knowledge regarding variations and associated phenotypes. ClinVar is an active partner of the ClinGen project, providing data for evaluation and archiving the results of interpretation by recognized expert panels and providers of practice guidelines (see https://www.ncbi.nlm.nih.gov/clinvar/docs/review_guidelines/). ClinVar archives and versions submissions which means that when submitters update their records, the previous version is retained for review. Read more about submitting data to ClinVar at https://www.ncbi.nlm.nih.gov/clinvar/docs/submit. \r\n\r\nThe level of confidence in the accuracy of variation calls and assertions of clinical significance depends in large part on the supporting evidence, so this information, when available, is collected and visible to users. Because the availability of supporting evidence may vary, particularly in regard to retrospective data aggregated from published literature, the archive accepts submissions from multiple groups, and aggregates related information, to reflect transparently both consensus and conflicting assertions of clinical significance. A review status is also assigned to any assertion, to support communication about the trustworthiness of any assertion. Domain experts are encouraged to apply for recognition as an expert panel (more info at https://www.ncbi.nlm.nih.gov/clinvar/docs/review_guidelines/). \r\n\r\nAccessions, with the format SCV000000000.0, are assigned to each submitted record. If there are multiple submitted records about the same variation/condition pair, they are aggregated within ClinVar's data flow and reported as a reference accession with the format RCV000000000.0. Because of this model, one variant will be included in multiple RCV accessions whenever different conditions are reported for that variant. Submitted records for the same variation are also aggregated and reported as an accession with the format VCV000000000.0. This aggregation lets a user review all submitted data for a variant, regardless of the condition for which it was interpreted.\r\n\r\nClinVar archives submitted information, and adds identifiers and other data that may be available about a variant or condition from other public resources. However ClinVar neither curates content nor modifies interpretations independent of an explicit submission. If you have data that differs from what is currently represented in ClinVar, we encourage you to submit your data and the evidence supporting your interpretation. There is a submission wizard to guide you through that process. See https://www.ncbi.nlm.nih.gov/variation/clinvar_single_wizard/. \r\n\r\nIf you are submitting variants that were interpreted as part of work funded by the NIH, please consult your program officer about expectations for submissions to ClinVar.",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "http://www.ncbi.nlm.nih.gov/clinvar",
+            "preferred": true,
+            "comment": "This is the URL endorsed by the HTA and is considered authoritative.",
+            "period": {
+                "start": "2022-02-16"
+            }
+        },
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.319",
+            "preferred": true
+        }
+    ]
+}

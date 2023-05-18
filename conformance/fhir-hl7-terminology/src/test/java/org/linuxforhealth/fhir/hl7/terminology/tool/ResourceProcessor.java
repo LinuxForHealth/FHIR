@@ -37,7 +37,7 @@ public class ResourceProcessor {
         JsonWriterFactory jsonWriterFactory = Json.createWriterFactory(writerConfig);
         JsonBuilderFactory jsonBuilderFactory = Json.createBuilderFactory(null);
 
-        File dir = new File("src/main/resources/hl7/terminology/310/package/");
+        File dir = new File("src/main/resources/hl7/terminology/500/package/");
         for (File file : dir.listFiles()) {
             String fileName = file.getName();
             if (!fileName.endsWith(".json") || file.isDirectory()

@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "icpc2E-P-AUS",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ICPC2P 1998 Plus Austral Mod"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/icpc2E-P-AUS"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Icpc2EPAUS",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "NLM",
+    "contact": [
+        {
+            "name": "National Library of Medicine"
+        }
+    ],
+    "responsible": "NLM",
+    "description": "International Classification of Primary Care, Version 2-Plus, Australian Modification. January, 2000",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.140.2",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/icpc2E-P-AUS",
+            "preferred": true
+        }
+    ]
+}

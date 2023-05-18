@@ -1,0 +1,93 @@
+{
+    "resourceType": "ValueSet",
+    "id": "v3-KnowledgeSubtopicObservationValue",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/ValueSet/v3-KnowledgeSubtopicObservationValue",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.11.77"
+        }
+    ],
+    "version": "3.0.0",
+    "name": "KnowledgeSubtopicObservationValue",
+    "title": "KnowledgeSubtopicObservationValue",
+    "status": "active",
+    "experimental": false,
+    "date": "2010-03-16",
+    "description": "Observation values used to indicate a knowledge subtopic of interest for which knowledge content is requested (e.g., treatment, etiology, prognosis).",
+    "compose": {
+        "include": [
+            {
+                "system": "https://www.nlm.nih.gov/mesh",
+                "concept": [
+                    {
+                        "code": "Q000008"
+                    },
+                    {
+                        "code": "Q000744"
+                    },
+                    {
+                        "code": "Q000009"
+                    },
+                    {
+                        "code": "D004347"
+                    },
+                    {
+                        "code": "Q000145"
+                    },
+                    {
+                        "code": "Q000209"
+                    },
+                    {
+                        "code": "Q000175"
+                    },
+                    {
+                        "code": "Q000628"
+                    },
+                    {
+                        "code": "D011379"
+                    },
+                    {
+                        "code": "Q000627"
+                    },
+                    {
+                        "code": "Q000493"
+                    },
+                    {
+                        "code": "Q000494"
+                    },
+                    {
+                        "code": "Q000633"
+                    },
+                    {
+                        "code": "Q000506"
+                    }
+                ]
+            },
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "79899007"
+                    },
+                    {
+                        "code": "47965005"
+                    },
+                    {
+                        "code": "404204005"
+                    },
+                    {
+                        "code": "95907004"
+                    },
+                    {
+                        "code": "95906008"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,51 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "apdrg",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "All Patient Diagnosis Related Groups (AP DRGs)"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/apdrg"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "APDRG",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2020-11-12T00:00:00-04:00",
+    "publisher": "3M Health Information Systems, Inc.",
+    "contact": [
+        {
+            "name": "3M Health Information Systems, Inc.; 575 West Murray Boulevard, Salt Lake City, UT 84123, USA",
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "+1 800 367 2447"
+                },
+                {
+                    "system": "url",
+                    "value": "http://www.3mhis.com"
+                }
+            ]
+        }
+    ],
+    "responsible": "3M Health Information Systems, Inc.",
+    "description": "In 1987, the state of New York passed legislation instituting a DRG-based prospective payment system for all non-Medicare patients. The legislation included a requirement that the New York State Department of Health (NYDH) evaluate the applicability of the DRGs to a non-Medicare population. In particular, the legislation required that the DRGs be evaluated with respect to neonates and patients with Human Immunodeficiency Virus (HIV) infections. NYDH entered into an agreement with 3M HIS to assist with the evaluation of the need for DRG modifications as well as to make the necessary changes in the DRG definitions and software. The DRG definitions developed by NYDH and 3M HIS are referred to as the All Patient DRGs (AP DRGs).",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "http://uri.hddaccess.com/cs/apdrg",
+            "preferred": true
+        }
+    ]
+}

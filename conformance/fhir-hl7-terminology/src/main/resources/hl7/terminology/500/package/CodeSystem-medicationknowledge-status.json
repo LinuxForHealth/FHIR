@@ -1,0 +1,73 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "medicationknowledge-status",
+    "meta": {
+        "lastUpdated": "2020-04-09T21:10:28.568+00:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "phx"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/medicationknowledge-status",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1336"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "MedicationKnowledgeStatusCodes",
+    "title": "MedicationKnowledge Status Codes",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-11-04T19:44:38-06:00",
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "MedicationKnowledge Status Codes",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/medicationknowledge-status",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "active",
+            "display": "Active",
+            "definition": "The medication is available for use."
+        },
+        {
+            "code": "inactive",
+            "display": "Inactive",
+            "definition": "The medication is not available for use."
+        },
+        {
+            "code": "entered-in-error",
+            "display": "Entered in Error",
+            "definition": "The medication was entered in error."
+        }
+    ]
+}

@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "standardBillingUnit",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Standard Billing Unit"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/standardBillingUnit"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "StandardBillingUnit",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "NCPDP",
+    "contact": [
+        {
+            "name": "National Council for Prescription Drug Programs (NCPDP),National Council for Prescription Drug Progr"
+        }
+    ],
+    "responsible": "NCPDP",
+    "description": "NCPDP standard product billing codes of NCPDP field Unit of Measure (600-28). This billing code is assigned per product, placed in the Structured Product Label, and used in the pharmacy billing processing for consistent billing unit.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.2.13",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/standardBillingUnit",
+            "preferred": true
+        }
+    ]
+}

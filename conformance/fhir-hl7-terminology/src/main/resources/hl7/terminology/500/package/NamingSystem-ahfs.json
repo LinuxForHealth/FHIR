@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "ahfs",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "AHFS Pharmacologic-Therapeutic Classification"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/ahfs"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.0.1"
+        }
+    ],
+    "name": "Ahfs",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "ASHSP",
+    "contact": [
+        {
+            "name": "American Society of Health-System Pharmacists"
+        }
+    ],
+    "responsible": "ASHSP",
+    "description": "**Description:** The AHFS Pharmacologic-Therapeutic Classification has been in use in hospitals in the United States since its inception in 1959. An integral part of the American Hospital Formulary Service, the AHFS classification allows the grouping of drugs with similar pharmacologic, therapeutic, and/or chemical characteristics. Today, the AHFS classification is used by many people outside of hospitals.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.234",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/ahfs",
+            "preferred": true
+        }
+    ]
+}

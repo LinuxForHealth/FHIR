@@ -1,0 +1,81 @@
+{
+    "resourceType": "ValueSet",
+    "id": "encounter-class",
+    "meta": {
+        "lastUpdated": "2020-02-24T12:41:39.109+11:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablevalueset"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "draft"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 1
+        }
+    ],
+    "url": "http://terminology.hl7.org/ValueSet/encounter-class",
+    "version": "1.0.0",
+    "name": "EncounterClass",
+    "title": "Encounter class",
+    "status": "draft",
+    "experimental": false,
+    "date": "2020-02-24T12:41:39+11:00",
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This value set defines a set of codes that can be used to indicate the class of encounter: a specific code indicating class of service provided.",
+    "immutable": true,
+    "compose": {
+        "include": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+                "concept": [
+                    {
+                        "code": "IMP",
+                        "display": "inpatient encounter"
+                    },
+                    {
+                        "code": "AMB",
+                        "display": "ambulatory"
+                    },
+                    {
+                        "code": "OBSENC",
+                        "display": "observation encounter"
+                    },
+                    {
+                        "code": "EMER",
+                        "display": "emergency"
+                    },
+                    {
+                        "code": "VR",
+                        "display": "virtual"
+                    },
+                    {
+                        "code": "HH",
+                        "display": "home health"
+                    }
+                ]
+            }
+        ]
+    }
+}

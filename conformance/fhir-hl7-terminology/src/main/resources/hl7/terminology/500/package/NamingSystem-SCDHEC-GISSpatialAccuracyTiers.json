@@ -1,0 +1,39 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "SCDHEC-GISSpatialAccuracyTiers",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "SCDHEC GIS Spatial Accuracy Tiers"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/SCDHEC-GISSpatialAccuracyTiers"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "SCDHECGISSpatialAccuracyTiers",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "description": "**Description:** The South Carolina Department of Health and Environmental Control GIS Spatial Data Accuracy Tiers have been derived from the National Standard for Spatial Data Accuracy as a means to categorize the accuracy of spatial data assignment utilizing a variety of tools for capturing coordinates including digitizers, geocoding software and global positioning system devices.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.241",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/SCDHEC-GISSpatialAccuracyTiers",
+            "preferred": true
+        }
+    ]
+}

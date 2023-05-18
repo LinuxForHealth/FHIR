@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "deeds-old",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "DEEDS(old)"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/deeds-old"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.0.1"
+        }
+    ],
+    "name": "DeedsOld",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "CDC",
+    "contact": [
+        {
+            "name": "Centers for Disease Control and Prevention"
+        }
+    ],
+    "responsible": "CDC",
+    "description": "retired root for DEEDs from earlier work. Superceded.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.89",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/deeds-old",
+            "preferred": true
+        }
+    ]
+}

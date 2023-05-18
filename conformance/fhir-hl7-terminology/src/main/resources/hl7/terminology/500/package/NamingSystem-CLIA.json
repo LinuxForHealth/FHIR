@@ -1,0 +1,59 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "CLIA",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Clinical Laboratory Improvement Amendments"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/CLIA"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "CLIA",
+    "status": "active",
+    "kind": "identifier",
+    "date": "2022-08-25T00:00:00-00:00",
+    "publisher": "Centers for Medicare & Medicaid Services (CMS)",
+    "contact": [
+        {
+            "name": "Centers for Medicare & Medicaid Services (CMS);7500 Security Boulevard, Baltimore, MD 21244",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "LabExcellence@cms.hhs.gov"
+                },
+                {
+                    "system": "url",
+                    "value": "https://www.cms.gov/"
+                }
+            ]
+        }
+    ],
+    "responsible": "Centers for Medicare & Medicaid Services (CMS)",
+    "description": "\"The Centers for Medicare & Medicaid Services (CMS) regulates all laboratory testing (except research) performed on humans in the U.S. through the Clinical Laboratory Improvement Amendments (CLIA). In total, CLIA covers approximately 330,000 laboratory entities. The Division of Clinical Laboratory Improvement & Quality, within the Quality, Safety & Oversight Group, under the Center for Clinical Standards and Quality (CCSQ) has the responsibility for implementing the CLIA Program.\r\n\r\nThe objective of the CLIA program is to ensure quality laboratory testing. Although all clinical laboratories must be properly certified to receive Medicare or Medicaid payments, CLIA has no direct Medicare or Medicaid program responsibilities.\"\r\n\r\nCMS CLIA certified laboratories will be assigned a10-digit alphanumeric CLIA identification number, with the \"D\" in the third position identifying the provider/supplier as a laboratory certified under CLIA.\"\r\n\r\nCLIA is maintained by CMS. It is in the public domain and free to use without restriction.\r\n\r\nSee http://cms.gov/regulations-and-guidance/legislation/clia.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.7",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "urn:oid:2.16.840.1.113883.4.7",
+            "preferred": true,
+            "period": {
+                "start": "2022-08-25"
+            }
+        }
+    ]
+}

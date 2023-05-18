@@ -1,0 +1,30 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "iso4217",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/iso4217",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:1.0.4217"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "Iso4217",
+    "title": "ISO 4217 Currency Codes",
+    "status": "retired",
+    "experimental": false,
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "TBD - External Body",
+    "contact": [
+        {
+            "name": "International Standards Organization (ISO),International Standards Organization (ISO)"
+        }
+    ],
+    "description": "ISO 4217 currency codes.",
+    "caseSensitive": true,
+    "content": "not-present"
+}

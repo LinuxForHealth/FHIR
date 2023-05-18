@@ -1,0 +1,3466 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-ActClass",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-ActClass",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.6"
+        }
+    ],
+    "version": "3.1.1",
+    "name": "ActClass",
+    "title": "ActClass",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "A code specifying the major type of Act that this Act-instance represents.\r\n\r\n*Constraints:* The classCode domain is a tightly controlled vocabulary, not an external or user-defined vocabulary.\r\n\r\nEvery Act-instance must have a classCode. If the act class is not further specified, the most general Act.classCode (ACT) is used.\r\n\r\nThe Act.classCode must be a generalization of the specific Act concept (e.g., as expressed in Act.code), in other words, the Act concepts conveyed in an Act must be specializations of the Act.classCode. Especially, Act.code is not a \"modifier\" that can alter the meaning of a class code. (See Act.code for contrast.)",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "A property that indicates the status of the concept. One of active, experimental, deprecated, or retired.",
+            "type": "code"
+        },
+        {
+            "code": "deprecationDate",
+            "uri": "http://hl7.org/fhir/concept-properties#deprecationDate",
+            "description": "The date at which a concept was deprecated. Concepts that are deprecated but not inactive can still be used, but their use is discouraged.",
+            "type": "dateTime"
+        },
+        {
+            "code": "Name:Class",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#rim-Class",
+            "description": "The formal name for the class clone under this code",
+            "type": "code"
+        },
+        {
+            "code": "Name:Participation:act:Act",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#rim-Participation-act",
+            "description": "The formal name for relationship from Participation to Act",
+            "type": "string"
+        },
+        {
+            "code": "HL7usageNotes",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#HL7usageNotes",
+            "description": "HL7 Concept Usage Notes",
+            "type": "string"
+        },
+        {
+            "code": "notSelectable",
+            "uri": "http://hl7.org/fhir/concept-properties#notSelectable",
+            "description": "Indicates that the code is abstract - only intended to be used as a selector for other concepts",
+            "type": "boolean"
+        },
+        {
+            "code": "synonymCode",
+            "uri": "http://hl7.org/fhir/concept-properties#synonym",
+            "description": "An additional concept code that was also attributed to a concept",
+            "type": "code"
+        },
+        {
+            "code": "subsumedBy",
+            "uri": "http://hl7.org/fhir/concept-properties#parent",
+            "description": "The concept code of a parent concept",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "ACT",
+            "display": "act",
+            "definition": "A record of something that is being done, has been done, can be done, or is intended or requested to be done.\r\n\r\n*Examples:*The kinds of acts that are common in health care are (1) a clinical observation, (2) an assessment of health condition (such as problems and diagnoses), (3) healthcare goals, (4) treatment services (such as medication, surgery, physical and psychological therapy), (5) assisting, monitoring or attending, (6) training and education services to patients and their next of kin, (7) and notary services (such as advanced directives or living will), (8) editing and maintaining documents, and many others.\r\n\r\n*Discussion and Rationale:* Acts are the pivot of the RIM; all domain information and processes are represented primarily in Acts. Any profession or business, including healthcare, is primarily constituted of intentional and occasionally non-intentional actions, performed and recorded by responsible actors. An Act-instance is a record of such an action.\r\n\r\nActs connect to Entities in their Roles through Participations and connect to other Acts through ActRelationships. Participations are the authors, performers and other responsible parties as well as subjects and beneficiaries (which includes tools and material used in the performance of the act, which are also subjects). The moodCode distinguishes between Acts that are meant as factual records, vs. records of intended or ordered services, and the other modalities in which act can appear.\r\n\r\nOne of the Participations that all acts have (at least implicitly) is a primary author, who is responsible of the Act and who \"owns\" the act. Responsibility for the act means responsibility for what is being stated in the Act and as what it is stated. Ownership of the act is assumed in the sense of who may operationally modify the same act. Ownership and responsibility of the Act is not the same as ownership or responsibility of what the Act-object refers to in the real world. The same real world activity can be described by two people, each being the author of their Act, describing the same real world activity. Yet one can be a witness while the other can be a principal performer. The performer has responsibilities for the physical actions; the witness only has responsibility for making a true statement to the best of his or her ability. The two Act-instances may even disagree, but because each is properly attributed to its author, such disagreements can exist side by side and left to arbitration by a recipient of these Act-instances.\r\n\r\nIn this sense, an Act-instance represents a \"statement\" according to Rector and Nowlan (1991) \\[Foundations for an electronic medical record. Methods Inf Med. 30.\\] Rector and Nowlan have emphasized the importance of understanding the medical record not as a collection of facts, but \"a faithful record of what clinicians have heard, seen, thought, and done.\" Rector and Nowlan go on saying that \"the other requirements for a medical record, e.g., that it be attributable and permanent, follow naturally from this view.\" Indeed the Act class is this attributable statement, and the rules of updating acts (discussed in the state-transition model, see Act.statusCode) versus generating new Act-instances are designed according to this principle of permanent attributable statements.\r\n\r\nRector and Nolan focus on the electronic medical record as a collection of statements, while attributed statements, these are still mostly factual statements. However, the Act class goes beyond this limitation to attributed factual statements, representing what is known as \"speech-acts\" in linguistics and philosophy. The notion of speech-act includes that there is pragmatic meaning in language utterances, aside from just factual statements; and that these utterances interact with the real world to change the state of affairs, even directly cause physical activities to happen. For example, an order is a speech act that (provided it is issued adequately) will cause the ordered action to be physically performed. The speech act theory has culminated in the seminal work by Austin (1962) \\[How to do things with words. Oxford University Press\\].\r\n\r\nAn activity in the real world may progress from defined, through planned and ordered to executed, which is represented as the mood of the Act. Even though one might think of a single activity as progressing from planned to executed, this progression is reflected by multiple Act-instances, each having one and only one mood that will not change along the Act-instance life cycle. This is because the attribution and content of speech acts along this progression of an activity may be different, and it is often critical that a permanent and faithful record be maintained of this progression. The specification of orders or promises or plans must not be overwritten by the specification of what was actually done, so as to allow comparing actions with their earlier specifications. Act-instances that describe this progression of the same real world activity are linked through the ActRelationships (of the relationship category \"sequel\").\r\n\r\nAct as statements or speech-acts are the only representation of real world facts or processes in the HL7 RIM. The truth about the real world is constructed through a combination (and arbitration) of such attributed statements only, and there is no class in the RIM whose objects represent \"objective state of affairs\" or \"real processes\" independent from attributed statements. As such, there is no distinction between an activity and its documentation. Every Act includes both to varying degrees. For example, a factual statement made about recent (but past) activities, authored (and signed) by the performer of such activities, is commonly known as a procedure report or original documentation (e.g., surgical procedure report, clinic note etc.). Conversely, a status update on an activity that is presently in progress, authored by the performer (or a close observer) is considered to capture that activity (and is later superceded by a full procedure report). However, both status update and procedure report are acts of the same kind, only distinguished by mood and state (see statusCode) and completeness of the information.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "13856"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Act"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DOCCNTNT",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14785"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DOCLIST",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14787"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DOCLSTITM",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14789"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DOCPARA",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14786"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DOCTBL",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14784"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "LINKHTML",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16902"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "LOCALATTR",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16903"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "LOCALMRKP",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16904"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ordered",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10979"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "REFR",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11538"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "TBLCOL",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14782"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "TBLCOLGP",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14783"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "TBLDATA",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14776"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "TBLHDR",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14775"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "TBLROW",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14778"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "tbody",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11009"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "tfoot",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11010"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "thead",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11011"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "unordered",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10980"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ENTRY",
+            "display": "entry",
+            "definition": "This context represents the information acquired and recorded for an observation, a clinical statement such as a portion of the patient's history or an inference or assertion, or an action that might be intended or has actually been performed. This class may represent both the actual data describing the observation, inference, or action, and optionally the details supporting the clinical reasoning process such as a reference to an electronic guideline, decision support system, or other knowledge reference.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20087"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ActClassContainer"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ActContainer"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ORGANIZER",
+            "display": "organizer",
+            "definition": "Organizer of entries. Navigational. No semantic content. Knowledge of the section code is not required to interpret contained observations. Represents a heading in a heading structure, or \"organizer tree\".\r\n\r\nThe record entries relating to a single clinical session are usually grouped under headings that represent phases of the encounter, or assist with layout and navigation. Clinical headings usually reflect the clinical workflow during a care session, and might also reflect the main author's reasoning processes. Much research has demonstrated that headings are used differently by different professional groups and specialties, and that headings are not used consistently enough to support safe automatic processing of the E H R.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20084"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ActClassContainer"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ActContainer"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "COMPOSITION",
+            "display": "composition",
+            "definition": "A context representing a grouped commitment of information to the EHR. It is considered the unit of modification of the record, the unit of transmission in record extracts, and the unit of attestation by authorizing clinicians.\r\n\r\nA composition represents part of a patient record originating from a single interaction between an authenticator and the record.\r\n\r\nUnless otherwise stated all statements within a composition have the same authenticator, apply to the same patient and were recorded in a single session of use of a single application.\r\n\r\nA composition contains organizers and entries.",
+            "designation": [
+                {
+                    "language": "en",
+                    "use": {
+                        "system": "http://snomed.info/sct",
+                        "code": "900000000000013009"
+                    },
+                    "value": "Attestable unit"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20083"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Composition"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ActClassRecordOrganizer"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CONTAINER",
+            "display": "record container",
+            "definition": "**Description:** Container of clinical statements. Navigational. No semantic content. Knowledge of the section code is not required to interpret contained observations. Represents a heading in a heading structure, or \"container tree\".\r\n\r\nThe record entries relating to a single clinical session are usually grouped under headings that represent phases of the encounter, or assist with layout and navigation. Clinical headings usually reflect the clinical workflow during a care session, and might also reflect the main author's reasoning processes. Much research has demonstrated that headings are used differently by different professional groups and specialties, and that headings are not used consistently enough to support safe automatic processing of the E H R.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22712"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Container"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ActClassRecordOrganizer"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "EXTRACT",
+            "display": "extract",
+            "definition": "This context represents the part of a patient record conveyed in a single communication. It is drawn from a providing system for the purposes of communication to a requesting process (which might be another repository, a client application or a middleware service such as an electronic guideline engine), and supporting the faithful inclusion of the communicated data in the receiving system.\r\n\r\nAn extract may be the entirety of the patient record as held by the sender or it may be a part of that record (e.g. changes since a specified date).\r\n\r\nAn extract contains folders or compositions.\r\n\r\nAn extract cannot contain another extract.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20080"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Extract"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ActClassRecordOrganizer"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "FOLDER",
+            "display": "folder",
+            "definition": "A context representing the high-level organization of an extract e.g. to group parts of the record by episode, care team, clinical specialty, clinical condition, or source application. Internationally, this kind of organizing structure is used variably: in some centers and systems the folder is treated as an informal compartmentalization of the overall health record; in others it might represent a significant legal portion of the EHR relating to the originating enterprise or team.\r\n\r\nA folder contains compositions.\r\n\r\nFolders may be nested within folders.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20082"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Folder"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ActClassRecordOrganizer"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "GROUPER",
+            "display": "grouper",
+            "definition": "**Definition:** An ACT that organizes a set of component acts into a semantic grouping that share a particular context such as timeframe, patient, etc.\r\n\r\n**UsageNotes:** The focus in a GROUPER act is the grouping of the contained acts. For example \"a request to group\" (RQO), \"a type of grouping that is allowed to occur\" (DEF), etc.\r\n\r\nUnlike WorkingList, which represents a dynamic, shared, continuously updated collection to provide a \"view\" of a set of objects, GROUPER collections tend to be static and simply indicate a shared set of semantics. Note that sharing of semantics can be achieved using ACT as well. However, with GROUPER, the sole semantic is of grouping.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "The focus in a GROUPER act is the grouping of the contained acts.  For example \"a request to group\" (RQO), \"a type of grouping that is allowed to occur\" (DEF), etc. Unlike WorkingList, which represents a dynamic, shared, continuously updated collection to provide a \"view\" of a set of objects, GROUPER collections tend to be static and simply indicate a shared set of semantics.  Note that sharing of semantics can be achieved using ACT as well.  However, with GROUPER, the sole semantic is of grouping."
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22713"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Grouper"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ActClassRecordOrganizer"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ROIBND",
+            "display": "bounded ROI",
+            "definition": "A Region of Interest (ROI) specified for a multidimensional observation, such as an Observation Series (OBSSER). The ROI is specified using a set of observation criteria, each delineating the boundary of the region in one of the dimensions in the multidimensional observation. The relationship between a ROI and its referenced Act is specified through an ActRelationship of type subject (SUBJ), which must always be present. Each of the boundary criteria observations is connected with the ROI using ActRelationships of type \"has component\" (COMP). In each boundary criterion, the Act.code names the dimension and the Observation.value specifies the range of values inside the region. Typically the bounded dimension is continuous, and so the Observation.value will be an interval (IVL) data type. The Observation.value need not be specified if the respective dimension is only named but not constrained. For example, an ROI for the QT interval of a certain beat in ECG Lead II would contain 2 boundary criteria, one naming the interval in time (constrained), and the other naming the interval in ECG Lead II (only named, but not constrained).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "17895"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "BoundedROI"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ActClassROI"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ROIOVL",
+            "display": "overlay ROI",
+            "definition": "A Region of Interest (ROI) specified for an image using an overlay shape. Typically used to make reference to specific regions in images, e.g., to specify the location of a radiologic finding in an image or to specify the site of a physical finding by \"circling\" a region in a schematic picture of a human body. The units of the coordinate values are in pixels. The origin is in the upper left hand corner, with positive X values going to the right and positive Y values going down. The relationship between a ROI and its referenced Act is specified through an ActRelationship of type \"subject\" (SUBJ), which must always be present.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16392"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "OverlayROL"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_ActClassROI"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "LLD",
+            "display": "left lateral decubitus",
+            "definition": "Lying on the left side.\r\n\r\n***Deprecation Comment:*** This concept has been deprecated because it does not describe a type of Act (as it should in the ActClass code system), but rather encodes the result or value of an observation. The same code has been added to the ObservationValue code system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-07-12"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21939"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SubjectBodyPosition"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "PRN",
+            "display": "prone",
+            "definition": "Lying with the front or ventral surface downward; lying face down.\r\n\r\n***Deprecation Comment:*** This concept has been deprecated because it does not describe a type of Act (as it should in the ActClass code system), but rather encodes the result or value of an observation. The same code has been added to the ObservationValue code system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-07-12"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21932"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SubjectBodyPosition"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "RLD",
+            "display": "right lateral decubitus",
+            "definition": "Lying on the right side.\r\n\r\n***Deprecation Comment:*** This concept has been deprecated because it does not describe a type of Act (as it should in the ActClass code system), but rather encodes the result or value of an observation. The same code has been added to the ObservationValue code system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-07-12"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21938"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SubjectBodyPosition"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SFWL",
+            "display": "Semi-Fowler's",
+            "definition": "A semi-sitting position in bed with the head of the bed elevated approximately 45 degrees.\r\n\r\n***Deprecation Comment:*** This concept has been deprecated because it does not describe a type of Act (as it should in the ActClass code system), but rather encodes the result or value of an observation. The same code has been added to the ObservationValue code system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-07-12"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21940"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SubjectBodyPosition"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SIT",
+            "display": "sitting",
+            "definition": "Resting the body on the buttocks, typically with upper torso erect or semi erect.\r\n\r\n***Deprecation Comment:*** This concept has been deprecated because it does not describe a type of Act (as it should in the ActClass code system), but rather encodes the result or value of an observation. The same code has been added to the ObservationValue code system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-07-12"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21933"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SubjectBodyPosition"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "STN",
+            "display": "standing",
+            "definition": "To be stationary, upright, vertical, on one's legs.\r\n\r\n***Deprecation Comment:*** This concept has been deprecated because it does not describe a type of Act (as it should in the ActClass code system), but rather encodes the result or value of an observation. The same code has been added to the ObservationValue code system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-07-12"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21934"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SubjectBodyPosition"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SUP",
+            "display": "supine",
+            "definition": "***Deprecation Comment:*** This concept has been deprecated because it does not describe a type of Act (as it should in the ActClass code system), but rather encodes the result or value of an observation. The same code has been added to the ObservationValue code system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-07-12"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21935"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SubjectBodyPosition"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "_SubjectBodyPosition",
+            "display": "subject body position",
+            "definition": "Contains codes for defining the observed, physical position of a subject, such as during an observation, assessment, collection of a specimen, etc. ECG waveforms and vital signs, such as blood pressure, are two examples where a general, observed position typically needs to be noted.\r\n\r\n***Deprecation Comment:*** This concept has been deprecated because it does not describe a type of Act (as it should in the ActClass code system), but rather encodes the result or value of an observation. The same code has been added to the ObservationValue code system.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-07-12"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21930"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "SubjectBodyPosition"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SubjectPhysicalPosition"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "_ImagingSubjectOrientation",
+            "display": "imaging subject orientation",
+            "definition": "A code specifying qualitatively the spatial relation between imaged object and imaging film or detector.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21931"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "_SubjectPhysicalPosition"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "_ActClassRecordOrganizer",
+            "display": "record organizer",
+            "definition": "Used to group a set of acts sharing a common context. Organizer structures can nest within other context structures - such as where a document is contained within a folder, or a folder is contained within an EHR extract.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22711"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "RecordOrganizer"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ACCM",
+            "display": "accommodation",
+            "definition": "An accommodation is a service provided for a Person or other LivingSubject in which a place is provided for the subject to reside for a period of time. Commonly used to track the provision of ward, private and semi-private accommodations for a patient.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16137"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Accommodation"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ACCT",
+            "display": "account",
+            "definition": "A financial account established to track the net result of financial acts.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "13991"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Account"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ACSN",
+            "display": "accession",
+            "definition": "A unit of work, a grouper of work items as defined by the system performing that work. Typically some laboratory order fulfillers communicate references to accessions in their communications regarding laboratory orders. Often one or more specimens are related to an accession such that in some environments the accession number is taken as an identifier for a specimen (group).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16740"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Accession"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ADJUD",
+            "display": "financial adjudication",
+            "definition": "A transformation process where a requested invoice is transformed into an agreed invoice. Represents the adjudication processing of an invoice (claim). Adjudication results can be adjudicated as submitted, with adjustments or refused.\r\n\r\nAdjudication results comprise 2 components: the adjudication processing results and a restated (or adjudicated) invoice or claim",
+            "designation": [
+                {
+                    "language": "en",
+                    "use": {
+                        "system": "http://snomed.info/sct",
+                        "code": "900000000000013009"
+                    },
+                    "value": "financial adjudication results"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16747"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "InvoiceAdjudication"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CACT",
+            "display": "control act",
+            "definition": "An act representing a system action such as the change of state of another act or the initiation of a query. All control acts represent trigger events in the HL7 context. ControlActs may occur in different moods.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11534"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "ControlAct"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CNTRCT",
+            "display": "contract",
+            "definition": "An agreement of obligation between two or more parties that is subject to contractual law and enforcement.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14002"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Contract"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CONC",
+            "display": "concern",
+            "definition": "**Definition:** A worry that tends to persist over time and has as its subject a state or process. The subject of the worry has the potential to require intervention or management.\r\n\r\n**Examples:** an observation result, procedure, substance administration, equipment repair status, device recall status, a health risk, a financial risk, public health risk, pregnancy, health maintenance, allergy, and acute or chronic illness.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22933"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Concern"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CONS",
+            "display": "consent",
+            "definition": "The Consent class represents informed consents and all similar medico-legal transactions between the patient (or his legal guardian) and the provider. Examples are informed consent for surgical procedures, informed consent for clinical trials, advanced beneficiary notice, against medical advice decline from service, release of information agreement, etc.\r\n\r\nThe details of consents vary. Often an institution has a number of different consent forms for various purposes, including reminding the physician about the topics to mention. Such forms also include patient education material. In electronic medical record communication, consents thus are information-generating acts on their own and need to be managed similar to medical activities. Thus, Consent is modeled as a special class of Act.\r\n\r\nThe \"signatures\" to the consent document are represented electronically through Participation instances to the consent object. Typically an informed consent has Participation.typeCode of \"performer\", the healthcare provider informing the patient, and \"consenter\", the patient or legal guardian. Some consent may associate a witness or a notary public (e.g., living wills, advanced directives). In consents where a healthcare provider is not required (e.g. living will), the performer may be the patient himself or a notary public.\r\n\r\nSome consent has a minimum required delay between the consent and the service, so as to allow the patient to rethink his decisions. This minimum delay can be expressed in the act definition by the ActRelationship.pauseQuantity attribute that delays the service until the pause time has elapsed after the consent has been completed.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11537"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Consent"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CONTREG",
+            "display": "container registration",
+            "definition": "An Act where a container is registered either via an automated sensor, such as a barcode reader, or by manual receipt",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14005"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "ContainerRegistration"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CTTEVENT",
+            "display": "clinical trial timepoint event",
+            "definition": "An identified point during a clinical trial at which one or more actions are scheduled to be performed (definition mood), or are actually performed (event mood). The actions may or may not involve an encounter between the subject and a healthcare professional.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "18973"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "TimePointEvent"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DISPACT",
+            "display": "disciplinary action",
+            "definition": "An action taken with respect to a subject Entity by a regulatory or authoritative body with supervisory capacity over that entity. The action is taken in response to behavior by the subject Entity that body finds to be undesirable.\r\n\r\nSuspension, license restrictions, monetary fine, letter of reprimand, mandated training, mandated supervision, etc.*Examples:*",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21428"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "DisciplinaryAction"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "EXPOS",
+            "display": "exposure",
+            "definition": "An interaction between entities that provides opportunity for transmission of a physical, chemical, or biological agent from an exposure source entity to an exposure target entity.\r\n\r\n*Examples:* The following examples are provided to indicate what interactions are considered exposures rather than other types of Acts:\r\n\r\n *  A patient accidentally receives three times the recommended dose of their medication due to a dosing error.\r\n    \r\n     *  This is a substance administration. Public health and/or safety authorities may also be interested in documenting this with an associated exposure.\r\n *  A patient accidentally is dispensed an incorrect medicine (e.g., clomiphene instead of clomipramine). They have taken several doses before the mistake is detected. They are therefore \"exposed\" to a medicine that there was no therapeutic indication for them to receive.\r\n    \r\n     *  There are several substance administrations in this example. Public health and/or safety authorities may also be interested in documenting this with associated exposures.\r\n *  In a busy medical ward, a patient is receiving chemotherapy for a lymphoma. Unfortunately, the IV infusion bag containing the medicine splits, spraying cytotoxic medication over the patient being treated and the patient in the adjacent bed.\r\n    \r\n     *  There are three substance administrations in this example. The first is the intended one (IV infusion) with its associated (implicit) exposure. There is an incident with an associated substance administration to the same patient involving the medication sprayed over the patient as well as an associated exposure. Additionally, the incident includes a substance administration involving the spraying of medication on the adjacent patient, also with an associated exposure.\r\n *  A patient who is a refugee from a war-torn African nation arrives in a busy inner city A&E department suffering from a cough with bloody sputum. Not understanding the registration and triage process, they sit in the waiting room for several hours before it is noticed that they have not booked in. As soon as they are being processed, it is suspected that they are suffering from TB. Vulnerable (immunosuppressed) patients who were sharing the waiting room with this patient may have been exposed to the tubercule bacillus, and must be traced for investigation.\r\n    \r\n     *  This is an exposure (or possibly multiple exposures) in the waiting room involving the refugee and everyone else in the waiting room during the period. There might also be a number of known or presumed substance administrations (coughing) via several possible routes. The substance administrations are only hypotheses until confirmed by further testing.\r\n *  A patient who has received an elective total hip replacement procedure suffers a prolonged stay in hospital, due to contracting an MRSA infection in the surgical wound site after the surgery.\r\n    \r\n     *  This is an exposure to MRSA. Although there was some sort of substance administration, it's possible the exact mechanism for introduction of the MRSA into the wound will not be identified.\r\n *  Routine maintenance of the X-ray machines at a local hospital reveals a serious breach of the shielding on one of the machines. Patients who have undergone investigations using that machine in the last month are likely to have been exposed to significantly higher doses of X-rays than was intended, and must be tracked for possible adverse effects.\r\n    \r\n     *  There has been an exposure of each patient who used the machine in the past 30 days. Some patients may have had substance administrations.\r\n *  A new member of staff is employed in the laundry processing room of a small cottage hospital, and a misreading of the instructions for adding detergents results in fifty times the usual concentration of cleaning materials being added to a batch of hospital bedding. As a result, several patients have been exposed to very high levels of detergents still present in the \"clean\" bedding, and have experienced dermatological reactions to this.\r\n    \r\n     *  There has been an incident with multiple exposures to several patients. Although there are substance administrations involving the application of the detergent to the skin of the patients, it is expected that the substance administrations would not be directly documented.\r\n *  Seven patients who are residents in a health care facility for the elderly mentally ill have developed respiratory problems. After several months of various tests having been performed and various medications prescribed to these patients, the problem is traced to their being \"sensitive\" to a new fungicide used in the wall plaster of the ward where these patients reside.\r\n    \r\n     *  The patients have been continuously exposed to the fungicide. Although there have been continuous substance administrations (via breathing) this would not normally be documented as a substance administration.\r\n *  A patient with osteoarthritis of the knees is treated symptomatically using analgesia, paracetamol (acetaminophen) 1g up to four times a day for pain relief. His GP does not realize that the patient has, 20 years previously (while at college) had severe alcohol addiction problems, and now, although this is completely under control, his liver has suffered significantly, leaving him more sensitive to hepatic toxicity from paracetamol use. Later that year, the patient returns with a noticeable level of jaundice. Paracetamol is immediately withdrawn and alternative solutions for the knee pain are sought. The jaundice gradually subsides with conservative management, but referral to the gastroenterologist is required for advice and monitoring.\r\n    \r\n     *  There is a substance administration with an associated exposure. The exposure component is based on the relative toxic level of the substance to a patient with a compromised liver function.\r\n *  A patient goes to their GP complaining of abdominal pain, having been discharged from the local hospital ten days' previously after an emergency appendectomy. The GP can find nothing particularly amiss, and presumes it is post operative surgical pain that will resolve. The patient returns a fortnight later, when the GP prescribes further analgesia, but does decide to request an outpatient surgical follow-up appointment. At this post-surgical outpatient review, the registrar decides to order an ultrasound, which, when performed three weeks later, shows a small faint inexplicable mass. A laparoscopy is then performed, as a day case procedure, and a piece of a surgical swab is removed from the patient's abdominal cavity. Thankfully, a full recovery then takes place.\r\n    \r\n     *  This is a procedural sequelae. There may be an Incident recorded for this also.\r\n *  A patient is slightly late for a regular pacemaker battery check in the Cardiology department of the local hospital. They are hurrying down the second floor corridor. A sudden summer squall has recently passed over the area, and rain has come in through an open corridor window leaving a small puddle on the corridor floor. In their haste, the patient slips in the puddle and falls so badly that they have to be taken to the A&E department, where it is discovered on investigation they have slightly torn the cruciate ligament in their left knee.\r\n    \r\n     *  This is not an exposure. There has been an incident.\r\n\r\n*Usage Notes:* This class deals only with opportunity and not the outcome of the exposure; i.e. not all exposed parties will necessarily experience actual harm or benefit.\r\n\r\nExposure differs from Substance Administration by the absence of the participation of a performer in the act.\r\n\r\nThe following participations SHOULD be used with the following participations to distinguish the specific entities:\r\n\r\n *  The exposed entity participates via the \"exposure target\" (EXPTRGT) participation.\r\n *  An entity that has carried the agent transmitted in the exposure participates via the \"exposure source\" (EXSRC) participation. For example:\r\n    \r\n     *  a person or animal who carried an infectious disease and interacts (EXSRC) with another person or animal (EXPTRGT) transmitting the disease agent;\r\n     *  a place or other environment (EXSRC) and a person or animal (EXPTRGT) who is exposed in the presence of this environment.\r\n *  When it is unknown whether a participating entity is the source of the agent (EXSRC) or the target of the transmission (EXPTRGT), the \"exposure participant\" (EXPART) is used.\r\n *  The physical (including energy), chemical or biological substance which is participating in the exposure uses the \"exposure agent\" (EXPAGNT) participation. There are at least three scenarios:\r\n    \r\n    1.  the player of the Role that participates as EXPAGNT is the chemical or biological substance mixed or carried by the scoper-entity of the Role (e.g., ingredient role); or\r\n    2.  the player of the Role that participates as EXPAGNT is a mixture known to contain the chemical, radiological or biological substance of interest; or\r\n    3.  the player of the Role that participates as a EXPAGNT is known to carry the agent (i.e., the player is a fomite, vector, etc.).\r\n\r\nThe Exposure.statusCode attribute should be interpreted as the state of the Exposure business object (e.g., active, aborted, completed) and not the clinical status of the exposure (e.g., probable, confirmed). The clinical status of the exposure should be associated with the exposure via a subject observation.\r\n\r\n*Design Comment:* The usage notes require a clear criterion for determining whether an act is an exposure or substance administration-deleterious potential, uncertainty of actual transmission, or otherwise. SBADM states that the criterion is the presence of a performer-but there are examples above that call this criterion into question (e.g., the first one, concerning a dosing error).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "This class deals only with opportunity and not the outcome of the exposure; i.e. not all exposed parties will necessarily experience actual harm or benefit. Exposure differs from Substance Administration by the absence of the participation of a performer in the act. The following participations SHOULD be used with the following participations to distinguish the specific entities:   The exposed entity participates via the \"exposure target\" (EXPTRGT) participation.  An entity that has carried the agent transmitted in the exposure participates via the \"exposure source\" (EXSRC) participation.  For example:   a person or animal who carried an infectious disease and interacts (EXSRC) with another person or animal (EXPTRGT) transmitting the disease agent;  a place or other environment (EXSRC) and a person or animal (EXPTRGT) who is exposed in the presence of this environment.  When it is unknown whether a participating entity is the source of the agent (EXSRC) or the target of the transmission (EXPTRGT), the \"exposure participant\" (EXPART) is used.  The physical (including energy), chemical or biological substance which is participating in the exposure uses the \"exposure agent\" (EXPAGNT) participation.  There are at least three scenarios:   the player of the Role that participates as EXPAGNT is the chemical or biological substance mixed or carried by the scoper-entity of the Role (e.g., ingredient role); or  the player of the Role that participates as EXPAGNT is a mixture known to contain the chemical, radiological or biological substance of interest; or  the player of the Role that participates as a EXPAGNT is known to carry the agent (i.e., the player is a fomite, vector, etc.). The Exposure.statusCode attribute should be interpreted as the state of the Exposure business object (e.g., active, aborted, completed) and not the clinical status of the exposure (e.g., probable, confirmed).  The clinical status of the exposure should be associated with the exposure via a subject observation."
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21980"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Exposure"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "INC",
+            "display": "incident",
+            "definition": "An event that occurred outside of the control of one or more of the parties involved. Includes the concept of an accident.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "13989"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Incident"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "INFRM",
+            "display": "inform",
+            "definition": "The act of transmitting information and understanding about a topic to a subject where the participation association must be SBJ.\r\n\r\n**Discussion:** This act may be used to request that a patient or provider be informed about an Act, or to indicate that a person was informed about a particular act.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "18908"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Inform"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "INVE",
+            "display": "invoice element",
+            "definition": "Represents concepts related to invoice processing in health care",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "13992"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "InvoiceElement"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "LIST",
+            "display": "working list",
+            "definition": "Working list collects a dynamic list of individual instances of Act via ActRelationship which reflects the need of an individual worker, team of workers, or an organization to manage lists of acts for many different clinical and administrative reasons. Examples of working lists include problem lists, goal lists, allergy lists, and to-do lists.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11541"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "WorkingList"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "MPROT",
+            "display": "monitoring program",
+            "definition": "An officially or unofficially instituted program to track acts of a particular type or categorization.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16230"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "MonitoringProgram"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "OBS",
+            "display": "observation",
+            "definition": "**Description:**An act that is intended to result in new information about a subject. The main difference between Observations and other Acts is that Observations have a value attribute. The **code** attribute of Observation and the **value** attribute of Observation must be considered in combination to determine the semantics of the observation.\r\n\r\n**Discussion:**\r\n\r\nStructurally, many observations are name-value-pairs, where the Observation.code (inherited from Act) is the name and the Observation.value is the value of the property. Such a construct is also known as a variable (a named feature that can assume a value) hence, the Observation class is always used to hold generic name-value-pairs or variables, even though the variable valuation may not be the result of an elaborate observation method. It may be a simple answer to a question or it may be an assertion or setting of a parameter.\r\n\r\nAs with all Act statements, Observation statements describe what was done, and in the case of Observations, this includes a description of what was actually observed (results or answers); and those results or answers are part of the observation and not split off into other objects.\r\n\r\nThe method of action is asserted by the Observation classCode or its subclasses at the least granular level, by the Observation.code attribute value at the medium level of granularity, and by the attribute value of observation.methodCode when a finer level of granularity is required. The method in whole or in part may also appear in the attribute value of Observation.value when using coded data types to express the value of the attribute. Relevant aspects of methodology may also be restated in value when the results themselves imply or state a methodology.\r\n\r\nAn observation may consist of component observations each having their own Observation.code and Observation.value. In this case, the composite observation may not have an Observation.value for itself. For instance, a white blood cell count consists of the sub-observations for the counts of the various granulocytes, lymphocytes and other normal or abnormal blood cells (e.g., blasts). The overall white blood cell count Observation itself may therefore not have a value by itself (even though it could have one, e.g., the sum total of white blood cells). Thus, as long as an Act is essentially an Act of recognizing and noting information about a subject, it is an Observation, regardless of whether it has a simple value by itself or whether it has sub-observations.\r\n\r\nEven though observations are professional acts (see Act) and as such are intentional actions, this does not require that every possible outcome of an observation be pondered in advance of it being actually made. For instance, differential white blood cell counts (WBC) rarely show blasts, but if they do, this is part of the WBC observation even though blasts might not be predefined in the structure of a normal WBC.\r\n\r\nClinical documents commonly have Subjective and Objective findings, both of which are kinds of Observations. In addition, clinical documents commonly contain Assessments, which are also kinds of Observations. Thus, the establishment of a diagnosis is an Observation.\r\n\r\n**Examples:**\r\n\r\n *  Recording the results of a Family History Assessment\r\n *  Laboratory test and associated result\r\n *  Physical exam test and associated result\r\n *  Device temperature\r\n *  Soil lead level",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11529"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Observation"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "PCPR",
+            "display": "care provision",
+            "definition": "An **Act** that of taking on whole or partial responsibility for, or attention to, safety and well-being of a subject of care.\r\n\r\n*Discussion:* A **care provision** event may exist without any other care actions taking place. For example, when a patient is assigned to the care of a particular health professional.\r\n\r\nIn **request** (RQO) mood **care provision** communicates a referral, which is a request:\r\n\r\n *  from one party (linked as a **participant** of type **author** (AUT)),\r\n *  to another party (linked as a **participant** of type **performer** (PRF),\r\n *  to take responsibility for a scope specified by the code attribute,\r\n *  for an entity (linked as a **participant** of type **subject** (SBJ)).\r\n\r\nThe scope of the care for which responsibility is taken is identified by *code* attribute.\r\n\r\nIn **event** (EVN) mood **care provision** indicates the effective time interval of a specified scope of responsibility by a **performer** (PRF) or set of **performers** (PRF) for a **subject** (SBJ).\r\n\r\n*Examples:*\r\n\r\n1.  Referral from GP to a specialist.\r\n2.  Assignment of a patient or group of patients to the case list of a health professional.\r\n3.  Assignment of inpatients to the care of particular nurses for a working shift.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "18964"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "CareProvision"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "POLICY",
+            "display": "policy",
+            "definition": "**Description:**A mandate, regulation, obligation, requirement, rule, or expectation unilaterally imposed by one party on:\r\n\r\n *  The activity of another party\r\n *  The behavior of another party\r\n *  The manner in which an act is executed",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21981"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Policy"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "PROC",
+            "display": "procedure",
+            "definition": "An Act whose immediate and primary outcome (post-condition) is the alteration of the physical condition of the subject.\r\n\r\n*Examples:* : Procedures may involve the disruption of some body surface (e.g. an incision in a surgical procedure), but they also include conservative procedures such as reduction of a luxated join, chiropractic treatment, massage, balneotherapy, acupuncture, shiatsu, etc. Outside of clinical medicine, procedures may be such things as alteration of environments (e.g. straightening rivers, draining swamps, building dams) or the repair or change of machinery etc.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11532"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Procedure"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "REG",
+            "display": "registration",
+            "definition": "Represents the act of maintaining information about the registration of its associated registered subject. The subject can be either an Act or a Role, and includes subjects such as lab exam definitions, drug protocol definitions, prescriptions, persons, patients, practitioners, and equipment.\r\n\r\nThe registration may have a unique identifier - separate from the unique identification of the subject - as well as a core set of related participations and act relationships that characterize the registration event and aid in the disposition of the subject information by a receiving system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "15932"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Registration"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "REV",
+            "display": "review",
+            "definition": "The act of examining and evaluating the subject, usually another act. For example, \"This prescription needs to be reviewed in 2 months.\"",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21380"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Review"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SPCTRT",
+            "display": "specimen treatment",
+            "definition": "A procedure or treatment performed on a specimen to prepare it for analysis",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14023"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "SpecimenTreatment"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SPLY",
+            "display": "supply",
+            "definition": "Supply orders and deliveries are simple Acts that focus on the delivered product. The product is associated with the Supply Act via Participation.typeCode=\"product\". With general Supply Acts, the precise identification of the Material (manufacturer, serial numbers, etc.) is important. Most of the detailed information about the Supply should be represented using the Material class. If delivery needs to be scheduled, tracked, and billed separately, one can associate a Transportation Act with the Supply Act. Pharmacy dispense services are represented as Supply Acts, associated with a SubstanceAdministration Act. The SubstanceAdministration class represents the administration of medication, while dispensing is supply.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11535"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Supply"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "STORE",
+            "display": "storage",
+            "definition": "The act of putting something away for safe keeping. The \"something\" may be physical object such as a specimen, or information, such as observations regarding a specimen.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22826"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Storage"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SUBST",
+            "display": "Substitution",
+            "definition": "Definition: Indicates that the subject Act has undergone or should undergo substitution of a type indicated by Act.code.\r\n\r\nRationale: Used to specify \"allowed\" substitution when creating orders, \"actual\" susbstitution when sending events, as well as the reason for the substitution and who was responsible for it.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20094"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Substitution"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "TRFR",
+            "display": "transfer",
+            "definition": "**Definition:** The act of transferring information without the intent of imparting understanding about a topic to the subject that is the recipient or holder of the transferred information where the participation association must be RCV or HLD.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22186"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Transfer"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "TRNS",
+            "display": "transportation",
+            "definition": "Transportation is the moving of a payload (people or material) from a location of origin to a destination location. Thus, any transport service has the three target instances of type payload, origin, and destination, besides the targets that are generally used for any service (i.e., performer, device, etc.)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11539"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Transportation"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "XACT",
+            "display": "financial transaction",
+            "definition": "A sub-class of Act representing any transaction between two accounts whose value is measured in monetary terms.\r\n\r\nIn the \"intent\" mood, communicates a request for a transaction to be initiated, or communicates a transfer of value between two accounts.\r\n\r\nIn the \"event\" mood, communicates the posting of a transaction to an account.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11545"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "FinancialTransaction"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "_ActClassContainer",
+            "display": "ActClassContainer",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "_ActContainer"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20848"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "_ActContainer",
+            "display": "ActClassContainer",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "synonymCode",
+                    "valueCode": "_ActClassContainer"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20848"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "ACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ACTN",
+            "display": "action",
+            "definition": "Sender asks addressee to do something depending on the focal Act of the payload. An example is \"fulfill this order\". Addressee has responsibilities to either reject the message or to act on it in an appropriate way (specified by the specific receiver responsibilities for the interaction).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "18952"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "ActionControlAct"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "INFO",
+            "display": "information",
+            "definition": "Sender sends payload to addressee as information. Addressee does not have responsibilities beyond serving addressee's own interest (i.e., read and memorize if you see fit). This is equivalent to an FYI on a memo.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "18953"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "InformationControlAct"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "STC",
+            "display": "state transition control",
+            "definition": "**Description:** Sender transmits a status change pertaining to the focal act of the payload. This status of the focal act is the final state of the state transition. This can be either a request or an event, according to the mood of the control act.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "18954"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "StateTransitionControlAct"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "OUTB",
+            "display": "outbreak",
+            "definition": "An outbreak represents a series of public health cases. The date on which an outbreak starts is the earliest date of onset among the cases assigned to the outbreak, and its ending date is the last date of onset among the cases assigned to the outbreak.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2012-11-09"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11531"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Outbreak"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CASE"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "FCNTRCT",
+            "display": "financial contract",
+            "definition": "A contract whose value is measured in monetary terms.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14003"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "FinancialContract"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CNTRCT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DOC",
+            "display": "document",
+            "definition": "The notion of a document comes particularly from the paper world, where it corresponds to the contents recorded on discrete pieces of paper. In the electronic world, a document is a kind of composition that bears resemblance to their paper world counter-parts. Documents typically are meant to be human-readable.\r\n\r\nHL7's notion of document differs from that described in the W3C XML Recommendation, in which a document refers specifically to the contents that fall between the root element's start-tag and end-tag. Not all XML documents are HL7 documents.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "18938"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Document"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "COMPOSITION"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "HCASE",
+            "display": "public health case",
+            "definition": "A public health case is a Concern about an observation or event that has a specific significance for public health. The creation of a PublicHealthCase initiates the tracking of the object of concern. The decision to track is related to but somewhat independent of the underlying event or observation.\r\n\r\n**UsageNotes:** Typically a Public Health Case involves an instance or instances of a reportable infectious disease or other condition. The public health case can include a health-related event concerning a single individual or it may refer to multiple health-related events that are occurrences of the same disease or condition of interest to public health.\r\n\r\nA public health case definition (Act.moodCode = \"definition\") includes the description of the clinical, laboratory, and epidemiologic indicators associated with a disease or condition of interest to public health. There are case definitions for conditions that are reportable, as well as for those that are not. A public health case definition is a construct used by public health for the purpose of counting cases, and should not be used as clinical indications for treatment. Examples include AIDS, toxic-shock syndrome, and salmonellosis and their associated indicators that are used to define a case.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "Typically a Public Health Case involves an instance or instances of a reportable infectious disease or other condition. The public health case can include a health-related event concerning a single individual or it may refer to multiple health-related events that are occurrences of the same disease or condition of interest to public health. A public health case definition (Act.moodCode = \"definition\") includes the description of the clinical, laboratory, and epidemiologic indicators associated with a disease or condition of interest to public health. There are case definitions for conditions that are reportable, as well as for those that are not. A public health case definition is a construct used by public health for the purpose of counting cases, and should not be used as clinical indications for treatment. Examples include AIDS, toxic-shock syndrome, and salmonellosis and their associated indicators that are used to define a case."
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23464"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "PublicHealthCase"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CONC"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "OUTBR",
+            "display": "outbreak",
+            "definition": "An Outbreak is a concern resulting from a series of public health cases.\r\n\r\n**UsageNotes:** The date on which an outbreak starts is the earliest date of onset among the cases assigned to the outbreak and its ending date is the last date of onset among the cases assigned to the outbreak. The effectiveTime attribute is used to convey the relevant dates for the case. An outbreak definition (Act.moodCode = \"definition\" includes the criteria for the number, types and occurrence pattern of cases necessary to declare an outbreak and to judge the severity of an outbreak.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "The date on which an outbreak starts is the earliest date of onset among the cases assigned to the outbreak and its ending date is the last date of onset among the cases assigned to the outbreak. The effectiveTime attribute is used to convey the relevant dates for the case. An outbreak definition (Act.moodCode = \"definition\" includes the criteria for the number, types and occurrence pattern of cases necessary to declare an outbreak and to judge the severity of an outbreak."
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "23465"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Outbreak"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CONC"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CASE",
+            "display": "public health case",
+            "definition": "A public health case is an Observation representing a condition or event that has a specific significance for public health. Typically it involves an instance or instances of a reportable infectious disease or other condition. The public health case can include a health-related event concerning a single individual or it may refer to multiple health-related events that are occurrences of the same disease or condition of interest to public health. An outbreak involving multiple individuals may be considered as a type of public health case. A public health case definition (Act.moodCode = \"definition\") includes the description of the clinical, laboratory, and epidemiologic indicators associated with a disease or condition of interest to public health. There are case definitions for conditions that are reportable, as well as for those that are not. There are also case definitions for outbreaks. A public health case definition is a construct used by public health for the purpose of counting cases, and should not be used as clinical indications for treatment. Examples include AIDS, toxic-shock syndrome, and salmonellosis and their associated indicators that are used to define a case.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2012-11-09"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11530"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "PublicHealthCase"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "COND"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CATEGORY",
+            "display": "category",
+            "definition": "A group of entries within a composition or topic that have a common characteristic - for example, Examination, Diagnosis, Management OR Subjective, Objective, Analysis, Plan.\r\n\r\nThe distinction from Topic relates to value sets. For Category there is a bounded list of things like \"Examination\", \"Diagnosis\" or SOAP categories. For Topic the list is wide open to any clinical condition or reason for a part of an encounter.\r\n\r\nA CATEGORY MAY CONTAIN ENTRIES.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20086"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Category"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CONTAINER"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DOCBODY",
+            "display": "document body",
+            "definition": "A context that distinguishes the body of a document from the document header. This is seen, for instance, in HTML documents, which have discrete <head> and <body> elements.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "13947"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "DocumentBody"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CONTAINER"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DOCSECT",
+            "display": "document section",
+            "definition": "A context that subdivides the body of a document. Document sections are typically used for human navigation, to give a reader a clue as to the expected content. Document sections are used to organize and provide consistency to the contents of a document body. Document sections can contain document sections and can contain entries.",
+            "designation": [
+                {
+                    "language": "en",
+                    "use": {
+                        "system": "http://snomed.info/sct",
+                        "code": "900000000000013009"
+                    },
+                    "value": "Section"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "13946"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "DocumentSection"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CONTAINER"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "TOPIC",
+            "display": "topic",
+            "definition": "A group of entries within a composition that are related to a common clinical theme - such as a specific disorder or problem, prevention, screening and provision of contraceptive services.\r\n\r\nA topic may contain categories and entries.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20085"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Topic"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "CONTAINER"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DOCCLIN",
+            "display": "clinical document",
+            "definition": "A clinical document is a documentation of clinical observations and services, with the following characteristics:\r\n\r\n1.  Persistence - A clinical document continues to exist in an unaltered state, for a time period defined by local and regulatory requirements;\r\n2.  Stewardship - A clinical document is maintained by a person or organization entrusted with its care;\r\n3.  Potential for authentication - A clinical document is an assemblage of information that is intended to be legally authenticated;\r\n4.  Wholeness - Authentication of a clinical document applies to the whole and does not apply to portions of the document without the full context of the document;\r\n5.  Human readability - A clinical document is human readable.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "13948"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "ClinicalDocument"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "DOC"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CDALVLONE",
+            "display": "CDA Level One clinical document",
+            "definition": "A clinical document that conforms to Level One of the HL7 Clinical Document Architecture (CDA)",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14795"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "CDALevelOneClinicalDocument"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "DOCCLIN"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "AEXPOS",
+            "display": "acquisition exposure",
+            "definition": "**Description:** \r\n\r\nAn acquisition exposure act describes the proximity (location and time) through which the participating entity was potentially exposed to a physical (including energy), chemical or biological agent from another entity. The acquisition exposure act is used in conjunction with transmission exposure acts as part of an analysis technique for contact tracing. Although an exposure can be decomposed into transmission and acquisition exposures, there is no requirement that all exposures be treated in this fashion.\r\n\r\n**Constraints:** The Acquisition Exposure inherits the participation constraints that apply to Exposure with the following exception. The EXPSRC (exposure source) participation must never be associated with the Transmission Exposure either directly or via context conduction.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22349"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "AcquisitionExposure"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "EXPOS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "TEXPOS",
+            "display": "transmission exposure",
+            "definition": "**Description:** \r\n\r\nA transmission exposure act describes the proximity (time and location) over which the participating source entity was capable of transmitting a physical (including energy), chemical or biological substance agent to another entity. The transmission exposure act is used in conjunction with acquisition exposure acts as part of an analysis technique for contact tracing. Although an exposure can be decomposed into transmission and acquisition exposures, there is no requirement that all exposures be treated in this fashion.\r\n\r\n**Constraints:** The Transmission Exposure inherits the participation constraints that apply to Exposure with the following exception. The EXPTRGT (exposure target) participation must never be associated with the Transmission Exposure either directly or via context conduction.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22348"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "TransmissionExposure"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "EXPOS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "EHR",
+            "display": "electronic health record",
+            "definition": "A context that comprises all compositions. The EHR is an extract that includes the entire chart.\r\n\r\n**NOTE:** In an exchange scenario, an EHR is a specialization of an extract.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20081"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "ElectronicHealthRecord"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "EXTRACT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "COV",
+            "display": "coverage",
+            "definition": "When used in the EVN mood, this concept means with respect to a covered party:\r\n\r\n1.  A health care insurance policy or plan that is contractually binding between two or more parties; or\r\n2.  A health care program, usually administered by government entities, that provides coverage to persons determined eligible under the terms of the program.\r\n\r\n *  When used in the definition (DEF) mood, COV means potential coverage for a patient who may or may not be a covered party.\r\n *  The concept's meaning is fully specified by the choice of ActCoverageTypeCode (abstract) ActProgramCode or ActInsurancePolicyCode.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14004"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Coverage"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "FCNTRCT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DETPOL",
+            "display": "determinant peptide",
+            "definition": "**Description:**A determinant peptide in a polypeptide as described by polypeptide.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22002"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "DeterminantPeptide"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "GEN"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "EXP",
+            "display": "expression level",
+            "definition": "**Description:**An expression level of genes/proteins or other expressed genomic entities.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22000"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "ExpressionLevel"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "GEN"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "LOC",
+            "display": "locus",
+            "definition": "**Description:**The position of a gene (or other significant sequence) on the genome.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22003"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Locus"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "GEN"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "PHN",
+            "display": "phenotype",
+            "definition": "**Description:**A genomic phenomenon that is expressed externally in the organism.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22004"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Phenotype"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "GEN"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "POL",
+            "display": "polypeptide",
+            "definition": "**Description:**A polypeptide resulting from the translation of a gene.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22001"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Polypeptide"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "GEN"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SEQ",
+            "display": "bio sequence",
+            "definition": "**Description:**A sequence of biomolecule like the DNA, RNA, protein and the like.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21998"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "BioSequence"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "GEN"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SEQVAR",
+            "display": "bio sequence variation",
+            "definition": "**Description:**A variation in a sequence as described by BioSequence.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21999"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "BioSequenceVariation"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "GEN"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CLUSTER",
+            "display": "Cluster",
+            "definition": "**Description:**An ACT that organizes a set of component acts into a semantic grouping that have a shared subject. The subject may be either a subject participation (SBJ), subject act relationship (SUBJ), or child participation/act relationship types.\r\n\r\n**Discussion:** The focus in a CLUSTER act is the grouping of the contained acts. For example \"a request to cluster\" (RQO), \"a type of cluster that is allowed to occur\" (DEF), etc.\r\n\r\n**Examples:** \r\n\r\n *  Radiologic investigations that might include administration of a dye, followed by radiographic observations;\r\n *  \"Isolate cluster\" which includes all testing and specimen processing performed on a specific isolate;\r\n *  a set of actions to perform at a particular stage in a clinical trial.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20088"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Cluster"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "GROUPER"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "_ActClassROI",
+            "display": "ActClassROI",
+            "definition": "Regions of Interest (ROI) within a subject Act. Primarily used for making secondary observations on a subset of a subject observation. The relationship between a ROI and its referenced Act is specified through an ActRelationship of type \"subject\" (SUBJ), which must always be present.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20847"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "RegionOfInterest"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "_SubjectPhysicalPosition",
+            "display": "subject physical position",
+            "definition": "The spatial relationship of a subject whether human, other animal, or plant, to a frame of reference such as gravity or a collection device.",
+            "property": [
+                {
+                    "code": "notSelectable",
+                    "valueBoolean": true
+                },
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21929"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "SubjectPhysicalPosition"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ALRT",
+            "display": "detected issue",
+            "definition": "An observation identifying a potential adverse outcome as a result of an Act or combination of Acts.\r\n\r\n*Examples:* Detection of a drug-drug interaction; Identification of a late-submission for an invoice; Requesting discharge for a patient who does not meet hospital-defined discharge criteria.\r\n\r\n*Discussion:* This class is commonly used for identifying 'business rule' or 'process' problems that may result in a refusal to carry out a particular request. In some circumstances it may be possible to 'bypass' a problem by modifying the request to acknowledge the issue and/or by providing some form of mitigation.\r\n\r\n*Constraints:* the Act or Acts that may cause the the adverse outcome are the target of a subject ActRelationship. The subbtypes of this concept indicate the type of problem being detected (e.g. drug-drug interaction) while the Observation.value is used to repesent a specific problem code (e.g. specific drug-drug interaction id).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16123"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "DetectedIssue"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "BATTERY",
+            "display": "battery",
+            "definition": "**Definition:** An observation that is composed of a set of observations. These observations typically have a logical or practical grouping for generally accepted clinical or functional purposes, such as observations that are run together because of automation. A battery can define required and optional component observations and, in some cases, will define complex rules that determine whether or not a particular observation is made. BATTERY is a constraint on the Observation class in that it is understood to always be composed of component observations.\r\n\r\n**UsageNotes:** The focus in a BATTERY is that it is composed of individual observations. In request (RQO) mood, a battery is a request to perform the component observations. In event (EVN) mood a battery is a reporting of associated set of observation events. In definition mood a battery is the definition of the associated set of observations.\r\n\r\n**Examples:** Vital signs, Full blood count, Chemistry panel.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "HL7usageNotes",
+                    "valueString": "The focus in a BATTERY is that it is composed of individual observations. In request (RQO) mood, a battery is a request to perform the component observations. In event (EVN) mood a battery is a reporting of associated set of observation events. In definition mood a battery is the definition of the associated set of observations."
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "20089"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Battery"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CLNTRL",
+            "display": "clinical trial",
+            "definition": "The set of actions that define an experiment to assess the effectiveness and/or safety of a biopharmaceutical product (food, drug, device, etc.). In definition mood, this set of actions is often embodied in a clinical trial protocol; in event mood, this designates the aggregate act of applying the actions to one or more subjects.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "18972"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "ClinicalTrial"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "CNOD",
+            "display": "Condition Node",
+            "definition": "An instance of Observation of a Condition at a point in time that includes any Observations or Procedures associated with that Condition as well as links to previous instances of Condition Node for the same Condition\r\n\r\n***Deprecation Comment:*** This concept has been deprecated because an alternative structure for tracking the evolution of a problem has been presented and adopted by the Care Provision Work Group.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-07-12"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "18863"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "ConditionNode"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "COND",
+            "display": "Condition",
+            "definition": "An observable finding or state that persists over time and tends to require intervention or management, and, therefore, distinguished from an Observation made at a point in time; may exist before an Observation of the Condition is made or after interventions to manage the Condition are undertaken. Examples: equipment repair status, device recall status, a health risk, a financial risk, public health risk, pregnancy, health maintenance, chronic illness",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2012-11-09"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "18862"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Condition"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DGIMG",
+            "display": "diagnostic image",
+            "definition": "Class for holding attributes unique to diagnostic images.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "13921"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "DiagnosticImage"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "GEN",
+            "display": "genomic observation",
+            "definition": "**Description:**An observation of genomic phenomena.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21997"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "GenomicObservation"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "INVSTG",
+            "display": "investigation",
+            "definition": "An formalized inquiry into the circumstances surrounding a particular unplanned event or potential event for the purposes of identifying possible causes and contributing factors for the event. This investigation could be conducted at a local institutional level or at the level of a local or national government.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21323"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Investigation"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "OBSSER",
+            "display": "observation series",
+            "definition": "Container for Correlated Observation Sequences sharing a common frame of reference. All Observations of the same cd must be comparable and relative to the common frame of reference. For example, a 3-channel ECG device records a 12-lead ECG in 4 steps (3 leads at a time). Each of the separate 3-channel recordings would be in their own \"OBSCOR\". And, all 4 OBSCOR would be contained in one OBSSER because all the times are relative to the same origin (beginning of the recording) and all the ECG signals were from a fixed set of electrodes.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "18875"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "ObservationSeries"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "POS",
+            "display": "position",
+            "definition": "An observation denoting the physical location of a person or thing based on a reference coordinate system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21646"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Position"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SPCOBS",
+            "display": "specimen observation",
+            "definition": "An observation on a specimen in a laboratory environment that may affect processing, analysis or result interpretation",
+            "designation": [
+                {
+                    "language": "en",
+                    "use": {
+                        "system": "http://snomed.info/sct",
+                        "code": "900000000000013009"
+                    },
+                    "value": "ActClassSpecObs"
+                }
+            ],
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "13949"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "SpecimenObservation"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "VERIF",
+            "display": "Verification",
+            "definition": "An act which describes the process whereby a 'verifying party' validates either the existence of the Role attested to by some Credential or the actual Vetting act and its details.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21304"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Verfication"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "OBSCOR",
+            "display": "correlated observation sequences",
+            "definition": "Container for Observation Sequences (Observations whose values are contained in LIST<>'s) having values correlated with each other. Each contained Observation Sequence LIST<> must be the same length. Values in the LIST<>'s are correlated based on index. E.g. the values in position 2 in all the LIST<>'s are correlated. This is analogous to a table where each column is an Observation Sequence with a LIST<> of values, and each row in the table is a correlation between the columns. For example, a 12-lead ECG would contain 13 sequences: one sequence for time, and a sequence for each of the 12 leads.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "18876"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "CorrelatedObservation"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "OBSSER"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ENC",
+            "display": "encounter",
+            "definition": "An interaction between a patient and healthcare participant(s) for the purpose of providing patient service(s) or assessing the health status of a patient. For example, outpatient visit to multiple departments, home health support (including physical therapy), inpatient hospital stay, emergency room visit, field visit (e.g., traffic accident), office visit, occupational therapy, telephone call.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11542"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Encounter"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "PCPR"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "JURISPOL",
+            "display": "jurisdictional policy",
+            "definition": "**Description:**A mandate, regulation, obligation, requirement, rule, or expectation unilaterally imposed by a jurisdiction on:\r\n\r\n *  The activity of another party\r\n *  The behavior of another party\r\n *  The manner in which an act is executed\r\n\r\n**Examples:**A jurisdictional mandate regarding the prescribing and dispensing of a particular medication. A jurisdictional privacy or security regulation dictating the manner in which personal health information is disclosed. A jurisdictional requirement that certain services or health conditions are reported to a monitoring program, e.g., immunizations, methadone treatment, or cancer registries.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21982"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "JurisdictionalPolicy"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "POLICY"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "ORGPOL",
+            "display": "organizational policy",
+            "definition": "**Description:**A mandate, obligation, requirement, rule, or expectation unilaterally imposed by an organization on:\r\n\r\n *  The activity of another party\r\n *  The behavior of another party\r\n *  The manner in which an act is executed\r\n\r\n**Examples:**A clinical or research protocols imposed by a payer, a malpractice insurer, or an institution to which a provider must adhere. A mandate imposed by a denominational institution for a provider to provide or withhold certain information from the patient about treatment options.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21983"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "OrganizationalPolicy"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "POLICY"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SCOPOL",
+            "display": "scope of practice policy",
+            "definition": "**Description:**An ethical or clinical obligation, requirement, rule, or expectation imposed or strongly encouraged by organizations that oversee particular clinical domains or provider certification which define the boundaries within which a provider may practice and which may have legal basis or ramifications on:\r\n\r\n *  The activity of another party\r\n *  The behavior of another party\r\n *  The manner in which an act is executed\r\n\r\n**Examples:**An ethical obligation for a provider to fully inform a patient about all treatment options. An ethical obligation for a provider not to disclose personal health information that meets certain criteria, e.g., where disclosure might result in harm to the patient or another person. The set of health care services which a provider is credentialed or privileged to provide.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21984"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "ScopeOfPracticePolicy"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "POLICY"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "STDPOL",
+            "display": "standard of practice policy",
+            "definition": "**Description:**A requirement, rule, or expectation typically documented as guidelines, protocols, or formularies imposed or strongly encouraged by an organization that oversees or has authority over the practices within a domain, and which may have legal basis or ramifications on:\r\n\r\n *  The activity of another party\r\n *  The behavior of another party\r\n *  The manner in which an act is executed\r\n\r\n**Examples:**A payer may require a prescribing provider to adhere to formulary guidelines. An institution may adopt clinical guidelines and protocols and implement these within its electronic health record and decision support systems.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21985"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "StandardOfPracticePolicy"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "POLICY"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "POSACC",
+            "display": "position accuracy",
+            "definition": "**Description:**An observation representing the degree to which the assignment of the spatial coordinates, based on a matching algorithm by a geocoding engine against a reference spatial database, matches true or accepted values.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21648"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "PositionAccuracy"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "POS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "POSCOORD",
+            "display": "position coordinate",
+            "definition": "**Description:**An observation representing one of a set of numerical values used to determine the position of a place. The name of the coordinate value is determined by the reference coordinate system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21647"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "PositionCoordinate"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "POS"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SBADM",
+            "display": "substance administration",
+            "definition": "The act of introducing or otherwise applying a substance to the subject.\r\n\r\n*Discussion:* The effect of the substance is typically established on a biochemical basis, however, that is not a requirement. For example, radiotherapy can largely be described in the same way, especially if it is a systemic therapy such as radio-iodine. This class also includes the application of chemical treatments to an area.\r\n\r\n*Examples:* Chemotherapy protocol; Drug prescription; Vaccination record",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "11528"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "SubstanceAdministration"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "PROC"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SBEXT",
+            "display": "Substance Extraction",
+            "definition": "**Description:** The act of removing a substance from the subject.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22832"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "SubstanceExtraction"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "PROC"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "SPECCOLLECT",
+            "display": "Specimen Collection",
+            "definition": "A procedure for obtaining a specimen from a source entity.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21457"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "SpecimenCollection"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SBEXT"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "DIET",
+            "display": "diet",
+            "definition": "Diet services are supply services, with some aspects resembling Medication services: the detail of the diet is given as a description of the Material associated via Participation.typeCode=\"product\". Medically relevant diet types may be communicated in the Diet.code attribute using domain ActDietCode, however, the detail of the food supplied and the various combinations of dishes should be communicated as Material instances.\r\n\r\n**Deprecation Note**\r\n\r\n**Class:** Use either the Supply class (if dealing with what should be given to the patient) or SubstanceAdministration class (if dealing with what the patient should consume)\r\n\r\n**energyQuantity:** This quantity can be conveyed by using a Content relationship with a quantity attribute expressing the calories\r\n\r\n**carbohydrateQuantity:**This quantity can be conveyed using a Content relationship to an Entity with a code of carbohydrate and a quantity attribute on the content relationship.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-08-20"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "16109"
+                },
+                {
+                    "code": "Name:Class",
+                    "valueCode": "Diet"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SPLY"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "RTRD",
+            "display": "reverse trendelenburg",
+            "definition": "Lying on the back, on an inclined plane, typically about 30-45 degrees with head raised and feet lowered.\r\n\r\n***Deprecation Comment:*** This concept has been deprecated because it does not describe a type of Act (as it should in the ActClass code system), but rather encodes the result or value of an observation. The same code has been added to the ObservationValue code system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-07-12"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21937"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SUP"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        },
+        {
+            "code": "TRD",
+            "display": "trendelenburg",
+            "definition": "Lying on the back, on an inclined plane, typically about 30-45 degrees, with head lowered and feet raised.\r\n\r\n***Deprecation Comment:*** This concept has been deprecated because it does not describe a type of Act (as it should in the ActClass code system), but rather encodes the result or value of an observation. The same code has been added to the ObservationValue code system.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "deprecated"
+                },
+                {
+                    "code": "deprecationDate",
+                    "valueDateTime": "2009-07-12"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21936"
+                },
+                {
+                    "code": "subsumedBy",
+                    "valueCode": "SUP"
+                },
+                {
+                    "code": "Name:Participation:act:Act",
+                    "valueString": "&"
+                }
+            ]
+        }
+    ]
+}

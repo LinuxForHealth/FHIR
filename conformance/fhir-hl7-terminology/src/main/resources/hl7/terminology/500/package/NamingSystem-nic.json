@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "nic",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Nursing Intervention Classification"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/nic"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.1.0"
+        }
+    ],
+    "name": "Nic",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "description": "The Nursing Interventions Classification (NIC) is a standardized classification developed by a research team at the University of Iowa. The purpose of NIC is to define interventions that nurses do on behalf of patients in all care domains. An intervention is defined as 'any treatment, based upon clinical judgment and knowledge, a nurse performs to enhance patient/client outcomes.' NIC is updated a five-year cycle.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.15",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/nic",
+            "preferred": false,
+            "comment": "Original pro-forma v3 URL; replaced with canonical URL."
+        },
+        {
+            "type": "uri",
+            "value": "https://nursing.uiowa.edu/cncce/nursing-interventions-classification-overview",
+            "preferred": true,
+            "comment": "Official canonical URL as validated with termminology owner."
+        }
+    ]
+}

@@ -1,0 +1,108 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "endpoint-connection-type",
+    "meta": {
+        "lastUpdated": "2020-04-09T21:10:28.568+00:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "pa"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-standards-status",
+            "valueCode": "trial-use"
+        },
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-fmm",
+            "valueInteger": 2
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/endpoint-connection-type",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1140"
+        }
+    ],
+    "version": "1.0.0",
+    "name": "EndpointConnectionType",
+    "title": "Endpoint Connection Type",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-11-04T19:44:38-06:00",
+    "publisher": "HL7 Patient Administration",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "This is an example value set defined by the FHIR project, that could be used to represent possible connection type profile values.",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/endpoint-connection-type",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "dicom-wado-rs",
+            "display": "DICOM WADO-RS",
+            "definition": "DICOMweb RESTful Image Retrieve - http://dicom.nema.org/medical/dicom/current/output/chtml/part18/sect_6.5.html"
+        },
+        {
+            "code": "dicom-qido-rs",
+            "display": "DICOM QIDO-RS",
+            "definition": "DICOMweb RESTful Image query - http://dicom.nema.org/medical/dicom/current/output/chtml/part18/sect_6.7.html"
+        },
+        {
+            "code": "dicom-stow-rs",
+            "display": "DICOM STOW-RS",
+            "definition": "DICOMweb RESTful image sending and storage - http://dicom.nema.org/medical/dicom/current/output/chtml/part18/sect_6.6.html"
+        },
+        {
+            "code": "dicom-wado-uri",
+            "display": "DICOM WADO-URI",
+            "definition": "DICOMweb Image Retrieve - http://dicom.nema.org/dicom/2013/output/chtml/part18/sect_6.3.html"
+        },
+        {
+            "code": "hl7-fhir-rest",
+            "display": "HL7 FHIR",
+            "definition": "Interact with the server interface using FHIR's RESTful interface. For details on its version/capabilities you should connect the value in Endpoint.address and retrieve the FHIR CapabilityStatement."
+        },
+        {
+            "code": "hl7-fhir-msg",
+            "display": "HL7 FHIR Messaging",
+            "definition": "Use the servers FHIR Messaging interface. Details can be found on the messaging.html page in the FHIR Specification. The FHIR server's base address is specified in the Endpoint.address property."
+        },
+        {
+            "code": "hl7v2-mllp",
+            "display": "HL7 v2 MLLP",
+            "definition": "HL7v2 messages over an LLP TCP connection"
+        },
+        {
+            "code": "secure-email",
+            "display": "Secure email",
+            "definition": "Email delivery using a digital certificate to encrypt the content using the public key, receiver must have the private key to decrypt the content"
+        },
+        {
+            "code": "direct-project",
+            "display": "Direct Project",
+            "definition": "Direct Project information - http://wiki.directproject.org/"
+        },
+        {
+            "code": "cds-hooks-service",
+            "display": "CDS Hooks Service",
+            "definition": "A CDS Hooks Service connection. The address will be the base URL of the service as described in the CDS specification https://cds-hooks.hl7.org"
+        }
+    ]
+}

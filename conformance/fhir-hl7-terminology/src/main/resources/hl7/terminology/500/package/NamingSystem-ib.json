@@ -1,0 +1,41 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "ib",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ISBT"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/ib"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Ib",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "ICCBBA",
+    "responsible": "ICCBBA",
+    "description": "ISBT 128 is a coding system for blood components, hematopoietic progenitor cells and other tissues. It is comprised of an overall Application Specification, and labeling and coding documents for the separate sections: blood components, hematopoietic progenitor cells (draft), source plasma (draft) and tissues (draft). The documentation is supported by databases: Country/Collection Facility, Product Code (blood components), Product Code (hematopoietic progenitor sells), Product Code (source plasma), Product Code (tissues) and Special Testing. ISBT 128 is designed as a series of data structures that are designed to be technology-independent and can be used for bar coding, radio frequency tag encoding and electronic data interchange. The HL7 Blood Bank SIG is currently designing example messages that incorporate ISBT 128 coding. No changes of any kind will be needed to use ISBT 128 in HL7 messages.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.18",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/ib",
+            "preferred": true
+        }
+    ]
+}

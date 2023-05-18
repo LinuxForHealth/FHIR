@@ -1,0 +1,52 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-scptype",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "pan-Canadian Provider Types"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-scptype"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.1.0"
+        }
+    ],
+    "name": "Scptype",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "Canada Health Infoway",
+    "contact": [
+        {
+            "name": "Canada Health Infoway",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "standards@infoway-inforoute.ca"
+                }
+            ]
+        }
+    ],
+    "responsible": "Canada Health Infoway",
+    "description": "SCPTYPE is used to encode and categorize an entity that delivers health care in an expected and professional manner to an entity in need of health care services. Examples: Registered Nurse, Chiropractor, Physician, Custodial Care Clinic. Allows for the implementation of role-based access to clinical functions and data. Provisioning of clinical services is based on the role that a provider may play in the health system.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.2.20.5.3",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "https://fhir.infoway-inforoute.ca/CodeSystem/scptype",
+            "preferred": true
+        }
+    ]
+}

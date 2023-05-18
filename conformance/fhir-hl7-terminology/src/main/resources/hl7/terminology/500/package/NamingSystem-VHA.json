@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "VHA",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "US Department of Veterans Affairs"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/VHA"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "VHA",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "VA",
+    "contact": [
+        {
+            "name": "US Department of Veterans Affairs"
+        }
+    ],
+    "responsible": "VA",
+    "description": "VHA Enterprise Reference Terminology is based on CHI standard terminologies (e.g., SNOMED-CT, LOINC, HL7, NDF-RT, etc.) when available and on VHA own code sets when necessary (e.g., allergens). All concepts used within the VHA clinical environment receive a VHA Unique IDentifier or VUID. VHA Enterprise Reference Terminology complies with the semantics of the HL7 message structure",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.233",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/VHA",
+            "preferred": true
+        }
+    ]
+}

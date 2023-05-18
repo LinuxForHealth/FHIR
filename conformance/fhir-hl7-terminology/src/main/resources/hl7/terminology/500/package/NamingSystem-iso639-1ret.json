@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "iso639-1ret",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ISO 639-1 Alpha-2 Language Codes"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/iso639-1ret"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Iso6391ret",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "HL7",
+    "contact": [
+        {
+            "name": "International Information Centre for Terminology (Infoterm)"
+        }
+    ],
+    "responsible": "HL7",
+    "description": "Codes for the Representation of Names of Languages Part 1: Alpha-2 Code. Used as part of the IETF 3066 specification for languages throughout the HL7 specification.\r\n\r\n*DeprecationComment:* This code system is being deprecated, as the OID identifying it has been replaced with the correct ISO OID of 1.0.639.1",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.99",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/iso639-1ret",
+            "preferred": true
+        }
+    ]
+}

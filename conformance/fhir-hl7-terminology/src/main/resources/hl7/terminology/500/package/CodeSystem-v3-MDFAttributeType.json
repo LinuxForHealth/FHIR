@@ -1,0 +1,365 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-MDFAttributeType",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-MDFAttributeType",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.74"
+        }
+    ],
+    "version": "2.0.1",
+    "name": "MDFAttributeType",
+    "title": "MDFAttributeType",
+    "status": "retired",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "**Deprecation Comment:** Deprecated as per 11/2008 Harmonization cleanup; internal and obsolete HL7 usage, no longer used.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state. Normally is not populated unless the state is retired.",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "ADDR",
+            "display": "Address",
+            "definition": "For attributes representing the location at which an organization, person, or item may be found or reached.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10046"
+                }
+            ]
+        },
+        {
+            "code": "CD",
+            "display": "Code",
+            "definition": "For attributes representing some concept. Note that names of individual things are not considered concepts.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10047"
+                }
+            ]
+        },
+        {
+            "code": "COM",
+            "display": "Communication Address",
+            "definition": "For attributes representing communication addresses, such as telephones, fax, pagers, e-mail, Web-sites and other devices and their respective protocols. See also PHON.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10048"
+                }
+            ]
+        },
+        {
+            "code": "DESC",
+            "display": "Description",
+            "definition": "For attributes representing a statement used to describe something.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10049"
+                }
+            ]
+        },
+        {
+            "code": "DTTM",
+            "display": "Date and Time",
+            "definition": "For attributes representing a point in time at which an event happened or will happen. Levels of precision and variation are part of this concept and should usually not be specified in separate attributes.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10050"
+                }
+            ]
+        },
+        {
+            "code": "EXPR",
+            "display": "Formal Expression",
+            "definition": "For attributes representing formalized text that is to be evaluated primarily by computes. An attribute named \"constraint\\_text\" is most likely such a formal expression and should be renamed to \"constraint\\_expr\".",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10051"
+                }
+            ]
+        },
+        {
+            "code": "FRC",
+            "display": "Fraction",
+            "definition": "For attributes that represent a fraction or proportion. The former attribute type PCT for \"percentage\" is superceded by FRC and is no longer permitted. See also QTY.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10052"
+                }
+            ]
+        },
+        {
+            "code": "ID",
+            "display": "Identifier",
+            "definition": "For attributes that serve to identify some instance of an information model class. Note that real world Identifiers (e.g., SSN) exist not as attributes but as an association to a special information model class. The attribute type \"id\" without a prefix is reserved to be the main instance identifier of the class.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10053"
+                }
+            ]
+        },
+        {
+            "code": "IND",
+            "display": "Indicator",
+            "definition": "For attributes representing a specific condition as true or false.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10054"
+                }
+            ]
+        },
+        {
+            "code": "NBR",
+            "display": "Number",
+            "definition": "For attributes representing dimensionless numbers. Note that there is a big conceptual difference between integer numbers and floating point numbers. See also QTY.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10055"
+                }
+            ]
+        },
+        {
+            "code": "NM",
+            "display": "Name",
+            "definition": "For attributes that represent a name by which an instance of the class is known.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10056"
+                }
+            ]
+        },
+        {
+            "code": "PHON",
+            "display": "Phone",
+            "definition": "For attributes representing telephone number of a telecommunication device. See also COM.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10057"
+                }
+            ]
+        },
+        {
+            "code": "QTY",
+            "display": "Quantity",
+            "definition": "For attributes representing a quantity. The nature of the quantity must be further specified through the choice of data type and through additional constraints. For physical quantities (including elapsed time) the PQ data type must be used. For monetary amounts the MO data type must be used. Parallel unit attributes are not permitted in these cases. Counted objects are not physical quantities and the count nouns are not units of measure.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10058"
+                }
+            ]
+        },
+        {
+            "code": "TIME",
+            "display": "General Timing",
+            "definition": "A range of time between a start and an end time having a duration. The range may be infinite or undefined on either side.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10060"
+                }
+            ]
+        },
+        {
+            "code": "TMR",
+            "display": "Time Range",
+            "definition": "A range of time between a start and an end time having a duration. The range may be infinite or undefined on either side.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10059"
+                }
+            ]
+        },
+        {
+            "code": "TXT",
+            "display": "Text",
+            "definition": "For attributes representing non-descriptive, non-naming text not targeted to human interpretation. Formal expressions evaluated by computers should use the EXPR attribute type instead.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10061"
+                }
+            ]
+        },
+        {
+            "code": "VALUE",
+            "display": "Value",
+            "definition": "For an attribute (e.g., Observation.value) that represents a value whose data type is determined dynamically and is not predefined by the static class diagram.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "10062"
+                }
+            ]
+        }
+    ]
+}

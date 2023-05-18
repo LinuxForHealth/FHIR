@@ -1,0 +1,39 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "gtin",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "GTIN Global Trade Item Number"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/gtin"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.0.0"
+        }
+    ],
+    "name": "Gtin",
+    "status": "active",
+    "kind": "identifier",
+    "date": "2022-02-07T00:00:00-00:00",
+    "description": "The GS1 GTIN is a globally unique identifier of trade items. A trade item is any item (product or service) upon which there is a need to retrieve pre-defined information and that may be priced, or ordered, or invoiced at any point in any supply chain. Note: GTINs may be used in both Codes (http://build.fhir.org/datatypes.html#Coding) and Identifiers (http://build.fhir.org/datatypes.html#Identifier).",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "1.3.160",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "https://www.gs1.org/gtin",
+            "preferred": true
+        }
+    ]
+}

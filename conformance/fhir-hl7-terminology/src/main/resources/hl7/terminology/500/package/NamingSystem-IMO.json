@@ -1,0 +1,65 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "IMO",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Intelligent Medical Objects"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/IMO"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "IMO",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-06-25T00:00:00-00:00",
+    "publisher": "Intelligent Medical Objects",
+    "contact": [
+        {
+            "name": "Intelligent Medical Objects; Ann Phillips",
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "847.613.6655"
+                },
+                {
+                    "system": "email",
+                    "value": "support@imohealth.com"
+                },
+                {
+                    "system": "url",
+                    "value": "https://www.imohealth.com/"
+                }
+            ]
+        }
+    ],
+    "description": "IMO is a clinical interface terminology, which helps to map diagnostic, procedure and other terminologies to medical concepts and codes.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.3.247",
+            "preferred": true,
+            "period": {
+                "start": "2021-06-25"
+            }
+        },
+        {
+            "type": "uri",
+            "value": "http://imohealth.com/ontology/",
+            "preferred": true,
+            "period": {
+                "start": "2021-06-25"
+            }
+        }
+    ]
+}

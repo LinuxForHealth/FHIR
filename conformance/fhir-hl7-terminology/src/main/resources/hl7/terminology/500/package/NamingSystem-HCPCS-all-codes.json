@@ -1,0 +1,60 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "HCPCS-all-codes",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "HCFA Procedure Codes (HCPCS)"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/hcpcs-Level-II"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "HPC",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-02-23T00:00:00-04:00",
+    "publisher": "U.S. Health Care Financing Administration; agency was renamed CMS on July 1, 2001.",
+    "contact": [
+        {
+            "name": "U.S. Centers for Medicare & Medicaid Services (CMS)",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://www.cms.gov/"
+                },
+                {
+                    "system": "email",
+                    "value": "hcpcs@cms.hhs.gov"
+                }
+            ]
+        }
+    ],
+    "responsible": "U.S. Centers for Medicare & Medicaid Services (CMS)",
+    "description": "The Level II HCPCS codes, which are established by CMS's Alpha-Numeric Editorial Panel, primarily represent items and supplies and non-physician services not covered by the American Medical Association's Current Procedural Terminology-4 (CPT-4) codes; Medicare, Medicaid, and private health insurers use HCPCS procedure and modifier codes for claims processing.  Level II alphanumeric procedure and modifier codes comprise the A to V range.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.14",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/HCPCS-all-codes",
+            "preferred": false,
+            "comment": "Published for many years in the HL7 V3 coremif, but has been retired; code system HCPCS Level II should be used instead.",
+            "period": {
+                "start": "2020-08-11T00:00:00-04:00"
+            }
+        }
+    ]
+}

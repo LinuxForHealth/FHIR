@@ -1,0 +1,39 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "cmshcc",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "CMS Hierarchical Condition Categories"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/cmshcc"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "CMSHCC",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-12-02T00:00:00-00:00",
+    "publisher": "Centers for Medicare & Medicaid Services",
+    "responsible": "Centers for Medicare & Medicaid Services",
+    "description": "The CMS-HCC model uses more than 9,000 ICD-10-CM codes, which are mapped to condition categories that predict costs well. The condition categories are based on diagnoses clinically related to one another and with similar predicted cost implications. Hierarchies are imposed on the condition categories to capture the most costly diagnoses. Hierarchy logic is imposed on certain condition categories to account for different hierarchical costs, thus, the term Hierarchical Condition Category, or HCC.\r\n\r\nFor more information, see https://www.cms.gov/Medicare/Health-Plans/MedicareAdvtgSpecRateStats/Risk-Adjustors.\r\n\r\nThe CMS HCCs are in the public domain and are free to use without restriction.",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/cmshcc",
+            "preferred": true,
+            "period": {
+                "start": "2021-12-02"
+            }
+        }
+    ]
+}

@@ -1,0 +1,67 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "CDCNHSN",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "NHSN Surveillance System Codes"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/CDCNHSN"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.0.0"
+        }
+    ],
+    "name": "CDCNHSN",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2021-03-24T00:00:00-00:00",
+    "publisher": "U.S. Centers for Disease Control and Prevention (CDC), National Healthcare Safety Network (NHSN)",
+    "contact": [
+        {
+            "name": "U.S. Centers for Disease Control and Prevention (CDC), National Healthcare Safety Network (NHSN)",
+            "telecom": [
+                {
+                    "system": "email",
+                    "value": "nhsncda@cdc.gov"
+                },
+                {
+                    "system": "url",
+                    "value": "https://www.cdc.gov/nhsn"
+                }
+            ]
+        }
+    ],
+    "responsible": "U.S. Centers for Disease Control and Prevention (CDC), National Healthcare Safety Network (NHSN)",
+    "description": "A set of healthcare surveillance vocabulary concepts and associated identifiers intended solely for data submissions to the National Healthcare Safety Network (NHSN). Other uses are not recommended.\r\n\r\nThe CDCNHSN code system is highly specialized to meet the needs of NHSN surveillance reporting, is undergoing changes, and is not recommended for creating value sets to be used outside of NHSN.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.277",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "https://www.cdc.gov/nhsn/cdaportal/terminology/codesystem/cdcnhsn.html",
+            "preferred": true,
+            "period": {
+                "start": "2021-03-24T00:00:00-00:00"
+            }
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/cdcNHSN",
+            "preferred": false,
+            "period": {
+                "end": "2021-03-24T00:00:00-00:00"
+            }
+        }
+    ]
+}

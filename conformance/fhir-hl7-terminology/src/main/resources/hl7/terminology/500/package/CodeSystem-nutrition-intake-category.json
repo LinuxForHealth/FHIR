@@ -1,0 +1,70 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "nutrition-intake-category",
+    "meta": {
+        "lastUpdated": "2020-04-09T21:10:28.568+00:00",
+        "profile": [
+            "http://hl7.org/fhir/StructureDefinition/shareablecodesystem"
+        ]
+    },
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/StructureDefinition/structuredefinition-wg",
+            "valueCode": "oo"
+        }
+    ],
+    "url": "http://terminology.hl7.org/CodeSystem/nutrition-intake-category",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.4.642.1.1431"
+        }
+    ],
+    "version": "0.1.0",
+    "name": "NutritionIntakeWCategoryCodes",
+    "title": "Nutrition intake category codes",
+    "status": "draft",
+    "experimental": false,
+    "date": "2022-11-04T19:44:38-06:00",
+    "publisher": "FHIR Project team",
+    "contact": [
+        {
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "http://hl7.org/fhir"
+                }
+            ]
+        }
+    ],
+    "description": "NutritionIntake Category Codes",
+    "caseSensitive": true,
+    "valueSet": "http://terminology.hl7.org/ValueSet/nutrition-intake-category",
+    "content": "complete",
+    "concept": [
+        {
+            "code": "inpatient",
+            "display": "Inpatient",
+            "definition": "Includes orders for nutrition to be administered or consumed in an inpatient or acute care setting"
+        },
+        {
+            "code": "outpatient",
+            "display": "Outpatient",
+            "definition": "Includes orders for nutrition to be administered or consumed in an outpatient setting (for example, Emergency Department, Outpatient Clinic, Outpatient Surgery, Doctor's office)"
+        },
+        {
+            "code": "community",
+            "display": "Community",
+            "definition": "Includes orders for nutrition to be administered or consumed by the patient in their home (this would include long term care or nursing homes, hospices, etc.)."
+        },
+        {
+            "code": "patientspecified",
+            "display": "Patient Specified",
+            "definition": "Includes statements about nutrition use, including over the counter medication, provided by the patient, agent or another provider"
+        }
+    ]
+}

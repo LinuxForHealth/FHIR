@@ -1,0 +1,320 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "v3-URLScheme",
+    "language": "en",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "url": "http://terminology.hl7.org/CodeSystem/v3-URLScheme",
+    "identifier": [
+        {
+            "system": "urn:ietf:rfc:3986",
+            "value": "urn:oid:2.16.840.1.113883.5.143"
+        }
+    ],
+    "version": "2.1.0",
+    "name": "URLScheme",
+    "title": "Universal Resource Locator Scheme",
+    "status": "active",
+    "experimental": false,
+    "date": "2019-03-20",
+    "publisher": "Health Level 7",
+    "contact": [
+        {
+            "name": "Health Level Seven"
+        }
+    ],
+    "description": "A Universal Resource Locator (URL) is a type of telecommunications address specified as Internet standard RFC 1738 \\[http://www.isi.edu/in-notes/rfc1738.txt\\]. The URL specifies the protocol and the contact point defined by that protocol for the resource.",
+    "caseSensitive": true,
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Specializes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Generalizes"
+                }
+            ],
+            "code": "Specializes",
+            "description": "The child code is a more narrow version of the concept represented by the parent code.  I.e. Every child concept is also a valid parent concept.  Used to allow determination of subsumption.  Must be transitive, irreflexive, antisymmetric.",
+            "type": "Coding"
+        },
+        {
+            "extension": [
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-symmetry",
+                    "valueCode": "antisymmetric"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-transitivity",
+                    "valueCode": "transitive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-reflexivity",
+                    "valueCode": "irreflexive"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-isNavigable",
+                    "valueBoolean": true
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-relationshipKind",
+                    "valueCode": "Generalizes"
+                },
+                {
+                    "url": "http://terminology.hl7.org/StructureDefinition/ext-mif-relationship-inverseName",
+                    "valueString": "Specializes"
+                }
+            ],
+            "code": "Generalizes",
+            "description": "Inverse of Specializes.  Only included as a derived relationship.",
+            "type": "Coding"
+        },
+        {
+            "code": "internalId",
+            "uri": "http://terminology.hl7.org/CodeSystem/utg-concept-properties#v3-internal-id",
+            "description": "The internal identifier for the concept in the HL7 Access database repository.",
+            "type": "code"
+        },
+        {
+            "code": "status",
+            "uri": "http://hl7.org/fhir/concept-properties#status",
+            "description": "Designation of a concept's state.  Normally is not populated unless the state is retired..",
+            "type": "code"
+        }
+    ],
+    "concept": [
+        {
+            "code": "cid",
+            "display": "Content ID",
+            "definition": "**Description:** cid: is the most common mechanism used in webservices. A cid: reference points from the SOAP body to other content in the mime package in which the SOAP envelope is wrapped",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22603"
+                }
+            ]
+        },
+        {
+            "code": "file",
+            "display": "File",
+            "definition": "Host-specific local file names \\[RCF 1738\\]. Note that the file scheme works only for local files. There is little use for exchanging local file names between systems, since the receiving system likely will not be able to access the file.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14872"
+                }
+            ]
+        },
+        {
+            "code": "ftp",
+            "display": "FTP",
+            "definition": "The File Transfer Protocol (FTP) \\[RFC 1738\\].",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14871"
+                }
+            ]
+        },
+        {
+            "code": "hl7-att",
+            "display": "HL7 Attachment",
+            "definition": "**Description:** A reference to an HL7 attachment by it's identifier, which takes the form hl7-att:\\[II.literal\\], such as hl7-att:2.1.16.3.9.12345.2.39.3:ABC123",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22604"
+                }
+            ]
+        },
+        {
+            "code": "http",
+            "display": "HTTP",
+            "definition": "Hypertext Transfer Protocol \\[RFC 2068\\].\r\n\r\nhttp://www.ietf.org/rfc/rfc2068.txt",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14870"
+                }
+            ]
+        },
+        {
+            "code": "mailto",
+            "display": "Mailto",
+            "definition": "Electronic mail address \\[RFC 2368\\]\r\n\r\nhttp://www.ietf.org/rfc/rfc2368.txt",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14869"
+                }
+            ]
+        },
+        {
+            "code": "mllp",
+            "display": "MLLP",
+            "definition": "**Description:** Mimimal Lower Layer Protocol. See Transport Specification: MLLP, Release 2 (HL7 V3 Transport specification).",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "21461"
+                }
+            ]
+        },
+        {
+            "code": "nfs",
+            "display": "NFS",
+            "definition": "Network File System protocol \\[RFC 2224\\]. Some sites use NFS servers to share data files.\r\n\r\nhttp://www.ietf.org/rfc/rfc2224.txt",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14873"
+                }
+            ]
+        },
+        {
+            "code": "tel",
+            "display": "Telephone",
+            "definition": "A voice telephone number \\[http://www.ietf.org/rfc/rfc3966.txt and http://www.ietf.org/rfc/rfc2806.txt\\].",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14867"
+                }
+            ]
+        },
+        {
+            "code": "telnet",
+            "display": "Telnet",
+            "definition": "Reference to interactive sessions \\[RFC 1738\\]. Some sites, (e.g., laboratories) have TTY based remote query sessions that can be accessed through telnet.\r\n\r\nhttp://www.ietf.org/rfc/rfc1738.txt",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "active"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14874"
+                }
+            ]
+        },
+        {
+            "code": "fax",
+            "display": "Fax",
+            "definition": "A telephone number served by a fax device \\[http://www.ietf.org/rfc/rfc3966.txt and http://www.ietf.org/rfc/rfc2806.txt\\].",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14868"
+                }
+            ]
+        },
+        {
+            "code": "modem",
+            "display": "Modem",
+            "definition": "A telephone number served by a modem device \\[http://www.ietf.org/rfc/rfc3966.txt and http://www.ietf.org/rfc/rfc2806.txt\\].",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "14875"
+                }
+            ]
+        },
+        {
+            "code": "x-text-fax",
+            "display": "Fax",
+            "definition": "**Description:** A telephone number served by a fax device \\[http://www.ietf.org/rfc/rfc3966.txt and http://www.ietf.org/rfc/rfc2806.txt\\]",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22605"
+                }
+            ]
+        },
+        {
+            "code": "x-text-tel",
+            "display": "Text Telephone",
+            "definition": "**Description:** A text telephone - a telephone which is designed for use by the hearing-impaired\r\n\r\n**Notes:**\r\n\r\n *  x-text-fax is required to replace fax, since this has been deprecated by W3C.\r\n *  hl7-att is associated with a series of rules that must be followed. These rules are documented in Datatypes R2\r\n *  This domain is external and extensible, so documenting this simply clarifies consistent usage for these use cases.",
+            "property": [
+                {
+                    "code": "status",
+                    "valueCode": "retired"
+                },
+                {
+                    "code": "internalId",
+                    "valueCode": "22606"
+                }
+            ]
+        }
+    ]
+}

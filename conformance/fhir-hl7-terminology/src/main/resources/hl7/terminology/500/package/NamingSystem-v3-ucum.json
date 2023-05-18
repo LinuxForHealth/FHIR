@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "v3-ucum",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Unified Code for Units of Measure (UCUM)"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/v3-ucum"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "3.0.0"
+        }
+    ],
+    "name": "UCUM",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2020-11-03",
+    "publisher": "Regenstrief",
+    "contact": [
+        {
+            "name": "LOINC and Health Data Standards, Regenstrief Institute, Inc."
+        }
+    ],
+    "responsible": "LOINC and Health Data Standards, Regenstrief Institute, Inc.",
+    "description": "The Unified Code for Units of Measure (UCUM) is a code system intended to include all units of measures being contemporarily used in international science, engineering, and business. The purpose is to facilitate unambiguous electronic communication of quantities together with their units. The focus is on electronic communication, as opposed to communication between humans. A typical application of The Unified Code for Units of Measure are electronic data interchange (EDI) protocols, but there is nothing that prevents it from being used in other types of machine communication.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.8",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://unitsofmeasure.org",
+            "preferred": true
+        }
+    ]
+}

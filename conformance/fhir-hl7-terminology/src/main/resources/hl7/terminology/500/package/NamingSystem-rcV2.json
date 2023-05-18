@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "rcV2",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "The Read Codes Version 2"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/rcV2"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "RcV2",
+    "status": "retired",
+    "kind": "codesystem",
+    "date": "2021-11-09T10:00:00+10:00",
+    "publisher": "National Health Service (UK)",
+    "contact": [
+        {
+            "name": "Paul Frosdick, NHS Information Authority"
+        }
+    ],
+    "responsible": "National Health Service (UK)",
+    "description": "The Read Codes Version 2 contains over 70,000 coded concepts arranged in a hierarchical structure.\r\n\r\nTop level hierarchy sections: Disorders Findings Surgical procedures Investigations Occupations Drugs",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.29",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/rcV2",
+            "preferred": true
+        }
+    ]
+}

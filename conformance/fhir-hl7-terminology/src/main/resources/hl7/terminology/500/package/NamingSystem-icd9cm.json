@@ -1,0 +1,46 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "icd9cm",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "ICD-9CM"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/icd9cm"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.1.0"
+        }
+    ],
+    "name": "Icd9cm",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "NCHS",
+    "contact": [
+        {
+            "name": "National Center for Health Statistics"
+        }
+    ],
+    "responsible": "NCHS",
+    "description": "International Classification of Diseases revision 9, with Clinical Modifications (ICD 9 CM)",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.2",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/icd9cm",
+            "preferred": true
+        }
+    ]
+}

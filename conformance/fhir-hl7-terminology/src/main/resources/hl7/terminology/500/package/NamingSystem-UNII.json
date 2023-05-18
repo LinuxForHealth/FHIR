@@ -1,0 +1,52 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "UNII",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Unique Ingredient Identifier (UNII)"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/UNII"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "UNII",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2022-08-23T00:00:00-00:00",
+    "publisher": "U.S. Food and Drug Administration (FDA)",
+    "contact": [
+        {
+            "name": "U.S. Food and Drug Administration (FDA)",
+            "telecom": [
+                {
+                    "system": "url",
+                    "value": "https://www.fda.gov/"
+                }
+            ]
+        }
+    ],
+    "responsible": "U.S. Food and Drug Administration (FDA)",
+    "description": "A UNII is a non-proprietary, free, unique, unambiguous, nonsemantic, alphanumeric identifier based on a substance's molecular structure and/or descriptive information. UNII identifiers are generated based on scientific identity characteristics using ISO 11238 data elements. UNII availability does not imply any regulatory review or approval. Synonyms and mappings are based on the best public information available at the time of publication.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.4.9",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://fdasis.nlm.nih.gov",
+            "preferred": true
+        }
+    ]
+}

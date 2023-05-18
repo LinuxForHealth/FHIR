@@ -1,0 +1,41 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "CCC",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "Clinical Care Classification System"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/CCC"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "2.0.1"
+        }
+    ],
+    "name": "CCC",
+    "status": "active",
+    "kind": "codesystem",
+    "date": "2019-03-20T00:00:00-04:00",
+    "publisher": "Virginia K. Saba",
+    "responsible": "Virginia K. Saba",
+    "description": "Clinical Care Classification System (formerly Home Health Care Classification system) codes. The Clinical Care Classification (CCC) consists of two taxonomies: CCC of Nursing Diagnoses and CCC of Nursing Interventions both of which are classified by 21 Care Components. Each of these are classified by Care Components which provide a standardized framework for documenting patient care in hospitals, home health agencies, ambulatory care clinics, and other health care settings.",
+    "uniqueId": [
+        {
+            "type": "oid",
+            "value": "2.16.840.1.113883.6.236",
+            "preferred": true
+        },
+        {
+            "type": "uri",
+            "value": "http://terminology.hl7.org/CodeSystem/CCC",
+            "preferred": true
+        }
+    ]
+}

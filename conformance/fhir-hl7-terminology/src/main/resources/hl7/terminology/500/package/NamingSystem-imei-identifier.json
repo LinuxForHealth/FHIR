@@ -1,0 +1,42 @@
+{
+    "resourceType": "NamingSystem",
+    "id": "imei-identifier",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">Redacted for size</div>"
+    },
+    "extension": [
+        {
+            "url": "http://hl7.org/fhir/tools/StructureDefinition/extension-title",
+            "valueString": "IMEI as a device identifier"
+        },
+        {
+            "url": "http://hl7.org/fhir/5.0/StructureDefinition/extension-NamingSystem.url",
+            "valueUri": "http://terminology.hl7.org/NamingSystem/imei-identifier"
+        },
+        {
+            "url": "http://terminology.hl7.org/StructureDefinition/ext-namingsystem-version",
+            "valueString": "1.0.0"
+        }
+    ],
+    "name": "IMEI_Identifier",
+    "status": "active",
+    "kind": "identifier",
+    "date": "2021-06-14T00:00:00-00:00",
+    "publisher": "IHE Patient Care Devices (PCD)",
+    "contact": [
+        {
+            "name": "Devices on FHIR working group; IHE Patient Care Devices"
+        }
+    ],
+    "responsible": "IHE Patient Care Devices",
+    "description": "The International Mobile Equipment Identity (IMEI) is a number, usually unique, to identify 3GPP and iDEN mobile phones, as well as some satellite phones. The IMEI consists of 15 decimal digits: 14 digits plus a check digit while the IMEISV consists of 16 decimal digits: 14 digits plus two software version digits. These numbers includes information on the origin, model, and serial number of the device. The structure of the IMEI/SV is specified in 3GPP TS 23.003. The model and origin comprise the initial 8-digit portion of the IMEI/SV, known as the Type Allocation Code (TAC). The remainder of the IMEI is manufacturer-defined, with a Luhn check digit at the end.",
+    "uniqueId": [
+        {
+            "type": "uri",
+            "value": "http://hl7.org/fhir/sid/imei",
+            "preferred": true,
+            "comment": "International Mobile Equipment Identity (IMEI) number"
+        }
+    ]
+}
