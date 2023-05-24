@@ -855,6 +855,8 @@ There are many use cases for persistence interceptors:
 
 It is also possible to modify the incoming resources from the `beforeCreate` and `beforeUpdate` methods. For example, an interceptor could be used to add tags to resources on their way into the server. However, it is important to realize that interceptors are called *after* resource validation. Therefore, interceptor authors must be careful not to alter the resources in a way that breaks conformance with the profiles claimed in Resource.meta.profile or the secondary constraints in the specification. When in doubt, interceptors that modify the incoming resource can use the FHIRValidator to re-validate the resource(s) after they are altered.
 
+Note: for patch interactions that result in no update to the underlying resource, only the `beforePatch` method will be called (because the actual patch interaction is optimized away). Similarly, if `fhirServer/bulkdata/core/enableSkippableUpdates` is true (the default), then update interactions that result in no change to the resource content will hit `beforeUpdate` but not `afterUpdate`.
+
 ### 4.3.2 Implementing a persistence interceptor
 To implement a persistence interceptor, complete the following steps:
 
@@ -1743,7 +1745,7 @@ This feature is useful for imports which follow a prefix pattern:
 ### 4.10.3 Integration Testing
 There are tests in the `fhir-server-test` module for system, patient and group export. These tests rely on fhir-server-config files that currently exist under `fhir-server-webapp/src/test/liberty`.
 
-### 4.10.5 Job Logs
+### 4.10.4 Job Logs
 Because the bulk import and export operations are built on Liberty's java batch implementation, users may need to check the [Liberty batch job logs](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_view_joblog.html) for detailed step information / troubleshooting.
 
 In a standard installation, these logs will be at `wlp/usr/servers/fhir-server/logs/joblogs`.
@@ -1751,7 +1753,7 @@ In the `linuxforhealth/fhir-server` docker image, these logs will be at `/logs/j
 
 Note, if you are using the default Apache Derby, the logs are overwritten upon restart of the server. You should use PostgreSQL for production purposes.
 
-### 4.10.6 Known Limitations
+### 4.10.5 Known Limitations
 
 The LinuxForHealth FHIR Server's fhir-bulkdata-webapp does not support [persistence interceptors](https://github.com/LinuxForHealth/FHIR/blob/main/docs/src/pages/guides/FHIRServerUsersGuide.md#43-persistence-interceptors). Therefor, $import requests will not lead to `beforeCreate`/`beforeUpdate` or `afterCreate`/`afterUpdate` method calls and $export requests will not lead to `beforeRead`/`beforeSearch` or `afterRead`/`afterSearch` method calls.
 Because the LinuxForHealth FHIR Server's notifications feature is implemented as a persistence interceptor, bulk operations will not result in any notification events.
@@ -2355,10 +2357,10 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/maxInputs`|number| The number of inputs allowed for $import |
 |`fhirServer/bulkdata/core/iamEndpoint`|string| Override the system's IAM endpoint |
 |`fhirServer/bulkdata/core/maxChunkReadTime`|string| Maximum time in milliseconds to read during a bulkdata export without type filters. The time should be three quarters of the transactionManager timeout (often the FHIR_TRANSACTION_MANAGER_TIMEOUT value). Note, this value is a string representation of a long value.|
-|`fhirServer/bulkdata/core/defaultExportProvider`|string| The default storage provider used by Bulk Data Export|
-|`fhirServer/bulkdata/core/defaultImportProvider`|string| The default storage provider used by Bulk Data Import|
-|`fhirServer/bulkdata/core/defaultOutcomeProvider`|string| The default storage provider used to output Operation Outcomes (file, s3 only)|
-|`fhirServer/bulkdata/core/enableSkippableUpdates`|boolean|Enables the skipping of identical resources|
+|`fhirServer/bulkdata/core/defaultExportProvider`|string|The default storage provider used by Bulk Data Export|
+|`fhirServer/bulkdata/core/defaultImportProvider`|string|The default storage provider used by Bulk Data Import|
+|`fhirServer/bulkdata/core/defaultOutcomeProvider`|string|The default storage provider used to output Operation Outcomes (file, s3 only)|
+|`fhirServer/bulkdata/core/enableSkippableUpdates`|boolean|Enables the skipping of "no-op" updates (where the updated resource would match the current one)|
 |`fhirServer/bulkdata/storageProviders/<source>/type`|string|The type of storageProvider aws-s3, ibm-cos, file, https, azure-blob |
 |`fhirServer/bulkdata/storageProviders/<source>/bucketName`|string| Object store bucket name |
 |`fhirServer/bulkdata/storageProviders/<source>/location`|string|Object store location |
