@@ -124,8 +124,8 @@
                         "key": "app-4",
                         "severity": "error",
                         "human": "Cancelation reason is only used for appointments that have been cancelled, or no-show",
-                        "expression": "Appointment.cancelationReason.exists() implies (Appointment.status='no-show' or Appointment.status='cancelled')",
-                        "xpath": "not(exists(f:cancellationReason)) or f:status/@value=('no-show', 'cancelled')",
+                        "expression": "Appointment.ancelationReason.exists() implies (Appointment.status='noshow' or Appointment.status='cancelled')",
+                        "xpath": "not(exists(f:cancellationReason)) or f:status/@value=('noshow', 'cancelled')",
                         "source": "http://hl7.org/fhir/StructureDefinition/Appointment"
                     },
                     {
@@ -2060,8 +2060,8 @@
                         "key": "app-4",
                         "severity": "error",
                         "human": "Cancelation reason is only used for appointments that have been cancelled, or no-show",
-                        "expression": "Appointment.cancelationReason.exists() implies (Appointment.status='no-show' or Appointment.status='cancelled')",
-                        "xpath": "not(exists(f:cancellationReason)) or f:status/@value=('no-show', 'cancelled')",
+                        "expression": "Appointment.cancelationReason.exists() implies (Appointment.status='noshow' or Appointment.status='cancelled')",
+                        "xpath": "not(exists(f:cancellationReason)) or f:status/@value=('noshow', 'cancelled')",
                         "source": "http://hl7.org/fhir/StructureDefinition/Appointment"
                     },
                     {
