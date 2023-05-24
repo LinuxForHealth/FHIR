@@ -33,10 +33,12 @@ import org.linuxforhealth.fhir.model.resource.ValueSet;
 import org.linuxforhealth.fhir.model.resource.ValueSet.Compose;
 import org.linuxforhealth.fhir.model.resource.ValueSet.Compose.Include;
 import org.linuxforhealth.fhir.model.resource.ValueSet.Expansion;
+import org.linuxforhealth.fhir.model.resource.ValueSet.Expansion.Parameter;
 import org.linuxforhealth.fhir.model.type.Canonical;
 import org.linuxforhealth.fhir.model.type.Code;
 import org.linuxforhealth.fhir.model.type.Coding;
 import org.linuxforhealth.fhir.model.type.DateTime;
+import org.linuxforhealth.fhir.model.type.Extension;
 import org.linuxforhealth.fhir.model.type.Integer;
 import org.linuxforhealth.fhir.model.type.String;
 import org.linuxforhealth.fhir.model.type.Uri;
@@ -191,7 +193,36 @@ public final class ValueSetSupport {
     }
 
     public static boolean isExpanded(ValueSet valueSet) {
-        return valueSet != null && valueSet.getExpansion() != null;
+        return valueSet != null && valueSet.getExpansion() != null && !isPartiallyExpanded(valueSet);
+    }
+    
+    /**
+     * Validate if a ValueSet is partially expanded.
+     * Partially expanded ValueSets are signified by ValueSet.expansion.parameter.name=limitedExpansion 
+     * and/or extensions on ValueSet.expansion of .../valueset-toocostly and .../valueset-unclosed
+     * @param valueSet the value set
+     * @return boolean - true if the ValueSet is partially expanded, false otherwise.
+     */
+    public static boolean isPartiallyExpanded(ValueSet valueSet) {
+        
+        // Validate ValueSet.expansion.parameter.name=limitedExpansion. 
+        if (valueSet.getExpansion() != null && valueSet.getExpansion().getParameter() != null) {
+            for (Parameter parameter : valueSet.getExpansion().getParameter()) {
+                if (parameter.getName() != null && "limitedExpansion".equals(parameter.getName().getValue())) {
+                    return true;
+                }
+            }
+        }
+        // Validate  ValueSet.expansion of .../valueset-toocostly and .../valueset-unclosed.
+        if (valueSet.getExpansion() != null && valueSet.getExpansion().getExtension() != null) {
+            for (Extension extension : valueSet.getExpansion().getExtension()) {
+                if (extension.getUrl() != null && ("http://hl7.org/fhir/StructureDefinition/valueset-toocostly".equals(extension.getUrl()) 
+                        || "http://hl7.org/fhir/StructureDefinition/valueset-unclosed".equals(extension.getUrl()))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public static boolean validateCode(ValueSet valueSet, Code code) {

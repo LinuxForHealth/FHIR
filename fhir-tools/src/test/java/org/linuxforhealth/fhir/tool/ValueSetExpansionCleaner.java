@@ -29,7 +29,10 @@ import jakarta.json.JsonWriterFactory;
 import jakarta.json.stream.JsonGenerator;
 
 /**
- * Walks through the FHIR expansions.json download and removes expansions that have the valueset-toocostly extension
+ * Walks through the FHIR expansions.json download and removes the following :
+ * 1. expansions that have the valueset-toocostly extension.
+ * 2. expansions that have the valueset-unclosed extension.
+ * 3. 
  */
 public class ValueSetExpansionCleaner {
     static final Path path = Paths.get("definitions/R4B/expansions.json");
@@ -51,24 +54,45 @@ public class ValueSetExpansionCleaner {
 
             JsonArray jsonArray = parsedExpansions.getJsonArray("entry");
             for (JsonValue jsonValue : jsonArray) {
+                System.out.println("iterating..");
                 JsonObject entry = jsonValue.asJsonObject();
                 JsonObjectBuilder entryCopy = jsonBuilderFactory.createObjectBuilder(entry);
 
                 JsonObject resource = jsonValue.asJsonObject().getJsonObject("resource");
+                if (resource == null) {
+                    System.out.println("null resource");
+                }
                 JsonObjectBuilder resourceCopy = jsonBuilderFactory.createObjectBuilder(resource);
 
                 JsonObject expansion = resource.getJsonObject("expansion");
-                JsonArray extensions = expansion.getJsonArray("extension");
-                if (extensions != null) {
-                    for (JsonValue extension : extensions) {
-                        if ("http://hl7.org/fhir/StructureDefinition/valueset-toocostly".equals(extension.asJsonObject().getString("url"))) {
-                            resourceCopy.remove("expansion");
+                if (expansion == null) {
+                    System.out.println("null expansion");
+                }
+                if (expansion != null) {
+                    JsonArray extensions = expansion.getJsonArray("extension");
+                    JsonArray parameters = expansion.getJsonArray("parameter");
+                    if (extensions != null) {
+                        for (JsonValue extension : extensions) {
+                            if ("http://hl7.org/fhir/StructureDefinition/valueset-toocostly".equals(extension.asJsonObject().getString("url"))) {
+                                resourceCopy.remove("expansion");
+                            }
+                            if ("http://hl7.org/fhir/StructureDefinition/valueset-unclosed".equals(extension.asJsonObject().getString("url"))) {
+                                resourceCopy.remove("expansion");
+                            }
+                        }
+                    }
+                    if (parameters != null) {
+                        for (JsonValue parameter : parameters) {
+                            if ("limitedExpansion".equals(parameter.asJsonObject().getString("name"))) {
+                                resourceCopy.remove("expansion");
+                            }
                         }
                     }
                 }
-
                 entryCopy.add("resource", resourceCopy);
-                newEntryList.add(entryCopy);
+                newEntryList.add(entryCopy); 
+                
+                
             }
             filteredExpansionsBuilder.add("entry", newEntryList);
             expansions = filteredExpansionsBuilder.build();
