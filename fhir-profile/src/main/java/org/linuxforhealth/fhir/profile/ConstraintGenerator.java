@@ -413,6 +413,25 @@ public class ConstraintGenerator {
                                     .append(")")
                             .append( ")");
                     }
+                } else if (DiscriminatorType.Value.EXISTS.equals(key)) {
+                    // TODO support more than one?
+                    String path = paths.get(0);
+
+                    String id = "$this".equals(path) ?
+                        elementDefinition.getId() :
+                        elementDefinition.getId() + "." + path;
+
+                    String snippet = path + ".exists()";
+                    // The slices are differentiated by the fact that one must have a max of 0
+                    ElementDefinition existsTarget = elementDefinitionMap.get(id);
+                    if ("0".equals(existsTarget.getMax().getValue())) {
+                        snippet += ".not()";
+                    }
+
+                    sb.append(identifier)
+                        .append(".where(")
+                            .append(snippet)
+                        .append(")");
                 }
             }
             if (identifier.equals(sb.toString())) {
