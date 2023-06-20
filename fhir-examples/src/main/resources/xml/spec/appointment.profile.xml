@@ -713,8 +713,8 @@
         <key value="app-4"/>
         <severity value="error"/>
         <human value="Cancelation reason is only used for appointments that have been cancelled, or no-show"/>
-        <expression value="Appointment.cancelationReason.exists() implies (Appointment.status='no-show' or Appointment.status='cancelled')"/>
-        <xpath value="not(exists(f:cancellationReason)) or f:status/@value=('no-show', 'cancelled')"/>
+        <expression value="Appointment.cancelationReason.exists() implies (Appointment.status='noshow' or Appointment.status='cancelled')"/>
+        <xpath value="not(exists(f:cancellationReason)) or f:status/@value=('noshow', 'cancelled')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Appointment"/>
       </constraint>
       <constraint>
@@ -2317,8 +2317,8 @@
         <key value="app-4"/>
         <severity value="error"/>
         <human value="Cancelation reason is only used for appointments that have been cancelled, or no-show"/>
-        <expression value="Appointment.cancelationReason.exists() implies (Appointment.status='no-show' or Appointment.status='cancelled')"/>
-        <xpath value="not(exists(f:cancellationReason)) or f:status/@value=('no-show', 'cancelled')"/>
+        <expression value="Appointment.cancelationReason.exists() implies (Appointment.status='noshow' or Appointment.status='cancelled')"/>
+        <xpath value="not(exists(f:cancellationReason)) or f:status/@value=('noshow', 'cancelled')"/>
         <source value="http://hl7.org/fhir/StructureDefinition/Appointment"/>
       </constraint>
       <constraint>

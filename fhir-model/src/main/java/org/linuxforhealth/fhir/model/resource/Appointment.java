@@ -82,7 +82,7 @@ import org.linuxforhealth.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Cancelation reason is only used for appointments that have been cancelled, or no-show",
-    expression = "Appointment.cancelationReason.exists() implies (Appointment.status='no-show' or Appointment.status='cancelled')",
+    expression = "Appointment.cancelationReason.exists() implies (Appointment.status='noshow' or Appointment.status='cancelled')",
     source = "http://hl7.org/fhir/StructureDefinition/Appointment"
 )
 @Constraint(
