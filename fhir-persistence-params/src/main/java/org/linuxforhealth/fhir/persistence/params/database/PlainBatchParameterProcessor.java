@@ -333,7 +333,7 @@ public class PlainBatchParameterProcessor implements IBatchParameterProcessor {
 
         try {
             PlainPostgresParameterBatch dao = getParameterBatchDao(resourceType);
-            dao.addReference(logicalResourceId, parameterNameValue.getParameterNameId(), refLogicalResourceId.getLogicalResourceId(), parameter.getRefVersionId());
+            dao.addReference(logicalResourceId, parameterNameValue.getParameterNameId(), refLogicalResourceId.getLogicalResourceId(), parameter.getRefVersionId(),parameter.getCompositeId());
         } catch (SQLException x) {
             throw new FHIRPersistenceException("Failed inserting security params for '" + resourceType + "'");
         }
