@@ -31,6 +31,7 @@ import javax.transaction.TransactionSynchronizationRegistry;
 import org.linuxforhealth.fhir.database.utils.common.CalendarHelper;
 import org.linuxforhealth.fhir.database.utils.query.QueryUtil;
 import org.linuxforhealth.fhir.database.utils.query.Select;
+import org.linuxforhealth.fhir.persistence.HistorySortOrder;
 import org.linuxforhealth.fhir.persistence.context.FHIRPersistenceContext;
 import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceException;
@@ -80,7 +81,7 @@ public abstract class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceD
             "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY " +
                     "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                     "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
-                    "ORDER BY R.VERSION_ID DESC ";
+                    "ORDER BY R.VERSION_ID %s ";
 
     // Count the number of versions we have for the resource identified by its logical-id
     private static final String SQL_HISTORY_COUNT = "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
@@ -90,7 +91,7 @@ public abstract class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceD
             "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID, R.RESOURCE_PAYLOAD_KEY " +
                     "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
                     "LR.LOGICAL_ID = ? AND R.LAST_UPDATED >= ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID " +
-                    "ORDER BY R.VERSION_ID DESC ";
+                    "ORDER BY R.VERSION_ID %s ";
 
     private static final String SQL_HISTORY_FROM_DATETIME_COUNT =
             "SELECT COUNT(R.VERSION_ID) FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE LR.LOGICAL_ID = ? AND " +
@@ -147,7 +148,7 @@ public abstract class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceD
      * @param trxSyncRegistry
      */
     public ResourceDAOImpl(Connection c, String schemaName, FHIRDbFlavor flavor, TransactionSynchronizationRegistry trxSynchRegistry,
-            FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi) {
+                           FHIRPersistenceJDBCCache cache, ParameterTransactionDataImpl ptdi) {
         super(c, schemaName, flavor);
         this.runningInTrx = true;
         this.trxSynchRegistry = trxSynchRegistry;
@@ -251,7 +252,7 @@ public abstract class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceD
             resource.setVersionId(resultSet.getInt(IDX_VERSION_ID));
             resource.setDeleted(resultSet.getString(IDX_IS_DELETED).equals("Y") ? true : false);
             resource.setResourcePayloadKey(resultSet.getString(IDX_RESOURCE_PAYLOAD_KEY));
-            
+
             if (hasResourceTypeId) {
                 resource.setResourceTypeId(resultSet.getInt(IDX_RESOURCE_TYPE_ID));
             }
@@ -266,7 +267,7 @@ public abstract class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceD
     }
 
     @Override
-    public List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+    public List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults, HistorySortOrder sortOrder) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         final String METHODNAME = "history";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -274,12 +275,19 @@ public abstract class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceD
         String stmtString = null;
 
         try {
+            final String sortDirection;
+            if(HistorySortOrder.ASC_LAST_UPDATED.equals(sortOrder)){
+                sortDirection="Asc";
+            }else{
+                sortDirection="Desc";
+            }
+
             if (fromDateTime != null) {
-                stmtString = String.format(SQL_HISTORY_FROM_DATETIME, resourceType, resourceType);
+                stmtString = String.format(SQL_HISTORY_FROM_DATETIME, resourceType, resourceType,sortDirection);
                 stmtString = stmtString + DERBY_PAGINATION_PARMS;
                 resources = this.runQuery(stmtString, logicalId, fromDateTime, offset, maxResults);
             } else {
-                stmtString = String.format(SQL_HISTORY, resourceType, resourceType);
+                stmtString = String.format(SQL_HISTORY, resourceType, resourceType,sortDirection);
                 stmtString = stmtString + DERBY_PAGINATION_PARMS;
                 resources = this.runQuery(stmtString, logicalId, offset, maxResults);
             }
@@ -409,7 +417,7 @@ public abstract class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceD
             }
             // cache miss, so read from the database
             resourceTypeId = this.readResourceTypeId(resourceType);
-            
+
             if (resourceTypeId != null) {
                 cache.getResourceTypeCache().addEntry(resourceType, resourceTypeId);
                 cache.getResourceTypeNameCache().addEntry(resourceTypeId, resourceType);
@@ -553,7 +561,7 @@ public abstract class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceD
     @Override
     public int searchCount(Select countQuery) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
         return runCountQuery(countQuery);
-   }
+    }
 
     @Override
     public List<Resource> search(Select select) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {

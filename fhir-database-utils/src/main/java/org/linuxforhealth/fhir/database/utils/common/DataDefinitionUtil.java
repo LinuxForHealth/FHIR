@@ -21,7 +21,7 @@ import org.linuxforhealth.fhir.database.utils.model.OrderedColumnDef;
  * Handles common syntax for generating DDL
  */
 public class DataDefinitionUtil {
-    private static final String NAME_PATTERN_RGX = "[a-zA-Z_][-\\w]*$";
+    private static final String NAME_PATTERN_RGX = "[a-zA-Z_]\\w*$";
     private static final Pattern NAME_PATTERN = Pattern.compile(NAME_PATTERN_RGX);
 
     /**
