@@ -67,11 +67,14 @@ public class FHIRPersistenceUtil {
                     if (!dt.isPartial()) {
                         Instant since = Instant.of(ZonedDateTime.from(dt.getValue()));
                         context.setSince(since);
-                    }
-                    else {
+                    } else {
                         throw new FHIRPersistenceException("The '_since' parameter must be a fully specified ISO 8601 date/time");
                     }
-                } else if ("_format".equals(name)) {
+                }else if ("_sort".equals(name)) {
+                    HistorySortOrder sortOrder= getHistorySortOrder(first);
+                    context.setHistorySortOrder(sortOrder);
+                }
+                else if ("_format".equals(name)) {
                     // safely ignore
                     continue;
                 } else {
@@ -98,7 +101,7 @@ public class FHIRPersistenceUtil {
      * @throws FHIRPersistenceException
      */
     public static FHIRSystemHistoryContext parseSystemHistoryParameters(Map<String, List<String>> queryParameters, boolean lenient,
-            ResourcesConfigAdapter resourcesConfig) throws FHIRPersistenceException {
+                                                                        ResourcesConfigAdapter resourcesConfig) throws FHIRPersistenceException {
         log.entering(FHIRPersistenceUtil.class.getName(), "parseSystemHistoryParameters");
         FHIRSystemHistoryContextImpl context = new FHIRSystemHistoryContextImpl();
         context.setLenient(lenient);
@@ -160,16 +163,8 @@ public class FHIRPersistenceUtil {
                     // safely ignore
                     continue;
                 } else if ("_sort".equals(name)) {
-                    try {
-                        HistorySortOrder hso = HistorySortOrder.of(first);
-                        context.setHistorySortOrder(hso);
-                    } catch (IllegalArgumentException ex) {
-                        // IllegalArgumentException needs to be converted to INVALID which is then a Client Error.
-                        final String msg = "The '_sort' parameter must be a '_lastUpdated', '-_lastUpdated' or 'none'";
-                        log.throwing(FHIRPersistenceUtil.class.getName(), "parseSystemHistoryParameters", ex);
-                        throw new FHIRPersistenceException(msg)
-                                .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
-                    }
+                    HistorySortOrder sortOrder= getHistorySortOrder(first);
+                    context.setHistorySortOrder(sortOrder);
                 } else if ("_excludeTransactionTimeoutWindow".equals(name)) {
                     if ("true".equalsIgnoreCase(first)) {
                         context.setExcludeTransactionTimeoutWindow(true);
@@ -213,6 +208,18 @@ public class FHIRPersistenceUtil {
             log.exiting(FHIRPersistenceUtil.class.getName(), "parseSystemHistoryParameters");
         }
         return context;
+    }
+
+    private static HistorySortOrder getHistorySortOrder(String first) throws FHIRPersistenceException {
+        try {
+            return  HistorySortOrder.of(first);
+        } catch (IllegalArgumentException ex) {
+            // IllegalArgumentException needs to be converted to INVALID which is then a Client Error.
+            final String msg = "The '_sort' parameter must be a '_lastUpdated', '-_lastUpdated' or 'none'";
+            log.throwing(FHIRPersistenceUtil.class.getName(), "getHistorySortOrder", ex);
+            throw new FHIRPersistenceException(msg)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+        }
     }
 
     /**
