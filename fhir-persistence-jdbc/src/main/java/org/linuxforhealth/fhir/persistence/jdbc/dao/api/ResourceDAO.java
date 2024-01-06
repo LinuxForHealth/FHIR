@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.linuxforhealth.fhir.database.utils.query.Select;
+import org.linuxforhealth.fhir.persistence.HistorySortOrder;
 import org.linuxforhealth.fhir.persistence.context.FHIRPersistenceContext;
 import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceDataAccessException;
 import org.linuxforhealth.fhir.persistence.exception.FHIRPersistenceException;
@@ -60,7 +61,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
-    List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults)
+    List<Resource> history(String resourceType, String logicalId, Timestamp fromDateTime, int offset, int maxResults, HistorySortOrder historySortOrder)
             throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
@@ -184,8 +185,8 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceVersionIdMismatchException
      * @throws FHIRPersistenceException
      */
-    Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao, 
-            Integer ifNoneMatch)
+    Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao,
+                    Integer ifNoneMatch)
             throws FHIRPersistenceException;
 
     /**
