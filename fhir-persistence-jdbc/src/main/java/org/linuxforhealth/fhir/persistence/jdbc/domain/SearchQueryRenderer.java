@@ -1214,7 +1214,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final String parentAlias = queryData.getLRAlias();
         List<String> values = queryParm.getValues().stream().map(p -> p.getValueCode()).collect(Collectors.toList());
         if (values.size() == 1) {
-            currentSubQuery.from().where().and(parentAlias, "LOGICAL_ID").eq().bind(values.get(0));
+           if (Modifier.NOT.equals(queryParm.getModifier())) {
+                currentSubQuery.from().where().and(parentAlias, "LOGICAL_ID").neq().bind(values.get(0));
+            }else{
+                currentSubQuery.from().where().and(parentAlias, "LOGICAL_ID").eq().bind(values.get(0));
+            }
         } else if (values.size() > 1) {
             // the values are converted to bind-markers, so this is secure
             currentSubQuery.from().where().and(parentAlias, "LOGICAL_ID").in(values);
