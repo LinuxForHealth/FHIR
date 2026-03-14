@@ -1623,7 +1623,10 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
 //      "end": "2018-10-29T17:18:00-04:00"
         assertSearchReturnsSavedResource(     "Period", "ap2018-10");
         assertSearchReturnsSavedResource(     "Period", "ap2018-11");
-        assertSearchDoesntReturnSavedResource("Period", "ap2018-01");
+        // ap2010-01 is ~105 months before the stored period; even with the gap-to-now
+        // approximation (~10% of elapsed time) the window will not reach 2018-10 for
+        // many decades, making this assertion reliably time-independent.
+        assertSearchDoesntReturnSavedResource("Period", "ap2010-01");
     }
     @Test
     public void testSearchDate_Period_AP_Day() throws Exception {

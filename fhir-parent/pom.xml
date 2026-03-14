@@ -822,6 +822,11 @@
                     <version>3.0.0-M7</version>
                     <configuration>
                         <trimStackTrace>false</trimStackTrace>
+                        <systemPropertyVariables>
+                            <!-- Byte Buddy (used by Mockito inline mocking) officially supports up to Java 20.
+                                 This flag enables experimental support for newer JVM versions (e.g. Java 25). -->
+                            <net.bytebuddy.experimental>true</net.bytebuddy.experimental>
+                        </systemPropertyVariables>
                     </configuration>
                 </plugin>
                 <plugin>
