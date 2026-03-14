@@ -31,7 +31,7 @@ public class DataDefinitionUtilTest {
         DataDefinitionUtil.assertValidName("admin_User123");
         DataDefinitionUtil.assertValidName("admin_User_123");
         DataDefinitionUtil.assertValidName("admin_User_abc");
-
+        DataDefinitionUtil.assertValidName("NAME-");
     }
 
 
@@ -62,7 +62,7 @@ public class DataDefinitionUtilTest {
 
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void testInvalidComment() {
-        DataDefinitionUtil.assertValidName("NAME--");
+        DataDefinitionUtil.assertValidName("--NAME");
     }
 
 }
